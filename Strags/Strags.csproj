@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C91D683F-3594-4C5E-872E-DFBC09731419}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Strags</RootNamespace>
+    <AssemblyName>Strags</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\project\PK10Tracer\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseStrag.cs" />
+    <Compile Include="CommPickEditClass.cs" />
+    <Compile Include="CommSelectOjectDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CommSelectOjectDialog.Designer.cs">
+      <DependentUpon>CommSelectOjectDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MLStragClass\MachineLearnStragClass.cs" />
+    <Compile Include="MLStragClass\OddEvenAndBigSmall_AutoLearnStragClass.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StagConfigSetting.cs" />
+    <Compile Include="StragClass.cs" />
+    <Compile Include="strage_CommGrown.cs" />
+    <Compile Include="StragPicker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StragPicker.Designer.cs">
+      <DependentUpon>StragPicker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StragsPicker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StragsPicker.Designer.cs">
+      <DependentUpon>StragsPicker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Strag_BinomialDistrClass.cs" />
+    <Compile Include="Strag_CombLongOldClass.cs" />
+    <Compile Include="strag_CommCombOldClass.cs" />
+    <Compile Include="strag_CommJumpClass.cs" />
+    <Compile Include="strag_CommLongMissBackBalance.cs" />
+    <Compile Include="strag_CommLongTimeBalanceForOldCombClass.cs" />
+    <Compile Include="strag_CommOldClass.cs" />
+    <Compile Include="strag_CommProbabilityDistributionClass.cs" />
+    <Compile Include="strag_CommRepeatTracerClass.cs" />
+    <Compile Include="strag_grownclass.cs" />
+    <Compile Include="strag_PoissonRandomClass.cs" />
+    <Compile Include="Strag_StdDevWaveClass.cs" />
+    <Compile Include="strag_YiJingClass.cs" />
+    <Compile Include="TranceChanceClass.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BaseObjectsLib\BaseObjectsLib.csproj">
+      <Project>{38B7C927-F264-46A1-A550-388F440D79BE}</Project>
+      <Name>BaseObjectsLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GuideLib\GuideLib.csproj">
+      <Project>{2C724DB7-59A5-41CD-8274-C0ACB18FCC1A}</Project>
+      <Name>GuideLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogLib\LogLib.csproj">
+      <Project>{182084E4-C48B-4585-9221-4A54CAF7448F}</Project>
+      <Name>LogLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PK10CorePress\PK10CorePress.csproj">
+      <Project>{1B418905-1D78-4758-9B21-CF9BFC054F88}</Project>
+      <Name>PK10CorePress</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProbMathLib\ProbMathLib.csproj">
+      <Project>{6AF5544D-5B6B-40A9-9258-72CBE6CE207D}</Project>
+      <Name>ProbMathLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CommSelectOjectDialog.resx">
+      <DependentUpon>CommSelectOjectDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StragPicker.resx">
+      <DependentUpon>StragPicker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StragsPicker.resx">
+      <DependentUpon>StragsPicker.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

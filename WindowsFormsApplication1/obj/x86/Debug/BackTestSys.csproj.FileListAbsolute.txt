@@ -1,0 +1,17 @@
+C:\project\PK10Tracer\PK10BackTestSystem.exe.config
+C:\个人文件夹\策略交易终端开发\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\Interop.MSScriptControl.dll
+C:\个人文件夹\策略交易终端开发\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTestSys.csproj.ResolveComReference.cache
+C:\个人文件夹\策略交易终端开发\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTestSys.csprojResolveAssemblyReference.cache
+C:\个人文件夹\策略交易终端开发\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTestSys.BackTestFrm.resources
+C:\个人文件夹\策略交易终端开发\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.Form1.resources
+C:\个人文件夹\策略交易终端开发\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTestSys.frm_CalcEr.resources
+C:\个人文件夹\策略交易终端开发\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.loginFrm.resources
+C:\个人文件夹\策略交易终端开发\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.NetSelectFrm.resources
+C:\个人文件夹\策略交易终端开发\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTestSystem.Properties.Resources.resources
+C:\个人文件夹\策略交易终端开发\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.TranslateFrm.resources
+C:\个人文件夹\策略交易终端开发\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTestSys.csproj.GenerateResource.Cache
+C:\project\PK10Tracer\PK10BackTestSystem.exe
+C:\project\PK10Tracer\PK10BackTestSystem.pdb
+C:\个人文件夹\策略交易终端开发\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\PK10BackTestSystem.exe
+C:\个人文件夹\策略交易终端开发\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\PK10BackTestSystem.pdb
+C:\个人文件夹\策略交易终端开发\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTestSystem.frm_DistrCheck.resources

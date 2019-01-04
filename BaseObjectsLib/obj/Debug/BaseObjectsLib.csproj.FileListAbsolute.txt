@@ -1,0 +1,9 @@
+C:\个人文件夹\策略交易终端开发\PK10Tracer\BaseObjectsLib\bin\Debug\BaseObjectsLib.dll
+C:\个人文件夹\策略交易终端开发\PK10Tracer\BaseObjectsLib\bin\Debug\BaseObjectsLib.pdb
+C:\个人文件夹\策略交易终端开发\PK10Tracer\BaseObjectsLib\bin\Debug\LogLib.dll
+C:\个人文件夹\策略交易终端开发\PK10Tracer\BaseObjectsLib\bin\Debug\LogLib.pdb
+C:\个人文件夹\策略交易终端开发\PK10Tracer\BaseObjectsLib\obj\Debug\BaseObjectsLib.csprojResolveAssemblyReference.cache
+C:\个人文件夹\策略交易终端开发\PK10Tracer\BaseObjectsLib\obj\Debug\BaseObjectsLib.SerialableObjectEditor.resources
+C:\个人文件夹\策略交易终端开发\PK10Tracer\BaseObjectsLib\obj\Debug\BaseObjectsLib.csproj.GenerateResource.Cache
+C:\个人文件夹\策略交易终端开发\PK10Tracer\BaseObjectsLib\obj\Debug\BaseObjectsLib.dll
+C:\个人文件夹\策略交易终端开发\PK10Tracer\BaseObjectsLib\obj\Debug\BaseObjectsLib.pdb

@@ -1,0 +1,9 @@
+C:\个人文件夹\策略交易终端开发\PK10Tracer\WebCommunicateClass\bin\Debug\WebCommunicateClass.dll
+C:\个人文件夹\策略交易终端开发\PK10Tracer\WebCommunicateClass\bin\Debug\WebCommunicateClass.pdb
+C:\个人文件夹\策略交易终端开发\PK10Tracer\WebCommunicateClass\bin\Debug\PK10CorePress.dll
+C:\个人文件夹\策略交易终端开发\PK10Tracer\WebCommunicateClass\bin\Debug\PK10CorePress.pdb
+C:\project\PK10Tracer\WebCommunicateClass.dll
+C:\project\PK10Tracer\WebCommunicateClass.pdb
+C:\个人文件夹\策略交易终端开发\PK10Tracer\WebCommunicateClass\obj\Debug\WebCommunicateClass.csprojResolveAssemblyReference.cache
+C:\个人文件夹\策略交易终端开发\PK10Tracer\WebCommunicateClass\obj\Debug\WebCommunicateClass.dll
+C:\个人文件夹\策略交易终端开发\PK10Tracer\WebCommunicateClass\obj\Debug\WebCommunicateClass.pdb

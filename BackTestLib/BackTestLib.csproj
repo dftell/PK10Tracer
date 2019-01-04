@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6B37D13C-F107-48B3-9105-1BD0E00A75FC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BackTestLib</RootNamespace>
+    <AssemblyName>BackTestLib</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\project\PK10Tracer\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\project\PK10Tracer\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BackTestClass.cs" />
+    <Compile Include="ExchangeClass.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BaseObjectsLib\BaseObjectsLib.csproj">
+      <Project>{38B7C927-F264-46A1-A550-388F440D79BE}</Project>
+      <Name>BaseObjectsLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataRecSvr\DataRecSvr.csproj">
+      <Project>{6A28259F-0369-4801-8B73-540BD4B7C7D5}</Project>
+      <Name>DataRecSvr</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExchangeLib\ExchangeLib.csproj">
+      <Project>{BE222046-7D38-4E42-BCB5-CE4CCC5AB4CD}</Project>
+      <Name>ExchangeLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogLib\LogLib.csproj">
+      <Project>{182084E4-C48B-4585-9221-4A54CAF7448F}</Project>
+      <Name>LogLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PK10CorePress\PK10CorePress.csproj">
+      <Project>{1B418905-1D78-4758-9B21-CF9BFC054F88}</Project>
+      <Name>PK10CorePress</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProbMathLib\ProbMathLib.csproj">
+      <Project>{6AF5544D-5B6B-40A9-9258-72CBE6CE207D}</Project>
+      <Name>ProbMathLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServerInitLib\ServerInitLib.csproj">
+      <Project>{5F99902C-DF70-4B54-A58C-9B19A0114B6B}</Project>
+      <Name>ServerInitLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Strags\Strags.csproj">
+      <Project>{C91D683F-3594-4C5E-872E-DFBC09731419}</Project>
+      <Name>Strags</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WinInterComminuteLib\WinInterComminuteLib.csproj">
+      <Project>{7859D79D-EDD5-4B79-B3DA-072432BC8FCC}</Project>
+      <Name>WinInterComminuteLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

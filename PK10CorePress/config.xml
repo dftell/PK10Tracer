@@ -1,0 +1,95 @@
+<root>
+	<configs>
+		<config type="DataType">
+			<item key="PK10" value="北京赛车"/>
+			<item key="TXFFC" value="腾讯分分彩"/>
+		</config>
+		<config type="PK10">
+			<item key="NewestTable" value="TXFFC_Newestdata"/>
+			<item key="HistoryTable" value="historydata"/>
+			<item key="MissHistoryTable" value="v_PK10_HistoryData_Miss"/>
+			<item key="strMissNewestTable" value="v_PK10_NewestData_Miss"/>
+			<item key="NewestTable" value="Newestdata"/>
+			<item key="ChanceTable" value="ChanceTable"/>
+			<item key="ChanceTable" value="tmp_PK10_LongTermAll_ProbWaveTable"/>
+		</config>
+		<config type="TXFFC">
+			<item key="NewestTable" value="TXFFC_Newestdata"/>
+			<item key="HistoryTable" value="TXFFC_historydata"/>
+			<item key="MissHistoryTable" value="v_TXFFC_HistoryData_Miss"/>
+			<item key="strMissNewestTable" value="v_TXFFC_NewestData_Miss"/>
+			<item key="NewestTable" value="TXFFC_Newestdata"/>
+			<item key="ChanceTable" value="TXFFC_ChanceTable"/>
+			<item key="ChanceTable" value="tmp_TXFFC_LongTermAll_ProbWaveTable"/>
+		</config>
+		<config type="System">
+			<item key="MinChips" value="100"/>
+			<item key="URL" value=""/>
+			<item key="StartCol" value="0"/>
+			<item key="InterVal" value="160"/>
+			<item key="Odds" value="9.78"/>
+			<item key="MutliColMinTimes" value="10"/>
+			<item key="SingleColMinTimes" value="49"/>
+			<item key="BackColor_R" value="205"/>
+			<item key="BackColor_G" value="201"/>
+			<item key="BackColor_B" value="201"/>
+			<item key="TotalCnt" value="1"/>
+			<item key="AllowExchange" value="1"/>
+			<item key="IsClient" value="1"/>
+			<item key="ClientUsername" value="gsyh"/>
+			<item key="ClientPassword" value="abcdef123"/>
+			<item key="LoginUrlModel" value="https://www.kcai{host}.com"/>
+			<item key="LoginDefaultHost" value="331"/>
+			<item key="LoginHostList" value="331;337;773;779;334"/>
+			<item key="LoginInstFillOrEnCode" value="2"/>
+			<item key="LoginInFrame" value="0"/>
+			<item key="AllowHedge" value="1"/>
+			<item key="JoinHedge" value="1"/>
+			<item key="HedgeTimes" value="2"/>
+		</config>
+		<config type="Research">
+			<item key="FromPage" value="10"/>
+			<item key="NewestHistoryExpect" value="684462"/>
+			<item key="SingleCarRepeatCnt" value="2"/>
+			<item key="RepeatCheckCnt" value="1/1"/>
+			<item key="StartCol" value="1"/>
+			<item key="ValidOldestHistoryExpect" value="590965"/>
+		</config>
+		<config type="Exchange">
+			<item key="URL" value="https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxnewloginpage?ticket=A-QwWEZvwlAvL6GkazlL9IqG@qrticket_0&amp;uuid=Ifr4XWb3HQ==&amp;lang=zh_CN&amp;scan=1508399175"/>
+			<item key="MinTimesFor1" value="70"/>
+			<item key="MinTimesFor2" value="45"/>
+			<item key="MinTimesFor3" value="28"/>
+			<item key="MinTimesFor4" value="22"/>
+			<item key="MinTimesFor5" value="18"/>
+			<item key="MinTimesFor6" value="15"/>
+			<item key="MinTimesFor7" value="11"/>
+			<item key="MinTimesFor8" value="13"/>
+			<item key="Serial1" value="1,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,4,4,5,5,6,7,7,8,9,10,11,13,14,16,17,19,22,24,27,30,34,37,42,47,52,58,65,72,81,90,100,112,125,139,155,173,193,216,241,268,299,334,372,415,463,517,577,643,718,801,893,996,1111,1240,1383,1543,1721,1920,2142,2390,2666,2974,3318"/>
+			<item key="Serial2" value="1,1,1,1,2,2,3,3,4,5,7,9,11,14,18,23,29,36,46,58,74,94,119,151,192,243,308,391,496,629,798,1012,1283,1628,2064,2618,3321,4212,5342,6775"/>
+			<item key="Serial3" value="1,1,1,2,3,4,6,9,13,19,28,41,61,89,131,193,284,417,613,901,1325,1948,2864,4210,6190,9100"/>
+			<item key="Serial4" value="1,1,2,3,5,9,15,26,44,76,129,221,377,644,1100,1879,3209,5481,9361"/>
+			<item key="Serial5" value="1,2,4,9,19,42,92,200,437,954,2082,4545"/>
+			<item key="Serial6" value="1,2,5,14,37,99,264,704,1877,5005"/>
+			<item key="Serial7" value="1,3,11,41,152,563,2085,7724"/>
+			<item key="Serial8" value="1,6,42,294,2057,14388"/>
+			<item key="Serial9" value="1,44,1958,87131"/>
+			<item key="SerTotal1" value="20"/>
+			<item key="SerTotal2" value="52"/>
+			<item key="SerTotal3" value="20"/>
+			<item key="SerTotal4" value="52"/>
+			<item key="SerTotal5" value="52"/>
+			<item key="SerTotal6" value="5"/>
+			<item key="SerTotal7" value="50"/>
+			<item key="SerTotal8" value="10"/>
+		</config>
+		<config type="Asset">
+			<item key="InitCash" value="20000"/>
+			<item key="Costed" value="0"/>
+			<item key="Gained" value="0"/>
+			<item key="TotalCash" value="20000"/>
+			<item key="AChanceMaxRate" value="125"/>
+			<item key="TotalMaxRate" value="125"/>
+		</config>
+	</configs>
+</root>

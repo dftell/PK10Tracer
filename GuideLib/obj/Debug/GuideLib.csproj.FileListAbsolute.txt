@@ -1,0 +1,13 @@
+C:\个人文件夹\策略交易终端开发\PK10Tracer\GuideLib\bin\Debug\GuideLib.dll
+C:\个人文件夹\策略交易终端开发\PK10Tracer\GuideLib\bin\Debug\GuideLib.pdb
+C:\个人文件夹\策略交易终端开发\PK10Tracer\GuideLib\bin\Debug\BaseObjectsLib.dll
+C:\个人文件夹\策略交易终端开发\PK10Tracer\GuideLib\bin\Debug\LogLib.dll
+C:\个人文件夹\策略交易终端开发\PK10Tracer\GuideLib\bin\Debug\PK10CorePress.dll
+C:\个人文件夹\策略交易终端开发\PK10Tracer\GuideLib\bin\Debug\ProbMathLib.dll
+C:\个人文件夹\策略交易终端开发\PK10Tracer\GuideLib\bin\Debug\BaseObjectsLib.pdb
+C:\个人文件夹\策略交易终端开发\PK10Tracer\GuideLib\bin\Debug\LogLib.pdb
+C:\个人文件夹\策略交易终端开发\PK10Tracer\GuideLib\bin\Debug\PK10CorePress.pdb
+C:\个人文件夹\策略交易终端开发\PK10Tracer\GuideLib\bin\Debug\ProbMathLib.pdb
+C:\个人文件夹\策略交易终端开发\PK10Tracer\GuideLib\obj\Debug\GuideLib.csprojResolveAssemblyReference.cache
+C:\个人文件夹\策略交易终端开发\PK10Tracer\GuideLib\obj\Debug\GuideLib.dll
+C:\个人文件夹\策略交易终端开发\PK10Tracer\GuideLib\obj\Debug\GuideLib.pdb

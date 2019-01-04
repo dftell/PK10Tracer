@@ -1,0 +1,13 @@
+C:\个人文件夹\策略交易终端开发\PK10Tracer\BackTestLib\bin\Debug\BackTestLib.dll
+C:\个人文件夹\策略交易终端开发\PK10Tracer\BackTestLib\bin\Debug\BackTestLib.pdb
+C:\个人文件夹\策略交易终端开发\PK10Tracer\BackTestLib\bin\Debug\PK10CorePress.dll
+C:\个人文件夹\策略交易终端开发\PK10Tracer\BackTestLib\bin\Debug\Strags.dll
+C:\个人文件夹\策略交易终端开发\PK10Tracer\BackTestLib\bin\Debug\PK10CorePress.pdb
+C:\个人文件夹\策略交易终端开发\PK10Tracer\BackTestLib\bin\Debug\Strags.pdb
+C:\个人文件夹\策略交易终端开发\PK10Tracer\BackTestLib\bin\Debug\ExchangeLib.dll
+C:\个人文件夹\策略交易终端开发\PK10Tracer\BackTestLib\bin\Debug\ExchangeLib.pdb
+C:\个人文件夹\策略交易终端开发\PK10Tracer\BackTestLib\obj\Debug\BackTestLib.csprojResolveAssemblyReference.cache
+C:\project\PK10Tracer\BackTestLib.dll
+C:\project\PK10Tracer\BackTestLib.pdb
+C:\个人文件夹\策略交易终端开发\PK10Tracer\BackTestLib\obj\Debug\BackTestLib.dll
+C:\个人文件夹\策略交易终端开发\PK10Tracer\BackTestLib\obj\Debug\BackTestLib.pdb

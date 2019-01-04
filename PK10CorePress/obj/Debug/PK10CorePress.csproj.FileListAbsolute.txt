@@ -1,0 +1,7 @@
+C:\个人文件夹\策略交易终端开发\PK10Tracer\PK10CorePress\bin\Debug\PK10CorePress.dll
+C:\个人文件夹\策略交易终端开发\PK10Tracer\PK10CorePress\bin\Debug\PK10CorePress.pdb
+C:\project\PK10Tracer\PK10CorePress.dll
+C:\project\PK10Tracer\PK10CorePress.pdb
+C:\个人文件夹\策略交易终端开发\PK10Tracer\PK10CorePress\obj\Debug\PK10CorePress.csprojResolveAssemblyReference.cache
+C:\个人文件夹\策略交易终端开发\PK10Tracer\PK10CorePress\obj\Debug\PK10CorePress.dll
+C:\个人文件夹\策略交易终端开发\PK10Tracer\PK10CorePress\obj\Debug\PK10CorePress.pdb
