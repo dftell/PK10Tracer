@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0AD8131F-5C2D-4E18-8677-3C6782FDDBD4}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PK10Server</RootNamespace>
+    <AssemblyName>PK10Server</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\project\PK10Tracer\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\project\PK10Tracer\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>favicon-2018080209415870.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CurrInfo.cs" />
+    <Compile Include="ExchangeFactory.cs" />
+    <Compile Include="frm_NewStrag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_NewStrag.Designer.cs">
+      <DependentUpon>frm_NewStrag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frm_StragManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_StragManager.Designer.cs">
+      <DependentUpon>frm_StragManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frm_StragMonitor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_StragMonitor.Designer.cs">
+      <DependentUpon>frm_StragMonitor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frm_StragPlanSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_StragPlanSetting.Designer.cs">
+      <DependentUpon>frm_StragPlanSetting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="frm_CommDBObjectsSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_CommDBObjectsSetting.Designer.cs">
+      <DependentUpon>frm_CommDBObjectsSetting.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="frm_NewStrag.resx">
+      <DependentUpon>frm_NewStrag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_StragManager.resx">
+      <DependentUpon>frm_StragManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_StragMonitor.resx">
+      <DependentUpon>frm_StragMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_StragPlanSetting.resx">
+      <DependentUpon>frm_StragPlanSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="frm_CommDBObjectsSetting.resx">
+      <DependentUpon>frm_CommDBObjectsSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\app.manifest">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="favicon-2018080209415870.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BaseObjectsLib\BaseObjectsLib.csproj">
+      <Project>{38B7C927-F264-46A1-A550-388F440D79BE}</Project>
+      <Name>BaseObjectsLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExchangeLib\ExchangeLib.csproj">
+      <Project>{BE222046-7D38-4E42-BCB5-CE4CCC5AB4CD}</Project>
+      <Name>ExchangeLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogLib\LogLib.csproj">
+      <Project>{182084E4-C48B-4585-9221-4A54CAF7448F}</Project>
+      <Name>LogLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PK10CorePress\PK10CorePress.csproj">
+      <Project>{1B418905-1D78-4758-9B21-CF9BFC054F88}</Project>
+      <Name>PK10CorePress</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProbMathLib\ProbMathLib.csproj">
+      <Project>{6AF5544D-5B6B-40A9-9258-72CBE6CE207D}</Project>
+      <Name>ProbMathLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServerInitLib\ServerInitLib.csproj">
+      <Project>{5F99902C-DF70-4B54-A58C-9B19A0114B6B}</Project>
+      <Name>ServerInitLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Strags\Strags.csproj">
+      <Project>{C91D683F-3594-4C5E-872E-DFBC09731419}</Project>
+      <Name>Strags</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WinInterComminuteLib\WinInterComminuteLib.csproj">
+      <Project>{7859D79D-EDD5-4B79-B3DA-072432BC8FCC}</Project>
+      <Name>WinInterComminuteLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

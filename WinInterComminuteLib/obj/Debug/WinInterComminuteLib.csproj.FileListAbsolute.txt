@@ -7,3 +7,14 @@ C:\个人文件夹\策略交易终端开发\PK10Tracer\WinInterComminuteLib\bin\
 C:\个人文件夹\策略交易终端开发\PK10Tracer\WinInterComminuteLib\obj\Debug\WinInterComminuteLib.csprojResolveAssemblyReference.cache
 C:\个人文件夹\策略交易终端开发\PK10Tracer\WinInterComminuteLib\obj\Debug\WinInterComminuteLib.dll
 C:\个人文件夹\策略交易终端开发\PK10Tracer\WinInterComminuteLib\obj\Debug\WinInterComminuteLib.pdb
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WinInterComminuteLib\bin\Debug\WinInterComminuteLib.dll
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WinInterComminuteLib\bin\Debug\WinInterComminuteLib.pdb
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WinInterComminuteLib\bin\Debug\BaseObjectsLib.dll
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WinInterComminuteLib\bin\Debug\LogLib.dll
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WinInterComminuteLib\bin\Debug\BaseObjectsLib.pdb
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WinInterComminuteLib\bin\Debug\LogLib.pdb
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WinInterComminuteLib\obj\Debug\WinInterComminuteLib.csprojAssemblyReference.cache
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WinInterComminuteLib\obj\Debug\WinInterComminuteLib.csproj.CoreCompileInputs.cache
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WinInterComminuteLib\obj\Debug\WinInterComminuteLib.csproj.CopyComplete
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WinInterComminuteLib\obj\Debug\WinInterComminuteLib.dll
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WinInterComminuteLib\obj\Debug\WinInterComminuteLib.pdb

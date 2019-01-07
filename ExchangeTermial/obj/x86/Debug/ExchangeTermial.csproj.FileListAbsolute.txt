@@ -22,3 +22,16 @@ C:\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeTermial\obj\x86\D
 C:\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.csproj.GenerateResource.Cache
 C:\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.exe
 C:\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.pdb
+F:\cfzqzhouys\project\PK10Tracer\ExchangeTermial.exe.config
+F:\cfzqzhouys\project\PK10Tracer\ExchangeTermial.exe
+F:\cfzqzhouys\project\PK10Tracer\ExchangeTermial.pdb
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.csprojAssemblyReference.cache
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.csproj.ResolveComReference.cache
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.Form1.resources
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.MainWindow.resources
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.Properties.Resources.resources
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.csproj.GenerateResource.cache
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.csproj.CoreCompileInputs.cache
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.csproj.CopyComplete
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.exe
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.pdb

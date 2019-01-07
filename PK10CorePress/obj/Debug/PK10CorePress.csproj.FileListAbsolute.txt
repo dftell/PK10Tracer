@@ -5,3 +5,10 @@ C:\project\PK10Tracer\PK10CorePress.pdb
 C:\个人文件夹\策略交易终端开发\PK10Tracer\PK10CorePress\obj\Debug\PK10CorePress.csprojResolveAssemblyReference.cache
 C:\个人文件夹\策略交易终端开发\PK10Tracer\PK10CorePress\obj\Debug\PK10CorePress.dll
 C:\个人文件夹\策略交易终端开发\PK10Tracer\PK10CorePress\obj\Debug\PK10CorePress.pdb
+F:\cfzqzhouys\project\PK10Tracer\PK10CorePress.dll
+F:\cfzqzhouys\project\PK10Tracer\PK10CorePress.pdb
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\PK10CorePress\obj\Debug\PK10CorePress.csprojAssemblyReference.cache
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\PK10CorePress\obj\Debug\PK10CorePress.csproj.CoreCompileInputs.cache
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\PK10CorePress\obj\Debug\PK10CorePress.csproj.CopyComplete
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\PK10CorePress\obj\Debug\PK10CorePress.dll
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\PK10CorePress\obj\Debug\PK10CorePress.pdb

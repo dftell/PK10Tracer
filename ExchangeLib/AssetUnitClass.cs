@@ -7,6 +7,8 @@ using BaseObjectsLib;
 using Strags;
 using PK10CorePress;
 using System.Data;
+using System.IO;
+
 namespace ExchangeLib
 {
     [DescriptionAttribute("资产单元类"),
@@ -14,11 +16,27 @@ namespace ExchangeLib
     [Serializable]
     public class AssetUnitClass:DisplayAsTableClass,iDbFile
     {
+        
+        string Xslxpath;
+        string uid;
+
         #region 静态数据
         [DescriptionAttribute("UnitId"),
         DisplayName("UnitId"),
         CategoryAttribute("基本信息")]
-        public string UnitId { get; set; }
+        public string UnitId
+        {
+            get
+            {
+                Xslxpath = string.Format("{0}\\{1}.xlsx", Path.GetDirectoryName(typeof(GlobalClass).Assembly.Location), this.uid);
+                return uid;
+            }
+            set
+            {
+                uid = value;
+                Xslxpath = string.Format("{0}\\{1}.xlsx", Path.GetDirectoryName(typeof(GlobalClass).Assembly.Location), this.uid);
+            }
+        }
 
         [DescriptionAttribute("资产单元名"),
         DisplayName("资产单元名"),
@@ -47,12 +65,32 @@ namespace ExchangeLib
         ///Dictionary<string, StragRunPlanClass> RunningPlans;
         #endregion
 
-        public bool Running;
-        
+        public AssetUnitClass()
+        {
+        }
 
+        public bool Running;
+
+        DataTable LoadDataFromFile()
+        {
+            DataTable dt = new DataTable();
+            dt = OpenXmlHelper.ImportExcel(Xslxpath);
+            return dt;
+        }
+
+        public void SaveDataToFile()
+        {
+            OpenXmlHelper.ExportExcel(Xslxpath, SummaryLine());
+        }
         public void Run()
         {
+            Run(true);
+        }
+        public void Run(bool LoadTheData)
+        {
             ExchangeServer = new ExchangeService(TotalAsset,Odds);
+            if(LoadTheData)
+                ExchangeServer.LoadTheLastRecords(LoadDataFromFile());
             Running = true;
         }
 

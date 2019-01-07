@@ -7,3 +7,10 @@ C:\project\PK10Tracer\WebCommunicateClass.pdb
 C:\个人文件夹\策略交易终端开发\PK10Tracer\WebCommunicateClass\obj\Debug\WebCommunicateClass.csprojResolveAssemblyReference.cache
 C:\个人文件夹\策略交易终端开发\PK10Tracer\WebCommunicateClass\obj\Debug\WebCommunicateClass.dll
 C:\个人文件夹\策略交易终端开发\PK10Tracer\WebCommunicateClass\obj\Debug\WebCommunicateClass.pdb
+F:\cfzqzhouys\project\PK10Tracer\WebCommunicateClass.dll
+F:\cfzqzhouys\project\PK10Tracer\WebCommunicateClass.pdb
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WebCommunicateClass\obj\Debug\WebCommunicateClass.csprojAssemblyReference.cache
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WebCommunicateClass\obj\Debug\WebCommunicateClass.csproj.CoreCompileInputs.cache
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WebCommunicateClass\obj\Debug\WebCommunicateClass.csproj.CopyComplete
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WebCommunicateClass\obj\Debug\WebCommunicateClass.dll
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WebCommunicateClass\obj\Debug\WebCommunicateClass.pdb

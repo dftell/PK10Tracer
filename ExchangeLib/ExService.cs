@@ -8,6 +8,7 @@ using PK10CorePress;
 using Strags;
 using LogLib;
 using System.ComponentModel;
+using System.Reflection;
 namespace ExchangeLib
 {
     [Serializable]
@@ -37,6 +38,8 @@ namespace ExchangeLib
             _ExpectCnt = val;
         }
 
+        
+
         public ExchangeService(double InitCash, double odds)
         {
             _InitCash = InitCash;
@@ -48,6 +51,20 @@ namespace ExchangeLib
             ////time_ForExec.Interval = 1000;
             ////time_ForExec.AutoReset = true;
             ////time_ForExec.Elapsed += new ElapsedEventHandler(ExchangeTheChance);
+        }
+
+        public void LoadTheLastRecords(DataTable dt)
+        {
+            if (dt == null) return;
+            MoneyChangeTable = null;
+            MoneyLine.Clear();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                double rate = double.Parse(dt.Rows[i]["val"].ToString());
+                MoneyLine.Add(this.InitCash*(100+rate)/100);
+            } 
+            if(MoneyLine.Count>0)
+                CurrMoney = MoneyLine[MoneyLine.Count - 1];
         }
 
         public void Reset()

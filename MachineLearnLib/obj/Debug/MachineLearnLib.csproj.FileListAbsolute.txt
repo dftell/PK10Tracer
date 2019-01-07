@@ -1,0 +1,9 @@
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\MachineLearnLib\bin\Debug\MachineLearnLib.dll
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\MachineLearnLib\bin\Debug\MachineLearnLib.pdb
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\MachineLearnLib\bin\Debug\ProbMathLib.dll
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\MachineLearnLib\bin\Debug\ProbMathLib.pdb
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\MachineLearnLib\obj\Debug\MachineLearnLib.csprojAssemblyReference.cache
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\MachineLearnLib\obj\Debug\MachineLearnLib.csproj.CoreCompileInputs.cache
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\MachineLearnLib\obj\Debug\MachineLearnLib.csproj.CopyComplete
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\MachineLearnLib\obj\Debug\MachineLearnLib.dll
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\MachineLearnLib\obj\Debug\MachineLearnLib.pdb

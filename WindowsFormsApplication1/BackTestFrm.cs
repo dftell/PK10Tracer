@@ -587,7 +587,7 @@ namespace BackTestSys
             AssetUnitClass auc = new AssetUnitClass();
             if(Program.AllSettings.AllAssetUnits.Count>0)//如果存在资产管理单元，所有计划均绑定到第一个上进行测试
             {
-                auc = Program.AllSettings.AllAssetUnits.Values.First();
+                auc = Program.AllSettings.AllAssetUnits.Values.Last();
             }
             es = auc.ExchangeServer;
             if (es != null)

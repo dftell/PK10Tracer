@@ -281,8 +281,8 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox4.Location = new System.Drawing.Point(649, 92);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox4.Name = "groupBox4";
@@ -383,8 +383,8 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox2.Controls.Add(this.txt_LearnCnt);
             this.groupBox2.Controls.Add(this.label31);
             this.groupBox2.Controls.Add(this.runPlanPicker1);
@@ -680,8 +680,8 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox1.Controls.Add(this.txt_Timer_Interval);
             this.groupBox1.Controls.Add(this.label30);
             this.groupBox1.Controls.Add(this.checkBox_UseBuffRsult);
@@ -1152,13 +1152,13 @@
             this.contextMenuStrip_ForListView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmi_ExportExcel});
             this.contextMenuStrip_ForListView.Name = "contextMenuStrip_ForListView";
-            this.contextMenuStrip_ForListView.Size = new System.Drawing.Size(101, 26);
+            this.contextMenuStrip_ForListView.Size = new System.Drawing.Size(95, 26);
             this.contextMenuStrip_ForListView.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_ForListView_Opening);
             // 
             // tsmi_ExportExcel
             // 
             this.tsmi_ExportExcel.Name = "tsmi_ExportExcel";
-            this.tsmi_ExportExcel.Size = new System.Drawing.Size(100, 22);
+            this.tsmi_ExportExcel.Size = new System.Drawing.Size(94, 22);
             this.tsmi_ExportExcel.Text = "导出";
             // 
             // tabPage2

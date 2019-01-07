@@ -250,7 +250,7 @@ namespace BackTestLib
             testIndex = 0;
             //调用计算服务进行计算
             if (!teststragplans[0].AssetUnitInfo.Running) //如果资产单元没有启动，启动资产单元
-                teststragplans[0].AssetUnitInfo.Run();
+                teststragplans[0].AssetUnitInfo.Run(true);
              es = teststragplans[0].AssetUnitInfo.ExchangeServer;//设置资产单元的模拟交易器
             CalcService cs = new CalcService(true,sc,teststragplans.ToDictionary(t=>t.GUID,t=>t));
             cs.IsTestBack = true;

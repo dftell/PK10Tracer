@@ -234,7 +234,7 @@ namespace Strags
                     long ret = (long)Math.Ceiling((double)(RestCash * rate));
                     return ret;
                 }
-                if (cc.ChipCount <= 3 && cc.HoldTimeCnt > cc.MaxHoldTimeCnt && cc.MaxHoldTimeCnt > 0)
+                if (cc.ChipCount < 3 && cc.HoldTimeCnt > cc.MaxHoldTimeCnt && cc.MaxHoldTimeCnt > 0)
                 {
                     return 0;
                 }

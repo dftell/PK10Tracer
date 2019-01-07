@@ -9,4 +9,3 @@ F:\cfzqzhouys\project\PK10Tracer\LogLib.pdb
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\LogLib\obj\Release\LogLib.csproj.CoreCompileInputs.cache
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\LogLib\obj\Release\LogLib.dll
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\LogLib\obj\Release\LogLib.pdb
-F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\LogLib\obj\Release\LogLib.csprojAssemblyReference.cache

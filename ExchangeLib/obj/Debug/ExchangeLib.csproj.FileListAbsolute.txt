@@ -11,3 +11,12 @@ C:\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeLib\obj\Debug\Exc
 C:\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeLib\obj\Debug\ExchangeLib.pdb
 C:\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeLib\obj\Debug\ExchangeLib.RunPlanPicker.resources
 C:\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeLib\obj\Debug\ExchangeLib.csproj.GenerateResource.Cache
+F:\cfzqzhouys\project\PK10Tracer\ExchangeLib.dll
+F:\cfzqzhouys\project\PK10Tracer\ExchangeLib.pdb
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeLib\obj\Debug\ExchangeLib.csprojAssemblyReference.cache
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeLib\obj\Debug\ExchangeLib.RunPlanPicker.resources
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeLib\obj\Debug\ExchangeLib.csproj.GenerateResource.cache
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeLib\obj\Debug\ExchangeLib.csproj.CoreCompileInputs.cache
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeLib\obj\Debug\ExchangeLib.csproj.CopyComplete
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeLib\obj\Debug\ExchangeLib.dll
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeLib\obj\Debug\ExchangeLib.pdb
