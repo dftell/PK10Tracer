@@ -96,7 +96,7 @@ namespace PK10CorePress
         public ExpectList ReadHistory(long From,long buffs,bool desc)
         {
             DbClass db = GlobalClass.getCurrDb();
-            string sql = string.Format("select top {1} * from {2} where expect>='{1}'  order by expect {3}", buffs, From,strHistoryTable,desc?"desc":"");
+            string sql = string.Format("select top {0} * from {2} where expect>='{1}'  order by expect {3}", buffs, From,strHistoryTable,desc?"desc":"");
             DataSet ds = db.Query(sql);
             if (ds == null) return null;
             return new ExpectList(ds.Tables[0]);

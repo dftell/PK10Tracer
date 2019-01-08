@@ -211,7 +211,7 @@ namespace BackTestSys
                 return;
             SCList = plans.ToList();
             SCList.ForEach(p => p.PlanStrag.CommSetting = setting);
-            SCList.ForEach(p => p.PlanStrag.ChipCount = int.Parse(this.txt_ChipCnt.Text));
+            //SCList.ForEach(p => p.PlanStrag.ChipCount = int.Parse(this.txt_ChipCnt.Text));
             SCList.ForEach(p => p.Running = true);
             SCList.ForEach(p => p.AutoRunning = true);
             SCList.ForEach(p => p.FixAmt = 1);

@@ -27,3 +27,4 @@ F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\PK10Server\obj
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\PK10Server\obj\x86\Release\PK10Server.csproj.CopyComplete
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\PK10Server\obj\x86\Release\PK10Server.exe
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\PK10Server\obj\x86\Release\PK10Server.pdb
+F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\PK10Server\obj\x86\Release\PK10Server.csprojAssemblyReference.cache
