@@ -86,7 +86,7 @@ namespace ExchangeLib
         {
             Run(true);
         }
-        public void Run(bool LoadTheData)
+        public void Run(bool LoadTheData) //add by zhouys 2019/1/5 
         {
             ExchangeServer = new ExchangeService(TotalAsset,Odds);
             if(LoadTheData)
