@@ -30,3 +30,14 @@ F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\Strags\obj\Rel
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\Strags\obj\Release\Strags.csproj.CopyComplete
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\Strags\obj\Release\Strags.dll
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\Strags\obj\Release\Strags.pdb
+C:\Users\zhouys\Source\project\PK10Tracer\Strags.dll
+C:\Users\zhouys\Source\project\PK10Tracer\Strags.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Release\Strags.csprojAssemblyReference.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Release\Strags.CommSelectOjectDialog.resources
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Release\Strags.StragPicker.resources
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Release\Strags.StragsPicker.resources
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Release\Strags.csproj.GenerateResource.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Release\Strags.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Release\Strags.csproj.CopyComplete
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Release\Strags.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Release\Strags.pdb

@@ -18,3 +18,12 @@ F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\BaseObjectsLib
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\BaseObjectsLib\obj\Release\BaseObjectsLib.csproj.CopyComplete
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\BaseObjectsLib\obj\Release\BaseObjectsLib.dll
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\BaseObjectsLib\obj\Release\BaseObjectsLib.pdb
+C:\Users\zhouys\Source\project\PK10Tracer\BaseObjectsLib.dll
+C:\Users\zhouys\Source\project\PK10Tracer\BaseObjectsLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\obj\Release\BaseObjectsLib.csprojAssemblyReference.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\obj\Release\BaseObjectsLib.SerialableObjectEditor.resources
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\obj\Release\BaseObjectsLib.csproj.GenerateResource.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\obj\Release\BaseObjectsLib.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\obj\Release\BaseObjectsLib.csproj.CopyComplete
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\obj\Release\BaseObjectsLib.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\obj\Release\BaseObjectsLib.pdb

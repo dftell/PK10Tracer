@@ -598,18 +598,19 @@ namespace BackTestSys
             SCList.ForEach(p => p.PlanStrag.CommSetting = setting);
             SCList.ForEach(p => p.AssetUnitInfo = auc);
             SCList.ForEach(p => p.Running = true);
+            SCList.ForEach(p => p.AutoRunning = true);
             //if (SCList.Count == 1)
             //{
             //    //SCList[0].PlanStrag = sc;
-            SCList.ForEach(p=>p.IncreamType = this.checkBox_CreamModel.Checked ? InterestType.CompoundInterest : InterestType.SimpleInterest);
-            SCList.ForEach(p=>p.AutoRunning = true);
-            ////SCList.ForEach(p=>p.FixAmt = 1);
-            ////SCList.ForEach(p=>p.FixRate = 0.01);
-            SCList.ForEach(p => p.AllowMaxHoldTimeCnt = int.Parse(txt_AllowMaxHoldTimeCnt.Text));
-            if (SCList.Count == 1)
-            {
-                SCList.ForEach(p => p.PlanStrag.ChipCount = int.Parse(this.txt_ChipCnt.Text));
-            }
+            //////SCList.ForEach(p=>p.IncreamType = this.checkBox_CreamModel.Checked ? InterestType.CompoundInterest : InterestType.SimpleInterest);
+            
+            //////////SCList.ForEach(p=>p.FixAmt = 1);
+            //////////SCList.ForEach(p=>p.FixRate = 0.01);
+            //////SCList.ForEach(p => p.AllowMaxHoldTimeCnt = int.Parse(txt_AllowMaxHoldTimeCnt.Text));
+            //////if (SCList.Count == 1)
+            //////{
+            //////    SCList.ForEach(p => p.PlanStrag.ChipCount = int.Parse(this.txt_ChipCnt.Text));
+            //////}
             //}
             #region 用新的计算进行回测
             ////////////////for (int i = 0; i < 9; i++)

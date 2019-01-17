@@ -48,3 +48,16 @@ F:\cfzqzhouys\project\PK10Tracer\ExchangeTermial.exe
 F:\cfzqzhouys\project\PK10Tracer\ExchangeTermial.pdb
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.csproj.ResolveComReference.cache
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.csproj.CopyComplete
+C:\Users\zhouys\Source\project\PK10Tracer\ExchangeTermial.exe.config
+C:\Users\zhouys\Source\project\PK10Tracer\ExchangeTermial.exe
+C:\Users\zhouys\Source\project\PK10Tracer\ExchangeTermial.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.csprojAssemblyReference.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.csproj.ResolveComReference.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.Form1.resources
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.MainWindow.resources
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.Properties.Resources.resources
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.csproj.GenerateResource.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.csproj.CopyComplete
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.exe
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.pdb

@@ -20,3 +20,12 @@ F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeLib\ob
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeLib\obj\Debug\ExchangeLib.csproj.CopyComplete
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeLib\obj\Debug\ExchangeLib.dll
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeLib\obj\Debug\ExchangeLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeLib\obj\Debug\ExchangeLib.csprojAssemblyReference.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeLib\obj\Debug\ExchangeLib.RunPlanPicker.resources
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeLib\obj\Debug\ExchangeLib.csproj.GenerateResource.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeLib\obj\Debug\ExchangeLib.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeLib\obj\Debug\ExchangeLib.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeLib\obj\Debug\ExchangeLib.pdb
+C:\Users\zhouys\Source\project\PK10Tracer\ExchangeLib.dll
+C:\Users\zhouys\Source\project\PK10Tracer\ExchangeLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeLib\obj\Debug\ExchangeLib.csproj.CopyComplete

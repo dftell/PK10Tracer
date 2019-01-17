@@ -28,3 +28,10 @@ F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ServerInitLib\
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ServerInitLib\obj\Release\ServerInitLib.csproj.CopyComplete
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ServerInitLib\obj\Release\ServerInitLib.dll
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ServerInitLib\obj\Release\ServerInitLib.pdb
+C:\Users\zhouys\Source\project\PK10Tracer\ServerInitLib.dll
+C:\Users\zhouys\Source\project\PK10Tracer\ServerInitLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\obj\Release\ServerInitLib.csprojAssemblyReference.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\obj\Release\ServerInitLib.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\obj\Release\ServerInitLib.csproj.CopyComplete
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\obj\Release\ServerInitLib.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\obj\Release\ServerInitLib.pdb

@@ -46,7 +46,7 @@ namespace DataRecSvr
             }
             catch (Exception e)
             {
-                LogableClass.ToLog("初始化服务失败", e.Message);
+                LogableClass.ToLog("初始化服务失败", e.StackTrace);
             }
 
         }

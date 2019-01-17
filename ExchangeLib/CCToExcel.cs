@@ -197,7 +197,7 @@ namespace ExchangeLib
             }
             catch (Exception ce)
             {
-                return null;
+                return dt;
             }
             finally
             {

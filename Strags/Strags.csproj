@@ -69,6 +69,7 @@
     <Compile Include="StragsPicker.Designer.cs">
       <DependentUpon>StragsPicker.cs</DependentUpon>
     </Compile>
+    <Compile Include="Strag_SingleBayesClass.cs" />
     <Compile Include="Strag_BinomialDistrClass.cs" />
     <Compile Include="Strag_CombLongOldClass.cs" />
     <Compile Include="strag_CommCombOldClass.cs" />

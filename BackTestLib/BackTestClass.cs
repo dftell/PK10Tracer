@@ -246,7 +246,7 @@ namespace BackTestLib
         /// <returns></returns>
         public BackTestReturnClass VirExchange(ServiceSetting sc,ref ExchangeService es, StragRunPlanClass[] teststragplans)
         {
-            LoopCnt = 0;
+            //LoopCnt = 0;
             testIndex = 0;
             //调用计算服务进行计算
             if (!teststragplans[0].AssetUnitInfo.Running) //如果资产单元没有启动，启动资产单元

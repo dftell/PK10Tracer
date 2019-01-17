@@ -28,3 +28,10 @@ F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\CoreCalcClass\
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\CoreCalcClass\obj\Release\CoreCalcClass.csproj.CopyComplete
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\CoreCalcClass\obj\Release\CoreCalcClass.dll
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\CoreCalcClass\obj\Release\CoreCalcClass.pdb
+C:\Users\zhouys\Source\project\PK10Tracer\CoreCalcClass.dll
+C:\Users\zhouys\Source\project\PK10Tracer\CoreCalcClass.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\obj\Release\CoreCalcClass.csprojAssemblyReference.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\obj\Release\CoreCalcClass.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\obj\Release\CoreCalcClass.csproj.CopyComplete
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\obj\Release\CoreCalcClass.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\obj\Release\CoreCalcClass.pdb
