@@ -43,6 +43,7 @@
     <Compile Include="BayesLib\BayesDSelectorcs.cs" />
     <Compile Include="DescentMethods\DescentMethodClass.cs" />
     <Compile Include="LinearRegression\LMSAlgorithm.cs" />
+    <Compile Include="MachineLearnClass.cs" />
     <Compile Include="MaxEntModel\MaxEntModelClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

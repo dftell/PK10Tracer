@@ -104,6 +104,12 @@
     <Compile Include="frm_DistrCheck.Designer.cs">
       <DependentUpon>frm_DistrCheck.cs</DependentUpon>
     </Compile>
+    <Compile Include="frm_TrainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_TrainForm.Designer.cs">
+      <DependentUpon>frm_TrainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="loginFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,6 +141,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frm_DistrCheck.resx">
       <DependentUpon>frm_DistrCheck.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_TrainForm.resx">
+      <DependentUpon>frm_TrainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="loginFrm.resx">
       <DependentUpon>loginFrm.cs</DependentUpon>
@@ -219,6 +228,10 @@
     <ProjectReference Include="..\LogLib\LogLib.csproj">
       <Project>{182084E4-C48B-4585-9221-4A54CAF7448F}</Project>
       <Name>LogLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MachineLearnLib\MachineLearnLib.csproj">
+      <Project>{263d0261-f282-47f3-a3e8-324b703e1599}</Project>
+      <Name>MachineLearnLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\PK10CorePress\PK10CorePress.csproj">
       <Project>{1B418905-1D78-4758-9B21-CF9BFC054F88}</Project>

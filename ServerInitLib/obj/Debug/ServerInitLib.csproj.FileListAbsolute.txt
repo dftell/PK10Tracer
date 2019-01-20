@@ -56,9 +56,7 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\bin\Debug\DocumentF
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\bin\Debug\ProbMathLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\bin\Debug\GuideLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\bin\Debug\BaseObjectsLib.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\bin\Debug\ExchangeLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\bin\Debug\LogLib.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\bin\Debug\PK10CorePress.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\bin\Debug\Strags.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\bin\Debug\WinInterComminuteLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\bin\Debug\DocumentFormat.OpenXml.xml
@@ -69,3 +67,7 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\obj\Debug\ServerIni
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\obj\Debug\ServerInitLib.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\obj\Debug\ServerInitLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\obj\Debug\ServerInitLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\bin\Debug\ExchangeLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\bin\Debug\PK10CorePress.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\bin\Debug\MachineLearnLib.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\bin\Debug\MachineLearnLib.pdb

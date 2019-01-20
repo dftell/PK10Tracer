@@ -8,15 +8,13 @@ namespace MachineLearnLib
     /// <summary>
     /// 最大熵模型类
     /// </summary>
-    public class MaxEntModelClass
-    {
-    }
+      
 
     /**
  * 最大熵的IIS（Improved Iterative Scaling）训练算法
  * User: tpeng  <pengtaoo@gmail.com>
  */
-    public class MaxEnt
+    public class MaxEnt: MachineLearnClass<int,int>
     {
 
         private static bool DEBUG = false;
@@ -65,7 +63,7 @@ namespace MachineLearnLib
          * 实例列表
          */
         private List<Instance> instances = new List<Instance>();
-
+        int FeatureCnt = 0;
         /**
          * 特征函数列表
          */
@@ -75,25 +73,6 @@ namespace MachineLearnLib
          * 特征列表
          */
         private List<Feature> features = new List<Feature>();
-
-        public double Run(List<Instance> TrainList, List<Instance> TestList)
-        {
-            List<Instance> instances = TrainList;// DataSet.readDataSet("examples/zoo.train");
-            MaxEnt me = new MaxEnt(instances);
-            me.train();
-            List<Instance> trainInstances = TestList;// DataSet.readDataSet("examples/zoo.test");
-            int pass = 0;
-            foreach (Instance instance in trainInstances)
-            {
-                int predict = me.classify(instance);
-                if (predict == instance.Label)
-                {
-                    pass += 1;
-                }
-            }
-            return (double)1.0 * pass / trainInstances.Count;
-            //System.out.println("accuracy: " + 1.0 * pass / trainInstances.size());
-        }
 
         public MaxEnt(List<Instance> trainInstance)
         {
@@ -106,6 +85,60 @@ namespace MachineLearnLib
             calc_empirical_expects();
         }
 
+        public MaxEnt()
+        {
+        }
+
+        public static double Run(List<Instance> TrainList, List<Instance> TestList)
+        {
+            List<Instance> instances = TrainList;// DataSet.readDataSet("examples/zoo.train");
+            MaxEnt me = new MaxEnt(instances);
+            me.Train();
+            List<Instance> trainInstances = TestList;// DataSet.readDataSet("examples/zoo.test");
+            int pass = 0;
+            foreach (Instance instance in trainInstances)
+            {
+                int predict = me.Classify(instance);
+                if (predict == instance.Label)
+                {
+                    pass += 1;
+                }
+            }
+            return (double)1.0 * pass / trainInstances.Count;
+            //System.out.println("accuracy: " + 1.0 * pass / trainInstances.size());
+        }
+
+
+        public static Dictionary<int,double> getLabels(List<Instance> TrainList, List<Instance> TestList)
+        {
+            Dictionary<int, double> ret = new Dictionary<int, double>();
+            List<int> testLabels = new List<int>();
+            for (int i = 0; i < 10; i++)
+                testLabels.Add((i + 1) % 10);
+            List<Instance> instances = TrainList;// DataSet.readDataSet("examples/zoo.train");
+            MaxEnt me = new MaxEnt(instances);
+            me.Train();
+            for (int i = 0; i < testLabels.Count; i++)
+            {
+                TestList[TestList.Count - 1].Label = testLabels[i];//最后一条记录的label更换为测试的label
+                List<Instance> trainInstances = TestList;// DataSet.readDataSet("examples/zoo.test");
+                int pass = 0;
+                foreach (Instance instance in trainInstances)
+                {
+                    int predict = me.Classify(instance);
+                    if (predict == instance.Label)
+                    {
+                        pass += 1;
+                    }
+                }
+                ret.Add(testLabels[i],(double)1.0 * pass / trainInstances.Count);
+            }
+            return ret;
+            //System.out.println("accuracy: " + 1.0 * pass / trainInstances.size());
+        }
+
+
+
         /**
          * 创建特征函数
          * @param instances 实例
@@ -116,6 +149,7 @@ namespace MachineLearnLib
             int maxLabel = 0;
             int minLabel = int.MaxValue;
             int[] maxFeatures = new int[instances[0].Feature.Count];
+            
             List<Feature> featureSet = new List<Feature>();
 
             foreach (Instance instance in instances)
@@ -143,10 +177,11 @@ namespace MachineLearnLib
             }
 
             features = new List<Feature>();
+            List<List<int>> flist = Feature.getNextFeature("1234567890", maxFeatures.Length);
+            flist.ForEach(p=>features.Add(new Feature(p)));
             //featureSet
             maxY = maxLabel;
             minY = minLabel;
-
             for (int i = 0; i < maxFeatures.Length; i++)
             {
                 for (int x = 0; x <= maxFeatures[i]; x++)
@@ -207,7 +242,7 @@ namespace MachineLearnLib
         /**
          * 训练
          */
-        public void train()
+        public override void Train()
         {
             for (int k = 0; k < ITERATIONS; k++)
             {
@@ -225,7 +260,7 @@ namespace MachineLearnLib
          * @param instance
          * @return
          */
-        public int classify(Instance instance)
+        public override int Classify(MLInstance<int,int> instance)
         {
 
             double max = 0;
@@ -236,7 +271,7 @@ namespace MachineLearnLib
                 double sum = 0;
                 for (int i = 0; i < functions.Count; i++)
                 {
-                    sum += Math.Exp(w[i] * functions[i].apply(instance.Feature, y));
+                    sum += Math.Exp(w[i] * functions[i].apply((Feature)instance.Feature, y));
                 }
                 if (sum > max)
                 {
@@ -315,6 +350,10 @@ namespace MachineLearnLib
                     Instance instance = instances[i];
                     Feature feature = instance.Feature;
                     int index = features.IndexOf(feature);
+                    if(index == -1)
+                    {
+                        index = feature.getIndex(instance.Feature.Count);
+                    }
                     for (int y = minY; y <= maxY; y++)
                     {
                         int f_sharp = apply_f_sharp(feature, y);
@@ -341,6 +380,14 @@ namespace MachineLearnLib
             return double.NaN; //如果不收敛，返回NaN
             throw new Exception("IIS did not converge"); // w_i不收敛
         }
+
+        public override double[] GetKeyResult()
+        {
+            return w;
+        }
+
+
+
 
         /**
          * 特征函数
@@ -379,7 +426,7 @@ namespace MachineLearnLib
     /// <summary>
     /// 特征
     /// </summary>
-    public class Feature : List<int>
+    public class Feature : MLIntFeature
     {
 
         /**
@@ -391,9 +438,93 @@ namespace MachineLearnLib
             list.ForEach(p => this.Add(p));
         }
 
+        public int getIndex(int vcnt)
+        {
+            List<int> list = new List<int>();
+            list.AddRange(this);
+            list.Reverse();
+            string strInt = string.Join("", list);
+            string strDiff = "";
+            for(int i=0;i<vcnt;i++)
+            {
+                strDiff = strDiff + "1";
+            }
+            int IntRes = int.Parse(strInt);
+            int IntDiff = int.Parse(strDiff);
+            if(IntRes < IntDiff)
+            {
+                IntRes = (int)Math.Pow(10, vcnt) + IntRes;
+            }
+            int ret= IntRes - IntDiff;
+            
+            return ret;
+        }
+
         public new String ToString()
         {
             return string.Join(";", this.ToArray());
+        }
+
+        public static List<List<int>> getNextFeature(int Vcnt, int Index, int XMin, int XMax, List<int> orgList)
+        {
+            List<List<int>> retList = new List<List<int>>();
+            List<int> ret = new List<int>();
+            if (Index >= Vcnt)
+            {
+                return retList;
+            }
+            ret.AddRange(orgList);
+            if (orgList.Count < Index + 1)
+            {
+                //orgList = new List<int>();
+                //for (int i = Index; i < Index; i++)
+                ret.Add(0);
+            }
+            if (XMin <= XMax)//获得本级本次及以下
+            {
+                if (XMin > 0)
+                {
+                    ret[Index] = XMin;
+
+                    //retList.Add(ret);
+                }
+                if (ret.Count == Vcnt)
+                    retList.Add(ret);
+                List<List<int>> resNext = getNextFeature(Vcnt, Index + 1, XMin, XMax, ret);
+                retList.AddRange(resNext);
+                for (int i = XMin + 1; i <= XMax; i++)//获得本级后面所有次及以下
+                {
+                    List<List<int>> res = getNextFeature(Vcnt, Index, i, XMax, ret);
+                    retList.AddRange(res);
+                }
+            }
+
+            return retList;
+        }
+
+        static IEnumerable<string> foo(IEnumerable<string> src, string meta, int n)
+        {
+            if (src.First().Length == n)
+                return src;
+            else
+                return foo(meta.SelectMany(x => src.Select(y => y + x)), meta, n);
+        }
+
+        public static List<List<int>> getNextFeature(string AllString, int vcnt)
+        {
+            List<string> ret = new List<string>();
+            foreach (string s in foo(AllString.Select(x => x.ToString()),AllString, vcnt))
+                ret.Add(s);
+            List<List<int>> retInt = new List<List<int>>();
+            for(int i=0;i<ret.Count;i++)
+            {
+                char[] strArr = ret[i].ToCharArray();
+                List<int> ilist = new List<int>();
+                for (int j = 0; j < strArr.Length; j++)
+                    ilist.Add(int.Parse(strArr[j].ToString()));
+                retInt.Add(ilist);
+            }
+            return retInt;
         }
     }
 
@@ -401,7 +532,7 @@ namespace MachineLearnLib
     /// <summary>
     /// 实例
     /// </summary>
-    public class Instance
+    public class Instance:MLInstance<int,int>
     {
         /**
          * 标签
@@ -423,6 +554,10 @@ namespace MachineLearnLib
             get
             {
                 return label;
+            }
+            set
+            {
+                label = value;
             }
         }
 

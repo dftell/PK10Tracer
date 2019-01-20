@@ -34,10 +34,10 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\bin\Debug\PK10CorePress.
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\bin\Debug\ProbMathLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\bin\Debug\BaseObjectsLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\bin\Debug\LogLib.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\bin\Debug\PK10CorePress.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\bin\Debug\ProbMathLib.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\GuideLib.csprojAssemblyReference.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\GuideLib.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\GuideLib.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\GuideLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\GuideLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\bin\Debug\PK10CorePress.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\GuideLib.csprojAssemblyReference.cache

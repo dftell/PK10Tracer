@@ -32,6 +32,7 @@ namespace Strags
     [XmlInclude(typeof(Strag_StdDevWaveClass))]
     [XmlInclude(typeof(strag_CommJumpClass))]
     [XmlInclude(typeof(Strag_SingleBayesClass))]
+    [XmlInclude(typeof(Strag_SimpleMaxEntryClass))]
     public abstract class StragClass : BaseStragClass, IFindChance, ISelfSetting,iDbFile
     {
         public StragClass():base()

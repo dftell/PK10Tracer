@@ -9,7 +9,7 @@ F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\LogLib\obj\Deb
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\LogLib\obj\Debug\LogLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\LogLib\bin\Debug\LogLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\LogLib\bin\Debug\LogLib.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\LogLib\obj\Debug\LogLib.csprojAssemblyReference.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\LogLib\obj\Debug\LogLib.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\LogLib\obj\Debug\LogLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\LogLib\obj\Debug\LogLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\LogLib\obj\Debug\LogLib.csprojAssemblyReference.cache

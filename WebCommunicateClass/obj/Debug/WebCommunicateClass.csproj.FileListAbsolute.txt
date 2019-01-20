@@ -14,3 +14,10 @@ F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WebCommunicate
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WebCommunicateClass\obj\Debug\WebCommunicateClass.csproj.CopyComplete
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WebCommunicateClass\obj\Debug\WebCommunicateClass.dll
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WebCommunicateClass\obj\Debug\WebCommunicateClass.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebCommunicateClass\obj\Debug\WebCommunicateClass.csprojAssemblyReference.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebCommunicateClass\obj\Debug\WebCommunicateClass.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebCommunicateClass\obj\Debug\WebCommunicateClass.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebCommunicateClass\obj\Debug\WebCommunicateClass.pdb
+C:\Users\zhouys\Source\project\PK10Tracer\WebCommunicateClass.dll
+C:\Users\zhouys\Source\project\PK10Tracer\WebCommunicateClass.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebCommunicateClass\obj\Debug\WebCommunicateClass.csproj.CopyComplete

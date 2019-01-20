@@ -980,9 +980,14 @@ namespace BackTestSys
             CheckFrm.InputExpect = int.Parse(strExpect);
             CheckFrm.Show();
         }
+
+        private void btn_trainPlan_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
- public class ListViewItemComparer : System.Collections.IComparer 
+    public class ListViewItemComparer : System.Collections.IComparer 
  {
             public int SortColumn;
             public SortOrder OrderOfSort;

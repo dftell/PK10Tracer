@@ -35,10 +35,10 @@ namespace Strags
         {
             List<ChanceClass> ret = new List<ChanceClass>();
             PKDataListSetFactory pkdls = new PKDataListSetFactory(this.LastUseData());
-            Dictionary<int,int> res = pkdls.OccurProbList(this.ReviewExpectCnt-2, 1);
+            Dictionary<int, Dictionary<int, int>> res = pkdls.OccurrSpecLengthShiftProbList(this.ReviewExpectCnt-2, 1,0,1);
             Dictionary<string,int> AllCodes = new Dictionary<string, int>();
             foreach (int key in res.Keys)
-                AllCodes.Add(string.Format("{0}/{1}",key,res[key]),1);
+                AllCodes.Add(string.Format("{0}/{1}",key,string.Join("",res[key].Keys.ToArray())),1);
             string strAllCode = string.Join("+", AllCodes.Keys.ToArray());
             if (ChanceClass.getChipsByCode(strAllCode) < this.ChipCount)
             {
@@ -143,22 +143,27 @@ namespace Strags
             //jisuan
         }
 
-        BayesDicClass OccurrDir(int col, int TestLength, int LastTimes)//add by zhouys 2019/1/15
+        BayesDicClass OccurrDir(int col, int shiftCol, int TestLength, int LastTimes)//add by zhouys 2019/1/15
         {
             BayesDicClass ret = new BayesDicClass();
             int iShift = Data.Count - TestLength;
             if (iShift <= LastTimes) //Data length must more than TestLength+LastTimes+1
                 return ret;
-            Dictionary<string, int> defaultDic = getDefaultCombDic();
-            Dictionary<int, int> PreA = InitPriorProbabilityDic();
-            Dictionary<int, int> PreB = InitPriorProbabilityDic();
+            Dictionary<string, int> defaultDic =  PKProbVector.getDefaultCombDic();
+            Dictionary<int, int> PreA = PKProbVector.InitPriorProbabilityDic();
+            Dictionary<int, int> PreB = PKProbVector.InitPriorProbabilityDic();
             //for (int col=0;col<10;col++)
             //{
             Dictionary<string, int> combDic = defaultDic;
+            int BColIndex = (col + shiftCol) % 10;//对于大于10的取模
+            if (BColIndex < 0)//对于小于0的，+10 如：0 + （-1） = 9
+            {
+                BColIndex = BColIndex + 10;
+            }
             for (int i = iShift - 1; i < Data.Count; i++)
             {
                 int CurrA = getIntValue(Data[i].ValueList[col]);
-                int CurrB = getIntValue(Data[i - LastTimes].ValueList[col]);
+                int CurrB = getIntValue(Data[i - LastTimes].ValueList[BColIndex]);
                 string key = string.Format("{0}_{1}", CurrA, CurrB);
                 int cnt = combDic[key];
                 combDic[key] = cnt + 1;
@@ -173,45 +178,36 @@ namespace Strags
             return ret;
         }
 
-        Dictionary<int, int> InitPriorProbabilityDic()
-        {
-            Dictionary<int, int> ret = new Dictionary<int, int>();
-            for (int i = 1; i <= 10; i++)
-                ret.Add(i%10, 0);
-            return ret;
-        }
+        
 
- 
+        ////public Vector getVectors(int index, int CheckCnt)
+        ////{
+        ////    Vector v = Vector.Zero(0);
+        ////    for (int c = 0; c < 10; c++)
+        ////    {
+        ////        for (int r = index - CheckCnt + 1; r <= index; r++)
+        ////        {
+        ////            v.Append(double.Parse(Data[r].ValueList[c]));
+        ////        }
+        ////    }
+        ////    return v;
+        ////}
 
-
-        Dictionary<string, int> getDefaultCombDic()
-        {
-            Dictionary<string, int> ret = new Dictionary<string, int>();
-            for (int i = 1; i <= 10; i++)
-            {
-                for (int j = 1; j <= 10; j++)
-                {
-                    string key = string.Format("{0}_{1}", i%10, j%10);
-                    ret.Add(key, 0);
-                }
-            }
-            return ret;
-        }
-
-        public Dictionary<string, double> OccurColumnProb(int col, int TestLength, int LastTimes)
+        public Dictionary<string, double> OccurColumnProb(int col, int shiftCol, int TestLength, int LastTimes)
         {
             Dictionary<string, double> ret = new Dictionary<string, double>();
-            BayesDicClass bdic = OccurrDir(col, TestLength, LastTimes);
+            BayesDicClass bdic = OccurrDir(col, shiftCol, TestLength, LastTimes);
             ret = bdic.getBA();
             return ret;
         }
 
-        public Dictionary<int, List<int>> OccurProbList(int TestLength, int LastTimes, int SelectListCnt)
+        public Dictionary<int, List<int>> OccurProbList(int shift, int TestLength, int LastTimes, int SelectListCnt)
         {
             Dictionary<int, List<int>> ret = new Dictionary<int, List<int>>();
             for (int i = 0; i < 10; i++)
             {
-                Dictionary<string, double> res = OccurColumnProb(i, TestLength, LastTimes);
+
+                Dictionary<string, double> res = OccurColumnProb(i, shift, TestLength, LastTimes);
                 string str = Data.LastData.ValueList[i];
                 //str = str == "0" ? "10" : str;
                 int col = (i + 1) % 10;
@@ -221,15 +217,71 @@ namespace Strags
             return ret;
         }
 
-        public Dictionary<int, int> OccurProbList(int TestLength, int LastTimes)
+        public Dictionary<int, Dictionary<int, double>> OccurProbDetailList(int shift, int TestLength, int LastTimes, int SelectListCnt)
         {
-            Dictionary<int, List<int>> ret = OccurProbList(TestLength, LastTimes, 1);
+            Dictionary<int, Dictionary<int, double>> ret = new Dictionary<int, Dictionary<int, double>>();
+            for (int i = 0; i < 10; i++)
+            {
+
+                Dictionary<string, double> res = OccurColumnProb(i, shift, TestLength, LastTimes);
+                string str = Data.LastData.ValueList[i];//最后记录对应i名的车号
+                int col = (i + 1) % 10;
+                Dictionary<int, double> colList = BayesDicClass.getBAMaxNProbValue(res, int.Parse(str), SelectListCnt);//该列上，以该车号为条件B推出所有车号的概率
+                ret.Add(col, colList);
+            }
+            return ret;
+        }
+
+        public Dictionary<int, int> OccurProbList(int shift, int TestLength, int LastTimes)
+        {
+
+            Dictionary<int, List<int>> ret = OccurProbList(shift, TestLength, LastTimes, 1);
             return ret.ToDictionary(p => p.Key, p => p.Value[0]);
+
+        }
+
+        public Dictionary<int, int> OccurProbDetailList(int shift, int TestLength, int LastTimes)
+        {
+
+            Dictionary<int, List<int>> ret = OccurProbList(shift, TestLength, LastTimes, 10);
+            return ret.ToDictionary(p => p.Key, p => p.Value[0]);
+
+        }
+        public Dictionary<int, Dictionary<int, int>> OccurrSpecLengthShiftProbList(int TestLength, int LastTimes,int startPos,int shiftLen)
+        {
+            Dictionary<int, Dictionary<int, int>> ret = new Dictionary<int, Dictionary<int, int>>();
+            for (int i = 0; i < 10; i++)
+                ret.Add(i, new Dictionary<int, int>());
+            for (int i = startPos; i < startPos+shiftLen; i++)//遍历所有偏移的高概率
+            {
+                Dictionary<int, int> res = OccurProbList(i, TestLength, LastTimes);//获取当前偏移的所有高概率
+                foreach (int key in res.Keys)
+                {
+                    if (!ret[key].ContainsKey(res[key]))
+                    {
+                        ret[key].Add(res[key], 0);
+                    }
+                    ret[key][res[key]] = ret[key][res[key]] + 1;
+                }
+            }
+            return ret;
+        }
+
+        public Dictionary<int, Dictionary<int, Dictionary<int, double>>> OccurrAllShiftProbList(int TestLength, int LastTimes, int MaxCnt)
+        {
+            Dictionary<int, Dictionary<int, Dictionary<int, double>>> ret = new Dictionary<int, Dictionary<int, Dictionary<int, double>>>();
+            for (int i = 0; i < 10; i++)
+                ret.Add(i, new Dictionary<int, Dictionary<int, double>>());
+            for (int i = 0; i < 10; i++)//遍历所有偏移的高概率
+            {
+                Dictionary<int, Dictionary<int, double>> res = this.OccurProbDetailList(i, TestLength, LastTimes, MaxCnt);//获取当前偏移的所有高概率
+                ret.Add(i, res);
+            }
+            return ret;
         }
 
 
 
-     
         int getIntValue(string val)
         {
             //if (val == "0") return 10;
@@ -252,7 +304,9 @@ namespace Strags
                 string[] strIdx = key.Split('_');
                 int A = int.Parse(strIdx[0]);
                 int B = int.Parse(strIdx[1]);
-                double ProbBA = (double)PriorProbDicA[A] * PosteriorProbDic[key] / PriorProbDicB[B] / TestLength;
+                double ProbBA = 0;
+                if (PriorProbDicB[B] != 0)
+                    ProbBA = (double)PriorProbDicA[A] * PosteriorProbDic[key] / PriorProbDicB[B] / TestLength;
                 ret.Add(key, ProbBA);
             }
             return ret;
@@ -263,8 +317,8 @@ namespace Strags
             Dictionary<int, double> ret = new Dictionary<int, double>();
             for (int i = 1; i <= 10; i++)
             {
-                string key = string.Format("{0}_{1}", i%10, CheckVal);
-                ret.Add(i%10, testResult[key]);
+                string key = string.Format("{0}_{1}", i % 10, CheckVal);
+                ret.Add(i % 10, testResult[key]);
             }
             return ret;
         }
@@ -293,12 +347,128 @@ namespace Strags
 
         public static List<int> getBAMaxNValue(Dictionary<string, double> testResult, int CheckVal, int MaxN)
         {
+            return getBAMaxNProbValue(testResult, CheckVal, MaxN).Keys.ToList();
+        }
+
+        public static Dictionary<int, double> getBAMaxNProbValue(Dictionary<string, double> testResult, int CheckVal, int MaxN)
+        {
             Dictionary<int, double> ret = getBADic(testResult, CheckVal);
             var list = ret.OrderByDescending(p => p.Value);
-            return list.ToDictionary(p => p.Key, p => p.Value).Keys.Take(MaxN).ToList();
+            return list.Take(MaxN).ToDictionary(p => p.Key, p => p.Value);
             //.Take(MaxN).ToList();
             //return ret.First().Key;
         }
     }
 
+    public class PKProbVector
+    {
+        public static Dictionary<int, int> InitPriorProbabilityDic()
+        {
+            Dictionary<int, int> ret = new Dictionary<int, int>();
+            for (int i = 1; i <= 10; i++)
+                ret.Add(i % 10, 0);
+            return ret;
+        }
+
+        public static Dictionary<string, int> getDefaultCombDic()
+        {
+            Dictionary<string, int> ret = new Dictionary<string, int>();
+            for (int i = 1; i <= 10; i++)
+            {
+                for (int j = 1; j <= 10; j++)
+                {
+                    string key = string.Format("{0}_{1}", i % 10, j % 10);
+                    ret.Add(key, 0);
+                }
+            }
+            return ret;
+        }
+
+        public static Dictionary<string, int> getDefaultCombDic(int VCnt)
+        {
+            Dictionary<string, int> ret = new Dictionary<string, int>();
+            string strModel = "{0}_{1}";
+  
+            for (int i = 1; i <= 10; i++)
+            {
+                string strKey = string.Format("{0}", i % 10);
+                for (int v = 1;v<VCnt;v++)
+                {
+                    strKey = strKey + "_{0}";
+                    for(int j=1;j<=10;j++)
+                    {
+                        ret.Add(string.Format(strKey,j%10), 0);
+                    }
+                }
+            }
+            return ret;
+        }
+
+        //////public static List<List<int>> getDefaultCombDic(int Vcnt,int XMin,int XMax)
+        //////{
+        //////    List<List<int>> ret = new List<List<int>>();
+        //////    List<int> feature = new List<int>();
+        //////    string strKey = "";
+        //////    for (int i = XMin; i <= 10; i++)
+        //////    {
+        //////        int FirstX = (i+1)% 10;
+
+        //////        for (int v = 1; v < VCnt; v++)
+        //////        {
+        //////            strKey = strKey + "_{0}";
+        //////            for (int j = 1; j <= 10; j++)
+        //////            {
+        //////                ret.Add(string.Format(strKey, j % 10), 0);
+        //////            }
+        //////        }
+        //////    }
+        //////    return ret;
+        //////}
+
+        static List<List<int>> getNextFeature(int Vcnt,int Index,int XMin,int XMax,List<int> orgList)
+        {
+            List<List<int>> retList = new List<List<int>>();
+            List<int> ret = new List<int>();
+            ret.AddRange(orgList);
+            if(Index >= Vcnt)
+            {
+                return retList;
+            }
+            if(XMin<=XMax)
+            {
+                ret[Index] = XMin;
+                retList.Add(ret);
+            }
+            retList.Add(ret);
+            List<List<int>> nextList = getNextFeature(Vcnt + 1, Index + 1, XMin + 1, XMax, ret);
+            retList.AddRange(nextList.ToArray());
+            return retList;
+        }
+
+
+        public static Dictionary<int, int> getDefault1VIntCombDic() //
+        {
+            Dictionary<int, int> ret = new Dictionary<int, int>();
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    int key = 10 * i + j;
+                    ret.Add(key, 0);
+                }
+            }
+            return ret;
+        }
+
+        public static int getIntIndexFromString(string strIdx)
+        {
+            string[] arr = strIdx.Split('_');
+            for(int i=0;i<arr.Length;i++)
+            {
+                int a = int.Parse(arr[i]);
+                arr[i] = string.Format("{0}", a == 0 ? 9 : a - 1);
+            }
+            return int.Parse(string.Join("",arr));
+        }
+    }
 }
