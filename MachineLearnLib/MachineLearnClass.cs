@@ -6,11 +6,17 @@ using System.Text;
 
 namespace MachineLearnLib
 {
-    public abstract class MachineLearnClass<LabelT, FeatureT> :IMachineLearn<LabelT, FeatureT>
+    public delegate void EventTrainFinished();
+    public delegate void PeriodEvent(params object[] objects);
+    public abstract class MachineLearnClass<LabelT, FeatureT> : IMachineLearn<LabelT, FeatureT>
     {
+        protected MLInstances<LabelT, FeatureT> TrainData;
         public abstract void Train();
+        public EventTrainFinished OnTrainFinished;
+        public PeriodEvent OnPeriodEvent;
+        public long TrainCount { get { return TrainData.Count; } }
 
-        public double CheckInstances(List<MLInstance<LabelT, FeatureT>> TestList,long TrainCnt)
+        public double CheckInstances(List<MLInstance<LabelT, FeatureT>> TestList)
         {
             //该函数默认已经训练完毕
             List<MLInstance<LabelT, FeatureT>> trainInstances = TestList;// DataSet.readDataSet("examples/zoo.test");
@@ -23,22 +29,59 @@ namespace MachineLearnLib
                     pass += 1;
                 }
             }
-            return (double)1.0 * pass / TrainCnt;
+            return (double)1.0 * pass / TrainCount;
         }
 
         public abstract LabelT Classify(MLInstance<LabelT, FeatureT> instances);
 
         public abstract double[] GetKeyResult();
+
+
+        public bool FillTrainData(List<List<FeatureT>> FeatureData, List<LabelT> LabelData)
+        {
+            try
+            {
+                if (FeatureData.Count != LabelData.Count)
+                    return false;
+                if (FeatureData.Count == 0 || LabelData.Count == 0)
+                    return false;
+                MLInstances<LabelT, FeatureT> _TrainData = new MLInstances<LabelT, FeatureT>();
+                for(int i=0;i<FeatureData.Count;i++)
+                {
+                    _TrainData.Add(new MLInstance<LabelT, FeatureT>(LabelData[i], FeatureData[i]));
+                }
+                FillTrainData(_TrainData); 
+            }
+            catch (Exception ce)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool FillTrainData(MLInstances<LabelT, FeatureT> _TrainData)
+        {
+            TrainData = _TrainData;
+            return true;
+        }
+        public abstract void InitTrain();
     }
 
     public interface IMachineLearn<LabelT,FeatureT>
     {
+        long TrainCount { get; }
         void Train();
         double[] GetKeyResult();
 
-        double CheckInstances(List<MLInstance<LabelT, FeatureT>> intances, long TrainCnt);
+        double CheckInstances(List<MLInstance<LabelT, FeatureT>> intances);
 
         LabelT Classify(MLInstance<LabelT, FeatureT> instances);
+
+        bool FillTrainData(List<List<FeatureT>> FeatureData, List<LabelT> LabelData);
+
+        bool FillTrainData(MLInstances<LabelT,FeatureT> instances);
+
+        void InitTrain();
     }
 
     public class MLInstance<LabelT,FeatureT>
@@ -46,66 +89,37 @@ namespace MachineLearnLib
         public LabelT Label;
         public Type FeatureType;
         public MLFeature<FeatureT> Feature;
-        
+        public MLInstance(List<FeatureT> flist)
+        {
+            Feature = new MLFeature<FeatureT>(flist);
+        }
+
+        public MLInstance(LabelT label, List<FeatureT> flist)
+        {
+            Feature = new MLFeature<FeatureT>();
+            Label = label;
+        }
+
+        public MLInstance()
+        {
+
+        }
     }
 
-    public class MLFeature<T> : IList<T>
+    public class MLFeature<T> :List<T>
     {
-        public T this[int index] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        public int Count => throw new NotImplementedException();
-
-        public bool IsReadOnly => throw new NotImplementedException();
-
-        public void Add(T item)
+        public MLFeature()
         {
-            throw new NotImplementedException();
+
         }
 
-        public void Clear()
+        public MLFeature(List<T> list)
         {
-            throw new NotImplementedException();
+            this.Clear();
+            this.AddRange(list);
         }
 
-        public bool Contains(T item)
-        {
-            throw new NotImplementedException();
-        }
 
-        public void CopyTo(T[] array, int arrayIndex)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
-
-        public int IndexOf(T item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Insert(int index, T item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Remove(T item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveAt(int index)
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class MLDoubleFeature : MLFeature<double>
@@ -115,5 +129,12 @@ namespace MachineLearnLib
     public class MLIntFeature : MLFeature<int>
     {
     }
+    
+    public class MLInstances<LabelT,FeatureT>:List<MLInstance<LabelT, FeatureT>>
+    {
+
+    }
+
+    
 }
 

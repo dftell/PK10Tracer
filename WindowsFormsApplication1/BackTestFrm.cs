@@ -17,6 +17,7 @@ using GuideLib;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.DataVisualization.Charting.ChartTypes;
 using ServerInitLib;
+using BackTestSystem;
 //using Strags;
 namespace BackTestSys
 {
@@ -983,7 +984,9 @@ namespace BackTestSys
 
         private void btn_trainPlan_Click(object sender, EventArgs e)
         {
-
+            frm_TrainForm frm = new frm_TrainForm();
+            frm.ShowDialog();
+            
         }
     }
 

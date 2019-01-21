@@ -51,6 +51,7 @@
     <Compile Include="CommSelectOjectDialog.Designer.cs">
       <DependentUpon>CommSelectOjectDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="MLDataFactory.cs" />
     <Compile Include="MLStragClass\MachineLearnStragClass.cs" />
     <Compile Include="MLStragClass\OddEvenAndBigSmall_AutoLearnStragClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
