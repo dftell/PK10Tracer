@@ -17,9 +17,13 @@ F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\MachineLearnLi
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\MachineLearnLib\bin\Release\MachineLearnLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\MachineLearnLib\bin\Release\MachineLearnLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\MachineLearnLib\bin\Release\ProbMathLib.dll
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\MachineLearnLib\bin\Release\ProbMathLib.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\MachineLearnLib\obj\Release\MachineLearnLib.csprojAssemblyReference.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\MachineLearnLib\obj\Release\MachineLearnLib.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\MachineLearnLib\obj\Release\MachineLearnLib.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\MachineLearnLib\obj\Release\MachineLearnLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\MachineLearnLib\obj\Release\MachineLearnLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\MachineLearnLib\bin\Release\ProbMathLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\MachineLearnLib\obj\Release\MachineLearnLib.csprojAssemblyReference.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\MachineLearnLib\bin\Release\BaseObjectsLib.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\MachineLearnLib\bin\Release\LogLib.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\MachineLearnLib\bin\Release\BaseObjectsLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\MachineLearnLib\bin\Release\LogLib.pdb

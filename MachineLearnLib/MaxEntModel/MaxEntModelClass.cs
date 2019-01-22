@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BaseObjectsLib;
 
 namespace MachineLearnLib
 {
@@ -67,7 +68,7 @@ namespace MachineLearnLib
         /**
          * 特征函数列表
          */
-        private Dictionary<string,FeatureFunction> functions = new Dictionary<string,FeatureFunction>();
+        
 
         /**
          * 特征列表
@@ -86,12 +87,17 @@ namespace MachineLearnLib
             calc_empirical_expects();
         }
 
+        public override void InitFunctions()
+        {
+            createFeatFunctions(instances);
+        }
+
         public override void InitTrain()
         {
 
             instances.AddRange(TrainData);
             N = instances.Count;
-            createFeatFunctions(instances);
+            InitFunctions();
             w = new double[functions.Count];
             wNames = new string[functions.Count];
             empirical_expects = new double[functions.Count];
@@ -100,6 +106,21 @@ namespace MachineLearnLib
 
         public MaxEnt()
         {
+        }
+
+        public override void InitClassify(string path)
+        {
+            DetailStringClass dsc = OnGetLocalFile();
+            if(dsc == null)
+            {
+                return;
+            }
+            if (dsc is MLFeatureFunctionsSummary<int, int>)
+            {
+                MLFeatureFunctionsSummary<int, int> summ = dsc as MLFeatureFunctionsSummary<int, int>;
+                if (dsc != null)
+                    this.FeatureSummary = summ;
+            }
         }
 
         public static double Run(List<Instance> TrainList, List<Instance> TestList)
@@ -158,16 +179,12 @@ namespace MachineLearnLib
          */
         private void createFeatFunctions(InstanceList instances)
         {
-
             int maxLabel = 0;
             int minLabel = int.MaxValue;
             int[] maxFeatures = new int[instances[0].Feature.Count];
-
             List<MLFeature<int>> featureSet = new List<MLFeature<int>>();
-
             foreach (MLInstance<int,int> instance in instances)
             {
-
                 if (instance.Label > maxLabel)
                 {
                     maxLabel = instance.Label;
@@ -176,8 +193,6 @@ namespace MachineLearnLib
                 {
                     minLabel = instance.Label;
                 }
-
-
                 for (int i = 0; i < instance.Feature.Count; i++)
                 {
                     if (instance.Feature[i] > maxFeatures[i])
@@ -185,7 +200,6 @@ namespace MachineLearnLib
                         maxFeatures[i] = instance.Feature[i];
                     }
                 }
-
                 featureSet.Add(instance.Feature);
             }
 
@@ -201,17 +215,29 @@ namespace MachineLearnLib
                 {
                     for (int y = minY; y <= maxLabel; y++)
                     {
-                        functions.Add(string.Format("{0}_{1}_{2}",i,x,y),new FeatureFunction(i, x, y));
+                        functions.Add(string.Format("{0}_{1}_{2}",i,x,y),new MLFeatureFunctionsClass<int, int>(i, x, y));
                     }
                 }
             }
-
+            FeatureSummary.FeatureCnt = maxFeatures.Length;
+            for(int i=0;i<maxFeatures.Length;i++)
+            {
+                List<int> list = new List<int>();
+                for (int j = 0; j <= maxFeatures[i]; j++)
+                {
+                    list.Add(j);
+                }
+                FeatureSummary.FeatureList.Add(list);
+            }
+            for (int i = minY; i <= maxY; i++)
+                FeatureSummary.LabelList.Add(i);
             if (DEBUG)
             {
                 //System.out.println("# features = " + features.size());
                 //System.out.println("# functions = " + functions.size());
             }
         }
+
 
         // calculates the p(y|x)
         /**
@@ -233,7 +259,7 @@ namespace MachineLearnLib
                     foreach(string key in functions.Keys)
                     {
                             //z += w[j] * functions[j].apply(features[i], y);
-                            z += w[j] * functions[key].apply(features[i], y);
+                            z += w[j] * functions[key].Apply(features[i], y);
                         j++;
                     }
                     cond_prob[i, y] = Math.Exp(z);
@@ -256,12 +282,14 @@ namespace MachineLearnLib
             return cond_prob;
         }
 
+
+
         /**
          * 训练
          */
-        public override void Train()
+        public override void Train(int IteratCnt)
         {
-            for (int k = 0; k < ITERATIONS; k++)
+            for (int k = 0; k < (IteratCnt>0? IteratCnt:ITERATIONS); k++)
             {
                 int i = 0;
                 //for (int i = 0; i < functions.Count; i++)
@@ -278,6 +306,9 @@ namespace MachineLearnLib
                 }
                 //if (DEBUG)  System.out.println("ITERATIONS: " + k + " " + Arrays.toString(w));
             }
+            FeatureSummary.Keys = w;
+            FeatureSummary.FuncList.AddRange(functions.Values.ToArray());
+            //FeatureSummary.Functions = functions;
             this.OnTrainFinished();
         }
 
@@ -291,15 +322,15 @@ namespace MachineLearnLib
 
             double max = 0;
             int label = 0;
-
-            for (int y = minY; y <= maxY; y++)
+            //for (int y = minY; y <= maxY; y++)
+            for (int y = FeatureSummary.LabelList[0]; y <= FeatureSummary.LabelList[FeatureSummary.LabelCnt]; y++)
             {
                 double sum = 0;
                 //for (int i = 0; i < functions.Count; i++)
                 int i = 0;
                 foreach(string key in functions.Keys)
                 {
-                    sum += Math.Exp(w[i] * functions[key].apply((Feature)instance.Feature, y));
+                    sum += Math.Exp(w[i] * functions[key].Apply((Feature)instance.Feature, y));
                     i++;
                 }
                 if (sum > max)
@@ -310,10 +341,7 @@ namespace MachineLearnLib
             }
             return label;
         }
-
-
-
-
+        
         /// <summary>
         /// 计算经验期望
         /// </summary>
@@ -328,7 +356,7 @@ namespace MachineLearnLib
                 int i = 0;
                 foreach(string key in functions.Keys)
                 {
-                    empirical_expects[i] += functions[key].apply(feature, y);
+                    empirical_expects[i] += functions[key].Apply(feature, y);
                     i++;
                 }
             }
@@ -352,13 +380,12 @@ namespace MachineLearnLib
             //for (int i = 0; i < functions.Count; i++)
             foreach(string i in functions.Keys)
             {
-                FeatureFunction function = functions[i];
-                sum += function.apply(feature, y);
+                MLFeatureFunctionsClass<int,int> function = functions[i];
+                sum += function.Apply(feature, y);
             }
             return sum;
         }
-
-
+        
         ////
         /// <summary>
         /// 求delta_i
@@ -396,7 +423,7 @@ namespace MachineLearnLib
                     for (int y = minY; y <= maxY; y++)
                     {
                         int f_sharp = apply_f_sharp(feature, y);
-                        double prod = p_yx[index, y] * functions[fi].apply(feature, y) * Math.Exp(delta * f_sharp);
+                        double prod = p_yx[index, y] * functions[fi].Apply(feature, y) * Math.Exp(delta * f_sharp);
                         f_newton += prod;
                         df_newton += prod * f_sharp;
                     }
@@ -420,45 +447,29 @@ namespace MachineLearnLib
             throw new Exception("IIS did not converge"); // w_i不收敛
         }
 
-        public override double[] GetKeyResult()
-        {
-            return w;
-        }
+        
 
+        
 
-
+        
 
         /**
          * 特征函数
          * 应该是按照具体的逻辑定义的类
          */
-        class FeatureFunction
+        class FeatureFunction1:MLFeatureFunctionsClass<int,int>
         {
 
-            private int index;
-            private int value;
-            private int label;
 
-            public FeatureFunction(int index, int value, int label)
+
+            public FeatureFunction1(int index, int value, int label) : base(index, value, label)
             {
-                this.index = index;
-                this.value = value;
-                this.label = label;
+
             }
 
-            /**
-             * 代入函数
-             * @param feature 特征X（维度由构造时的index指定）
-             * @param label Y
-             * @return
-             */
-            public int apply(MLFeature<int> feature, int label)
-            {
-                if (feature[index] == value && label == this.label)
-                    return 1;
-                return 0;
-            }
+
         }
+
 
     }
 
@@ -588,25 +599,25 @@ namespace MachineLearnLib
             this.feature = new Feature(xs.ToList());
         }
 
-        public int Label
-        {
-            get
-            {
-                return label;
-            }
-            set
-            {
-                label = value;
-            }
-        }
+        ////public int Label
+        ////{
+        ////    get
+        ////    {
+        ////        return label;
+        ////    }
+        ////    set
+        ////    {
+        ////        label = value;
+        ////    }
+        ////}
 
-        public Feature Feature
-        {
-            get
-            {
-                return feature;
-            }
-        }
+        ////public Feature Feature
+        ////{
+        ////    get
+        ////    {
+        ////        return feature;
+        ////    }
+        ////}
 
         public new String ToString()
         {

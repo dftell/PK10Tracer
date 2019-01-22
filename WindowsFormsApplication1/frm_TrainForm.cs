@@ -28,27 +28,32 @@ namespace BackTestSystem
         }
         MachineLearnClass<int, int> SelectFunc;
         Type MLType;
+        Thread RunningThread = null;
         private void btn_Train_Click(object sender, EventArgs e)
         {
             MLType = (Type)this.ddl_MLFunc.SelectedValue;
             SelectFunc = (MachineLearnClass<int, int>)ClassOperateTool.getInstanceByType(MLType);
             SelectFunc.OnTrainFinished += OnTrainFinished;
             SelectFunc.OnPeriodEvent += OnPeriodEvent;
+
+            SelectFunc.OnSaveEvent += SaveData;
             long len = long.Parse(this.txt_DataLength.Text);
             int deep = int.Parse(this.txt_LearnDeep.Text);
             ExpectList el = new ExpectReader().ReadHistory(long.Parse(this.txt_BegExpect.Text), len+deep+1);
-            MLInstances<int, int> TrainSet = new MLDataFactory(el).getAllSpecColRoundLabelAndFeatures(0,deep);
+            MLInstances<int, int> TrainSet = new MLDataFactory(el).getAllSpecColRoundLabelAndFeatures(0,deep,chkb_AllUseShift.Checked?1:0);
             SelectFunc.FillTrainData(TrainSet);
             SelectFunc.InitTrain();
             this.txt_begT.Text = DateTime.Now.ToLongTimeString();
             this.Cursor = Cursors.WaitCursor;
-            new Thread(new ThreadStart(StartTrain)).Start();
+            RunningThread = new Thread(new ThreadStart(StartTrain));
+            RunningThread.Start();
             
         }
 
         void StartTrain()
         {
-            SelectFunc.Train();
+            SelectFunc.Train(int.Parse(txt_IteratCnt.Text));
+            SelectFunc.SaveSummary();
         }
 
         void OnPeriodEvent(params object[] objs)
@@ -87,6 +92,15 @@ namespace BackTestSystem
 
         }
 
+        DetailStringClass GetLocalFile()
+        {
+            DetailStringClass dsc = new DetailStringClass();
+            string pathSummaryPath = string.Format("{0}\\{1}_summary.data", Path.GetDirectoryName(Application.ExecutablePath), MLType.Name);
+            string strText = File.ReadAllText(pathSummaryPath);
+            MLFeatureFunctionsClass<int, int> res =  DetailStringClass.GetObjectByXml<MLFeatureFunctionsClass<int,int>>(strText);
+            return res;
+        }
+
         void SetDgTableById(string id, DataTable dt,int CurrRow)
         {
             Control[] ctrls = this.Controls.Find(id, true);
@@ -94,8 +108,13 @@ namespace BackTestSystem
             {
                 return;
             }
-            (ctrls[0] as DataGridView).DataSource = dt;
-            (ctrls[0] as DataGridView).Tag = dt;
+            DataGridView dg = (ctrls[0] as DataGridView);
+            dg.DataSource = dt;
+            dg.Tag = dt;
+            dg.ClearSelection();
+            DataGridViewRow rows = this.dataGridView1.Rows[CurrRow];
+            rows.Selected = true;
+            dg.CurrentCell = rows.Cells[1];
         }
         void SetDataGridDataTable(DataGridView dg, DataTable dt,int CurrRow)
         {
@@ -105,33 +124,67 @@ namespace BackTestSystem
         {
             this.Cursor = Cursors.Default;
             this.txt_endT.Text = DateTime.Now.ToLongTimeString();
-            double[] keydata = SelectFunc.GetKeyResult();
-            string msg = SaveData(keydata);
-            if (msg != null)
-                MessageBox.Show(msg);
+
+
+            ////double[] keydata = SelectFunc.FeatureSummary.Keys;
+            ////string msg = SaveData(keydata);
+            ////if (msg != null)
+            ////    MessageBox.Show(msg);
         }
 
-        string SaveData(double[] data)
+        void SaveData(string txt)
         {
             try
             {
-                string path = string.Format("{0}\\{1}.data", Path.GetFullPath(Application.ExecutablePath), MLType.Name);
-                FileStream fs = File.Open(path, FileMode.CreateNew);
+                string pathSummaryPath = string.Format("{0}\\{1}_summary.data", Path.GetDirectoryName(Application.ExecutablePath), MLType.Name);
+                FileStream fs = File.Open(pathSummaryPath, FileMode.CreateNew);
                 StreamWriter sw = new StreamWriter(fs);
-                for (int i = 0; i < data.Length; i++)
-                    sw.WriteLine();
+                sw.Write(txt);
                 sw.Close();
                 fs.Close();
             }
             catch(Exception ce)
             {
-                return ce.Message;
+                return;
             }
             finally
             {
                 
             }
-            return null;
+            return;
+        }
+        
+        private void btn_stopTrain_Click(object sender, EventArgs e)
+        {
+            if(RunningThread!=null)
+            {
+                try
+                {
+                    RunningThread.Abort();
+                }
+                catch(Exception ce)
+                {
+                    MessageBox.Show(ce.Message);
+                    
+                }
+                finally
+                {
+                    RunningThread = null;
+                }
+            }
+            this.Cursor = Cursors.Default;
+        }
+
+        private void btn_CheckResult_Click(object sender, EventArgs e)
+        {
+            MLType = (Type)this.ddl_MLFunc.SelectedValue;
+            SelectFunc = (MachineLearnClass<int, int>)ClassOperateTool.getInstanceByType(MLType);
+            SelectFunc.OnGetLocalFile += GetLocalFile;
+            long len = long.Parse(this.txt_DataLength.Text);
+            int deep = int.Parse(this.txt_LearnDeep.Text);
+            ExpectList el = new ExpectReader().ReadHistory(long.Parse(this.txt_BegExpect.Text), len + deep + 1);
+            MLInstances<int, int> TestSet = new MLDataFactory(el).getAllSpecColRoundLabelAndFeatures(0, deep, chkb_AllUseShift.Checked ? 1 : 0);
+            SelectFunc.CheckInstances(TestSet);
         }
     }
 }

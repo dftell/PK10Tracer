@@ -133,18 +133,23 @@ namespace Strags
             }
             return ret;
         }
-        
+
+
+        public MLFeature<int> getSpecRowRoundFeatures(long rowid, int col, int Deep)
+        {
+            return getSpecRowRoundFeatures(rowid, col, Deep, 0);
+        }
         /// <summary>
         /// 产生环绕Label的实例，深度为0是下一，基本配置，深度为1则是左1，下一，下二，右一，以此类推
         /// </summary>
         /// <returns></returns>
-        public MLFeature<int> getSpecRowRoundFeatures(long rowid,int col,int Deep)
+        public MLFeature<int> getSpecRowRoundFeatures(long rowid,int col,int Deep,int AllowLRShift)
         {
             MLFeature<int> feature = new MLFeature<int>();
             if ((rowid) - Deep < 0)//rowid 至少要大于等于Deep;
                 return feature;         
             long baseIndex = rowid;
-            for (int i=-1*Deep;i<=1*Deep;i++)//偏移
+            for (int i=-1*Deep* AllowLRShift; i<=1*Deep* AllowLRShift; i++)//偏移
             {
                 int BColIndex = (col + i) % 10;//对于大于10的取模
                 if (BColIndex < 0)//对于小于0的，+10 如：0 + （-1） = 9
@@ -163,22 +168,22 @@ namespace Strags
             return feature;
         }
 
-        public MLInstance<int,int> getSpecRowRoundLabelFeatures(long rowid,int col,int Deep)
+        public MLInstance<int,int> getSpecRowRoundLabelFeatures(long rowid,int col,int Deep,int AllowUseShift)
         {
             MLInstance<int, int> ret = new MLInstance<int, int>();
             if ((rowid-1) - Deep < 0)//rowid 至少要大于等于Deep;
                 return ret;
-            ret.Feature = getSpecRowRoundFeatures(rowid - 1, col, Deep);
+            ret.Feature = getSpecRowRoundFeatures(rowid - 1, col, Deep, AllowUseShift);
             ret.Label = int.Parse(Data[(int)rowid].ValueList[col]);
             return ret;
         }
 
-        public MLInstances<int,int> getAllSpecColRoundLabelAndFeatures(int col,int Deep)
+        public MLInstances<int,int> getAllSpecColRoundLabelAndFeatures(int col,int Deep,int AllowUseShift)
         {
             MLInstances<int, int> ret = new MLInstances<int, int>();
             for (int i=Deep+1;i<Data.Count;i++)
             {
-                ret.Add(getSpecRowRoundLabelFeatures(i, col, Deep));
+                ret.Add(getSpecRowRoundLabelFeatures(i, col, Deep, AllowUseShift));
             }
             return ret;
         }

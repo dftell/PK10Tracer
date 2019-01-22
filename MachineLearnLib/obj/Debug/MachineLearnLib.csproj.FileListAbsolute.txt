@@ -16,3 +16,7 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\MachineLearnLib\obj\Debug\Machine
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\MachineLearnLib\obj\Debug\MachineLearnLib.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\MachineLearnLib\obj\Debug\MachineLearnLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\MachineLearnLib\obj\Debug\MachineLearnLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\MachineLearnLib\bin\Debug\BaseObjectsLib.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\MachineLearnLib\bin\Debug\LogLib.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\MachineLearnLib\bin\Debug\BaseObjectsLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\MachineLearnLib\bin\Debug\LogLib.pdb

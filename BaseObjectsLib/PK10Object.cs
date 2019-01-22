@@ -37,7 +37,7 @@ namespace BaseObjectsLib
     {
         public List<T> list;
     }
-
+    
     [Serializable]
     public class DetailStringClass:LogableClass,iDetailListParamsable,iLog
     {

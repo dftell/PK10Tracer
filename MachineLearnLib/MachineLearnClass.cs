@@ -3,17 +3,29 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using BaseObjectsLib;
 namespace MachineLearnLib
 {
     public delegate void EventTrainFinished();
     public delegate void PeriodEvent(params object[] objects);
+    public delegate void SaveFileEvent(string text);
+    public delegate DetailStringClass EventGetLocalFile();
     public abstract class MachineLearnClass<LabelT, FeatureT> : IMachineLearn<LabelT, FeatureT>
     {
+        public MLFeatureFunctionsSummary<LabelT, FeatureT> FeatureSummary = new MLFeatureFunctionsSummary<LabelT, FeatureT>();
         protected MLInstances<LabelT, FeatureT> TrainData;
-        public abstract void Train();
+        protected Dictionary<string, MLFeatureFunctionsClass<LabelT, FeatureT>> functions = new Dictionary<string, MLFeatureFunctionsClass<LabelT, FeatureT>>();
+        public void Train()
+        {
+            Train(0);
+        }
+
+        public abstract void InitFunctions();
+        public abstract void Train(int IteratCnt);
         public EventTrainFinished OnTrainFinished;
+        public EventGetLocalFile OnGetLocalFile;
         public PeriodEvent OnPeriodEvent;
+        public SaveFileEvent OnSaveEvent;
         public long TrainCount { get { return TrainData.Count; } }
 
         public double CheckInstances(List<MLInstance<LabelT, FeatureT>> TestList)
@@ -32,10 +44,14 @@ namespace MachineLearnLib
             return (double)1.0 * pass / TrainCount;
         }
 
+        ////public double CheckInstances(MLInstances<LabelT,FeatureT> TestList)
+        ////{
+        ////    List<MLInstance<LabelT, FeatureT>> list = new List<MLInstance<LabelT, FeatureT>>();
+        ////    list.AddRange(TestList);
+        ////    return CheckInstances(list);
+        ////}
+
         public abstract LabelT Classify(MLInstance<LabelT, FeatureT> instances);
-
-        public abstract double[] GetKeyResult();
-
 
         public bool FillTrainData(List<List<FeatureT>> FeatureData, List<LabelT> LabelData)
         {
@@ -65,13 +81,24 @@ namespace MachineLearnLib
             return true;
         }
         public abstract void InitTrain();
+
+        public abstract void InitClassify(string localfile);
+
+        public void SaveSummary()
+        {
+            List<MLFeatureFunctionsSummary<LabelT, FeatureT>> ret = new List<MLFeatureFunctionsSummary<LabelT, FeatureT>>();
+            ret.Add(FeatureSummary);
+            string strText = DetailStringClass.getXmlByObjectList<MLFeatureFunctionsSummary<LabelT, FeatureT>>(ret);
+            OnSaveEvent(strText);
+
+        }
     }
 
     public interface IMachineLearn<LabelT,FeatureT>
     {
         long TrainCount { get; }
         void Train();
-        double[] GetKeyResult();
+        void Train(int IteratCnt);
 
         double CheckInstances(List<MLInstance<LabelT, FeatureT>> intances);
 
@@ -81,7 +108,10 @@ namespace MachineLearnLib
 
         bool FillTrainData(MLInstances<LabelT,FeatureT> instances);
 
+        void InitFunctions();
+
         void InitTrain();
+        void InitClassify(string localfile);
     }
 
     public class MLInstance<LabelT,FeatureT>
@@ -129,7 +159,67 @@ namespace MachineLearnLib
     public class MLIntFeature : MLFeature<int>
     {
     }
-    
+
+    [Serializable]
+    public class MLFeatureFunctionsSummary<LabelT,FeatureT>:DetailStringClass
+    {
+        public int FeatureCnt;
+        public int LabelCnt;
+        public List<List<FeatureT>> FeatureList;
+        public List<LabelT> LabelList;
+        public double[] Keys;
+        public List<MLFeatureFunctionsClass<LabelT, FeatureT>> FuncList;
+        //Dictionary<string, MLFeatureFunctionsClass<LabelT, FeatureT>> Functions;
+        
+
+        public MLFeatureFunctionsSummary()
+        {
+            FeatureList = new List<List<FeatureT>>();
+            LabelList = new List<LabelT>();
+            //Functions = new Dictionary<string,MLFeatureFunctionsClass<LabelT, FeatureT>>();
+            FuncList = new List<MLFeatureFunctionsClass<LabelT, FeatureT>>();
+        }
+    }
+
+    [Serializable]
+    public class MLFeatureFunctionsClass<LabelT, FeatureT>:DetailStringClass
+    {
+        public int index;
+        public FeatureT value;
+        public LabelT label;
+        public MLFeatureFunctionsClass()
+        {
+
+        }
+        protected static Dictionary<string, MLFeatureFunctionsClass<LabelT,FeatureT>> AllFeatureFunctions = new  Dictionary<string, MLFeatureFunctionsClass<LabelT, FeatureT>>();
+
+        public MLFeatureFunctionsClass(int index, FeatureT value, LabelT label)
+        {
+            this.index = index;
+            this.value = value;
+            this.label = label;
+            string strKey = "{0}_{1}_{2}";
+            string key = string.Format(strKey, index, value, label);
+            if (!AllFeatureFunctions.ContainsKey(key))
+                AllFeatureFunctions.Add(key,this);
+
+        }
+               
+        /**
+             * 代入函数
+             * @param feature 特征X（维度由构造时的index指定）
+             * @param label Y
+             * @return
+             */
+        public int Apply(MLFeature<FeatureT> feature, LabelT label)
+        {
+            if (feature[index].Equals(value) && label.Equals(this.label))
+                return 1;
+            return 0;
+        }
+    }
+
+
     public class MLInstances<LabelT,FeatureT>:List<MLInstance<LabelT, FeatureT>>
     {
 
