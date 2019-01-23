@@ -9,7 +9,30 @@ namespace MachineLearnLib
     public delegate void EventTrainFinished();
     public delegate void PeriodEvent(params object[] objects);
     public delegate void SaveFileEvent(string text);
-    public delegate DetailStringClass EventGetLocalFile();
+    public delegate string LoadFileEvent();
+
+    public interface IMachineLearn<LabelT, FeatureT>
+    {
+        long TrainCount { get; }
+        void Train();
+        void Train(int IteratCnt);
+
+        double CheckInstances(List<MLInstance<LabelT, FeatureT>> intances);
+
+        LabelT Classify(MLInstance<LabelT, FeatureT> instances);
+
+        bool FillTrainData(List<List<FeatureT>> FeatureData, List<LabelT> LabelData);
+
+        bool FillTrainData(MLInstances<LabelT, FeatureT> instances);
+
+        void InitFunctions();
+
+        void InitTrain();
+        void SaveSummary();
+        void LoadSummary();
+        void FillStructBySummary();
+    }
+
     public abstract class MachineLearnClass<LabelT, FeatureT> : IMachineLearn<LabelT, FeatureT>
     {
         public MLFeatureFunctionsSummary<LabelT, FeatureT> FeatureSummary = new MLFeatureFunctionsSummary<LabelT, FeatureT>();
@@ -23,10 +46,23 @@ namespace MachineLearnLib
         public abstract void InitFunctions();
         public abstract void Train(int IteratCnt);
         public EventTrainFinished OnTrainFinished;
-        public EventGetLocalFile OnGetLocalFile;
         public PeriodEvent OnPeriodEvent;
         public SaveFileEvent OnSaveEvent;
-        public long TrainCount { get { return TrainData.Count; } }
+        public LoadFileEvent OnLoadLocalFile;
+        protected long _TrainCnt;
+        public long TrainCount
+        {
+            get
+            {
+                if (TrainData!= null)
+                    _TrainCnt = TrainData.Count;
+                return _TrainCnt;
+            }
+            set
+            {
+                _TrainCnt = value;
+            }
+        }
 
         public double CheckInstances(List<MLInstance<LabelT, FeatureT>> TestList)
         {
@@ -41,7 +77,7 @@ namespace MachineLearnLib
                     pass += 1;
                 }
             }
-            return (double)1.0 * pass / TrainCount;
+            return (double)1.0 * pass / TestList.Count;
         }
 
         ////public double CheckInstances(MLInstances<LabelT,FeatureT> TestList)
@@ -81,9 +117,7 @@ namespace MachineLearnLib
             return true;
         }
         public abstract void InitTrain();
-
-        public abstract void InitClassify(string localfile);
-
+        
         public void SaveSummary()
         {
             List<MLFeatureFunctionsSummary<LabelT, FeatureT>> ret = new List<MLFeatureFunctionsSummary<LabelT, FeatureT>>();
@@ -92,28 +126,22 @@ namespace MachineLearnLib
             OnSaveEvent(strText);
 
         }
+
+        public void LoadSummary()
+        {
+            string txt = OnLoadLocalFile();
+            List<MLFeatureFunctionsSummary<LabelT, FeatureT>> ret  = DetailStringClass.getObjectListByXml<MLFeatureFunctionsSummary<LabelT, FeatureT>>(txt);
+            if(ret != null && ret.Count>0)
+            {
+                FeatureSummary = ret[0];
+            }
+            FillStructBySummary();
+        }
+
+        public abstract void FillStructBySummary();
     }
 
-    public interface IMachineLearn<LabelT,FeatureT>
-    {
-        long TrainCount { get; }
-        void Train();
-        void Train(int IteratCnt);
-
-        double CheckInstances(List<MLInstance<LabelT, FeatureT>> intances);
-
-        LabelT Classify(MLInstance<LabelT, FeatureT> instances);
-
-        bool FillTrainData(List<List<FeatureT>> FeatureData, List<LabelT> LabelData);
-
-        bool FillTrainData(MLInstances<LabelT,FeatureT> instances);
-
-        void InitFunctions();
-
-        void InitTrain();
-        void InitClassify(string localfile);
-    }
-
+    
     public class MLInstance<LabelT,FeatureT>
     {
         public LabelT Label;
@@ -163,6 +191,7 @@ namespace MachineLearnLib
     [Serializable]
     public class MLFeatureFunctionsSummary<LabelT,FeatureT>:DetailStringClass
     {
+        public long TrainCnt;
         public int FeatureCnt;
         public int LabelCnt;
         public List<List<FeatureT>> FeatureList;

@@ -108,20 +108,7 @@ namespace MachineLearnLib
         {
         }
 
-        public override void InitClassify(string path)
-        {
-            DetailStringClass dsc = OnGetLocalFile();
-            if(dsc == null)
-            {
-                return;
-            }
-            if (dsc is MLFeatureFunctionsSummary<int, int>)
-            {
-                MLFeatureFunctionsSummary<int, int> summ = dsc as MLFeatureFunctionsSummary<int, int>;
-                if (dsc != null)
-                    this.FeatureSummary = summ;
-            }
-        }
+        
 
         public static double Run(List<Instance> TrainList, List<Instance> TestList)
         {
@@ -219,6 +206,7 @@ namespace MachineLearnLib
                     }
                 }
             }
+            FeatureSummary.TrainCnt = N;
             FeatureSummary.FeatureCnt = maxFeatures.Length;
             for(int i=0;i<maxFeatures.Length;i++)
             {
@@ -229,6 +217,7 @@ namespace MachineLearnLib
                 }
                 FeatureSummary.FeatureList.Add(list);
             }
+            FeatureSummary.LabelCnt = maxY-minY+1;
             for (int i = minY; i <= maxY; i++)
                 FeatureSummary.LabelList.Add(i);
             if (DEBUG)
@@ -312,6 +301,14 @@ namespace MachineLearnLib
             this.OnTrainFinished();
         }
 
+        public override void FillStructBySummary()
+        {
+            w = FeatureSummary.Keys;
+            functions = FeatureSummary.FuncList.ToDictionary(p => string.Format("{0}_{1}_{2}", p.index, p.value, p.label), p=>p);
+            N = (int)FeatureSummary.TrainCnt;
+            this.TrainCount = FeatureSummary.TrainCnt;
+        }
+
         /**
          * 分类
          * @param instance
@@ -323,14 +320,14 @@ namespace MachineLearnLib
             double max = 0;
             int label = 0;
             //for (int y = minY; y <= maxY; y++)
-            for (int y = FeatureSummary.LabelList[0]; y <= FeatureSummary.LabelList[FeatureSummary.LabelCnt]; y++)
+            for (int y = FeatureSummary.LabelList[0]; y <= FeatureSummary.LabelList[FeatureSummary.LabelCnt-1]; y++)
             {
                 double sum = 0;
                 //for (int i = 0; i < functions.Count; i++)
                 int i = 0;
                 foreach(string key in functions.Keys)
                 {
-                    sum += Math.Exp(w[i] * functions[key].Apply((Feature)instance.Feature, y));
+                    sum += Math.Exp(w[i] * functions[key].Apply((MLFeature<int>)instance.Feature, y));
                     i++;
                 }
                 if (sum > max)

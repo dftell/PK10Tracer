@@ -92,13 +92,19 @@ namespace BackTestSystem
 
         }
 
-        DetailStringClass GetLocalFile()
+        string GetLocalFile()
         {
-            DetailStringClass dsc = new DetailStringClass();
-            string pathSummaryPath = string.Format("{0}\\{1}_summary.data", Path.GetDirectoryName(Application.ExecutablePath), MLType.Name);
-            string strText = File.ReadAllText(pathSummaryPath);
-            MLFeatureFunctionsClass<int, int> res =  DetailStringClass.GetObjectByXml<MLFeatureFunctionsClass<int,int>>(strText);
-            return res;
+            try
+            {
+                DetailStringClass dsc = new DetailStringClass();
+                string pathSummaryPath = string.Format("{0}\\{1}_summary.data", Path.GetDirectoryName(Application.ExecutablePath), MLType.Name);
+                string strText = File.ReadAllText(pathSummaryPath);
+                return strText;
+            }
+            catch(Exception e)
+            {
+                return null;
+            }
         }
 
         void SetDgTableById(string id, DataTable dt,int CurrRow)
@@ -137,7 +143,7 @@ namespace BackTestSystem
             try
             {
                 string pathSummaryPath = string.Format("{0}\\{1}_summary.data", Path.GetDirectoryName(Application.ExecutablePath), MLType.Name);
-                FileStream fs = File.Open(pathSummaryPath, FileMode.CreateNew);
+                FileStream fs = File.Open(pathSummaryPath, FileMode.OpenOrCreate);
                 StreamWriter sw = new StreamWriter(fs);
                 sw.Write(txt);
                 sw.Close();
@@ -179,12 +185,17 @@ namespace BackTestSystem
         {
             MLType = (Type)this.ddl_MLFunc.SelectedValue;
             SelectFunc = (MachineLearnClass<int, int>)ClassOperateTool.getInstanceByType(MLType);
-            SelectFunc.OnGetLocalFile += GetLocalFile;
+            SelectFunc.OnLoadLocalFile += GetLocalFile;
+            SelectFunc.LoadSummary();
             long len = long.Parse(this.txt_DataLength.Text);
             int deep = int.Parse(this.txt_LearnDeep.Text);
+            this.Cursor = Cursors.WaitCursor;
             ExpectList el = new ExpectReader().ReadHistory(long.Parse(this.txt_BegExpect.Text), len + deep + 1);
+
             MLInstances<int, int> TestSet = new MLDataFactory(el).getAllSpecColRoundLabelAndFeatures(0, deep, chkb_AllUseShift.Checked ? 1 : 0);
-            SelectFunc.CheckInstances(TestSet);
+            string res = SelectFunc.CheckInstances(TestSet).ToString();
+            this.Cursor = Cursors.Default;
+            MessageBox.Show(res);
         }
     }
 }
