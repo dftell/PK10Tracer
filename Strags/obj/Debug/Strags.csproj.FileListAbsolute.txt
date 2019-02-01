@@ -58,6 +58,6 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Debug\Strags.csproj.Co
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Debug\Strags.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Debug\Strags.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Debug\Strags.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\bin\Debug\PK10CorePress.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\bin\Debug\MachineLearnLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\bin\Debug\MachineLearnLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\bin\Debug\PK10CorePress.pdb

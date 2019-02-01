@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using BaseObjectsLib;
-
+using System.Threading;
 namespace MachineLearnLib
 {
     /// <summary>
@@ -17,7 +17,7 @@ namespace MachineLearnLib
  */
     public class MaxEnt : MachineLearnClass<int, int>
     {
-
+        
         private static bool DEBUG = false;
 
         /**
@@ -206,25 +206,37 @@ namespace MachineLearnLib
                     }
                 }
             }
-            FeatureSummary.TrainCnt = N;
-            FeatureSummary.FeatureCnt = maxFeatures.Length;
-            for(int i=0;i<maxFeatures.Length;i++)
+            if (_GrpId == 0)
             {
-                List<int> list = new List<int>();
-                for (int j = 0; j <= maxFeatures[i]; j++)
+                if (FeatureSummary == null)
+                    FeatureSummary = new MLFeatureFunctionsSummary<int, int>();
+                FeatureSummary.TrainCnt = N;
+                FeatureSummary.FeatureCnt = maxFeatures.Length;
+                for (int i = 0; i < maxFeatures.Length; i++)
                 {
-                    list.Add(j);
+                    List<int> list = new List<int>();
+                    for (int j = 0; j <= maxFeatures[i]; j++)
+                    {
+                        list.Add(j);
+                    }
+                    FeatureSummary.FeatureList.Add(list);
                 }
-                FeatureSummary.FeatureList.Add(list);
+                FeatureSummary.LabelCnt = maxY - minY + 1;
+                for (int i = minY; i <= maxY; i++)
+                    FeatureSummary.LabelList.Add(i);
             }
-            FeatureSummary.LabelCnt = maxY-minY+1;
-            for (int i = minY; i <= maxY; i++)
-                FeatureSummary.LabelList.Add(i);
             if (DEBUG)
             {
                 //System.out.println("# features = " + features.size());
                 //System.out.println("# functions = " + functions.size());
             }
+        }
+
+        Dictionary<string,int> getFeatureFunctionDic(string FeaturKey,string FunctionKey,int Label)
+        {
+            Dictionary<string, int> ret = new Dictionary<string, int>();
+            return ret;
+
         }
 
 
@@ -278,10 +290,14 @@ namespace MachineLearnLib
          */
         public override void Train(int IteratCnt)
         {
+            if(FeatureSummary == null)
+                FeatureSummary = new MLFeatureFunctionsSummary<int, int>();
             for (int k = 0; k < (IteratCnt>0? IteratCnt:ITERATIONS); k++)
             {
                 int i = 0;
                 //for (int i = 0; i < functions.Count; i++)
+                //分组线程
+                List<Thread> thds = new List<Thread>(); 
                 foreach(string key in functions.Keys)
                 {
                     double delta = iis_solve_delta(empirical_expects[i], key);
@@ -290,23 +306,28 @@ namespace MachineLearnLib
                         wNames[i] =  key;
                     }
                     w[i] += delta;
-                    OnPeriodEvent(k, i, wNames,w);
+                    OnPeriodEvent(_GrpId, k, i, wNames,w);
                     i++;
                 }
                 //if (DEBUG)  System.out.println("ITERATIONS: " + k + " " + Arrays.toString(w));
             }
-            FeatureSummary.Keys = w;
-            FeatureSummary.FuncList.AddRange(functions.Values.ToArray());
+            FeatureSummary.Keys.Add(w);
+            if(_GrpId==0)
+                FeatureSummary.FuncList.AddRange(functions.Values.ToArray());
             //FeatureSummary.Functions = functions;
             this.OnTrainFinished();
         }
 
-        public override void FillStructBySummary()
+        public override void FillStructBySummary(int n)
         {
-            w = FeatureSummary.Keys;
-            functions = FeatureSummary.FuncList.ToDictionary(p => string.Format("{0}_{1}_{2}", p.index, p.value, p.label), p=>p);
-            N = (int)FeatureSummary.TrainCnt;
-            this.TrainCount = FeatureSummary.TrainCnt;
+            w = FeatureSummary.Keys[n];
+            //if (n == 0)
+            //{
+                functions.Clear();
+                functions = FeatureSummary.FuncList.ToDictionary(p => string.Format("{0}_{1}_{2}", p.index, p.value, p.label), p => p);
+                N = (int)FeatureSummary.TrainCnt;
+                this.TrainCount = FeatureSummary.TrainCnt;
+            //}
         }
 
         /**
@@ -318,7 +339,7 @@ namespace MachineLearnLib
         {
 
             double max = 0;
-            int label = 0;
+            int label = -1;
             //for (int y = minY; y <= maxY; y++)
             for (int y = FeatureSummary.LabelList[0]; y <= FeatureSummary.LabelList[FeatureSummary.LabelCnt-1]; y++)
             {

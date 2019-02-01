@@ -30,17 +30,25 @@ namespace MachineLearnLib
         void InitTrain();
         void SaveSummary();
         void LoadSummary();
-        void FillStructBySummary();
+        void FillStructBySummary(int n);
     }
 
     public abstract class MachineLearnClass<LabelT, FeatureT> : IMachineLearn<LabelT, FeatureT>
     {
-        public MLFeatureFunctionsSummary<LabelT, FeatureT> FeatureSummary = new MLFeatureFunctionsSummary<LabelT, FeatureT>();
+        protected int _GrpId = -1;
+        public int GroupId
+        {
+            set { _GrpId = value; }
+        }
+
+        public int TrainIterorCnt ;
+
+        public static MLFeatureFunctionsSummary<LabelT, FeatureT> FeatureSummary;//= new MLFeatureFunctionsSummary<LabelT, FeatureT>();
         protected MLInstances<LabelT, FeatureT> TrainData;
         protected Dictionary<string, MLFeatureFunctionsClass<LabelT, FeatureT>> functions = new Dictionary<string, MLFeatureFunctionsClass<LabelT, FeatureT>>();
         public void Train()
         {
-            Train(0);
+            Train(TrainIterorCnt);
         }
 
         public abstract void InitFunctions();
@@ -50,6 +58,7 @@ namespace MachineLearnLib
         public SaveFileEvent OnSaveEvent;
         public LoadFileEvent OnLoadLocalFile;
         protected long _TrainCnt;
+        public int ThreadCnt=10;
         public long TrainCount
         {
             get
@@ -62,6 +71,18 @@ namespace MachineLearnLib
             {
                 _TrainCnt = value;
             }
+        }
+        List<MLInstance<LabelT, FeatureT>> _TestList;
+
+        public void SetTestInstances(List<MLInstance<LabelT, FeatureT>> TestList)
+        {
+            _TestList  = TestList;
+
+        }
+
+        public double CheckInstances()
+        {
+            return CheckInstances(_TestList);
         }
 
         public double CheckInstances(List<MLInstance<LabelT, FeatureT>> TestList)
@@ -91,6 +112,8 @@ namespace MachineLearnLib
 
         public bool FillTrainData(List<List<FeatureT>> FeatureData, List<LabelT> LabelData)
         {
+            if (TrainData == null)
+                TrainData = new MLInstances<LabelT, FeatureT>();
             try
             {
                 if (FeatureData.Count != LabelData.Count)
@@ -116,6 +139,8 @@ namespace MachineLearnLib
             TrainData = _TrainData;
             return true;
         }
+
+
         public abstract void InitTrain();
         
         public void SaveSummary()
@@ -135,10 +160,10 @@ namespace MachineLearnLib
             {
                 FeatureSummary = ret[0];
             }
-            FillStructBySummary();
+            
         }
 
-        public abstract void FillStructBySummary();
+        public abstract void FillStructBySummary(int n);
     }
 
     
@@ -161,6 +186,10 @@ namespace MachineLearnLib
         public MLInstance()
         {
 
+        }
+        public MLInstance(MLFeature<FeatureT> ft)
+        {
+            Feature = ft;
         }
     }
 
@@ -196,7 +225,7 @@ namespace MachineLearnLib
         public int LabelCnt;
         public List<List<FeatureT>> FeatureList;
         public List<LabelT> LabelList;
-        public double[] Keys;
+        public List<double[]> Keys;
         public List<MLFeatureFunctionsClass<LabelT, FeatureT>> FuncList;
         //Dictionary<string, MLFeatureFunctionsClass<LabelT, FeatureT>> Functions;
         
@@ -207,6 +236,7 @@ namespace MachineLearnLib
             LabelList = new List<LabelT>();
             //Functions = new Dictionary<string,MLFeatureFunctionsClass<LabelT, FeatureT>>();
             FuncList = new List<MLFeatureFunctionsClass<LabelT, FeatureT>>();
+            Keys = new List<double[]>();
         }
     }
 

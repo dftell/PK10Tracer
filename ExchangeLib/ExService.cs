@@ -232,10 +232,14 @@ namespace ExchangeLib
                 {
                     if (MoneyChangeTable == null || MoneyChangeTable.Rows.Count < MoneyLine.Count)
                     {
-                        MoneyChangeTable = new DataTable();
-                        MoneyChangeTable.Columns.Add("id", typeof(int));
-                        MoneyChangeTable.Columns.Add("val", typeof(double));
-                        for (int i = 0; i < MoneyLine.Count; i++)
+                        if (MoneyChangeTable==null)
+                        {
+                            MoneyChangeTable = new DataTable();
+                            MoneyChangeTable.Columns.Add("id", typeof(int));
+                            MoneyChangeTable.Columns.Add("val", typeof(double));
+                        }
+                        int mcnt = MoneyChangeTable.Rows.Count;
+                        for (int i = mcnt+1; i < MoneyLine.Count; i++)
                         {
                             DataRow dr = MoneyChangeTable.NewRow();
                             dr["id"] = i;

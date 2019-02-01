@@ -135,12 +135,7 @@ namespace ExchangeLib
             Dictionary<string, ChanceClass> OldList = new Dictionary<string, ChanceClass>();
             List<ChanceClass> NewList = new List<ChanceClass>();
             //Log("计算服务", "遍历所有策略", string.Format("策略数量:{0}",this.UseStrags.Count));
-
-
             CloseAllExchance(el);//清空所有可视化机会
-
-
-
             #region 获取交易机会
             for (int i = 0; i < this.UseSPlans.Count; i++)
             {

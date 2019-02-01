@@ -25,71 +25,110 @@ namespace BackTestSystem
             this.ddl_MLFunc.DataSource = dt;
             this.ddl_MLFunc.DisplayMember = "text";
             this.ddl_MLFunc.ValueMember = "value";
+            
         }
-        MachineLearnClass<int, int> SelectFunc;
+        
         Type MLType;
         Thread RunningThread = null;
+        List<MachineLearnClass<int, int>> SelectFuncs = new List<MachineLearnClass<int, int>>();
+        int ThreadCnt = 0;
+        int FinishedCnt = 0;
         private void btn_Train_Click(object sender, EventArgs e)
         {
-            MLType = (Type)this.ddl_MLFunc.SelectedValue;
-            SelectFunc = (MachineLearnClass<int, int>)ClassOperateTool.getInstanceByType(MLType);
-            SelectFunc.OnTrainFinished += OnTrainFinished;
-            SelectFunc.OnPeriodEvent += OnPeriodEvent;
-
-            SelectFunc.OnSaveEvent += SaveData;
+           
             long len = long.Parse(this.txt_DataLength.Text);
             int deep = int.Parse(this.txt_LearnDeep.Text);
             ExpectList el = new ExpectReader().ReadHistory(long.Parse(this.txt_BegExpect.Text), len+deep+1);
-            MLInstances<int, int> TrainSet = new MLDataFactory(el).getAllSpecColRoundLabelAndFeatures(0,deep,chkb_AllUseShift.Checked?1:0);
-            SelectFunc.FillTrainData(TrainSet);
-            SelectFunc.InitTrain();
-            this.txt_begT.Text = DateTime.Now.ToLongTimeString();
-            this.Cursor = Cursors.WaitCursor;
-            RunningThread = new Thread(new ThreadStart(StartTrain));
-            RunningThread.Start();
+            MLDataFactory mldf = new MLDataFactory(el);
+            for (int i = 0; i < 10; i++)
+            {
+                MLInstances<int, int> TrainSet = mldf.getAllSpecColRoundLabelAndFeatures(i,deep, chkb_AllUseShift.Checked ? 1 : 0);
+                MachineLearnClass<int, int> SelectFunc;
+                MLType = (Type)this.ddl_MLFunc.SelectedValue;
+                SelectFunc = (MachineLearnClass<int, int>)ClassOperateTool.getInstanceByType(MLType);
+
+                SelectFunc.OnTrainFinished += OnTrainFinished;
+                SelectFunc.OnPeriodEvent += OnPeriodEvent;
+
+                SelectFunc.OnSaveEvent += SaveData;
+                SelectFunc.GroupId = i;
+                SelectFunc.FillTrainData(TrainSet);
+                SelectFunc.InitTrain();
+                
+                SelectFunc.TrainIterorCnt = int.Parse(txt_IteratCnt.Text);
+                SelectFuncs.Add(SelectFunc);
+                this.txt_begT.Text = DateTime.Now.ToLongTimeString();
+                this.Cursor = Cursors.WaitCursor;
+                RunningThread = new Thread(SelectFunc.Train);
+                RunningThread.Start();
+                ThreadCnt++;
+            }
             
         }
-
-        void StartTrain()
-        {
-            SelectFunc.Train(int.Parse(txt_IteratCnt.Text));
-            SelectFunc.SaveSummary();
-        }
+        
 
         void OnPeriodEvent(params object[] objs)
         {
-            try
+            lock (dataGridView1.Tag)
             {
-                string strModel = "{0};大:{1};小:{2};";
-                this.txt_endT.Text = string.Format(strModel,DateTime.Now.ToLongTimeString(), objs[0], objs[1]);
-                string[] keynames = (string[])objs[2];
-                double[] keydata = (double[])objs[3];
-                DataTable dt = new DataTable();
-                dt.Columns.Add("key");
-                dt.Columns.Add("val");
-                for(int i=0;i<keynames.Length;i++)
+                try
                 {
-                    DataRow dr = dt.NewRow();
-                    dr[0] = keynames[i];
-                    dr[1] = keydata[i];
-                    dt.Rows.Add(dr);
+                    string strModel = "{0};GrpId:{1};大:{2};小:{3};";
+                    this.txt_endT.Text = string.Format(strModel, DateTime.Now.ToLongTimeString(), objs[0], objs[1], objs[2]);
+                    string[] keynames = (string[])objs[3];
+                    double[] keydata = (double[])objs[4];
+                    DataTable dt = (DataTable)this.dataGridView1.Tag;
+                    if (dt == null) return;
+                    int col = (int)objs[0];
+                    string strCol = string.Format("{0}", (col + 1) % 10);
+                    string colname = string.Format("列{0}", strCol);
+                    string colval = string.Format("值{0}", strCol);
+                    for (int i = 0; i < keynames.Length; i++)
+                    {
+                        DataRow dr = null;
+                        if (i >= dt.Rows.Count)
+                        {
+                            dr = dt.NewRow();
+                            dt.Rows.Add(dr);
+                        }
+                        dr = dt.Rows[i];
+                        dr["Id"] = i + 1;
+                        //dr[colname] = keynames[i];
+                        dr[colval] = keydata[i];
+                        //dt.Rows.Add(dr);
+                    }
+               
+                    int row = (int)objs[1];
+                    this.SetDataGridDataTable(this.dataGridView1, dt, row);
+                    ////Monitor.Enter(this.dataGridView1);
+                    ////this.dataGridView1.DataSource = dt;
+                    ////this.dataGridView1.Refresh();
+                    ////this.dataGridView1.ClearSelection();
+                    ////DataGridViewRow rows = this.dataGridView1.Rows[row];
+                    ////rows.Selected = true;
+                    ////this.dataGridView1.CurrentCell = rows.Cells[1];
+
                 }
-                int row = (int)objs[1];
-                this.SetDataGridDataTable(this.dataGridView1, dt, row);
-                ////Monitor.Enter(this.dataGridView1);
-                ////this.dataGridView1.DataSource = dt;
-                ////this.dataGridView1.Refresh();
-                ////this.dataGridView1.ClearSelection();
-                ////DataGridViewRow rows = this.dataGridView1.Rows[row];
-                ////rows.Selected = true;
-                ////this.dataGridView1.CurrentCell = rows.Cells[1];
-                
+                catch (Exception ce)
+                {
+
+                }
             }
-            catch(Exception ce)
+
+        }
+
+        void initDataTable(ref DataTable dt)
+        {
+            dt = new DataTable();
+            dt.Columns.Add("Id", typeof(int));
+            for(int i=0;i<10;i++)
             {
-
+                string strcol = string.Format("{0}", (i + 1) % 10);
+                //string colName = string.Format("列{0}", strcol);
+                string colVal = string.Format("值{0}", strcol);
+                //dt.Columns.Add(colName);
+                dt.Columns.Add(colVal);
             }
-
         }
 
         string GetLocalFile()
@@ -118,7 +157,9 @@ namespace BackTestSystem
             dg.DataSource = dt;
             dg.Tag = dt;
             dg.ClearSelection();
+            if (CurrRow < 0) return;
             DataGridViewRow rows = this.dataGridView1.Rows[CurrRow];
+            if (rows == null) return;
             rows.Selected = true;
             dg.CurrentCell = rows.Cells[1];
         }
@@ -128,6 +169,10 @@ namespace BackTestSystem
         }
         void OnTrainFinished()
         {
+            FinishedCnt++;
+            if (FinishedCnt < ThreadCnt)
+                return;
+            SelectFuncs[0].SaveSummary();//随便一个保存就够了，反正是静态的summary
             this.Cursor = Cursors.Default;
             this.txt_endT.Text = DateTime.Now.ToLongTimeString();
 
@@ -180,22 +225,52 @@ namespace BackTestSystem
             }
             this.Cursor = Cursors.Default;
         }
-
+        MLInstances<int, int> TestSet;
         private void btn_CheckResult_Click(object sender, EventArgs e)
         {
-            MLType = (Type)this.ddl_MLFunc.SelectedValue;
-            SelectFunc = (MachineLearnClass<int, int>)ClassOperateTool.getInstanceByType(MLType);
-            SelectFunc.OnLoadLocalFile += GetLocalFile;
-            SelectFunc.LoadSummary();
             long len = long.Parse(this.txt_DataLength.Text);
             int deep = int.Parse(this.txt_LearnDeep.Text);
-            this.Cursor = Cursors.WaitCursor;
             ExpectList el = new ExpectReader().ReadHistory(long.Parse(this.txt_BegExpect.Text), len + deep + 1);
+            
+            for (int i = 0; i < 10; i++)
+            {
+                MachineLearnClass<int, int> SelectFunc = null;
+                MLType = (Type)this.ddl_MLFunc.SelectedValue;
+                SelectFunc = (MachineLearnClass<int, int>)ClassOperateTool.getInstanceByType(MLType);
+                TestSet = new MLDataFactory(el).getAllSpecColRoundLabelAndFeatures(i,deep, chkb_AllUseShift.Checked ? 1 : 0);
+                SelectFunc.OnLoadLocalFile += GetLocalFile;
+                SelectFunc.LoadSummary();
+                SelectFunc.FillStructBySummary(i);
+                SelectFunc.SetTestInstances(TestSet);
+                this.Cursor = Cursors.WaitCursor;
+                ExecClass ec = new ExecClass();
+                ec.GroupId = (i + 1) % 10;
+                ec.MaxEnt = SelectFunc;
+                ec.TestData = TestSet;
+                new Thread(new ThreadStart(ec.Exec)).Start();
+            }
+            
+            
+        }
 
-            MLInstances<int, int> TestSet = new MLDataFactory(el).getAllSpecColRoundLabelAndFeatures(0, deep, chkb_AllUseShift.Checked ? 1 : 0);
-            string res = SelectFunc.CheckInstances(TestSet).ToString();
-            this.Cursor = Cursors.Default;
-            MessageBox.Show(res);
+        class ExecClass
+        {
+            public MLInstances<int, int> TestData;
+            public MachineLearnClass<int, int> MaxEnt;
+            public double outValue;
+            public int GroupId;
+            public void Exec()
+            {
+                string res = MaxEnt.CheckInstances(TestData).ToString();
+                MessageBox.Show(string.Format("{0}:{1}",GroupId,res));
+            }
+        }
+
+        private void frm_TrainForm_Load(object sender, EventArgs e)
+        {
+            DataTable dtview = null;
+            initDataTable(ref dtview);
+            this.SetDataGridDataTable(this.dataGridView1, dtview, -1);
         }
     }
 }

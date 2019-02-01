@@ -303,9 +303,14 @@ namespace BackTestSys
                         li.SubItems.Add(ret.ChanceList[i].MatchChips.ToString());
                         li.SubItems.Add(ret.ChanceList[i].CreateTime.ToString());
                         li.SubItems.Add(ret.ChanceList[i].UpdateTime.ToString());
+                        
                         this.listView1.Items.Add(li);
+                        
+                        
                     }
                 }
+                this.listView1.Items[this.listView1.Items.Count-1].Selected = true;
+                //this.listView1.SelectedItems;
             }
             this.listView2.Items.Clear();
             lock (ret.InChipsDic)

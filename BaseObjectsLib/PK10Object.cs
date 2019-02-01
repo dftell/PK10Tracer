@@ -239,11 +239,26 @@ namespace BaseObjectsLib
 
         public static object XmlDeserialize(string s, Encoding encoding,Type tp)
         {
+            //s = s.Substring(1, s.Length - 1);
+            s = "<" + s.Substring(s.IndexOf('<') + 1);
             if (string.IsNullOrEmpty(s))
                 throw new ArgumentNullException("s");
             if (encoding == null)
                 throw new ArgumentNullException("encoding");
+            XmlDocument xmldoc = new XmlDocument();
+            try
+            {
+                xmldoc.LoadXml(s);
+                if(xmldoc == null)
+                {
+                    throw new Exception("");
+                }
+            }
+            catch(Exception ce)
+            {
 
+            }
+            
             XmlSerializer mySerializer = new XmlSerializer(tp);
             using (MemoryStream ms = new MemoryStream(encoding.GetBytes(s)))
             {

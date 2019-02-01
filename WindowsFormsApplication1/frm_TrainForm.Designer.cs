@@ -141,6 +141,9 @@
             // 
             // panel1
             // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.btn_CheckResult);
             this.panel1.Controls.Add(this.btn_stopTrain);
             this.panel1.Controls.Add(this.txt_endT);
@@ -175,6 +178,8 @@
             // 
             // txt_endT
             // 
+            this.txt_endT.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_endT.Location = new System.Drawing.Point(145, 71);
             this.txt_endT.Name = "txt_endT";
             this.txt_endT.Size = new System.Drawing.Size(270, 35);
@@ -191,6 +196,8 @@
             // 
             // txt_begT
             // 
+            this.txt_begT.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_begT.Location = new System.Drawing.Point(145, 30);
             this.txt_begT.Name = "txt_begT";
             this.txt_begT.Size = new System.Drawing.Size(266, 35);
@@ -300,6 +307,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Name = "frm_TrainForm";
             this.Text = "机器学习训练平台";
+            this.Load += new System.EventHandler(this.frm_TrainForm_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();

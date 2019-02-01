@@ -77,7 +77,7 @@ namespace PK10CorePress
         public static string Title = "快乐赛车";
         public static string strLoginUrlModel = "http://www.wolfinv.com/PK10/App/login.asp?User={0}&Password={1}";
         public static string strRequestInstsURL = "http://www.wolfinv.com/pk10/app/requestinsts.asp";
-        public static string dbServer = "www.wolfinv.com";
+        public static string dbServer = "www.wolfinv.com";//"47.95.222.142";//"www.wolfinv.com";
         public static string dbName =  "PK10db";
         public static string dbUser =  "sa";
         public static string dbPwd =  "bolts";

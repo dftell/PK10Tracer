@@ -6,12 +6,22 @@ using PK10CorePress;
 using System.ComponentModel;
 using ProbMathLib;
 using MachineLearnLib;
+using BaseObjectsLib;
+using System.IO;
+using System.Reflection;
+
 namespace Strags
 {
+
+    interface INeedLoadLocalTrainData
+    {
+        string LoadLocalTrainData();
+    }
+
     [DescriptionAttribute("简单最大熵选号策略"),
         DisplayName("简单最大熵选号策略")]
     [Serializable]
-    public class Strag_SimpleMaxEntryClass : ChanceTraceStragClass
+    public class Strag_SimpleMaxEntryClass : ChanceTraceStragClass,INeedLoadLocalTrainData
     { 
         int StepCnt = 5;
         int MinFilterCnt = 20;
@@ -35,15 +45,31 @@ namespace Strags
         {
             List<ChanceClass> ret = new List<ChanceClass>();
             MLDataFactory pkdls = new MLDataFactory(this.LastUseData());
-            Dictionary<int, Dictionary<int, int>> res = pkdls.getAllShiftAndColMaxProbList(this.ReviewExpectCnt- this.InputMinTimes-1, this.InputMinTimes,true);
-            Dictionary<string,int> AllCodes = new Dictionary<string, int>();
-            foreach (int key in res.Keys)
-                AllCodes.Add(string.Format("{0}/{1}",key,string.Join("",res[key].Keys.ToArray())),1);
-            string strAllCode = string.Join("+", AllCodes.Keys.ToArray());
-            if (ChanceClass.getChipsByCode(strAllCode) < this.ChipCount)
+            //Dictionary<int, Dictionary<int, int>> res = pkdls.getAllShiftAndColMaxProbList(this.ReviewExpectCnt- this.InputMinTimes-1, this.InputMinTimes,true);
+            List<MLFeature<int>> features = pkdls.getAllSpecRowRoundFeatures(this.LastUseData().Count - 1, this.InputMinTimes,0);
+            Dictionary<string, int> AllCodes = new Dictionary<string, int>();
+            for (int i = 0; i < features.Count; i++)
             {
-                return ret;
+                MLFeature<int> feature = features[i];
+                MaxEnt me = new MaxEnt();
+                if (MaxEnt.FeatureSummary == null)
+                {
+                    me.OnLoadLocalFile += LoadLocalTrainData;
+                    me.LoadSummary();
+                }
+                me.FillStructBySummary(i);
+                MLInstance<int, int> instance = new MLInstance<int, int>(feature);
+                int label = me.Classify(instance);
+                if (label < 0)
+                    continue;
+                string strAllCode = string.Format("{0}/{1}", (i+1)%10, label);
+                AllCodes.Add(strAllCode, 1);
             }
+            
+            ////foreach (int key in res.Keys)
+            ////    AllCodes.Add(string.Format("{0}/{1}",key,string.Join("",res[key].Keys.ToArray())),1);
+            
+                      
             if (true)
             {
                 ChanceClass cc = new ChanceClass();
@@ -97,7 +123,7 @@ namespace Strags
 
         public override bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
         {
-            return LastExpectMatched;
+            return true;
         }
 
         public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
@@ -130,7 +156,21 @@ namespace Strags
             }
             return 1;
         }
-    
+
+        public string LoadLocalTrainData()
+        {
+            try
+            {
+                DetailStringClass dsc = new DetailStringClass();
+                string pathSummaryPath = string.Format("{0}\\{1}_summary.data", Path.GetDirectoryName(this.GetType().Assembly.Location), typeof(MaxEnt).Name);
+                string strText = File.ReadAllText(pathSummaryPath);
+                return strText;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
     }
 
  
