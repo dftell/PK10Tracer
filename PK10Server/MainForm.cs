@@ -62,7 +62,7 @@ namespace PK10Server
             }
             else
             {
-                ViewDataList = er.ReadNewestData(DateTime.Today.AddDays(-1));
+                ViewDataList = er.ReadNewestData(DateTime.Today.AddDays(-1*gobj.CheckNewestDataDays));
             }
         }
 
@@ -189,7 +189,7 @@ namespace PK10Server
         private void timer_For_NewestData_Tick(object sender, EventArgs e)
         {
             DateTime CurrTime = DateTime.Now;
-            ViewDataList = er.ReadNewestData(DateTime.Now.AddDays(-1));
+            ViewDataList = er.ReadNewestData(DateTime.Now.AddDays(-1*gobj.CheckNewestDataDays));
             int CurrExpectNo = int.Parse(ViewDataList.LastData.Expect);
             if (CurrExpectNo > this.NewestExpectNo)
             {
@@ -250,9 +250,9 @@ namespace PK10Server
             TXFFC_HtmlDataClass hdc = new TXFFC_HtmlDataClass();
             ExpectList el =  hdc.getExpectList();
             TXFFCExpectReader rd = new TXFFCExpectReader();
-            ExpectList currEl = rd.ReadNewestData(DateTime.Now.AddDays(-1));
+            ExpectList currEl = rd.ReadNewestData(DateTime.Now.AddDays(-1*gobj.CheckNewestDataDays));
             rd.SaveNewestData(rd.getNewestData(el, currEl));
-            currEl = rd.ReadNewestData(DateTime.Now.AddDays(-1));
+            currEl = rd.ReadNewestData(DateTime.Now.AddDays(-1*gobj.CheckNewestDataDays));
             FillOrgData(listView_TXFFCData, currEl);
         }
 

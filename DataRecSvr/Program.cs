@@ -23,10 +23,7 @@ namespace DataRecSvr
         {
 
             try
-            {
-                
-                
-                
+            { 
                 ServiceBase[] ServicesToRun;
                 LogableClass.ToLog("构建计算服务", "开始");
                 CalcService cs = new CalcService();

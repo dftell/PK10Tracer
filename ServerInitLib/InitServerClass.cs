@@ -14,25 +14,30 @@ namespace ServerInitLib
 
         public static Dictionary<string, StragClass> Init_StragList()
         {
-
-            string stragList = GlobalClass.ReReadStragList();
-
-            Dictionary<string, StragClass>  AllStragList = new Dictionary<string, StragClass>();
-
-            if (stragList == null || stragList.Trim().Length == 0)
+            Dictionary<string, StragClass> AllStragList = new Dictionary<string, StragClass>();
+            try
             {
-                ToLog("策略列表","为空！");
+                string stragList = GlobalClass.ReReadStragList();
+                if (stragList == null || stragList.Trim().Length == 0)
+                {
+                    ToLog("策略列表", "为空！");
+                    return AllStragList;
+                }
+                List<StragClass> list = StragClass.getObjectListByXml<StragClass>(stragList); //StragClass.getStragsByXml(stragList);
+                if (list == null)
+                {
+                    return AllStragList;
+                }
+                AllStragList = list.ToDictionary(t => t.GUID, v => v);
+
+                ToLog("策略列表", AllStragList.Count.ToString());
                 return AllStragList;
             }
-            List<StragClass> list = StragClass.getObjectListByXml<StragClass>(stragList); //StragClass.getStragsByXml(stragList);
-            if (list == null)
+            catch (Exception ce)
             {
+                ToLog("策略列表错误", ce.StackTrace);
                 return AllStragList;
             }
-            AllStragList = list.ToDictionary(t => t.GUID, v => v);
-
-            ToLog("策略列表", AllStragList.Count.ToString());
-            return AllStragList;
         }
 
         public static Dictionary<string, AssetUnitClass> Init_AssetUnits()

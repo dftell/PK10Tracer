@@ -41,6 +41,7 @@ namespace ExchangeLib
             CommSelectOjectDialog<StragRunPlanClass> frm = new CommSelectOjectDialog<StragRunPlanClass>(list,"GUID",true,"策略运行计划");
             frm.ShowDialog(this.Parent);
             _Plans = frm.SelectObjects;
+            if (_Plans == null) return;
             this.textBox1.Text = string.Join("/", _Plans.Select(p => p.Plan_Name).ToArray());
 
         }

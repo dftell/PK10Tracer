@@ -27,6 +27,7 @@ namespace PK10Server
         System.Timers.Timer PK10DataTimer = new System.Timers.Timer();
         System.Timers.Timer LogTimer = new System.Timers.Timer();
         PK10ExpectReader exread = new PK10ExpectReader();
+        GlobalClass glb = new GlobalClass();
         SetDataGridCallback DgInvokeEvent;
         ServiceSetting _UseSetting = null;//供后面调用一切服务内容用
         Dictionary<string, long> AssetTimeSummary = new Dictionary<string, long>();
@@ -137,7 +138,7 @@ namespace PK10Server
         
         void RefreshPK10Data()
         {
-            ExpectList ViewDataList = exread.ReadNewestData(DateTime.Now.AddDays(-1));
+            ExpectList ViewDataList = exread.ReadNewestData(DateTime.Now.AddDays(-1*glb.CheckNewestDataDays));
             if (ViewDataList == null) return;
             DataTable dt = ViewDataList.Table;
             dg_baseData.Invoke(new SetSpecDataGridCallback(Setdg_baseData), new object[] { dt });
