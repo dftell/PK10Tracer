@@ -23,17 +23,18 @@ namespace DataRecSvr
         System.Timers.Timer tm = new System.Timers.Timer();
         Int64 lastFFCNo;
         public CalcService CalcProcess;
+        GlobalClass glb = new GlobalClass();
         public ReceiveService()
         {
             InitializeComponent();
             this.ServiceName = "接收数据服务";
             Tm_ForPK10.Enabled = false;
             Tm_ForPK10.AutoReset = true;
-            Tm_ForPK10.Interval = 5*60*1000;
+            Tm_ForPK10.Interval = glb.RecieveSecondsForPK10 * 1000;
             Tm_ForPK10.Elapsed += new ElapsedEventHandler(Tm_ForPK10_Elapsed);
             Tm_ForTXFFC.Enabled = false;
             Tm_ForTXFFC.AutoReset = true;
-            Tm_ForTXFFC.Interval = 60*1000;
+            Tm_ForTXFFC.Interval = glb.RecieveSecondsForTXFFC * 1000;
             Tm_ForTXFFC.Elapsed += new ElapsedEventHandler(Tm_ForTXFFC_Elapsed);
             tm.Interval = 5 * 1000;
             tm.Enabled = false;
@@ -89,20 +90,28 @@ namespace DataRecSvr
                 return;
             }
             DateTime CurrTime = DateTime.Now;
+            int RepeatMinutes = glb.RecieveSecondsForPK10 / 60;
+            int RepeatSeconds = glb.RecieveSecondsForPK10;
+            DateTime StartTime = CurrTime.Date.Add(glb.RecieveStartTimeForPK10.TimeOfDay);
+            int PassCnt = (int)Math.Floor(CurrTime.Subtract(StartTime).TotalMinutes / RepeatMinutes);
+            DateTime PassedTime = StartTime.Add(new TimeSpan( PassCnt * RepeatMinutes * 60 * 1000));//正常的上期时间
+            DateTime FeatureTime = StartTime.Add(new TimeSpan((PassCnt + 1) * RepeatMinutes * 60 * 1000));//正常的下期时间
+            DateTime NormalRecievedTime = StartTime.Add(new TimeSpan((long)((PassCnt + 1.4) * RepeatMinutes * 60 * 1000)));//正常的接收到时间
             try
             {
                 PK10ExpectReader rd = new PK10ExpectReader();
-                ExpectList currEl = rd.ReadNewestData(DateTime.Today.AddDays(-1));
-                
+                ExpectList currEl = rd.ReadNewestData(DateTime.Today.AddDays(-1*glb.CheckNewestDataDays));//改为10天，防止春节连续多天不更新数据
                 if ((currEl == null || currEl.Count == 0) || (el.Count > 0 && currEl.Count > 0 && el.LastData.ExpectIndex > currEl.LastData.ExpectIndex))//获取到新数据
                 {
                     Log("接收到数据", string.Format("接收到数据！{0}", el.LastData.ToString()));
-                    int CurrMin = DateTime.Now.Minute % 5;
+                    PK10_LastSignTime = CurrTime;
+                    int CurrMin = DateTime.Now.Minute % RepeatMinutes;
                     int CurrSec = DateTime.Now.Second;
-                    this.Tm_ForPK10.Interval = (CurrMin % 5 < 2 ? 2 : 7 - CurrMin) * 60000 - (CurrSec + 5) * 1000;//5分钟以后见,减掉5秒不断收敛时间，防止延迟接收
+                    //this.Tm_ForPK10.Interval = (CurrMin % RepeatMinutes < 2 ? 2 : 7 - CurrMin) * 60000 - (CurrSec + RepeatMinutes) * 1000;//5分钟以后见,减掉5秒不断收敛时间，防止延迟接收
+                    this.Tm_ForPK10.Interval = FeatureTime.Subtract(CurrTime).TotalMilliseconds;
                     if (rd.SaveNewestData(rd.getNewestData(el, currEl)) > 0)
                     {
-                        CurrDataList = rd.ReadNewestData(DateTime.Now.AddDays(-10));//前十天的数据 尽量的大于reviewcnt,免得需要再取一次数据
+                        CurrDataList = rd.ReadNewestData(DateTime.Now.AddDays(-1*glb.CheckNewestDataDays));//前十天的数据 尽量的大于reviewcnt,免得需要再取一次数据
                         CurrExpectNo = el.LastData.Expect;
                         Program.AllServiceConfig.LastDataSector = CurrDataList;
                         AfterReceiveProcess();
@@ -117,20 +126,20 @@ namespace DataRecSvr
                     Log("接收到非最新数据",string.Format("id:{0}",el.LastData.Expect));
                     if (CurrTime.Hour < 9)//如果在9点前
                     {
-                        //下一个时间点是9：07
-                        DateTime TargetTime = DateTime.Today.AddHours(9).AddMinutes(8);
+                        //下一个时间点是9：07 //9:30
+                        DateTime TargetTime = DateTime.Today.AddHours(9).AddMinutes(30);
                         this.Tm_ForPK10.Interval = TargetTime.Subtract(CurrTime).TotalMilliseconds;
                     }
                     else
                     {
                         Log("接收数据", "未接收到数据！");
-                        if (CurrTime.Subtract(PK10_LastSignTime).Minutes > 7)//如果离上期时间超过7分钟，说明数据未接收到，那不要再频繁以10秒访问服务器
+                        if (CurrTime.Subtract(PK10_LastSignTime).Minutes > RepeatMinutes+ RepeatMinutes*2/5)//如果离上期时间超过2/5个周期，说明数据未接收到，那不要再频繁以10秒访问服务器
                         {
-                            this.Tm_ForPK10.Interval = 60 * 1000;
+                            this.Tm_ForPK10.Interval = RepeatSeconds / 5 * 1000;
                         }
-                        else //一般未接收到，10秒以后再试
+                        else //一般未接收到，10秒以后再试，改为50分之一个周期再试
                         {
-                            this.Tm_ForPK10.Interval = 10 * 1000;
+                            this.Tm_ForPK10.Interval = RepeatSeconds / 50 * 1000;
                         }
                     }
                 }

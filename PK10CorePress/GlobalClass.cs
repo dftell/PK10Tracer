@@ -303,6 +303,45 @@ namespace PK10CorePress
             return 0;
         }}
 
+        public int CheckNewestDataDays
+        {
+            get
+            {
+                if (SysParams.Count > 0)
+                    return int.Parse(SysParams["System"]["CheckNewestDataDays"]);
+                return 0;
+            }
+        }
+
+        public int RecieveSecondsForPK10
+        {
+            get
+            {
+                if (SysParams.Count > 0)
+                    return int.Parse(SysParams["System"]["RecieveSecondsForPK10"]);
+                return 0;
+            }
+        }
+
+        public DateTime RecieveStartTimeForPK10
+        {
+            get
+            {
+                if (SysParams.Count > 0)
+                    return DateTime.Parse(SysParams["System"]["RecieveStartTimeForPK10"]);
+                return DateTime.MinValue;
+            }
+        }
+
+        public int RecieveSecondsForTXFFC
+        {
+            get
+            {
+                if (SysParams.Count > 0)
+                    return int.Parse(SysParams["System"]["RecieveSecondsForTXFFC"]);
+                return 0;
+            }
+        }
 
         public int SingleColMinTimes
         {
@@ -570,8 +609,6 @@ namespace PK10CorePress
             }
         }
        
-        
-
         static void ReadConfig()
         {
             sSysParams = new Dictionary<string, Dictionary<string, string>>();
@@ -632,11 +669,7 @@ namespace PK10CorePress
         {
             return SaveFile("AssetUnits.db", str);
         }
-
         
-
-        
-
         public static string getStragRunningPlan(bool UseNewestData)
         {
             bool ReadNewest = false;

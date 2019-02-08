@@ -69,6 +69,7 @@ namespace BackTestSystem
 
         void OnPeriodEvent(params object[] objs)
         {
+            return;
             lock (dataGridView1.Tag)
             {
                 try
