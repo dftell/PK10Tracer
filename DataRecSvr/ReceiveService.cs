@@ -93,10 +93,15 @@ namespace DataRecSvr
             int RepeatMinutes = glb.RecieveSecondsForPK10 / 60;
             int RepeatSeconds = glb.RecieveSecondsForPK10;
             DateTime StartTime = CurrTime.Date.Add(glb.RecieveStartTimeForPK10.TimeOfDay);
+            Log("当日开始时间", StartTime.ToLongTimeString());
             int PassCnt = (int)Math.Floor(CurrTime.Subtract(StartTime).TotalMinutes / RepeatMinutes);
-            DateTime PassedTime = StartTime.Add(new TimeSpan( PassCnt * RepeatMinutes * 60 * 1000));//正常的上期时间
-            DateTime FeatureTime = StartTime.Add(new TimeSpan((PassCnt + 1) * RepeatMinutes * 60 * 1000));//正常的下期时间
-            DateTime NormalRecievedTime = StartTime.Add(new TimeSpan((long)((PassCnt + 1.4) * RepeatMinutes * 60 * 1000)));//正常的接收到时间
+            Log("经历过的周期", PassCnt.ToString());
+            DateTime PassedTime = StartTime.AddMinutes(PassCnt * RepeatMinutes);//正常的上期时间
+            Log("前期时间", PassedTime.ToLongTimeString());
+            DateTime FeatureTime = StartTime.AddMinutes((PassCnt + 1) * RepeatMinutes);//正常的下期时间
+            Log("后期时间", FeatureTime.ToLongTimeString());
+            DateTime NormalRecievedTime = StartTime.AddSeconds((PassCnt + 1.4) * RepeatSeconds);//正常的接收到时间
+            Log("当期正常接收时间", FeatureTime.ToLongTimeString());
             try
             {
                 PK10ExpectReader rd = new PK10ExpectReader();
@@ -133,7 +138,7 @@ namespace DataRecSvr
                     else
                     {
                         Log("接收数据", "未接收到数据！");
-                        if (CurrTime.Subtract(PK10_LastSignTime).Minutes > RepeatMinutes+ RepeatMinutes*2/5)//如果离上期时间超过2/5个周期，说明数据未接收到，那不要再频繁以10秒访问服务器
+                        if (CurrTime.Subtract(PK10_LastSignTime).TotalMinutes > RepeatMinutes+ RepeatMinutes*2/5)//如果离上期时间超过2/5个周期，说明数据未接收到，那不要再频繁以10秒访问服务器
                         {
                             this.Tm_ForPK10.Interval = RepeatSeconds / 5 * 1000;
                         }

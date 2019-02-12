@@ -62,6 +62,10 @@ namespace BackTestSys
         {
             InitializeComponent();
 
+            //PK10_HtmlDataClass hdc = new PK10_HtmlDataClass();
+            //ExpectList el = hdc.getExpectList();
+
+
             ////List<string> ret =  ChanceClass.getAllSubCode("13579", 4);
             ////string strRet = string.Join(",",ret.ToArray());
             ////MessageBox.Show(strRet);

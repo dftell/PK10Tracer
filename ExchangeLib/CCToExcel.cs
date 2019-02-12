@@ -42,7 +42,7 @@ namespace ExchangeLib
         public static void ExportExcel(string fileName, DataTable dataTable)
         {
             DataSet dataSet = new DataSet();
-            dataSet.Tables.Add(dataTable);
+            dataSet.Tables.Add(dataTable.Copy());
             ExportExcel(fileName, dataSet);
         }
 
