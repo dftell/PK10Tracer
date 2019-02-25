@@ -75,7 +75,6 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\bin\Debug\DocumentF
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\bin\Debug\BackTestLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\bin\Debug\BaseObjectsLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\bin\Debug\LogLib.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\bin\Debug\PK10CorePress.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\bin\Debug\Strags.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\bin\Debug\ServerInitLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\bin\Debug\ExchangeLib.pdb
@@ -91,3 +90,4 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\obj\Debug\CoreCalcC
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\obj\Debug\CoreCalcClass.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\obj\Debug\CoreCalcClass.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\obj\Debug\CoreCalcClass.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\bin\Debug\PK10CorePress.pdb

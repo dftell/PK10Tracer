@@ -50,7 +50,6 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\bin\Debug\BaseObjectsLib.p
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\bin\Debug\GuideLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\bin\Debug\LogLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\bin\Debug\MachineLearnLib.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\bin\Debug\PK10CorePress.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\bin\Debug\ProbMathLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Debug\Strags.csprojAssemblyReference.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Debug\Strags.CommSelectOjectDialog.resources
@@ -61,3 +60,4 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Debug\Strags.csproj.Co
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Debug\Strags.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Debug\Strags.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Debug\Strags.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\bin\Debug\PK10CorePress.pdb

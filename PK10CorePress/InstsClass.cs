@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,7 +32,7 @@ namespace PK10CorePress
     /// <summary>
     /// 指令集类
     /// </summary>
-    public class RequestClass:RecordObject, IList<ChanceClass>,iSerialJsonClass<RequestClass>
+    public class RequestClass : RecordObject, IList<ChanceClass>, iSerialJsonClass<RequestClass>
     {
         public string Expect;
         public string LastTime;
@@ -65,12 +66,12 @@ namespace PK10CorePress
                 }
             }
         }
-        
+
         public string Insts;
         public string Error;
         string LoginName;
         List<ChanceClass> _datas = new List<ChanceClass>();
-        
+
         public int IndexOf(ChanceClass item)
         {
             return _datas.IndexOf(item);
@@ -149,7 +150,7 @@ namespace PK10CorePress
         public RequestClass getObjectByJsonString(string str)
         {
 
-            RequestClass ret = null ;
+            RequestClass ret = null;
             JavaScriptSerializer js = new JavaScriptSerializer();
             ret = js.Deserialize<RequestClass>(str);
             return ret;
@@ -160,55 +161,61 @@ namespace PK10CorePress
             string ret = "";
             List<string> allTxt = new List<string>();
             AmoutSerials amts = setting.DefaultHoldAmtSerials;
-            for(int i=0;i<this.Count;i++)
+            for (int i = 0; i < this.Count; i++)
             {
                 ChanceClass cc = this[i];
+                string strAssetId = cc.AssetId;
+                int AssetCnt = 0;
+                if(setting.AssetUnits.ContainsKey(strAssetId))
+                {
+                    AssetCnt = setting.AssetUnits[strAssetId];
+                }
                 string strccNewInst = "";
-                if(cc.ChanceCode.Trim().Length == 0) 
+                if (cc.ChanceCode.Trim().Length == 0)
                 {
                     continue;
                 }
-                if(cc.UnitCost == 0)
+                if (cc.UnitCost == 0)
                     continue;
                 //修改为自动计算出来的结果
                 //Int64 Amt = cc.UnitCost*setting.SerTotal(cc.ChipCount);
-                int chips = cc.ChipCount-1;
+                int chips = cc.ChipCount - 1;
                 int maxcnt = amts.MaxHoldCnts[chips];
                 int bShift = 0;
-                if(cc.HoldTimeCnt > maxcnt)
-                    bShift = (int)maxcnt*2/3;
-                int RCnt =  (cc.HoldTimeCnt % (maxcnt+1)) + bShift;
-                Int64 Amt = amts.Serials[cc.ChipCount - 1][RCnt];
-                if(cc.ChanceType != 2)//非对冲
+                if (cc.HoldTimeCnt > maxcnt)
+                    bShift = (int)maxcnt * 2 / 3;
+                int RCnt = (cc.HoldTimeCnt % (maxcnt + 1)) + bShift;
+                Int64 Amt = amts.Serials[cc.ChipCount - 1][RCnt]*AssetCnt;
+                if (cc.ChanceType != 2)//非对冲
                 {
-                    if(cc.ChanceType == 1)//一次性下注
+                    if (cc.ChanceType == 1)//一次性下注
                     {
-                        Amt = cc.UnitCost*setting.SerTotal(1);
+                        Amt = cc.UnitCost * setting.SerTotal(1)* AssetCnt;
                     }
-                    strccNewInst = string.Format("{0}/{1}",cc.ChanceCode.Replace("+",string.Format("/{0}+",Amt)),Amt);
+                    strccNewInst = string.Format("{0}/{1}", cc.ChanceCode.Replace("+", string.Format("/{0}+", Amt)), Amt);
                 }
                 else
                 {
-                    if(!setting.JoinHedge)//不参与对冲
+                    if (!setting.JoinHedge)//不参与对冲
                     {
                         continue;
                     }
-                    Amt = cc.UnitCost*setting.HedgeTimes;//对冲倍数
-                    if(setting.AllowHedge)
+                    Amt = cc.UnitCost * setting.HedgeTimes* AssetCnt;//对冲倍数
+                    if (setting.AllowHedge)
                     {
-                        Int64 BaseAmt = cc.BaseCost*setting.HedgeTimes;
-                        strccNewInst = string.Format("{0}/{1}+{2}/{3}",cc.ChanceCode,Amt+BaseAmt,ChanceClass.getRevChance(cc.ChanceCode) ,BaseAmt);
+                        Int64 BaseAmt = cc.BaseCost * setting.HedgeTimes* AssetCnt;
+                        strccNewInst = string.Format("{0}/{1}+{2}/{3}", cc.ChanceCode, Amt + BaseAmt, ChanceClass.getRevChance(cc.ChanceCode), BaseAmt);
 
                     }
                     else
                     {
-                        strccNewInst = string.Format("{0}/{1}",cc.ChanceCode,Amt);
+                        strccNewInst = string.Format("{0}/{1}", cc.ChanceCode, Amt);
                     }
                 }
                 allTxt.Add(strccNewInst);
             }
             return string.Join(" ", allTxt.ToArray()).Trim();
-             
+
         }
     }
 
@@ -231,7 +238,7 @@ namespace PK10CorePress
                     JavaScriptSerializer js = new JavaScriptSerializer();
                     return js.Serialize(this);
                     ////JSONObject js = new JSONObject();
-                    
+
                     ////js.put("ruleId", ruleId);
                     ////js.put("betNum", betNum);
                     ////js.put("itemTimes", itemTimes);
@@ -250,5 +257,93 @@ namespace PK10CorePress
     }
 
 
+    public class AssetUnitList : RecordObject, IList<AssetUnitInfo>, iSerialJsonClass<mAssetUnitList>
+    {
+        List<AssetUnitInfo> list;
+        public string Data;
+        public mAssetUnitList List;
+        int count;
 
+        public mAssetUnitList getObjectByJsonString(string str)
+        {
+
+            mAssetUnitList ret = null;
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            ret = js.Deserialize<mAssetUnitList>(str);
+            return ret;
+        }
+
+        public AssetUnitInfo this[int index] { get => ((IList<AssetUnitInfo>)list)[index]; set => ((IList<AssetUnitInfo>)list)[index] = value; }
+
+        public int Count
+        {
+            get { return list.Count; }
+            set { count = value; }
+        }
+
+        public bool IsReadOnly => ((IList<AssetUnitInfo>)list).IsReadOnly;
+
+        public void Add(AssetUnitInfo item)
+        {
+            ((IList<AssetUnitInfo>)list).Add(item);
+        }
+
+        public void Clear()
+        {
+            ((IList<AssetUnitInfo>)list).Clear();
+        }
+
+        public bool Contains(AssetUnitInfo item)
+        {
+            return ((IList<AssetUnitInfo>)list).Contains(item);
+        }
+
+        public void CopyTo(AssetUnitInfo[] array, int arrayIndex)
+        {
+            ((IList<AssetUnitInfo>)list).CopyTo(array, arrayIndex);
+        }
+
+        public IEnumerator<AssetUnitInfo> GetEnumerator()
+        {
+            return ((IList<AssetUnitInfo>)list).GetEnumerator();
+        }
+
+        public int IndexOf(AssetUnitInfo item)
+        {
+            return ((IList<AssetUnitInfo>)list).IndexOf(item);
+        }
+
+        public void Insert(int index, AssetUnitInfo item)
+        {
+            ((IList<AssetUnitInfo>)list).Insert(index, item);
+        }
+
+        public bool Remove(AssetUnitInfo item)
+        {
+            return ((IList<AssetUnitInfo>)list).Remove(item);
+        }
+
+        public void RemoveAt(int index)
+        {
+            ((IList<AssetUnitInfo>)list).RemoveAt(index);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IList<AssetUnitInfo>)list).GetEnumerator();
+        }
+    }
+
+    public class AssetUnitInfo: DisplayAsTableClass
+    {
+        public string AssetId;
+        public string AssetName;
+    }
+
+    public class mAssetUnitList: RecordObject
+    {
+        public string Data;
+        public int Count;
+        public List<AssetUnitInfo> List;
+    }
 }

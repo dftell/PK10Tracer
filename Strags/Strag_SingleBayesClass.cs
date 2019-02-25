@@ -35,10 +35,14 @@ namespace Strags
         {
             List<ChanceClass> ret = new List<ChanceClass>();
             PKDataListSetFactory pkdls = new PKDataListSetFactory(this.LastUseData());
-            Dictionary<int, Dictionary<int, int>> res = pkdls.OccurrSpecLengthShiftProbList(this.ReviewExpectCnt-2, 1,0,1);
+            Dictionary<int, Dictionary<int, int>> res = pkdls.OccurrSpecLengthShiftProbList(this.ReviewExpectCnt, 1,0,10);
             Dictionary<string,int> AllCodes = new Dictionary<string, int>();
             foreach (int key in res.Keys)
-                AllCodes.Add(string.Format("{0}/{1}",key,string.Join("",res[key].Keys.ToArray())),1);
+            {
+                Dictionary<int, int> sres = res[key].Where(p => p.Value > this.InputMinTimes).ToDictionary(p=>p.Key,p=>p.Value);
+                if (sres.Count == 0) continue;
+                AllCodes.Add(string.Format("{0}/{1}", key, string.Join("", sres.Keys.ToArray())), 1);
+            }
             string strAllCode = string.Join("+", AllCodes.Keys.ToArray());
             if (ChanceClass.getChipsByCode(strAllCode) < this.ChipCount)
             {
@@ -147,7 +151,7 @@ namespace Strags
         {
             BayesDicClass ret = new BayesDicClass();
             int iShift = Data.Count - TestLength;
-            if (iShift <= LastTimes) //Data length must more than TestLength+LastTimes+1
+            if (iShift < LastTimes) //Data length must more than TestLength+LastTimes+1
                 return ret;
             Dictionary<string, int> defaultDic =  PKProbVector.getDefaultCombDic();
             Dictionary<int, int> PreA = PKProbVector.InitPriorProbabilityDic();
@@ -160,7 +164,7 @@ namespace Strags
             {
                 BColIndex = BColIndex + 10;
             }
-            for (int i = iShift - 1; i < Data.Count; i++)
+            for (int i = iShift; i < Data.Count; i++)
             {
                 int CurrA = getIntValue(Data[i].ValueList[col]);
                 int CurrB = getIntValue(Data[i - LastTimes].ValueList[BColIndex]);
@@ -240,11 +244,11 @@ namespace Strags
 
         }
 
-        public Dictionary<int, int> OccurProbDetailList(int shift, int TestLength, int LastTimes)
+        public Dictionary<int, List<int>> OccurSelectLengthProbDetailList(int shift, int TestLength, int LastTimes,int SelectLength)
         {
 
-            Dictionary<int, List<int>> ret = OccurProbList(shift, TestLength, LastTimes, 10);
-            return ret.ToDictionary(p => p.Key, p => p.Value[0]);
+            Dictionary<int, List<int>> ret = OccurProbList(shift, TestLength, LastTimes, SelectLength);
+            return ret.ToDictionary(p => p.Key, p => p.Value);
 
         }
         public Dictionary<int, Dictionary<int, int>> OccurrSpecLengthShiftProbList(int TestLength, int LastTimes,int startPos,int shiftLen)
@@ -254,14 +258,18 @@ namespace Strags
                 ret.Add(i, new Dictionary<int, int>());
             for (int i = startPos; i < startPos+shiftLen; i++)//遍历所有偏移的高概率
             {
-                Dictionary<int, int> res = OccurProbList(i, TestLength, LastTimes);//获取当前偏移的所有高概率
+                //Dictionary<int, int> res = OccurProbList(i, TestLength, LastTimes);//获取当前偏移的所有高概率
+                Dictionary<int, List<int>> res = OccurProbList(i, TestLength, LastTimes,3);//获取当前偏移的所有高概率
                 foreach (int key in res.Keys)
                 {
-                    if (!ret[key].ContainsKey(res[key]))
+                    for (int j = 0; j < res[key].Count; j++)
                     {
-                        ret[key].Add(res[key], 0);
+                        if (!ret[key].ContainsKey(res[key][j]))
+                        {
+                            ret[key].Add(res[key][j], 0);
+                        }
+                        ret[key][res[key][j]] = ret[key][res[key][j]] + 1;
                     }
-                    ret[key][res[key]] = ret[key][res[key]] + 1;
                 }
             }
             return ret;

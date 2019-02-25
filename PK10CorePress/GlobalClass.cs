@@ -77,6 +77,7 @@ namespace PK10CorePress
         public static string Title = "快乐赛车";
         public static string strLoginUrlModel = "http://www.wolfinv.com/PK10/App/login.asp?User={0}&Password={1}";
         public static string strRequestInstsURL = "http://www.wolfinv.com/pk10/app/requestinsts.asp";
+        public static string strAssetInfoURL = "http://www.wolfinv.com/pk10/app/getAssetLists.asp";
         public static string dbServer = "www.wolfinv.com";//"47.95.222.142";//"www.wolfinv.com";
         public static string dbName =  "PK10db";
         public static string dbUser =  "sa";
@@ -503,7 +504,6 @@ namespace PK10CorePress
             }
         }
 
-
         public int MinTimeForChance(int Times)
         {
                 if(SysParams.Count > 0)
@@ -558,6 +558,34 @@ namespace PK10CorePress
             }
             return 0;
         }
+
+        #region 客户端资产单元投资配置
+        public Dictionary<string,int> AssetUnits
+        {
+            get
+            {
+                Dictionary<string, int> ret = new Dictionary<string, int>();
+                if (SysParams.Count > 0 && SysParams.ContainsKey("AssetUnits"))
+                {
+                    Dictionary<string, string> assetunits = SysParams["AssetUnits"];
+                    return assetunits.ToDictionary(p => p.Key, p => int.Parse(p.Value));
+                }
+                return ret;
+            }
+            set
+            {
+                if (value == null)
+                    return;
+                if(SysParams == null)
+                {
+                    return;//SysParams = new Dictionary<string, Dictionary<string, string>>();
+                }
+                SysParams["AssetUnits"] = value.ToDictionary(p => p.Key, p => p.Value.ToString());
+
+            }
+        }
+        #endregion
+
         #endregion
 
         public static AmoutSerials? _DefaultHoldAmtSerials = null;
@@ -643,6 +671,44 @@ namespace PK10CorePress
                         configtypeDir[name] = val;
                 }
                 sSysParams.Add(TypeName, configtypeDir);
+            }
+        }
+
+        public static void SetConfig()
+        {
+            XmlDocument xmldoc = new XmlDocument();
+            xmldoc.LoadXml("<root><configs/></root>");
+            XmlNode configNodes = xmldoc.SelectSingleNode("root/configs");
+            foreach(string configkey in sSysParams.Keys)
+            {
+
+                XmlNode configNode = xmldoc.CreateElement("config");
+                XmlAttribute atttypekey = xmldoc.CreateAttribute("type");
+                atttypekey.Value = configkey;
+                configNode.Attributes.Append(atttypekey);
+                foreach (string itemkey in sSysParams[configkey].Keys)
+                {
+                    XmlNode itemnode = xmldoc.CreateElement("item");
+                    XmlAttribute attkey = xmldoc.CreateAttribute("key");
+                    XmlAttribute attvalue = xmldoc.CreateAttribute("value");
+                    attkey.Value = itemkey;
+                    attvalue.Value = sSysParams[configkey][itemkey];
+                    itemnode.Attributes.Append(attkey);
+                    itemnode.Attributes.Append(attvalue);
+                    configNode.AppendChild(itemnode);
+                }
+                configNodes.AppendChild(configNode);
+            }
+            string strPath = typeof(GlobalClass).Assembly.Location;
+            string strXmlPath = Path.GetDirectoryName(strPath) + "\\config.xml";
+            try
+            {
+                xmldoc.Save(strXmlPath);
+            }
+            catch(Exception e)
+            {
+                string strContent = xmldoc.OuterXml;
+                ToLog("错误", string.Format("保存到文件[{0}]错误:{1}", strPath, strContent), string.Format("{0}", e.Message));
             }
         }
 

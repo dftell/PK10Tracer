@@ -67,5 +67,47 @@ namespace WebCommunicateClass
             ret.Result.Add(rc);
             return ret;
         }
+
+        public CommResult getRequestAssetList(string requestUrl)
+        {
+            string json = null;
+            CommResult ret = new CommResult();
+            try
+            {
+                json = AccessWebServerClass.GetData(requestUrl, Encoding.UTF8);
+                if (json == null)
+                {
+                    ret.Message = "未请求到内容！";
+                    return ret;
+                }
+            }
+            catch (Exception ce)
+            {
+                ret.Message = ce.Message;
+                return ret;
+            }
+            mAssetUnitList rc = null;
+            try
+            {
+                rc = new AssetUnitList().getObjectByJsonString(json);
+            }
+            catch (Exception e)
+            {
+                ret.Message = e.Message;
+                return ret;
+            }
+            ret.Json = json;
+            if (rc == null)
+            {
+                ret.Message = "数据格式错误！";
+                return ret;
+            }
+            ret.Succ = true;
+            ret.Result = new List<RecordObject>();
+            ret.Cnt = 1;
+            ret.Result.Add(rc);
+            return ret;
+        }
+
     }
 }

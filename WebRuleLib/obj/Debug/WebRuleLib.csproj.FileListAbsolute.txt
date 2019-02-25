@@ -34,10 +34,10 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\bin\Debug\PK10CorePres
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\bin\Debug\ProbMathLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\bin\Debug\BaseObjectsLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\bin\Debug\LogLib.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\bin\Debug\PK10CorePress.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\bin\Debug\ProbMathLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\obj\Debug\WebRuleLib.csprojAssemblyReference.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\obj\Debug\WebRuleLib.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\obj\Debug\WebRuleLib.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\obj\Debug\WebRuleLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\obj\Debug\WebRuleLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\bin\Debug\PK10CorePress.pdb

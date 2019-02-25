@@ -23,6 +23,8 @@ namespace ExchangeTermial
         bool WebBrowserLoad = false;
         Dictionary<int, RequestClass> CurrDic = new Dictionary<int, RequestClass>();
         DateTime LastInstsTime = DateTime.MaxValue;
+        Dictionary<string, string> AssetUnitList;
+        long RefreshTimes = 0;
         public MainWindow()
         {
             InitializeComponent();
@@ -30,10 +32,13 @@ namespace ExchangeTermial
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
+            AssetUnitList = getAssetLists();
             this.webBrowser1.Url = new Uri("https://www.kcai331.com");
             this.timer_RequestInst.Interval = 10;
             this.timer_RequestInst.Enabled = true;
             this.timer_RequestInst_Tick(null, null);
+
+
         }
 
         void AddScript()
@@ -102,6 +107,24 @@ namespace ExchangeTermial
 
         }
 
+        Dictionary<string,string> getAssetLists()
+        {
+            Dictionary<string, string> ret = new Dictionary<string, string>();
+            CommunicateToServer wc = new CommunicateToServer();
+            CommResult cr = wc.getRequestAssetList(GlobalClass.strAssetInfoURL);
+            if (!cr.Succ)
+            {
+                this.statusStrip1.Items[0].Text = cr.Message;
+                return ret;
+            }
+            mAssetUnitList ic = cr.Result[0] as mAssetUnitList;
+            for(int i=0;i<ic.Count;i++)
+            {
+                ret.Add(ic.List[i].AssetId, ic.List[i].AssetName);
+            }
+            return ret;
+        }
+
         private void timer_RequestInst_Tick(object sender, ElapsedEventArgs e)
         {
             DateTime CurrTime = DateTime.Now;
@@ -125,7 +148,7 @@ namespace ExchangeTermial
             }
             Int64 CurrExpectNo = Int64.Parse(ic.Expect);
             this.statusStrip1.Items[1].Text = DateTime.Now.ToLongTimeString();
-            if (CurrExpectNo > this.NewExpect)
+            if (CurrExpectNo > this.NewExpect || RefreshTimes == 0)
             {
                 LastInstsTime = DateTime.Now;
                 int CurrMin = DateTime.Now.Minute % 5;
@@ -144,26 +167,30 @@ namespace ExchangeTermial
                 this.txt_OpenTime.Text = ic.LastTime;
                 this.txt_Insts.Text = ic.getUserInsts(Program.gc);
                 this.NewExpect = CurrExpectNo;
-                if(WebBrowserLoad)
-                    this.btn_Send_Click(null, null);
+                if (WebBrowserLoad)
+                {
+                    if(RefreshTimes>0)
+                        this.btn_Send_Click(null, null);
+                }
+                RefreshTimes = 1;
             }
             else
             {
                 if (CurrTime.Hour < 9)//如果在9点前
                 {
                     //下一个时间点是9：08
-                    DateTime TargetTime = DateTime.Today.AddHours(9).AddMinutes(8);
+                    DateTime TargetTime = DateTime.Today.AddHours(9).AddMinutes(30);
                     this.timer_RequestInst.Interval = TargetTime.Subtract(CurrTime).TotalMilliseconds;
                 }
                 else
                 {
                     if (CurrTime.Subtract(LastInstsTime).Minutes > 7)//如果离上期时间超过7分钟，说明数据未接收到，那不要再频繁以10秒访问服务器
                     {
-                        this.timer_RequestInst.Interval = 60 * 1000;
+                        this.timer_RequestInst.Interval = 4*60 * 1000;
                     }
                     else //一般未接收到，10秒以后再试
                     {
-                        this.timer_RequestInst.Interval = 10000;
+                        this.timer_RequestInst.Interval = 4*60*1000;
                     }
                 }
             }
@@ -191,18 +218,27 @@ namespace ExchangeTermial
 
         private void btn_Send_Click(object sender, EventArgs e)
         {
+            if (this.txt_Insts.Text.Trim().Length == 0) return;
             Rule_ForKcaiCom rule = new Rule_ForKcaiCom(Program.gc);
             AddScript();
             string msg = rule.IntsToJsonString(this.txt_Insts.Text, Program.gc.ChipUnit);
             //SendMsg
             webBrowser1.Document.InvokeScript("SendMsg", new string[] { this.NewExpect.ToString(), msg });
-            if (e != null)
-            {
-                MessageBox.Show(msg);
-            }
+            ////if (e != null)
+            ////{
+            ////    MessageBox.Show(msg);
+            ////}
         }
 
+        private void mnu_SetAssetUnitCnt_Click(object sender, EventArgs e)
+        {
+            frm_setting frm = new frm_setting(AssetUnitList);
+            frm.ShowDialog();
+        }
 
-
+        private void mnu_RefreshInsts_Click(object sender, EventArgs e)
+        {
+            timer_RequestInst_Tick(null, null);
+        }
     }
 }

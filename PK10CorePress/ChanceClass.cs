@@ -120,9 +120,11 @@ namespace PK10CorePress
         //public string StragParams;
         public bool NeedConditionEnd;
         public int MaxHoldTimeCnt;
-
+        
         public List<int> MatchTimesList = new List<int>();
         public EventCheckNeedEndTheChance OnCheckTheChance;
+
+        public string AssetId;//增加所属资产单元id
         #endregion
 
         public ChanceClass()

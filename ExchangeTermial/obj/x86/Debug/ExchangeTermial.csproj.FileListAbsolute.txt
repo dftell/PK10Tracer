@@ -48,3 +48,4 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Debug\Exc
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.exe
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.frm_setting.resources
