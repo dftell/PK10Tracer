@@ -25,6 +25,7 @@ namespace ExchangeTermial
         DateTime LastInstsTime = DateTime.MaxValue;
         Dictionary<string, string> AssetUnitList;
         long RefreshTimes = 0;
+        Dictionary<long, string> dicExistInst ;
         public MainWindow()
         {
             InitializeComponent();
@@ -33,7 +34,10 @@ namespace ExchangeTermial
         private void MainWindow_Load(object sender, EventArgs e)
         {
             AssetUnitList = getAssetLists();
-            this.webBrowser1.Url = new Uri("https://www.kcai331.com");
+            dicExistInst = new Dictionary<long, string>();
+            string url = Program.gc.LoginUrlModel.Replace("{host}", Program.gc.LoginDefaultHost);
+            this.webBrowser1.Url = new Uri(url);
+            this.webBrowser1.ScriptErrorsSuppressed = true;
             this.timer_RequestInst.Interval = 10;
             this.timer_RequestInst.Enabled = true;
             this.timer_RequestInst_Tick(null, null);
@@ -161,7 +165,7 @@ namespace ExchangeTermial
                 ////{
                 ////    this.timer_RequestInst.Interval = (5-CurrMin)*6000;//5分钟以后见
                 ////}
-                this.timer_RequestInst.Interval = (CurrMin % 5 < 3 ? 3 : 8 - CurrMin) * 60000 -1000;//5分钟以后见,减掉1秒不断收敛时间，防止延迟接收
+                this.timer_RequestInst.Interval = 5 * 60 * 1000 -1000;//5分钟以后见,减掉1秒不*断收敛时间，防止延迟接收
                 //ToAdd:填充各内容
                 this.txt_ExpectNo.Text = ic.Expect;
                 this.txt_OpenTime.Text = ic.LastTime;
@@ -171,8 +175,9 @@ namespace ExchangeTermial
                 {
                     if(RefreshTimes>0)
                         this.btn_Send_Click(null, null);
+                    RefreshTimes = 1;
                 }
-                RefreshTimes = 1;
+                
             }
             else
             {
@@ -186,11 +191,11 @@ namespace ExchangeTermial
                 {
                     if (CurrTime.Subtract(LastInstsTime).Minutes > 7)//如果离上期时间超过7分钟，说明数据未接收到，那不要再频繁以10秒访问服务器
                     {
-                        this.timer_RequestInst.Interval = 4*60 * 1000;
+                        this.timer_RequestInst.Interval = 4 * 60 * 1000;
                     }
                     else //一般未接收到，10秒以后再试
                     {
-                        this.timer_RequestInst.Interval = 4*60*1000;
+                        this.timer_RequestInst.Interval = 4 * 60 * 1000;
                     }
                 }
             }
@@ -219,6 +224,11 @@ namespace ExchangeTermial
         private void btn_Send_Click(object sender, EventArgs e)
         {
             if (this.txt_Insts.Text.Trim().Length == 0) return;
+            if(dicExistInst.ContainsKey(this.NewExpect))
+            {
+                return;
+            }
+            dicExistInst.Add(this.NewExpect, this.txt_Insts.Text);
             Rule_ForKcaiCom rule = new Rule_ForKcaiCom(Program.gc);
             AddScript();
             string msg = rule.IntsToJsonString(this.txt_Insts.Text, Program.gc.ChipUnit);

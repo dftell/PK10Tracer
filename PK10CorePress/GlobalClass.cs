@@ -245,6 +245,7 @@ namespace PK10CorePress
             set
             {
                 _ClentUserName = value;
+                SysParams["System"]["ClientUsername"] = value;
             }
         }
 
@@ -257,13 +258,15 @@ namespace PK10CorePress
                 {
                     if (SysParams.Count > 0)
                         _ClientUserPwd = SysParams["System"]["ClientPassword"];
-                    return "";
+                    else
+                        return "";
                 }
                 return _ClientUserPwd;
             }
             set
             {
                 _ClientUserPwd = value;
+                SysParams["System"]["ClientPassword"] = value;
             }
         }
 
@@ -373,6 +376,7 @@ namespace PK10CorePress
             set
             {
                 _Odds = value;
+                SysParams["System"]["Odds"] = value.ToString();
             }
         }
 

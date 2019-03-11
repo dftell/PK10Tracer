@@ -42,43 +42,46 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(77, 56);
+            this.label1.Location = new System.Drawing.Point(154, 112);
+            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(29, 12);
+            this.label1.Size = new System.Drawing.Size(58, 24);
             this.label1.TabIndex = 0;
             this.label1.Text = "账号";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(77, 94);
+            this.label2.Location = new System.Drawing.Point(154, 188);
+            this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(29, 12);
+            this.label2.Size = new System.Drawing.Size(58, 24);
             this.label2.TabIndex = 1;
             this.label2.Text = "密码";
             // 
             // txt_user
             // 
-            this.txt_user.Location = new System.Drawing.Point(142, 51);
+            this.txt_user.Location = new System.Drawing.Point(284, 102);
+            this.txt_user.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.txt_user.Name = "txt_user";
-            this.txt_user.Size = new System.Drawing.Size(138, 21);
+            this.txt_user.Size = new System.Drawing.Size(272, 35);
             this.txt_user.TabIndex = 2;
-            this.txt_user.Text = "dftell";
             // 
             // txt_password
             // 
-            this.txt_password.Location = new System.Drawing.Point(142, 91);
+            this.txt_password.Location = new System.Drawing.Point(284, 182);
+            this.txt_password.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.txt_password.Name = "txt_password";
             this.txt_password.PasswordChar = '*';
-            this.txt_password.Size = new System.Drawing.Size(138, 21);
+            this.txt_password.Size = new System.Drawing.Size(272, 35);
             this.txt_password.TabIndex = 3;
-            this.txt_password.Text = "abcdef123";
             // 
             // btn_login
             // 
-            this.btn_login.Location = new System.Drawing.Point(132, 143);
+            this.btn_login.Location = new System.Drawing.Point(264, 286);
+            this.btn_login.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btn_login.Name = "btn_login";
-            this.btn_login.Size = new System.Drawing.Size(60, 24);
+            this.btn_login.Size = new System.Drawing.Size(120, 48);
             this.btn_login.TabIndex = 4;
             this.btn_login.Text = "登录";
             this.btn_login.UseVisualStyleBackColor = true;
@@ -87,9 +90,10 @@
             // btn_cancel
             // 
             this.btn_cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btn_cancel.Location = new System.Drawing.Point(194, 143);
+            this.btn_cancel.Location = new System.Drawing.Point(388, 286);
+            this.btn_cancel.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btn_cancel.Name = "btn_cancel";
-            this.btn_cancel.Size = new System.Drawing.Size(60, 24);
+            this.btn_cancel.Size = new System.Drawing.Size(120, 48);
             this.btn_cancel.TabIndex = 5;
             this.btn_cancel.Text = "取消";
             this.btn_cancel.UseVisualStyleBackColor = true;
@@ -97,10 +101,10 @@
             // Form1
             // 
             this.AcceptButton = this.btn_login;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btn_cancel;
-            this.ClientSize = new System.Drawing.Size(372, 221);
+            this.ClientSize = new System.Drawing.Size(744, 442);
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_login);
             this.Controls.Add(this.txt_password);
@@ -108,6 +112,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "菠菜量化分析终端-武府黑科技";

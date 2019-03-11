@@ -35,8 +35,10 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.tsmi_System = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_View = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnu_RefreshInsts = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_Operate = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_Setting = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnu_SetAssetUnitCnt = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -58,8 +60,6 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer_RequestInst = new System.Timers.Timer();
-            this.mnu_SetAssetUnitCnt = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnu_RefreshInsts = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -79,14 +79,14 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(12, 4, 0, 4);
-            this.menuStrip1.Size = new System.Drawing.Size(1710, 46);
+            this.menuStrip1.Size = new System.Drawing.Size(1710, 43);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // tsmi_System
             // 
             this.tsmi_System.Name = "tsmi_System";
-            this.tsmi_System.Size = new System.Drawing.Size(74, 38);
+            this.tsmi_System.Size = new System.Drawing.Size(74, 35);
             this.tsmi_System.Text = "系统";
             // 
             // tsmi_View
@@ -94,13 +94,20 @@
             this.tsmi_View.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnu_RefreshInsts});
             this.tsmi_View.Name = "tsmi_View";
-            this.tsmi_View.Size = new System.Drawing.Size(74, 38);
+            this.tsmi_View.Size = new System.Drawing.Size(74, 35);
             this.tsmi_View.Text = "查看";
+            // 
+            // mnu_RefreshInsts
+            // 
+            this.mnu_RefreshInsts.Name = "mnu_RefreshInsts";
+            this.mnu_RefreshInsts.Size = new System.Drawing.Size(208, 38);
+            this.mnu_RefreshInsts.Text = "刷新指令";
+            this.mnu_RefreshInsts.Click += new System.EventHandler(this.mnu_RefreshInsts_Click);
             // 
             // tsmi_Operate
             // 
             this.tsmi_Operate.Name = "tsmi_Operate";
-            this.tsmi_Operate.Size = new System.Drawing.Size(74, 38);
+            this.tsmi_Operate.Size = new System.Drawing.Size(74, 35);
             this.tsmi_Operate.Text = "操作";
             // 
             // tsmi_Setting
@@ -108,19 +115,26 @@
             this.tsmi_Setting.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnu_SetAssetUnitCnt});
             this.tsmi_Setting.Name = "tsmi_Setting";
-            this.tsmi_Setting.Size = new System.Drawing.Size(74, 38);
+            this.tsmi_Setting.Size = new System.Drawing.Size(74, 35);
             this.tsmi_Setting.Text = "设置";
+            // 
+            // mnu_SetAssetUnitCnt
+            // 
+            this.mnu_SetAssetUnitCnt.Name = "mnu_SetAssetUnitCnt";
+            this.mnu_SetAssetUnitCnt.Size = new System.Drawing.Size(304, 38);
+            this.mnu_SetAssetUnitCnt.Text = "资产单元投资规模";
+            this.mnu_SetAssetUnitCnt.Click += new System.EventHandler(this.mnu_SetAssetUnitCnt_Click);
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 46);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabControl1.Location = new System.Drawing.Point(0, 43);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(6);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1710, 1164);
+            this.tabControl1.Size = new System.Drawing.Size(1710, 1167);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -129,10 +143,10 @@
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Controls.Add(this.webBrowser1);
             this.tabPage1.Location = new System.Drawing.Point(8, 39);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.tabPage1.Size = new System.Drawing.Size(1694, 1117);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(6);
+            this.tabPage1.Size = new System.Drawing.Size(1694, 1120);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "概要";
             // 
@@ -152,9 +166,9 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(6);
             this.groupBox1.Size = new System.Drawing.Size(1682, 240);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
@@ -165,7 +179,7 @@
             // 
             this.btn_AddHedge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_AddHedge.Location = new System.Drawing.Point(1546, 182);
-            this.btn_AddHedge.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btn_AddHedge.Margin = new System.Windows.Forms.Padding(6);
             this.btn_AddHedge.Name = "btn_AddHedge";
             this.btn_AddHedge.Size = new System.Drawing.Size(124, 42);
             this.btn_AddHedge.TabIndex = 11;
@@ -176,7 +190,7 @@
             // 
             this.btn_SelfAddCombo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_SelfAddCombo.Location = new System.Drawing.Point(1392, 182);
-            this.btn_SelfAddCombo.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btn_SelfAddCombo.Margin = new System.Windows.Forms.Padding(6);
             this.btn_SelfAddCombo.Name = "btn_SelfAddCombo";
             this.btn_SelfAddCombo.Size = new System.Drawing.Size(142, 42);
             this.btn_SelfAddCombo.TabIndex = 10;
@@ -199,7 +213,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_NewInsts.Location = new System.Drawing.Point(1392, 76);
-            this.txt_NewInsts.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txt_NewInsts.Margin = new System.Windows.Forms.Padding(6);
             this.txt_NewInsts.Multiline = true;
             this.txt_NewInsts.Name = "txt_NewInsts";
             this.txt_NewInsts.Size = new System.Drawing.Size(274, 90);
@@ -208,7 +222,7 @@
             // btn_Send
             // 
             this.btn_Send.Location = new System.Drawing.Point(1296, 38);
-            this.btn_Send.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btn_Send.Margin = new System.Windows.Forms.Padding(6);
             this.btn_Send.Name = "btn_Send";
             this.btn_Send.Size = new System.Drawing.Size(80, 188);
             this.btn_Send.TabIndex = 7;
@@ -219,7 +233,7 @@
             // txt_OpenTime
             // 
             this.txt_OpenTime.Location = new System.Drawing.Point(1010, 40);
-            this.txt_OpenTime.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txt_OpenTime.Margin = new System.Windows.Forms.Padding(6);
             this.txt_OpenTime.Name = "txt_OpenTime";
             this.txt_OpenTime.Size = new System.Drawing.Size(274, 35);
             this.txt_OpenTime.TabIndex = 6;
@@ -237,7 +251,7 @@
             // txt_OpenCode
             // 
             this.txt_OpenCode.Location = new System.Drawing.Point(480, 40);
-            this.txt_OpenCode.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txt_OpenCode.Margin = new System.Windows.Forms.Padding(6);
             this.txt_OpenCode.Name = "txt_OpenCode";
             this.txt_OpenCode.Size = new System.Drawing.Size(400, 35);
             this.txt_OpenCode.TabIndex = 4;
@@ -255,7 +269,7 @@
             // txt_Insts
             // 
             this.txt_Insts.Location = new System.Drawing.Point(32, 92);
-            this.txt_Insts.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txt_Insts.Margin = new System.Windows.Forms.Padding(6);
             this.txt_Insts.Multiline = true;
             this.txt_Insts.Name = "txt_Insts";
             this.txt_Insts.Size = new System.Drawing.Size(1252, 132);
@@ -264,7 +278,7 @@
             // txt_ExpectNo
             // 
             this.txt_ExpectNo.Location = new System.Drawing.Point(142, 38);
-            this.txt_ExpectNo.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txt_ExpectNo.Margin = new System.Windows.Forms.Padding(6);
             this.txt_ExpectNo.Name = "txt_ExpectNo";
             this.txt_ExpectNo.Size = new System.Drawing.Size(186, 35);
             this.txt_ExpectNo.TabIndex = 1;
@@ -287,10 +301,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.webBrowser1.Location = new System.Drawing.Point(6, 258);
-            this.webBrowser1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.webBrowser1.Margin = new System.Windows.Forms.Padding(6);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(40, 40);
             this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(1672, 812);
+            this.webBrowser1.Size = new System.Drawing.Size(1672, 815);
             this.webBrowser1.TabIndex = 0;
             this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser1_DocumentCompleted);
             // 
@@ -298,10 +312,10 @@
             // 
             this.tabPage2.BackColor = System.Drawing.Color.WhiteSmoke;
             this.tabPage2.Location = new System.Drawing.Point(8, 39);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.tabPage2.Size = new System.Drawing.Size(1694, 1113);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(6);
+            this.tabPage2.Size = new System.Drawing.Size(1694, 1117);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "数据";
             // 
@@ -336,20 +350,6 @@
             this.timer_RequestInst.SynchronizingObject = this;
             this.timer_RequestInst.Elapsed += new System.Timers.ElapsedEventHandler(this.timer_RequestInst_Tick);
             // 
-            // mnu_SetAssetUnitCnt
-            // 
-            this.mnu_SetAssetUnitCnt.Name = "mnu_SetAssetUnitCnt";
-            this.mnu_SetAssetUnitCnt.Size = new System.Drawing.Size(324, 38);
-            this.mnu_SetAssetUnitCnt.Text = "资产单元投资规模";
-            this.mnu_SetAssetUnitCnt.Click += new System.EventHandler(this.mnu_SetAssetUnitCnt_Click);
-            // 
-            // mnu_RefreshInsts
-            // 
-            this.mnu_RefreshInsts.Name = "mnu_RefreshInsts";
-            this.mnu_RefreshInsts.Size = new System.Drawing.Size(324, 38);
-            this.mnu_RefreshInsts.Text = "刷新指令";
-            this.mnu_RefreshInsts.Click += new System.EventHandler(this.mnu_RefreshInsts_Click);
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
@@ -360,9 +360,9 @@
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "MainWindow";
-            this.Text = "MainWindow";
+            this.Text = "快乐割菜";
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

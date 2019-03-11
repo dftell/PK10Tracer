@@ -55,6 +55,8 @@ namespace WebRuleLib
                 String ccOrgCars = ccArr[1].Trim();
                 ccCars = toStdCarFmt(ccOrgCars).Trim();//车号组合标准格式
                 ccUnitCost = Int64.Parse(ccArr[2]);
+                if (ccUnitCost == 0)
+                    continue;
                 String[] sArr = new String[5];
                 String[] bArr = new String[5];
                 for (int j = 0; j < 5; j++)

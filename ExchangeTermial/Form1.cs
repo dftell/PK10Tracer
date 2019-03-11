@@ -16,6 +16,8 @@ namespace ExchangeTermial
         public Form1()
         {
             InitializeComponent();
+            this.txt_user.Text = Program.gc.ClientUserName;
+            this.txt_password.Text = Program.gc.ClientPassword;
         }
 
         private void btn_login_Click(object sender, EventArgs e)
@@ -37,6 +39,7 @@ namespace ExchangeTermial
             Program.gc.ClientUserName = ret.BaseInfo.UserCode;
             Program.gc.ClientPassword = ret.BaseInfo.Password;
             Program.gc.Odds = ret.BaseInfo.Odds;
+            GlobalClass.SetConfig();
             this.Hide();
             MainWindow mw = new MainWindow();
             mw.Show();
