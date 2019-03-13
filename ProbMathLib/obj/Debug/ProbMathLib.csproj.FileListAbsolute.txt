@@ -12,4 +12,3 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ProbMathLib\bin\Debug\ProbMathLib
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ProbMathLib\obj\Debug\ProbMathLib.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ProbMathLib\obj\Debug\ProbMathLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ProbMathLib\obj\Debug\ProbMathLib.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ProbMathLib\obj\Debug\ProbMathLib.csprojAssemblyReference.cache

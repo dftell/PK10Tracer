@@ -71,9 +71,11 @@ namespace ExchangeLib
 
         public bool Running;
 
-        DataTable LoadDataFromFile()
+        public DataTable LoadDataFromFile()
         {
             DataTable dt = new DataTable();
+            Xslxpath = string.Format("{0}\\{1}.xlsx", Path.GetDirectoryName(typeof(GlobalClass).Assembly.Location), this.uid);
+            ToLog(Xslxpath);
             dt = OpenXmlHelper.ImportExcel(Xslxpath);
             return dt;
         }
@@ -89,8 +91,11 @@ namespace ExchangeLib
         public void Run(bool LoadTheData) //add by zhouys 2019/1/5 
         {
             ExchangeServer = new ExchangeService(TotalAsset,Odds);
-            if(LoadTheData)
+            if (LoadTheData)
+            {
+                LogLib.LogableClass.ToLog("资产单元", string.Format("{0}:{1}", uid, UnitName));
                 ExchangeServer.LoadTheLastRecords(LoadDataFromFile());
+            }
             Running = true;
         }
 
@@ -104,7 +109,11 @@ namespace ExchangeLib
             return ExchangeServer.summary;
         } 
 
-       
+        public bool Resume()
+        {
+            ExchangeServer.Reset();
+            return true;
+        }
 
        
         #region  支持propertygrid默认信息

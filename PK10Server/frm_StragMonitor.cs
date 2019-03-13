@@ -229,6 +229,7 @@ namespace PK10Server
         {
             RefreshPK10Data();
             RefreshPK10NoClosedChances();
+            refreshAssetUnitDll();
         }
 
         private void bootServiceToolStripMenuItem_Click(object sender, EventArgs e)
@@ -580,6 +581,24 @@ namespace PK10Server
             this.chart_ForGuide.Series[0].Points.DataBindXY(moneyLines, "id", moneyLines, "val");
         }
 
+        void refreshAssetUnitDll()
+        {
+            Dictionary<string, AssetUnitClass> assetUnits = UseSetting.AllAssetUnits;
+            DataTable dt = new DataTable();
+            dt.Columns.Add("name");
+            dt.Columns.Add("value");
+            foreach(string key in assetUnits.Keys)
+            {
+                DataRow dr = dt.NewRow();
+                dr["name"] = assetUnits[key].UnitName;
+                dr["value"] = assetUnits[key].UnitId;
+                dt.Rows.Add(dr);
+            }
+            this.ddl_assetunits.ValueMember = "value";
+            this.ddl_assetunits.DisplayMember = "name";
+            this.ddl_assetunits.DataSource = dt;
+            this.ddl_assetunits.Tag = assetUnits;
+        }
 
         void refresh_AssetChart()
         {
@@ -667,6 +686,22 @@ namespace PK10Server
         private void btn_adjustAssetTimeLength_Click(object sender, EventArgs e)
         {
             refresh_AssetChart();
+        }
+
+        private void btn_clearNet_Click(object sender, EventArgs e)
+        {
+            Dictionary<string, AssetUnitClass> units = this.ddl_assetunits.Tag as Dictionary<string, AssetUnitClass>;
+            if (this.ddl_assetunits.SelectedIndex < 0) return;
+            AssetUnitClass auc = units[this.ddl_assetunits.SelectedValue.ToString()];
+            if (auc == null) return;
+            try
+            {
+                auc.Resume();
+            }
+            catch(Exception ce)
+            {
+                MessageBox.Show(ce.Message);
+            }
         }
     }
 

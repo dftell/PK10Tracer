@@ -18,8 +18,8 @@ F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WinInterCommin
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WinInterComminuteLib\obj\Release\WinInterComminuteLib.pdb
 C:\Users\zhouys\Source\project\PK10Tracer\WinInterComminuteLib.dll
 C:\Users\zhouys\Source\project\PK10Tracer\WinInterComminuteLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WinInterComminuteLib\obj\Release\WinInterComminuteLib.csprojAssemblyReference.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WinInterComminuteLib\obj\Release\WinInterComminuteLib.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WinInterComminuteLib\obj\Release\WinInterComminuteLib.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WinInterComminuteLib\obj\Release\WinInterComminuteLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WinInterComminuteLib\obj\Release\WinInterComminuteLib.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WinInterComminuteLib\obj\Release\WinInterComminuteLib.csprojAssemblyReference.cache

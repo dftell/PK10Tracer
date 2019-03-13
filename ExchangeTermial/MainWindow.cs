@@ -26,6 +26,8 @@ namespace ExchangeTermial
         Dictionary<string, string> AssetUnitList;
         long RefreshTimes = 0;
         Dictionary<long, string> dicExistInst ;
+        bool Sleep = false;
+        bool Logined = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -35,14 +37,20 @@ namespace ExchangeTermial
         {
             AssetUnitList = getAssetLists();
             dicExistInst = new Dictionary<long, string>();
+            LoadUrl();
+
+
+        }
+
+        void LoadUrl()
+        {
+            Logined = false;
             string url = Program.gc.LoginUrlModel.Replace("{host}", Program.gc.LoginDefaultHost);
             this.webBrowser1.Url = new Uri(url);
             this.webBrowser1.ScriptErrorsSuppressed = true;
             this.timer_RequestInst.Interval = 10;
             this.timer_RequestInst.Enabled = true;
             this.timer_RequestInst_Tick(null, null);
-
-
         }
 
         void AddScript()
@@ -75,7 +83,8 @@ namespace ExchangeTermial
                 ////    string inputTxt = Interaction.InputBox("脚本变量","输入","debugtext",400,300);
                 ////    object s = webBrowser1.Document.InvokeScript(inputTxt);
                 ////MessageBox.Show(s!=null?s.ToString():"");
-                }
+                Logined = true;
+            }
             ////}
         }
 
@@ -131,6 +140,15 @@ namespace ExchangeTermial
 
         private void timer_RequestInst_Tick(object sender, ElapsedEventArgs e)
         {
+            if (Sleep)//还在睡觉
+            {
+                LoadUrl();
+                while(!Logined)
+                {
+                    System.Threading.Thread.Sleep(5000);
+                }
+                Sleep = false;
+            }
             DateTime CurrTime = DateTime.Now;
             CommunicateToServer wc = new CommunicateToServer();
             CommResult cr = wc.getRequestInsts(GlobalClass.strRequestInstsURL);
@@ -186,9 +204,11 @@ namespace ExchangeTermial
                     //下一个时间点是9：08
                     DateTime TargetTime = DateTime.Today.AddHours(9).AddMinutes(30);
                     this.timer_RequestInst.Interval = TargetTime.Subtract(CurrTime).TotalMilliseconds;
+                    Sleep = true;
                 }
                 else
                 {
+                    
                     if (CurrTime.Subtract(LastInstsTime).Minutes > 7)//如果离上期时间超过7分钟，说明数据未接收到，那不要再频繁以10秒访问服务器
                     {
                         this.timer_RequestInst.Interval = 4 * 60 * 1000;

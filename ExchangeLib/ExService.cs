@@ -22,7 +22,8 @@ namespace ExchangeLib
         double _InitCash = 0;
         double CurrMoney = 0;
         ExchangeDataTable ed;
-        List<double> MoneyLine;
+        //List<int> MoneyLine;
+        Dictionary<string, double> ExpectMoneyLine;
         int _ExpectCnt;
         DataTable MoneyChangeTable;
         public int ExpectCnt
@@ -45,8 +46,9 @@ namespace ExchangeLib
             _InitCash = InitCash;
             ed = new ExchangeDataTable(odds);
             CurrMoney = InitCash;
-            MoneyLine = new List<double>();
-            MoneyLine.Add(CurrMoney);
+            //MoneyLine = new List<double>();
+            ExpectMoneyLine = new Dictionary<string, double>();
+            //MoneyLine.Add(CurrMoney);
             //EQ = new Dictionary<DateTime, ExchangeChance>();
             ////time_ForExec.Interval = 1000;
             ////time_ForExec.AutoReset = true;
@@ -57,14 +59,18 @@ namespace ExchangeLib
         {
             if (dt == null) return;
             MoneyChangeTable = null;
-            MoneyLine.Clear();
+            //MoneyLine.Clear();
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 double rate = double.Parse(dt.Rows[i]["val"].ToString());
-                MoneyLine.Add(this.InitCash*(100+rate)/100);
-            } 
-            if(MoneyLine.Count>0)
-                CurrMoney = MoneyLine[MoneyLine.Count - 1];
+                string id = dt.Rows[i]["id"].ToString();
+
+                ExpectMoneyLine.Add(id,this.InitCash*(100+rate)/100);
+            }
+            if (ExpectMoneyLine.Count > 0)
+                CurrMoney = ExpectMoneyLine.Values.Last();
+            else
+                CurrMoney = _InitCash;
         }
 
         public void Reset()
@@ -74,7 +80,7 @@ namespace ExchangeLib
             if (MoneyChangeTable != null)
                 MoneyChangeTable.Rows.Clear();
             CurrMoney = _InitCash;
-            MoneyLine = new List<double>();
+            //MoneyLine = new List<double>();
             _ExpectCnt = 0;
         }
 
@@ -147,7 +153,15 @@ namespace ExchangeLib
                 double Gained = 0.0;
                 bool suc = ed.UpdateChance(ec, out Gained);
                 CurrMoney += Gained;
-                MoneyLine.Add(CurrMoney);
+                //MoneyLine.Add(CurrMoney);
+                if(ExpectMoneyLine.ContainsKey(ec.ExExpectNo))
+                {
+                    ExpectMoneyLine[ec.ExExpectNo] = CurrMoney;
+                }
+                else
+                {
+                    ExpectMoneyLine.Add(ec.ExExpectNo , CurrMoney);
+                }
                 return suc;
             }
         }
@@ -197,7 +211,7 @@ namespace ExchangeLib
             {
                 try
                 {
-                    return Math.Round(100 * (MoneyLine.Max() - _InitCash) / _InitCash, 2);
+                    return Math.Round(100 * (ExpectMoneyLine.Values.Max() - _InitCash) / _InitCash, 2);
                 }
                 catch
                 {
@@ -212,7 +226,7 @@ namespace ExchangeLib
             {
                 try
                 {
-                    return Math.Round(100 * (MoneyLine.Min() - _InitCash) / _InitCash, 2);
+                    return Math.Round(100 * (ExpectMoneyLine.Values.Min() - _InitCash) / _InitCash, 2);
                 }
                 catch
                 {
@@ -228,22 +242,25 @@ namespace ExchangeLib
 
             get
             {
-                lock (MoneyLine)
+                lock (ExpectMoneyLine)
                 {
-                    if (MoneyChangeTable == null || MoneyChangeTable.Rows.Count < MoneyLine.Count)
+                    if (MoneyChangeTable == null || MoneyChangeTable.Rows.Count < ExpectMoneyLine.Count)
                     {
                         if (MoneyChangeTable==null)
                         {
                             MoneyChangeTable = new DataTable();
-                            MoneyChangeTable.Columns.Add("id", typeof(int));
+                            MoneyChangeTable.Columns.Add("id");
                             MoneyChangeTable.Columns.Add("val", typeof(double));
                         }
-                        int mcnt = MoneyChangeTable.Rows.Count;
-                        for (int i = mcnt+1; i < MoneyLine.Count; i++)
+                        else
+                        {
+                            MoneyChangeTable.Rows.Clear();
+                        }
+                        foreach (string strkey in ExpectMoneyLine.Keys)
                         {
                             DataRow dr = MoneyChangeTable.NewRow();
-                            dr["id"] = i;
-                            dr["val"] = Math.Round(100 * (MoneyLine[i] - _InitCash) / _InitCash, 2);
+                            dr["id"] = strkey;
+                            dr["val"] = Math.Round(100 * (ExpectMoneyLine[strkey] - _InitCash) / _InitCash, 2);
                             MoneyChangeTable.Rows.Add(dr);
                         }
                     }

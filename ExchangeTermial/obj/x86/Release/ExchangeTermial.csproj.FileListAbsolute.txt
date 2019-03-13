@@ -54,6 +54,7 @@ C:\Users\zhouys\Source\project\PK10Tracer\ExchangeTermial.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.csprojAssemblyReference.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.csproj.ResolveComReference.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.Form1.resources
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.frm_setting.resources
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.MainWindow.resources
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.Properties.Resources.resources
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.csproj.GenerateResource.cache

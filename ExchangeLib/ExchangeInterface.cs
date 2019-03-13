@@ -28,6 +28,11 @@ namespace ExchangeLib
             }
         }
 
+        public string ExExpectNo
+        {
+            get;set;
+        }
+
         public ChanceClass OwnerChance
         {
             get
@@ -44,11 +49,12 @@ namespace ExchangeLib
             }
         }
 
-        public ExchangeChance(ExchangeService _es,StragClass sc, string CurrExpectNo, ChanceClass cc)
+        public ExchangeChance(ExchangeService _es,StragClass sc,string InExpectNo, string CurrExpectNo, ChanceClass cc)
         {
             _cc = cc;
             _sc = sc;
-            _InExpect = CurrExpectNo;
+            _InExpect = InExpectNo;
+            ExExpectNo = CurrExpectNo;
             es = _es;
         }
 

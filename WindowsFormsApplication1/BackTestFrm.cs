@@ -158,6 +158,8 @@ namespace BackTestSys
         void Finished()
         {
             this.timer_Tip.Enabled = false;
+            AssetUnitClass auc = SCList[0].AssetUnitInfo;
+            auc.SaveDataToFile();
             MessageBox.Show("执行完毕！");
         }
 
@@ -598,7 +600,9 @@ namespace BackTestSys
             if(Program.AllSettings.AllAssetUnits.Count>0)//如果存在资产管理单元，所有计划均绑定到第一个上进行测试
             {
                 auc = Program.AllSettings.AllAssetUnits.Values.Last();
+                
             }
+            auc.TotalAsset = double.Parse(this.txt_InitCash.Text);
             es = auc.ExchangeServer;
             if (es != null)
             {
@@ -767,6 +771,7 @@ namespace BackTestSys
 
         private void timer_Tip_Tick(object sender, EventArgs e)
         {
+            this.timer_Tip.Interval = int.Parse(txt_Timer_Interval.Text) * 1000;
             try
             {
                 DataTable dt = btc.SystemStdDevs;
@@ -827,6 +832,7 @@ namespace BackTestSys
                         this.chart1.Series.Add(ss);
                     }
                     this.chart1.Series[0].Points.DataBindXY(moneyLines, "id", moneyLines, "val");
+                    this.chart1.Series[0].Name = SCList[0].AssetUnitInfo.UnitName;
                 }
                 lock (es.ExchangeDetail)
                 {

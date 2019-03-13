@@ -360,7 +360,7 @@ namespace ExchangeLib
             //合并到未关闭机会列表中
             NewList.ForEach(p => AllNoClosedChances.Add(p.GUID, p));
             OldList.Values.ToList<ChanceClass>().ForEach(p => AllNoClosedChances.Add(p.GUID,p));//就算是老记录未有guid,当ToTable时已经生成了guid
-            ExChange(AllNoClosedChances.Values.ToList<ChanceClass>());//执行交易提供可视化
+            ExChange(AllNoClosedChances.Values.ToList<ChanceClass>(), el.LastData.Expect);//执行交易提供可视化
         }
 
         /// <summary>
@@ -369,7 +369,7 @@ namespace ExchangeLib
         /// <param name="list"></param>
         /// <param name="newList"></param>
         /// <returns></returns>
-        bool ExChange(List<ChanceClass> list)
+        bool ExChange(List<ChanceClass> list,string lastExpectNo)
         {
             ////List<ChanceClass> list = new List<ChanceClass>();
             ////Oldlist.Values.ToList<ChanceClass>().ForEach(p => list.Add(p));
@@ -386,8 +386,10 @@ namespace ExchangeLib
                 {
                     continue;//所属分类无记录的资产单元，不记录信息
                 }
+                if (cc.UnitCost == 0)//无交易金额，不处理
+                    continue;
                 AssetUnitClass uu = UseAssetUnits[sc.AssetUnitId];
-                ExchangeChance ec = new ExchangeChance(uu.ExchangeServer,sc,cc.ExpectCode, cc);
+                ExchangeChance ec = new ExchangeChance(uu.ExchangeServer,sc,cc.ExpectCode, lastExpectNo, cc);
                 
                 ec.ExchangeAmount = cc.UnitCost;
                 ec.ExchangeRate = cc.UnitCost / uu.ExchangeServer.summary;

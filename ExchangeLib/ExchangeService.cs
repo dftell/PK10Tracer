@@ -28,7 +28,7 @@ namespace ExchangeLib
 
         void InitColumns()
         {
-            string cols = "Id,ExpectNo,ChanceCode,OccurStrag,Odds,Chips,Amount,ExecRate,Cost,Gained,Profit,CreateTime,UpdateTime,StragId,UserId";
+            string cols = "Id,ExpectNo,ExExpectNo,ChanceCode,OccurStrag,Odds,Chips,Amount,ExecRate,Cost,Gained,Profit,CreateTime,UpdateTime,StragId,UserId";
             string[] colArr = cols.Split(',');
             for (int i = 0; i < colArr.Length; i++)
             {
@@ -43,6 +43,7 @@ namespace ExchangeLib
             ec.Id = Eindex;
             dr["Id"] = Eindex;
             dr["ExpectNo"] = int.Parse(ec.ExpectNo) ;
+            dr["ExExpectNo"] = ec.ExExpectNo;
             dr["ChanceCode"] = ec.OwnerChance.ChanceCode;
             dr["Chips"] = ec.OwnerChance.ChipCount;
             dr["Odds"] = ec.OccurStrag.CommSetting.Odds;

@@ -16,6 +16,8 @@ namespace ExchangeLib
     using DocumentFormat.OpenXml.Packaging;
     using DocumentFormat.OpenXml.Spreadsheet;
 
+
+
     public static class OpenXmlHelper
     {
         /// <summary>
@@ -32,7 +34,7 @@ namespace ExchangeLib
 
             using (MemoryStream stream = DataTable2ExcelStream(dataSet))
             {
-                FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate);
+                FileStream fs = new FileStream(fileName, FileMode.Create);
                 stream.WriteTo(fs);
                 fs.Flush();
                 fs.Close();
@@ -85,21 +87,19 @@ namespace ExchangeLib
 
         private static MemoryStream DataTable2ExcelStream(DataSet dataSet)
         {
-            MemoryStream stream = new MemoryStream();
-            SpreadsheetDocument document = SpreadsheetDocument.Create(stream,
+            string tempFile = Path.GetTempFileName();
+            //MemoryStream stream = SpreadsheetReader .Create // new MemoryStream();
+            SpreadsheetDocument document = SpreadsheetDocument.Create(tempFile,
                 SpreadsheetDocumentType.Workbook);
 
             WorkbookPart workbookPart = document.AddWorkbookPart();
             workbookPart.Workbook = new Workbook();
-
             Sheets sheets = document.WorkbookPart.Workbook.AppendChild(new Sheets());
-
             for (int i = 0; i < dataSet.Tables.Count; i++)
             {
                 DataTable dataTable = dataSet.Tables[i];
                 WorksheetPart worksheetPart = document.WorkbookPart.AddNewPart<WorksheetPart>();
                 worksheetPart.Worksheet = new Worksheet(new SheetData());
-
                 Sheet sheet = new Sheet
                 {
                     Id = document.WorkbookPart.GetIdOfPart(worksheetPart),
@@ -107,9 +107,7 @@ namespace ExchangeLib
                     Name = dataTable.TableName
                 };
                 sheets.Append(sheet);
-
                 SheetData sheetData = worksheetPart.Worksheet.GetFirstChild<SheetData>();
-
                 Row headerRow = CreateHeaderRow(dataTable.Columns);
                 sheetData.Append(headerRow);
 
@@ -120,7 +118,11 @@ namespace ExchangeLib
             }
 
             document.Close();
-
+            MemoryStream stream = new MemoryStream();
+            FileStream fs = File.Open(tempFile,FileMode.Open);
+            fs.CopyTo(stream);
+            fs.Close();
+            File.Delete(tempFile);
             return stream;
         }
 
@@ -194,9 +196,11 @@ namespace ExchangeLib
             {
                 stream = File.Open(fileName, FileMode.Open);
                 dt = ReadAnExcel(stream);
+                LogLib.LogableClass.ToLog("导入资产单元数据条数：", dt.Rows.Count.ToString());
             }
             catch (Exception ce)
             {
+                LogLib.LogableClass.ToLog("导入资产单元数据错误", ce.Message);
                 return dt;
             }
             finally

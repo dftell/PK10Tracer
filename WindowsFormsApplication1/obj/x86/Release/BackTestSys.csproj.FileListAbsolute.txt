@@ -44,6 +44,7 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\WindowsFormsApplication1.Form1.resources
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\BackTestSys.frm_CalcEr.resources
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\BackTestSystem.frm_DistrCheck.resources
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\BackTestSystem.frm_TrainForm.resources
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\WindowsFormsApplication1.loginFrm.resources
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\WindowsFormsApplication1.NetSelectFrm.resources
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\BackTestSystem.Properties.Resources.resources
@@ -53,4 +54,3 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\BackTestSys.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\PK10BackTestSystem.exe
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\PK10BackTestSystem.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\BackTestSystem.frm_TrainForm.resources

@@ -640,7 +640,7 @@ namespace BackTestLib
                     foreach (string key in NoCloseChances.Keys)
                     {
 
-                        ExchangeChance ec = new ExchangeChance(es, NoCloseChances[key].Strag, testData.LastData.Expect, NoCloseChances[key].Chance);//交易
+                        ExchangeChance ec = new ExchangeChance(es, NoCloseChances[key].Strag, NoCloseChances[key].Chance.ExpectCode,testData.LastData.Expect, NoCloseChances[key].Chance);//交易
                         if (ec.OccurStrag is ProbWaveSelectStragClass)//对于ProbWaveSelectStragClass，一开始就计算好了Amount
                         {
                             ProbWaveSelectStragClass strag = ec.OccurStrag as ProbWaveSelectStragClass;

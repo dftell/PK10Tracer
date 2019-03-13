@@ -95,6 +95,8 @@
             this.bootServiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopServiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.ddl_assetunits = new System.Windows.Forms.ComboBox();
+            this.btn_clearNet = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer_Main)).BeginInit();
             this.splitContainer_Main.Panel1.SuspendLayout();
             this.splitContainer_Main.Panel2.SuspendLayout();
@@ -135,7 +137,7 @@
             // 
             this.splitContainer_Main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer_Main.Location = new System.Drawing.Point(0, 43);
-            this.splitContainer_Main.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.splitContainer_Main.Margin = new System.Windows.Forms.Padding(6);
             this.splitContainer_Main.Name = "splitContainer_Main";
             this.splitContainer_Main.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -155,7 +157,7 @@
             // 
             this.splitContainer_Up.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer_Up.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer_Up.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.splitContainer_Up.Margin = new System.Windows.Forms.Padding(6);
             this.splitContainer_Up.Name = "splitContainer_Up";
             // 
             // splitContainer_Up.Panel1
@@ -166,7 +168,7 @@
             // 
             this.splitContainer_Up.Panel2.Controls.Add(this.groupBox1);
             this.splitContainer_Up.Size = new System.Drawing.Size(1540, 781);
-            this.splitContainer_Up.SplitterDistance = 526;
+            this.splitContainer_Up.SplitterDistance = 744;
             this.splitContainer_Up.SplitterWidth = 8;
             this.splitContainer_Up.TabIndex = 0;
             // 
@@ -175,10 +177,10 @@
             this.groupBox2.Controls.Add(this.tabControl2);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(6);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.groupBox2.Size = new System.Drawing.Size(526, 781);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(6);
+            this.groupBox2.Size = new System.Drawing.Size(744, 781);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "交易品种监控";
@@ -190,19 +192,19 @@
             this.tabControl2.Controls.Add(this.tabPage10);
             this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl2.Location = new System.Drawing.Point(6, 34);
-            this.tabControl2.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabControl2.Margin = new System.Windows.Forms.Padding(6);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(514, 741);
+            this.tabControl2.Size = new System.Drawing.Size(732, 741);
             this.tabControl2.TabIndex = 0;
             // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.dg_baseData);
             this.tabPage4.Location = new System.Drawing.Point(8, 39);
-            this.tabPage4.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabPage4.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(6);
             this.tabPage4.Size = new System.Drawing.Size(498, 694);
             this.tabPage4.TabIndex = 0;
             this.tabPage4.Text = "基础数据";
@@ -229,7 +231,7 @@
             this.dg_baseData.DefaultCellStyle = dataGridViewCellStyle2;
             this.dg_baseData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dg_baseData.Location = new System.Drawing.Point(6, 6);
-            this.dg_baseData.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.dg_baseData.Margin = new System.Windows.Forms.Padding(6);
             this.dg_baseData.Name = "dg_baseData";
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
@@ -248,25 +250,28 @@
             this.tabPage5.Controls.Add(this.grpbox_control);
             this.tabPage5.Controls.Add(this.chart_ForGuide);
             this.tabPage5.Location = new System.Drawing.Point(8, 39);
-            this.tabPage5.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabPage5.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.tabPage5.Size = new System.Drawing.Size(498, 694);
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(6);
+            this.tabPage5.Size = new System.Drawing.Size(716, 694);
             this.tabPage5.TabIndex = 1;
             this.tabPage5.Text = "波动曲线图";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
             // grpbox_control
             // 
+            this.grpbox_control.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpbox_control.Controls.Add(this.btn_clearNet);
+            this.grpbox_control.Controls.Add(this.ddl_assetunits);
             this.grpbox_control.Controls.Add(this.btn_adjustAssetTimeLength);
             this.grpbox_control.Controls.Add(this.label1);
             this.grpbox_control.Controls.Add(this.txt_AssetTimeLength);
-            this.grpbox_control.Dock = System.Windows.Forms.DockStyle.Top;
             this.grpbox_control.Location = new System.Drawing.Point(6, 6);
-            this.grpbox_control.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.grpbox_control.Margin = new System.Windows.Forms.Padding(6);
             this.grpbox_control.Name = "grpbox_control";
-            this.grpbox_control.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.grpbox_control.Size = new System.Drawing.Size(486, 70);
+            this.grpbox_control.Padding = new System.Windows.Forms.Padding(6);
+            this.grpbox_control.Size = new System.Drawing.Size(698, 70);
             this.grpbox_control.TabIndex = 1;
             this.grpbox_control.TabStop = false;
             this.grpbox_control.Text = "调整";
@@ -274,8 +279,8 @@
             // btn_adjustAssetTimeLength
             // 
             this.btn_adjustAssetTimeLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_adjustAssetTimeLength.Location = new System.Drawing.Point(378, 18);
-            this.btn_adjustAssetTimeLength.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btn_adjustAssetTimeLength.Location = new System.Drawing.Point(297, 18);
+            this.btn_adjustAssetTimeLength.Margin = new System.Windows.Forms.Padding(6);
             this.btn_adjustAssetTimeLength.Name = "btn_adjustAssetTimeLength";
             this.btn_adjustAssetTimeLength.Size = new System.Drawing.Size(86, 44);
             this.btn_adjustAssetTimeLength.TabIndex = 2;
@@ -287,7 +292,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(84, 28);
+            this.label1.Location = new System.Drawing.Point(6, 31);
             this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(154, 24);
@@ -297,8 +302,8 @@
             // txt_AssetTimeLength
             // 
             this.txt_AssetTimeLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_AssetTimeLength.Location = new System.Drawing.Point(252, 18);
-            this.txt_AssetTimeLength.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txt_AssetTimeLength.Location = new System.Drawing.Point(172, 25);
+            this.txt_AssetTimeLength.Margin = new System.Windows.Forms.Padding(6);
             this.txt_AssetTimeLength.Name = "txt_AssetTimeLength";
             this.txt_AssetTimeLength.Size = new System.Drawing.Size(104, 35);
             this.txt_AssetTimeLength.TabIndex = 0;
@@ -313,8 +318,8 @@
             this.chart_ForGuide.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             this.chart_ForGuide.Legends.Add(legend1);
-            this.chart_ForGuide.Location = new System.Drawing.Point(6, 34);
-            this.chart_ForGuide.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.chart_ForGuide.Location = new System.Drawing.Point(6, 83);
+            this.chart_ForGuide.Margin = new System.Windows.Forms.Padding(6);
             this.chart_ForGuide.Name = "chart_ForGuide";
             this.chart_ForGuide.RightToLeft = System.Windows.Forms.RightToLeft.No;
             series1.ChartArea = "ChartArea1";
@@ -322,7 +327,7 @@
             series1.Legend = "Legend1";
             series1.Name = "数据4";
             this.chart_ForGuide.Series.Add(series1);
-            this.chart_ForGuide.Size = new System.Drawing.Size(470, 604);
+            this.chart_ForGuide.Size = new System.Drawing.Size(698, 555);
             this.chart_ForGuide.TabIndex = 0;
             this.chart_ForGuide.Text = "波动曲线图";
             // 
@@ -330,9 +335,9 @@
             // 
             this.tabPage10.Controls.Add(this.dg_AssetUnits);
             this.tabPage10.Location = new System.Drawing.Point(8, 39);
-            this.tabPage10.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabPage10.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage10.Name = "tabPage10";
-            this.tabPage10.Size = new System.Drawing.Size(498, 663);
+            this.tabPage10.Size = new System.Drawing.Size(498, 694);
             this.tabPage10.TabIndex = 2;
             this.tabPage10.Text = "资产单元";
             this.tabPage10.UseVisualStyleBackColor = true;
@@ -342,10 +347,10 @@
             this.dg_AssetUnits.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg_AssetUnits.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dg_AssetUnits.Location = new System.Drawing.Point(0, 0);
-            this.dg_AssetUnits.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.dg_AssetUnits.Margin = new System.Windows.Forms.Padding(6);
             this.dg_AssetUnits.Name = "dg_AssetUnits";
             this.dg_AssetUnits.RowTemplate.Height = 23;
-            this.dg_AssetUnits.Size = new System.Drawing.Size(498, 663);
+            this.dg_AssetUnits.Size = new System.Drawing.Size(498, 694);
             this.dg_AssetUnits.TabIndex = 0;
             this.dg_AssetUnits.DoubleClick += new System.EventHandler(this.dg_AssetUnits_DoubleClick);
             // 
@@ -354,10 +359,10 @@
             this.groupBox1.Controls.Add(this.tabControl3);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.groupBox1.Size = new System.Drawing.Size(1006, 781);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(6);
+            this.groupBox1.Size = new System.Drawing.Size(788, 781);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "策略状态监控";
@@ -370,19 +375,19 @@
             this.tabControl3.Controls.Add(this.tabPage8);
             this.tabControl3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl3.Location = new System.Drawing.Point(6, 34);
-            this.tabControl3.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabControl3.Margin = new System.Windows.Forms.Padding(6);
             this.tabControl3.Name = "tabControl3";
             this.tabControl3.SelectedIndex = 0;
-            this.tabControl3.Size = new System.Drawing.Size(994, 741);
+            this.tabControl3.Size = new System.Drawing.Size(776, 741);
             this.tabControl3.TabIndex = 1;
             // 
             // tabPage9
             // 
             this.tabPage9.Controls.Add(this.dg_PlanGrps);
             this.tabPage9.Location = new System.Drawing.Point(8, 39);
-            this.tabPage9.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabPage9.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage9.Name = "tabPage9";
-            this.tabPage9.Size = new System.Drawing.Size(978, 694);
+            this.tabPage9.Size = new System.Drawing.Size(760, 694);
             this.tabPage9.TabIndex = 3;
             this.tabPage9.Text = "分组状态";
             this.tabPage9.UseVisualStyleBackColor = true;
@@ -408,7 +413,7 @@
             this.dg_PlanGrps.DefaultCellStyle = dataGridViewCellStyle5;
             this.dg_PlanGrps.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dg_PlanGrps.Location = new System.Drawing.Point(0, 0);
-            this.dg_PlanGrps.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.dg_PlanGrps.Margin = new System.Windows.Forms.Padding(6);
             this.dg_PlanGrps.Name = "dg_PlanGrps";
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
@@ -419,17 +424,17 @@
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dg_PlanGrps.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dg_PlanGrps.RowTemplate.Height = 23;
-            this.dg_PlanGrps.Size = new System.Drawing.Size(978, 694);
+            this.dg_PlanGrps.Size = new System.Drawing.Size(760, 694);
             this.dg_PlanGrps.TabIndex = 0;
             // 
             // tabPage6
             // 
             this.tabPage6.Controls.Add(this.dg_stragStatus);
             this.tabPage6.Location = new System.Drawing.Point(8, 39);
-            this.tabPage6.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabPage6.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.tabPage6.Size = new System.Drawing.Size(978, 663);
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(6);
+            this.tabPage6.Size = new System.Drawing.Size(978, 694);
             this.tabPage6.TabIndex = 0;
             this.tabPage6.Text = "计划运行状态";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -456,7 +461,7 @@
             this.dg_stragStatus.DefaultCellStyle = dataGridViewCellStyle8;
             this.dg_stragStatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dg_stragStatus.Location = new System.Drawing.Point(6, 6);
-            this.dg_stragStatus.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.dg_stragStatus.Margin = new System.Windows.Forms.Padding(6);
             this.dg_stragStatus.MultiSelect = false;
             this.dg_stragStatus.Name = "dg_stragStatus";
             this.dg_stragStatus.ReadOnly = true;
@@ -469,7 +474,7 @@
             dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dg_stragStatus.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.dg_stragStatus.RowTemplate.Height = 23;
-            this.dg_stragStatus.Size = new System.Drawing.Size(966, 651);
+            this.dg_stragStatus.Size = new System.Drawing.Size(966, 682);
             this.dg_stragStatus.TabIndex = 0;
             this.dg_stragStatus.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dg_stragStatus_MouseUp);
             // 
@@ -516,10 +521,10 @@
             // 
             this.tabPage7.Controls.Add(this.dg_StragList);
             this.tabPage7.Location = new System.Drawing.Point(8, 39);
-            this.tabPage7.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabPage7.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.tabPage7.Size = new System.Drawing.Size(978, 663);
+            this.tabPage7.Padding = new System.Windows.Forms.Padding(6);
+            this.tabPage7.Size = new System.Drawing.Size(978, 694);
             this.tabPage7.TabIndex = 1;
             this.tabPage7.Text = "策略清单";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -545,7 +550,7 @@
             this.dg_StragList.DefaultCellStyle = dataGridViewCellStyle11;
             this.dg_StragList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dg_StragList.Location = new System.Drawing.Point(6, 6);
-            this.dg_StragList.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.dg_StragList.Margin = new System.Windows.Forms.Padding(6);
             this.dg_StragList.Name = "dg_StragList";
             dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
@@ -556,7 +561,7 @@
             dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dg_StragList.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
             this.dg_StragList.RowTemplate.Height = 23;
-            this.dg_StragList.Size = new System.Drawing.Size(966, 651);
+            this.dg_StragList.Size = new System.Drawing.Size(966, 682);
             this.dg_StragList.TabIndex = 0;
             this.dg_StragList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dg_StragList_MouseUp);
             // 
@@ -564,9 +569,9 @@
             // 
             this.tabPage8.Controls.Add(this.dg_NoCloseChances);
             this.tabPage8.Location = new System.Drawing.Point(8, 39);
-            this.tabPage8.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabPage8.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Size = new System.Drawing.Size(978, 663);
+            this.tabPage8.Size = new System.Drawing.Size(978, 694);
             this.tabPage8.TabIndex = 2;
             this.tabPage8.Text = "委托状态";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -576,10 +581,10 @@
             this.dg_NoCloseChances.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg_NoCloseChances.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dg_NoCloseChances.Location = new System.Drawing.Point(0, 0);
-            this.dg_NoCloseChances.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.dg_NoCloseChances.Margin = new System.Windows.Forms.Padding(6);
             this.dg_NoCloseChances.Name = "dg_NoCloseChances";
             this.dg_NoCloseChances.RowTemplate.Height = 23;
-            this.dg_NoCloseChances.Size = new System.Drawing.Size(978, 663);
+            this.dg_NoCloseChances.Size = new System.Drawing.Size(978, 694);
             this.dg_NoCloseChances.TabIndex = 0;
             // 
             // tabControl1
@@ -589,7 +594,7 @@
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(6);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1540, 314);
@@ -599,9 +604,9 @@
             // 
             this.tabPage1.Controls.Add(this.dg_ExchangeList);
             this.tabPage1.Location = new System.Drawing.Point(8, 39);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(6);
             this.tabPage1.Size = new System.Drawing.Size(1524, 267);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "交易记录";
@@ -628,7 +633,7 @@
             this.dg_ExchangeList.DefaultCellStyle = dataGridViewCellStyle14;
             this.dg_ExchangeList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dg_ExchangeList.Location = new System.Drawing.Point(6, 6);
-            this.dg_ExchangeList.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.dg_ExchangeList.Margin = new System.Windows.Forms.Padding(6);
             this.dg_ExchangeList.Name = "dg_ExchangeList";
             dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Control;
@@ -645,10 +650,10 @@
             // tabPage2
             // 
             this.tabPage2.Location = new System.Drawing.Point(8, 39);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.tabPage2.Size = new System.Drawing.Size(1524, 265);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(6);
+            this.tabPage2.Size = new System.Drawing.Size(1524, 267);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "策略记录";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -657,9 +662,9 @@
             // 
             this.tabPage3.Controls.Add(this.dg_LoginList);
             this.tabPage3.Location = new System.Drawing.Point(8, 39);
-            this.tabPage3.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.tabPage3.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1524, 265);
+            this.tabPage3.Size = new System.Drawing.Size(1524, 267);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "运行日志";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -685,7 +690,7 @@
             this.dg_LoginList.DefaultCellStyle = dataGridViewCellStyle17;
             this.dg_LoginList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dg_LoginList.Location = new System.Drawing.Point(0, 0);
-            this.dg_LoginList.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.dg_LoginList.Margin = new System.Windows.Forms.Padding(6);
             this.dg_LoginList.Name = "dg_LoginList";
             dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control;
@@ -696,7 +701,7 @@
             dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dg_LoginList.RowHeadersDefaultCellStyle = dataGridViewCellStyle18;
             this.dg_LoginList.RowTemplate.Height = 23;
-            this.dg_LoginList.Size = new System.Drawing.Size(1524, 265);
+            this.dg_LoginList.Size = new System.Drawing.Size(1524, 267);
             this.dg_LoginList.TabIndex = 0;
             // 
             // menuStrip1
@@ -744,6 +749,27 @@
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // ddl_assetunits
+            // 
+            this.ddl_assetunits.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ddl_assetunits.FormattingEnabled = true;
+            this.ddl_assetunits.Location = new System.Drawing.Point(392, 26);
+            this.ddl_assetunits.Name = "ddl_assetunits";
+            this.ddl_assetunits.Size = new System.Drawing.Size(210, 32);
+            this.ddl_assetunits.TabIndex = 3;
+            // 
+            // btn_clearNet
+            // 
+            this.btn_clearNet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_clearNet.Location = new System.Drawing.Point(606, 21);
+            this.btn_clearNet.Margin = new System.Windows.Forms.Padding(6);
+            this.btn_clearNet.Name = "btn_clearNet";
+            this.btn_clearNet.Size = new System.Drawing.Size(86, 44);
+            this.btn_clearNet.TabIndex = 4;
+            this.btn_clearNet.Text = "恢复";
+            this.btn_clearNet.UseVisualStyleBackColor = true;
+            this.btn_clearNet.Click += new System.EventHandler(this.btn_clearNet_Click);
+            // 
             // frm_StragMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
@@ -753,7 +779,7 @@
             this.Controls.Add(this.splitContainer_Main);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "frm_StragMonitor";
             this.Text = "策略运行监控窗口";
             this.Load += new System.EventHandler(this.frm_StragMonitor_Load);
@@ -840,5 +866,7 @@
         private System.Windows.Forms.Button btn_adjustAssetTimeLength;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txt_AssetTimeLength;
+        private System.Windows.Forms.ComboBox ddl_assetunits;
+        private System.Windows.Forms.Button btn_clearNet;
     }
 }

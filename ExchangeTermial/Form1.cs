@@ -16,6 +16,7 @@ namespace ExchangeTermial
         public Form1()
         {
             InitializeComponent();
+            string strName = Program.gc.ClientUserName;
             this.txt_user.Text = Program.gc.ClientUserName;
             this.txt_password.Text = Program.gc.ClientPassword;
         }

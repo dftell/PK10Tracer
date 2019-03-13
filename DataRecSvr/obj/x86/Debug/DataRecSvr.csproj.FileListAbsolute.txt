@@ -37,13 +37,13 @@ F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\DataRecSvr\obj
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.csproj.CopyComplete
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.exe
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.pdb
-C:\Users\zhouys\Source\project\PK10Tracer\DataRecSvr.exe.config
-C:\Users\zhouys\Source\project\PK10Tracer\DataRecSvr.exe
-C:\Users\zhouys\Source\project\PK10Tracer\DataRecSvr.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.csprojAssemblyReference.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.ProjectInstaller.resources
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.csproj.GenerateResource.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\Source\project\PK10Tracer\DataRecSvr.exe.config
+C:\Users\zhouys\Source\project\PK10Tracer\DataRecSvr.exe
+C:\Users\zhouys\Source\project\PK10Tracer\DataRecSvr.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.exe
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.pdb

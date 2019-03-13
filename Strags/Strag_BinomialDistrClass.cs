@@ -234,7 +234,7 @@ namespace Strags
                     long ret = (long)Math.Ceiling((double)(RestCash * rate));
                     return ret;
                 }
-                if (cc.ChipCount < 4 && cc.HoldTimeCnt > cc.MaxHoldTimeCnt && cc.MaxHoldTimeCnt > 0)
+                if (cc.ChipCount < this.InputMinTimes && cc.HoldTimeCnt > cc.MaxHoldTimeCnt && cc.MaxHoldTimeCnt > 0)
                 {
                     return 0;
                 }
@@ -242,15 +242,16 @@ namespace Strags
                 {
                     return cc.FixAmt.Value;
                 }
+                int hcnt = cc.HoldTimeCnt - 0;
                 int chips = cc.ChipCount - 1;
                 int maxcnt = amts.MaxHoldCnts[chips];
                 int bShift = 0;
-                if (cc.HoldTimeCnt > maxcnt)
+                if (hcnt > maxcnt)
                 {
-                    Log("风险", "达到最大上限", string.Format("机会{0}持有次数达到{1}次总投入金额已为{2}", cc.ChanceCode, cc.HoldTimeCnt, cc.Cost));
+                    Log("风险", "达到最大上限", string.Format("机会{0}持有次数达到{1}次总投入金额已为{2}", cc.ChanceCode, hcnt, cc.Cost));
                     bShift = (int)maxcnt * 2 / 3;
                 }
-                int RCnt = (cc.HoldTimeCnt % (maxcnt + 1)) + bShift-1;
+                int RCnt = (hcnt % (maxcnt + 1)) + bShift-1;
                 return amts.Serials[chips][RCnt];
             }
             catch (Exception e)
