@@ -633,8 +633,8 @@ namespace PK10Server
                         //saveAssetLines(id, dt);//保存
                     }
                 }
-                if (!Changed)//没有任何改变，不刷新
-                    return;
+                //if (!Changed)//没有任何改变，不刷新
+                //    return;
                 
                 int i = 0;
                 if (chrt.Series.Count < assetUnits.Count - 1)
