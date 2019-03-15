@@ -20,6 +20,26 @@ namespace PK10CorePress
             InitTables();
         }
     }
+    
+    public class EquitDayExpectReader:CommExpectReader
+    {
+        public EquitDayExpectReader()
+            :base()
+        {
+            this.strDataType = "EquitDay";
+            InitTables();
+        }
+    }
+
+    public class EquitTimeExpectReader : CommExpectReader
+    {
+        public EquitTimeExpectReader()
+            : base()
+        {
+            this.strDataType = "EquitTime";
+            InitTables();
+        }
+    }
 
     public class ExpectReader : PK10ExpectReader
     {

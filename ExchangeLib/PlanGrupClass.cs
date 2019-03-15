@@ -20,12 +20,12 @@ namespace ExchangeLib
         bool UseBySer;
         public List<StragRunPlanClass> UseSPlans = new List<StragRunPlanClass>();
         public Dictionary<string,StragClass> UseStrags = new Dictionary<string,StragClass>();
-        SettingClass CurrSetting;
-        Dictionary<string, ChanceClass> CurrExistChanceList = new Dictionary<string, ChanceClass>();
+        protected SettingClass CurrSetting;
+        protected Dictionary<string, ChanceClass> CurrExistChanceList = new Dictionary<string, ChanceClass>();
         public Dictionary<string, AssetUnitClass> UseAssetUnits = new Dictionary<string, AssetUnitClass>();
         public List<ExchangeChance> AllExchance = new List<ExchangeChance>();
         public Dictionary<string, ChanceClass> AllNoClosedChances = new Dictionary<string, ChanceClass>();
-        Dictionary<string, List<double>> grpTotolStdDic = null;
+        protected Dictionary<string, List<double>> grpTotolStdDic = null;
 
         ////public List<StragClass> UseStrags
         ////{
@@ -369,7 +369,7 @@ namespace ExchangeLib
         /// <param name="list"></param>
         /// <param name="newList"></param>
         /// <returns></returns>
-        bool ExChange(List<ChanceClass> list,string lastExpectNo)
+        protected bool ExChange(List<ChanceClass> list,string lastExpectNo)
         {
             ////List<ChanceClass> list = new List<ChanceClass>();
             ////Oldlist.Values.ToList<ChanceClass>().ForEach(p => list.Add(p));
@@ -402,7 +402,7 @@ namespace ExchangeLib
             return true;
         }
 
-        bool CloseAllExchance(ExpectList el)
+        protected bool CloseAllExchance(ExpectList el)
         {
             for (int i = 0; i < AllExchance.Count; i++)
             {

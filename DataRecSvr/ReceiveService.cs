@@ -27,7 +27,7 @@ namespace DataRecSvr
         public ReceiveService()
         {
             InitializeComponent();
-            this.ServiceName = "接收数据服务";
+            this.ServiceName = "定时刷新接收数据服务";
             Tm_ForPK10.Enabled = false;
             Tm_ForPK10.AutoReset = true;
             Tm_ForPK10.Interval = glb.RecieveSecondsForPK10 * 1000;

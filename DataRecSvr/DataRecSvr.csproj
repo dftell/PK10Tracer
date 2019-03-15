@@ -101,6 +101,12 @@
     <Compile Include="SelfDefBaseService.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="SubscriptData.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SubscriptData.Designer.cs">
+      <DependentUpon>SubscriptData.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BaseObjectsLib\BaseObjectsLib.csproj">

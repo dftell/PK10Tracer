@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CCToExcel.cs" />
+    <Compile Include="EquitPlanGroupClass.cs" />
     <Compile Include="ExcelUtils.cs" />
     <Compile Include="ExchangeInterface.cs" />
     <Compile Include="ExchangeService.cs">
