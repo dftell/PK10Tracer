@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ProbMathLib
+namespace WolfInv.com.ProbMathLib
 {
     //矩阵打包成类，矩阵为m * n,直接调用
     public class Matrix

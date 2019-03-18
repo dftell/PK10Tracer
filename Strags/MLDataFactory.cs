@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PK10CorePress;
-using MachineLearnLib;
-namespace Strags
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.MachineLearnLib;
+namespace WolfInv.com.Strags
 {
     public class MLDataFactory
     {

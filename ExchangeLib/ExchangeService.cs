@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PK10CorePress;
-using Strags;
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.Strags;
 using System.Data;
-using LogLib;
-using BaseObjectsLib;
+using WolfInv.com.LogLib;
+using WolfInv.com.BaseObjectsLib;
 using System.Timers;
 using System.ComponentModel;
-namespace ExchangeLib
+namespace WolfInv.com.ExchangeLib
 {
      [Serializable]
      public class ExchangeDataTable : DataTable

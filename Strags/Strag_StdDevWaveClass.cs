@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PK10CorePress;
+using WolfInv.com.PK10CorePress;
 using System.ComponentModel;
-using ProbMathLib;
-using GuideLib;
-namespace Strags
+using WolfInv.com.ProbMathLib;
+using WolfInv.com.GuideLib;
+namespace WolfInv.com.Strags
 {
     [DescriptionAttribute("标准差起伏择时选号策略"),
         DisplayName("标准差起伏择时选号策略")]

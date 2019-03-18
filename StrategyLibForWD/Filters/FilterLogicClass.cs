@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CFZQ_LHProcess;
-namespace StrategyLibForWD
+using WolfInv.com.CFZQ_LHProcess;
+using WolfInv.com.SecurityLib;
+namespace WolfInv.com.StrategyLibForWD
 {
 
     public delegate BaseDataTable CallBackData(string SecCode,int cnt);

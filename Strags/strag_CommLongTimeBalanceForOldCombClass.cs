@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PK10CorePress;
-using GuideLib;
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.GuideLib;
 using System.ComponentModel;
-namespace Strags
+namespace WolfInv.com.Strags
 {
     [Serializable]
     [DescriptionAttribute("N码长期概率分布择时组合选号策略"),
@@ -71,7 +71,7 @@ namespace Strags
 
         
 
-        public override List<PK10CorePress.ChanceClass> getChances(PK10CorePress.CommCollection sc, PK10CorePress.ExpectData ed)
+        public override List<ChanceClass> getChances(CommCollection sc, ExpectData ed)
         {
             List<ChanceClass> ret = new List<ChanceClass>();
             ExpectList el = sc.orgData;

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 //using CFZQ_JRGCDB;
-using CFZQ_LHProcess;
+using WolfInv.com.CFZQ_LHProcess;
 using WAPIWrapperCSharp;
 using System.Data;
-namespace StrategyLibForWD
+using WolfInv.com.SecurityLib;
+namespace WolfInv.com.StrategyLibForWD
 {
     /// <summary>
     /// 策略输入业务参数类

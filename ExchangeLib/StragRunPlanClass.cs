@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
-using BaseObjectsLib;
+using WolfInv.com.BaseObjectsLib;
 using System.Windows.Forms;
 using System.Drawing.Design;
 using System.Timers;
@@ -12,9 +12,9 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.Data;
 using System.Reflection;
-using PK10CorePress;
-using Strags;
-namespace ExchangeLib
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.Strags;
+namespace WolfInv.com.ExchangeLib
 {
     /// <summary>
     /// 策略运行计划类

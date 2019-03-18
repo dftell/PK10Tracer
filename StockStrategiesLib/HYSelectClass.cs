@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace StockStrategiesLib
+namespace WolfInv.com.StockStrategiesLib
 {
     /// <summary>
     /// 行业策略类

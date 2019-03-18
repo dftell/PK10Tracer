@@ -20,8 +20,3 @@ F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\BackTestLib\ob
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\BackTestLib\obj\Debug\BackTestLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BackTestLib\obj\Debug\BackTestLib.csprojAssemblyReference.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BackTestLib\obj\Debug\BackTestLib.csproj.CoreCompileInputs.cache
-C:\Users\zhouys\Source\project\PK10Tracer\BackTestLib.dll
-C:\Users\zhouys\Source\project\PK10Tracer\BackTestLib.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BackTestLib\obj\Debug\BackTestLib.csproj.CopyComplete
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BackTestLib\obj\Debug\BackTestLib.dll
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BackTestLib\obj\Debug\BackTestLib.pdb

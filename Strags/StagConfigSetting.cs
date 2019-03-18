@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PK10CorePress;
-using BaseObjectsLib;
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.BaseObjectsLib;
 using System.ComponentModel;
 using System.Drawing.Design;
-namespace Strags
+namespace WolfInv.com.Strags
 {
     [DisplayName("策略个性化设置")]
     public class StagConfigSetting : DetailStringClass

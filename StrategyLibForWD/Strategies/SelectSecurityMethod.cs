@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace StrategyLibForWD
+namespace WolfInv.com.StrategyLibForWD
 {
     public interface iSelectSecurityMethod
     {

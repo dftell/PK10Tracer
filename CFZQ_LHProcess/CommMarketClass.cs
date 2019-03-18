@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CFZQ_LHProcess;
-namespace CFZQ_LHProcess
+using WolfInv.com.CFZQ_LHProcess;
+namespace WolfInv.com.CFZQ_LHProcess
 {
     public class CommMarketClass
     {

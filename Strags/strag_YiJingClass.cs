@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
-namespace Strags
+using WolfInv.com.PK10CorePress;
+namespace WolfInv.com.Strags
 {
     [DescriptionAttribute("易经选号策略"),
         DisplayName("易经选号策略")]
@@ -16,7 +17,7 @@ namespace Strags
             this._StragClassName = "易经选号策略";
         }
 
-        public override List<PK10CorePress.ChanceClass> getChances(PK10CorePress.CommCollection sc, PK10CorePress.ExpectData ed)
+        public override List<ChanceClass> getChances(CommCollection sc, ExpectData ed)
         {
             throw new NotImplementedException();
         }

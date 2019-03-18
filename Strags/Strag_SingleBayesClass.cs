@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PK10CorePress;
+using WolfInv.com.PK10CorePress;
 using System.ComponentModel;
-using ProbMathLib;
-namespace Strags
+using WolfInv.com.ProbMathLib;
+namespace WolfInv.com.Strags
 {
     [DescriptionAttribute("单列贝叶斯选号策略"),
         DisplayName("单列贝叶斯选号策略")]

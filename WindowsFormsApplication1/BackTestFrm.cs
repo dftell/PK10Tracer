@@ -7,18 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
-using PK10CorePress;
-using BackTestLib;
-using Strags;
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.BackTestLib;
+using WolfInv.com.Strags;
 using PK10Server;
-using ExchangeLib;
+using WolfInv.com.ExchangeLib;
 using System.Threading;
-using GuideLib;
+using WolfInv.com.GuideLib;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.DataVisualization.Charting.ChartTypes;
-using ServerInitLib;
+using WolfInv.com.ServerInitLib;
 using BackTestSystem;
-//using Strags;
+//using WolfInv.com.Strags;
 namespace BackTestSys
 {
     public partial class BackTestFrm : Form

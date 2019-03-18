@@ -8,8 +8,9 @@ using System.Xml;
 using System.Web;
 using System.IO;
 using System.Globalization;
-using LogLib;
-namespace PK10CorePress
+using WolfInv.com.LogLib;
+using WolfInv.com.DbAccessLib;
+namespace WolfInv.com.PK10CorePress
 {
     public class PK10ExpectReader : CommExpectReader
     {
@@ -21,26 +22,6 @@ namespace PK10CorePress
         }
     }
     
-    public class EquitDayExpectReader:CommExpectReader
-    {
-        public EquitDayExpectReader()
-            :base()
-        {
-            this.strDataType = "EquitDay";
-            InitTables();
-        }
-    }
-
-    public class EquitTimeExpectReader : CommExpectReader
-    {
-        public EquitTimeExpectReader()
-            : base()
-        {
-            this.strDataType = "EquitTime";
-            InitTables();
-        }
-    }
-
     public class ExpectReader : PK10ExpectReader
     {
         public ExpectReader()
@@ -76,44 +57,19 @@ namespace PK10CorePress
         }
     }
 
-    public abstract class CommExpectReader:LogableClass
-    {
-        /// <summary>
-        /// 数据类型，PK10,TXFFC
-        /// </summary>
-        protected string strDataType;
 
-        protected string strNewestTable;
-        protected string strHistoryTable;
-        protected string strMissHistoryTable;
-        protected string strMissNewestTable;
-        protected string strResultTable;
-        protected string strChanceTable;
-        public ExpectList ReadHistory(long From, long buffs)
+    
+    //Sql data reader
+    public abstract class CommExpectReader : DataReader
+    {
+        
+        public override ExpectList ReadHistory(long From, long buffs)
         {
             return ReadHistory(From, buffs, false);
         }
 
-        protected void InitTables()
-        {
-            if (GlobalClass.SystemDbTables == null)
-            {
-                return;
-            }
-            if (GlobalClass.SystemDbTables.ContainsKey(this.strDataType))
-            {
-                Dictionary<string, string> dic = GlobalClass.SystemDbTables[this.strDataType];
 
-                if (dic.ContainsKey("NewestTable")) strNewestTable = dic["NewestTable"];
-                if (dic.ContainsKey("HistoryTable")) strHistoryTable = dic["HistoryTable"];
-                if (dic.ContainsKey("MissHistoryTable")) strMissHistoryTable = dic["MissHistoryTable"];
-                if (dic.ContainsKey("MissNewestTable")) strMissNewestTable = dic["MissNewestTable"];
-                if (dic.ContainsKey("ResultTable")) strResultTable = dic["ResultTable"];
-                if (dic.ContainsKey("ChanceTable")) strChanceTable = dic["ChanceTable"];
-            }
-        }
-
-        public ExpectList ReadHistory(long From,long buffs,bool desc)
+        public override ExpectList ReadHistory(long From,long buffs,bool desc)
         {
             DbClass db = GlobalClass.getCurrDb();
             string sql = string.Format("select top {0} * from {2} where expect>='{1}'  order by expect {3}", buffs, From,strHistoryTable,desc?"desc":"");//modify by zhouys 2019/1/8
@@ -122,8 +78,8 @@ namespace PK10CorePress
             return new ExpectList(ds.Tables[0]);
         }
 
-        
-        public ExpectList ReadHistory(long buffs)
+
+        public override ExpectList ReadHistory(long buffs)
         {
             DbClass db = GlobalClass.getCurrDb();
             string sql = string.Format("select top {0} * from {2}  order by expect desc", buffs,  strHistoryTable);
@@ -132,7 +88,7 @@ namespace PK10CorePress
             return new ExpectList(ds.Tables[0]);
         }
 
-        public ExpectList ReadHistory()
+        public override ExpectList ReadHistory()
         {
             DbClass db = GlobalClass.getCurrDb();
             string sql = string.Format("select  * from {0}  order by expect", strHistoryTable);
@@ -140,8 +96,8 @@ namespace PK10CorePress
             if (ds == null) return null;
             return new ExpectList(ds.Tables[0]);
         }
-        
-        public ExpectList ReadHistory(string begt,string endt)
+
+        public override ExpectList ReadHistory(string begt,string endt)
         {
             DbClass db = GlobalClass.getCurrDb();
             string sql = string.Format("select  * from {0}  where opentime between '{1}' and '{2}'", strHistoryTable,begt,endt);
@@ -150,7 +106,7 @@ namespace PK10CorePress
             return new ExpectList(ds.Tables[0]);
         }
 
-        public ExpectList ReadNewestData(DateTime fromdate)
+        public override ExpectList ReadNewestData(DateTime fromdate)
         {
             DbClass db = GlobalClass.getCurrDb();
             string sql = string.Format("select * from {1} where opentime>='{0}' order by expect", fromdate.ToShortDateString(),strNewestTable);
@@ -159,7 +115,7 @@ namespace PK10CorePress
             return new ExpectList(ds.Tables[0]);
         }
 
-        public ExpectList ReadNewestData(int LastLng)
+        public override ExpectList ReadNewestData(int LastLng)
         {
             DbClass db = GlobalClass.getCurrDb();
             string sql = string.Format("select * from (select top {0} * from {1} order by expect desc) order by expect", LastLng, strNewestTable);
@@ -168,12 +124,12 @@ namespace PK10CorePress
             return new ExpectList(ds.Tables[0]);
         }
 
-        public ExpectList ReadNewestData(int ExpectNo, int Cnt)
+        public override ExpectList ReadNewestData(int ExpectNo, int Cnt)
         {
             return ReadNewestData(ExpectNo, Cnt, false);
         }
 
-        public ExpectList ReadNewestData(int ExpectNo, int Cnt,bool FromHistoryTable)
+        public override ExpectList ReadNewestData(int ExpectNo, int Cnt,bool FromHistoryTable)
         {
             DbClass db = GlobalClass.getCurrDb();
             string sql = string.Format("select * from {2} where Expect<='{0}' and Expect>({0}-{1}) order by expect", ExpectNo, Cnt, FromHistoryTable?strHistoryTable:strNewestTable);
@@ -182,14 +138,14 @@ namespace PK10CorePress
             return new ExpectList(ds.Tables[0]);
         }
 
-        public int SaveNewestData(ExpectList InData)
+        public override int SaveNewestData(ExpectList InData)
         {
             DbClass db = GlobalClass.getCurrDb();
             string sql = string.Format("select top 0 * from {0}", strNewestTable);
             return db.SaveList(sql, InData.Table);
         }
 
-        public ExpectList GetMissedData(bool IsHistoryData,string strBegT)
+        public override ExpectList GetMissedData(bool IsHistoryData,string strBegT)
         {
             DbClass db = GlobalClass.getCurrDb();
             string sql = string.Format("select * from {1} where opentime>='{0}'", strBegT, IsHistoryData?strMissHistoryTable:strMissNewestTable);
@@ -199,7 +155,7 @@ namespace PK10CorePress
         }
 
 
-        public int SaveHistoryData(ExpectList InData)
+        public override int SaveHistoryData(ExpectList InData)
         {
             DbClass db = GlobalClass.getCurrDb();
             string sql = string.Format("select top 0 * from {0}", strHistoryTable);
@@ -223,7 +179,7 @@ namespace PK10CorePress
             return ds.Tables[0];
         }
 
-        public ExpectList getNewestData(ExpectList NewestData, ExpectList ExistData)
+        public override ExpectList getNewestData(ExpectList NewestData, ExpectList ExistData)
         {
             ExpectList ret = new ExpectList();
             if (NewestData == null) return ret;
@@ -244,7 +200,7 @@ namespace PK10CorePress
             return ret;
         }
 
-        public DbChanceList getNoCloseChances(string strDataOwner)
+        public override DbChanceList getNoCloseChances(string strDataOwner)
         {
            DbChanceList ret = new DbChanceList();
             DbClass db = GlobalClass.getCurrDb();
@@ -260,7 +216,7 @@ namespace PK10CorePress
             return ret;
         }
 
-        public int SaveChances(List<ChanceClass> list,string strDataOwner)
+        public override int SaveChances(List<ChanceClass> list,string strDataOwner)
         {
             DbChanceList ret = new DbChanceList();
             DbClass db = GlobalClass.getCurrDb();

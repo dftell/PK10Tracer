@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
-using PK10CorePress;
-using Strags;
-using ServerInitLib;
-using LogLib;
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.Strags;
+using WolfInv.com.ServerInitLib;
+using WolfInv.com.LogLib;
 using System.Timers;
-using WinInterComminuteLib;
-using ExchangeLib;
+using WolfInv.com.WinInterComminuteLib;
+using WolfInv.com.ExchangeLib;
 namespace DataRecSvr
 {
     static class Program

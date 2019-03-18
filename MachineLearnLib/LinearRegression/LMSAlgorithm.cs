@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MachineLearnLib.LinearRegression
+namespace WolfInv.com.MachineLearnLib.LinearRegression
 {
     class LMSAlgorithm
     {

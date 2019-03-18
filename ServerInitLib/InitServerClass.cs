@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PK10CorePress;
-using Strags;
-using LogLib;
-using ExchangeLib;
-namespace ServerInitLib
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.Strags;
+using WolfInv.com.LogLib;
+using WolfInv.com.ExchangeLib;
+namespace WolfInv.com.ServerInitLib
 {
     public class InitServerClass:LogableClass
     {

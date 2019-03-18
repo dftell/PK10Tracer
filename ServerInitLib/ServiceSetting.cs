@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PK10CorePress;
-using Strags;
-using LogLib;
-using ExchangeLib;
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.Strags;
+using WolfInv.com.LogLib;
+using WolfInv.com.ExchangeLib;
 using System.Data;
-using WinInterComminuteLib;
-namespace ServerInitLib
+using WolfInv.com.WinInterComminuteLib;
+namespace WolfInv.com.ServerInitLib
 {
     public class ServiceSetting :RemoteServerClass
     {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-using BaseObjectsLib;
-using LogLib;
+using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.LogLib;
 using System.Reflection;
-namespace PK10CorePress
+namespace WolfInv.com.PK10CorePress
 {
     public class ExpectListProcess
     {

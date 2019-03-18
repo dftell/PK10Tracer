@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using PK10CorePress;
+using WolfInv.com.PK10CorePress;
 namespace ExchangeTermial
 {
     public static class Program

@@ -1,4 +1,4 @@
-﻿namespace ExchangeLib
+﻿namespace WolfInv.com.ExchangeLib
 {
     partial class RunPlanPicker
     {

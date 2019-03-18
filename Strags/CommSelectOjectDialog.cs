@@ -6,8 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BaseObjectsLib;
-namespace Strags
+using WolfInv.com.BaseObjectsLib;
+namespace WolfInv.com.Strags
 {
     public partial class CommSelectOjectDialog<T> : Form
     {

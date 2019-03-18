@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using WAPIWrapperCSharp;
-using CFZQ_LHProcess;
+using WolfInv.com.CFZQ_LHProcess;
 using System.Threading;
-namespace StrategyLibForWD
+using WolfInv.com.SecurityLib;
+namespace WolfInv.com.StrategyLibForWD
 {
     public class SystemGlobal
     {

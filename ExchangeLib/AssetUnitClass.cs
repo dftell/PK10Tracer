@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
-using BaseObjectsLib;
-using Strags;
-using PK10CorePress;
+using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.Strags;
+using WolfInv.com.PK10CorePress;
 using System.Data;
 using System.IO;
+using WolfInv.com.LogLib;
 
-namespace ExchangeLib
+namespace WolfInv.com.ExchangeLib
 {
     [DescriptionAttribute("资产单元类"),
         DisplayName("资产单元类")]

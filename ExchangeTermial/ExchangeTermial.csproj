@@ -102,33 +102,33 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BaseObjectsLib\BaseObjectsLib.csproj">
+    <ProjectReference Include="..\BaseObjectsLib\WolfInv.com.BaseObjectsLib.csproj">
       <Project>{38B7C927-F264-46A1-A550-388F440D79BE}</Project>
-      <Name>BaseObjectsLib</Name>
+      <Name>WolfInv.com.BaseObjectsLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\DataRecSvr\DataRecSvr.csproj">
       <Project>{6A28259F-0369-4801-8B73-540BD4B7C7D5}</Project>
       <Name>DataRecSvr</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ExchangeLib\ExchangeLib.csproj">
+    <ProjectReference Include="..\ExchangeLib\WolfInv.com.ExchangeLib.csproj">
       <Project>{BE222046-7D38-4E42-BCB5-CE4CCC5AB4CD}</Project>
-      <Name>ExchangeLib</Name>
+      <Name>WolfInv.com.ExchangeLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LogLib\LogLib.csproj">
+    <ProjectReference Include="..\LogLib\WolfInv.com.LogLib.csproj">
       <Project>{182084E4-C48B-4585-9221-4A54CAF7448F}</Project>
-      <Name>LogLib</Name>
+      <Name>WolfInv.com.LogLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PK10CorePress\PK10CorePress.csproj">
+    <ProjectReference Include="..\PK10CorePress\WolfInv.com.PK10CorePress.csproj">
       <Project>{1B418905-1D78-4758-9B21-CF9BFC054F88}</Project>
-      <Name>PK10CorePress</Name>
+      <Name>WolfInv.com.PK10CorePress</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WebCommunicateClass\WebCommunicateClass.csproj">
+    <ProjectReference Include="..\WebCommunicateClass\WolfInv.com.WebCommunicateClass.csproj">
       <Project>{58C01AAF-4A7C-4B53-A7ED-EFC6DBD22610}</Project>
-      <Name>WebCommunicateClass</Name>
+      <Name>WolfInv.com.WebCommunicateClass</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WebRuleLib\WebRuleLib.csproj">
+    <ProjectReference Include="..\WebRuleLib\WolfInv.com.WebRuleLib.csproj">
       <Project>{2D91CEF1-5BAA-4AE2-A6D5-7AC55E992AD1}</Project>
-      <Name>WebRuleLib</Name>
+      <Name>WolfInv.com.WebRuleLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

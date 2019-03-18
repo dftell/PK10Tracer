@@ -6,7 +6,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Data;
 
-namespace BaseObjectsLib
+namespace WolfInv.com.BaseObjectsLib
 {
 
     public class DataFrame<T>:DisplayAsTableClass

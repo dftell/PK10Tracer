@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-using PK10CorePress;
-namespace GuideLib
+using WolfInv.com.PK10CorePress;
+namespace WolfInv.com.GuideLib
 {
     /// <summary>
     /// 指标类

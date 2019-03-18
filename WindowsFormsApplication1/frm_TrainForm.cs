@@ -6,10 +6,10 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using BaseObjectsLib;
-using MachineLearnLib;
-using PK10CorePress;
-using Strags;
+using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.MachineLearnLib;
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.Strags;
 using System.IO;
 using System.Threading;
 namespace BackTestSystem
@@ -21,7 +21,7 @@ namespace BackTestSystem
         public frm_TrainForm()
         {
             InitializeComponent();
-            DataTable dt = ClassOperateTool.getAllSubClass(typeof(MachineLearnLib.MachineLearnClass<int, int>),"text","value");
+            DataTable dt = ClassOperateTool.getAllSubClass(typeof(MachineLearnClass<int, int>),"text","value");
             this.ddl_MLFunc.DataSource = dt;
             this.ddl_MLFunc.DisplayMember = "text";
             this.ddl_MLFunc.ValueMember = "value";

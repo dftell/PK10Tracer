@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CFZQ_LHProcess
+namespace WolfInv.com.CFZQ_LHProcess
 {
     /// <summary>
     /// 矩阵类

@@ -10,10 +10,10 @@ using System.Web;
 using mshtml;
 using System.IO;
 using Microsoft.VisualBasic;
-using PK10CorePress;
+using WolfInv.com.PK10CorePress;
 using WebCommunicateClass;
-using WebRuleLib;
-using BaseObjectsLib;
+using WolfInv.com.WebRuleLib;
+using WolfInv.com.BaseObjectsLib;
 using System.Timers;
 namespace ExchangeTermial
 {

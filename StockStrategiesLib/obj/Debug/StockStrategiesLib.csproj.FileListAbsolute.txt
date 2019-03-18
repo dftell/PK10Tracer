@@ -39,6 +39,8 @@ C:\Users\zhouys\source\repos\dftell\PK10Tracer\StockStrategiesLib\bin\Debug\LogL
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\StockStrategiesLib\bin\Debug\BaseObjectsLib.pdb
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\StockStrategiesLib\obj\Debug\StockStrategiesLib.csprojAssemblyReference.cache
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\StockStrategiesLib\obj\Debug\StockStrategiesLib.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\source\project\PK10Tracer\WolfInv.com.StockStrategiesLib.dll
+C:\Users\zhouys\source\project\PK10Tracer\WolfInv.com.StockStrategiesLib.pdb
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\StockStrategiesLib\obj\Debug\StockStrategiesLib.csproj.CopyComplete
-C:\Users\zhouys\source\repos\dftell\PK10Tracer\StockStrategiesLib\obj\Debug\StockStrategiesLib.dll
-C:\Users\zhouys\source\repos\dftell\PK10Tracer\StockStrategiesLib\obj\Debug\StockStrategiesLib.pdb
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\StockStrategiesLib\obj\Debug\WolfInv.com.StockStrategiesLib.dll
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\StockStrategiesLib\obj\Debug\WolfInv.com.StockStrategiesLib.pdb

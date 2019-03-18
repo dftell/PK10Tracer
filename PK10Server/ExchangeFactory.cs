@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PK10CorePress;
-using ExchangeLib;
-using Strags;
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.ExchangeLib;
+using WolfInv.com.Strags;
 namespace PK10Server
 {
     class ExchangeFactory

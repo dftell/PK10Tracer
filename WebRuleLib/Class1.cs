@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PK10CorePress;
-namespace WebRuleLib
+using WolfInv.com.PK10CorePress;
+namespace WolfInv.com.WebRuleLib
 {
 
     public abstract class WebRule

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ServiceProcess;
-using LogLib;
-using PK10CorePress;
-using ExchangeLib;
+using WolfInv.com.LogLib;
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.ExchangeLib;
 namespace DataRecSvr
 {
     public  class SelfDefBaseService : ServiceBase

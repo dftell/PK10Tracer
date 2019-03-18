@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PK10CorePress;
+using WolfInv.com.PK10CorePress;
 using System.ComponentModel;
-namespace Strags
+namespace WolfInv.com.Strags
 {
     [DescriptionAttribute("N码指定条件成长策略"),
         DisplayName("N码指定条件成长策略")]

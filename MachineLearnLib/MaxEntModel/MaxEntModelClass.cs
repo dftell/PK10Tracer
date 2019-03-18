@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BaseObjectsLib;
+using WolfInv.com.BaseObjectsLib;
 using System.Threading;
-namespace MachineLearnLib
+namespace WolfInv.com.MachineLearnLib
 {
     /// <summary>
     /// 最大熵模型类

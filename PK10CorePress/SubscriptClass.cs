@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LogLib;
-using CFZQ_LHProcess;
+using WolfInv.com.LogLib;
+using WolfInv.com.CFZQ_LHProcess;
 using WAPIWrapperCSharp;
-using StrategyLibForWD;
+using WolfInv.com.StrategyLibForWD;
 using System.Data;
-using BaseObjectsLib;
-namespace PK10CorePress
+using WolfInv.com.BaseObjectsLib;
+namespace WolfInv.com.PK10CorePress
 {
     public delegate void UpdateDataAction(Dictionary<string, ExpectList> els);
     public abstract class SubscriptClass: LogableClass

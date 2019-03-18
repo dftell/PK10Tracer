@@ -5,50 +5,54 @@ VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackTestSys", "WindowsFormsApplication1\BackTestSys.csproj", "{793BC432-5BE7-4531-BF7A-B987C940E921}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PK10CorePress", "PK10CorePress\PK10CorePress.csproj", "{1B418905-1D78-4758-9B21-CF9BFC054F88}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfInv.com.PK10CorePress", "PK10CorePress\WolfInv.com.PK10CorePress.csproj", "{1B418905-1D78-4758-9B21-CF9BFC054F88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackTestLib", "BackTestLib\BackTestLib.csproj", "{6B37D13C-F107-48B3-9105-1BD0E00A75FC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfInv.com.BackTestLib", "BackTestLib\WolfInv.com.BackTestLib.csproj", "{6B37D13C-F107-48B3-9105-1BD0E00A75FC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PK10Server", "PK10Server\PK10Server.csproj", "{0AD8131F-5C2D-4E18-8677-3C6782FDDBD4}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6B37D13C-F107-48B3-9105-1BD0E00A75FC} = {6B37D13C-F107-48B3-9105-1BD0E00A75FC}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeLib", "ExchangeLib\ExchangeLib.csproj", "{BE222046-7D38-4E42-BCB5-CE4CCC5AB4CD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfInv.com.ExchangeLib", "ExchangeLib\WolfInv.com.ExchangeLib.csproj", "{BE222046-7D38-4E42-BCB5-CE4CCC5AB4CD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataRecSvr", "DataRecSvr\DataRecSvr.csproj", "{6A28259F-0369-4801-8B73-540BD4B7C7D5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExchangeTermial", "ExchangeTermial\ExchangeTermial.csproj", "{AAD478BF-3736-466D-9275-0E4A16E27006}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCommunicateClass", "WebCommunicateClass\WebCommunicateClass.csproj", "{58C01AAF-4A7C-4B53-A7ED-EFC6DBD22610}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfInv.com.WebCommunicateClass", "WebCommunicateClass\WolfInv.com.WebCommunicateClass.csproj", "{58C01AAF-4A7C-4B53-A7ED-EFC6DBD22610}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreCalcClass", "CoreCalcClass\CoreCalcClass.csproj", "{26FAD1C4-B109-4A88-8BB0-C2A2A37F1C1C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfInv.com.CoreCalcClass", "CoreCalcClass\WolfInv.com.CoreCalcClass.csproj", "{26FAD1C4-B109-4A88-8BB0-C2A2A37F1C1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogLib", "LogLib\LogLib.csproj", "{182084E4-C48B-4585-9221-4A54CAF7448F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfInv.com.LogLib", "LogLib\WolfInv.com.LogLib.csproj", "{182084E4-C48B-4585-9221-4A54CAF7448F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinInterComminuteLib", "WinInterComminuteLib\WinInterComminuteLib.csproj", "{7859D79D-EDD5-4B79-B3DA-072432BC8FCC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfInv.com.WinInterComminuteLib", "WinInterComminuteLib\WolfInv.com.WinInterComminuteLib.csproj", "{7859D79D-EDD5-4B79-B3DA-072432BC8FCC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuideLib", "GuideLib\GuideLib.csproj", "{2C724DB7-59A5-41CD-8274-C0ACB18FCC1A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfInv.com.GuideLib", "GuideLib\WolfInv.com.GuideLib.csproj", "{2C724DB7-59A5-41CD-8274-C0ACB18FCC1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProbMathLib", "ProbMathLib\ProbMathLib.csproj", "{6AF5544D-5B6B-40A9-9258-72CBE6CE207D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfInv.com.ProbMathLib", "ProbMathLib\WolfInv.com.ProbMathLib.csproj", "{6AF5544D-5B6B-40A9-9258-72CBE6CE207D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebRuleLib", "WebRuleLib\WebRuleLib.csproj", "{2D91CEF1-5BAA-4AE2-A6D5-7AC55E992AD1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfInv.com.WebRuleLib", "WebRuleLib\WolfInv.com.WebRuleLib.csproj", "{2D91CEF1-5BAA-4AE2-A6D5-7AC55E992AD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseObjectsLib", "BaseObjectsLib\BaseObjectsLib.csproj", "{38B7C927-F264-46A1-A550-388F440D79BE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfInv.com.BaseObjectsLib", "BaseObjectsLib\WolfInv.com.BaseObjectsLib.csproj", "{38B7C927-F264-46A1-A550-388F440D79BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerInitLib", "ServerInitLib\ServerInitLib.csproj", "{5F99902C-DF70-4B54-A58C-9B19A0114B6B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfInv.com.ServerInitLib", "ServerInitLib\WolfInv.com.ServerInitLib.csproj", "{5F99902C-DF70-4B54-A58C-9B19A0114B6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Strags", "Strags\Strags.csproj", "{C91D683F-3594-4C5E-872E-DFBC09731419}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfInv.com.Strags", "Strags\WolfInv.com.Strags.csproj", "{C91D683F-3594-4C5E-872E-DFBC09731419}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MachineLearnLib", "MachineLearnLib\MachineLearnLib.csproj", "{263D0261-F282-47F3-A3E8-324B703E1599}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfInv.com.MachineLearnLib", "MachineLearnLib\WolfInv.com.MachineLearnLib.csproj", "{263D0261-F282-47F3-A3E8-324B703E1599}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFZQ_LHProcess", "CFZQ_LHProcess\CFZQ_LHProcess.csproj", "{70BAEBE6-DFD2-4AA3-A8A9-04F88EA61551}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfInv.com.CFZQ_LHProcess", "CFZQ_LHProcess\WolfInv.com.CFZQ_LHProcess.csproj", "{70BAEBE6-DFD2-4AA3-A8A9-04F88EA61551}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockStrategiesLib", "StockStrategiesLib\StockStrategiesLib.csproj", "{24BA2093-810F-40AA-B559-EBB75F4A7BE0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfInv.com.StockStrategiesLib", "StockStrategiesLib\WolfInv.com.StockStrategiesLib.csproj", "{24BA2093-810F-40AA-B559-EBB75F4A7BE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrategyLibForWD", "StrategyLibForWD\StrategyLibForWD.csproj", "{AD1632C3-203D-4B8F-91B1-3474DDDC1A49}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfInv.com.StrategyLibForWD", "StrategyLibForWD\WolfInv.com.StrategyLibForWD.csproj", "{AD1632C3-203D-4B8F-91B1-3474DDDC1A49}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_Win", "Test_Win\Test_Win.csproj", "{F63BE86B-ADC1-4C54-9FF4-D3B03C8F3400}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfInv.com.SecurityLib", "SecurityLib\WolfInv.com.SecurityLib.csproj", "{AA6CD329-D212-4998-BE10-2A4728175F53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfInv.com.DbAccessLib", "DbAccessLib\WolfInv.com.DbAccessLib.csproj", "{6778368A-C893-41D7-B354-3030CC0779ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -286,6 +290,30 @@ Global
 		{F63BE86B-ADC1-4C54-9FF4-D3B03C8F3400}.Release|Mixed Platforms.Build.0 = Release|x86
 		{F63BE86B-ADC1-4C54-9FF4-D3B03C8F3400}.Release|x86.ActiveCfg = Release|x86
 		{F63BE86B-ADC1-4C54-9FF4-D3B03C8F3400}.Release|x86.Build.0 = Release|x86
+		{AA6CD329-D212-4998-BE10-2A4728175F53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA6CD329-D212-4998-BE10-2A4728175F53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA6CD329-D212-4998-BE10-2A4728175F53}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AA6CD329-D212-4998-BE10-2A4728175F53}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AA6CD329-D212-4998-BE10-2A4728175F53}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AA6CD329-D212-4998-BE10-2A4728175F53}.Debug|x86.Build.0 = Debug|Any CPU
+		{AA6CD329-D212-4998-BE10-2A4728175F53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA6CD329-D212-4998-BE10-2A4728175F53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA6CD329-D212-4998-BE10-2A4728175F53}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AA6CD329-D212-4998-BE10-2A4728175F53}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{AA6CD329-D212-4998-BE10-2A4728175F53}.Release|x86.ActiveCfg = Release|Any CPU
+		{AA6CD329-D212-4998-BE10-2A4728175F53}.Release|x86.Build.0 = Release|Any CPU
+		{6778368A-C893-41D7-B354-3030CC0779ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6778368A-C893-41D7-B354-3030CC0779ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6778368A-C893-41D7-B354-3030CC0779ED}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6778368A-C893-41D7-B354-3030CC0779ED}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6778368A-C893-41D7-B354-3030CC0779ED}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6778368A-C893-41D7-B354-3030CC0779ED}.Debug|x86.Build.0 = Debug|Any CPU
+		{6778368A-C893-41D7-B354-3030CC0779ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6778368A-C893-41D7-B354-3030CC0779ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6778368A-C893-41D7-B354-3030CC0779ED}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6778368A-C893-41D7-B354-3030CC0779ED}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6778368A-C893-41D7-B354-3030CC0779ED}.Release|x86.ActiveCfg = Release|Any CPU
+		{6778368A-C893-41D7-B354-3030CC0779ED}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

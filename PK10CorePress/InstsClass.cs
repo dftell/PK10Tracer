@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Script.Serialization;
-using BaseObjectsLib;
-namespace PK10CorePress
+using WolfInv.com.BaseObjectsLib;
+namespace WolfInv.com.PK10CorePress
 {
 
     public class FullInsts

@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BaseObjectsLib;
-namespace MachineLearnLib
+using WolfInv.com.BaseObjectsLib;
+namespace WolfInv.com.MachineLearnLib
 {
     public delegate void EventTrainFinished();
     public delegate void PeriodEvent(params object[] objects);

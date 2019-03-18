@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using PK10CorePress;
-using Strags;
-using ServerInitLib;
-using ProbMathLib;
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.Strags;
+using WolfInv.com.ServerInitLib;
+using WolfInv.com.ProbMathLib;
+using WolfInv.com.LogLib;
 namespace PK10Server
 {
     //////static class Program
@@ -71,7 +72,7 @@ namespace PK10Server
             ////new c2().printName();
             ////new c3().printName();
             ////return;
-            LogLib.LogableClass.ToLog("测试", "看看");
+            LogableClass.ToLog("测试", "看看");
             InitSystem();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

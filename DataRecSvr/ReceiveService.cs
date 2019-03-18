@@ -7,11 +7,11 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 using System.Timers;
-using PK10CorePress;
+using WolfInv.com.PK10CorePress;
 using System.Timers;
-using LogLib;
-using WinInterComminuteLib;
-using ServerInitLib;
+using WolfInv.com.LogLib;
+using WolfInv.com.WinInterComminuteLib;
+using WolfInv.com.ServerInitLib;
 using System.Threading;
 namespace DataRecSvr
 {

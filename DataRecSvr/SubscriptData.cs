@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
-using PK10CorePress;
+using WolfInv.com.PK10CorePress;
 using System.Timers;
 namespace DataRecSvr
 {

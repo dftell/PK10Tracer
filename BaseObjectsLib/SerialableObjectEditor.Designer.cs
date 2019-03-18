@@ -1,4 +1,4 @@
-﻿namespace BaseObjectsLib
+﻿namespace WolfInv.com.BaseObjectsLib
 {
     partial class SerialableObjectEditor<T>
     {

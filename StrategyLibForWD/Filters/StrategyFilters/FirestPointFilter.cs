@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CFZQ_LHProcess;
+using WolfInv.com.CFZQ_LHProcess;
 using WAPIWrapperCSharp;
-namespace StrategyLibForWD.Filters.StrategyFilters
+using WolfInv.com.SecurityLib;
+namespace WolfInv.com.StrategyLibForWD.Filters.StrategyFilters
 {
     public class FirestPointFilter:FilterLogicBaseClass
     {

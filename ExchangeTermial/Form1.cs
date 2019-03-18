@@ -7,8 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using WebCommunicateClass;
-using PK10CorePress;
-using BaseObjectsLib;
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.BaseObjectsLib;
 namespace ExchangeTermial
 {
     public partial class Form1 : Form

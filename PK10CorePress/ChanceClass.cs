@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-using BaseObjectsLib;
-using LogLib;
+using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.LogLib;
 using System.Reflection;
-using ProbMathLib;
-namespace PK10CorePress
+using WolfInv.com.ProbMathLib;
+namespace WolfInv.com.PK10CorePress
 {
     public delegate bool EventCheckNeedEndTheChance(ChanceClass CheckCc,bool LastExpectMatched);
 

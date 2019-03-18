@@ -12,10 +12,10 @@ F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\PK10CorePress\
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\PK10CorePress\obj\Debug\PK10CorePress.csproj.CopyComplete
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\PK10CorePress\obj\Debug\PK10CorePress.dll
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\PK10CorePress\obj\Debug\PK10CorePress.pdb
-C:\Users\zhouys\Source\project\PK10Tracer\PK10CorePress.dll
-C:\Users\zhouys\Source\project\PK10Tracer\PK10CorePress.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\PK10CorePress\obj\Debug\PK10CorePress.csprojAssemblyReference.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\PK10CorePress\obj\Debug\PK10CorePress.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\PK10CorePress\obj\Debug\PK10CorePress.csproj.CopyComplete
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\PK10CorePress\obj\Debug\PK10CorePress.dll
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\PK10CorePress\obj\Debug\PK10CorePress.pdb
+C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.PK10CorePress.dll
+C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.PK10CorePress.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\PK10CorePress\obj\Debug\WolfInv.com.PK10CorePress.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\PK10CorePress\obj\Debug\WolfInv.com.PK10CorePress.pdb

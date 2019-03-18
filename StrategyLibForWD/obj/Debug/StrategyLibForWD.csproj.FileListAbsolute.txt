@@ -43,6 +43,8 @@ C:\Users\zhouys\source\repos\dftell\PK10Tracer\StrategyLibForWD\bin\Debug\LogLib
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\StrategyLibForWD\bin\Debug\BaseObjectsLib.pdb
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\StrategyLibForWD\obj\Debug\StrategyLibForWD.csprojAssemblyReference.cache
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\StrategyLibForWD\obj\Debug\StrategyLibForWD.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\source\project\PK10Tracer\StrategyLibForWD.dll
+C:\Users\zhouys\source\project\PK10Tracer\StrategyLibForWD.pdb
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\StrategyLibForWD\obj\Debug\StrategyLibForWD.csproj.CopyComplete
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\StrategyLibForWD\obj\Debug\StrategyLibForWD.dll
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\StrategyLibForWD\obj\Debug\StrategyLibForWD.pdb

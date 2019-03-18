@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PK10CorePress;
-using Strags;
-namespace BackTestLib
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.Strags;
+namespace WolfInv.com.BackTestLib
 {
     
     public class ExchanceClass

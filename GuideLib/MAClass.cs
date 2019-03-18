@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GuideLib
+namespace WolfInv.com.GuideLib
 {
     public class MAClass:GuideClass
     {

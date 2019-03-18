@@ -6,9 +6,10 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Strags;
+using WolfInv.com.Strags;
 using System.Drawing.Design;
-namespace ExchangeLib
+using WolfInv.com.ExchangeLib;
+namespace WolfInv.com.ExchangeLib
 {
     public partial class RunPlanPicker : UserControl
     {

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PK10CorePress;
+using WolfInv.com.PK10CorePress;
 using System.ComponentModel;
-namespace Strags
+namespace WolfInv.com.Strags
 {
     [DescriptionAttribute("通用N码混合组合穷追选号策略"),
         DisplayName("通用N码混合组合穷追选号策略")]

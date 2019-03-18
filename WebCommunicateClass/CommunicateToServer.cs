@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PK10CorePress;
-using BaseObjectsLib;
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.BaseObjectsLib;
 namespace WebCommunicateClass
 {
     public class CommunicateToServer

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.ServiceProcess;
-using LogLib;
+using WolfInv.com.LogLib;
 using DataRecSvr;
 namespace Test_Win
 {

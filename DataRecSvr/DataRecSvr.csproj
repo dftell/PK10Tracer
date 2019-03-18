@@ -109,37 +109,37 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BaseObjectsLib\BaseObjectsLib.csproj">
+    <ProjectReference Include="..\BaseObjectsLib\WolfInv.com.BaseObjectsLib.csproj">
       <Project>{38B7C927-F264-46A1-A550-388F440D79BE}</Project>
-      <Name>BaseObjectsLib</Name>
+      <Name>WolfInv.com.BaseObjectsLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ExchangeLib\ExchangeLib.csproj">
+    <ProjectReference Include="..\ExchangeLib\WolfInv.com.ExchangeLib.csproj">
       <Project>{BE222046-7D38-4E42-BCB5-CE4CCC5AB4CD}</Project>
-      <Name>ExchangeLib</Name>
+      <Name>WolfInv.com.ExchangeLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GuideLib\GuideLib.csproj">
+    <ProjectReference Include="..\GuideLib\WolfInv.com.GuideLib.csproj">
       <Project>{2C724DB7-59A5-41CD-8274-C0ACB18FCC1A}</Project>
-      <Name>GuideLib</Name>
+      <Name>WolfInv.com.GuideLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LogLib\LogLib.csproj">
+    <ProjectReference Include="..\LogLib\WolfInv.com.LogLib.csproj">
       <Project>{182084E4-C48B-4585-9221-4A54CAF7448F}</Project>
-      <Name>LogLib</Name>
+      <Name>WolfInv.com.LogLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PK10CorePress\PK10CorePress.csproj">
+    <ProjectReference Include="..\PK10CorePress\WolfInv.com.PK10CorePress.csproj">
       <Project>{1B418905-1D78-4758-9B21-CF9BFC054F88}</Project>
-      <Name>PK10CorePress</Name>
+      <Name>WolfInv.com.PK10CorePress</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ServerInitLib\ServerInitLib.csproj">
+    <ProjectReference Include="..\ServerInitLib\WolfInv.com.ServerInitLib.csproj">
       <Project>{5F99902C-DF70-4B54-A58C-9B19A0114B6B}</Project>
-      <Name>ServerInitLib</Name>
+      <Name>WolfInv.com.ServerInitLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Strags\Strags.csproj">
+    <ProjectReference Include="..\Strags\WolfInv.com.Strags.csproj">
       <Project>{C91D683F-3594-4C5E-872E-DFBC09731419}</Project>
-      <Name>Strags</Name>
+      <Name>WolfInv.com.Strags</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WinInterComminuteLib\WinInterComminuteLib.csproj">
+    <ProjectReference Include="..\WinInterComminuteLib\WolfInv.com.WinInterComminuteLib.csproj">
       <Project>{7859D79D-EDD5-4B79-B3DA-072432BC8FCC}</Project>
-      <Name>WinInterComminuteLib</Name>
+      <Name>WolfInv.com.WinInterComminuteLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

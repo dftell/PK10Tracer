@@ -1,4 +1,4 @@
-﻿namespace Strags
+﻿namespace WolfInv.com.Strags
 {
     partial class StragsPicker
     {

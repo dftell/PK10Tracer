@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BackTestLib;
-using PK10CorePress;
-using Strags;
+using WolfInv.com.BackTestLib;
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.Strags;
 namespace CoreCalcClass
 {
     public class BaseCalcClass

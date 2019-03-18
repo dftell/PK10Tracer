@@ -1,0 +1,9 @@
+C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.ExchangeLib.dll
+C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.ExchangeLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeLib\obj\Debug\WolfInv.com.ExchangeLib.csprojAssemblyReference.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeLib\obj\Debug\WolfInv.com.ExchangeLib.RunPlanPicker.resources
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeLib\obj\Debug\WolfInv.com.ExchangeLib.csproj.GenerateResource.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeLib\obj\Debug\WolfInv.com.ExchangeLib.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeLib\obj\Debug\WolfInv.com.ExchangeLib.csproj.CopyComplete
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeLib\obj\Debug\WolfInv.com.ExchangeLib.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeLib\obj\Debug\WolfInv.com.ExchangeLib.pdb

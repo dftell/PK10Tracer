@@ -1,4 +1,6 @@
-﻿namespace BackTestSys
+﻿using WolfInv.com.ExchangeLib;
+
+namespace BackTestSys
 {
     partial class BackTestFrm
     {
@@ -70,7 +72,7 @@
             this.btn_export = new System.Windows.Forms.Button();
             this.btn_startTest = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.runPlanPicker1 = new ExchangeLib.RunPlanPicker();
+            this.runPlanPicker1 = new RunPlanPicker();
             this.txt_LearnCnt = new System.Windows.Forms.TextBox();
             this.label31 = new System.Windows.Forms.Label();
             this.txt_AllowMaxHoldTimeCnt = new System.Windows.Forms.TextBox();
@@ -1678,6 +1680,6 @@
         private System.Windows.Forms.TextBox txt_LearnCnt;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Button btn_trainPlan;
-        private ExchangeLib.RunPlanPicker runPlanPicker1;
+        private WolfInv.com.ExchangeLib.RunPlanPicker runPlanPicker1;
     }
 }

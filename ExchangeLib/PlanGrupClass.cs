@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BaseObjectsLib;
-using PK10CorePress;
-using Strags;
-namespace ExchangeLib
+using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.Strags;
+namespace WolfInv.com.ExchangeLib
 {
     public delegate bool CalcStragGroupDelegate();
     public delegate void ReturnChances(Dictionary<string,ChanceClass> ChanceList);

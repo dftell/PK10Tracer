@@ -1,0 +1,7 @@
+C:\Users\zhouys\source\project\PK10Tracer\WolfInv.com.StockStrategiesLib.dll
+C:\Users\zhouys\source\project\PK10Tracer\WolfInv.com.StockStrategiesLib.pdb
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\StockStrategiesLib\obj\Debug\WolfInv.com.StockStrategiesLib.csprojAssemblyReference.cache
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\StockStrategiesLib\obj\Debug\WolfInv.com.StockStrategiesLib.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\StockStrategiesLib\obj\Debug\WolfInv.com.StockStrategiesLib.csproj.CopyComplete
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\StockStrategiesLib\obj\Debug\WolfInv.com.StockStrategiesLib.dll
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\StockStrategiesLib\obj\Debug\WolfInv.com.StockStrategiesLib.pdb

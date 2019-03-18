@@ -11,7 +11,7 @@ using DocumentFormat.OpenXml.CustomProperties;
 using System.Runtime.InteropServices;
 using System.IO;
 
-namespace ExchangeLib
+namespace WolfInv.com.ExchangeLib
 {
     public class ExcelUtils
     {///注意:  

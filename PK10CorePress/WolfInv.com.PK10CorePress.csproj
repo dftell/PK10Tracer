@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1B418905-1D78-4758-9B21-CF9BFC054F88}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WolfInv.com.PK10CorePress</RootNamespace>
+    <AssemblyName>WolfInv.com.PK10CorePress</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\project\PK10Tracer\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\project\PK10Tracer\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WAPIWrapperCSharp">
+      <HintPath>..\..\..\..\..\..\..\cfzqzhouys\公司\量化\金工\万得\Wind量化平台-接口库文件-C#\WAPIWrapperCSharp\WAPIWrapperCSharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="baseTypes.cs" />
+    <Compile Include="ChanceClass.cs" />
+    <Compile Include="CommCollection.cs" />
+    <Compile Include="DataTableEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="EquitReader.cs" />
+    <Compile Include="ExchanceClass.cs" />
+    <Compile Include="ExpectData.cs" />
+    <Compile Include="ExpectList.cs" />
+    <Compile Include="ExpectListProcess.cs" />
+    <Compile Include="ExpectReader.cs" />
+    <Compile Include="Features\FeatureBaseClass.cs" />
+    <Compile Include="GlobalClass.cs" />
+    <Compile Include="IDataReader.cs" />
+    <Compile Include="InstsClass.cs" />
+    <Compile Include="ITraceable.cs" />
+    <Compile Include="NoSqlDataReader.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Roles.cs" />
+    <Compile Include="SecurityData.cs" />
+    <Compile Include="SettingClass.cs" />
+    <Compile Include="SubscriptClass.cs" />
+    <Compile Include="TimeSerialData.cs" />
+    <Compile Include="UserInfoClass.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BaseObjectsLib\WolfInv.com.BaseObjectsLib.csproj">
+      <Project>{38B7C927-F264-46A1-A550-388F440D79BE}</Project>
+      <Name>WolfInv.com.BaseObjectsLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CFZQ_LHProcess\WolfInv.com.CFZQ_LHProcess.csproj">
+      <Project>{70baebe6-dfd2-4aa3-a8a9-04f88ea61551}</Project>
+      <Name>WolfInv.com.CFZQ_LHProcess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DbAccessLib\WolfInv.com.DbAccessLib.csproj">
+      <Project>{6778368a-c893-41d7-b354-3030cc0779ed}</Project>
+      <Name>WolfInv.com.DbAccessLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogLib\WolfInv.com.LogLib.csproj">
+      <Project>{182084E4-C48B-4585-9221-4A54CAF7448F}</Project>
+      <Name>WolfInv.com.LogLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProbMathLib\WolfInv.com.ProbMathLib.csproj">
+      <Project>{6AF5544D-5B6B-40A9-9258-72CBE6CE207D}</Project>
+      <Name>WolfInv.com.ProbMathLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SecurityLib\WolfInv.com.SecurityLib.csproj">
+      <Project>{aa6cd329-d212-4998-be10-2a4728175f53}</Project>
+      <Name>WolfInv.com.SecurityLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StrategyLibForWD\WolfInv.com.StrategyLibForWD.csproj">
+      <Project>{ad1632c3-203d-4b8f-91b1-3474dddc1a49}</Project>
+      <Name>WolfInv.com.StrategyLibForWD</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="config.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

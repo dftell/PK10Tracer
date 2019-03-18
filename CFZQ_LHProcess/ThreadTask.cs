@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Data;
-namespace CFZQ_LHProcess
+namespace WolfInv.com.CFZQ_LHProcess
 {
 
     

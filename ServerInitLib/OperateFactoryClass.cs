@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LogLib;
-using WinInterComminuteLib;
+using WolfInv.com.LogLib;
+using WolfInv.com.WinInterComminuteLib;
 
-namespace ServerInitLib
+namespace WolfInv.com.ServerInitLib
 {
    
     [Serializable]

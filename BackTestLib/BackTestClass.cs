@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Strags;
-using PK10CorePress;
-using ExchangeLib;
+using WolfInv.com.Strags;
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.ExchangeLib;
 using System.Data;
 using DataRecSvr;
-using ServerInitLib;
+using WolfInv.com.ServerInitLib;
 using System.Threading;
-namespace BackTestLib
+namespace WolfInv.com.BackTestLib
 {
     public delegate void SuccEvent();
         

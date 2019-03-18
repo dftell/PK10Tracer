@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PK10CorePress;
+using WolfInv.com.PK10CorePress;
 using System.ComponentModel;
-using ProbMathLib;
-using MachineLearnLib;
-using BaseObjectsLib;
+using WolfInv.com.ProbMathLib;
+using WolfInv.com.MachineLearnLib;
+using WolfInv.com.BaseObjectsLib;
 using System.IO;
 using System.Reflection;
 
-namespace Strags
+namespace WolfInv.com.Strags
 {
 
     interface INeedLoadLocalTrainData

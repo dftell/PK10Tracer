@@ -6,10 +6,10 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Strags;
-using PK10CorePress;
-using ExchangeLib;
-using BaseObjectsLib;
+using WolfInv.com.Strags;
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.ExchangeLib;
+using WolfInv.com.BaseObjectsLib;
 using System.Reflection;
 namespace PK10Server
 {

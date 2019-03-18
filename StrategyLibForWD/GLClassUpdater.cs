@@ -7,9 +7,9 @@ using System.Data;
 using System.Data.Sql;
 using System.Threading;
 using System.Threading.Tasks;
-using CFZQ_LHProcess;
+using WolfInv.com.CFZQ_LHProcess;
 using WAPIWrapperCSharp;
-namespace StrategyLibForWD
+namespace WolfInv.com.StrategyLibForWD
 {
     public class GLClassProcess
     {

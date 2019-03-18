@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-using CFZQ_LHProcess;
+using WolfInv.com.CFZQ_LHProcess;
 using WAPIWrapperCSharp;
-namespace StrategyLibForWD
+namespace WolfInv.com.StrategyLibForWD
 {
     public class secIndexBuilder:WDBuilder
     {

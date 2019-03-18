@@ -1,0 +1,6 @@
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityLib\bin\Debug\WolfInv.com.SecurityLib.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityLib\bin\Debug\WolfInv.com.SecurityLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityLib\obj\Debug\WolfInv.com.SecurityLib.csprojAssemblyReference.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityLib\obj\Debug\WolfInv.com.SecurityLib.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityLib\obj\Debug\WolfInv.com.SecurityLib.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityLib\obj\Debug\WolfInv.com.SecurityLib.pdb

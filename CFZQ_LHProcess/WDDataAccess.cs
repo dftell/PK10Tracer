@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using WAPIWrapperCSharp;
 using System.Data;
-using BaseObjectsLib;
-namespace CFZQ_LHProcess
+using WolfInv.com.BaseObjectsLib;
+namespace WolfInv.com.CFZQ_LHProcess
 {
     public class LogException : Exception, LogLib.iLog
     {

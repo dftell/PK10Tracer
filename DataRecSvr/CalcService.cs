@@ -7,13 +7,13 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 using System.Timers;
-using PK10CorePress;
-using Strags;
-using LogLib;
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.Strags;
+using WolfInv.com.LogLib;
 using System.Threading;
-using ServerInitLib;
-using ExchangeLib;
-using GuideLib;
+using WolfInv.com.ServerInitLib;
+using WolfInv.com.ExchangeLib;
+using WolfInv.com.GuideLib;
 namespace DataRecSvr
 {
     public partial class CalcService : SelfDefBaseService

@@ -1,0 +1,11 @@
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Debug\WolfInv.com.DbAccessLib.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Debug\WolfInv.com.DbAccessLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Debug\WolfInv.com.BaseObjectsLib.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Debug\WolfInv.com.LogLib.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Debug\WolfInv.com.BaseObjectsLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Debug\WolfInv.com.LogLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.csprojAssemblyReference.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.csproj.CopyComplete
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.pdb

@@ -7,15 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Timers;
-using PK10CorePress;
-using WinInterComminuteLib;
-using LogLib;
-using ServerInitLib;
-using Strags;
-using WinInterComminuteLib;
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.WinInterComminuteLib;
+using WolfInv.com.LogLib;
+using WolfInv.com.ServerInitLib;
+using WolfInv.com.Strags;
+
 using System.Diagnostics;
-using ExchangeLib;
-using System.Windows.Forms;
+using WolfInv.com.ExchangeLib;
+
 using System.Windows.Forms.DataVisualization.Charting;
 namespace PK10Server
 {
@@ -40,7 +40,7 @@ namespace PK10Server
                     try
                     {
 
-                        WinComminuteClass wc = new WinInterComminuteLib.WinComminuteClass();
+                        WinComminuteClass wc = new WinComminuteClass();
                         _UseSetting = wc.GetServerObject<ServiceSetting>(null);
 
                     }
@@ -684,7 +684,7 @@ namespace PK10Server
             }
             catch (Exception e)
             {
-                LogLib.LogableClass.ToLog("监控", e.Message, e.StackTrace);
+                LogableClass.ToLog("监控", e.Message, e.StackTrace);
             }
         }
              

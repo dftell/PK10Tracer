@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PK10CorePress;
-using GuideLib;
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.GuideLib;
 using System.Reflection;
 using System.Data;
 using System.ComponentModel;
 using System.Web.Script.Serialization;
 using System.Xml.Serialization;
-using BaseObjectsLib;
+using WolfInv.com.BaseObjectsLib;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
-namespace Strags
+namespace WolfInv.com.Strags
 {
     
 

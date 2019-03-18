@@ -5,11 +5,12 @@ using System.Text;
 using System.Net;
 using System.IO;
 using System.Xml;
-using BaseObjectsLib;
-using LogLib;
-using ProbMathLib;
+using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.LogLib;
+using WolfInv.com.ProbMathLib;
 using System.Reflection;
-namespace PK10CorePress
+using WolfInv.com.DbAccessLib;
+namespace WolfInv.com.PK10CorePress
 {
     [Serializable]
     public class GlobalClass : DetailStringClass,iLog

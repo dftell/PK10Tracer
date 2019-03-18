@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PK10CorePress;
-using LogLib;
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.LogLib;
 using System.ComponentModel;
 
-namespace Strags
+namespace WolfInv.com.Strags
 {
     [DescriptionAttribute("通用N码穷追选号策略"),
         DisplayName("通用N码穷追选号策略")]

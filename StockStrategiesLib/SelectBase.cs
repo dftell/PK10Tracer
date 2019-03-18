@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using StrategyLibForWD;
-using CFZQ_LHProcess;
+using WolfInv.com.StrategyLibForWD;
+using WolfInv.com.SecurityLib;
+using WolfInv.com.CFZQ_LHProcess;
 using System.Data;
-namespace StockStrategiesLib
+using WolfInv.com.SecurityLib;
+namespace WolfInv.com.StockStrategiesLib
 {
     interface IDebugable
     {

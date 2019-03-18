@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PK10CorePress;
-using Strags;
-namespace ExchangeLib
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.Strags;
+namespace WolfInv.com.ExchangeLib
 {
     ////public class ExchangeInterface
     ////{

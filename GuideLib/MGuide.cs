@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ProbMathLib;
-using BaseObjectsLib;
-namespace GuideLib
+using WolfInv.com.ProbMathLib;
+using WolfInv.com.BaseObjectsLib;
+namespace WolfInv.com.GuideLib
 {
     [Serializable]
     public abstract class MGuide:DetailStringClass

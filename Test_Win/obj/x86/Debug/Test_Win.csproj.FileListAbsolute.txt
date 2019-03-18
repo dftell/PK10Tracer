@@ -76,6 +76,9 @@ C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\Test_Win\bin\Debug\WinInterComminuteL
 C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\Test_Win\bin\Debug\DocumentFormat.OpenXml.xml
 C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\Test_Win\bin\Debug\ProbMathLib.pdb
 C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\Test_Win\bin\Debug\MachineLearnLib.pdb
+C:\Users\zhouys\Users\zhouys\source\project\PK10Tracer\Test_Win.exe.config
+C:\Users\zhouys\Users\zhouys\source\project\PK10Tracer\Test_Win.exe
+C:\Users\zhouys\Users\zhouys\source\project\PK10Tracer\Test_Win.pdb
 C:\Users\zhouys\source\project\PK10Tracer\Test_Win.exe.config
 C:\Users\zhouys\source\project\PK10Tracer\Test_Win.exe
 C:\Users\zhouys\source\project\PK10Tracer\Test_Win.pdb
@@ -88,9 +91,6 @@ C:\Users\zhouys\source\repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.F
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.Properties.Resources.resources
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.csproj.GenerateResource.cache
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.csproj.CopyComplete
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.exe
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.pdb
-C:\Users\zhouys\Users\zhouys\source\project\PK10Tracer\Test_Win.exe.config
-C:\Users\zhouys\Users\zhouys\source\project\PK10Tracer\Test_Win.exe
-C:\Users\zhouys\Users\zhouys\source\project\PK10Tracer\Test_Win.pdb
-C:\Users\zhouys\source\repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.csproj.CopyComplete

@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Timers;
 using System.Data;
-using PK10CorePress;
-using Strags;
-using LogLib;
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.Strags;
+using WolfInv.com.LogLib;
 using System.ComponentModel;
 using System.Reflection;
-namespace ExchangeLib
+namespace WolfInv.com.ExchangeLib
 {
     [Serializable]
     public class ExchangeService

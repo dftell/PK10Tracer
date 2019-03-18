@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PK10CorePress;
+using WolfInv.com.PK10CorePress;
 using System.Data;
-using ProbMathLib;
-namespace Strags
+using WolfInv.com.ProbMathLib;
+namespace WolfInv.com.Strags
 {
     public class strag_CommLongMissBackBalanceClass : ChanceTraceStragClass, IProbCheckClass
     {
@@ -29,7 +29,7 @@ namespace Strags
             }
             return false;
         }
-        public override List<PK10CorePress.ChanceClass> getChances(PK10CorePress.CommCollection sc, PK10CorePress.ExpectData ed)
+        public override List<ChanceClass> getChances(CommCollection sc, ExpectData ed)
         {
             List<ChanceClass> ret = new List<ChanceClass>();
             DataTableEx dt = null;

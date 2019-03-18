@@ -7,8 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using WAPIWrapperCSharp;
-using StrategyLibForWD;
-using CFZQ_LHProcess;
+using WolfInv.com.StrategyLibForWD;
+using WolfInv.com.CFZQ_LHProcess;
 namespace Test_Win
 {
     public partial class Form2 : Form

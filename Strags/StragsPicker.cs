@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Strags
+namespace WolfInv.com.Strags
 {
     public partial class StragsPicker : UserControl
     {

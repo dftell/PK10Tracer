@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-namespace PK10CorePress
+namespace WolfInv.com.PK10CorePress
 {
     public class DataTableEx:DataTable
     {

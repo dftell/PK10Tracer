@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BaseObjectsLib
+namespace WolfInv.com.BaseObjectsLib
 {
     public class CommResult : MarshalByRefObject  
     {

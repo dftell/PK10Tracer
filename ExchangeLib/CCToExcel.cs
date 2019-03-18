@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data;
 
-namespace ExchangeLib
+namespace WolfInv.com.ExchangeLib
 {
 
     using System;

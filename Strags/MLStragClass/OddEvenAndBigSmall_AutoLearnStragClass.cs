@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
-using PK10CorePress;
-using ProbMathLib;
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.ProbMathLib;
 
-namespace Strags.MLStragClass
+namespace WolfInv.com.Strags.MLStragClass
 {
     /// <summary>
     /// 奇偶大小随机游走机器学习策略
@@ -27,7 +27,7 @@ namespace Strags.MLStragClass
             throw new NotImplementedException();
         }
 
-        public override List<PK10CorePress.ChanceClass> getChances(PK10CorePress.CommCollection sc, PK10CorePress.ExpectData ed)
+        public override List<ChanceClass> getChances(CommCollection sc, ExpectData ed)
         {
             throw new NotImplementedException();
         }

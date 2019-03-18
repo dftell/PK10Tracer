@@ -8,7 +8,7 @@ using System.Data ;
 using System.Data.Sql;
 using System.Data.SqlClient;
 using System.Reflection;
-namespace CFZQ_LHProcess
+namespace WolfInv.com.CFZQ_LHProcess
 {
     #region Matrix class
     public interface iFillable

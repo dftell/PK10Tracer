@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PK10CorePress;
+using WolfInv.com.PK10CorePress;
 
-namespace PK10CorePress
+namespace WolfInv.com.PK10CorePress
 {
     public class ExchanceReuslt
     {

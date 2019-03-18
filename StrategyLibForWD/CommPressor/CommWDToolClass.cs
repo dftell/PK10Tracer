@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using WAPIWrapperCSharp;
-using CFZQ_LHProcess;
+using WolfInv.com.CFZQ_LHProcess;
 using System.Data;
 using System.Reflection;
-namespace StrategyLibForWD
+using WolfInv.com.SecurityLib;
+namespace WolfInv.com.StrategyLibForWD
 {
     public class CommWDToolClass
     {

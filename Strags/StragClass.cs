@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PK10CorePress;
-using GuideLib;
+using WolfInv.com.PK10CorePress;
+using WolfInv.com.GuideLib;
 using System.Reflection;
 using System.Data;
 using System.ComponentModel;
 using System.Web.Script.Serialization;
 using System.Xml.Serialization;
-using BaseObjectsLib;
+using WolfInv.com.BaseObjectsLib;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
-using ProbMathLib;
-namespace Strags
+using WolfInv.com.ProbMathLib;
+namespace WolfInv.com.Strags
 {
     /// <summary>
     /// 交易策略
@@ -322,7 +322,7 @@ namespace Strags
         /// <param name="RestCash"></param>
         /// <param name="cc"></param>
         /// <returns></returns>
-        public override Int64 getChipAmount(double RestCash, PK10CorePress.ChanceClass cc, AmoutSerials ams)
+        public override Int64 getChipAmount(double RestCash, ChanceClass cc, AmoutSerials ams)
         {
             ////if (this.UseAmountList.ContainsKey(this.LastUseData.LastData.Expect))
             ////{

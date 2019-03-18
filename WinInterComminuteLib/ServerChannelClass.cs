@@ -6,11 +6,11 @@ using System.Text;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Ipc;
-using BaseObjectsLib;
-using LogLib;
+using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.LogLib;
 using System.Reflection;
 using System.Data;
-namespace WinInterComminuteLib
+namespace WolfInv.com.WinInterComminuteLib
 {
 
     public class IPCService:LogableClass

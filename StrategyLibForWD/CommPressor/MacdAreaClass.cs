@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CFZQ_LHProcess;
+using WolfInv.com.CFZQ_LHProcess;
 using System.Data;
 //using MathNet.Numerics;
 //using MathNet.Numerics.Statistics;
 using WAPIWrapperCSharp;
 using System.Reflection;
-namespace StrategyLibForWD
+namespace WolfInv.com.StrategyLibForWD
 {
     public enum MACDColor { None,Green, Red }
     public class MACDDataItem:BaseDataItemClass

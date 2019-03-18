@@ -6,7 +6,7 @@ using System.Windows.Forms.Design;
 using System.Drawing.Design;
 using System.Windows.Forms;
 using System.ComponentModel;
-namespace BaseObjectsLib
+namespace WolfInv.com.BaseObjectsLib
 {
     public class SerialObjectEdit<T> :  UITypeEditor
     {

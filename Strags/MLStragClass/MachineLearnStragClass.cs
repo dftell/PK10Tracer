@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Strags.MLStragClass
+namespace WolfInv.com.Strags.MLStragClass
 {
     ///机器学习基类
     public abstract class MachineLearnStragClass:StragClass,iMachineLearnable

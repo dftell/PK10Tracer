@@ -9,7 +9,7 @@ using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Data.Common;
 using System.Threading;
-namespace CFZQ_LHProcess
+namespace WolfInv.com.CFZQ_LHProcess
 {
     public class JRGCDBClass
     {

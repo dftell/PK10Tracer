@@ -6,10 +6,10 @@ using System.Drawing.Design;
 using System.Windows.Forms.Design;
 using System.Windows.Forms;
 using System.ComponentModel;
-using BaseObjectsLib;
+using WolfInv.com.BaseObjectsLib;
 using System.Reflection;
-using LogLib;
-namespace Strags
+using WolfInv.com.LogLib;
+namespace WolfInv.com.Strags
 {
 
     public class CommPickerEditor<T> : UITypeEditor

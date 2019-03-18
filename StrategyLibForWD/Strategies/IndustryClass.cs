@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CFZQ_LHProcess;
+using WolfInv.com.CFZQ_LHProcess;
 using System.Data;
 using WAPIWrapperCSharp;
-namespace StrategyLibForWD
+using WolfInv.com.SecurityLib;
+namespace WolfInv.com.StrategyLibForWD
 {
     #region 基础类及接口
     /// <summary>

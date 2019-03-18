@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CFZQ_LHProcess;
+using WolfInv.com.CFZQ_LHProcess;
 using WAPIWrapperCSharp;
 using System.Reflection;
-namespace StrategyLibForWD
+namespace WolfInv.com.StrategyLibForWD
 {
     //通用股票指数类
     public class SecIndexClass: IWDIndexSet

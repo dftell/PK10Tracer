@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
-using PK10CorePress;
+using WolfInv.com.PK10CorePress;
 
-namespace Strags
+namespace WolfInv.com.Strags
 {
     [DescriptionAttribute("通用跳转选号策略"),
         DisplayName("通用跳转选号策略")]

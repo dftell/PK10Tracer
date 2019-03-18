@@ -5,7 +5,7 @@ using System.Text;
 using System.Reflection;
 using System.ComponentModel;
 using System.Data;
-namespace BaseObjectsLib
+namespace WolfInv.com.BaseObjectsLib
 {
     public class DisplayAsTableClass : DetailStringClass
     {

@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.Data;
 using System.Reflection;
-namespace LogLib
+namespace WolfInv.com.LogLib
 {
     public abstract class LogClass:MarshalByRefObject
     {
