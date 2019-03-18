@@ -80,6 +80,7 @@ namespace ExchangeTermial
             }
             catch(Exception ce)
             {
+                string msg = ce.Message;
                 return;
             }
         }

@@ -41,3 +41,9 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\GuideLib.cspro
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\GuideLib.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\GuideLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\GuideLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\bin\Debug\WAPIWrapperCSharp.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\bin\Debug\StrategyLibForWD.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\bin\Debug\CFZQ_LHProcess.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\bin\Debug\StrategyLibForWD.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\bin\Debug\CFZQ_LHProcess.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\bin\Debug\CFZQ_LHProcess.dll.config

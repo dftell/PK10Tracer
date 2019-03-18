@@ -39,7 +39,7 @@ namespace WebRuleLib
             List<InstClass> InsArr = new List<InstClass>();
             double unitVal = 0;
             unitVal = getUnitValue(unit);
-            int ArrCnt = 0;
+            //int ArrCnt = 0;
             for (int i = 0; i < ccsarr.Length; i++)
             {
                 String cc;

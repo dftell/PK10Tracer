@@ -16,7 +16,12 @@ namespace PK10Server
 {
     public partial class MainForm : Form
     {
-        ExpectList ViewDataList ;
+        ExpectList _ViewDataList ;
+        ExpectList ViewDataList
+        {
+            get { return _ViewDataList; }
+            set { _ViewDataList = value; }
+        }
         PK10ExpectReader er = new PK10ExpectReader();
         int NewestExpectNo = 0;
         public int InputExpect;
@@ -163,6 +168,7 @@ namespace PK10Server
 
         void RefreshNewestData()
         {
+            if (ViewDataList == null || ViewDataList.LastData == null) return;
             this.txt_NewestExpect.Text = ViewDataList.LastData.Expect;
             this.txt_NewestOpenCode.Text = ViewDataList.LastData.OpenCode;
             this.txt_NewestOpenTime.Text = ViewDataList.LastData.OpenTime.ToString();
@@ -234,26 +240,26 @@ namespace PK10Server
         {
             RefreshNewestTXFFCData();
             return;
-            int secCnt = DateTime.Now.Second;
-            if (secCnt > 10)
-            {
-                timer_For_getHtmlData.Interval = (7+60 - secCnt) * 1000;
-            }
-            else if (secCnt <7)
-            {
-                timer_For_getHtmlData.Interval = (7 - secCnt) * 1000;
-            }
-            else
-            {
-                timer_For_getHtmlData.Interval = 60000;
-            }
-            TXFFC_HtmlDataClass hdc = new TXFFC_HtmlDataClass();
-            ExpectList el =  hdc.getExpectList();
-            TXFFCExpectReader rd = new TXFFCExpectReader();
-            ExpectList currEl = rd.ReadNewestData(DateTime.Now.AddDays(-1*gobj.CheckNewestDataDays));
-            rd.SaveNewestData(rd.getNewestData(el, currEl));
-            currEl = rd.ReadNewestData(DateTime.Now.AddDays(-1*gobj.CheckNewestDataDays));
-            FillOrgData(listView_TXFFCData, currEl);
+            //////int secCnt = DateTime.Now.Second;
+            //////if (secCnt > 10)
+            //////{
+            //////    timer_For_getHtmlData.Interval = (7+60 - secCnt) * 1000;
+            //////}
+            //////else if (secCnt <7)
+            //////{
+            //////    timer_For_getHtmlData.Interval = (7 - secCnt) * 1000;
+            //////}
+            //////else
+            //////{
+            //////    timer_For_getHtmlData.Interval = 60000;
+            //////}
+            //////TXFFC_HtmlDataClass hdc = new TXFFC_HtmlDataClass();
+            //////ExpectList el =  hdc.getExpectList();
+            //////TXFFCExpectReader rd = new TXFFCExpectReader();
+            //////ExpectList currEl = rd.ReadNewestData(DateTime.Now.AddDays(-1*gobj.CheckNewestDataDays));
+            //////rd.SaveNewestData(rd.getNewestData(el, currEl));
+            //////currEl = rd.ReadNewestData(DateTime.Now.AddDays(-1*gobj.CheckNewestDataDays));
+            //////FillOrgData(listView_TXFFCData, currEl);
         }
 
         void InitListView(ListView lv)

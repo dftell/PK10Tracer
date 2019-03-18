@@ -131,6 +131,7 @@ namespace WindowsFormsApplication1
             }
             catch (Exception e)
             {
+                string msg = e.Message;
                 return ret;
             }
             return ret;
@@ -335,6 +336,7 @@ namespace WindowsFormsApplication1
                 }
                 catch (Exception e)
                 {
+                    string msg = e.Message;
                     continue;
                 }
 
@@ -361,10 +363,11 @@ namespace WindowsFormsApplication1
             }
             catch (Exception e)
             {
+                string msg = e.Message;
                 return null;
             }
 
-            return null;
+            //return null;
         }
 
         public static string TranslateInstByWB(string expect,string strIn)
@@ -387,10 +390,11 @@ namespace WindowsFormsApplication1
             }
             catch (Exception e)
             {
+                string msg = e.Message;
                 return null;
             }
 
-            return null;
+            //return null;
         }
 
 
@@ -441,6 +445,7 @@ namespace WindowsFormsApplication1
             }
             catch (Exception ce)
             {
+                string msg = ce.Message;
                 return ;
             }
         }
@@ -528,9 +533,10 @@ namespace WindowsFormsApplication1
              }
              catch (Exception e)
              {
-                 return null;
+                string msg = e.Message;
+                return null;
              }
-             return null;
+             //return null;
          }
     }
 

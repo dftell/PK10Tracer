@@ -51,23 +51,40 @@ namespace PK10CorePress
 
     }
     
-    public class DbClass:LogableClass
+    public abstract class CommDbClass: LogableClass
+    {
+        protected SqlConnection conn;
+        protected string ConnStr = "";
+        protected  string ConnStrModel = "";
+        protected abstract bool OpenConnect();
+        public abstract DataSet Query(string sql);
+        public abstract int SaveList(string sql, DataTable dt);
+
+        public abstract int SaveNewList(string sql, DataTable dt);
+
+        public abstract int UpdateOrNewList(string sql, DataTable dt);
+
+        public abstract DataTable getTableBySqlAndList<T>(string sql, List<T> list);
+
+    }
+
+    public class DbClass: CommDbClass
     {
         public DbClass()
         {
-            _logname = "数据操作";
+            _logname = "Sql数据操作";
+            ConnStrModel = "Data Source={0};Initial Catalog={1};Persist Security Info=True;User ID={2};Password={3}";
+
         }
-        SqlConnection conn;
-        string ConnStr = "";
-        string ConnStrModel = "Data Source={0};Initial Catalog={1};Persist Security Info=True;User ID={2};Password={3}";
-        public DbClass(string servername, string loginUser, string loginPwd, string dbname)
+
+        public DbClass(string servername, string loginUser, string loginPwd, string dbname):base()
         {
             ConnStr = string.Format(ConnStrModel, servername, dbname, loginUser, loginPwd);
             conn = new SqlConnection(ConnStr);
             OpenConnect();
         }
 
-        bool OpenConnect()
+        protected override bool OpenConnect()
         {
             try
             {
@@ -82,7 +99,7 @@ namespace PK10CorePress
             }
         }
 
-        public DataSet Query(string sql)
+        public override DataSet Query(string sql)
         {
             if (OpenConnect() == false)
             {
@@ -103,7 +120,7 @@ namespace PK10CorePress
             return ret;
         }
 
-        public int SaveList(string sql,DataTable dt)
+        public override int SaveList(string sql,DataTable dt)
         {
             if (OpenConnect() == false)
             {
@@ -133,7 +150,7 @@ namespace PK10CorePress
         /// <param name="sql"></param>
         /// <param name="dt"></param>
         /// <returns></returns>
-        public int SaveNewList(string sql, DataTable dt)
+        public override int SaveNewList(string sql, DataTable dt)
         {
             if (OpenConnect() == false)
             {
@@ -185,7 +202,7 @@ namespace PK10CorePress
         /// <param name="sql"></param>
         /// <param name="dt"></param>
         /// <returns></returns>
-        public int UpdateOrNewList(string sql, DataTable dt)
+        public override int UpdateOrNewList(string sql, DataTable dt)
         {
             object lockobj = new object();
             lock (lockobj)
@@ -286,7 +303,7 @@ namespace PK10CorePress
 
         static Dictionary<Type, Dictionary<string, MemberInfoTypeItem>> TypesList = new Dictionary<Type,Dictionary<string,MemberInfoTypeItem>>();
 
-        public DataTable getTableBySqlAndList<T>(string sql, List<T> list)
+        public override DataTable getTableBySqlAndList<T>(string sql, List<T> list)
         {
             object obj = new object();
             lock (TypesList)
@@ -388,7 +405,39 @@ namespace PK10CorePress
         
     }
 
-    class MemberInfoTypeItem
+    public class MongoDbClass : CommDbClass
+    {
+        public override DataTable getTableBySqlAndList<T>(string sql, List<T> list)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override DataSet Query(string sql)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int SaveList(string sql, DataTable dt)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int SaveNewList(string sql, DataTable dt)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int UpdateOrNewList(string sql, DataTable dt)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override bool OpenConnect()
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public class MemberInfoTypeItem
     {
         public MemberInfo MemInfo;
         public Type DbType;

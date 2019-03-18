@@ -65,17 +65,13 @@
     <Compile Include="UserInfoClass.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\..\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\CFZQ_LHProcess\CFZQ_LHProcess.csproj">
-      <Project>{70baebe6-dfd2-4aa3-a8a9-04f88ea61551}</Project>
-      <Name>CFZQ_LHProcess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\..\..\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StrategyLibForWD\StrategyLibForWD.csproj">
-      <Project>{ad1632c3-203d-4b8f-91b1-3474dddc1a49}</Project>
-      <Name>StrategyLibForWD</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BaseObjectsLib\BaseObjectsLib.csproj">
       <Project>{38B7C927-F264-46A1-A550-388F440D79BE}</Project>
       <Name>BaseObjectsLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CFZQ_LHProcess\CFZQ_LHProcess.csproj">
+      <Project>{70baebe6-dfd2-4aa3-a8a9-04f88ea61551}</Project>
+      <Name>CFZQ_LHProcess</Name>
     </ProjectReference>
     <ProjectReference Include="..\LogLib\LogLib.csproj">
       <Project>{182084E4-C48B-4585-9221-4A54CAF7448F}</Project>
@@ -84,6 +80,10 @@
     <ProjectReference Include="..\ProbMathLib\ProbMathLib.csproj">
       <Project>{6AF5544D-5B6B-40A9-9258-72CBE6CE207D}</Project>
       <Name>ProbMathLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StrategyLibForWD\StrategyLibForWD.csproj">
+      <Project>{ad1632c3-203d-4b8f-91b1-3474dddc1a49}</Project>
+      <Name>StrategyLibForWD</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

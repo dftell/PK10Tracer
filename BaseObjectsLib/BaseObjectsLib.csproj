@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommResult.cs" />
+    <Compile Include="DataFrame.cs" />
     <Compile Include="DisplayAsTableClass.cs" />
     <Compile Include="PK10Object.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,0 +1,17 @@
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StockStrategiesLib\bin\Release\StockStrategiesLib.dll
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StockStrategiesLib\bin\Release\StockStrategiesLib.pdb
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StockStrategiesLib\bin\Release\CFZQ_LHProcess.dll
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StockStrategiesLib\bin\Release\StrategyLibForWD.dll
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StockStrategiesLib\bin\Release\LogLib.dll
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StockStrategiesLib\bin\Release\WAPIWrapperCSharp.dll
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StockStrategiesLib\bin\Release\BaseObjectsLib.dll
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StockStrategiesLib\bin\Release\CFZQ_LHProcess.pdb
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StockStrategiesLib\bin\Release\CFZQ_LHProcess.dll.config
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StockStrategiesLib\bin\Release\StrategyLibForWD.pdb
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StockStrategiesLib\bin\Release\LogLib.pdb
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StockStrategiesLib\bin\Release\BaseObjectsLib.pdb
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StockStrategiesLib\obj\Release\StockStrategiesLib.csprojAssemblyReference.cache
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StockStrategiesLib\obj\Release\StockStrategiesLib.csproj.CoreCompileInputs.cache
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StockStrategiesLib\obj\Release\StockStrategiesLib.csproj.CopyComplete
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StockStrategiesLib\obj\Release\StockStrategiesLib.dll
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StockStrategiesLib\obj\Release\StockStrategiesLib.pdb

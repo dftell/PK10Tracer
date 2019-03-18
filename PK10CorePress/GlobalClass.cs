@@ -8,6 +8,7 @@ using System.Xml;
 using BaseObjectsLib;
 using LogLib;
 using ProbMathLib;
+using System.Reflection;
 namespace PK10CorePress
 {
     [Serializable]
@@ -16,6 +17,23 @@ namespace PK10CorePress
         public GlobalClass()
         {
             //_logname = "config";
+        }
+
+        public static Dictionary<string, DataTypePoint> _TypeDataPoints;
+        public static Dictionary<string, DataTypePoint> TypeDataPoints
+        {
+            get
+            {
+                if (_TypeDataPoints != null)
+                    return _TypeDataPoints;
+                _TypeDataPoints = new Dictionary<string, DataTypePoint>();
+                foreach (string key in DataTypes.Keys)
+                {
+                    DataTypePoint dtp = new DataTypePoint(key, SystemDbTables[key]);
+                    _TypeDataPoints.Add(key, dtp);
+                }
+                return _TypeDataPoints;
+            }
         }
         static Dictionary<string, Dictionary<string, string>> _SystemDbTables;
         public static Dictionary<string, Dictionary<string, string>> SystemDbTables
@@ -58,6 +76,7 @@ namespace PK10CorePress
                     }
                     _dataType = sSysParams["DataType"];
                 }
+                
                 return _dataType;
             }
         }
@@ -87,7 +106,7 @@ namespace PK10CorePress
         ExpectList t_newExpectData;
         bool b_AllowExchange;
         public static XmlDocument XmlDoc;
-
+        
         public static Dictionary<string, AmoutSerials> AllSerialSettings;
 
         #region 自定义属性
@@ -317,35 +336,37 @@ namespace PK10CorePress
             }
         }
 
-        public int RecieveSecondsForPK10
-        {
-            get
-            {
-                if (SysParams.Count > 0)
-                    return int.Parse(SysParams["System"]["RecieveSecondsForPK10"]);
-                return 0;
-            }
-        }
+        #region 归入datatypepoint
+        //////public int RecieveSecondsForPK10
+        //////{
+        //////    get
+        //////    {
+        //////        if (SysParams.Count > 0)
+        //////            return int.Parse(SysParams["System"]["RecieveSecondsForPK10"]);
+        //////        return 0;
+        //////    }
+        //////}
 
-        public DateTime RecieveStartTimeForPK10
-        {
-            get
-            {
-                if (SysParams.Count > 0)
-                    return DateTime.Parse(SysParams["System"]["RecieveStartTimeForPK10"]);
-                return DateTime.MinValue;
-            }
-        }
+        //////public DateTime RecieveStartTimeForPK10
+        //////{
+        //////    get
+        //////    {
+        //////        if (SysParams.Count > 0)
+        //////            return DateTime.Parse(SysParams["System"]["RecieveStartTimeForPK10"]);
+        //////        return DateTime.MinValue;
+        //////    }
+        //////}
 
-        public int RecieveSecondsForTXFFC
-        {
-            get
-            {
-                if (SysParams.Count > 0)
-                    return int.Parse(SysParams["System"]["RecieveSecondsForTXFFC"]);
-                return 0;
-            }
-        }
+        //////public int RecieveSecondsForTXFFC
+        //////{
+        //////    get
+        //////    {
+        //////        if (SysParams.Count > 0)
+        //////            return int.Parse(SysParams["System"]["RecieveSecondsForTXFFC"]);
+        //////        return 0;
+        //////    }
+        //////}
+        #endregion
 
         public int SingleColMinTimes
         {
@@ -925,5 +946,42 @@ namespace PK10CorePress
         /// 
         /// </summary>public Int64[] MaxSum = new Int64[8];
         public Int64[][] Serials;
+    }
+
+    public class DataTypePoint
+    {
+        public string DataType;
+        public string DBType;
+        public string NewestTable;
+        public string HistoryTable;
+        public string MissHistoryTable;
+        public string MissNewestTable;
+        public string ChanceTable;
+        public string ResultTable;
+        public long ReceiveSeconds; //刷新间隔秒数
+        public DateTime ReceiveStartTime;//数据接收开始时间
+        public DateTime ReceiveEndTime; //数据接收停止时间
+        public int SubScriptModel = 0;//使用订阅模式
+        public string SubScriptSrc = "";//订阅板块
+        public string SubScriptSector;//订阅板块
+        public string SubScriptFields;//订阅字段集
+        public string SubScriptOptions;//订阅其他参数
+        public int SubScriptUpdateAll;//是否更新全部
+        public long SaveInterVal=0;//存储间隔（毫秒）随机存储
+        public int SubScriptGrpCnt = -1;//默认全部分组
+
+        public DataTypePoint(string name,Dictionary<string,string> list)
+        {
+            DataType = name;
+            Type t = this.GetType();
+            FieldInfo[] fs = t.GetFields();
+            for(int i=0;i<fs.Length;i++)
+            {
+                if(list.ContainsKey(fs[i].Name))
+                {
+                    fs[i].SetValue(this, Convert.ChangeType(list[fs[i].Name],fs[i].FieldType));
+                }
+            }
+        }
     }
 }

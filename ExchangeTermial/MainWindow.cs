@@ -46,9 +46,17 @@ namespace ExchangeTermial
         {
             Logined = false;
             string url = Program.gc.LoginUrlModel.Replace("{host}", Program.gc.LoginDefaultHost);
-            this.webBrowser1 = null;
-            this.webBrowser1 = new WebBrowser();
-            this.webBrowser1.Url = new Uri(url);
+            
+            try
+            {
+                this.webBrowser1 = null;
+                this.webBrowser1 = new WebBrowser();
+                this.webBrowser1.Url = new Uri(url);
+            }
+            catch
+            {
+
+            }
             this.webBrowser1.ScriptErrorsSuppressed = true;
             this.timer_RequestInst.Interval = 10;
             this.timer_RequestInst.Enabled = true;

@@ -61,3 +61,9 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Debug\Strags.csproj.Co
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Debug\Strags.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Debug\Strags.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Debug\Strags.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\bin\Debug\WAPIWrapperCSharp.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\bin\Debug\StrategyLibForWD.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\bin\Debug\CFZQ_LHProcess.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\bin\Debug\StrategyLibForWD.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\bin\Debug\CFZQ_LHProcess.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\bin\Debug\CFZQ_LHProcess.dll.config

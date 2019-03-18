@@ -41,3 +41,9 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\obj\Debug\WebRuleLib.c
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\obj\Debug\WebRuleLib.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\obj\Debug\WebRuleLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\obj\Debug\WebRuleLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\bin\Debug\WAPIWrapperCSharp.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\bin\Debug\StrategyLibForWD.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\bin\Debug\CFZQ_LHProcess.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\bin\Debug\StrategyLibForWD.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\bin\Debug\CFZQ_LHProcess.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\bin\Debug\CFZQ_LHProcess.dll.config

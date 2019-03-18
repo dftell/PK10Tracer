@@ -46,7 +46,7 @@ namespace PK10Server
                     }
                     catch (Exception ce)
                     {
-
+                        string msg = ce.Message;
                     }
                 }
                 return _UseSetting;
@@ -184,6 +184,7 @@ namespace PK10Server
             }
             catch (Exception e)
             {
+                string msg = e.Message;
             }
         }
 
@@ -210,6 +211,7 @@ namespace PK10Server
             }
             catch (Exception e)
             {
+                string msg = e.Message;
             }
         }
 
@@ -385,6 +387,7 @@ namespace PK10Server
             }
             catch (Exception ce)
             {
+                string msg = ce.Message;
             }
         }
 
@@ -453,6 +456,7 @@ namespace PK10Server
             }
             catch (Exception ce)
             {
+                string msg = ce.Message;
             }
             return false;
         }
@@ -473,6 +477,7 @@ namespace PK10Server
             }
             catch (Exception ce)
             {
+                string msg = ce.Message;
             }
             return null;
         }
@@ -492,6 +497,7 @@ namespace PK10Server
             }
             catch (Exception ce)
             {
+                string msg = ce.Message;
             }
             return null;
         }

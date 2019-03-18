@@ -22,8 +22,8 @@ F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WebCommunicate
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WebCommunicateClass\obj\Release\WebCommunicateClass.pdb
 C:\Users\zhouys\Source\project\PK10Tracer\WebCommunicateClass.dll
 C:\Users\zhouys\Source\project\PK10Tracer\WebCommunicateClass.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebCommunicateClass\obj\Release\WebCommunicateClass.csprojAssemblyReference.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebCommunicateClass\obj\Release\WebCommunicateClass.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebCommunicateClass\obj\Release\WebCommunicateClass.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebCommunicateClass\obj\Release\WebCommunicateClass.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebCommunicateClass\obj\Release\WebCommunicateClass.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebCommunicateClass\obj\Release\WebCommunicateClass.csprojAssemblyReference.cache

@@ -30,11 +30,11 @@ namespace DataRecSvr
             this.ServiceName = "定时刷新接收数据服务";
             Tm_ForPK10.Enabled = false;
             Tm_ForPK10.AutoReset = true;
-            Tm_ForPK10.Interval = glb.RecieveSecondsForPK10 * 1000;
+            Tm_ForPK10.Interval = GlobalClass.TypeDataPoints["PK10"].ReceiveSeconds * 1000;
             Tm_ForPK10.Elapsed += new ElapsedEventHandler(Tm_ForPK10_Elapsed);
             Tm_ForTXFFC.Enabled = false;
             Tm_ForTXFFC.AutoReset = true;
-            Tm_ForTXFFC.Interval = glb.RecieveSecondsForTXFFC * 1000;
+            Tm_ForTXFFC.Interval = GlobalClass.TypeDataPoints["TXFFC"].ReceiveSeconds * 1000;
             Tm_ForTXFFC.Elapsed += new ElapsedEventHandler(Tm_ForTXFFC_Elapsed);
             tm.Interval = 5 * 1000;
             tm.Enabled = false;
@@ -90,9 +90,9 @@ namespace DataRecSvr
                 return;
             }
             DateTime CurrTime = DateTime.Now;
-            int RepeatMinutes = glb.RecieveSecondsForPK10 / 60;
-            int RepeatSeconds = glb.RecieveSecondsForPK10;
-            DateTime StartTime = CurrTime.Date.Add(glb.RecieveStartTimeForPK10.TimeOfDay);
+            long RepeatMinutes = GlobalClass.TypeDataPoints["PK10"].ReceiveSeconds / 60;
+            long RepeatSeconds = GlobalClass.TypeDataPoints["PK10"].ReceiveSeconds;
+            DateTime StartTime = CurrTime.Date.Add(GlobalClass.TypeDataPoints["PK10"].ReceiveStartTime.TimeOfDay);
             Log("当日开始时间", StartTime.ToLongTimeString());
             int PassCnt = (int)Math.Floor(CurrTime.Subtract(StartTime).TotalMinutes / RepeatMinutes);
             Log("经历过的周期", PassCnt.ToString());
@@ -110,7 +110,7 @@ namespace DataRecSvr
                 {
                     Log("接收到数据", string.Format("接收到数据！{0}", el.LastData.ToString()));
                     PK10_LastSignTime = CurrTime;
-                    int CurrMin = DateTime.Now.Minute % RepeatMinutes;
+                    long CurrMin = DateTime.Now.Minute % RepeatMinutes;
                     int CurrSec = DateTime.Now.Second;
                     //this.Tm_ForPK10.Interval = (CurrMin % RepeatMinutes < 2 ? 2 : 7 - CurrMin) * 60000 - (CurrSec + RepeatMinutes) * 1000;//5分钟以后见,减掉5秒不断收敛时间，防止延迟接收
                     this.Tm_ForPK10.Interval = FeatureTime.Subtract(CurrTime).TotalMilliseconds;

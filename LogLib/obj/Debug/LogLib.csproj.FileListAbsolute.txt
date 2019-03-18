@@ -12,4 +12,3 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\LogLib\bin\Debug\LogLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\LogLib\obj\Debug\LogLib.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\LogLib\obj\Debug\LogLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\LogLib\obj\Debug\LogLib.pdb
-C:\Users\zhouys\source\repos\dftell\PK10Tracer\LogLib\obj\Debug\LogLib.csprojAssemblyReference.cache

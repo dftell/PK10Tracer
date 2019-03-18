@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F63BE86B-ADC1-4C54-9FF4-D3B03C8F3400}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Test_Win</RootNamespace>
+    <AssemblyName>Test_Win</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\..\Users\zhouys\source\project\PK10Tracer\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\..\Users\zhouys\source\project\PK10Tracer\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WAPIWrapperCSharp">
+      <HintPath>..\CFZQ_LHProcess\bin\Debug\WAPIWrapperCSharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Form2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form2.Designer.cs">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frm_HYMonitor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_HYMonitor.Designer.cs">
+      <DependentUpon>frm_HYMonitor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frm_Query.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_Query.Designer.cs">
+      <DependentUpon>frm_Query.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frm_siII.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_siII.Designer.cs">
+      <DependentUpon>frm_siII.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form2.resx">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_HYMonitor.resx">
+      <DependentUpon>frm_HYMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_Query.resx">
+      <DependentUpon>frm_Query.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_siII.resx">
+      <DependentUpon>frm_siII.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BaseObjectsLib\BaseObjectsLib.csproj">
+      <Project>{38b7c927-f264-46a1-a550-388f440d79be}</Project>
+      <Name>BaseObjectsLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataRecSvr\DataRecSvr.csproj">
+      <Project>{6a28259f-0369-4801-8b73-540bd4b7c7d5}</Project>
+      <Name>DataRecSvr</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExchangeLib\ExchangeLib.csproj">
+      <Project>{be222046-7d38-4e42-bcb5-ce4ccc5ab4cd}</Project>
+      <Name>ExchangeLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogLib\LogLib.csproj">
+      <Project>{182084e4-c48b-4585-9221-4a54caf7448f}</Project>
+      <Name>LogLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PK10CorePress\PK10CorePress.csproj">
+      <Project>{1b418905-1d78-4758-9b21-cf9bfc054f88}</Project>
+      <Name>PK10CorePress</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServerInitLib\ServerInitLib.csproj">
+      <Project>{5f99902c-df70-4b54-a58c-9b19a0114b6b}</Project>
+      <Name>ServerInitLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WinInterComminuteLib\WinInterComminuteLib.csproj">
+      <Project>{7859d79d-edd5-4b79-b3da-072432bc8fcc}</Project>
+      <Name>WinInterComminuteLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CFZQ_LHProcess\CFZQ_LHProcess.csproj">
+      <Project>{70baebe6-dfd2-4aa3-a8a9-04f88ea61551}</Project>
+      <Name>CFZQ_LHProcess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StrategyLibForWD\StrategyLibForWD.csproj">
+      <Project>{ad1632c3-203d-4b8f-91b1-3474dddc1a49}</Project>
+      <Name>StrategyLibForWD</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

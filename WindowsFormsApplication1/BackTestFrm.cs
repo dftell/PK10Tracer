@@ -893,7 +893,7 @@ namespace BackTestSys
             }
             catch(Exception ce)
             {
-                
+                string msg = ce.Message;
             }
         }
 

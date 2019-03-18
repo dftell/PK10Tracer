@@ -42,13 +42,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Strags", "Strags\Strags.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MachineLearnLib", "MachineLearnLib\MachineLearnLib.csproj", "{263D0261-F282-47F3-A3E8-324B703E1599}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFZQ_LHProcess", "..\..\..\..\..\..\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\CFZQ_LHProcess\CFZQ_LHProcess.csproj", "{70BAEBE6-DFD2-4AA3-A8A9-04F88EA61551}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFZQ_LHProcess", "CFZQ_LHProcess\CFZQ_LHProcess.csproj", "{70BAEBE6-DFD2-4AA3-A8A9-04F88EA61551}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockStrategiesLib", "..\..\..\..\..\..\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StockStrategiesLib\StockStrategiesLib.csproj", "{24BA2093-810F-40AA-B559-EBB75F4A7BE0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockStrategiesLib", "StockStrategiesLib\StockStrategiesLib.csproj", "{24BA2093-810F-40AA-B559-EBB75F4A7BE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrategyLibForWD", "..\..\..\..\..\..\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StrategyLibForWD\StrategyLibForWD.csproj", "{AD1632C3-203D-4B8F-91B1-3474DDDC1A49}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrategyLibForWD", "StrategyLibForWD\StrategyLibForWD.csproj", "{AD1632C3-203D-4B8F-91B1-3474DDDC1A49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_Win", "..\..\..\..\..\..\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\Test_Win\Test_Win.csproj", "{F63BE86B-ADC1-4C54-9FF4-D3B03C8F3400}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_Win", "Test_Win\Test_Win.csproj", "{F63BE86B-ADC1-4C54-9FF4-D3B03C8F3400}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

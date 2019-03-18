@@ -13,7 +13,8 @@ namespace PK10CorePress
         public string LastExpect;
         public string Expect;
         public string OpenCode;
-        public DateTime OpenTime;
+
+        public DateTime OpenTime { get; set; }
 
         public string[] ValueList
         {

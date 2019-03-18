@@ -89,5 +89,9 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\obj\Debug\CoreCalcC
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\obj\Debug\CoreCalcClass.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\obj\Debug\CoreCalcClass.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\obj\Debug\CoreCalcClass.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\bin\Debug\DocumentFormat.OpenXml.dll
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\bin\Debug\DocumentFormat.OpenXml.xml
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\bin\Debug\WAPIWrapperCSharp.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\bin\Debug\StrategyLibForWD.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\bin\Debug\CFZQ_LHProcess.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\bin\Debug\StrategyLibForWD.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\bin\Debug\CFZQ_LHProcess.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\bin\Debug\CFZQ_LHProcess.dll.config

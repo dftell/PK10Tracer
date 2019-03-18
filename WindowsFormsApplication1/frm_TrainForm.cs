@@ -69,7 +69,9 @@ namespace BackTestSystem
 
         void OnPeriodEvent(params object[] objs)
         {
-            return;
+            int test = 1;
+            if(test > 0)
+                return;
             lock (dataGridView1.Tag)
             {
                 try
@@ -112,7 +114,7 @@ namespace BackTestSystem
                 }
                 catch (Exception ce)
                 {
-
+                    string msg = ce.Message;
                 }
             }
 
@@ -143,6 +145,7 @@ namespace BackTestSystem
             }
             catch(Exception e)
             {
+                string msg = e.Message;
                 return null;
             }
         }
@@ -197,6 +200,7 @@ namespace BackTestSystem
             }
             catch(Exception ce)
             {
+                string msg = ce.Message;
                 return;
             }
             finally

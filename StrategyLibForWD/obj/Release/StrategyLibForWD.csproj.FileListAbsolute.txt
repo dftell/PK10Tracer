@@ -1,0 +1,15 @@
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StrategyLibForWD\bin\Release\StrategyLibForWD.dll
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StrategyLibForWD\bin\Release\StrategyLibForWD.pdb
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StrategyLibForWD\bin\Release\CFZQ_LHProcess.dll
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StrategyLibForWD\bin\Release\WAPIWrapperCSharp.dll
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StrategyLibForWD\bin\Release\LogLib.dll
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StrategyLibForWD\bin\Release\BaseObjectsLib.dll
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StrategyLibForWD\bin\Release\CFZQ_LHProcess.pdb
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StrategyLibForWD\bin\Release\CFZQ_LHProcess.dll.config
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StrategyLibForWD\bin\Release\LogLib.pdb
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StrategyLibForWD\bin\Release\BaseObjectsLib.pdb
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StrategyLibForWD\obj\Release\StrategyLibForWD.csprojAssemblyReference.cache
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StrategyLibForWD\obj\Release\StrategyLibForWD.csproj.CoreCompileInputs.cache
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StrategyLibForWD\obj\Release\StrategyLibForWD.csproj.CopyComplete
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StrategyLibForWD\obj\Release\StrategyLibForWD.dll
+C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\StrategyLibForWD\obj\Release\StrategyLibForWD.pdb
