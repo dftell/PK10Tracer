@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using WolfInv.com.PK10CorePress;
+using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.SecurityLib;
 namespace ExchangeTermial
 {
     public static class Program

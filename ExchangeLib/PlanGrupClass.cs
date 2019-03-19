@@ -5,6 +5,8 @@ using System.Text;
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.PK10CorePress;
 using WolfInv.com.Strags;
+
+using WolfInv.com.SecurityLib;
 namespace WolfInv.com.ExchangeLib
 {
     public delegate bool CalcStragGroupDelegate();
@@ -350,7 +352,7 @@ namespace WolfInv.com.ExchangeLib
             
             if (!IsBackTest)//额外保存
             {
-                int savecnt = OldDbList.Save(null);
+                int savecnt = new PK10ExpectReader().SaveChances(OldDbList.Values.ToList<ChanceClass>(), null);// OldDbList.Save(null);
                 if (OldList.Count > 0)
                     Log("计算服务", "保存已有机会", string.Format("条数：{0};实际条数:{1}", OldList.Count, savecnt));
                 savecnt = new PK10ExpectReader().SaveChances(NewList, null);

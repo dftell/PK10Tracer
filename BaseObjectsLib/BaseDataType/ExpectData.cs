@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-using WolfInv.com.BaseObjectsLib;
-namespace WolfInv.com.PK10CorePress
+
+namespace WolfInv.com.BaseObjectsLib
 {
     public abstract class LottyData:TimeSerialData
     {

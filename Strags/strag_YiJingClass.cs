@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using WolfInv.com.PK10CorePress;
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.Strags
 {
     [DescriptionAttribute("易经选号策略"),

@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using WolfInv.com.Strags;
 using WolfInv.com.PK10CorePress;
 using WolfInv.com.ExchangeLib;
+using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.SecurityLib;
 namespace PK10Server
 {
     public partial class frm_StragPlanSetting : Form

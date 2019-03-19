@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting;
 using System.Text;
-
-namespace WolfInv.com.PK10CorePress
+using WolfInv.com.BaseObjectsLib;
+namespace WolfInv.com.SecurityLib
 {
-    public class NoSqlDataReader : DataReader, IDataReader
+    public class NoSqlDataReader : DataReader
     {
         public override ExpectList GetMissedData(bool IsHistoryData, string strBegT)
         {

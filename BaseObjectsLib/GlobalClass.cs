@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Xml;
-using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.DbAccessLib;
 using WolfInv.com.LogLib;
 using WolfInv.com.ProbMathLib;
-using System.Reflection;
-using WolfInv.com.DbAccessLib;
-namespace WolfInv.com.PK10CorePress
+namespace WolfInv.com.BaseObjectsLib
 {
     [Serializable]
     public class GlobalClass : DetailStringClass,iLog

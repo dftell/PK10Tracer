@@ -14,6 +14,8 @@ using System.Threading;
 using WolfInv.com.ServerInitLib;
 using WolfInv.com.ExchangeLib;
 using WolfInv.com.GuideLib;
+using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.SecurityLib;
 namespace DataRecSvr
 {
     public partial class CalcService : SelfDefBaseService
@@ -406,9 +408,13 @@ namespace DataRecSvr
                 NeedClose[id].Profit = NeedClose[id].Gained - NeedClose[id].Cost;
                 NeedClose[id].UpdateTime = DateTime.Now;
             }
-            int ret = NeedClose.Save(null);
-            if(NeedClose.Count>0)
-                Log("保存关闭的机会", string.Format("数量:{0}",ret));
+            //int ret = NeedClose.Save(null);
+            if (NeedClose != null && NeedClose.Count > 0)
+            {
+                int ret = new PK10ExpectReader().SaveChances(NeedClose.Values.ToList<ChanceClass>(), null);
+                if (NeedClose.Count > 0)
+                    Log("保存关闭的机会", string.Format("数量:{0}", ret));
+            }
         }
 
         public bool CalcFinished

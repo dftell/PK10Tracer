@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using WolfInv.com.PK10CorePress;
 using System.ComponentModel;
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.Strags
 {
     [DescriptionAttribute("通用N码成长策略"),

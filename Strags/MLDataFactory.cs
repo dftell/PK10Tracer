@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using WolfInv.com.PK10CorePress;
 using WolfInv.com.MachineLearnLib;
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.Strags
 {
     public class MLDataFactory

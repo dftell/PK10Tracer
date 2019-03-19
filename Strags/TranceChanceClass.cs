@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using WolfInv.com.PK10CorePress;
+using WolfInv.com.BaseObjectsLib;
 namespace Strags
 {
     public abstract class ChanceTraceClass : ITraceChance

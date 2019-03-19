@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using WolfInv.com.LogLib;
-namespace WolfInv.com.PK10CorePress
+namespace WolfInv.com.SecurityLib
 {
     public class EquitDayExpectReader : CommExpectReader
     {

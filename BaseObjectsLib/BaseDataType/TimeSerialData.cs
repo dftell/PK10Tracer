@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WolfInv.com.BaseObjectsLib;
 
-namespace WolfInv.com.PK10CorePress
+
+namespace WolfInv.com.BaseObjectsLib
 {
     /// <summary>
     /// 时序数据，所有彩票，股票，债券，期货等证券数据的基类

@@ -5,6 +5,7 @@ using System.Text;
 using WolfInv.com.PK10CorePress;
 using WolfInv.com.GuideLib;
 using System.ComponentModel;
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.Strags
 {
     [Serializable]

@@ -6,7 +6,6 @@ using System.Data;
 using System.Data.OleDb;
 using System.Data.Sql;
 using System.Data.SqlClient;
-using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.LogLib;
 using System.Reflection;
 namespace WolfInv.com.DbAccessLib

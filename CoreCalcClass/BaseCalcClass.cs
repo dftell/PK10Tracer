@@ -5,6 +5,8 @@ using System.Text;
 using WolfInv.com.BackTestLib;
 using WolfInv.com.PK10CorePress;
 using WolfInv.com.Strags;
+using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.SecurityLib;
 namespace CoreCalcClass
 {
     public class BaseCalcClass

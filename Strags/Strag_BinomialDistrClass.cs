@@ -5,6 +5,7 @@ using System.Text;
 using WolfInv.com.PK10CorePress;
 using System.ComponentModel;
 using WolfInv.com.ProbMathLib;
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.Strags
 {
     [DescriptionAttribute("二项分布选号策略"),

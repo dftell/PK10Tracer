@@ -12,6 +12,7 @@ using System.Xml.Serialization;
 using WolfInv.com.BaseObjectsLib;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.Strags
 {
     

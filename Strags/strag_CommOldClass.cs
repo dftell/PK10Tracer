@@ -5,7 +5,7 @@ using System.Text;
 using WolfInv.com.PK10CorePress;
 using WolfInv.com.LogLib;
 using System.ComponentModel;
-
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.Strags
 {
     [DescriptionAttribute("通用N码穷追选号策略"),

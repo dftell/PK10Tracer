@@ -8,6 +8,7 @@ using WolfInv.com.LogLib;
 using WolfInv.com.ExchangeLib;
 using System.Data;
 using WolfInv.com.WinInterComminuteLib;
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.ServerInitLib
 {
     public class ServiceSetting :RemoteServerClass

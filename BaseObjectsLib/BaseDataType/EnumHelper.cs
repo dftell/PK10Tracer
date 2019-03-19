@@ -1,23 +1,14 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+//using System.Web.Mvc;
+using System.Collections.Specialized;
 using System.ComponentModel;
-
-
-
-
-    using System.Reflection;
-    using System.Collections.Concurrent;
-    using System.ComponentModel;
-    //using System.Web.Mvc;
-    using System.Collections.Specialized;
-namespace WolfInv.com.PK10CorePress
+using System.Linq;
+using System.Reflection;
+namespace WolfInv.com.BaseObjectsLib
 {
-    
-
-
-        public static class EnumHelper
+    public static class EnumHelper
         {
             #region Field
 
@@ -398,26 +389,4 @@ namespace WolfInv.com.PK10CorePress
 
             #endregion
         }
-    
-    [DescriptionAttribute("增长类型")]
-    [Serializable]
-    public enum InterestType
-    {
-        [DescriptionAttribute("单利")]
-        SimpleInterest,
-        [DescriptionAttribute("复利")]
-        CompoundInterest
-    }
-
-    [DescriptionAttribute("追踪类型")]
-    [Serializable]
-    public enum TraceType
-    {
-        [DescriptionAttribute("穷追")]
-        NoLimitTrace,
-        [DescriptionAttribute("择时")]
-        WaveTrace,
-        [DescriptionAttribute("单次")]
-        OnceTrace
-    }
 }

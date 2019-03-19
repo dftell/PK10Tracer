@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WolfInv.com.PK10CorePress
+namespace WolfInv.com.BaseObjectsLib
 {
     public interface ISpecAmount
     {
@@ -15,8 +15,5 @@ namespace WolfInv.com.PK10CorePress
         bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched);
     }
 
-    public interface IFindChance
-    {
-        List<ChanceClass> getChances(CommCollection sc, ExpectData ed);
-    }
+    
 }

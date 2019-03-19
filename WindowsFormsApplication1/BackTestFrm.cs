@@ -19,6 +19,8 @@ using System.Windows.Forms.DataVisualization.Charting.ChartTypes;
 using WolfInv.com.ServerInitLib;
 using BackTestSystem;
 //using WolfInv.com.Strags;
+using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.SecurityLib;
 namespace BackTestSys
 {
     public partial class BackTestFrm : Form

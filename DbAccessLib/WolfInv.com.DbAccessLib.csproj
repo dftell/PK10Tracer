@@ -46,10 +46,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BaseObjectsLib\WolfInv.com.BaseObjectsLib.csproj">
-      <Project>{38b7c927-f264-46a1-a550-388f440d79be}</Project>
-      <Name>WolfInv.com.BaseObjectsLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LogLib\WolfInv.com.LogLib.csproj">
       <Project>{182084e4-c48b-4585-9221-4a54caf7448f}</Project>
       <Name>WolfInv.com.LogLib</Name>

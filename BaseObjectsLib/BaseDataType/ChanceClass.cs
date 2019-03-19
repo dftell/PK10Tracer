@@ -7,7 +7,7 @@ using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.LogLib;
 using System.Reflection;
 using WolfInv.com.ProbMathLib;
-namespace WolfInv.com.PK10CorePress
+namespace WolfInv.com.BaseObjectsLib
 {
     public delegate bool EventCheckNeedEndTheChance(ChanceClass CheckCc,bool LastExpectMatched);
 
@@ -841,10 +841,10 @@ namespace WolfInv.com.PK10CorePress
             }
         }
 
-        public int Save(string DataOwner)
-        {
-            return new PK10ExpectReader().SaveChances(list.Values.ToList<ChanceClass>(), DataOwner);
-        }
+        ////public int Save(string DataOwner)
+        ////{
+        ////    return new PK10ExpectReader().SaveChances(list.Values.ToList<ChanceClass>(), DataOwner);
+        ////}
 
         
     }

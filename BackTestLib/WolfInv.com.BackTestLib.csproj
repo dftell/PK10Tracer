@@ -71,6 +71,10 @@
       <Project>{6AF5544D-5B6B-40A9-9258-72CBE6CE207D}</Project>
       <Name>WolfInv.com.ProbMathLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SecurityLib\WolfInv.com.SecurityLib.csproj">
+      <Project>{aa6cd329-d212-4998-be10-2a4728175f53}</Project>
+      <Name>WolfInv.com.SecurityLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ServerInitLib\WolfInv.com.ServerInitLib.csproj">
       <Project>{5F99902C-DF70-4B54-A58C-9B19A0114B6B}</Project>
       <Name>WolfInv.com.ServerInitLib</Name>

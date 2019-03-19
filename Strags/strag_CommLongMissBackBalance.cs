@@ -5,6 +5,7 @@ using System.Text;
 using WolfInv.com.PK10CorePress;
 using System.Data;
 using WolfInv.com.ProbMathLib;
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.Strags
 {
     public class strag_CommLongMissBackBalanceClass : ChanceTraceStragClass, IProbCheckClass

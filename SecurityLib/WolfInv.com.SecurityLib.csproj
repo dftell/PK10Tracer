@@ -42,8 +42,32 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicTypes.cs" />
+    <Compile Include="CommExpectReader.cs" />
+    <Compile Include="DataReader.cs" />
+    <Compile Include="ExpectReader.cs" />
+    <Compile Include="HtmlDataClass.cs" />
+    <Compile Include="IDataReader.cs" />
     <Compile Include="InitData.cs" />
+    <Compile Include="NoSqlDataReader.cs" />
+    <Compile Include="PK10_HtmlDataClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimeSerialListClass.cs" />
+    <Compile Include="TXFFCExpectReader.cs" />
+    <Compile Include="TXFFC_HtmlDataClass.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BaseObjectsLib\WolfInv.com.BaseObjectsLib.csproj">
+      <Project>{38b7c927-f264-46a1-a550-388f440d79be}</Project>
+      <Name>WolfInv.com.BaseObjectsLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DbAccessLib\WolfInv.com.DbAccessLib.csproj">
+      <Project>{6778368a-c893-41d7-b354-3030cc0779ed}</Project>
+      <Name>WolfInv.com.DbAccessLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogLib\WolfInv.com.LogLib.csproj">
+      <Project>{182084e4-c48b-4585-9221-4a54caf7448f}</Project>
+      <Name>WolfInv.com.LogLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -15,6 +15,11 @@ using System.Windows.Forms.Design;
 using WolfInv.com.ProbMathLib;
 namespace WolfInv.com.Strags
 {
+    public interface IFindChance
+    {
+        List<ChanceClass> getChances(CommCollection sc, ExpectData ed);
+    }
+
     /// <summary>
     /// 交易策略
     /// </summary>

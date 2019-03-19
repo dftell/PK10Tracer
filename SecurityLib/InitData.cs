@@ -53,10 +53,11 @@ namespace WolfInv.com.SecurityLib
         /// <summary>
         /// 股票数据
         /// </summary>
-        StockData,
+        Equit,
         Fund,
         Bond,
-        Cash
+        Cash,
+        Lotty
     }
 
     ///System Params

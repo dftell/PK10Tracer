@@ -6,6 +6,7 @@ using System.ServiceProcess;
 using WolfInv.com.LogLib;
 using WolfInv.com.PK10CorePress;
 using WolfInv.com.ExchangeLib;
+using WolfInv.com.BaseObjectsLib;
 namespace DataRecSvr
 {
     public  class SelfDefBaseService : ServiceBase

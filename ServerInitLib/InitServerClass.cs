@@ -6,6 +6,7 @@ using WolfInv.com.PK10CorePress;
 using WolfInv.com.Strags;
 using WolfInv.com.LogLib;
 using WolfInv.com.ExchangeLib;
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.ServerInitLib
 {
     public class InitServerClass:LogableClass

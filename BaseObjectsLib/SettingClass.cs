@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using WolfInv.com.BaseObjectsLib;
-namespace WolfInv.com.PK10CorePress
+namespace WolfInv.com.BaseObjectsLib
 {
     public class SettingClass : DetailStringClass
     {

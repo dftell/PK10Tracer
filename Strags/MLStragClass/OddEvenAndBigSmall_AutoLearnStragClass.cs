@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using WolfInv.com.PK10CorePress;
 using WolfInv.com.ProbMathLib;
-
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.Strags.MLStragClass
 {
     /// <summary>

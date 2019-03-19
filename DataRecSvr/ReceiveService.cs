@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.ServiceProcess;
-using System.Text;
 using System.Timers;
-using WolfInv.com.PK10CorePress;
-using System.Timers;
-using WolfInv.com.LogLib;
-using WolfInv.com.WinInterComminuteLib;
-using WolfInv.com.ServerInitLib;
-using System.Threading;
+using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.SecurityLib;
+
 namespace DataRecSvr
 {
     partial class ReceiveService :SelfDefBaseService

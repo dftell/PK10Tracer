@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using WolfInv.com.PK10CorePress;
 using System.ComponentModel;
-using WolfInv.com.ProbMathLib;
+using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.PK10CorePress;
 namespace WolfInv.com.Strags
 {
     [DescriptionAttribute("泊松分布选号策略"),

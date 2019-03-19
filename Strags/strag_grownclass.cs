@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using WolfInv.com.PK10CorePress;
 using System.ComponentModel;
+using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.PK10CorePress;
 namespace WolfInv.com.Strags
 {
     [DescriptionAttribute("N码指定条件成长策略"),

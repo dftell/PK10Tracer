@@ -9,3 +9,7 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WinInterComminuteLib\obj\Debug\Wo
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WinInterComminuteLib\obj\Debug\WolfInv.com.WinInterComminuteLib.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WinInterComminuteLib\obj\Debug\WinInterComminuteLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WinInterComminuteLib\obj\Debug\WinInterComminuteLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WinInterComminuteLib\bin\Debug\WolfInv.com.DbAccessLib.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WinInterComminuteLib\bin\Debug\WolfInv.com.ProbMathLib.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WinInterComminuteLib\bin\Debug\WolfInv.com.DbAccessLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WinInterComminuteLib\bin\Debug\WolfInv.com.ProbMathLib.pdb

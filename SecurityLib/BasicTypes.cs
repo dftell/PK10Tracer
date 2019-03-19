@@ -10,14 +10,14 @@ namespace WolfInv.com.SecurityLib
     {
     }
 
-    public class WDSetBuffData : SecBuffData
-    {
+    ////public class WDSetBuffData : SecBuffData
+    ////{
 
-    }
+    ////}
 
-    public class WDHisBuffData : SecBuffData
-    {
-    }
+    ////public class WDHisBuffData : SecBuffData
+    ////{
+    ////}
     //周期
     public enum Cycle
     {
@@ -29,7 +29,7 @@ namespace WolfInv.com.SecurityLib
         Fore, UnDo, Beyond, Target
     }
 
-    public class Security 
+    public class SecurityInfoClass 
     {
         public string StockID { get; set; }
         public string StockName { get; set; }

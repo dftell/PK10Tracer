@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using WolfInv.com.PK10CorePress;
-using System.Data;
-using WolfInv.com.ProbMathLib;
 using System.ComponentModel;
+using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.PK10CorePress;
 namespace WolfInv.com.Strags
 {
     [DescriptionAttribute("通用重复号码跟踪策略"),
