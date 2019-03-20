@@ -1,7 +1,11 @@
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\bin\Debug\WolfInv.com.BaseObjectsLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\bin\Debug\WolfInv.com.BaseObjectsLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\bin\Debug\WolfInv.com.DbAccessLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\bin\Debug\WolfInv.com.LogLib.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\bin\Debug\WolfInv.com.ProbMathLib.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\bin\Debug\WolfInv.com.DbAccessLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\bin\Debug\WolfInv.com.LogLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\bin\Debug\WolfInv.com.ProbMathLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\obj\Debug\WolfInv.com.BaseObjectsLib.csprojAssemblyReference.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\obj\Debug\WolfInv.com.BaseObjectsLib.SerialableObjectEditor.resources
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\obj\Debug\WolfInv.com.BaseObjectsLib.csproj.GenerateResource.cache
@@ -9,7 +13,5 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\obj\Debug\WolfInv.
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\obj\Debug\WolfInv.com.BaseObjectsLib.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\obj\Debug\WolfInv.com.BaseObjectsLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\obj\Debug\WolfInv.com.BaseObjectsLib.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\bin\Debug\WolfInv.com.DbAccessLib.dll
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\bin\Debug\WolfInv.com.ProbMathLib.dll
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\bin\Debug\WolfInv.com.DbAccessLib.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\bin\Debug\WolfInv.com.ProbMathLib.pdb
+C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.BaseObjectsLib.dll
+C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.BaseObjectsLib.pdb

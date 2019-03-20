@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using WolfInv.com.CFZQ_LHProcess;
 using WolfInv.com.StrategyLibForWD;
 using WolfInv.com.SecurityLib;
+using WolfInv.com.BaseObjectsLib;
 namespace Test_Win
 {
     public partial class frm_Query : Form

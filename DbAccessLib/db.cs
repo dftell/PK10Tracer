@@ -6,39 +6,27 @@ using System.Data;
 using System.Data.OleDb;
 using System.Data.Sql;
 using System.Data.SqlClient;
-using WolfInv.com.LogLib;
 using System.Reflection;
 namespace WolfInv.com.DbAccessLib
 {
-    
-    public abstract class CommDbClass: LogableClass
-    {
-        protected SqlConnection conn;
-        protected string ConnStr = "";
-        protected  string ConnStrModel = "";
-        protected abstract bool OpenConnect();
-        public abstract DataSet Query(string sql);
-        public abstract int SaveList(string sql, DataTable dt);
-
-        public abstract int SaveNewList(string sql, DataTable dt);
-
-        public abstract int UpdateOrNewList(string sql, DataTable dt);
-
-        public abstract DataTable getTableBySqlAndList<T>(string sql, List<T> list);
-
-    }
 
     public class DbClass: CommDbClass
     {
         public DbClass()
+        {
+            InitStr();
+        }
+
+        protected override  void InitStr()
         {
             _logname = "Sql数据操作";
             ConnStrModel = "Data Source={0};Initial Catalog={1};Persist Security Info=True;User ID={2};Password={3}";
 
         }
 
-        public DbClass(string servername, string loginUser, string loginPwd, string dbname):base()
+    public DbClass(string servername, string loginUser, string loginPwd, string dbname):base()
         {
+            InitStr();
             ConnStr = string.Format(ConnStrModel, servername, dbname, loginUser, loginPwd);
             conn = new SqlConnection(ConnStr);
             OpenConnect();
@@ -363,48 +351,5 @@ namespace WolfInv.com.DbAccessLib
         }
     
         
-    }
-
-    public class MongoDbClass : CommDbClass
-    {
-        public override DataTable getTableBySqlAndList<T>(string sql, List<T> list)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override DataSet Query(string sql)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override int SaveList(string sql, DataTable dt)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override int SaveNewList(string sql, DataTable dt)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override int UpdateOrNewList(string sql, DataTable dt)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override bool OpenConnect()
-        {
-            throw new NotImplementedException();
-        }
-    }
-    public class MemberInfoTypeItem
-    {
-        public MemberInfo MemInfo;
-        public Type DbType;
-        public MemberInfoTypeItem(MemberInfo mi,Type dbtype)
-        {
-            MemInfo = mi;
-            DbType = dbtype;
-        }
     }
 }

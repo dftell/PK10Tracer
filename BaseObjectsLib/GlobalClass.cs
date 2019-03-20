@@ -628,7 +628,12 @@ namespace WolfInv.com.BaseObjectsLib
         {
             return new DbClass(dbServer, dbUser, dbPwd, dbName);
         }
-        
+
+        public static MongoDbClass getCurrNoSQLDb()
+        {
+            return new MongoDbClass("www.wolfinv.com:27017", "", dbPwd, "mongodb");
+        }
+
         static GlobalClass()
         {
 

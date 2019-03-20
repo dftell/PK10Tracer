@@ -4,10 +4,17 @@ using System.Linq;
 using System.Runtime.Remoting;
 using System.Text;
 using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.DbAccessLib;
+using System.Data;
 namespace WolfInv.com.SecurityLib
 {
     public class NoSqlDataReader : DataReader
     {
+        public NoSqlDataReader(string DataTable,Cycle DataCycle)
+        {
+            this.strNewestTable = string.Format("{0}_{1}",DataTable,DataCycle);
+            this.strHistoryTable = DataTable;
+        }
         public override ExpectList GetMissedData(bool IsHistoryData, string strBegT)
         {
             throw new NotImplementedException();
@@ -45,7 +52,11 @@ namespace WolfInv.com.SecurityLib
 
         public override ExpectList ReadHistory(string begt, string endt)
         {
-            throw new NotImplementedException();
+            MongoDbClass db = GlobalClass.getCurrNoSQLDb();
+            string sql = string.Format("select  * from {0}  where opentime between '{1}' and '{2}'", strHistoryTable, begt, endt);
+            DataSet ds = db.Query(sql);
+            if (ds == null) return null;
+            return new ExpectList(ds.Tables[0]);
         }
 
         public override ExpectList ReadNewestData(DateTime fromdate)

@@ -7,6 +7,7 @@ using WAPIWrapperCSharp;
 using WolfInv.com.CFZQ_LHProcess;
 using System.Threading;
 using WolfInv.com.SecurityLib;
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.StrategyLibForWD
 {
     public class SystemGlobal

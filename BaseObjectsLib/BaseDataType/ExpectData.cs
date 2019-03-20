@@ -60,6 +60,10 @@ namespace WolfInv.com.BaseObjectsLib
             ret.Expect = this.Expect;
             ret.OpenCode = this.OpenCode;
             ret.OpenTime = this.OpenTime;
+            if(ret.CurrData!= null)
+            {
+                ret.CurrData = this.CurrData.Clone() as OneCycleData;
+            }
             return ret;
         }
 

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,17 +10,19 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WolfInv.com.GuideLib</RootNamespace>
     <AssemblyName>WolfInv.com.GuideLib</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\project\PK10Tracer\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,8 +31,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,7 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BaseObjectsLib\WolfInv.com.BaseObjectsLib.csproj">
-      <Project>{38B7C927-F264-46A1-A550-388F440D79BE}</Project>
+      <Project>{38b7c927-f264-46a1-a550-388f440d79be}</Project>
       <Name>WolfInv.com.BaseObjectsLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\LogLib\WolfInv.com.LogLib.csproj">
@@ -56,13 +62,16 @@
       <Name>WolfInv.com.LogLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\PK10CorePress\WolfInv.com.PK10CorePress.csproj">
-      <Project>{1B418905-1D78-4758-9B21-CF9BFC054F88}</Project>
+      <Project>{1b418905-1d78-4758-9b21-cf9bfc054f88}</Project>
       <Name>WolfInv.com.PK10CorePress</Name>
     </ProjectReference>
     <ProjectReference Include="..\ProbMathLib\WolfInv.com.ProbMathLib.csproj">
       <Project>{6AF5544D-5B6B-40A9-9258-72CBE6CE207D}</Project>
       <Name>WolfInv.com.ProbMathLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Fakes Include="Fakes\WolfInv.com.BaseObjectsLib.fakes" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

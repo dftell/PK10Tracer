@@ -46,7 +46,7 @@ namespace BackTestSys
             set
             {
                 _RunVirExchange = value;
-                if (_RunVirExchange)
+                if (_RunVirExchange&& this.chart1.Series.Count > 0)
                 {
                     this.chart1.Series[0].Points.Clear();//DataBindXY(moneyLines, "id", moneyLines, "val");
                     this.dataGridView_ExchangeDetail.DataSource = null;

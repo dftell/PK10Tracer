@@ -79,10 +79,6 @@ C:\cfzqzhouys\workspace\CSharp\CFZQ_JRGCDB\Test_Win\bin\Debug\MachineLearnLib.pd
 C:\Users\zhouys\Users\zhouys\source\project\PK10Tracer\Test_Win.exe.config
 C:\Users\zhouys\Users\zhouys\source\project\PK10Tracer\Test_Win.exe
 C:\Users\zhouys\Users\zhouys\source\project\PK10Tracer\Test_Win.pdb
-C:\Users\zhouys\source\project\PK10Tracer\Test_Win.exe.config
-C:\Users\zhouys\source\project\PK10Tracer\Test_Win.exe
-C:\Users\zhouys\source\project\PK10Tracer\Test_Win.pdb
-C:\Users\zhouys\source\repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.csprojAssemblyReference.cache
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.Form2.resources
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.frm_HYMonitor.resources
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.frm_Query.resources
@@ -91,6 +87,10 @@ C:\Users\zhouys\source\repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.F
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.Properties.Resources.resources
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.csproj.GenerateResource.cache
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.csproj.CoreCompileInputs.cache
-C:\Users\zhouys\source\repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.csproj.CopyComplete
-C:\Users\zhouys\source\repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.exe
-C:\Users\zhouys\source\repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.pdb
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.csprojAssemblyReference.cache
+C:\Users\zhouys\Source\project\PK10Tracer\Test_Win.exe.config
+C:\Users\zhouys\Source\project\PK10Tracer\Test_Win.exe
+C:\Users\zhouys\Source\project\PK10Tracer\Test_Win.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.csproj.CopyComplete
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.exe
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.pdb

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using WolfInv.com.CFZQ_LHProcess;
 using WolfInv.com.SecurityLib;
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.StrategyLibForWD
 {
 

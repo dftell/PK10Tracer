@@ -8,6 +8,7 @@ using WolfInv.com.SecurityLib;
 using WAPIWrapperCSharp;
 using System.Reflection;
 using Microsoft.VisualBasic;
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.StrategyLibForWD
 {
     public enum BaseDataPoint

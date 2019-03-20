@@ -1,8 +1,8 @@
-C:\Users\zhouys\source\project\PK10Tracer\WolfInv.com.CFZQ_LHProcess.dll.config
-C:\Users\zhouys\source\project\PK10Tracer\WolfInv.com.CFZQ_LHProcess.dll
-C:\Users\zhouys\source\project\PK10Tracer\WolfInv.com.CFZQ_LHProcess.pdb
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\CFZQ_LHProcess\obj\Debug\WolfInv.com.CFZQ_LHProcess.csprojAssemblyReference.cache
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\CFZQ_LHProcess\obj\Debug\WolfInv.com.CFZQ_LHProcess.csproj.CoreCompileInputs.cache
-C:\Users\zhouys\source\repos\dftell\PK10Tracer\CFZQ_LHProcess\obj\Debug\WolfInv.com.CFZQ_LHProcess.csproj.CopyComplete
-C:\Users\zhouys\source\repos\dftell\PK10Tracer\CFZQ_LHProcess\obj\Debug\WolfInv.com.CFZQ_LHProcess.dll
-C:\Users\zhouys\source\repos\dftell\PK10Tracer\CFZQ_LHProcess\obj\Debug\WolfInv.com.CFZQ_LHProcess.pdb
+C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.CFZQ_LHProcess.dll.config
+C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.CFZQ_LHProcess.dll
+C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.CFZQ_LHProcess.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CFZQ_LHProcess\obj\Debug\WolfInv.com.CFZQ_LHProcess.csproj.CopyComplete
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CFZQ_LHProcess\obj\Debug\WolfInv.com.CFZQ_LHProcess.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CFZQ_LHProcess\obj\Debug\WolfInv.com.CFZQ_LHProcess.pdb

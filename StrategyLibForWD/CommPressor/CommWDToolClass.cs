@@ -7,6 +7,7 @@ using WolfInv.com.CFZQ_LHProcess;
 using System.Data;
 using System.Reflection;
 using WolfInv.com.SecurityLib;
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.StrategyLibForWD
 {
     public class CommWDToolClass

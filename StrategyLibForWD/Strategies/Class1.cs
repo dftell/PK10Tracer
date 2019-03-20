@@ -7,6 +7,7 @@ using WolfInv.com.CFZQ_LHProcess;
 using WAPIWrapperCSharp;
 using System.Data;
 using WolfInv.com.SecurityLib;
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.StrategyLibForWD
 {
     /// <summary>

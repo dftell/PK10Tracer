@@ -10,6 +10,7 @@ using WolfInv.com.CFZQ_LHProcess;
 using WolfInv.com.StrategyLibForWD;
 using WolfInv.com.SecurityLib;
 using WAPIWrapperCSharp;
+using WolfInv.com.BaseObjectsLib;
 namespace Test_Win
 {
     public partial class frm_siII : Form

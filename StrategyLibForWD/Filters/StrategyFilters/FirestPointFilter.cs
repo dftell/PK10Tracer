@@ -5,16 +5,17 @@ using System.Text;
 using WolfInv.com.CFZQ_LHProcess;
 using WAPIWrapperCSharp;
 using WolfInv.com.SecurityLib;
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.StrategyLibForWD.Filters.StrategyFilters
 {
-    public class FirestPointFilter:FilterLogicBaseClass
+    public class FirstPointFilter:FilterLogicBaseClass
     {
-        public FirestPointFilter(SecurityProcessClass secinfo):base(secinfo)
+        public FirstPointFilter(SecurityProcessClass secinfo):base(secinfo)
         {
 
         }
 
-        public FirestPointFilter(Cycle cyc, PriceAdj rate):base(cyc,rate)
+        public FirstPointFilter(Cycle cyc, PriceAdj rate):base(cyc,rate)
         {
         }
 

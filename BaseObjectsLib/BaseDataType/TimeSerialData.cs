@@ -20,5 +20,7 @@ namespace WolfInv.com.BaseObjectsLib
         public DateTime OpenTime { get; set; }
 
         public abstract object Clone();
+        public bool IsSecurity;
+        public OneCycleData CurrData;
     }
 }

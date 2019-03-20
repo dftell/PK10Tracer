@@ -6,6 +6,7 @@ using WolfInv.com.CFZQ_LHProcess;
 using System.Data;
 using WAPIWrapperCSharp;
 using WolfInv.com.SecurityLib;
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.StrategyLibForWD
 {
     #region 基础类及接口
