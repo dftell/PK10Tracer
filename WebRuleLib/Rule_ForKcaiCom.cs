@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using WolfInv.com.PK10CorePress;
 using WolfInv.com.BaseObjectsLib;
-using WolfInv.com.SecurityLib;
+//using WolfInv.com.SecurityLib;
 namespace WolfInv.com.WebRuleLib
 {
     public class Rule_ForKcaiCom : WebRule

@@ -133,6 +133,7 @@ namespace WolfInv.com.ServerInitLib
             LogableClass.ToLog("初始化服务器设置", "初始资产单元列表");
             this.AllAssetUnits = InitServerClass.Init_AssetUnits();
             this.AllNoClosedChanceList = new Dictionary<string, ChanceClass>();
+            GlobalClass.TypeDataPoints["CN_Stock_A"].AllTypeTimes = InitSecurityClass.getTypeAllTimes();
             
         }
 

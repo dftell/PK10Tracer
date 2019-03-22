@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Xml;
 using WolfInv.com.DbAccessLib;
 using WolfInv.com.LogLib;
@@ -629,9 +628,12 @@ namespace WolfInv.com.BaseObjectsLib
             return new DbClass(dbServer, dbUser, dbPwd, dbName);
         }
 
-        public static MongoDbClass getCurrNoSQLDb()
+        public static MongoDBBase getCurrNoSQLDb(string typename)
         {
-            return new MongoDbClass("www.wolfinv.com:27017", "", dbPwd, "mongodb");
+            //return new MongoDbClass("pk10.wolfinv.com:27017", "", dbPwd, "QuantAxis");"
+            MongoDBBase db = new MongoDBBase(TypeDataPoints[typename].DbHost, TypeDataPoints[typename].DbUser, TypeDataPoints[typename].DbPassword, TypeDataPoints[typename].DbName);
+            db.DBTypeName = typename;
+            return db;
         }
 
         static GlobalClass()
@@ -938,53 +940,6 @@ namespace WolfInv.com.BaseObjectsLib
                 sum += serial[i - 1] * chips;
             }
             return sum;
-        }
-    }
-
-    public struct AmoutSerials
-    {
-        public int[] MaxHoldCnts;
-        public double[] MaxRates;
-        /// <summary>
-        /// 
-        /// </summary>public Int64[] MaxSum = new Int64[8];
-        public Int64[][] Serials;
-    }
-
-    public class DataTypePoint
-    {
-        public string DataType;
-        public string DBType;
-        public string NewestTable;
-        public string HistoryTable;
-        public string MissHistoryTable;
-        public string MissNewestTable;
-        public string ChanceTable;
-        public string ResultTable;
-        public long ReceiveSeconds; //刷新间隔秒数
-        public DateTime ReceiveStartTime;//数据接收开始时间
-        public DateTime ReceiveEndTime; //数据接收停止时间
-        public int SubScriptModel = 0;//使用订阅模式
-        public string SubScriptSrc = "";//订阅板块
-        public string SubScriptSector;//订阅板块
-        public string SubScriptFields;//订阅字段集
-        public string SubScriptOptions;//订阅其他参数
-        public int SubScriptUpdateAll;//是否更新全部
-        public long SaveInterVal=0;//存储间隔（毫秒）随机存储
-        public int SubScriptGrpCnt = -1;//默认全部分组
-
-        public DataTypePoint(string name,Dictionary<string,string> list)
-        {
-            DataType = name;
-            Type t = this.GetType();
-            FieldInfo[] fs = t.GetFields();
-            for(int i=0;i<fs.Length;i++)
-            {
-                if(list.ContainsKey(fs[i].Name))
-                {
-                    fs[i].SetValue(this, Convert.ChangeType(list[fs[i].Name],fs[i].FieldType));
-                }
-            }
         }
     }
 }

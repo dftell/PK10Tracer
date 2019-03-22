@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WolfInv.com.DbAccessLib</RootNamespace>
     <AssemblyName>WolfInv.com.DbAccessLib</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -59,7 +59,10 @@
     <Compile Include="CommDbClass.cs" />
     <Compile Include="db.cs" />
     <Compile Include="MemberInfoTypeItem.cs" />
-    <Compile Include="MongoDbClass.cs" />
+    <Compile Include="MongoDataBaseContext.cs" />
+    <Compile Include="MongoDBBase.cs" />
+    <Compile Include="MongodbHost.cs" />
+    <Compile Include="MongoDbOperator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

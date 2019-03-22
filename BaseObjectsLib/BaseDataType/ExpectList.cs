@@ -8,7 +8,9 @@ namespace WolfInv.com.BaseObjectsLib
 {
     public class ExpectList : IList<ExpectData>
     {
+        public Cycle Cyc = Cycle.Expect;
         List<ExpectData> _MyData;
+        Dictionary<string, Dictionary<string,OneCycleData>> Tables;
         List<ExpectData> MyData
         {
             get
@@ -23,10 +25,11 @@ namespace WolfInv.com.BaseObjectsLib
         {
             get
             {
-                if (MyData.Count == 0)
-                {
-                    string test = "1";
-                }
+                //////if (MyData.Count == 0)
+                //////{
+                //////    string test = "1";
+                //////    test = "1";
+                //////}
                 return MyData[MyData.Count - 1];
             }
         }
@@ -84,6 +87,34 @@ namespace WolfInv.com.BaseObjectsLib
                 }
                 MyData.Add(ed);
             }
+        }
+
+        public ExpectList(string DataType,Cycle cyc, DataSet ds)
+        {
+            Tables = new Dictionary<string, Dictionary<string,OneCycleData>>();
+            long MaxCnt = 0;
+            for(int i=0;i<ds.Tables.Count;i++)
+            {
+                long cnt = ds.Tables[i].Rows.Count;
+                if(cnt>MaxCnt)
+                {
+                    MaxCnt = cnt;
+                }
+            }
+            
+            for (int n = 0; n < ds.Tables.Count; n++)
+            {
+                OneCycleData ocd = new OneCycleData();
+                List<OneCycleData>  list = ocd.FillByTable<OneCycleData>(ds.Tables[n]);
+                Tables.Add(ds.Tables[n].TableName, list.ToDictionary(p=>p.date,p=>p));
+            }
+            for (int i = 0; i < MaxCnt; i++)
+            {
+                ExpectData ed = new ExpectData();
+                //ed.ListData
+
+            }
+            
         }
 
         public int IndexOf(ExpectData item)

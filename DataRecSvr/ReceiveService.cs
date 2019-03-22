@@ -95,7 +95,8 @@ namespace DataRecSvr
             try
             {
                 PK10ExpectReader rd = new PK10ExpectReader();
-                ExpectList currEl = rd.ReadNewestData(DateTime.Today.AddDays(-1*glb.CheckNewestDataDays));//改为10天，防止春节连续多天不更新数据
+                //ExpectList currEl = rd.ReadNewestData(DateTime.Today.AddDays(-1*glb.CheckNewestDataDays));//改为10天，防止春节连续多天不更新数据
+                ExpectList currEl = rd.ReadNewestData(DateTime.Today.AddDays(-1 * GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays));//改从PK10配置中获取
                 if ((currEl == null || currEl.Count == 0) || (el.Count > 0 && currEl.Count > 0 && el.LastData.ExpectIndex > currEl.LastData.ExpectIndex))//获取到新数据
                 {
                     Log("接收到数据", string.Format("接收到数据！{0}", el.LastData.ToString()));
@@ -106,7 +107,7 @@ namespace DataRecSvr
                     this.Tm_ForPK10.Interval = FeatureTime.Subtract(CurrTime).TotalMilliseconds;
                     if (rd.SaveNewestData(rd.getNewestData(el, currEl)) > 0)
                     {
-                        CurrDataList = rd.ReadNewestData(DateTime.Now.AddDays(-1*glb.CheckNewestDataDays));//前十天的数据 尽量的大于reviewcnt,免得需要再取一次数据
+                        CurrDataList = rd.ReadNewestData(DateTime.Now.AddDays(-1* GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays));//前十天的数据 尽量的大于reviewcnt,免得需要再取一次数据
                         CurrExpectNo = el.LastData.Expect;
                         Program.AllServiceConfig.LastDataSector = CurrDataList;
                         AfterReceiveProcess();

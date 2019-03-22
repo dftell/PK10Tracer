@@ -47,7 +47,7 @@ namespace WolfInv.com.DbAccessLib
             }
         }
 
-        public override DataSet Query(string sql)
+        public override DataSet Query(ConditionSql sql)
         {
             if (OpenConnect() == false)
             {
@@ -56,19 +56,19 @@ namespace WolfInv.com.DbAccessLib
             DataSet ret = new DataSet();
             try
             {
-                SqlDataAdapter da = new SqlDataAdapter(sql, conn);
+                SqlDataAdapter da = new SqlDataAdapter(sql.sql, conn);
                 da.MissingSchemaAction = MissingSchemaAction.AddWithKey;
                 da.Fill(ret);
             }
             catch (Exception ce)
             {
-                Log("错误","查询错误", string.Format("{0}:{1}",sql,ce.Message));
+                Log("错误","查询错误", string.Format("{0}:{1}",sql.sql,ce.Message));
                 return null;
             }
             return ret;
         }
 
-        public override int SaveList(string sql,DataTable dt)
+        public override int SaveList(ConditionSql sql,DataTable dt)
         {
             if (OpenConnect() == false)
             {
@@ -76,7 +76,7 @@ namespace WolfInv.com.DbAccessLib
             }
             try
             {
-                SqlCommand selectCMD = new SqlCommand(sql, conn);
+                SqlCommand selectCMD = new SqlCommand(sql.sql, conn);
                 SqlDataAdapter sda = new SqlDataAdapter(selectCMD);
                 //上面的语句中使用select 0，不是为了查询出数据，而是要查询出表结构以向DataTable中填充表结构
                 sda.Fill(dt);
@@ -98,7 +98,7 @@ namespace WolfInv.com.DbAccessLib
         /// <param name="sql"></param>
         /// <param name="dt"></param>
         /// <returns></returns>
-        public override int SaveNewList(string sql, DataTable dt)
+        public override int SaveNewList(ConditionSql sql, DataTable dt)
         {
             if (OpenConnect() == false)
             {
@@ -109,7 +109,7 @@ namespace WolfInv.com.DbAccessLib
             try
             {
                 newDt = new DataTable();
-                SqlCommand selectCMD = new SqlCommand(sql, conn);
+                SqlCommand selectCMD = new SqlCommand(sql.sql, conn);
                 SqlDataAdapter sda = new SqlDataAdapter(selectCMD);
                 sda.MissingSchemaAction = MissingSchemaAction.AddWithKey;
                 //上面的语句中使用select 0，不是为了查询出数据，而是要查询出表结构以向DataTable中填充表结构
@@ -139,7 +139,7 @@ namespace WolfInv.com.DbAccessLib
             }
             catch (Exception ce)
             {
-                Log("错误","保存新增数据错误", string.Format("{0}:{1}", sql, ce.Message));
+                Log("错误","保存新增数据错误", string.Format("{0}:{1}", sql.sql, ce.Message));
                 return -1;
             }
         }
@@ -150,7 +150,7 @@ namespace WolfInv.com.DbAccessLib
         /// <param name="sql"></param>
         /// <param name="dt"></param>
         /// <returns></returns>
-        public override int UpdateOrNewList(string sql, DataTable dt)
+        public override int UpdateOrNewList(ConditionSql sql, DataTable dt)
         {
             object lockobj = new object();
             lock (lockobj)
@@ -165,7 +165,7 @@ namespace WolfInv.com.DbAccessLib
                 try
                 {
                     oldDt = new DataTable();
-                    SqlCommand selectCMD = new SqlCommand(sql, conn);
+                    SqlCommand selectCMD = new SqlCommand(sql.sql, conn);
                     SqlDataAdapter sda = new SqlDataAdapter(selectCMD);
                     sda.MissingSchemaAction = MissingSchemaAction.AddWithKey;
                     //上面的语句中使用select 0，不是为了查询出数据，而是要查询出表结构以向DataTable中填充表结构
@@ -232,7 +232,7 @@ namespace WolfInv.com.DbAccessLib
                 }
                 catch (Exception ce)
                 {
-                    Log("错误", "新增/更新数据错误", string.Format("{0}:{1}", sql, ce.StackTrace));
+                    Log("错误", "新增/更新数据错误", string.Format("{0}:{1}", sql.sql, ce.StackTrace));
                     return -1;
                 }
             }
@@ -251,7 +251,7 @@ namespace WolfInv.com.DbAccessLib
 
         static Dictionary<Type, Dictionary<string, MemberInfoTypeItem>> TypesList = new Dictionary<Type,Dictionary<string,MemberInfoTypeItem>>();
 
-        public override DataTable getTableBySqlAndList<T>(string sql, List<T> list)
+        public override DataTable getTableBySqlAndList<T>(ConditionSql sql, List<T> list)
         {
             object obj = new object();
             lock (TypesList)

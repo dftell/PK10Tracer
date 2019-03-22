@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using WolfInv.com.PK10CorePress;
 using WolfInv.com.BaseObjectsLib;
-using WolfInv.com.SecurityLib;
+//using WolfInv.com.SecurityLib;
 namespace ExchangeTermial
 {
     public partial class frm_setting : Form

@@ -34,8 +34,26 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DnsClient, Version=1.2.0.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
+      <HintPath>..\packages\DnsClient.1.2.0\lib\net45\DnsClient.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.8.0\lib\net452\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.2.8.0\lib\net452\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.8.0\lib\net452\MongoDB.Driver.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,17 +61,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommExpectReader.cs" />
-    <Compile Include="DataReader.cs" />
-    <Compile Include="ExpectReader.cs" />
-    <Compile Include="HtmlDataClass.cs" />
-    <Compile Include="IDataReader.cs" />
-    <Compile Include="NoSqlDataReader.cs" />
-    <Compile Include="PK10_HtmlDataClass.cs" />
+    <Compile Include="DataBuilders\DateSerialCodeDataBuilder.cs" />
+    <Compile Include="DataBuilders\DateSerialDatabuilder.cs" />
+    <Compile Include="DataBuilders\MongoDataBuilder.cs" />
+    <Compile Include="DataTypes\StockMongoData.cs" />
+    <Compile Include="Readers\DateSerialCodeDataReader.cs" />
+    <Compile Include="Readers\Lotty\CommExpectReader.cs" />
+    <Compile Include="Readers\DataReader.cs" />
+    <Compile Include="Readers\EquitReader.cs" />
+    <Compile Include="Readers\Lotty\ExpectReader.cs" />
+    <Compile Include="Readers\Lotty\HtmlDataClass.cs" />
+    <Compile Include="Readers\IDataReader.cs" />
+    <Compile Include="Readers\MongoDataReader.cs" />
+    <Compile Include="Readers\Security\NoSqlDataReader.cs" />
+    <Compile Include="Readers\Lotty\PK10_HtmlDataClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DataBuilders\SecurityOneCycleDataBuilder.cs" />
+    <Compile Include="Readers\Security\SecurityReader.cs" />
     <Compile Include="TimeSerialListClass.cs" />
-    <Compile Include="TXFFCExpectReader.cs" />
-    <Compile Include="TXFFC_HtmlDataClass.cs" />
+    <Compile Include="Readers\Lotty\TXFFCExpectReader.cs" />
+    <Compile Include="Readers\Lotty\TXFFC_HtmlDataClass.cs" />
+    <Compile Include="DataTypes\XDXRData.cs" />
+    <Compile Include="Readers\Security\XDXRReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BaseObjectsLib\WolfInv.com.BaseObjectsLib.csproj">
@@ -68,6 +97,9 @@
       <Project>{182084e4-c48b-4585-9221-4a54caf7448f}</Project>
       <Name>WolfInv.com.LogLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

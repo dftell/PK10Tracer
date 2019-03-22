@@ -34,6 +34,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MongoDB.Bson, Version=2.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\project\PK10Tracer\MongoDB.Bson.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -46,17 +50,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AmoutSerials.cs" />
     <Compile Include="BaseDataType\baseTypes.cs" />
     <Compile Include="BaseDataType\BasicTypes.cs" />
     <Compile Include="BaseDataType\ChanceClass.cs" />
+    <Compile Include="BaseDataType\DataListConverter.cs" />
     <Compile Include="BaseDataType\EnumHelper.cs" />
+    <Compile Include="BaseDataType\ExchangeData.cs" />
     <Compile Include="BaseDataType\ExpectData.cs" />
     <Compile Include="BaseDataType\ExpectList.cs" />
     <Compile Include="BaseDataType\InitData.cs" />
     <Compile Include="BaseDataType\ITraceable.cs" />
+    <Compile Include="BaseDataType\MongoData.cs" />
+    <Compile Include="BaseDataType\MongoDataDictionary.cs" />
+    <Compile Include="BaseDataType\MongoDataList.cs" />
+    <Compile Include="BaseDataType\OneCycleData.cs" />
     <Compile Include="BaseDataType\TimeSerialData.cs" />
     <Compile Include="CommResult.cs" />
     <Compile Include="DataFrame.cs" />
+    <Compile Include="DataTypePoint.cs" />
     <Compile Include="DetailStringClass.cs" />
     <Compile Include="DisplayAsTableClass.cs" />
     <Compile Include="GlobalClass.cs" />

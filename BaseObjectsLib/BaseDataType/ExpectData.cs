@@ -76,6 +76,8 @@ namespace WolfInv.com.BaseObjectsLib
                 return string.Format("{0}",Int64.Parse(Expect) - 1);
             }
         }
+
+        public MongoDataDictionary DataList;
     }
 
 }

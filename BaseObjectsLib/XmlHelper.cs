@@ -3,6 +3,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
+using WolfInv.com.LogLib;
 namespace WolfInv.com.BaseObjectsLib
 {
     public static class XmlHelper
@@ -109,7 +110,7 @@ namespace WolfInv.com.BaseObjectsLib
             }
             catch(Exception ce)
             {
-
+                LogableClass.ToLog("载入Xml错误！", ce.Message);
             }
             
             XmlSerializer mySerializer = new XmlSerializer(tp);

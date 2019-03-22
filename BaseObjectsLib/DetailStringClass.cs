@@ -106,6 +106,14 @@ namespace WolfInv.com.BaseObjectsLib
             return XmlHelper.XmlSerialize(this, Encoding.UTF8);
         }
 
+        public object getValue(string strFieldName)
+        {
+            Type t = this.GetType();
+            FieldInfo fi = t.GetField(strFieldName);
+            if (fi == null)
+                return null;
+            return fi.GetValue(this);
+        }
         public static T GetObjectByXml<T>(string str)
         {
             return XmlHelper.XmlDeserialize<T>(str, Encoding.UTF8);

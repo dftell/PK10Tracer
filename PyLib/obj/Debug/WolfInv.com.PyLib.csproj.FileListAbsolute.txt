@@ -1,0 +1,7 @@
+C:\Users\zhouys\source\project\PK10Tracer\WolfInv.com.PyLib.dll
+C:\Users\zhouys\source\project\PK10Tracer\WolfInv.com.PyLib.pdb
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\PyLib\obj\Debug\WolfInv.com.PyLib.csprojAssemblyReference.cache
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\PyLib\obj\Debug\WolfInv.com.PyLib.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\PyLib\obj\Debug\WolfInv.com.PyLib.csproj.CopyComplete
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\PyLib\obj\Debug\WolfInv.com.PyLib.dll
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\PyLib\obj\Debug\WolfInv.com.PyLib.pdb

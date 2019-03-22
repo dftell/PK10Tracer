@@ -108,8 +108,8 @@ namespace WolfInv.com.BaseObjectsLib
             }
             //Create Class 
             return typeBuilder.CreateType();
-            return assemblyBuilder.GetType(ClassName);
-            return moduleBuilder.GetType(ClassName);
+            ////return assemblyBuilder.GetType(ClassName);
+            ////return moduleBuilder.GetType(ClassName);
 
         }
 

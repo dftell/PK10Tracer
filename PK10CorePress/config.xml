@@ -29,18 +29,22 @@
       <item key="ResultTable" value="tmp_TXFFC_LongTermAll_ProbWaveTable"/>
     </config>
     <config type="CN_Stock_A">
-      <item key="DBType" value="MongoDB"/>
-      <item key="NewestTable" value="PK10_Newestdata"/>
-      <item key="HistoryTable" value="historydata"/>
+      <item key="DbType" value="MongoDB"/>
+      <item key="DbHost" value="pk10.wolfinv.com:27017"/>
+      <item key="DbUser" value=""/>
+      <item key="DbPassword" value="MongoDB"/>
+      <item key="DbName" value="quantaxis"/>
+      <item key="NewestTable" value="stock_day"/>
+      <item key="HistoryTable" value="stock_day"/>
       <item key="MissHistoryTable" value="v_PK10_HistoryData_Miss"/>
       <item key="MissNewestTable" value="v_PK10_NewestData_Miss"/>
-      <item key="ChanceTable" value="PK10_ChanceTable"/>
+      <item key="ChanceTable" value="CNStockA_ChanceTable"/>
       <item key="ResultTable" value="tmp_PK10_LongTermAll_ProbWaveTable"/>
       <item key="RecieveSeconds" value="1200"/>
       <item key="RecieveStartTime" value="09:30:00"/>
       <item key="RecieveEndTime" value="15:30:00"/>
       <item key="RecieveSeconds" value="60"/>
-      <item key="CheckNewestDataDays" value="15"/>
+      <item key="CheckNewestDataDays" value="600"/>
       <item key="SubScriptModel" value="1"/>
       <item key="SubScriptSrc" value="WD"/>
       <item key="SubScriptSector" value="a001010100000000"/>
@@ -48,10 +52,14 @@
       <item key="SubScriptOptions" value=""/>
       <item key="SubScriptUpdateAll" value="0"/>
       <item key="SaveInterVal" value="60000"/>
+      <item key="IndexDayTable" value="index_day"/>
+      <item key="IndexTable" value="index_list"/>
+      <item key="BlackTable" value="stock_block"/>
+      <item key="StockListTable" value="stock_list"/>
+      <item key="XDXRTable" value="stock_xdxr"/>
 
     </config>
     <config type="System">
-
       <item key="InstHost" value="http://www.wolfinv.com"/>
       <item key="MinChips" value="100"/>
       <item key="URL" value="http://r.apiplus.net/newly.do?token=ee3d74d24c1f9d746ebac68945f7d36f&amp;code=bjpk10&amp;rows=5&amp;format=xml"/>
