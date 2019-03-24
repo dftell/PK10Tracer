@@ -43,7 +43,7 @@ namespace WolfInv.com.BaseObjectsLib
 
         public DataSet ToDataSet<T>(List<T> list)
         {
-            return DataListConverter.ToDataSet(list, "code");
+            return DataListConverter<T>.ToDataSet(list, "code");
         }
     }
 
@@ -58,10 +58,6 @@ namespace WolfInv.com.BaseObjectsLib
         double date_stamp { get; set; }
     }
 
-    public class IndexOneCycleData:OneCycleData
-    {
-        public int up_count { get; set; }
-        public int down_count { get; set; }
-    }
+    
 }
 ;

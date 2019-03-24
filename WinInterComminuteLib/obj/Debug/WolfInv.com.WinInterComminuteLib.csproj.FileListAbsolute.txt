@@ -1,7 +1,7 @@
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WinInterComminuteLib\obj\Debug\WolfInv.com.WinInterComminuteLib.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\Source\project\PK10Tracer\WinInterComminuteLib.dll
 C:\Users\zhouys\Source\project\PK10Tracer\WinInterComminuteLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WinInterComminuteLib\obj\Debug\WolfInv.com.WinInterComminuteLib.csprojAssemblyReference.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WinInterComminuteLib\obj\Debug\WolfInv.com.WinInterComminuteLib.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WinInterComminuteLib\obj\Debug\WolfInv.com.WinInterComminuteLib.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WinInterComminuteLib\obj\Debug\WinInterComminuteLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WinInterComminuteLib\obj\Debug\WinInterComminuteLib.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WinInterComminuteLib\obj\Debug\WolfInv.com.WinInterComminuteLib.csprojAssemblyReference.cache

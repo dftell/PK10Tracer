@@ -3,8 +3,7 @@
 namespace WolfInv.com.DbAccessLib
 {
     public class MongoDataBaseContext
-
-        {
+    {
 
             public IMongoClient _client = null;
 
@@ -20,7 +19,7 @@ namespace WolfInv.com.DbAccessLib
 
             }
 
-        }
+    }
 
  
 

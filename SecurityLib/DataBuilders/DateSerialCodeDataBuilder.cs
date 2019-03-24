@@ -15,13 +15,16 @@ namespace WolfInv.com.SecurityLib
         public string CodeFieldName { get; set; }
         public string[] Codes { get; set; }
 
-        public override List<T> getData<T>(bool Asc)
+        public override MongoReturnDataList<T> getData<T>(bool Asc)
         {
             FilterDefinition<T> filter = Builders<T>.Filter.Empty;
-            if (Codes.Length == 1)
-                filter = filter & Builders<T>.Filter.Eq(a => (a as ICodeData).code, Codes[0]);
-            else
-                filter = filter & Builders<T>.Filter.In(a => (a as ICodeData).code, Codes);
+            if (Codes != null && Codes.Length > 0)
+            {
+                if (Codes.Length == 1)
+                    filter = filter & Builders<T>.Filter.Eq(a => (a as ICodeData).code, Codes[0]);
+                else
+                    filter = filter & Builders<T>.Filter.In(a => (a as ICodeData).code, Codes);
+            }
             SortDefinition<T> sort = null;
             if (Asc)
                 sort = Builders<T>.Sort.Ascending(a => (a as IDateData).date);
@@ -29,10 +32,11 @@ namespace WolfInv.com.SecurityLib
                 sort = Builders<T>.Sort.Descending(a => (a as IDateData).date);
             //查询字段
             string[] fileds = null;
-            return _mongoDB.FindList<T>(this.TableName, filter, fileds, sort);
+            var list =  _mongoDB.FindListAsync<T>(this.TableName, filter, fileds, sort);
+            return new MongoReturnDataList<T>(list.Result);
         }
 
-        public override List<T> getData<T>(string begT, bool Asc)
+        public override MongoReturnDataList<T> getData<T>(string begT, bool Asc)
         {
             FilterDefinition<T> filter = Builders<T>.Filter.Empty;
             if (Codes.Length == 1)
@@ -47,10 +51,10 @@ namespace WolfInv.com.SecurityLib
                 sort = Builders<T>.Sort.Descending(a => (a as IDateData).date);
             //查询字段
             string[] fileds = null;
-            return _mongoDB.FindList<T>(this.TableName, filter, fileds, sort);
+            return new MongoReturnDataList<T>(_mongoDB.FindList<T>(this.TableName, filter, fileds, sort));
         }
 
-        public override List<T> getData<T>(string begT, string endT, bool Asc)
+        public override MongoReturnDataList<T> getData<T>(string begT, string endT, bool Asc)
         {
             FilterDefinition<T> filter = Builders<T>.Filter.Empty;
             if (Codes.Length == 1)
@@ -66,10 +70,10 @@ namespace WolfInv.com.SecurityLib
                 sort = Builders<T>.Sort.Descending(a => (a as IDateData).date);
             //查询字段
             string[] fileds = null;
-            return _mongoDB.FindList<T>(this.TableName, filter, fileds, sort);
+            return new MongoReturnDataList<T>(_mongoDB.FindList<T>(this.TableName, filter, fileds, sort));
         }
 
-        public override List<T> getData<T>(string endT, int Cycs, bool Asc)
+        public override MongoReturnDataList<T> getData<T>(string endT, int Cycs, bool Asc)
         {
             FilterDefinition<T> filter = Builders<T>.Filter.Empty;
             if (Codes.Length == 1)
@@ -84,7 +88,22 @@ namespace WolfInv.com.SecurityLib
                 sort = Builders<T>.Sort.Descending(a => (a as IDateData).date);
             //查询字段
             string[] fileds = null;
-            return _mongoDB.FindList<T>(this.TableName, filter, fileds, sort,Cycs);
+            return new MongoReturnDataList<T>(_mongoDB.FindList<T>(this.TableName, filter, fileds, sort,Cycs));
+        }
+
+        public override MongoReturnDataList<T> getFullTimeSerial<T>()
+        {
+            FilterDefinition<T> filter = Builders<T>.Filter.Empty;
+            if (Codes.Length == 1)
+                filter = filter & Builders<T>.Filter.Eq(a => (a as ICodeData).code, Codes[0]);
+            else
+                filter = filter & Builders<T>.Filter.In(a => (a as ICodeData).code, Codes);
+            SortDefinition<T> sort = Builders<T>.Sort.Ascending(a => (a as IDateData).date);//升序
+            //查询字段
+            string[] fileds = null;// new string[] {"_id", "date" };
+            return new MongoReturnDataList<T>(_mongoDB.FindList<T>(this.TableName, filter, fileds, sort));
         }
     }
+
+   
 }

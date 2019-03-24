@@ -1042,7 +1042,7 @@ namespace WolfInv.com.DbAccessLib
 
         /// <returns></returns>
 
-        public List<T> FindList<T>(string collName, FilterDefinition<T> filter, string[] field = null, SortDefinition<T> sort = null,int LimitCnt = 0) //where T : class, new()
+        public IFindFluent<T, T> _FindList<T>(string collName, FilterDefinition<T> filter, string[] field = null, SortDefinition<T> sort = null,int LimitCnt = 0) //where T : class, new()
         {
             int? IntLimit = null;
             if (LimitCnt > 0)
@@ -1054,9 +1054,9 @@ namespace WolfInv.com.DbAccessLib
                 //不指定查询字段
                 if (field == null || field.Length == 0)
                 {
-                    if (sort == null) return client.Find(filter).Limit(IntLimit).ToList();
+                    if (sort == null) return client.Find(filter).Limit(IntLimit);
                     //进行排序
-                    return client.Find(filter).Sort(sort).Limit(IntLimit).ToList();
+                    return client.Find(filter).Sort(sort).Limit(IntLimit);
                 }
             //制定查询字段
                 var fieldList = new List<ProjectionDefinition<T>>();
@@ -1068,11 +1068,10 @@ namespace WolfInv.com.DbAccessLib
                 fieldList?.Clear();
                 if (sort == null)
                 {
-                    return client.Find(filter).Limit(IntLimit).Project<T>(projection).ToList();
+                    return client.Find(filter).Limit(IntLimit).Project<T>(projection);
                 }
                 //排序查询
-
-                return client.Find(filter).Sort(sort).Limit(IntLimit).Project<T>(projection).ToList();
+                return client.Find(filter).Sort(sort).Limit(IntLimit).Project<T>(projection);
 
             }
 
@@ -1085,6 +1084,10 @@ namespace WolfInv.com.DbAccessLib
 
         }
 
+        public List<T> FindList<T>(string collName, FilterDefinition<T> filter, string[] field = null, SortDefinition<T> sort = null, int LimitCnt = 0) //where T : class, new()
+        {
+            return _FindList<T>(collName, filter, field, sort, LimitCnt).ToList();
+        }
         public List<T> FindList<T>(string collName, FilterDefinition<T> filter, string[] field = null, SortDefinition<T> sort = null) //where T : class, new()
         {
             return FindList<T>(collName, filter, field, sort, 0);
@@ -1111,9 +1114,13 @@ namespace WolfInv.com.DbAccessLib
 
             /// <returns></returns>
 
-            public async Task<List<T>> FindListAsync<T>(string collName, FilterDefinition<T> filter, string[] field = null, SortDefinition<T> sort = null) where T : class, new()
-
+        public async Task<List<T>> _FindListAsync<T>(string collName, FilterDefinition<T> filter, string[] field = null, SortDefinition<T> sort = null,int cnt=0) where T : class, new()
         {
+            int? LimitCnt = null;
+            if(cnt>0)
+            {
+                LimitCnt = cnt;
+            }
 
             try
 
@@ -1127,9 +1134,9 @@ namespace WolfInv.com.DbAccessLib
 
                 {
 
-                    if (sort == null) return await client.Find(filter).ToListAsync();
+                    if (sort == null) return await client.Find(filter).Limit(LimitCnt).ToListAsync();
 
-                    return await client.Find(filter).Sort(sort).ToListAsync();
+                    return await client.Find(filter).Sort(sort).Limit(LimitCnt).ToListAsync();
 
                 }
 
@@ -1151,11 +1158,11 @@ namespace WolfInv.com.DbAccessLib
 
                 fieldList?.Clear();
 
-                if (sort == null) return await client.Find(filter).Project<T>(projection).ToListAsync();
+                if (sort == null) return await client.Find(filter).Limit(LimitCnt).Project<T>(projection).ToListAsync();
 
                 //排序查询
 
-                return await client.Find(filter).Sort(sort).Project<T>(projection).ToListAsync();
+                return await client.Find(filter).Sort(sort).Limit(LimitCnt).Project<T>(projection).ToListAsync();
 
             }
 
@@ -1167,6 +1174,11 @@ namespace WolfInv.com.DbAccessLib
 
             }
 
+        }
+
+        public async Task<List<T>> FindListAsync<T>(string collName, FilterDefinition<T> filter, string[] field = null, SortDefinition<T> sort = null,int cnt = 0) where T : class, new()
+        {
+            return await _FindListAsync(collName,filter,field,sort,cnt);
         }
 
         #endregion

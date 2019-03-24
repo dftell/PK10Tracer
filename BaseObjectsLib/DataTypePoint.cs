@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Reflection;
 namespace WolfInv.com.BaseObjectsLib
 {
-    public class DataTypePoint
+    public class DataTypePoint:DetailStringClass
     {
+        public int IsSecurityData = 0;//是否是证券数据
         public string DbHost;
         public string DbUser;
         public string DbPassword;
@@ -35,8 +36,14 @@ namespace WolfInv.com.BaseObjectsLib
         public long SaveInterVal=0;//存储间隔（毫秒）随机存储
         public int SubScriptGrpCnt = -1;//默认全部分组
 
+        public int NeedLoadAllCodes = 0;
+        public int NeedLoadAllXDXR = 0;
+        public string DateIndex = "000001";
+        public int CodeGrpCnt = 100;
         public Dictionary<Cycle,List<string>> AllTypeTimes;//所有的期数/时间戳
 
+
+        public DataPointBuff RuntimeInfo;
         public DataTypePoint(string name,Dictionary<string,string> list)
         {
             DataType = name;
@@ -50,5 +57,40 @@ namespace WolfInv.com.BaseObjectsLib
                 }
             }
         }
+    }
+
+    public class DataPointBuff
+    {
+        public DataPointBuff()//为detailstringclass准备一个0参数的构造函数
+        {
+
+        }
+        public DataPointBuff(DataTypePoint obj)
+        {
+            parent = obj;
+        }
+        DataTypePoint parent;
+        public string[] SecurityCodes { get; set; }
+        public Dictionary<string,StockInfoMongoData> SecurityInfoList { get; set; }
+        public MongoDataDictionary<XDXRData> XDXRList { get; set; }
+
+        public List<string> HistoryDateList { get; set; }
+
+        List<string[]> CodeGrp;
+
+        public List<string[]> getGrpCodes
+        {
+            get
+            {
+                if (SecurityCodes == null)
+                    return new List<string[]>();
+                if (CodeGrp == null)
+                {
+                    CodeGrp = GroupBuilder.ToGroup<string>(SecurityCodes, parent.CodeGrpCnt);
+                }
+                return CodeGrp;
+            }
+        }
+
     }
 }

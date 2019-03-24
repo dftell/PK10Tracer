@@ -32,7 +32,7 @@ namespace WolfInv.com.BaseObjectsLib
         
     }
 
-    public delegate void DataAssset();
+    public delegate void EventDataAssset();
     
     public class SystemParams<key,val>:Dictionary<key,val>
     {

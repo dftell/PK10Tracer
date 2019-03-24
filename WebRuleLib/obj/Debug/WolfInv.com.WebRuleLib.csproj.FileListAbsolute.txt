@@ -1,7 +1,7 @@
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\obj\Debug\WolfInv.com.WebRuleLib.csprojAssemblyReference.cache
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\obj\Debug\WolfInv.com.WebRuleLib.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.WebRuleLib.dll
 C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.WebRuleLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\obj\Debug\WolfInv.com.WebRuleLib.csprojAssemblyReference.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\obj\Debug\WolfInv.com.WebRuleLib.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\obj\Debug\WolfInv.com.WebRuleLib.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\obj\Debug\WolfInv.com.WebRuleLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\obj\Debug\WolfInv.com.WebRuleLib.pdb

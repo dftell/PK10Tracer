@@ -57,7 +57,11 @@
       <item key="BlackTable" value="stock_block"/>
       <item key="StockListTable" value="stock_list"/>
       <item key="XDXRTable" value="stock_xdxr"/>
-
+      <item key="NeedLoadAllCodes" value="1"/>
+      <item key="NeedLoadAllXDXR" value="1"/>
+      <item key="IsSecurityData" value="1"/>
+      <item key="DateIndex" value="000001"/>
+      <item key="CodeGrpCnt" value="40"/>
     </config>
     <config type="System">
       <item key="InstHost" value="http://www.wolfinv.com"/>

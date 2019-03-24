@@ -6,6 +6,49 @@ namespace WolfInv.com.BaseObjectsLib
     {
 
     }
+    public class StockMongoData : ExchangeMongoData
+    {
+
+    }
+
+    public class StockIndexMongoData : StockMongoData
+    {
+        public int up_count { get; set; }
+        public int down_count { get; set; }
+    }
+
+    public class StockInfoMongoData : MongoData, ICodeData
+    {
+        public string code { get; set; }
+        public int volunit { get; set; }
+
+        /// <summary>
+        /// 精确到小数点后位数
+        /// </summary>
+        public int decimal_point { get; set; }
+        public string name { get; set; }
+        //前期价格
+        public double pre_close { get; set; }
+        /// <summary>
+        /// 交易所
+        /// </summary>
+        public string sse { get; set; }
+        /// <summary>
+        /// 证券市场
+        /// </summary>
+        public string sec { get; set; }
+
+        string _fullcode;
+        public string FullCode
+        {
+            get
+            {
+                if (_fullcode == null)
+                    _fullcode = string.Format("{0}.{1}", code, sse);
+                return _fullcode;
+            }
+        }
+    }
 
     public class ExchangeMongoData : MongoData, IExchangeData
     {
@@ -47,7 +90,7 @@ namespace WolfInv.com.BaseObjectsLib
 
         public DataSet ToDataSet<T>(List<T> list)
         {
-            return DataListConverter.ToDataSet(list, "code");
+            return DataListConverter<T>.ToDataSet(list, "code");
         }
     }
 

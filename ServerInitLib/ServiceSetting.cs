@@ -18,8 +18,7 @@ namespace WolfInv.com.ServerInitLib
         {
             lastInst = this;
         }
-
-        
+                
         static GlobalClass _gc;//全局配置
         static ExchangeService _ES;
         static Dictionary<string, StragClass> _AllStrags;
@@ -133,8 +132,40 @@ namespace WolfInv.com.ServerInitLib
             LogableClass.ToLog("初始化服务器设置", "初始资产单元列表");
             this.AllAssetUnits = InitServerClass.Init_AssetUnits();
             this.AllNoClosedChanceList = new Dictionary<string, ChanceClass>();
-            GlobalClass.TypeDataPoints["CN_Stock_A"].AllTypeTimes = InitSecurityClass.getTypeAllTimes();
-            
+            InitSecurity();
+
+
+        }
+
+        public void InitSecurity()
+        {
+            foreach(string key in GlobalClass.TypeDataPoints.Keys)
+            {
+                DataTypePoint dtp = GlobalClass.TypeDataPoints[key];
+                if(dtp.IsSecurityData == 0)
+                {
+                    LogableClass.ToLog(string.Format("Type:{0}", key), "非证券类型，无须加载基本信息！");
+                    continue;
+                }
+                dtp.RuntimeInfo = new DataPointBuff(dtp);
+                LogableClass.ToLog(string.Format("准备获取[{0}]股票清单",key), "开始");
+                dtp.RuntimeInfo.SecurityInfoList = InitSecurityClass.getAllCodes(key);
+                if (dtp.RuntimeInfo.SecurityInfoList == null)
+                {
+                    LogableClass.ToLog(string.Format("准备获取[{0}]股票清单", key), "失败");
+                    continue;
+                }
+                LogableClass.ToLog(string.Format("获取[{0}]股票清单", key), string.Format("股票数量:{0}",dtp.RuntimeInfo.SecurityInfoList.Count));
+                string[] codes = dtp.RuntimeInfo.SecurityInfoList.Keys.ToArray();
+                dtp.RuntimeInfo.SecurityCodes = codes;
+                LogableClass.ToLog(string.Format("准备获取[{0}]日期数据", key), "开始");
+                dtp.RuntimeInfo.HistoryDateList = InitSecurityClass.getAllDateList(key);
+                LogableClass.ToLog(string.Format("获取[{0}]日期数据", key), string.Format("日期数量:{0}", dtp.RuntimeInfo.HistoryDateList.Count));
+                LogableClass.ToLog(string.Format("准备获取[{0}]除权除息数据", key), "开始");
+                dtp.RuntimeInfo.XDXRList = InitSecurityClass.getAllXDXRData(key,dtp.RuntimeInfo.getGrpCodes);
+                LogableClass.ToLog(string.Format("获取[{0}]除权除息数据", key), string.Format("总数量:{0}", dtp.RuntimeInfo.XDXRList.Sum(p=>p.Value.Count)));
+                //GlobalClass.TypeDataPoints[key] = dtp;
+            }
         }
 
         public void GrpThePlan( bool IsBackTest)

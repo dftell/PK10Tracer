@@ -62,7 +62,7 @@
     <Compile Include="MongoDataBaseContext.cs" />
     <Compile Include="MongoDBBase.cs" />
     <Compile Include="MongodbHost.cs" />
-    <Compile Include="MongoDbOperator.cs" />
+    <Compile Include="MongoReturnDataList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

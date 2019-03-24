@@ -1,7 +1,7 @@
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\WolfInv.com.GuideLib.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.GuideLib.dll
 C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.GuideLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\WolfInv.com.GuideLib.csprojAssemblyReference.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\WolfInv.com.GuideLib.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\WolfInv.com.GuideLib.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\WolfInv.com.GuideLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\WolfInv.com.GuideLib.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\WolfInv.com.GuideLib.csprojAssemblyReference.cache

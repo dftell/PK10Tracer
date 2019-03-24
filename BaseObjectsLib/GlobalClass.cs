@@ -31,6 +31,10 @@ namespace WolfInv.com.BaseObjectsLib
                 }
                 return _TypeDataPoints;
             }
+            set //支持回写 2019/3/23
+            {
+                _TypeDataPoints = value;
+            }
         }
         static Dictionary<string, Dictionary<string, string>> _SystemDbTables;
         public static Dictionary<string, Dictionary<string, string>> SystemDbTables

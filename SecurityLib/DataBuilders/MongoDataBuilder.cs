@@ -11,6 +11,12 @@ namespace WolfInv.com.SecurityLib
         string CodeFieldName { get; set; }
     }
 
+    public interface IFindCodeListData
+    {
+        MongoReturnDataList<T> getData<T>(bool StopExchange) where T : class, new();
+        MongoReturnDataList<T> getData<T>() where T : class, new();
+    }
+
     public interface IFindDateSerialData
     {
         string DateFieldName { get; set; }
@@ -19,10 +25,12 @@ namespace WolfInv.com.SecurityLib
     //日期序列数据构造器
     public interface IDateSerialDatabuilder: IFindDateSerialData
     {
-        List<T> getData<T>(bool Asc) where T : class, new();
-        List<T> getData<T>(string begT,bool Asc) where T : class, new();
-        List<T> getData<T>(string begT,string endT, bool Asc) where T : class, new();
-        List<T> getData<T>(string endt,int Cycs, bool Asc) where T : class, new();
+        MongoReturnDataList<T> getData<T>(bool Asc) where T : class, new();
+        MongoReturnDataList<T> getData<T>(string begT,bool Asc) where T : class, new();
+        MongoReturnDataList<T> getData<T>(string begT,string endT, bool Asc) where T : class, new();
+        MongoReturnDataList<T> getData<T>(string endt,int Cycs, bool Asc) where T : class, new();
+
+        MongoReturnDataList<T> getFullTimeSerial<T>() where T : class, new();
     }
     public abstract class MongoDataBuilder 
     {

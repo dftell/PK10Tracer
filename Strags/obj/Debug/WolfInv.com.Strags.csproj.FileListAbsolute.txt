@@ -1,11 +1,11 @@
+C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.Strags.dll
+C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.Strags.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Debug\WolfInv.com.Strags.csprojAssemblyReference.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Debug\WolfInv.com.Strags.CommSelectOjectDialog.resources
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Debug\WolfInv.com.Strags.StragPicker.resources
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Debug\WolfInv.com.Strags.StragsPicker.resources
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Debug\WolfInv.com.Strags.csproj.GenerateResource.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Debug\WolfInv.com.Strags.csproj.CoreCompileInputs.cache
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Debug\WolfInv.com.Strags.csprojAssemblyReference.cache
-C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.Strags.dll
-C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.Strags.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Debug\WolfInv.com.Strags.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Debug\WolfInv.com.Strags.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Strags\obj\Debug\WolfInv.com.Strags.pdb

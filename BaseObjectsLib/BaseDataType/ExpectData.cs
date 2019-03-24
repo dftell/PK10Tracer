@@ -77,7 +77,7 @@ namespace WolfInv.com.BaseObjectsLib
             }
         }
 
-        public MongoDataDictionary DataList;
+        public MongoDataDictionary<StockMongoData> DataList;
     }
 
 }

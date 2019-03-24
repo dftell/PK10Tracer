@@ -38,6 +38,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\project\PK10Tracer\MongoDB.Bson.dll</HintPath>
     </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\project\PK10Tracer\MongoDB.Driver.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -54,7 +58,6 @@
     <Compile Include="BaseDataType\baseTypes.cs" />
     <Compile Include="BaseDataType\BasicTypes.cs" />
     <Compile Include="BaseDataType\ChanceClass.cs" />
-    <Compile Include="BaseDataType\DataListConverter.cs" />
     <Compile Include="BaseDataType\EnumHelper.cs" />
     <Compile Include="BaseDataType\ExchangeData.cs" />
     <Compile Include="BaseDataType\ExpectData.cs" />
@@ -63,15 +66,16 @@
     <Compile Include="BaseDataType\ITraceable.cs" />
     <Compile Include="BaseDataType\MongoData.cs" />
     <Compile Include="BaseDataType\MongoDataDictionary.cs" />
-    <Compile Include="BaseDataType\MongoDataList.cs" />
     <Compile Include="BaseDataType\OneCycleData.cs" />
     <Compile Include="BaseDataType\TimeSerialData.cs" />
     <Compile Include="CommResult.cs" />
     <Compile Include="DataFrame.cs" />
+    <Compile Include="DataListConverter.cs" />
     <Compile Include="DataTypePoint.cs" />
     <Compile Include="DetailStringClass.cs" />
     <Compile Include="DisplayAsTableClass.cs" />
     <Compile Include="GlobalClass.cs" />
+    <Compile Include="MongoDataList.cs" />
     <Compile Include="PK10Object.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerialableObjectEditor.cs">
@@ -82,6 +86,7 @@
     </Compile>
     <Compile Include="SerialObjectEdit.cs" />
     <Compile Include="SettingClass.cs" />
+    <Compile Include="BaseDataType\XDXRData.cs" />
     <Compile Include="XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -102,6 +107,9 @@
       <Project>{6af5544d-5b6b-40a9-9258-72cbe6ce207d}</Project>
       <Name>WolfInv.com.ProbMathLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

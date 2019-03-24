@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using WolfInv.com.DbAccessLib;
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.SecurityLib
 {
     public abstract class DateSerialDatabuilder : MongoDataBuilder,IDateSerialDatabuilder
@@ -10,9 +11,10 @@ namespace WolfInv.com.SecurityLib
         }
         public string DateFieldName { get ; set ; }
 
-        public abstract List<T> getData<T>(bool Asc) where T : class, new();
-        public abstract List<T> getData<T>(string begT, bool Asc) where T : class, new();
-        public abstract List<T> getData<T>(string begT, string endT, bool Asc) where T : class, new();
-        public abstract List<T> getData<T>(string endt, int Cycs, bool Asc) where T : class, new();
+        public abstract MongoReturnDataList<T> getData<T>(bool Asc) where T : class, new();
+        public abstract MongoReturnDataList<T> getData<T>(string begT, bool Asc) where T : class, new();
+        public abstract MongoReturnDataList<T> getData<T>(string begT, string endT, bool Asc) where T : class, new();
+        public abstract MongoReturnDataList<T> getData<T>(string endt, int Cycs, bool Asc) where T : class, new();
+        public abstract MongoReturnDataList<T> getFullTimeSerial<T>() where T : class, new();
     }
 }
