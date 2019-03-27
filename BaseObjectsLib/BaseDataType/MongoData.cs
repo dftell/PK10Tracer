@@ -2,43 +2,237 @@
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Reflection;
-using System.Collections.Generic;
 using MongoDB.Bson.Serialization;
-
+using WolfInv.com.DbAccessLib;
+using System.Collections;
+using System.Collections.Generic;
 namespace WolfInv.com.BaseObjectsLib
 {
-    public class MongoData:DisplayAsTableClass, IObjectId,ICloneable,IMatchFilter
+    public class MongoData : DisplayAsTableClass, IObjectId, ICloneable, IMatchFilter,IConvertible
     {
+        public MongoData()
+        {
+
+        }
+
+        
+
         public BsonObjectId _id { get; set; }
+
+
+
         public Object Clone()
         {
             return DetailStringClass.GetObjectByXml<OneCycleData>(this.ToDetailString());
         }
 
-        public bool Match<T>(FilterDefinition<T> filter)
+
+        public bool Match(BsonElement bs)
         {
             Type t = this.GetType();
-            foreach(BsonElement key in filter.ToBsonDocument())
+            BsonElement key = bs;
+            BsonValue val = bs.Value;
+            return ConvertionExtensions.Equal(this, bs.Name, getBstrVal, bs.Value);
+        }
+
+        Func<object, object> getBstrVal = delegate (object val)
+        {
+            return BsonValue.Create(val) as object;
+        };
+
+        public bool Match(BsonDocument bs)
+        {
+            Type t = this.GetType();
+            foreach (BsonElement key in bs)
             {
                 string name = key.Name;
                 BsonValue val = key.Value;
-                MemberInfo mi = t.GetProperty(name);
-                object thisval = (mi as PropertyInfo)?.GetValue(this);
-                if ( mi == null)
-                {
-                    mi = t.GetField(name);
-                    thisval = (mi as FieldInfo)?.GetValue(this);
-                }
-                if(mi == null)
-                {
-                    return false;
-                }
-                bool ret =  (thisval?.Equals(val)).Value;
-                if (ret == false)
+                if (!ConvertionExtensions.Equal(this, name, getBstrVal, val))
                     return false;
             }
             return true;
         }
+
+
+        public MongoData ExtentData;
+        public void AddExtentData(MongoData ExData)
+        {
+              ExtentData = ExData;
+        }
+
+        ////public string ItemName<TMongoData>(Func<TMongoData,PropertyInfo> func)
+        ////{
+        ////    return null;
+        ////}
+
+        #region IConvertible
+        public TypeCode GetTypeCode()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ToBoolean(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        public char ToChar(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        public sbyte ToSByte(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        public byte ToByte(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        public short ToInt16(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ushort ToUInt16(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int ToInt32(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        public uint ToUInt32(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        public long ToInt64(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ulong ToUInt64(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        public float ToSingle(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double ToDouble(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        public decimal ToDecimal(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DateTime ToDateTime(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+        public object ToType(Type conversionType, IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        TypeCode IConvertible.GetTypeCode()
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IConvertible.ToBoolean(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        char IConvertible.ToChar(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        sbyte IConvertible.ToSByte(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        byte IConvertible.ToByte(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        short IConvertible.ToInt16(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        ushort IConvertible.ToUInt16(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        int IConvertible.ToInt32(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        uint IConvertible.ToUInt32(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        long IConvertible.ToInt64(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        ulong IConvertible.ToUInt64(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        float IConvertible.ToSingle(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        double IConvertible.ToDouble(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        decimal IConvertible.ToDecimal(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        DateTime IConvertible.ToDateTime(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        string IConvertible.ToString(IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        object IConvertible.ToType(Type conversionType, IFormatProvider provider)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
     }
 
     public interface IObjectId
@@ -48,7 +242,7 @@ namespace WolfInv.com.BaseObjectsLib
 
     public interface IMatchFilter
     {
-        bool Match<T>(FilterDefinition<T> filter);
+        bool Match(BsonElement filter);
     }
 
     public interface ICodeData
@@ -56,37 +250,7 @@ namespace WolfInv.com.BaseObjectsLib
         string code { get; set; }
     }
 
-    public class MongoReturnDataList<T> : List<T>
-    {
-        public MongoReturnDataList(List<T> list)
-        {
-            list.ForEach(p => this.Add(p));
-        }
-
-        public MongoReturnDataList()
-        {
-
-        }
-
-        public MongoReturnDataList<T> Query(MongoFilter<T> condition)
-        {
-            MongoReturnDataList<T> ret = new MongoReturnDataList<T>();
-            List<T> list =this.FindAll(p => (p as MongoData).Match<T>(condition));
-            this.Clear();
-            list.ForEach(p => ret.Add(p));
-            return ret;
-        }
-
-        
-    }
-
-    public class MongoFilter<TDocument> : FilterDefinition<TDocument>
-    {
-        public override BsonDocument Render(IBsonSerializer<TDocument> documentSerializer, IBsonSerializerRegistry serializerRegistry)
-        {
-            throw new NotImplementedException();
-        }
-    }
+    
 
 }
 ;

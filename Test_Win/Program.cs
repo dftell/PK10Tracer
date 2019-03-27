@@ -21,13 +21,13 @@ namespace Test_Win
     }
     static class Program
     {
-        public static ServiceSetting AllServiceConfig;
+        //public static ServiceSetting AllServiceConfig;
         private delegate void barDelegate(int no);
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main1()
         {
             LogableClass.ToLog("初始化服务器全局设置", "开始");
             InitSystem();
@@ -39,10 +39,59 @@ namespace Test_Win
             GlobalObj gb = new GlobalObj();
             gb.w = new WindAPI();
             gb.w.start();
-            
+            ReceiveService rc = new ReceiveService();
+            rc.Start();
             Form2 frm = new Form2(gb);
             Application.Run(frm);
         }
+
+        
+
+        public static ServiceSetting AllServiceConfig;
+
+        /// <summary>
+        /// 应用程序的主入口点。
+        /// </summary>
+        static void Main()
+        {
+
+            try
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                //ServiceBase[] ServicesToRun;
+                LogableClass.ToLog("构建计算服务", "开始");
+                CalcService cs = new CalcService();
+                LogableClass.ToLog("构建接收服务", "开始");
+                ReceiveService rs = new ReceiveService();
+                //SubscriptData sd = new SubscriptData();
+                rs.CalcProcess = cs;
+                //只有接收数据是默认启动，计算服务由接收数据触发
+                //ServicesToRun = new ServiceBase[]
+                //{
+                //    rs,sd
+                //};
+                LogableClass.ToLog("初始化服务器全局设置", "开始");
+                InitSystem();
+                LogableClass.ToLog("启动通道", "开始");
+                new CommuniteClass().StartIPCServer();
+                //ServiceBase.Run(ServicesToRun);
+                GlobalObj gb = new GlobalObj();
+                gb.w = new WindAPI();
+                gb.w.start();
+                //new ReceiveService().Start();
+                rs.Start();
+                Form2 frm = new Form2(gb);
+                Application.Run(frm);
+            }
+            catch (Exception e)
+            {
+                LogableClass.ToLog("初始化服务失败", e.StackTrace);
+            }
+
+        }
+
+
 
         static void InitSystem()
         {

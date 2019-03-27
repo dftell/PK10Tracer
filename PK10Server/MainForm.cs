@@ -285,7 +285,7 @@ namespace PK10Server
         private void tsmi_getTXFFCHistoryTxtData_Click(object sender, EventArgs e)
         {
             TXFFCExpectReader er = new TXFFCExpectReader();
-            TXFFC_HtmlDataClass rder = new TXFFC_HtmlDataClass();
+            TXFFC_HtmlDataClass rder = new TXFFC_HtmlDataClass(GlobalClass.TypeDataPoints["TXFFC"]);
             string strFolder = @"C:\Users\zhouys\Desktop\TXFFC";
             string fileType = "txt";
             
@@ -312,7 +312,7 @@ namespace PK10Server
 
         private void tsmi_getTXFFCHistoryFromWeb_Click(object sender, EventArgs e)
         {
-            TXFFC_HtmlDataClass rder = new TXFFC_HtmlDataClass();
+            TXFFC_HtmlDataClass rder = new TXFFC_HtmlDataClass(GlobalClass.TypeDataPoints["TXFFC"]);
             TXFFCExpectReader er = new TXFFCExpectReader();
             string StrBegDate = "2018-08-25";
             ExpectList el = er.GetMissedData(true, StrBegDate);

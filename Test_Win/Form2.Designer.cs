@@ -35,6 +35,7 @@
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.btn_swhyCommQuery = new System.Windows.Forms.Button();
             this.btn_SubScript = new System.Windows.Forms.Button();
+            this.btn_TestDayData = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -51,7 +52,7 @@
             // btn_gl
             // 
             this.btn_gl.Location = new System.Drawing.Point(90, 218);
-            this.btn_gl.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btn_gl.Margin = new System.Windows.Forms.Padding(6);
             this.btn_gl.Name = "btn_gl";
             this.btn_gl.Size = new System.Drawing.Size(206, 60);
             this.btn_gl.TabIndex = 1;
@@ -62,7 +63,7 @@
             // btn_forSI
             // 
             this.btn_forSI.Location = new System.Drawing.Point(296, 218);
-            this.btn_forSI.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btn_forSI.Margin = new System.Windows.Forms.Padding(6);
             this.btn_forSI.Name = "btn_forSI";
             this.btn_forSI.Size = new System.Drawing.Size(186, 60);
             this.btn_forSI.TabIndex = 1;
@@ -73,7 +74,7 @@
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(492, 220);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(136, 58);
             this.button1.TabIndex = 2;
@@ -84,7 +85,7 @@
             // progressBar1
             // 
             this.progressBar1.Location = new System.Drawing.Point(12, 708);
-            this.progressBar1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.progressBar1.Margin = new System.Windows.Forms.Padding(4);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(974, 32);
             this.progressBar1.TabIndex = 3;
@@ -92,7 +93,7 @@
             // btn_swhyCommQuery
             // 
             this.btn_swhyCommQuery.Location = new System.Drawing.Point(640, 220);
-            this.btn_swhyCommQuery.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btn_swhyCommQuery.Margin = new System.Windows.Forms.Padding(6);
             this.btn_swhyCommQuery.Name = "btn_swhyCommQuery";
             this.btn_swhyCommQuery.Size = new System.Drawing.Size(232, 56);
             this.btn_swhyCommQuery.TabIndex = 4;
@@ -110,11 +111,22 @@
             this.btn_SubScript.UseVisualStyleBackColor = true;
             this.btn_SubScript.Click += new System.EventHandler(this.btn_SubScript_Click);
             // 
+            // btn_TestDayData
+            // 
+            this.btn_TestDayData.Location = new System.Drawing.Point(642, 354);
+            this.btn_TestDayData.Name = "btn_TestDayData";
+            this.btn_TestDayData.Size = new System.Drawing.Size(230, 44);
+            this.btn_TestDayData.TabIndex = 6;
+            this.btn_TestDayData.Text = "测试A股行情";
+            this.btn_TestDayData.UseVisualStyleBackColor = true;
+            this.btn_TestDayData.Click += new System.EventHandler(this.btn_TestDayData_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1052, 762);
+            this.Controls.Add(this.btn_TestDayData);
             this.Controls.Add(this.btn_SubScript);
             this.Controls.Add(this.btn_swhyCommQuery);
             this.Controls.Add(this.progressBar1);
@@ -122,7 +134,7 @@
             this.Controls.Add(this.btn_forSI);
             this.Controls.Add(this.btn_gl);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "Form2";
             this.Text = "Form2";
             this.ResumeLayout(false);
@@ -139,5 +151,6 @@
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Button btn_swhyCommQuery;
         private System.Windows.Forms.Button btn_SubScript;
+        private System.Windows.Forms.Button btn_TestDayData;
     }
 }

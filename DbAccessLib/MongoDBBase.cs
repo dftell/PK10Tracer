@@ -1077,16 +1077,16 @@ namespace WolfInv.com.DbAccessLib
 
             catch (Exception ex)
             {
-
-                throw ex;
-
+                ToLog("查询错误", ex.Message);
+                //throw ex;
+                return null;
             }
 
         }
 
         public List<T> FindList<T>(string collName, FilterDefinition<T> filter, string[] field = null, SortDefinition<T> sort = null, int LimitCnt = 0) //where T : class, new()
         {
-            return _FindList<T>(collName, filter, field, sort, LimitCnt).ToList();
+            return _FindList<T>(collName, filter, field, sort, LimitCnt)?.ToList();
         }
         public List<T> FindList<T>(string collName, FilterDefinition<T> filter, string[] field = null, SortDefinition<T> sort = null) //where T : class, new()
         {
@@ -1170,10 +1170,11 @@ namespace WolfInv.com.DbAccessLib
 
             {
 
-                throw ex;
-
+                
+                ToLog("查询错误", ex.Message);
+                //throw ex;
             }
-
+            return null;
         }
 
         public async Task<List<T>> FindListAsync<T>(string collName, FilterDefinition<T> filter, string[] field = null, SortDefinition<T> sort = null,int cnt = 0) where T : class, new()
@@ -1434,7 +1435,5 @@ namespace WolfInv.com.DbAccessLib
 
 
     }
-
- 
 
 }

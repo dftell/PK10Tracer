@@ -47,3 +47,6 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecS
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.exe
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.pdb
+C:\Users\zhouys\source\project\Services\DataRecSvr.exe.config
+C:\Users\zhouys\source\project\Services\DataRecSvr.exe
+C:\Users\zhouys\source\project\Services\DataRecSvr.pdb

@@ -1,6 +1,4 @@
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\LogLib\bin\Debug\WolfInv.com.LogLib.dll
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\LogLib\bin\Debug\WolfInv.com.LogLib.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\LogLib\obj\Debug\WolfInv.com.LogLib.csprojAssemblyReference.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\LogLib\obj\Debug\WolfInv.com.LogLib.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\LogLib\obj\Debug\WolfInv.com.LogLib.dll
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\LogLib\obj\Debug\WolfInv.com.LogLib.pdb
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\LogLib\obj\Debug\WolfInv.com.LogLib.csprojAssemblyReference.cache

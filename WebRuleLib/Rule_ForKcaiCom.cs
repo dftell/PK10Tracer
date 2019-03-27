@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using WolfInv.com.PK10CorePress;
+using WolfInv.com.WebCommunicateClass;
 using WolfInv.com.BaseObjectsLib;
+using System.Windows.Forms;
 //using WolfInv.com.SecurityLib;
 namespace WolfInv.com.WebRuleLib
 {
@@ -149,6 +150,29 @@ namespace WolfInv.com.WebRuleLib
             return Math.Pow(0.1, unit);
         }
 
+        
+        public override bool IsVaildWeb(HtmlDocument doc)
+        {
+            return doc?.GetElementById("txt_username") != null;
+        }
+
+        public override bool IsLogined(HtmlDocument doc)
+        {
+           
+            //HtmlElement ElPoint = doc?.GetElementById("userGamePointId");
+            return doc?.GetElementById("userGamePointId") != null;
+        }
+
+        public override double GetCurrMoney(HtmlDocument doc)
+        {
+            HtmlElement ElPoint = doc?.GetElementById("userGamePointId");
+            double ret = 0;
+            if (ElPoint != null)
+            {
+                double.TryParse(ElPoint?.InnerText, out ret);
+            }
+            return ret;
+        }
     }
 
 }

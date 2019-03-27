@@ -1,0 +1,5 @@
+C:\Users\zhouys\source\project\PK10Tracer\WolfInv.com.WebCommunicateClass.dll
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\WebCommunicateClass\obj\Release\WolfInv.com.WebCommunicateClass.csprojAssemblyReference.cache
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\WebCommunicateClass\obj\Release\WolfInv.com.WebCommunicateClass.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\WebCommunicateClass\obj\Release\WolfInv.com.WebCommunicateClass.csproj.CopyComplete
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\WebCommunicateClass\obj\Release\WolfInv.com.WebCommunicateClass.dll

@@ -25,7 +25,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\..\..\project\PK10Tracer\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -36,6 +36,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,9 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rule_ForKcaiCom.cs" />
+    <Compile Include="WebRule.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BaseObjectsLib\WolfInv.com.BaseObjectsLib.csproj">
@@ -56,9 +57,9 @@
       <Project>{182084E4-C48B-4585-9221-4A54CAF7448F}</Project>
       <Name>WolfInv.com.LogLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PK10CorePress\WolfInv.com.PK10CorePress.csproj">
-      <Project>{1B418905-1D78-4758-9B21-CF9BFC054F88}</Project>
-      <Name>WolfInv.com.PK10CorePress</Name>
+    <ProjectReference Include="..\WebCommunicateClass\WolfInv.com.WebCommunicateClass.csproj">
+      <Project>{58c01aaf-4a7c-4b53-a7ed-efc6dbd22610}</Project>
+      <Name>WolfInv.com.WebCommunicateClass</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

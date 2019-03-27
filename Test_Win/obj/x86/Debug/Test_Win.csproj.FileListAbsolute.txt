@@ -94,3 +94,6 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.c
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.exe
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.pdb
+C:\Users\zhouys\source\project\TestWin\Test_Win.exe.config
+C:\Users\zhouys\source\project\TestWin\Test_Win.exe
+C:\Users\zhouys\source\project\TestWin\Test_Win.pdb

@@ -37,6 +37,7 @@
             this.tsmi_View = new System.Windows.Forms.ToolStripMenuItem();
             this.mnu_RefreshInsts = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_Operate = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuRefreshWebToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_Setting = new System.Windows.Forms.ToolStripMenuItem();
             this.mnu_SetAssetUnitCnt = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -60,6 +61,8 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer_RequestInst = new System.Timers.Timer();
+            this.reLoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -100,15 +103,25 @@
             // mnu_RefreshInsts
             // 
             this.mnu_RefreshInsts.Name = "mnu_RefreshInsts";
-            this.mnu_RefreshInsts.Size = new System.Drawing.Size(208, 38);
+            this.mnu_RefreshInsts.Size = new System.Drawing.Size(324, 38);
             this.mnu_RefreshInsts.Text = "刷新指令";
             this.mnu_RefreshInsts.Click += new System.EventHandler(this.mnu_RefreshInsts_Click);
             // 
             // tsmi_Operate
             // 
+            this.tsmi_Operate.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuRefreshWebToolStripMenuItem,
+            this.reLoadToolStripMenuItem});
             this.tsmi_Operate.Name = "tsmi_Operate";
             this.tsmi_Operate.Size = new System.Drawing.Size(74, 35);
             this.tsmi_Operate.Text = "操作";
+            // 
+            // mnuRefreshWebToolStripMenuItem
+            // 
+            this.mnuRefreshWebToolStripMenuItem.Name = "mnuRefreshWebToolStripMenuItem";
+            this.mnuRefreshWebToolStripMenuItem.Size = new System.Drawing.Size(324, 38);
+            this.mnuRefreshWebToolStripMenuItem.Text = "睡觉";
+            this.mnuRefreshWebToolStripMenuItem.Click += new System.EventHandler(this.mnuRefreshWebToolStripMenuItem_Click);
             // 
             // tsmi_Setting
             // 
@@ -140,8 +153,8 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Controls.Add(this.webBrowser1);
+            this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Location = new System.Drawing.Point(8, 39);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage1.Name = "tabPage1";
@@ -304,7 +317,7 @@
             this.webBrowser1.Margin = new System.Windows.Forms.Padding(6);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(40, 40);
             this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(1672, 815);
+            this.webBrowser1.Size = new System.Drawing.Size(1672, 782);
             this.webBrowser1.TabIndex = 0;
             this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser1_DocumentCompleted);
             // 
@@ -324,31 +337,48 @@
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
-            this.toolStripStatusLabel2});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 1174);
+            this.toolStripStatusLabel2,
+            this.toolStripStatusLabel3});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 1172);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 28, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1710, 36);
+            this.statusStrip1.Size = new System.Drawing.Size(1710, 38);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatusLabel1
             // 
+            this.toolStripStatusLabel1.AutoSize = false;
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(257, 31);
-            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(400, 33);
+            this.toolStripStatusLabel1.Text = "Money";
+            this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // toolStripStatusLabel2
             // 
+            this.toolStripStatusLabel2.AutoSize = false;
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(257, 31);
-            this.toolStripStatusLabel2.Text = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(300, 33);
+            this.toolStripStatusLabel2.Text = "Status";
             // 
             // timer_RequestInst
             // 
             this.timer_RequestInst.Enabled = true;
             this.timer_RequestInst.SynchronizingObject = this;
             this.timer_RequestInst.Elapsed += new System.Timers.ElapsedEventHandler(this.timer_RequestInst_Tick);
+            // 
+            // reLoadToolStripMenuItem
+            // 
+            this.reLoadToolStripMenuItem.Name = "reLoadToolStripMenuItem";
+            this.reLoadToolStripMenuItem.Size = new System.Drawing.Size(324, 38);
+            this.reLoadToolStripMenuItem.Text = "醒来";
+            this.reLoadToolStripMenuItem.Click += new System.EventHandler(this.reLoadToolStripMenuItem_Click);
+            // 
+            // toolStripStatusLabel3
+            // 
+            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(257, 33);
+            this.toolStripStatusLabel3.Text = "toolStripStatusLabel3";
             // 
             // MainWindow
             // 
@@ -408,5 +438,8 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripMenuItem mnu_SetAssetUnitCnt;
         private System.Windows.Forms.ToolStripMenuItem mnu_RefreshInsts;
+        private System.Windows.Forms.ToolStripMenuItem mnuRefreshWebToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reLoadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
     }
 }

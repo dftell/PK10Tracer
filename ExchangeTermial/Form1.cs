@@ -6,8 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using WebCommunicateClass;
-using WolfInv.com.PK10CorePress;
+using WolfInv.com.WebCommunicateClass;
+//using WolfInv.com.PK10CorePress;
 using WolfInv.com.BaseObjectsLib;
 namespace ExchangeTermial
 {

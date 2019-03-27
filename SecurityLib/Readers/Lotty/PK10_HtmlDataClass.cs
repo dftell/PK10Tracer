@@ -5,10 +5,13 @@ namespace WolfInv.com.SecurityLib
 {
     public class PK10_HtmlDataClass : HtmlDataClass
     {
-        public PK10_HtmlDataClass()
+        public PK10_HtmlDataClass(DataTypePoint dp):base(dp)
         {
-            this.dataUrl = GlobalClass.PK10_url; //"https://www.52cp.cn/pk10/history";
-            this.UseXmlMothed = true;
+
+            //this.dataUrl = "https://www.52cp.cn/pk10/history";// 
+            //GlobalClass.PK10_url; //"https://www.52cp.cn/pk10/history";
+            this.dataUrl = GlobalClass.TypeDataPoints["PK10"].RuntimeInfo.DefaultDataUrl;
+            this.UseXmlMothed = GlobalClass.TypeDataPoints["PK10"].RuntimeInfo.DefaultUseXmlModel==1;
         }
         public override ExpectList getHistoryData(string FolderPath, string filetype)
         {

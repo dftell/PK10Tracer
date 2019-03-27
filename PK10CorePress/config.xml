@@ -13,11 +13,15 @@
       <item key="MissNewestTable" value="v_PK10_NewestData_Miss"/>
       <item key="ChanceTable" value="PK10_ChanceTable"/>
       <item key="ResultTable" value="tmp_PK10_LongTermAll_ProbWaveTable"/>
-      <item key="RecieveSeconds" value="1200"/>
-      <item key="RecieveStartTime" value="09:30:00"/>
+      <item key="ReceiveSeconds" value="1200"/>
+      <item key="ReceiveStartTime" value="09:30:00"/>
       <item key="RecieveSeconds" value="60"/>
       <item key="CheckNewestDataDays" value="15"/>
       <item key="DBType" value="SqlDB"/>
+      <item key="MainDataUrl" value="http://d.apiplus.net/newly.do?token=tf066705d12dcb288k&amp;code=bjpk10&amp;format=xml&amp;rows=100"/>
+      <item key="SubDataUrl" value="https://www.52cp.cn/pk10/history"/>
+      <item key="SrcUseXml" value="1"/>
+      <item key="DataDecode" value="utf-8"/>
     </config>
     <config type="TXFFC">
       <item key="DBType" value="SqlServer"/>
@@ -27,6 +31,7 @@
       <item key="MissNewestTable" value="v_TXFFC_NewestData_Miss"/>
       <item key="ChanceTable" value="TXFFC_ChanceTable"/>
       <item key="ResultTable" value="tmp_TXFFC_LongTermAll_ProbWaveTable"/>
+      <item key="RecieveSeconds" value="10"/>
     </config>
     <config type="CN_Stock_A">
       <item key="DbType" value="MongoDB"/>
@@ -64,6 +69,7 @@
       <item key="CodeGrpCnt" value="40"/>
     </config>
     <config type="System">
+      <item key="ForWeb" value="Web_Kcai"/>
       <item key="InstHost" value="http://www.wolfinv.com"/>
       <item key="MinChips" value="100"/>
       <item key="URL" value="http://r.apiplus.net/newly.do?token=ee3d74d24c1f9d746ebac68945f7d36f&amp;code=bjpk10&amp;rows=5&amp;format=xml"/>
@@ -80,7 +86,7 @@
       <item key="IsClient" value="1"/>
       <item key="ClientUsername" value="gsyh"/>
       <item key="ClientPassword" value="abcdef123"/>
-      <item key="LoginUrlModel" value="https://www.kcai{host}.com"/>
+      <item key="LoginUrlModel" value="https://www.kcai{0}.com"/>
       <item key="LoginDefaultHost" value="331"/>
       <item key="LoginHostList" value="331;337;773;779;334"/>
       <item key="LoginInstFillOrEnCode" value="2"/>

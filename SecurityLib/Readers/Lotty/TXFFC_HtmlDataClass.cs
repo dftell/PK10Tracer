@@ -9,7 +9,7 @@ namespace WolfInv.com.SecurityLib
 {
     public class TXFFC_HtmlDataClass : HtmlDataClass
     {
-        public TXFFC_HtmlDataClass()
+        public TXFFC_HtmlDataClass(DataTypePoint dp) : base(dp)
         {
             dataUrl =  GlobalClass.TXFFC_url;
         }

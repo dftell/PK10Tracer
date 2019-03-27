@@ -48,4 +48,7 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Debug\Exc
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.exe
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.pdb
+C:\Users\zhouys\Source\project\PK10TracerClient\ExchangeTermial.exe.config
+C:\Users\zhouys\Source\project\PK10TracerClient\ExchangeTermial.exe
+C:\Users\zhouys\source\project\PK10TracerClient\ExchangeTermial.pdb
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.pdb

@@ -1,0 +1,7 @@
+C:\Users\zhouys\source\project\PK10Tracer\WolfInv.com.BackTestLib.dll
+C:\Users\zhouys\source\project\PK10Tracer\WolfInv.com.BackTestLib.pdb
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\BackTestLib\obj\Release\WolfInv.com.BackTestLib.csprojAssemblyReference.cache
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\BackTestLib\obj\Release\WolfInv.com.BackTestLib.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\BackTestLib\obj\Release\WolfInv.com.BackTestLib.csproj.CopyComplete
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\BackTestLib\obj\Release\WolfInv.com.BackTestLib.dll
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\BackTestLib\obj\Release\WolfInv.com.BackTestLib.pdb

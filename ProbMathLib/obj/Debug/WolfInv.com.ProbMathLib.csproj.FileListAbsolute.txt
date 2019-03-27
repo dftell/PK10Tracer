@@ -1,6 +1,6 @@
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ProbMathLib\bin\Debug\WolfInv.com.ProbMathLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ProbMathLib\bin\Debug\WolfInv.com.ProbMathLib.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ProbMathLib\obj\Debug\WolfInv.com.ProbMathLib.csprojAssemblyReference.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ProbMathLib\obj\Debug\WolfInv.com.ProbMathLib.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ProbMathLib\obj\Debug\WolfInv.com.ProbMathLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ProbMathLib\obj\Debug\WolfInv.com.ProbMathLib.pdb
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\ProbMathLib\obj\Debug\WolfInv.com.ProbMathLib.csprojAssemblyReference.cache

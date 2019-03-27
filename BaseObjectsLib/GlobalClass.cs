@@ -203,6 +203,19 @@ namespace WolfInv.com.BaseObjectsLib
             }
         }
 
+        public string ForWeb
+        {
+            get
+            {
+                if (SysParams.Count > 0)
+                {
+                    return SysParams["System"]["ForWeb"] ;
+                }
+                return null;
+            }
+            
+        }
+
         public int TotalCnt
         {
             get

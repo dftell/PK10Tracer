@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.IO;
-namespace WebCommunicateClass
+namespace WolfInv.com.WebCommunicateClass
 {
     public class AccessWebServerClass
     {

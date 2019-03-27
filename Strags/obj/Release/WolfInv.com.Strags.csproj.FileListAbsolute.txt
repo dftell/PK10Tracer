@@ -1,0 +1,9 @@
+C:\Users\zhouys\source\project\PK10Tracer\WolfInv.com.Strags.dll
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\Strags\obj\Release\WolfInv.com.Strags.csprojAssemblyReference.cache
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\Strags\obj\Release\WolfInv.com.Strags.CommSelectOjectDialog.resources
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\Strags\obj\Release\WolfInv.com.Strags.StragPicker.resources
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\Strags\obj\Release\WolfInv.com.Strags.StragsPicker.resources
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\Strags\obj\Release\WolfInv.com.Strags.csproj.GenerateResource.cache
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\Strags\obj\Release\WolfInv.com.Strags.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\Strags\obj\Release\WolfInv.com.Strags.csproj.CopyComplete
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\Strags\obj\Release\WolfInv.com.Strags.dll

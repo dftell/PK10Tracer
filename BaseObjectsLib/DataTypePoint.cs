@@ -6,6 +6,12 @@ namespace WolfInv.com.BaseObjectsLib
     public class DataTypePoint:DetailStringClass
     {
         public int IsSecurityData = 0;//是否是证券数据
+        public string MainDataUrl = "";
+        public string SubDataUrl = "";
+        public int SrcUseXml = 1;
+
+
+        public string DataDecode = "utf-8";
         public string DbHost;
         public string DbUser;
         public string DbPassword;
@@ -92,5 +98,9 @@ namespace WolfInv.com.BaseObjectsLib
             }
         }
 
+        //默认的
+        public string DefaultDataUrl;
+        public int DefaultUseXmlModel;
+        public string DefaultDataDecode;
     }
 }

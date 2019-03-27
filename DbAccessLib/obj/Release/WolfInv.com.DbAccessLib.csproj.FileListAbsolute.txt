@@ -1,0 +1,14 @@
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Release\WolfInv.com.DbAccessLib.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Release\MongoDB.Bson.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Release\MongoDB.Driver.Core.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Release\MongoDB.Driver.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Release\System.Runtime.InteropServices.RuntimeInformation.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Release\WolfInv.com.LogLib.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Release\MongoDB.Bson.xml
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Release\MongoDB.Driver.xml
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Release\MongoDB.Driver.Core.xml
+C:\Users\zhouys\source\project\PK10Tracer\WolfInv.com.DbAccessLib.dll
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\DbAccessLib\obj\Release\WolfInv.com.DbAccessLib.csprojAssemblyReference.cache
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\DbAccessLib\obj\Release\WolfInv.com.DbAccessLib.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\DbAccessLib\obj\Release\WolfInv.com.DbAccessLib.csproj.CopyComplete
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\DbAccessLib\obj\Release\WolfInv.com.DbAccessLib.dll

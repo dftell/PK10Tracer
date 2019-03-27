@@ -29,12 +29,12 @@ namespace DataRecSvr
                 CalcService cs = new CalcService();
                 LogableClass.ToLog("构建接收服务", "开始");
                 ReceiveService rs = new ReceiveService();
-                SubscriptData sd = new SubscriptData();
+                //SubscriptData sd = new SubscriptData();
                 rs.CalcProcess = cs;
                 //只有接收数据是默认启动，计算服务由接收数据触发
                 ServicesToRun = new ServiceBase[] 
 			    { 
-                    rs,sd
+                    rs//,sd
 			    };
                 LogableClass.ToLog("初始化服务器全局设置", "开始");
                 InitSystem();

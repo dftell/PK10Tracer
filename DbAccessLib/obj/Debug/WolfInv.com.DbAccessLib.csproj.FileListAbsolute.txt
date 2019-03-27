@@ -1,11 +1,9 @@
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Debug\WolfInv.com.DbAccessLib.dll
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Debug\WolfInv.com.DbAccessLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Debug\MongoDB.Bson.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Debug\MongoDB.Driver.Core.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Debug\MongoDB.Driver.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Debug\System.Runtime.InteropServices.RuntimeInformation.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Debug\WolfInv.com.LogLib.dll
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Debug\WolfInv.com.LogLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Debug\MongoDB.Bson.xml
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Debug\MongoDB.Driver.xml
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Debug\MongoDB.Driver.Core.xml
@@ -13,4 +11,3 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.dll
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.pdb

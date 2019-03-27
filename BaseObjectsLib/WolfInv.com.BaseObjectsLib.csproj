@@ -16,7 +16,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
+    <DebugType>pdbonly</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\..\..\project\PK10Tracer\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -25,7 +25,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\..\..\project\PK10Tracer\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -66,15 +66,18 @@
     <Compile Include="BaseDataType\ITraceable.cs" />
     <Compile Include="BaseDataType\MongoData.cs" />
     <Compile Include="BaseDataType\MongoDataDictionary.cs" />
+    <Compile Include="BaseDataType\MongoReturnDataList.cs" />
     <Compile Include="BaseDataType\OneCycleData.cs" />
     <Compile Include="BaseDataType\TimeSerialData.cs" />
     <Compile Include="CommResult.cs" />
+    <Compile Include="ConvertionExtensions.cs" />
     <Compile Include="DataFrame.cs" />
     <Compile Include="DataListConverter.cs" />
     <Compile Include="DataTypePoint.cs" />
     <Compile Include="DetailStringClass.cs" />
     <Compile Include="DisplayAsTableClass.cs" />
     <Compile Include="GlobalClass.cs" />
+    <Compile Include="GroupBuilder.cs" />
     <Compile Include="MongoDataList.cs" />
     <Compile Include="PK10Object.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

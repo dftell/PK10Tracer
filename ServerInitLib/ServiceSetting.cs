@@ -142,12 +142,17 @@ namespace WolfInv.com.ServerInitLib
             foreach(string key in GlobalClass.TypeDataPoints.Keys)
             {
                 DataTypePoint dtp = GlobalClass.TypeDataPoints[key];
-                if(dtp.IsSecurityData == 0)
+                if(dtp.RuntimeInfo == null)
+                    dtp.RuntimeInfo = new DataPointBuff(dtp);
+                dtp.RuntimeInfo.DefaultDataUrl = dtp.MainDataUrl;
+                dtp.RuntimeInfo.DefaultUseXmlModel = dtp.SrcUseXml;
+                dtp.RuntimeInfo.DefaultDataDecode = dtp.DataDecode;
+                if (dtp.IsSecurityData == 0)
                 {
                     LogableClass.ToLog(string.Format("Type:{0}", key), "非证券类型，无须加载基本信息！");
                     continue;
                 }
-                dtp.RuntimeInfo = new DataPointBuff(dtp);
+                
                 LogableClass.ToLog(string.Format("准备获取[{0}]股票清单",key), "开始");
                 dtp.RuntimeInfo.SecurityInfoList = InitSecurityClass.getAllCodes(key);
                 if (dtp.RuntimeInfo.SecurityInfoList == null)
@@ -159,10 +164,16 @@ namespace WolfInv.com.ServerInitLib
                 string[] codes = dtp.RuntimeInfo.SecurityInfoList.Keys.ToArray();
                 dtp.RuntimeInfo.SecurityCodes = codes;
                 LogableClass.ToLog(string.Format("准备获取[{0}]日期数据", key), "开始");
-                dtp.RuntimeInfo.HistoryDateList = InitSecurityClass.getAllDateList(key);
+                dtp.RuntimeInfo.HistoryDateList = InitSecurityClass.getStockIndexAllDateList(key);
                 LogableClass.ToLog(string.Format("获取[{0}]日期数据", key), string.Format("日期数量:{0}", dtp.RuntimeInfo.HistoryDateList.Count));
                 LogableClass.ToLog(string.Format("准备获取[{0}]除权除息数据", key), "开始");
-                dtp.RuntimeInfo.XDXRList = InitSecurityClass.getAllXDXRData(key,dtp.RuntimeInfo.getGrpCodes);
+                DateTime now = DateTime.Now;
+                List<string[]> test = new List<string[]>();
+                test.Add(new string[] { "000001" });
+                //dtp.RuntimeInfo.XDXRList = InitSecurityClass.getAllXDXRDataAsync(key,dtp.RuntimeInfo.getGrpCodes);
+                dtp.RuntimeInfo.XDXRList = new MongoDataDictionary<XDXRData>();//用时再取
+                //dtp.RuntimeInfo.XDXRList = InitSecurityClass.getAllXDXRDataAsync(key, test);
+                ToLog("获取XDXR总共经历时间", DateTime.Now.Subtract(now).TotalSeconds.ToString());
                 LogableClass.ToLog(string.Format("获取[{0}]除权除息数据", key), string.Format("总数量:{0}", dtp.RuntimeInfo.XDXRList.Sum(p=>p.Value.Count)));
                 //GlobalClass.TypeDataPoints[key] = dtp;
             }

@@ -2,10 +2,16 @@
 using System.Net;
 using System.IO;
 using WolfInv.com.BaseObjectsLib;
+using System;
 namespace WolfInv.com.SecurityLib
 {
     public abstract class HtmlDataClass
     {
+        protected HtmlDataClass(DataTypePoint dp)
+        {
+            dtp = dp;
+        }
+        protected DataTypePoint dtp = null;
         protected string dataUrl;
         protected bool UseXmlMothed;
         public ExpectList getExpectList()
@@ -27,8 +33,23 @@ namespace WolfInv.com.SecurityLib
                 else
                     return getData(htmltxt);
             }
-            catch
+            catch(Exception ce)
             {
+                LogLib.LogableClass.ToLog("接收数据错误", ce.Message);
+                //切换主备host
+                if(dtp.RuntimeInfo == null)
+                {
+                    dtp.RuntimeInfo = new DataPointBuff();
+                }
+                if(dtp.RuntimeInfo.DefaultDataUrl.Equals(dtp.MainDataUrl))
+                {
+                    dtp.RuntimeInfo.DefaultDataUrl = dtp.SubDataUrl;
+                }
+                else
+                {
+                    dtp.RuntimeInfo.DefaultDataUrl = dtp.MainDataUrl;
+                }
+                dtp.SrcUseXml = (dtp.SrcUseXml==1?0:1);
             }
             return ret;
         }

@@ -15,7 +15,7 @@ namespace WolfInv.com.SecurityLib
         public string[] Codes { get; set; }
         public string CodeFieldName { get; set; }
 
-        public MongoReturnDataList<T> getData<T>(bool IncludeStoped) where T : class, new()
+        public MongoReturnDataList<T> getData<T>(bool IncludeStoped) where T : MongoData
         {
             ///StopExchange 暂时不知道怎么用
             FilterDefinition<T> filter = Builders<T>.Filter.Empty;
@@ -25,7 +25,7 @@ namespace WolfInv.com.SecurityLib
             return new MongoReturnDataList<T>(_mongoDB.FindList<T>(this.TableName, filter, fileds, sort));
         }
 
-        public MongoReturnDataList<T> getData<T>() where T : class, new()
+        public MongoReturnDataList<T> getData<T>() where T : MongoData
         {
             return getData<T>(false);
         }

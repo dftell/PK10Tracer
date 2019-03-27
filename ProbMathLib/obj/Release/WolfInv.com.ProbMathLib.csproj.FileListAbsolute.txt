@@ -1,0 +1,3 @@
+C:\Users\zhouys\source\project\PK10Tracer\WolfInv.com.ProbMathLib.dll
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\ProbMathLib\obj\Release\WolfInv.com.ProbMathLib.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\source\repos\dftell\PK10Tracer\ProbMathLib\obj\Release\WolfInv.com.ProbMathLib.dll

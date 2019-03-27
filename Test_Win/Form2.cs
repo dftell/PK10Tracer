@@ -9,6 +9,9 @@ using System.Windows.Forms;
 using WAPIWrapperCSharp;
 using WolfInv.com.StrategyLibForWD;
 using WolfInv.com.CFZQ_LHProcess;
+using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.SecurityLib;
+using WolfInv.com.ServerInitLib;
 namespace Test_Win
 {
     public partial class Form2 : Form
@@ -91,6 +94,24 @@ namespace Test_Win
         {
             frm_HYMonitor frm = new frm_HYMonitor();
             frm.Show();
+        }
+
+        private void btn_TestDayData_Click(object sender, EventArgs e)
+        {
+            DataTypePoint dtp =  GlobalClass.TypeDataPoints["CN_Stock_A"];
+            string code = "600519";
+            if(!dtp.RuntimeInfo.SecurityCodes.Contains(code))
+            {
+                MessageBox.Show(string.Format("证券{0}不存在！",code));
+                return;
+            }
+            SecurityReader reader = new SecurityReader("CN_Stock_A", dtp.HistoryTable, new string[1] { code });
+            MongoReturnDataList<StockMongoData> data = reader.GetAllCodeDateSerialDataList<StockMongoData>("2015-01-01","2018-12-31")?[code];
+
+           
+            MongoReturnDataList<StockMongoData>  fqdata = reader.Stock_FQ(code,data);
+            MessageBox.Show(string.Join(",", fqdata.Select(a => (a.ExtentData as XDXRData).category).ToArray()));
+            MessageBox.Show(string.Join(",", fqdata.Select(a => (a.ExtentData as XDXRData).fenhong).ToArray()));
         }
     }
 }

@@ -10,11 +10,12 @@ using System.Web;
 using mshtml;
 using System.IO;
 using Microsoft.VisualBasic;
-using WolfInv.com.PK10CorePress;
-using WebCommunicateClass;
+using WolfInv.com.WebCommunicateClass;
 using WolfInv.com.WebRuleLib;
 using WolfInv.com.BaseObjectsLib;
 using System.Timers;
+using System.Threading;
+using WolfInv.com.LogLib;
 namespace ExchangeTermial
 {
     public partial class MainWindow : Form
@@ -26,11 +27,15 @@ namespace ExchangeTermial
         Dictionary<string, string> AssetUnitList;
         long RefreshTimes = 0;
         Dictionary<long, string> dicExistInst ;
-        bool Sleep = false;
+        bool InSleep = false;
         bool Logined = false;
+        WebRule wr = null;
+        bool ReadySleep = false;
+        double CurrVal = 0;
         public MainWindow()
         {
             InitializeComponent();
+            wr = WebRuleBuilder.Create(Program.gc);
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
@@ -45,23 +50,29 @@ namespace ExchangeTermial
         void LoadUrl()
         {
             Logined = false;
-            string url = Program.gc.LoginUrlModel.Replace("{host}", Program.gc.LoginDefaultHost);
-            
+            WebBrowserLoad = false;
+            //string url = Program.gc.LoginUrlModel.Replace("{host}", Program.gc.LoginDefaultHost);
+            string url = string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost);
             try
             {
-                this.webBrowser1 = null;
-                this.webBrowser1 = new WebBrowser();
-                this.webBrowser1.Url = new Uri(url);
+                //this.webBrowser1 = null;
+                //this.webBrowser1 = new WebBrowser();
+                this.webBrowser1.DocumentCompleted += webBrowser1_DocumentCompleted;
+                //this.webBrowser1.Url = new Uri(url);
+                this.webBrowser1.Navigate(url);
+                this.webBrowser1.ScriptErrorsSuppressed = true;
+                
+                
             }
-            catch
+            catch(Exception ce)
             {
-
+                LogableClass.ToLog("错误", ce.Message, ce.StackTrace);
             }
-            this.webBrowser1.ScriptErrorsSuppressed = true;
-            this.timer_RequestInst.Interval = 10;
+            this.timer_RequestInst.Interval = 10 * 1000;
             this.timer_RequestInst.Enabled = true;
-            this.timer_RequestInst_Tick(null, null);
         }
+
+        
 
         void AddScript()
         {
@@ -81,19 +92,57 @@ namespace ExchangeTermial
 
         private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
+            
+            HtmlDocument doc = webBrowser1.Document;
             if (webBrowser1.ReadyState == WebBrowserReadyState.Complete)
             {
-                ////if (webBrowser1.Url.ToString() != e.Url.ToString())
-                ////{
-                    //webBrowser1.ScriptErrorsSuppressed = true;
-                AddScript();
-                    //执行js代码
-                    webBrowser1.Document.InvokeScript("Login",new string[]{Program.gc.ClientUserName,Program.gc.ClientPassword});
+                if (ReadySleep)
+                {
+                    LogableClass.ToLog("进入睡眠！");
+                    ReadySleep = false;
+                    return;
+                }
+                bool IsVaildWeb = wr.IsVaildWeb(doc);
+                if (!WebBrowserLoad)//第一次载入
+                {
+                    if (!IsVaildWeb)//网页不可用
+                    {
+                        LogableClass.ToLog("网页载入后但未出现预期内容！");
+                        return;
+                    }
+                    AddScript(); //执行js代码,未来修改为网络载入
+                    webBrowser1.Document.InvokeScript("Login", new string[] { Program.gc.ClientUserName, Program.gc.ClientPassword });
                     WebBrowserLoad = true;
-                ////    string inputTxt = Interaction.InputBox("脚本变量","输入","debugtext",400,300);
-                ////    object s = webBrowser1.Document.InvokeScript(inputTxt);
-                ////MessageBox.Show(s!=null?s.ToString():"");
+                    
+                }
+                else
+                {
+                    //其他网页
+                    LogableClass.ToLog("睡眠综合症！");
+                    return;
+                }
+            }
+            else
+            {
+                if (!WebBrowserLoad)//中间状态，不理睬
+                {
+                    return;
+                }
+                if(Logined)
+                {
+                    //网页中间刷新
+                    CurrVal = wr.GetCurrMoney(doc);
+
+                }
+                //加载自定义脚本后的处理
+                while(true)
+                {
+                    if(wr.IsLogined(doc))
+                        break;
+                    Thread.Sleep(10 * 1000);
+                }
                 Logined = true;
+                this.timer_RequestInst_Tick(null, null);
             }
             ////}
         }
@@ -150,14 +199,14 @@ namespace ExchangeTermial
 
         private void timer_RequestInst_Tick(object sender, ElapsedEventArgs e)
         {
-            if (Sleep)//还在睡觉
+            if (InSleep)//还在睡觉,唤醒
             {
                 LoadUrl();
-                while(!Logined)
-                {
-                    System.Threading.Thread.Sleep(5000);
-                }
-                Sleep = false;
+                ////while(!Logined)
+                ////{
+                ////    System.Threading.Thread.Sleep(30*1000);
+                ////}
+                InSleep = false;
             }
             DateTime CurrTime = DateTime.Now;
             CommunicateToServer wc = new CommunicateToServer();
@@ -180,7 +229,7 @@ namespace ExchangeTermial
             }
             Int64 CurrExpectNo = Int64.Parse(ic.Expect);
             this.statusStrip1.Items[1].Text = DateTime.Now.ToLongTimeString();
-            if (CurrExpectNo > this.NewExpect || RefreshTimes == 0)
+            if (CurrExpectNo > this.NewExpect || RefreshTimes == 0) //获取到最新指令
             {
                 LastInstsTime = DateTime.Now;
                 int CurrMin = DateTime.Now.Minute % 5;
@@ -199,7 +248,7 @@ namespace ExchangeTermial
                 this.txt_OpenTime.Text = ic.LastTime;
                 this.txt_Insts.Text = ic.getUserInsts(Program.gc);
                 this.NewExpect = CurrExpectNo;
-                if (WebBrowserLoad)
+                if (Logined)
                 {
                     if(RefreshTimes>0)
                         this.btn_Send_Click(null, null);
@@ -214,7 +263,7 @@ namespace ExchangeTermial
                     //下一个时间点是9：08
                     DateTime TargetTime = DateTime.Today.AddHours(9).AddMinutes(30);
                     this.timer_RequestInst.Interval = TargetTime.Subtract(CurrTime).TotalMilliseconds;
-                    Sleep = true;
+                    reLoadWebBrowser();//开百度网页
                 }
                 else
                 {
@@ -229,20 +278,8 @@ namespace ExchangeTermial
                     }
                 }
             }
-            this.statusStrip1.Items[0].Text = string.Format("{0}秒后见", this.timer_RequestInst.Interval/1000);
-            //////ViewDataList = er.ReadNewestData(DateTime.Now.AddDays(-1));
-            //////int CurrExpectNo = int.Parse(ViewDataList.LastData.Expect);
-            //////if (CurrExpectNo > this.NewestExpectNo)
-            //////{
-            //////    this.timer_For_NewestData.Interval = 290000;//5分钟以后见
-            //////    RefreshGrid();
-            //////    RefreshNewestData();
-            //////    this.NewestExpectNo = CurrExpectNo;
-            //////}
-            //////else
-            //////{
-            //////    this.timer_For_NewestData.Interval = 10000;//10秒后见
-            //////}
+            
+            RefreshStatus();
         }
 
         string ReCalcTheInstChips()
@@ -279,6 +316,36 @@ namespace ExchangeTermial
         private void mnu_RefreshInsts_Click(object sender, EventArgs e)
         {
             timer_RequestInst_Tick(null, null);
+        }
+
+
+        private void mnuRefreshWebToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            reLoadWebBrowser();
+            
+        }
+
+        void reLoadWebBrowser()
+        {
+            ReadySleep = true;
+            string url = "https://www.baidu.com";
+            this.webBrowser1.Navigate(url);
+            WebBrowserLoad = false;
+            Logined = false;
+            InSleep = true;
+            
+        }
+
+        private void reLoadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoadUrl();
+        }
+
+        void RefreshStatus()
+        {
+            this.toolStripStatusLabel1.Text = string.Format("已加载页面:{0};已登录:{1};睡眠状态:{2}",WebBrowserLoad,Logined,InSleep);
+            this.toolStripStatusLabel2.Text = string.Format("当前余额：{0}",CurrVal);
+            this.statusStrip1.Items[2].Text = string.Format("{0}秒后见", this.timer_RequestInst.Interval / 1000);
         }
     }
 }

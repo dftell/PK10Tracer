@@ -15,7 +15,7 @@ namespace WolfInv.com.SecurityLib
         public string CodeFieldName { get; set; }
         public string[] Codes { get; set; }
 
-        public override MongoReturnDataList<T> getData<T>(bool Asc)
+        public override MongoReturnDataList<T> getData<T>(bool Asc) 
         {
             FilterDefinition<T> filter = Builders<T>.Filter.Empty;
             if (Codes != null && Codes.Length > 0)
@@ -32,8 +32,8 @@ namespace WolfInv.com.SecurityLib
                 sort = Builders<T>.Sort.Descending(a => (a as IDateData).date);
             //查询字段
             string[] fileds = null;
-            var list =  _mongoDB.FindListAsync<T>(this.TableName, filter, fileds, sort);
-            return new MongoReturnDataList<T>(list.Result);
+            return new MongoReturnDataList<T>(_mongoDB.FindList<T>(this.TableName, filter, fileds, sort));
+            
         }
 
         public override MongoReturnDataList<T> getData<T>(string begT, bool Asc)

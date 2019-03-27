@@ -5,7 +5,7 @@ using WolfInv.com.SecurityLib;
 
 namespace DataRecSvr
 {
-    partial class ReceiveService :SelfDefBaseService
+    public partial class ReceiveService :SelfDefBaseService
     {
         System.Timers.Timer Tm_ForPK10 = new System.Timers.Timer();
         System.Timers.Timer Tm_ForTXFFC = new System.Timers.Timer();
@@ -17,18 +17,25 @@ namespace DataRecSvr
         public ReceiveService()
         {
             InitializeComponent();
-            this.ServiceName = "定时刷新接收数据服务";
-            Tm_ForPK10.Enabled = false;
-            Tm_ForPK10.AutoReset = true;
-            Tm_ForPK10.Interval = GlobalClass.TypeDataPoints["PK10"].ReceiveSeconds * 1000;
-            Tm_ForPK10.Elapsed += new ElapsedEventHandler(Tm_ForPK10_Elapsed);
-            Tm_ForTXFFC.Enabled = false;
-            Tm_ForTXFFC.AutoReset = true;
-            Tm_ForTXFFC.Interval = GlobalClass.TypeDataPoints["TXFFC"].ReceiveSeconds * 1000;
-            Tm_ForTXFFC.Elapsed += new ElapsedEventHandler(Tm_ForTXFFC_Elapsed);
-            tm.Interval = 5 * 1000;
-            tm.Enabled = false;
-            tm.AutoReset = true;
+            try
+            {
+                this.ServiceName = "定时刷新接收数据服务";
+                Tm_ForPK10.Enabled = false;
+                Tm_ForPK10.AutoReset = true;
+                Tm_ForPK10.Interval = GlobalClass.TypeDataPoints["PK10"].ReceiveSeconds * 1000;
+                Tm_ForPK10.Elapsed += new ElapsedEventHandler(Tm_ForPK10_Elapsed);
+                Tm_ForTXFFC.Enabled = false;
+                Tm_ForTXFFC.AutoReset = true;
+                Tm_ForTXFFC.Interval = 10*1000+GlobalClass.TypeDataPoints["TXFFC"].ReceiveSeconds * 1000;
+                Tm_ForTXFFC.Elapsed += new ElapsedEventHandler(Tm_ForTXFFC_Elapsed);
+                tm.Interval = 5 * 1000;
+                tm.Enabled = false;
+                tm.AutoReset = true;
+            }
+            catch(Exception e)
+            {
+                Log("启动服务错误！", e.Message);
+            }
             //tm.Elapsed += new ElapsedEventHandler(tm_Elapsed);        
         }
 
@@ -42,6 +49,11 @@ namespace DataRecSvr
         void Tm_ForPK10_Elapsed(object sender, ElapsedEventArgs e)
         {
             ReceivePK10CData();
+        }
+
+        public void Start()
+        {
+            OnStart(null);
         }
 
         protected override void OnStart(string[] args)
@@ -68,7 +80,7 @@ namespace DataRecSvr
         private void ReceivePK10CData()
         {
             Log("接收数据", "准备接收数据");
-            PK10_HtmlDataClass hdc = new PK10_HtmlDataClass();
+            PK10_HtmlDataClass hdc = new PK10_HtmlDataClass(GlobalClass.TypeDataPoints["PK10"]);
             ExpectList el = hdc.getExpectList();
             ////if(el != null && el.Count>0)
             ////{
@@ -152,7 +164,7 @@ namespace DataRecSvr
         {
 
             int secCnt = DateTime.Now.Second;
-            TXFFC_HtmlDataClass hdc = new TXFFC_HtmlDataClass();
+            TXFFC_HtmlDataClass hdc = new TXFFC_HtmlDataClass(GlobalClass.TypeDataPoints["PK10"]);
             ExpectList el = hdc.getExpectList();
             if (el == null || el.LastData == null)
             {
