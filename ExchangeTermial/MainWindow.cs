@@ -55,20 +55,21 @@ namespace ExchangeTermial
             string url = string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost);
             try
             {
+                
                 //this.webBrowser1 = null;
                 //this.webBrowser1 = new WebBrowser();
                 this.webBrowser1.DocumentCompleted += webBrowser1_DocumentCompleted;
                 //this.webBrowser1.Url = new Uri(url);
                 this.webBrowser1.Navigate(url);
                 this.webBrowser1.ScriptErrorsSuppressed = true;
-                
-                
+                LogableClass.ToLog(webBrowser1.Url.Host, "准备唤醒！");
+
             }
             catch(Exception ce)
             {
                 LogableClass.ToLog("错误", ce.Message, ce.StackTrace);
             }
-            this.timer_RequestInst.Interval = 10 * 1000;
+            this.timer_RequestInst.Interval = 60 * 1000;
             this.timer_RequestInst.Enabled = true;
         }
 
@@ -92,35 +93,95 @@ namespace ExchangeTermial
 
         private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            
+
             HtmlDocument doc = webBrowser1.Document;
             if (webBrowser1.ReadyState == WebBrowserReadyState.Complete)
             {
+                
                 if (ReadySleep)
                 {
-                    LogableClass.ToLog("进入睡眠！");
+                    LogableClass.ToLog(webBrowser1.Url.Host,"进入睡眠！");
                     ReadySleep = false;
                     return;
                 }
+                LogableClass.ToLog(webBrowser1.Url.Host, "唤醒！");
                 bool IsVaildWeb = wr.IsVaildWeb(doc);
-                if (!WebBrowserLoad)//第一次载入
+                bool IsLogined = wr.IsLogined(doc);
+                if (IsVaildWeb||IsLogined)//是登录页面或者内容页面
                 {
-                    if (!IsVaildWeb)//网页不可用
+                    if (IsVaildWeb)
                     {
-                        LogableClass.ToLog("网页载入后但未出现预期内容！");
+                        if (!WebBrowserLoad)//第一次载入
+                        {
+                            LogableClass.ToLog(webBrowser1.Url.Host, "首次进入，加载文件！");
+                            AddScript(); //执行js代码,未来修改为网络载入
+                            webBrowser1.Document.InvokeScript("Login", new string[] { Program.gc.ClientUserName, Program.gc.ClientPassword });
+                            WebBrowserLoad = true;
+
+                        }
+                        else//加载文件后事件
+                        {
+                            bool TryLogin = wr.IsLogined(doc);
+                            //加载自定义脚本后的处理
+                            ////while (!TryLogin)
+                            ////{
+                            ////    if (wr.IsLogined(doc))
+                            ////        break;
+                            ////    Thread.Sleep(10 * 1000);
+                            ////}
+                            if(TryLogin == false)
+                            {
+                                LogableClass.ToLog(webBrowser1.Url.Host, "还没完全加载！");
+                                return;
+                            }
+                            CurrVal = wr.GetCurrMoney(doc);
+                            Logined = true;
+                            //this.timer_RequestInst_Tick(null, null);
+                            if (!IsLogined)
+                            {
+                                LogableClass.ToLog(webBrowser1.Url.Host, "密码错误！");
+                                return;
+                            }
+                            else
+                            {
+                                LogableClass.ToLog(webBrowser1.Url.Host, "登堂入室！");
+                                return;
+                            }
+
+                        }
+                    }
+                    else//已经登录了
+                    {
+                        //不是登录网页就一定是已经登录了
+                        LogableClass.ToLog(webBrowser1.Url.Host, "网页载入后但未出现预期内容！");
                         return;
                     }
-                    AddScript(); //执行js代码,未来修改为网络载入
-                    webBrowser1.Document.InvokeScript("Login", new string[] { Program.gc.ClientUserName, Program.gc.ClientPassword });
-                    WebBrowserLoad = true;
-                    
                 }
-                else
+                else //其他内容
                 {
-                    //其他网页
-                    LogableClass.ToLog("睡眠综合症！");
-                    return;
+                    if (WebBrowserLoad)//已经登入
+                    {
+                        if (Logined)//建议更换主机地址
+                        {
+                            LogableClass.ToLog(webBrowser1.Url.Host, "无法访问主机，建议启动服务选择合适的备用服务！");
+                            reLoadWebBrowser();
+                            return;
+                        }
+                        else
+                        {
+                            reLoadWebBrowser();
+                            LogableClass.ToLog(webBrowser1.Url.Host, "登录后无法访问主机，建议更换主机重新登录！");
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        //其他网页
+                        LogableClass.ToLog(webBrowser1.Url.Host, "睡眠综合症！");
+                        return;
+                    }
                 }
+                
             }
             else
             {
@@ -128,21 +189,21 @@ namespace ExchangeTermial
                 {
                     return;
                 }
-                if(Logined)
-                {
-                    //网页中间刷新
-                    CurrVal = wr.GetCurrMoney(doc);
+                ////if(Logined)
+                ////{
+                ////    //网页中间刷新
+                ////    CurrVal = wr.GetCurrMoney(doc);
 
-                }
-                //加载自定义脚本后的处理
-                while(true)
-                {
-                    if(wr.IsLogined(doc))
-                        break;
-                    Thread.Sleep(10 * 1000);
-                }
-                Logined = true;
-                this.timer_RequestInst_Tick(null, null);
+                ////}
+                //////加载自定义脚本后的处理
+                ////while(true)
+                ////{
+                ////    if(wr.IsLogined(doc))
+                ////        break;
+                ////    Thread.Sleep(60 * 1000);
+                ////}
+                ////Logined = true;
+                ////this.timer_RequestInst_Tick(null, null);
             }
             ////}
         }
@@ -207,6 +268,8 @@ namespace ExchangeTermial
                 ////    System.Threading.Thread.Sleep(30*1000);
                 ////}
                 InSleep = false;
+                this.timer_RequestInst.Interval = 30 * 1000;//等待唤醒以后再访问
+                return;
             }
             DateTime CurrTime = DateTime.Now;
             CommunicateToServer wc = new CommunicateToServer();
@@ -242,17 +305,26 @@ namespace ExchangeTermial
                 ////{
                 ////    this.timer_RequestInst.Interval = (5-CurrMin)*6000;//5分钟以后见
                 ////}
-                this.timer_RequestInst.Interval = 5 * 60 * 1000 -1000;//5分钟以后见,减掉1秒不*断收敛时间，防止延迟接收
+                this.timer_RequestInst.Interval = 2 * 60 * 1000 -1000;//5分钟以后见,减掉1秒不*断收敛时间，防止延迟接收
                 //ToAdd:填充各内容
                 this.txt_ExpectNo.Text = ic.Expect;
                 this.txt_OpenTime.Text = ic.LastTime;
                 this.txt_Insts.Text = ic.getUserInsts(Program.gc);
                 this.NewExpect = CurrExpectNo;
+                if(!Logined)
+                {
+                    Logined = wr.IsLogined(this.webBrowser1.Document);
+                }
                 if (Logined)
                 {
                     if(RefreshTimes>0)
                         this.btn_Send_Click(null, null);
                     RefreshTimes = 1;
+                }
+                else//如果没有登录，重新载入,当前指令不发送，只要不发送，这条指令就不会存入缓存。可以下次获取到再发
+                {
+                    LoadUrl();
+                    
                 }
                 
             }
@@ -270,11 +342,11 @@ namespace ExchangeTermial
                     
                     if (CurrTime.Subtract(LastInstsTime).Minutes > 7)//如果离上期时间超过7分钟，说明数据未接收到，那不要再频繁以10秒访问服务器
                     {
-                        this.timer_RequestInst.Interval = 4 * 60 * 1000;
+                        this.timer_RequestInst.Interval = 2 * 60 * 1000;
                     }
                     else //一般未接收到，10秒以后再试
                     {
-                        this.timer_RequestInst.Interval = 4 * 60 * 1000;
+                        this.timer_RequestInst.Interval = 2 * 60 * 1000;
                     }
                 }
             }
