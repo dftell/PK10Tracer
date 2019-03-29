@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WolfInv.com.CFZQ_LHProcess
+namespace WolfInv.com.BaseObjectsLib
 {
     /// <summary>
     /// 矩阵类
@@ -16,7 +16,7 @@ namespace WolfInv.com.CFZQ_LHProcess
     {
         int row, column;            //矩阵的行列数
         double[,] data;            //矩阵的数据
-
+        string name = "result";//未用
         #region 构造函数
         public Matrix(int rowNum, int columnNum)
         {
@@ -52,6 +52,12 @@ namespace WolfInv.com.CFZQ_LHProcess
         {
             get { return data[r, c]; }
             set { data[r, c] = value; }
+        }
+
+        public double[,] Detail
+        {
+            get { return data; }
+            set { data = value; }
         }
         #endregion
 

@@ -5,6 +5,7 @@ using System.Text;
 using System.Data;
 using WolfInv.com.CFZQ_LHProcess;
 using WAPIWrapperCSharp;
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.StrategyLibForWD
 {
     public class secIndexBuilder:WDBuilder

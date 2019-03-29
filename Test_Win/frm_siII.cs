@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using WolfInv.com.CFZQ_LHProcess;
 using WolfInv.com.StrategyLibForWD;
-using WolfInv.com.SecurityLib;
-using WAPIWrapperCSharp;
 using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.GuideLib;
 namespace Test_Win
 {
     public partial class frm_siII : Form

@@ -55,8 +55,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmoutSerials.cs" />
-    <Compile Include="BaseDataType\baseTypes.cs" />
-    <Compile Include="BaseDataType\BasicTypes.cs" />
+    <Compile Include="BaseDataItemClass.cs" />
+    <Compile Include="BaseDataTable.cs" />
+    <Compile Include="BaseDataType\baseLottyTypes.cs" />
+    <Compile Include="BaseDataType\baseSecurityTypes.cs" />
     <Compile Include="BaseDataType\ChanceClass.cs" />
     <Compile Include="BaseDataType\EnumHelper.cs" />
     <Compile Include="BaseDataType\ExchangeData.cs" />
@@ -68,18 +70,28 @@
     <Compile Include="BaseDataType\MongoDataDictionary.cs" />
     <Compile Include="BaseDataType\MongoReturnDataList.cs" />
     <Compile Include="BaseDataType\OneCycleData.cs" />
+    <Compile Include="BaseDataType\SecurityInfoClass.cs" />
     <Compile Include="BaseDataType\TimeSerialData.cs" />
     <Compile Include="CommResult.cs" />
     <Compile Include="ConvertionExtensions.cs" />
     <Compile Include="DataFrame.cs" />
     <Compile Include="DataListConverter.cs" />
+    <Compile Include="DataTableEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="DataTypePoint.cs" />
     <Compile Include="DetailStringClass.cs" />
     <Compile Include="DisplayAsTableClass.cs" />
     <Compile Include="GlobalClass.cs" />
     <Compile Include="GroupBuilder.cs" />
+    <Compile Include="iListFillable.cs" />
+    <Compile Include="Matrix.cs" />
+    <Compile Include="MatrixTableCell.cs" />
+    <Compile Include="MatrixTableRows.cs" />
     <Compile Include="MongoDataList.cs" />
+    <Compile Include="MTable.cs" />
     <Compile Include="PK10Object.cs" />
+    <Compile Include="PrintClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerialableObjectEditor.cs">
       <SubType>Form</SubType>

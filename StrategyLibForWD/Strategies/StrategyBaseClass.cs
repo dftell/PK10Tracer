@@ -1,96 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 //using CFZQ_JRGCDB;
 using WolfInv.com.CFZQ_LHProcess;
 using WAPIWrapperCSharp;
-using System.Data;
-using WolfInv.com.SecurityLib;
 using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.StrategyLibForWD
 {
-    /// <summary>
-    /// 策略输入业务参数类
-    /// </summary>
-    public class StrategyInClass
-    {
-        /// <summary>
-        /// 股票池
-        /// </summary>
-        public List<string> SecsPool;
-        /// <summary>
-        /// 选股范围
-        /// </summary>
-        public string SecIndex;
-        public DateTime EndT;
-        public Cycle Cyc;
-        public PriceAdj prcAdj;
-        /// <summary>
-        /// 上市天数
-        /// </summary>
-        public Int64 OnMarketDays;
-        /// <summary>
-        /// 当日计算前日数据
-        /// </summary>
-        public bool CalcLastData;
-        /// <summary>
-        /// 前推日期数
-        /// </summary>
-        public long FareViewDays;
-        /// <summary>
-        /// 是否排除ST股票
-        /// </summary>
-        public bool IsExcludeST;
-        /// <summary>
-        /// 黑名单
-        /// </summary>
-        public List<string> ExcludeSecList;
-        /// <summary>
-        /// 是否20日均线过滤
-        /// </summary>
-        public bool IsMAFilter;
-        /// <summary>
-        /// 最大选股数量
-        /// </summary>
-        public int TopN;
-
-    }
-
-    /// <summary>
-    /// 运行通知类
-    /// </summary>
-    public class RunNoticeClass
-    {
-        public bool Success;
-        public StringBuilder DebugMsg;
-        public string Msg;
-        public RunNoticeClass()
-        {
-            Success = false;
-            DebugMsg = new StringBuilder();
-            Msg = null;
-        }
-    }
-
-    /// <summary>
-    /// 运行结果类
-    /// </summary>
-    public class RunResultClass
-    {
-        public RunNoticeClass Notice;
-        public MTable Result;
-        public RunResultClass()
-        {
-            Notice = new RunNoticeClass();
-            Result = new MTable();
-        }
-    }
-
-    interface iReadSecuritySerialData
-    {
-        BaseDataTable ReadSecuritySerialData(string Code);
-    }
     /// <summary>
     /// 选股策略基类
     /// </summary>
@@ -225,56 +139,5 @@ namespace WolfInv.com.StrategyLibForWD
         public abstract SecurityProcessClass ReverseSelectSecurity(StrategyInClass Input);
 
         public abstract BaseDataTable ReadSecuritySerialData(string Code);
-    }
-
-    /// <summary>
-    /// 策略周期类型
-    /// </summary>
-    public enum StrategyCycleType
-    {
-        /// <summary>
-        /// 单周期
-        /// </summary>
-        SingleCycle, 
-        /// <summary>
-        /// 多周期
-        /// </summary>
-        MultiCycle
-    }
-
-    /// <summary>
-    /// 策略逻辑类型
-    /// </summary>
-    public enum StrategyLogicType
-    {
-        /// <summary>
-        /// 反转性逻辑
-        /// </summary>
-        Reverse,
-        /// <summary>
-        /// 突破性逻辑
-        /// </summary>
-        Breach,
-        /// <summary>
-        /// 平衡性逻辑
-        /// </summary>
-        Balance
-    }
-
-    public class SecurityProcessClass
-    {
-
-        public BaseDataItemClass SecInfo;
-        public bool Enable;
-        public SecurityProcessClass()
-        {
-        }
-
-        public SecurityProcessClass(BaseDataItemClass dr)
-        {
-            if (dr == null) return;
-            SecInfo = dr;
-            Enable = false;
-        }
     }
 }

@@ -50,12 +50,6 @@
     <Compile Include="CommMarketClass.cs" />
     <Compile Include="JRGCDBClass.cs" />
     <Compile Include="JRGCMongoDB.cs" />
-    <Compile Include="Matrix.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MatrixTable.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -47,20 +47,38 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Strategies\Class1.cs" />
+    <Compile Include="CommPressor\BaseDataProcess.cs" />
+    <Compile Include="CommPressor\CommDataBuilder.cs" />
+    <Compile Include="CommPressor\CommGuidProcess.cs" />
     <Compile Include="CommPressor\CommWDToolClass.cs" />
+    <Compile Include="CommPressor\DateSerialGuidBuilder.cs" />
+    <Compile Include="CommPressor\GuidBuilder.cs" />
+    <Compile Include="CommPressor\MACDCommTool.cs" />
+    <Compile Include="CommPressor\WDDayClass.cs" />
     <Compile Include="Filters\FilterLogicClass.cs" />
     <Compile Include="Filters\StrategyFilters\FirestPointFilter.cs" />
     <Compile Include="GLClass.cs" />
     <Compile Include="GLClassUpdater.cs" />
+    <Compile Include="MutliValueGuidProcess.cs" />
+    <Compile Include="Strategies\iBalanceMethod.cs" />
+    <Compile Include="Strategies\iBreachMethod.cs" />
     <Compile Include="Strategies\IndustryClass.cs" />
-    <Compile Include="CommPressor\JSZBClass.cs" />
-    <Compile Include="CommPressor\MacdAreaClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="secIndexClass.cs" />
+    <Compile Include="Strategies\iReadSecuritySerialData.cs" />
+    <Compile Include="Strategies\iReverseMethod.cs" />
+    <Compile Include="Strategies\RunNoticeClass.cs" />
+    <Compile Include="Strategies\RunResultClass.cs" />
+    <Compile Include="Strategies\SecurityProcessClass.cs" />
     <Compile Include="Strategies\SelectSecurityMethod.cs" />
     <Compile Include="SIClass.cs" />
+    <Compile Include="Strategies\StrategyBaseClass.cs" />
+    <Compile Include="Strategies\StrategyCycleType.cs" />
+    <Compile Include="Strategies\StrategyInClass.cs" />
+    <Compile Include="Strategies\StrategyLogicType.cs" />
+    <Compile Include="Sys\SecurityBuildClass.cs" />
     <Compile Include="Sys\SystemGlobal.cs" />
+    <Compile Include="TDayGuildBuilder.cs" />
     <Compile Include="WDBasic.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +89,10 @@
     <ProjectReference Include="..\CFZQ_LHProcess\WolfInv.com.CFZQ_LHProcess.csproj">
       <Project>{70BAEBE6-DFD2-4AA3-A8A9-04F88EA61551}</Project>
       <Name>WolfInv.com.CFZQ_LHProcess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GuideLib\WolfInv.com.GuideLib.csproj">
+      <Project>{2c724db7-59a5-41cd-8274-c0acb18fcc1a}</Project>
+      <Name>WolfInv.com.GuideLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\SecurityLib\WolfInv.com.SecurityLib.csproj">
       <Project>{aa6cd329-d212-4998-be10-2a4728175f53}</Project>

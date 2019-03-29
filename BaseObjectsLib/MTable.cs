@@ -1,96 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Data ;
-using System.Data.Sql;
-using System.Data.SqlClient;
-using System.Reflection;
-namespace WolfInv.com.CFZQ_LHProcess
+using System.Data;
+namespace WolfInv.com.BaseObjectsLib
 {
-    #region Matrix class
-    public interface iFillable
-    {
-        void FillByDataRow(DataRow dr);
-        DataRow FillRow(DataRow dr);
-        
-    }
-
-    public interface iListFillable
-    {
-        void FillByItems<T>(T[] item);
-        T getObjectById<T>(int id);
-    }
-
-    public class MatrixTableCell<T>:IQueryable<T>
-    {
-        public int RowId{get;set;}
-        public string ColumnName { get; set; }
-        public T Value { get; set; }
-
-        #region IEnumerable<T> 成员
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
-
-        #region IEnumerable 成员
-
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
-
-        #region IQueryable 成员
-
-        public Type ElementType
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public Expression Expression
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IQueryProvider Provider
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        #endregion
-    }
-
-    public class MatrixTableRows<T>
-    {
-        public  MatrixTableRows()
-        {
-        }
-
-        MatrixTableCell<T> _Cell;
-        protected Dictionary<string, MatrixTableCell<T>> List;
-
-        public MatrixTableCell<T> this[string colname]
-        {
-            get
-            {
-                return List[colname]; 
-            }
-            set
-            {
-                List[colname] = value;
-            }
-        }
-    }
-
-    #endregion
+    
 
 
 
@@ -126,12 +41,12 @@ namespace WolfInv.com.CFZQ_LHProcess
         /// <param name="colsinfo"></param>
         public void InitTableStructure(params object[] colsinfo)
         {
-            Dictionary<string,Type> dics =  WDDataAdapter.getColumnTypes(colsinfo);
-            Table = new DataTable();
-            foreach (string key in dics.Keys)
-            {
-                Table.Columns.Add(key, dics[key]);
-            }
+            //Dictionary<string,Type> dics =  WDDataAdapter.getColumnTypes(colsinfo);
+            //Table = new DataTable();
+            //foreach (string key in dics.Keys)
+            //{
+            //    Table.Columns.Add(key, dics[key]);
+            //}
         }
 
         public void Contact(MTable tb)
@@ -743,10 +658,5 @@ namespace WolfInv.com.CFZQ_LHProcess
                 yield return IEnumerators()[i];
             }
         }
-    }
-
-    public interface ISelectable
-    {
-        DataTable Select(string sql);
     }
 }

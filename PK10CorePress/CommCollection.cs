@@ -311,7 +311,7 @@ namespace WolfInv.com.PK10CorePress
         }
 
         /// <summary>
-        /// 获取一步转移概率矩阵(Transition Probability Matrix)
+        /// 获取一步转移概率矩阵(Transition Probability Matrix)  马尔可夫链
         /// </summary>
         /// <param name="reviewCnt"></param>
         /// <returns></returns>

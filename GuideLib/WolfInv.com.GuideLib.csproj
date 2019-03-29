@@ -46,11 +46,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseDataPointGuidClass.cs" />
     <Compile Include="EMAClass.cs" />
+    <Compile Include="GuidBaseClass.cs" />
     <Compile Include="GuideClass.cs" />
+    <Compile Include="GuideResult.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GuideResultSet.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="KDJGuidClass.cs" />
+    <Compile Include="MacdAreaClass.cs" />
+    <Compile Include="MACDDataItem.cs" />
+    <Compile Include="MACDGuidClass.cs" />
+    <Compile Include="MACDTable.cs" />
     <Compile Include="MAClass.cs" />
     <Compile Include="MGuide.cs" />
+    <Compile Include="MutliReturnValueGuidClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TDaysGuidClas.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BaseObjectsLib\WolfInv.com.BaseObjectsLib.csproj">
@@ -60,10 +75,6 @@
     <ProjectReference Include="..\LogLib\WolfInv.com.LogLib.csproj">
       <Project>{182084E4-C48B-4585-9221-4A54CAF7448F}</Project>
       <Name>WolfInv.com.LogLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PK10CorePress\WolfInv.com.PK10CorePress.csproj">
-      <Project>{1b418905-1d78-4758-9b21-cf9bfc054f88}</Project>
-      <Name>WolfInv.com.PK10CorePress</Name>
     </ProjectReference>
     <ProjectReference Include="..\ProbMathLib\WolfInv.com.ProbMathLib.csproj">
       <Project>{6AF5544D-5B6B-40A9-9258-72CBE6CE207D}</Project>

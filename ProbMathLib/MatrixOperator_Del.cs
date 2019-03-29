@@ -5,46 +5,6 @@ using System.Text;
 
 namespace WolfInv.com.ProbMathLib
 {
-    //矩阵打包成类，矩阵为m * n,直接调用
-    public class Matrix
-    {
-        double[,] A;
-        int m, n;
-        string name;
-        public Matrix(int am, int an)
-        {
-            m = am;
-            n = an;
-            A = new double[m, n];
-            name = "Result";
-        }
-        public Matrix(int am, int an, string aName)
-        {
-            m = am;
-            n = an;
-            A = new double[m, n];
-            name = aName;
-        }
-
-        public int getM
-        {
-            get { return m; }
-        }
-        public int getN
-        {
-            get { return n; }
-        }
-        public double[,] Detail
-        {
-            get { return A; }
-            set { A = value; }
-        }
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
-    }
 
     /***********矩阵通用操作打包*************/
 
@@ -256,11 +216,11 @@ namespace WolfInv.com.ProbMathLib
 
             return Mc;
         }
-        //////--------------------- 
-        //////作者：作小寒 
-        //////来源：CSDN 
-        //////原文：https://blog.csdn.net/qq_34069180/article/details/79319665 
-        //////版权声明：本文为博主原创文章，转载请附上博文链接！
+        //--------------------- 
+        //作者：作小寒
+        //来源：CSDN
+        //原文：https://blog.csdn.net/qq_34069180/article/details/79319665 
+        //版权声明：本文为博主原创文章，转载请附上博文链接！
 
     }
 }

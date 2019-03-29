@@ -6,6 +6,8 @@ using WolfInv.com.CFZQ_LHProcess;
 using WAPIWrapperCSharp;
 using WolfInv.com.SecurityLib;
 using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.GuideLib;
+
 namespace WolfInv.com.StrategyLibForWD.Filters.StrategyFilters
 {
     public class FirstPointFilter:FilterLogicBaseClass

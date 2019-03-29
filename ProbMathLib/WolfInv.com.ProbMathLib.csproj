@@ -45,7 +45,8 @@
     <Compile Include="EntropyClass.cs" />
     <Compile Include="FixCountMethods.cs" />
     <Compile Include="KellyMethodClass.cs" />
-    <Compile Include="MatrixClass.cs" />
+    <Compile Include="Matrix_Del.cs" />
+    <Compile Include="MatrixOperator_Del.cs" />
     <Compile Include="Pandas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StragMath.cs" />
