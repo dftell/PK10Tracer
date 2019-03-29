@@ -164,6 +164,4 @@ namespace WolfInv.com.ProbMathLib
             return 0;
         }
     }
-
-    
 }

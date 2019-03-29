@@ -140,7 +140,7 @@ namespace PK10Server
         
         void RefreshPK10Data()
         {
-            ExpectList ViewDataList = exread.ReadNewestData(DateTime.Now.AddDays(-1*glb.CheckNewestDataDays));
+            ExpectList ViewDataList = exread.ReadNewestData(DateTime.Now.AddDays(-1*GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays));
             if (ViewDataList == null) return;
             DataTable dt = ViewDataList.Table;
             dg_baseData.Invoke(new SetSpecDataGridCallback(Setdg_baseData), new object[] { dt });

@@ -99,6 +99,10 @@
       <Project>{182084e4-c48b-4585-9221-4a54caf7448f}</Project>
       <Name>WolfInv.com.LogLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ProbMathLib\WolfInv.com.ProbMathLib.csproj">
+      <Project>{6af5544d-5b6b-40a9-9258-72cbe6ce207d}</Project>
+      <Name>WolfInv.com.ProbMathLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

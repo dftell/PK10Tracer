@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 namespace WolfInv.com.BaseObjectsLib
 {
+    
     public class MongoData : DisplayAsTableClass, IObjectId, ICloneable, IMatchFilter,IConvertible
     {
         public MongoData()
@@ -21,9 +22,14 @@ namespace WolfInv.com.BaseObjectsLib
 
 
 
-        public Object Clone()
+        public T Clone<T>() where T :MongoData
         {
-            return DetailStringClass.GetObjectByXml<OneCycleData>(this.ToDetailString());
+            return ConvertionExtensions.Clone<T>(this as T);
+        }
+
+        public object Clone()
+        {
+            return ConvertionExtensions.Clone(this);
         }
 
 
@@ -235,6 +241,7 @@ namespace WolfInv.com.BaseObjectsLib
 
     }
 
+    
     public interface IObjectId
     {
         BsonObjectId _id { get; set; }

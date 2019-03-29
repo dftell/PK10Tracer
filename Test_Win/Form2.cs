@@ -106,12 +106,27 @@ namespace Test_Win
                 return;
             }
             SecurityReader reader = new SecurityReader("CN_Stock_A", dtp.HistoryTable, new string[1] { code });
-            MongoReturnDataList<StockMongoData> data = reader.GetAllCodeDateSerialDataList<StockMongoData>("2015-01-01","2018-12-31")?[code];
+            try
+            {
+                MongoReturnDataList<StockMongoData> data = reader.GetAllCodeDateSerialDataList<StockMongoData>("2015-07-15", "2019-03-27")?[code];
 
-           
-            MongoReturnDataList<StockMongoData>  fqdata = reader.Stock_FQ(code,data);
-            MessageBox.Show(string.Join(",", fqdata.Select(a => (a.ExtentData as XDXRData).category).ToArray()));
-            MessageBox.Show(string.Join(",", fqdata.Select(a => (a.ExtentData as XDXRData).fenhong).ToArray()));
+
+                MongoReturnDataList<StockMongoData> fqdata = reader.Stock_FQ(code, data);
+                int n = 0;
+                StockMongoData testobj = null;
+                var test = fqdata.Where(a => (a.date == "2015-07-15"));
+                testobj = test.First();
+                MessageBox.Show(string.Format("{0},{1}", testobj.date, testobj.close));
+                n = fqdata.Count/2;
+                MessageBox.Show(string.Format("{0},{1}", fqdata[n].date, fqdata[n].close));
+                n = fqdata.Count-1;
+                MessageBox.Show(string.Format("{0},{1}", fqdata[n].date, fqdata[n].close));
+
+            }
+            catch(Exception ce)
+            {
+                MessageBox.Show(ce.Message);
+            }
         }
     }
 }

@@ -61,11 +61,11 @@ namespace Test_Win
                 Application.SetCompatibleTextRenderingDefault(false);
                 //ServiceBase[] ServicesToRun;
                 LogableClass.ToLog("构建计算服务", "开始");
-                CalcService cs = new CalcService();
+                //CalcService cs = new CalcService();
                 LogableClass.ToLog("构建接收服务", "开始");
-                ReceiveService rs = new ReceiveService();
+                //ReceiveService rs = new ReceiveService();
                 //SubscriptData sd = new SubscriptData();
-                rs.CalcProcess = cs;
+                //rs.CalcProcess = cs;
                 //只有接收数据是默认启动，计算服务由接收数据触发
                 //ServicesToRun = new ServiceBase[]
                 //{
@@ -80,7 +80,7 @@ namespace Test_Win
                 gb.w = new WindAPI();
                 gb.w.start();
                 //new ReceiveService().Start();
-                rs.Start();
+                //rs.Start();
                 Form2 frm = new Form2(gb);
                 Application.Run(frm);
             }

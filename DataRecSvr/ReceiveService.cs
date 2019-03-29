@@ -147,7 +147,7 @@ namespace DataRecSvr
                         }
                         else //一般未接收到，10秒以后再试，改为50分之一个周期再试
                         {
-                            this.Tm_ForPK10.Interval = RepeatSeconds / 50 * 1000;
+                            this.Tm_ForPK10.Interval = RepeatSeconds / 20 * 1000;
                         }
                     }
                 }

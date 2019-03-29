@@ -62,7 +62,7 @@ namespace PK10Server
             }
             else
             {
-                ViewDataList = er.ReadNewestData(DateTime.Today.AddDays(-1*gobj.CheckNewestDataDays));
+                ViewDataList = er.ReadNewestData(DateTime.Today.AddDays(-1* GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays));
             }
         }
 
@@ -190,7 +190,7 @@ namespace PK10Server
         private void timer_For_NewestData_Tick(object sender, EventArgs e)
         {
             DateTime CurrTime = DateTime.Now;
-            ViewDataList = er.ReadNewestData(DateTime.Now.AddDays(-1*gobj.CheckNewestDataDays));
+            ViewDataList = er.ReadNewestData(DateTime.Now.AddDays(-1* GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays));
             int CurrExpectNo = int.Parse(ViewDataList.LastData.Expect);
             if (CurrExpectNo > this.NewestExpectNo)
             {

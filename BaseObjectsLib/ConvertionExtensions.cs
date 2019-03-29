@@ -292,14 +292,69 @@ namespace WolfInv.com.BaseObjectsLib
             return obj;
         }
 
-        public static Dictionary<string,Type> GetAllProperties<T>()
+        public static Dictionary<string, Type> GetAllProperties<T>()
         {
             Dictionary<string, Type> ret = new Dictionary<string, Type>();
             Type t = typeof(T);
             PropertyInfo[] pis = t.GetProperties(BindingFlags.Public);
-            foreach(PropertyInfo pi in pis)
+            foreach (PropertyInfo pi in pis)
             {
-                ret.Add(pi.Name,pi.PropertyType);
+                ret.Add(pi.Name, pi.PropertyType);
+            }
+            return ret;
+        }
+
+        public static T Clone<T>(T obj)
+        {
+            if (typeof(T).IsGenericType)
+            {
+                return obj;
+            }
+            T ret = CreateInstance<T>();
+            Type t = typeof(T);
+            PropertyInfo[] pis = t.GetProperties(BindingFlags.Instance| BindingFlags.Public|BindingFlags.SetProperty);
+            foreach (PropertyInfo pi in pis)
+            {
+                try
+                {
+                    pi.SetValue(ret, GetValue(obj, pi.Name));
+                }
+                catch(Exception e)
+                {
+
+                }
+            }
+            return ret;
+        }
+
+        public static object Clone(object obj)
+        {
+            if (obj == null) return obj;
+            Type t = obj.GetType();
+            if (t.IsGenericType)
+            {
+                return obj;
+            }
+            object ret = null;
+            try
+            {
+                ret = Activator.CreateInstance(t);
+            }
+            catch //如果无法实例化对象，就返回空，退出来
+            {
+                return null;
+            }
+            PropertyInfo[] pis = t.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.SetProperty );
+            foreach (PropertyInfo pi in pis)
+            {
+                try
+                {
+                    pi.SetValue(ret, GetValue(obj, pi.Name));
+                }
+                catch
+                {
+
+                }
             }
             return ret;
         }
