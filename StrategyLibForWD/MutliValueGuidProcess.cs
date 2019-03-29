@@ -27,18 +27,11 @@ namespace WolfInv.com.StrategyLibForWD
         {
             RunResultClass ret = new RunResultClass();
             MTable tab = new MTable();
-            
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            string ClassName = string.Format("{0}GuidClass", GuildName);
-            var val = from t in assembly.GetTypes()
-                      where Strings.Right(t.Name,ClassName.Length) == ClassName
-                      select t;
-            Type ct = null;
-            if(val.Count<Type>() == 1)
-            {
-                ct = val.First<Type>();
-            }
-            MutliReturnValueGuidClass gd = assembly.CreateInstance(ct.FullName) as MutliReturnValueGuidClass;
+
+
+            //
+            //MutliReturnValueGuidClass gd =  assembly.CreateInstance(ct.FullName) as MutliReturnValueGuidClass;
+            MutliReturnValueGuidClass gd = GuidBaseClass.CreateGuideInstance(GuildName) as MutliReturnValueGuidClass;
             //MACDGuidClass gd = new MACDGuidClass(MACDType.MACD);
             gd.cycle = this.cycle;
             gd.priceAdj = this.prcAdj;
@@ -76,7 +69,8 @@ namespace WolfInv.com.StrategyLibForWD
             MTable tab = new MTable();
             Type t = Type.GetType(GuildName + "GuidClass");
             Assembly assembly = Assembly.GetExecutingAssembly();
-            MutliReturnValueGuidClass gd = assembly.CreateInstance(t.Name) as MutliReturnValueGuidClass;
+            //MutliReturnValueGuidClass gd = assembly.CreateInstance(t.Name) as MutliReturnValueGuidClass;
+            MutliReturnValueGuidClass gd = GuidBaseClass.CreateGuideInstance(GuildName) as MutliReturnValueGuidClass;
             //MACDGuidClass gd = new MACDGuidClass(MACDType.MACD);
             gd.cycle = this.cycle;
             gd.priceAdj = this.prcAdj;
