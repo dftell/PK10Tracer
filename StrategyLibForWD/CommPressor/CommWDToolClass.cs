@@ -96,7 +96,7 @@ namespace WolfInv.com.StrategyLibForWD
             RunNoticeClass ret = new RunNoticeClass();
             //MACDGuidProcess mp = new MACDGuidProcess(gb.w);
             //RunResultClass ret = mp.getDateSerialResult("000100.SZ",Convert.ToDateTime("2017/7/7"), DateTime.Today);
-            BaseDataProcess bp = new BaseDataProcess(w,cyc,prcAdj);
+            BaseDataProcess_ForWD bp = new BaseDataProcess_ForWD(w,cyc,prcAdj);
             RunResultClass bret = bp.getDateSerialResult(code,begt,endt,args);
             if (!bret.Notice.Success)
             {
@@ -121,7 +121,7 @@ namespace WolfInv.com.StrategyLibForWD
             RunNoticeClass ret = new RunNoticeClass();
             //MACDGuidProcess mp = new MACDGuidProcess(gb.w);
             //RunResultClass ret = mp.getDateSerialResult("000100.SZ",Convert.ToDateTime("2017/7/7"), DateTime.Today);
-            BaseDataProcess bp = new BaseDataProcess(w, cyc, prcAdj);
+            BaseDataProcess bp = new BaseDataProcess_ForWD(w,cyc, prcAdj);
             RunResultClass bret = bp.getSetDataResult(codes, endt,args);
             if (!bret.Notice.Success)
             {
@@ -142,7 +142,7 @@ namespace WolfInv.com.StrategyLibForWD
             MTable mtab = new MTable();
             if (IncludeBaseData)
             {
-                BaseDataProcess bp = new BaseDataProcess(w, cyc, prcAdj);
+                BaseDataProcess bp = new BaseDataProcess_ForWD(w, cyc, prcAdj);
                 RunResultClass bret = bp.getDateSerialResult(code, begt, endt, new object[0] { });
                 if (!bret.Notice.Success)
                 {
@@ -153,7 +153,7 @@ namespace WolfInv.com.StrategyLibForWD
             Dictionary<string, HashSet<string>> guids = getMutliValueGuid(args.Split(','));
             foreach (string key in guids.Keys)
             {
-                MutliValueGuidProcess cgp = new MutliValueGuidProcess(w,key,guids[key].ToArray<string>());
+                MutliValueGuidProcess_ForWD cgp = new MutliValueGuidProcess_ForWD(w,key,guids[key].ToArray<string>());
                 RunResultClass cret = cgp.getDateSerialResult(code, begt, endt, new object[0] { });
                
             }
@@ -167,7 +167,7 @@ namespace WolfInv.com.StrategyLibForWD
             MTable mtab = new MTable();
             if (IncludeBaseData)
             {
-                BaseDataProcess bp = new BaseDataProcess(w, cyc, prcAdj);
+                BaseDataProcess bp = new BaseDataProcess_ForWD(w, cyc, prcAdj);
                 RunResultClass bret = bp.getSetDataResult(code,  endt, new object[0] { });
                 if (!bret.Notice.Success)
                 {
@@ -178,7 +178,7 @@ namespace WolfInv.com.StrategyLibForWD
             Dictionary<string, HashSet<string>> guids = getMutliValueGuid(args.Split(','));
             foreach (string key in guids.Keys)
             {
-                MutliValueGuidProcess cgp = new MutliValueGuidProcess(w, key, guids[key].ToArray<string>());
+                MutliValueGuidProcess_ForWD cgp = new MutliValueGuidProcess_ForWD(w, key, guids[key].ToArray<string>());
                 cgp.cycle = cyc;
                 cgp.prcAdj = prcAdj;
                 RunResultClass cret = cgp.getSetDataResult(code,  endt, new object[0] { });
@@ -197,7 +197,9 @@ namespace WolfInv.com.StrategyLibForWD
             SecIndexClass sic = new SecIndexClass(sec);
             secIndexBuilder sib = new secIndexBuilder(w, sic);
             MTable mt = sib.getBkList(dt);
-            BaseDataProcess bdp = new BaseDataProcess(w);
+            if (mt == null || mt.Count == 0)
+                return mt;
+            BaseDataProcess_ForWD bdp = new BaseDataProcess_ForWD(w);
             string[] seccodes = mt["wind_code"].ToList<string>().ToArray();
             RunResultClass rc = bdp.getSetDataResult(seccodes, "close", dt);
             MTable ret = new MTable();

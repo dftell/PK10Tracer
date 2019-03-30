@@ -11,7 +11,7 @@ namespace WolfInv.com.StrategyLibForWD
         {
             TDaysGuidClas tgc = new TDaysGuidClas();
             tgc.cycle = cyc;
-            TDayGuildBuilder tgb = new TDayGuildBuilder(w,tgc);
+            TDayGuildBuilder_ForWD tgb = new TDayGuildBuilder_ForWD(w,tgc);
             MTable ret = tgb.getRecords(begt, endt);
             return ret.ToList<DateTime>().ToArray();
         }
@@ -31,7 +31,7 @@ namespace WolfInv.com.StrategyLibForWD
         public static int getTradeDays(WindAPI w, DateTime begt, DateTime endt)
         {
             TDaysGuidClas tgc = new TDaysGuidClas();
-            TDayGuildBuilder tgb = new TDayGuildBuilder(w, tgc);
+            TDayGuildBuilder_ForWD tgb = new TDayGuildBuilder_ForWD(w, tgc);
             MTable ret = tgb.getRecordsCount(begt, endt);
             return (int)ret.GetTable().Rows[0][0];
         }
@@ -40,7 +40,7 @@ namespace WolfInv.com.StrategyLibForWD
         {
             TDaysGuidClas tgc = new TDaysGuidClas();
             tgc.cycle = cyc;
-            TDayGuildBuilder tgb = new TDayGuildBuilder(w, tgc);
+            TDayGuildBuilder_ForWD tgb = new TDayGuildBuilder_ForWD(w, tgc);
             MTable ret = tgb.getRecords(endt,N);
             DateTime lastdate = Convert.ToDateTime(ret.GetTable().Rows[0][0]);
             if(cyc == Cycle.Day) return lastdate;

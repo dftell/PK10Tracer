@@ -48,6 +48,8 @@ namespace WolfInv.com.StrategyLibForWD
         {
             AllMarketEquitClass aec = new AllMarketEquitClass();
             MTable dt =  CommWDToolClass.getBkList(w, aec.SummaryCode, DateTime.Today,false);
+            if (dt == null || dt.Count == 0)
+                return;
             string[] equitcodes = dt["WIND_CODE"].ToList<string>().ToArray();
             BaseDataTable bdt = CommWDToolClass.GetBaseData(w,
                 equitcodes,

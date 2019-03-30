@@ -8,9 +8,9 @@ namespace WolfInv.com.StrategyLibForWD
     /// <summary>
     /// 多维指标工厂类
     /// </summary>
-    public class GuidBuilder : CommDataBuilder
+    public class GuidBuilder_ForWD : CommDataBuilder_ForWD
     {
-        public GuidBuilder(WindAPI _w, GuidBaseClass guidClass):base(_w,guidClass)
+        public GuidBuilder_ForWD(WindAPI _w, GuidBaseClass guidClass):base(_w,guidClass)
         {
             strParamsStyle = "tradeDate={0};priceAdj={2};cycle={3};{1}";
         }

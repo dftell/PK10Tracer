@@ -3,6 +3,7 @@
 using WolfInv.com.CFZQ_LHProcess;
 using WAPIWrapperCSharp;
 using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.GuideLib;
 namespace WolfInv.com.StrategyLibForWD
 {
     /// <summary>

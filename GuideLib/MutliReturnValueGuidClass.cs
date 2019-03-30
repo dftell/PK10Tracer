@@ -1,4 +1,5 @@
-﻿namespace WolfInv.com.GuideLib
+﻿using WolfInv.com.GuideLib;
+namespace WolfInv.com.GuideLib
 {
     /// <summary>
     /// 多返回值指标类

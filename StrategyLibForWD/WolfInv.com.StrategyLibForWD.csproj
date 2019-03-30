@@ -47,19 +47,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommPressor\BaseDataProcess.cs" />
-    <Compile Include="CommPressor\CommDataBuilder.cs" />
-    <Compile Include="CommPressor\CommGuidProcess.cs" />
+    <Compile Include="CommPressor\BaseDataProcess_ForWD.cs" />
+    <Compile Include="CommPressor\CommDataBuilder_ForWD.cs" />
+    <Compile Include="CommPressor\CommDataInterface_ForWD.cs" />
+    <Compile Include="CommPressor\CommGuidProcess_ForWD.cs" />
     <Compile Include="CommPressor\CommWDToolClass.cs" />
-    <Compile Include="CommPressor\DateSerialGuidBuilder.cs" />
-    <Compile Include="CommPressor\GuidBuilder.cs" />
+    <Compile Include="CommPressor\DateSerialGuidBuilder_ForWD.cs" />
+    <Compile Include="CommPressor\GuidBuilder_ForWD.cs" />
     <Compile Include="CommPressor\MACDCommTool.cs" />
+    <Compile Include="CommPressor\MutliValueGuidProcess_ForWD.cs" />
     <Compile Include="CommPressor\WDDayClass.cs" />
     <Compile Include="Filters\FilterLogicClass.cs" />
     <Compile Include="Filters\StrategyFilters\FirestPointFilter.cs" />
     <Compile Include="GLClass.cs" />
     <Compile Include="GLClassUpdater.cs" />
-    <Compile Include="MutliValueGuidProcess.cs" />
     <Compile Include="Strategies\iBalanceMethod.cs" />
     <Compile Include="Strategies\iBreachMethod.cs" />
     <Compile Include="Strategies\IndustryClass.cs" />
@@ -67,8 +68,6 @@
     <Compile Include="secIndexClass.cs" />
     <Compile Include="Strategies\iReadSecuritySerialData.cs" />
     <Compile Include="Strategies\iReverseMethod.cs" />
-    <Compile Include="Strategies\RunNoticeClass.cs" />
-    <Compile Include="Strategies\RunResultClass.cs" />
     <Compile Include="Strategies\SecurityProcessClass.cs" />
     <Compile Include="Strategies\SelectSecurityMethod.cs" />
     <Compile Include="SIClass.cs" />

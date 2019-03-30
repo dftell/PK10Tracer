@@ -26,7 +26,11 @@ namespace Test_Win
             this.Cursor = Cursors.WaitCursor;
             string indexcode = new SIIIClass().SummaryCode; //必须先主动获取
             MTable mt = CommWDToolClass.getBkList(this.gb.w, indexcode, this.txt_EndT.Value);
-            if (mt == null) return;
+            if (mt == null)
+            {
+                MessageBox.Show("股票池数据为空");
+                return;
+            }
             if ( mt.Count == 0)
             {
                 toolStripStatus_left.Text = string.Format("共计记录条数：{0}", 0);
@@ -148,7 +152,7 @@ namespace Test_Win
             KDJGuidClass kdj = new KDJGuidClass(9, 3, 3);
             kdj.cycle = (Cycle)this.ddl_cycle.SelectedIndex;
             kdj.priceAdj = (PriceAdj)this.ddl_priceAdj.SelectedIndex;
-            GuidBuilder gb = new GuidBuilder(this.gb.w, kdj);
+            GuidBuilder_ForWD gb = new GuidBuilder_ForWD(this.gb.w, kdj);
             MTable newdt = gb.getRecords(sectors, this.txt_EndT.Value);
             for (int i = 0; i < dt.Rows.Count; i++)
             {
@@ -158,7 +162,7 @@ namespace Test_Win
             {
                 dt.Columns.Add("LowCycleValue", typeof(float));
                 kdj.cycle = (Cycle)this.ddl_cycle.SelectedIndex - 1;
-                gb = new GuidBuilder(gb.w, kdj);
+                gb = new GuidBuilder_ForWD(gb.w, kdj);
                 newdt = gb.getRecords(sectors, this.txt_EndT.Value);
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {

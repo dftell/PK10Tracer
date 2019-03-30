@@ -73,7 +73,15 @@ namespace WolfInv.com.CFZQ_LHProcess
         {
             if (_w == null)
             {
-                throw (new Exception("万得接口突然崩溃！"));
+                try
+                {
+                    _w = new WindAPI();
+                    _w.start();
+                }
+                catch
+                {
+                    throw (new Exception("万得接口突然崩溃！"));
+                }
                 ////_w = new WindAPI();
                 ////_w.start();
             }
@@ -362,7 +370,7 @@ namespace WolfInv.com.CFZQ_LHProcess
             InitConnect();
             string strExecInfo = string.Format(strInfo, SecCode, Date.ToShortDateString());
             WindData wd =  w.wset(strType, strExecInfo);
-            if (wd.errorCode != 0) throw (new WDErrorException(w, wd.errorCode));
+            //if (wd.errorCode != 0) throw (new WDErrorException(w, wd.errorCode));
             return wd;
         }
 

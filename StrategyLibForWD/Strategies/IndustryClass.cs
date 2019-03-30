@@ -7,6 +7,7 @@ using System.Data;
 using WAPIWrapperCSharp;
 using WolfInv.com.SecurityLib;
 using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.GuideLib;
 namespace WolfInv.com.StrategyLibForWD
 {
     #region 基础类及接口

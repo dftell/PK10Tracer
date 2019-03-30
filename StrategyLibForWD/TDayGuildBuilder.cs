@@ -6,9 +6,9 @@ using WolfInv.com.GuideLib;
 
 namespace WolfInv.com.StrategyLibForWD
 {
-    public class TDayGuildBuilder : CommDataBuilder
+    public class TDayGuildBuilder_ForWD : CommDataBuilder_ForWD
     {
-        public TDayGuildBuilder(WindAPI _w, GuidBaseClass guidClass)
+        public TDayGuildBuilder_ForWD(WindAPI _w, GuidBaseClass guidClass)
             : base(_w, guidClass)
         {
             strParamsStyle = "Period={0};";//Days=Weekdays
