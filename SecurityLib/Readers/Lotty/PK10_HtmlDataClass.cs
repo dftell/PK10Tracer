@@ -95,6 +95,7 @@ namespace WolfInv.com.SecurityLib
             }
             catch
             {
+                LogLib.LogableClass.ToLog("非正常的xml数据",strXml);
             }
             return ret;
         }

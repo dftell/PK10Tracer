@@ -35,7 +35,7 @@ namespace WolfInv.com.SecurityLib
             }
             catch(Exception ce)
             {
-                LogLib.LogableClass.ToLog("接收数据错误", ce.Message);
+                LogLib.LogableClass.ToLog("主机连接错误,切换主机", ce.Message);
                 //切换主备host
                 if(dtp.RuntimeInfo == null)
                 {
@@ -50,6 +50,7 @@ namespace WolfInv.com.SecurityLib
                     dtp.RuntimeInfo.DefaultDataUrl = dtp.MainDataUrl;
                 }
                 dtp.SrcUseXml = (dtp.SrcUseXml==1?0:1);
+                LogLib.LogableClass.ToLog("切换到主机", dtp.RuntimeInfo.DefaultDataUrl);
             }
             return ret;
         }

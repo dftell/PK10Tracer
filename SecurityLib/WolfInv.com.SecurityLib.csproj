@@ -67,6 +67,10 @@
     <Compile Include="DataBuilders\MongoDataBuilder.cs" />
     <Compile Include="DataTypes\StockInfoMongoData.cs" />
     <Compile Include="DataTypes\StockMongoData.cs" />
+    <Compile Include="Filters\CommFilterLogicBaseClass.cs" />
+    <Compile Include="Filters\CommFilterResult.cs" />
+    <Compile Include="Filters\iCallBackable.cs" />
+    <Compile Include="Filters\StrategyFilters\FirestPointFilter.cs" />
     <Compile Include="Readers\DateSerialCodeDataReader.cs" />
     <Compile Include="Readers\Lotty\CommExpectReader.cs" />
     <Compile Include="Readers\DataReader.cs" />
@@ -81,6 +85,27 @@
     <Compile Include="DataBuilders\SecurityOneCycleDataBuilder.cs" />
     <Compile Include="Readers\Security\SecurityIndexReader.cs" />
     <Compile Include="Readers\Security\SecurityReader.cs" />
+    <Compile Include="Strategies\Base\CommStrategyInClass.cs" />
+    <Compile Include="Strategies\Base\SIClass.cs" />
+    <Compile Include="Strategies\Index\CommIndexStrategy.cs" />
+    <Compile Include="Strategies\Index\CommIndustryClass.cs" />
+    <Compile Include="Strategies\Index\CommIndustryMutliCycleStrategy.cs" />
+    <Compile Include="Strategies\Index\CommIndustryStrategy.cs" />
+    <Compile Include="Strategies\Index\CommIndustryStrategyInParams.cs" />
+    <Compile Include="Strategies\Index\CommIndustryStrategyOutResult.cs" />
+    <Compile Include="Strategies\Index\CommMutliCycleIndustryStrategyInParams.cs" />
+    <Compile Include="Strategies\CommSecurityProcessClass.cs" />
+    <Compile Include="Strategies\Base\CommStrategyBaseClass.cs" />
+    <Compile Include="Strategies\Base\CommStrategyCycleType.cs" />
+    <Compile Include="Strategies\Base\CommStrategyLogicType.cs" />
+    <Compile Include="Strategies\Index\CommSWIndustryClassII.cs" />
+    <Compile Include="Strategies\Base\iCommBalanceMethod.cs" />
+    <Compile Include="Strategies\Base\iCommBreachMethod.cs" />
+    <Compile Include="Strategies\Index\iCommIndustryStrategy.cs" />
+    <Compile Include="Strategies\Base\iCommReadSecuritySerialData.cs" />
+    <Compile Include="Strategies\Base\iCommReverseMethod.cs" />
+    <Compile Include="Strategies\Base\iCommSelectSecurityMethod.cs" />
+    <Compile Include="Strategies\Index\SI2IndustryStrategy.cs" />
     <Compile Include="TimeSerialListClass.cs" />
     <Compile Include="Readers\Lotty\TXFFCExpectReader.cs" />
     <Compile Include="Readers\Lotty\TXFFC_HtmlDataClass.cs" />
@@ -94,6 +119,10 @@
     <ProjectReference Include="..\DbAccessLib\WolfInv.com.DbAccessLib.csproj">
       <Project>{6778368a-c893-41d7-b354-3030cc0779ed}</Project>
       <Name>WolfInv.com.DbAccessLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GuideLib\WolfInv.com.GuideLib.csproj">
+      <Project>{2c724db7-59a5-41cd-8274-c0acb18fcc1a}</Project>
+      <Name>WolfInv.com.GuideLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\LogLib\WolfInv.com.LogLib.csproj">
       <Project>{182084e4-c48b-4585-9221-4a54caf7448f}</Project>

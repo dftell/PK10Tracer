@@ -80,6 +80,9 @@ namespace DataRecSvr
         private void ReceivePK10CData()
         {
             Log("接收数据", "准备接收数据");
+            DateTime CurrTime = DateTime.Now;
+            long RepeatMinutes = GlobalClass.TypeDataPoints["PK10"].ReceiveSeconds / 60;
+            long RepeatSeconds = GlobalClass.TypeDataPoints["PK10"].ReceiveSeconds;
             PK10_HtmlDataClass hdc = new PK10_HtmlDataClass(GlobalClass.TypeDataPoints["PK10"]);
             ExpectList el = hdc.getExpectList();
             ////if(el != null && el.Count>0)
@@ -88,12 +91,11 @@ namespace DataRecSvr
             ////}
             if (el == null || el.Count == 0)
             {
-                Log("接收数据", "未接收到数据");
+                this.Tm_ForPK10.Interval = RepeatSeconds / 20 * 1000;
+                Log("尝试接收数据", "未接收到数据,数据源错误！");
                 return;
             }
-            DateTime CurrTime = DateTime.Now;
-            long RepeatMinutes = GlobalClass.TypeDataPoints["PK10"].ReceiveSeconds / 60;
-            long RepeatSeconds = GlobalClass.TypeDataPoints["PK10"].ReceiveSeconds;
+            
             DateTime StartTime = CurrTime.Date.Add(GlobalClass.TypeDataPoints["PK10"].ReceiveStartTime.TimeOfDay);
             Log("当日开始时间", StartTime.ToLongTimeString());
             int PassCnt = (int)Math.Floor(CurrTime.Subtract(StartTime).TotalMinutes / RepeatMinutes);

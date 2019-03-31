@@ -56,7 +56,7 @@ namespace WolfInv.com.StrategyLibForWD
         public abstract BaseDataTable GetData(int RecordCnt);
     }
 
-    public class FilterResult 
+    public class FilterResult
     {
         public bool Enalbe;
         public StringBuilder Msg;

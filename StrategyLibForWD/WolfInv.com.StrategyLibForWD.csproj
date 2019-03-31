@@ -77,7 +77,7 @@
     <Compile Include="Strategies\StrategyLogicType.cs" />
     <Compile Include="Sys\SecurityBuildClass.cs" />
     <Compile Include="Sys\SystemGlobal.cs" />
-    <Compile Include="TDayGuildBuilder.cs" />
+    <Compile Include="CommPressor\TDayGuildBuilder.cs" />
     <Compile Include="WDBasic.cs" />
   </ItemGroup>
   <ItemGroup>
