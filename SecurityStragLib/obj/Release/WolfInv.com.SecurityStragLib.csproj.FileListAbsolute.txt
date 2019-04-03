@@ -1,0 +1,7 @@
+C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.SecurityStragLib.dll
+C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.SecurityStragLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityStragLib\obj\Release\WolfInv.com.SecurityStragLib.csprojAssemblyReference.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityStragLib\obj\Release\WolfInv.com.SecurityStragLib.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityStragLib\obj\Release\WolfInv.com.SecurityStragLib.csproj.CopyComplete
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityStragLib\obj\Release\WolfInv.com.SecurityStragLib.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityStragLib\obj\Release\WolfInv.com.SecurityStragLib.pdb

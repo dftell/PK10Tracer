@@ -40,8 +40,8 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\Fakes\WolfInv.com.BaseOb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\Fakes\WolfInv.com.BaseObjectsLib.fakes : warning : 无法为 WolfInv.com.BaseObjectsLib.BaseData+ParamData 生成填充码: 类型是一个委托。
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\Fakes\WolfInv.com.BaseObjectsLib.fakes : warning : 无法为 WolfInv.com.BaseObjectsLib.EventDataAssset 生成填充码: 类型是一个委托。
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\Fakes\WolfInv.com.BaseObjectsLib.fakes : warning : 无法为 WolfInv.com.BaseObjectsLib.BaseDataType 生成填充码: 类型是一个枚举。
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\Fakes\WolfInv.com.BaseObjectsLib.fakes : warning : 无法为 WolfInv.com.BaseObjectsLib.ISpecAmount`1 生成填充码: 类型是一个接口。
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\Fakes\WolfInv.com.BaseObjectsLib.fakes : warning : 无法为 WolfInv.com.BaseObjectsLib.ITraceChance`1 生成填充码: 类型是一个接口。
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\Fakes\WolfInv.com.BaseObjectsLib.fakes : warning : 无法为 WolfInv.com.BaseObjectsLib.ISpecAmount 生成填充码: 类型是一个接口。
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\Fakes\WolfInv.com.BaseObjectsLib.fakes : warning : 无法为 WolfInv.com.BaseObjectsLib.ITraceChance 生成填充码: 类型是一个接口。
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\Fakes\WolfInv.com.BaseObjectsLib.fakes : warning : 无法为 WolfInv.com.BaseObjectsLib.MongoData+<>c 生成填充码: 类型不受支持，因为存在内部限制。
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\Fakes\WolfInv.com.BaseObjectsLib.fakes : warning : 无法为 WolfInv.com.BaseObjectsLib.IObjectId 生成填充码: 类型是一个接口。
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\Fakes\WolfInv.com.BaseObjectsLib.fakes : warning : 无法为 WolfInv.com.BaseObjectsLib.IMatchFilter 生成填充码: 类型是一个接口。

@@ -7,8 +7,8 @@ using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.PK10CorePress;
 namespace DataRecSvr
 {
-    /*
-    public partial class SubscriptData : SelfDefBaseService
+   
+    public partial class SubscriptData : SelfDefBaseService<TimeSerialData>
     {
         Timer SaveTimer = new Timer();
         Dictionary<string, DataTypePoint> DataTypes;
@@ -209,5 +209,4 @@ namespace DataRecSvr
         }
     }
 
-*/
 }

@@ -67,7 +67,7 @@ namespace WolfInv.com.Strags
         /// <param name="RestCash"></param>
         /// <param name="cc"></param>
         /// <returns></returns>
-        public override Int64 getChipAmount(double RestCash, ChanceClass cc, AmoutSerials ams)
+        public Int64 getChipAmount(double RestCash, ChanceClass cc, AmoutSerials ams)
         {
             ////if (this.UseAmountList.ContainsKey(this.LastUseData.LastData.Expect))
             ////{

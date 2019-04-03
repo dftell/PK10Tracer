@@ -17,25 +17,10 @@ namespace Test_Win
         public frm_HYMonitor()
         {
             InitializeComponent();
-            InitService();
+         
         }
 
-        void InitService()
-        {
-            ServiceBase[] ServicesToRun;
-            LogableClass.ToLog("构建计算服务", "开始");
-            CalcService cs = new CalcService();
-            LogableClass.ToLog("构建接收服务", "开始");
-            sd = new SubscriptData();
-
-            //只有接收数据是默认启动，计算服务由接收数据触发
-            ServicesToRun = new ServiceBase[]
-            {
-                    sd
-            };
-            
-            //ServiceBase.Run(ServicesToRun);
-        }
+        
 
         private void frm_HYMonitor_Load(object sender, EventArgs e)
         {

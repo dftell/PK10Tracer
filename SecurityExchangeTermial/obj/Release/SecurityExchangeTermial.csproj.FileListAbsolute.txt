@@ -1,0 +1,7 @@
+C:\Users\zhouys\Source\project\SecET\SecurityExchangeTermial.exe
+C:\Users\zhouys\Source\project\SecET\SecurityExchangeTermial.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityExchangeTermial\obj\Release\SecurityExchangeTermial.frm_Main.resources
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityExchangeTermial\obj\Release\SecurityExchangeTermial.csproj.GenerateResource.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityExchangeTermial\obj\Release\SecurityExchangeTermial.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityExchangeTermial\obj\Release\SecurityExchangeTermial.exe
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityExchangeTermial\obj\Release\SecurityExchangeTermial.pdb

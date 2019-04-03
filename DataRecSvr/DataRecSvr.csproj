@@ -80,12 +80,6 @@
       <DependentUpon>CalcService.cs</DependentUpon>
     </Compile>
     <Compile Include="CommuniteClass.cs" />
-    <Compile Include="ExchangeService.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ExchangeService.Designer.cs">
-      <DependentUpon>ExchangeService.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>

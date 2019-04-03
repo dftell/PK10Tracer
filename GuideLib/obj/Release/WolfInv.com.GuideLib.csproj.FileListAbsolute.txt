@@ -1,6 +1,5 @@
 C:\Users\zhouys\source\project\PK10Tracer\WolfInv.com.GuideLib.dll
 C:\Users\zhouys\source\project\PK10Tracer\WolfInv.com.GuideLib.pdb
-C:\Users\zhouys\source\repos\dftell\PK10Tracer\GuideLib\obj\Release\WolfInv.com.GuideLib.csprojAssemblyReference.cache
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\GuideLib\obj\Release\WolfInv.com.GuideLib.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\GuideLib\obj\Release\WolfInv.com.GuideLib.csproj.CopyComplete
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\GuideLib\obj\Release\WolfInv.com.GuideLib.dll
