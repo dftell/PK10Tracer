@@ -9,7 +9,7 @@ using System.Reflection;
 using WolfInv.com.ProbMathLib;
 namespace WolfInv.com.PK10CorePress
 {
-    public class CommCollection
+    public class CommCollection : PK10CorePress.BaseCollection
     {
         //机器学习-上期训练数据
         static Dictionary<string, int[,]> LastTrainInstances;
@@ -17,13 +17,13 @@ namespace WolfInv.com.PK10CorePress
         static Dictionary<string, int[,]> LastReviewInstances;
         
         
-        public ExpectList orgData;
+        
         DataTable _dt;
         DataTableEx _SerialDistributionTalbe;
         DataTableEx _CarDistributionTable;
-        public bool isByNo;
+        public override bool isByNo { get; set; }
 
-        public List<Dictionary<int, string>> Data;
+
         public DataTable Table
         {
             get
@@ -70,7 +70,7 @@ namespace WolfInv.com.PK10CorePress
         }
 
         DataTableEx _CarTable;
-        public DataTableEx CarTable
+        public override DataTableEx CarTable
         {
             get
             {
@@ -101,7 +101,7 @@ namespace WolfInv.com.PK10CorePress
                     {
                         for (int j = 0; j < 10; j++)
                         {
-                            dr[string.Format("{0}", (j + 1) % 10)] = this.orgData[i].ValueList[j];
+                            dr[string.Format("{0}", (j + 1) % 10)] = (this.orgData[i]).ValueList[j];
                         }
                     }
                     else
@@ -119,7 +119,7 @@ namespace WolfInv.com.PK10CorePress
             }
         }
 
-        public DataTableEx getSubTable(int FromId, int lng)
+        public override DataTableEx getSubTable(int FromId, int lng)
         {
             //DataTableEx ret = null;
             DataTableEx DataCopy = CarTable.Copy();
@@ -139,7 +139,7 @@ namespace WolfInv.com.PK10CorePress
             return ret;
         }
 
-        public DataTableEx SerialDistributionTable
+        public override DataTableEx SerialDistributionTable
         {
             get
             {
@@ -152,7 +152,7 @@ namespace WolfInv.com.PK10CorePress
             }
         }
 
-        public DataTableEx CarDistributionTable
+        public override DataTableEx CarDistributionTable
         {
             get
             {
@@ -204,7 +204,7 @@ namespace WolfInv.com.PK10CorePress
             }
         }
 
-        public int FindLastDataExistCount(int lng, string StrPos, string key)
+        public override int FindLastDataExistCount(int lng, string StrPos, string key)
         {
             //return this.CarTable.Select(string.Format("[Id]<={2} and [{0}]={1}", StrPos, key, lng)).Length;
             return FindLastDataExistCount(0, lng, StrPos, key);
@@ -218,14 +218,14 @@ namespace WolfInv.com.PK10CorePress
         /// <param name="StrPos"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public int FindLastDataExistCount(int StartPos, int lng, string StrKey, string val)
+        public override int FindLastDataExistCount(int StartPos, int lng, string StrKey, string val)
         {
             int Cnt = this.CarTable.Rows.Count;
             string sql = string.Format("([Id]>={3} and [Id]<={2}+{3}) and [{0}]={1}", StrKey, val, lng, StartPos);
             return this.CarTable.Select(sql).Length;
         }
 
-        public string FindSpecColumnValue(int id, string strKey)
+        public override string FindSpecColumnValue(int id, string strKey)
         {
             string sql = string.Format("([Id]={0}", id);
             DataRow[] drs = this.CarTable.Select(sql);
@@ -235,7 +235,7 @@ namespace WolfInv.com.PK10CorePress
         }
 
         //获得整体偏差度
-        public List<double> getAllDistrStdDev(int reviewCnt,int stepLong)
+        public override List<double> getAllDistrStdDev(int reviewCnt,int stepLong)
         {
             reviewCnt = 10;
             stepLong = 5;
@@ -276,7 +276,7 @@ namespace WolfInv.com.PK10CorePress
         /// <param name="reviewCnt"></param>
         /// <param name="stepLong"></param>
         /// <returns></returns>
-        public List<double> getEntropyList(int reviewCnt)
+        public override List<double> getEntropyList(int reviewCnt)
         {
             //Dictionary<string, double> ret = new Dictionary<string, double>();
             double ret = 0;
@@ -315,7 +315,7 @@ namespace WolfInv.com.PK10CorePress
         /// </summary>
         /// <param name="reviewCnt"></param>
         /// <returns></returns>
-        public Dictionary<string, Matrix> getC_K_NStep(int reviewCnt,int StepCnt)
+        public override Dictionary<string, Matrix> getC_K_NStep(int reviewCnt,int StepCnt)
         {
             Dictionary<string, Matrix> retlist = new Dictionary<string, Matrix>();
             for (int i = 0; i < 10; i++)//遍历所有表列
@@ -359,7 +359,7 @@ namespace WolfInv.com.PK10CorePress
             }
             return retlist;
         }
-    
+
         /// <summary>
         /// 返回-5~5之间的证数
         /// </summary>
@@ -418,9 +418,9 @@ namespace WolfInv.com.PK10CorePress
         /// <param name="ReviewCnt">计算数据长度</param>
         /// <param name="TrainCnt">训练数据长度</param>
         /// <returns></returns>
-        public Dictionary<string,double> getAllShiftCnt(int ReviewCnt,int TrainCnt)
+        public override Dictionary<string,double> getAllShiftCnt(int ReviewCnt,int TrainCnt)
         {
-            ExpectData ed = orgData.LastData;
+            ExpectData<TimeSerialData> ed = orgData.LastData;
             string lastExpectId = long.Parse(ed.Expect).ToString();
             if (orgData.Count < ReviewCnt + TrainCnt + 1)
             {

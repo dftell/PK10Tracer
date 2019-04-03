@@ -1,6 +1,6 @@
 ﻿namespace DataRecSvr
 {
-    partial class ReceiveService
+    partial class ReceiveService<T>
     {
         /// <summary> 
         /// 必需的设计器变量。

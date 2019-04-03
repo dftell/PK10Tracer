@@ -23,18 +23,18 @@ using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.SecurityLib;
 namespace BackTestSys
 {
-    public partial class BackTestFrm : Form
+    public partial class BackTestFrm<T> : Form where T:TimeSerialData
     {
         BackgroundWorker bw;
-        BackTestReturnClass ret=null;
-        BackTestClass btc = null;
-        MainForm CheckFrm;
+        BackTestReturnClass<T> ret=null;
+        BackTestClass<T> btc = null;
+        MainForm<TimeSerialData> CheckFrm;
         ExchangeService es;
-        StragClass sc;
+        BaseStragClass<T> sc;
         Thread th = null;
         GlobalClass globalSetting = new GlobalClass();
         bool _RunVirExchange;
-        List<StragRunPlanClass> SCList = new List<StragRunPlanClass>();
+        List<StragRunPlanClass<T>> SCList = new List<StragRunPlanClass<T>>();
         GuideResult retData;
         Int64 lastSaveCnt = 0;
         bool RunVirExchange
@@ -211,11 +211,11 @@ namespace BackTestSys
             ////////////////////////    return;
             ////////////////////////}
             #endregion
-            btc = new BackTestClass(long.Parse(txt_begExpNo.Text), long.Parse(txt_LoopCnt.Text), setting);
+            btc = new BackTestClass<T>(GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()],long.Parse(txt_begExpNo.Text), long.Parse(txt_LoopCnt.Text), setting);
             this.listView1.Items.Clear();
             this.listView2.Items.Clear();
             this.listView3.Items.Clear();
-            StragRunPlanClass[] plans = this.runPlanPicker1.Plans;
+            StragRunPlanClass<T>[] plans = this.runPlanPicker1.Plans as StragRunPlanClass<T>[];
             if (plans.Length == 0)
                 return;
             SCList = plans.ToList();
@@ -242,8 +242,8 @@ namespace BackTestSys
             }
             catch (Exception ce)
             {
-                ret = new BackTestReturnClass();
-                ret.ChanceList = new List<ChanceClass>();
+                ret = new BackTestReturnClass<T>();
+                ret.ChanceList = new List<ChanceClass<T>>();
                 ret.Msg = ce.Message;
                 ret.succ = false;
                 MessageBox.Show(ce.Message);
@@ -451,11 +451,11 @@ namespace BackTestSys
                 TextBox tb = this.Controls.Find(string.Format("txt_minColTimes{0}", i + 1), true)[0] as TextBox;
                 setting.minColTimes[i] = int.Parse(tb.Text);
             }
-            btc = new BackTestClass(long.Parse(txt_begExpNo.Text), long.Parse(txt_LoopCnt.Text), setting);
+            btc = new BackTestClass<T>(GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()], long.Parse(txt_begExpNo.Text), long.Parse(txt_LoopCnt.Text), setting);
             Assembly asmb = typeof(StragClass).Assembly;
             //////Type sct = asmb.GetType(ddl_StragName.SelectedValue.ToString());
             //////StragClass sc = Activator.CreateInstance(sct) as StragClass;
-            StragClass sc = this.runPlanPicker1.Plans[0].PlanStrag;
+            BaseStragClass<T> sc = this.runPlanPicker1.Plans[0].PlanStrag as BaseStragClass<T>;
             sc.CommSetting = setting;
             sc.ChipCount = int.Parse(this.txt_ChipCnt.Text);
             sc.FixChipCnt = (this.txt_FixChipCnt.Text.Trim() == "0") ? false : true;
@@ -467,8 +467,8 @@ namespace BackTestSys
             sc.BySer = this.chkb_bySer.Checked;
             sc.OnlyBS = this.chkb_onlyBS.Checked;
             sc.OnlySD = this.chkb_onlySD.Checked;
-            this.runPlanPicker1.Plans[0].PlanStrag = sc;
-            RoundBackTestReturnClass rbtr = null;
+            this.runPlanPicker1.Plans[0].PlanStrag = sc as BaseStragClass<TimeSerialData>;
+            RoundBackTestReturnClass<T> rbtr = null;
             try
             {
                 int cycLong = int.Parse(txt_RoundCycLong.Text);
@@ -477,7 +477,7 @@ namespace BackTestSys
             }
             catch (Exception ce)
             {
-                rbtr = new RoundBackTestReturnClass();
+                rbtr = new RoundBackTestReturnClass<T>();
                 rbtr.Msg = ce.Message;
                 rbtr.succ = false;
             }
@@ -518,7 +518,7 @@ namespace BackTestSys
         {
             //if (CheckFrm == null)
             //{
-                CheckFrm = new MainForm();
+                CheckFrm = new MainForm<TimeSerialData>();
                 CheckFrm.Show();
                 return;
             //}
@@ -537,7 +537,7 @@ namespace BackTestSys
             //MessageBox.Show(strExpect);
             ////if (CheckFrm == null)
             ////{
-                CheckFrm = new MainForm();
+                CheckFrm = new MainForm<TimeSerialData>();
             ////    CheckFrm.InputExpect = int.Parse(strExpect);
             ////    CheckFrm.Show();
             ////    return;
@@ -554,10 +554,12 @@ namespace BackTestSys
         /// <param name="e"></param>
         private void btn_VirExchange_Click(object sender, EventArgs e)
         {
-            StragRunPlanClass[] plans = this.runPlanPicker1.Plans;
+            if (this.ddl_DataSource.SelectedIndex < 0)
+                return;
+            StragRunPlanClass<T>[] plans = this.runPlanPicker1.Plans as StragRunPlanClass<T>[];
             if (plans == null || plans.Length == 0)
                 return;
-            SCList = plans.ToList();
+            SCList = plans.ToList() as List<StragRunPlanClass<T>>;
             if (!RunVirExchange)
             {
                 if (MessageBox.Show("确定开始模拟成交？", "确认", MessageBoxButtons.YesNo) == DialogResult.No)
@@ -735,7 +737,7 @@ namespace BackTestSys
             //////try
             //////{
             if (btc == null)
-                btc = btc = new BackTestClass(long.Parse(txt_begExpNo.Text), long.Parse(txt_LoopCnt.Text), setting);
+                btc = btc = new BackTestClass<T>(GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()],long.Parse(txt_begExpNo.Text), long.Parse(txt_LoopCnt.Text), setting);
             th = new Thread(RunVirtual);
             th.Start();
             return;
@@ -753,10 +755,10 @@ namespace BackTestSys
         {
             //try
             //{
-            Dictionary<string, CalcStragGroupClass> rest = null;
-            Program.AllSettings.AllRunningPlanGrps = InitServerClass.InitCalcStrags(ref rest, Program.AllSettings.AllStrags, SCList.ToDictionary(p => p.GUID, p => p), Program.AllSettings.AllAssetUnits, true,true);//注入plans
+            Dictionary<string, CalcStragGroupClass<TimeSerialData>> rest = null;
+            Program.AllSettings.AllRunningPlanGrps = InitServerClass.InitCalcStrags<TimeSerialData>(ref rest, Program.AllSettings.AllStrags, SCList.ToDictionary(p => p.GUID, p => p as StragRunPlanClass<TimeSerialData>), Program.AllSettings.AllAssetUnits, true,true);//注入plans
             btc.FinishedProcess = new SuccEvent(Finished);
-            ret = btc.VirExchange(Program.AllSettings, ref es, SCList.ToArray());
+            ret = btc.VirExchange(Program.AllSettings as ServiceSetting<T> , ref es, SCList.ToArray());
             //}
             //catch (Exception ce)
             //{
@@ -970,7 +972,7 @@ namespace BackTestSys
             //MessageBox.Show(strExpect);
             ////if (CheckFrm == null)
             ////{
-            CheckFrm = new MainForm();
+            CheckFrm = new MainForm<TimeSerialData>();
             ////    CheckFrm.InputExpect = int.Parse(strExpect);
             ////    CheckFrm.Show();
             ////    return;
@@ -990,7 +992,7 @@ namespace BackTestSys
             //MessageBox.Show(strExpect);
             ////if (CheckFrm == null)
             ////{
-            CheckFrm = new MainForm();
+            CheckFrm = new MainForm<TimeSerialData>();
             ////    CheckFrm.InputExpect = int.Parse(strExpect);
             ////    CheckFrm.Show();
             ////    return;
@@ -1001,7 +1003,7 @@ namespace BackTestSys
 
         private void btn_trainPlan_Click(object sender, EventArgs e)
         {
-            frm_TrainForm frm = new frm_TrainForm();
+            frm_TrainForm<TimeSerialData> frm = new frm_TrainForm<TimeSerialData>();
             frm.ShowDialog();
             
         }

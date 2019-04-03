@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmoutSerials.cs" />
+    <Compile Include="BaseCollection.cs" />
     <Compile Include="BaseDataItemClass.cs" />
     <Compile Include="BaseDataTable.cs" />
     <Compile Include="BaseDataType\baseLottyTypes.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="BaseDataType\ExchangeData.cs" />
     <Compile Include="BaseDataType\ExpectData.cs" />
     <Compile Include="BaseDataType\ExpectList.cs" />
+    <Compile Include="BaseDataType\IExpectList.cs" />
     <Compile Include="BaseDataType\InitData.cs" />
     <Compile Include="BaseDataType\ITraceable.cs" />
     <Compile Include="BaseDataType\MongoData.cs" />
@@ -72,6 +74,7 @@
     <Compile Include="BaseDataType\OneCycleData.cs" />
     <Compile Include="BaseDataType\SecurityInfoClass.cs" />
     <Compile Include="BaseDataType\TimeSerialData.cs" />
+    <Compile Include="CommExpectListProcess.cs" />
     <Compile Include="CommResult.cs" />
     <Compile Include="ConvertionExtensions.cs" />
     <Compile Include="DataFrame.cs" />

@@ -36,7 +36,7 @@ namespace WolfInv.com.ExchangeLib
             }
         }
 
-        public ExchangeChance AddAChance(ExchangeChance ec)
+        public ExchangeChance<T> AddAChance<T>(ExchangeChance<T> ec) where T : TimeSerialData
         {
             DataRow dr = this.NewRow();
             Eindex++;
@@ -55,7 +55,7 @@ namespace WolfInv.com.ExchangeLib
             return ec;
         }
 
-        public bool UpdateChance(ExchangeChance ec,out double Gained)
+        public bool UpdateChance<T>(ExchangeChance<T> ec,out double Gained) where T:TimeSerialData
         {
             string sqlmodule = "{0}='{1}'";
             string sql = string.Format(sqlmodule, "Id", ec.Id);

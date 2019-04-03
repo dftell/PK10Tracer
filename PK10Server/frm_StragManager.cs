@@ -12,7 +12,7 @@ using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.SecurityLib;
 namespace PK10Server
 {
-    public partial class frm_StragManager : Form
+    public partial class frm_StragManager : Form 
     {
 
         public frm_StragManager()
@@ -22,8 +22,8 @@ namespace PK10Server
         }
 
         public StragClass SpecObject;
-        public Dictionary<string, StragClass> SpecList;
-        Dictionary<string, StragClass> AllList;
+        public Dictionary<string, BaseStragClass<TimeSerialData>> SpecList;
+        Dictionary<string, BaseStragClass<TimeSerialData>> AllList;
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
@@ -45,18 +45,18 @@ namespace PK10Server
 
         void SaveList()
         {
-            List<StragClass> CurrList = AllList.Values.ToList<StragClass>();
+            List<BaseStragClass<TimeSerialData>> CurrList = AllList.Values.ToList<BaseStragClass<TimeSerialData>>();
             //Program.AllGlobalSetting.gc.setStragXml(StragClass.getXmlByObjectList<StragClass>(CurrList));
-            GlobalClass.SaveStragList(StragClass.getXmlByObjectList<StragClass>(CurrList));
-            Program.AllGlobalSetting.AllStrags = AllList;
+            GlobalClass.SaveStragList(BaseStragClass<TimeSerialData>.getXmlByObjectList<BaseStragClass<TimeSerialData>>(CurrList));
+            Program.AllGlobalSetting.AllStrags = AllList as Dictionary<string,BaseStragClass<TimeSerialData>>;
         }
 
         void RefreshGrid()
         {
-            List<StragClass> CurrList = AllList.Values.ToList<StragClass>();
+            List<BaseStragClass<TimeSerialData>> CurrList = AllList.Values.ToList<BaseStragClass<TimeSerialData>>();
             if (CurrList == null)
                 return;
-            DataTable dt = StragClass.GetTableByStragList(CurrList);
+            DataTable dt = BaseStragClass<TimeSerialData>.GetTableByStragList(CurrList);
             this.dg_Strags.DataSource = dt;
             this.dg_Strags.Refresh();
             this.dg_Strags.Tag = CurrList;
@@ -70,7 +70,7 @@ namespace PK10Server
                 AllList = SpecList;
             if (AllList.Count >0)
             {
-                List<StragClass> list = AllList.Values.ToList();
+                List<BaseStragClass<TimeSerialData>> list = AllList.Values.ToList();
                 if (list == null)
                 {
                     return;

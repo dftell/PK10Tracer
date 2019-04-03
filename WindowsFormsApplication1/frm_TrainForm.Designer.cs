@@ -1,6 +1,6 @@
 ﻿namespace BackTestSystem
 {
-    partial class frm_TrainForm
+    partial class frm_TrainForm<T>
     {
         /// <summary>
         /// Required designer variable.

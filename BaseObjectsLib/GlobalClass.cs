@@ -104,7 +104,7 @@ namespace WolfInv.com.BaseObjectsLib
         public static string dbPwd =  "bolts";
         public static string TXFFC_url = "http://www.off0.com/index.php";
         public static string PK10_url = "http://d.apiplus.net/newly.do?token=tf066705d12dcb288k&code=bjpk10&format=xml&rows=100";
-        ExpectList t_newExpectData;
+        //ExpectList t_newExpectData;
         bool b_AllowExchange;
         public static XmlDocument XmlDoc;
         
@@ -565,28 +565,28 @@ namespace WolfInv.com.BaseObjectsLib
             return new string[0];
         }
 
-        public ExpectData NewestExpectData
-        {
-            get
-            {        
-                if(t_newExpectData != null) 
-                    return t_newExpectData[0];
-                return null;
-            }
-        }
+        ////public ExpectData NewestExpectData
+        ////{
+        ////    get
+        ////    {        
+        ////        if(t_newExpectData != null) 
+        ////            return t_newExpectData[0];
+        ////        return null;
+        ////    }
+        ////}
 
-        public ExpectList CurrExpectData
-        {
-            get
-            {
-                return t_newExpectData;
-            }
-        }
+        ////public ExpectList CurrExpectData
+        ////{
+        ////    get
+        ////    {
+        ////        return t_newExpectData;
+        ////    }
+        ////}
 
-        public void SetCurrExpectData(ExpectList el)
-        {
-            t_newExpectData =el;
-        }
+        ////public void SetCurrExpectData(ExpectList el)
+        ////{
+        ////    t_newExpectData =el;
+        ////}
 
 
         public int SerTotal(int Cols)

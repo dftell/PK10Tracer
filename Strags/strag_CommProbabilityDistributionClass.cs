@@ -22,7 +22,7 @@ namespace WolfInv.com.Strags
             this.StagSetting = this.getInitStagSetting();
         }
 
-        public override List<ChanceClass> getChances(CommCollection sc, ExpectData ed)
+        public override List<ChanceClass> getChances(BaseCollection sc, ExpectData ed)
         {
             List<ChanceClass> ret = new List<ChanceClass>();
             DataTableEx dt = null;

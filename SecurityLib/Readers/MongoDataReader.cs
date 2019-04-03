@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using WolfInv.com.DbAccessLib;
 using WolfInv.com.BaseObjectsLib;
+using System;
+
 namespace WolfInv.com.SecurityLib
 {
-    public abstract class MongoDataReader
+    public abstract class MongoDataReader:DataReader
     {
         protected string DbTypeName;
         

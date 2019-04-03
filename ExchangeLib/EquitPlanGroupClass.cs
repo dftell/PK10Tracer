@@ -9,40 +9,40 @@ using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.SecurityLib;
 namespace WolfInv.com.ExchangeLib
 {
-    public class CalcEquitPlanGroupClass: CalcStragGroupClass
+    public class CalcEquitPlanGroupClass<T>: CalcStragGroupClass<T> where T:TimeSerialData
     {
         public new void ExecRun(object data)
         {
-            ExpectList el = data as ExpectList;
+            ExpectList<T> el = data as ExpectList<T>;
             //Log("计算服务","准备数据", "为每个策略分配数据");
             foreach (string key in UseStrags.Keys)
                 UseStrags[key].SetLastUserData(el);
             //准备数据
-            CommCollection cc = null;
+            BaseCollection<T> cc = null;
             int maxViewCnt = (int)this.UseStrags.Max(t => t.Value.ReviewExpectCnt);
             //Log("计算服务", "最大回览期数", maxViewCnt.ToString());
-            cc = new ExpectListProcess(el).getSerialData(maxViewCnt, this.UseSerial);
+            cc = new ExpectListProcessBuilder<T>(el).getProcess().getSerialData(maxViewCnt, this.UseSerial);
             // cc.orgData = el;//必须指定原始数据？
             //Log("计算服务", "中间数据长度",cc.Data.Count.ToString());
             Dictionary<StragClass, List<ChanceClass>> css = new Dictionary<StragClass, List<ChanceClass>>();
             //Log("计算服务", "计算数据", "为每个策略计算最大回顾周期数据");
             //遍历每个策略获得机会
-            DbChanceList OldDbList = new DbChanceList();
-            Dictionary<string, ChanceClass> OldList = new Dictionary<string, ChanceClass>();
-            List<ChanceClass> NewList = new List<ChanceClass>();
+            DbChanceList<T> OldDbList = new DbChanceList<T>();
+            Dictionary<string, ChanceClass<T>> OldList = new Dictionary<string, ChanceClass<T>>();
+            List<ChanceClass<T>> NewList = new List<ChanceClass<T>>();
             //Log("计算服务", "遍历所有策略", string.Format("策略数量:{0}",this.UseStrags.Count));
             CloseAllExchance(el);//清空所有可视化机会
             #region 获取交易机会
             for (int i = 0; i < this.UseSPlans.Count; i++)
             {
-                StragRunPlanClass currPlan = UseSPlans[i];
+                StragRunPlanClass<T> currPlan = UseSPlans[i];
                 if (currPlan.PlanStrag == null)//如果计划所执行的策略为空，只在chance上执行tracer
                 {
-                    List<ChanceClass> emptycs = CurrExistChanceList.Values.Where(p => p.StragId == null).ToList<ChanceClass>();
+                    List<ChanceClass<T>> emptycs = CurrExistChanceList.Values.Where(p => p.StragId == null).ToList<ChanceClass<T>>();
                     for (int c = 0; c < emptycs.Count; c++)
                     {
-                        ChanceClass CurrCc = emptycs[c];
-                        TraceChance tcc = CurrCc as TraceChance;
+                        ChanceClass<T> CurrCc = emptycs[c];
+                        TraceChance<T> tcc = CurrCc as TraceChance<T>;
                         CurrCc.UnitCost = tcc.getChipAmount(GlobalClass.DefaultMaxLost, CurrCc, GlobalClass._DefaultHoldAmtSerials.Value);
                         CurrCc.HoldTimeCnt = CurrCc.HoldTimeCnt + 1;
                         CurrCc.Cost += CurrCc.ChipCount * CurrCc.UnitCost;
@@ -55,23 +55,23 @@ namespace WolfInv.com.ExchangeLib
                     }
                     continue;
                 }
-                StragClass currStrag = UseStrags[currPlan.PlanStrag.GUID];
-                currStrag.SetLastUserData(el);//必须给策略填充数据
-                List<ChanceClass> cs = currStrag.getChances(cc, el.LastData);//获取该策略的机会
+                BaseStragClass<T> currStrag = UseStrags[currPlan.PlanStrag.GUID];
+                currStrag.SetLastUserData(el);//必须<T>给策略填充数据
+                List<ChanceClass<T>> cs = currStrag.getChances(cc, el.LastData);//获取该策略的机会
                 if (currStrag is TotalStdDevTraceStragClass)//如果是整体标准差类，记录所有的标准差数据
                 {
                     grpTotolStdDic = (currStrag as TotalStdDevTraceStragClass).getAllStdDev();
                 }
                 if (cs.Count > 0)
                     Log("计算服务", string.Format("策略[{0}/{1}]", currStrag.GUID, currStrag.StragScript), string.Format("取得机会数量为:{0}", cs.Count));
-                Dictionary<string, ChanceClass> StragChances = CurrExistChanceList.Where(p => p.Value.StragId == currStrag.GUID).ToDictionary(p => p.Value.ChanceCode, p => p.Value);
+                Dictionary<string, ChanceClass<T>> StragChances = CurrExistChanceList.Where(p => p.Value.StragId == currStrag.GUID).ToDictionary(p => p.Value.ChanceCode, p => p.Value);
                 AmoutSerials amts = GlobalClass.getOptSerials(CurrSetting.Odds, currPlan.InitCash, 1);
                 Int64 restAmt = currStrag.CommSetting.GetGlobalSetting().DefMaxLost;//初始资金
                 #region 遍历各机会
                 for (int j = 0; j < cs.Count; j++)//对每个机会，检查上期遗留的机会是否包括
                 {
                     bool NeedUseOldData = false;
-                    ChanceClass CurrCc = cs[j];
+                    ChanceClass<T> CurrCc = cs[j];
                     CurrCc.HoldTimeCnt = 1;
                     CurrCc.AllowMaxHoldTimeCnt = currPlan.AllowMaxHoldTimeCnt;
                     CurrCc.IncrementType = currPlan.IncreamType;
@@ -86,7 +86,7 @@ namespace WolfInv.com.ExchangeLib
                     //该语句存在机会重复的风险
                     if (StragChances.ContainsKey(CurrCc.ChanceCode))//未关闭的及机会列表中存在该机会
                     {
-                        ChanceClass OldCc = StragChances[CurrCc.ChanceCode];
+                        ChanceClass<T> OldCc = StragChances[CurrCc.ChanceCode];
                         //Log("计算服务", "老机会信息", string.Format("idx:{0};holdcnt:{1}", OldCc.ChanceIndex, OldCc.HoldTimeCnt));
                         //Log("计算服务", "老记录", string.Format("上期相同的机会{0}", CurrCc.ChanceCode));
                         //Log("计算服务", "判断是否允许重复", currStrag.AllowRepeat.ToString());
@@ -117,11 +117,11 @@ namespace WolfInv.com.ExchangeLib
                         else
                             continue;
                     }
-                    //Log("计算服务", "再次检查数据", string.Format("出现相同的机会{0},持有次数增1->{1}", CurrCc.ChanceCode, CurrCc.HoldTimeCnt));
+                    //Log("计算服务", "再次检查数据", string.Format("出现相同的机会{0},持有次数增1.->{1}", CurrCc.ChanceCode, CurrCc.HoldTimeCnt));
                     CurrCc.UnitCost = -1;//先默认为-1
-                    if (currStrag is ISpecAmount)//先从策略级别判断
+                    if (currStrag is WolfInv.com.BaseObjectsLib.ISpecAmount)//先从策略级别判断
                     {
-                        ISpecAmount testStrag = (currStrag as ISpecAmount);
+                        WolfInv.com.BaseObjectsLib.ISpecAmount testStrag = (currStrag as WolfInv.com.BaseObjectsLib.ISpecAmount);
                         if (testStrag == null)
                         {
                             //等待下一步按机会级别判断
@@ -136,7 +136,7 @@ namespace WolfInv.com.ExchangeLib
                         if (CurrCc.IsTracer == 1)//如果是自我追踪机会
                         {
                             Log("计算服务", "自我跟踪机会，当前持有次数", string.Format("HoldTimes:{0}", CurrCc.HoldTimeCnt));
-                            TraceChance useCc = Convert.ChangeType(CurrCc, currStrag.getTheChanceType()) as TraceChance;
+                            TraceChance<T> useCc = Convert.ChangeType(CurrCc, currStrag.getTheChanceType()) as TraceChance<T>;
                             //Log("计算服务", "使用的机会持有次数", string.Format("HoldTimes:{0}", useCc.HoldTimeCnt));
                             if (useCc == null) //获得的类型并非跟踪类型
                             {
@@ -144,7 +144,7 @@ namespace WolfInv.com.ExchangeLib
                             }
                             else
                             {
-                                CurrCc.UnitCost = useCc.getChipAmount(restAmt, CurrCc, amts);
+                                CurrCc.UnitCost = useCc.getChipAmount<T>(restAmt, CurrCc, amts);
                             }
                         }
                         else//默认为ChanceTraceStragClass,其实是不可能触发的，而且会出错，因为ChanceTraceStragClass本身就是ispaceamount
@@ -185,16 +185,16 @@ namespace WolfInv.com.ExchangeLib
                 #region 未关闭的机会需要自我跟踪
                 foreach (string code in StragChances.Keys)
                 {
-                    ChanceClass CurrCc = StragChances[code];
+                    ChanceClass<T> CurrCc = StragChances[code];
                     //if (!CurrCc.Tracerable) continue;
                     int cnt = OldList.Values.Where(p => p.ChanceCode.Equals(code)).Count();
                     if (cnt > 0)
                     {
                         continue;
                     }
-                    if (currStrag is ISpecAmount)//先从策略级检查
+                    if (currStrag is WolfInv.com.BaseObjectsLib.ISpecAmount)//先从策略级检查
                     {
-                        ISpecAmount specStrag = currStrag as ISpecAmount;
+                        WolfInv.com.BaseObjectsLib.ISpecAmount specStrag = currStrag as WolfInv.com.BaseObjectsLib.ISpecAmount;
                         if (specStrag != null)//如果没有方法，再从机会级检查
                         {
                             CurrCc.HoldTimeCnt++;
@@ -213,9 +213,9 @@ namespace WolfInv.com.ExchangeLib
                     {
 
                         CurrCc.HoldTimeCnt++;
-                        TraceChance testCc = (TraceChance)CurrCc;
+                        TraceChance<T> testCc = (TraceChance<T>)CurrCc;
                         if (testCc == null) continue;
-                        CurrCc.UnitCost = testCc.getChipAmount(restAmt, CurrCc, amts);
+                        CurrCc.UnitCost = testCc.getChipAmount<T>(restAmt, CurrCc, amts);
                         CurrCc.Cost += CurrCc.ChipCount * CurrCc.UnitCost;
                         CurrCc.UpdateTime = DateTime.Now;
                         OldList.Add(CurrCc.GUID, CurrCc);
@@ -228,7 +228,7 @@ namespace WolfInv.com.ExchangeLib
                     else
                     {
                         CurrCc.HoldTimeCnt++;
-                        ISpecAmount Strag = (ISpecAmount)currStrag;
+                        WolfInv.com.BaseObjectsLib.ISpecAmount Strag = (WolfInv.com.BaseObjectsLib.ISpecAmount)currStrag;
                         if (Strag == null) continue;
                         CurrCc.UnitCost = Strag.getChipAmount(restAmt, CurrCc, amts);
                         CurrCc.Cost = CurrCc.ChipCount * CurrCc.UnitCost;
@@ -247,17 +247,17 @@ namespace WolfInv.com.ExchangeLib
             if (!IsBackTest)//额外保存
             {
                 //int savecnt = OldDbList.Save(null);
-                int savecnt = new PK10ExpectReader().SaveChances(OldDbList.Values.ToList<ChanceClass>(), null);
+                int savecnt = new PK10ExpectReader().SaveChances<T>(OldDbList.Values.ToList<ChanceClass<T>>(), null);
                 if (OldList.Count > 0)
                     Log("计算服务", "保存已有机会", string.Format("条数：{0};实际条数:{1}", OldList.Count, savecnt));
-                savecnt = new PK10ExpectReader().SaveChances(NewList, null);
+                savecnt = new PK10ExpectReader().SaveChances<T>(NewList, null);
                 if (NewList.Count > 0)
                     Log("计算服务", "保存新增机会", string.Format("条数：{0};实际条数:{1}", NewList.Count, savecnt));
             }
             //合并到未关闭机会列表中
             NewList.ForEach(p => AllNoClosedChances.Add(p.GUID, p));
-            OldList.Values.ToList<ChanceClass>().ForEach(p => AllNoClosedChances.Add(p.GUID, p));//就算是老记录未有guid,当ToTable时已经生成了guid
-            ExChange(AllNoClosedChances.Values.ToList<ChanceClass>(), el.LastData.Expect);//执行交易提供可视化
+            OldList.Values.ToList<ChanceClass<T>>().ForEach(p => AllNoClosedChances.Add(p.GUID, p));//就算是老记录未有guid,当ToTable时已经生成了guid
+            ExChange(AllNoClosedChances.Values.ToList<ChanceClass<T>>(), el.LastData.Expect);//执行交易提供可视化
         }
 
     }

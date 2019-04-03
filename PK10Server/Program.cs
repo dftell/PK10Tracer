@@ -7,6 +7,7 @@ using WolfInv.com.Strags;
 using WolfInv.com.ServerInitLib;
 using WolfInv.com.ProbMathLib;
 using WolfInv.com.LogLib;
+using WolfInv.com.BaseObjectsLib;
 namespace PK10Server
 {
     //////static class Program
@@ -57,10 +58,10 @@ namespace PK10Server
     {
         ////public static GlobalClass gc;
         ////public static Dictionary<string, StragClass> AllStragList;
-        ////public static Dictionary<string, StragRunPlanClass> AllRunPlans;
-        public static ServiceSetting AllGlobalSetting;
+        ////public static Dictionary<string, StragRunPlanClass<T>> AllRunPlans;
+        public static ServiceSetting<TimeSerialData> AllGlobalSetting;
 
-        public static frm_StragMonitor frm_Monitor;
+        public static frm_StragMonitor<TimeSerialData> frm_Monitor;
 
         /// <summary>
         /// 应用程序的主入口点。
@@ -76,12 +77,12 @@ namespace PK10Server
             InitSystem();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            Application.Run(new MainForm<TimeSerialData>());
         }
 
         static void InitSystem()
         {
-            AllGlobalSetting = new ServiceSetting();
+            AllGlobalSetting = new ServiceSetting<TimeSerialData>();
             AllGlobalSetting.Init(null);
             AllGlobalSetting.GrpThePlan(false);
             

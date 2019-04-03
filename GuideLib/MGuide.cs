@@ -106,10 +106,10 @@ namespace WolfInv.com.GuideLib
     /// <summary>
     /// 均线
     /// </summary>
-    public class MA : MGuide
+    public class MA_del : MGuide
     {
         int _N;
-        public MA(double[] data, int N)
+        public MA_del(double[] data, int N)
             : base(data)
         {
             _N = N;
@@ -247,13 +247,7 @@ namespace WolfInv.com.GuideLib
 
     }
 
-    public class EMA : SMA
-    {
-        public EMA(double[] data, int N)
-            : base(data, N, 2)
-        {
-        }
-    }
+ 
 
     /// <summary>
     /// KDJ
@@ -398,35 +392,4 @@ namespace WolfInv.com.GuideLib
 
     }
 
-    /// <summary>
-    /// MACD
-    /// </summary>
-    public class MACD : MGuide
-    {
-        public MACD(double[] data, int M, int L, int N)
-            : base(data)
-        {
-        }
-        public override double[][] getData()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override double[] CurrValues
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public override double[][] getLastData()
-        {
-            throw new NotImplementedException();
-        }
-
-
-
-        public override double[][] Ref(int Cycs)
-        {
-            throw new NotImplementedException();
-        }
-    }
 }

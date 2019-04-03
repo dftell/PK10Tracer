@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseStrag.cs" />
+    <Compile Include="ChanceTraceStragClass.cs" />
     <Compile Include="CommPickEditClass.cs" />
     <Compile Include="CommSelectOjectDialog.cs">
       <SubType>Form</SubType>
@@ -57,6 +58,7 @@
     <Compile Include="MLDataFactory.cs" />
     <Compile Include="MLStragClass\MachineLearnStragClass.cs" />
     <Compile Include="MLStragClass\OddEvenAndBigSmall_AutoLearnStragClass.cs" />
+    <Compile Include="ProbWaveSelectStragClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StagConfigSetting.cs" />
     <Compile Include="StragClass.cs" />
@@ -88,6 +90,7 @@
     <Compile Include="strag_PoissonRandomClass.cs" />
     <Compile Include="Strag_StdDevWaveClass.cs" />
     <Compile Include="strag_YiJingClass.cs" />
+    <Compile Include="TotalStdDevTraceStragClass.cs" />
     <Compile Include="TranceChanceClass.cs" />
   </ItemGroup>
   <ItemGroup>

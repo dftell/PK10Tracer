@@ -7,12 +7,14 @@ using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.ExchangeLib;
 using WolfInv.com.PK10CorePress;
 using WolfInv.com.SecurityLib;
+using System.Collections.Generic;
+
 namespace PK10Server
 {
-    public partial class MainForm : Form
+    public partial class MainForm<T> : Form where T: TimeSerialData
     {
-        ExpectList _ViewDataList ;
-        ExpectList ViewDataList
+        ExpectList<T> _ViewDataList ;
+        ExpectList<T> ViewDataList
         {
             get { return _ViewDataList; }
             set { _ViewDataList = value; }
@@ -62,7 +64,7 @@ namespace PK10Server
             }
             else
             {
-                ViewDataList = er.ReadNewestData(DateTime.Today.AddDays(-1* GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays));
+                ViewDataList = er.ReadNewestData<T>(DateTime.Today.AddDays(-1* GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays));
             }
         }
 
@@ -96,9 +98,9 @@ namespace PK10Server
 
         void RefreshSerialData(ListView lv,bool byNo,int minRow)
         {
-            ExpectList el = ViewDataList; ;
-            ExpectListProcess elp = new ExpectListProcess(el);
-            CommCollection sc = elp.getSerialData(180, byNo);
+            ExpectList<T> el = ViewDataList; ;
+            ExpectListProcessBuilder<T> elp = new ExpectListProcessBuilder<T>(el);
+            BaseCollection<T> sc = elp.getProcess().getSerialData(180, byNo);
             sc.isByNo = byNo;
             lv.Items.Clear();
             for (int i = minRow-1; i < sc.Table.Rows.Count; i++)
@@ -154,7 +156,7 @@ namespace PK10Server
         {
             this.timer_For_NewestData.Enabled = false;
             int NextNo = int.Parse(this.txt_NewestExpect.Text.Trim());
-            ViewDataList = er.ReadNewestData(NextNo+1,180,true);
+            ViewDataList = er.ReadNewestData<T>(NextNo+1,180,true);
             if (ViewDataList == null || ViewDataList.Count == 0)
                 return;
             RefreshGrid();
@@ -174,7 +176,7 @@ namespace PK10Server
         void RefreshNewestTXFFCData()
         {
             TXFFCExpectReader rd = new TXFFCExpectReader();
-            ExpectList currEl = rd.ReadNewestData(DateTime.Now.AddDays(-1));
+            ExpectList<T> currEl = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1));
             FillOrgData(listView_TXFFCData, currEl);
         }
 
@@ -182,7 +184,7 @@ namespace PK10Server
         {
             this.timer_For_NewestData.Enabled = false;
             int NextNo = int.Parse(this.txt_NewestExpect.Text.Trim());
-            ViewDataList = er.ReadNewestData(NextNo - 1, 180,true);
+            ViewDataList = er.ReadNewestData<T>(NextNo - 1, 180,true);
             RefreshGrid();
             RefreshNewestData();
         }
@@ -190,7 +192,7 @@ namespace PK10Server
         private void timer_For_NewestData_Tick(object sender, EventArgs e)
         {
             DateTime CurrTime = DateTime.Now;
-            ViewDataList = er.ReadNewestData(DateTime.Now.AddDays(-1* GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays));
+            ViewDataList = er.ReadNewestData<T>(DateTime.Now.AddDays(-1* GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays));
             int CurrExpectNo = int.Parse(ViewDataList.LastData.Expect);
             if (CurrExpectNo > this.NewestExpectNo)
             {
@@ -266,7 +268,7 @@ namespace PK10Server
             lv.Columns.Add("开奖时间",200);
         }
 
-        void FillOrgData(ListView lv, ExpectList el)
+        void FillOrgData(ListView lv, ExpectList<T> el)
         {
             lv.Items.Clear();
             if (el == null) return;
@@ -298,9 +300,9 @@ namespace PK10Server
                 {
                     continue;//非指定类型跳过
                 }
-                ExpectList el = rder.getFileData(f.FullName);
+                ExpectList<T> el = rder.getFileData<T>(f.FullName);
                 TXFFCExpectReader rd = new TXFFCExpectReader();
-                ExpectList currEl = rd.ReadHistory();
+                ExpectList<T> currEl = rd.ReadHistory<T>();
                 rd.SaveHistoryData(rd.getNewestData(el, currEl));
                 //currEl = rd.ReadNewestData(DateTime.Now.AddDays(-1));
                 //FillOrgData(listView_TXFFCData, currEl);
@@ -315,10 +317,10 @@ namespace PK10Server
             TXFFC_HtmlDataClass rder = new TXFFC_HtmlDataClass(GlobalClass.TypeDataPoints["TXFFC"]);
             TXFFCExpectReader er = new TXFFCExpectReader();
             string StrBegDate = "2018-08-25";
-            ExpectList el = er.GetMissedData(true, StrBegDate);
+            ExpectList<T> el = er.GetMissedData<T>(true, StrBegDate);
             for (int i = 0; i < el.Count; i++)
             {
-                ExpectList tmpList = new ExpectList();
+                ExpectList<T> tmpList = new ExpectList<T>();
                 DateTime endT = el[i].OpenTime;
                 DateTime begT = el[i].OpenTime.AddMinutes(-1 * el[i].MissedCnt-1);
                 DateTime tt = DateTime.Parse(begT.ToShortDateString());
@@ -328,13 +330,13 @@ namespace PK10Server
                     string strTt = tt.ToString("yyyy-MM-dd");
                     for (int j = 1; j <= 29; j++)
                     {
-                        ExpectList wlist = rder.getHistoryData(strTt, j);//取到web
-                        tmpList = ExpectList.Concat(tmpList, wlist);
+                        ExpectList<T> wlist = rder.getHistoryData<T>(strTt, j);//取到web
+                        tmpList = ExpectList<T>.Concat(tmpList, wlist);
                         Thread.Sleep(800);
                     }
                     tt=tt.AddDays(1);
                 }
-                ExpectList currEl = er.ReadHistory(begT0.ToString(),endT.AddDays(1).ToString());
+                ExpectList<T> currEl = er.ReadHistory<T>(begT0.ToString(),endT.AddDays(1).ToString());
                 er.SaveHistoryData(er.getNewestData(tmpList, currEl));
             }
         }
@@ -362,15 +364,15 @@ namespace PK10Server
 
         private void tsmi_RunMonitor_Click(object sender, EventArgs e)
         {
-            frm_StragMonitor frm = new frm_StragMonitor();
+            frm_StragMonitor<T> frm = new frm_StragMonitor<T>();
             frm.Show();
         }
 
         private void ToolStripMenuItem_StragRunPlan_Click(object sender, EventArgs e)
         {
             //frm_StragPlanSetting frm = new frm_StragPlanSetting();
-            frm_CommDBObjectsSetting<StragRunPlanClass> frm = new frm_CommDBObjectsSetting<StragRunPlanClass>();
-            frm.OuterList = Program.AllGlobalSetting.AllRunPlannings;
+            frm_CommDBObjectsSetting<StragRunPlanClass<T>> frm = new frm_CommDBObjectsSetting<StragRunPlanClass<T>>();
+            frm.OuterList = Program.AllGlobalSetting.AllRunPlannings as Dictionary<string, StragRunPlanClass<T>>;
             frm.Show();
         }
 

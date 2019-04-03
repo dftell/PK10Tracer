@@ -26,9 +26,9 @@ namespace DataRecSvr
             ////ipcsvr.CreateChannel<DataTable>();
             ////ipcsvr.CreateChannel<ExchangeService>();
             ////ipcsvr.CreateChannel<Dictionary<string, StragClass>>("StragClass");
-            ////ipcsvr.CreateChannel<Dictionary<string, StragRunPlanClass>>("StragRunPlanClass");
-            ////ipcsvr.CreateChannel<Dictionary<string, CalcStragGroupClass>>("CalcStragGroupClass");
-            ////ipcsvr.CreateChannel<Dictionary<string, ChanceClass>>("ChanceClass");
+            ////ipcsvr.CreateChannel<Dictionary<string, StragRunPlanClass<T>>>("StragRunPlanClass");
+            ////ipcsvr.CreateChannel<Dictionary<string, CalcStragGroupClass<T>>>("CalcStragGroupClass");
+            ////ipcsvr.CreateChannel<Dictionary<string, ChanceClass<T>>>("ChanceClass");
             ////ipcsvr.CreateChannel<LogInfo>();
             //LogableClass.ToLog("通道初始化", "完成");
             //RemoteCommClass<ServiceSetting>.SetRemoteInst(Program.AllServiceConfig);

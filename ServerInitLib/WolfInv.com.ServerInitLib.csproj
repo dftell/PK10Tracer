@@ -48,6 +48,7 @@
     <Compile Include="OperateFactoryClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceSetting.cs" />
+    <Compile Include="StragChance.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BaseObjectsLib\WolfInv.com.BaseObjectsLib.csproj">

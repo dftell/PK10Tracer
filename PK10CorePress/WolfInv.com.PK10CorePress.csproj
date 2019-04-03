@@ -47,10 +47,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AllInstances.cs" />
     <Compile Include="CommCollection.cs" />
     <Compile Include="ExchanceClass.cs" />
     <Compile Include="ExpectListProcess.cs" />
     <Compile Include="Features\FeatureBaseClass.cs" />
+    <Compile Include="ICommCollection.cs" />
+    <Compile Include="IExpectListProcess.cs" />
+    <Compile Include="LottyExpactList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecurityData.cs" />
     <Compile Include="SubscriptClass.cs" />

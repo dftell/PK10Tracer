@@ -7,7 +7,7 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 using System.Timers;
-using WolfInv.com.PK10CorePress;
+//using WolfInv.com.PK10CorePress;
 using WolfInv.com.Strags;
 using WolfInv.com.LogLib;
 using System.Threading;
@@ -18,7 +18,7 @@ using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.SecurityLib;
 namespace DataRecSvr
 {
-    public partial class CalcService : SelfDefBaseService
+    public partial class CalcService<T> : SelfDefBaseService<T> where T :TimeSerialData
     {
         public bool AllowCalc = false;
         int FinishedThreads = 0;
@@ -45,8 +45,8 @@ namespace DataRecSvr
             {
                 return dt;
             }
-            MA ma = new MA(SystemStdDevList.Values.Select(p=>p[10]).ToArray(), 20);
-            MA ma5 = new MA(SystemStdDevList.Values.Select(p => p[10]).ToArray(), 5);
+            MA_del ma = new MA_del(SystemStdDevList.Values.Select(p=>p[10]).ToArray(), 20);
+            MA_del ma5 = new MA_del(SystemStdDevList.Values.Select(p => p[10]).ToArray(), 5);
             double[] mavals = ma.LastValues[0];
             int c = 0;
             foreach (string key in SystemStdDevList.Keys)
@@ -74,7 +74,7 @@ namespace DataRecSvr
         /// </summary>
         /// <param name="backTest"></param>
         /// <param name="TestSetting"></param>
-        public CalcService(bool backTest, ServiceSetting TestSetting,Dictionary<string, StragRunPlanClass> plans)
+        public CalcService(bool backTest, ServiceSetting<T> TestSetting,Dictionary<string, StragRunPlanClass<T>> plans)
         {
             InitializeComponent();
             ThreadPools = new List<Thread>();
@@ -82,13 +82,13 @@ namespace DataRecSvr
             IsTestBack = backTest;
             if (IsTestBack)
             {
-                Program.AllServiceConfig = TestSetting;
-                //Program.AllServiceConfig.AllNoClosedChanceList = new Dictionary<string, ChanceClass>();
+                Program.AllServiceConfig = TestSetting as ServiceSetting<TimeSerialData>;
+                //Program.AllServiceConfig.AllNoClosedChanceList = new Dictionary<string, ChanceClass<T>>();
                 TestBcakPlans = plans;
             }
         }
 
-        public Dictionary<string, StragRunPlanClass> TestBcakPlans { get; set; }
+        public Dictionary<string, StragRunPlanClass<T>> TestBcakPlans { get; set; }
         
         public CalcService()
         {
@@ -117,31 +117,31 @@ namespace DataRecSvr
             ////if (!AllowCalc) return;
             DateTime currTime = DateTime.Now;
             ////int MaxViewCnt = Program.AllServiceConfig.AllRunningPlanGrps.Max(t=>t.Value.UseSPlans.ForEach(a=>Program.AllServiceConfig.AllStrags[a.GUID]))));
-            ExpectList el = CurrData;// Program.AllServiceConfig.LastDataSector;
+            ExpectList<T> el = CurrData;// Program.AllServiceConfig.LastDataSector;
             //Log("数据源", string.Format("数据条数:{0};最后数据:{1}", el.Count, el.LastData.ToString()));
             //if (CurrDataList.Count < MaxViewCnt)
             //{
             //    el = new ExpectReader().ReadNewestData(MaxViewCnt);
             //}
             //Log("计算准备", "获取未关闭的机会");
-            Dictionary<string, ChanceClass> NoClosedChances = new Dictionary<string, ChanceClass>();
+            Dictionary<string, ChanceClass<T>> NoClosedChances = new Dictionary<string, ChanceClass<T>>();
             NoClosedChances = CloseTheChances(this.IsTestBack);//关闭机会
             this.FinishedThreads = 0;//完成数量置0
             RunThreads = 0;
 
-            Dictionary<string, CalcStragGroupClass> testGrps = Program.AllServiceConfig.AllRunningPlanGrps;
+            Dictionary<string, CalcStragGroupClass<T>> testGrps = Program.AllServiceConfig.AllRunningPlanGrps as Dictionary<string, CalcStragGroupClass<T>>;
             if (!IsTestBack)
             {
                 foreach (string key in testGrps.Keys)
                 {
                     ///修改：分组不用备份，每次策略都要获取前次的状态
                     ///先剔除状态异常的计划，然后再增加新的计划
-                    ///CalcStragGroupClass csc = Program.AllServiceConfig.AllRunningPlanGrps[key].Copy();//只用备份，允许窗体启动曾经停止的计划
-                    CalcStragGroupClass csc = Program.AllServiceConfig.AllRunningPlanGrps[key];
+                    ///CalcStragGroupClass<T> csc = Program.AllServiceConfig.AllRunningPlanGrps[key].Copy();//只用备份，允许窗体启动曾经停止的计划
+                    CalcStragGroupClass<T> csc = Program.AllServiceConfig.AllRunningPlanGrps[key] as CalcStragGroupClass<T>;
                     for (int i = csc.UseSPlans.Count - 1; i >= 0; i--)
                     {
                         //修改为检查计划的状态，前台程序修改的是计划表的状态
-                        StragRunPlanClass UsePlan = csc.UseSPlans[i];
+                        StragRunPlanClass<T> UsePlan = csc.UseSPlans[i];
                         if (!Program.AllServiceConfig.AllRunPlannings.ContainsKey(UsePlan.GUID))
                         {
                             Log("计划表中已注销", UsePlan.Plan_Name);
@@ -149,7 +149,7 @@ namespace DataRecSvr
                             csc.UseStrags.Remove(UsePlan.PlanStrag.GUID);
                             continue;
                         }
-                        StragRunPlanClass spc = Program.AllServiceConfig.AllRunPlannings[UsePlan.GUID];
+                        StragRunPlanClass<T> spc = Program.AllServiceConfig.AllRunPlannings[UsePlan.GUID] as StragRunPlanClass<T>;
                         if (!spc.Running)
                         {
                             Log("计划未启动", csc.UseSPlans[i].Plan_Name);
@@ -166,44 +166,44 @@ namespace DataRecSvr
                         }
                     }
                 }
-                Dictionary<string, CalcStragGroupClass> allGrps = Program.AllServiceConfig.AllRunningPlanGrps;
+                Dictionary<string, CalcStragGroupClass<TimeSerialData>> allGrps = Program.AllServiceConfig.AllRunningPlanGrps as Dictionary<string, CalcStragGroupClass<TimeSerialData>>;
                 //加入后续启动的计划
-                Program.AllServiceConfig.AllRunningPlanGrps = InitServerClass.InitCalcStrags(ref allGrps, Program.AllServiceConfig.AllStrags, Program.AllServiceConfig.AllRunPlannings, Program.AllServiceConfig.AllAssetUnits, false,this.IsTestBack);
+                Program.AllServiceConfig.AllRunningPlanGrps = InitServerClass.InitCalcStrags<TimeSerialData>(ref allGrps, Program.AllServiceConfig.AllStrags as Dictionary<string, BaseStragClass<TimeSerialData>>, Program.AllServiceConfig.AllRunPlannings, Program.AllServiceConfig.AllAssetUnits, false,this.IsTestBack);
             }
             foreach (string key in Program.AllServiceConfig.AllRunningPlanGrps.Keys)//再次为计划组分配资源，保证策略和计划一直在内存。
             {
-                CalcStragGroupClass csc = Program.AllServiceConfig.AllRunningPlanGrps[key];
+                CalcStragGroupClass<T> csc = Program.AllServiceConfig.AllRunningPlanGrps[key] as CalcStragGroupClass<T>;
                 //增加新的计划
                 
                 SettingClass comSetting = new SettingClass();
                 comSetting.SetGlobalSetting(Program.AllServiceConfig.gc);
-                if (!csc.initRunningData(comSetting, NoClosedChances.Values.ToList<ChanceClass>()))
+                if (!csc.initRunningData(comSetting, NoClosedChances.Values.ToList<ChanceClass<T>>()))
                 {
                     Log("为计划组分配通用参数", "配置计划组的通用参数失败,该组计划暂时不参与运算！");
                     continue;
                 }
                 RunThreads++;
                 csc.Finished = new CalcStragGroupDelegate(CheckFinished);
-                csc.GetNoClosedChances = new ReturnChances(FillNoClosedChances);
+                csc.GetNoClosedChances = new ReturnChances<T>(FillNoClosedChances);
                 csc.GetAllStdDevList = new ReturnStdDevList(FillAllStdDev);
                 //Program.AllServiceConfig.AllRunningPlanGrps[key] = csc;//要加吗？不知道，应该要加
             }
             //分配完未关闭的数据后，将全局内存中所有未关闭机会列表清除
-            Program.AllServiceConfig.AllNoClosedChanceList = new Dictionary<string, ChanceClass>();
+            Program.AllServiceConfig.AllNoClosedChanceList = new Dictionary<string, ChanceClass<T>>() as Dictionary<string, ChanceClass<TimeSerialData>>;
             this.FinishedThreads = 0;
             foreach (string key in Program.AllServiceConfig.AllRunningPlanGrps.Keys)//再次为计划组分配资源，保证策略和计划一直在内存。
             {
-                CalcStragGroupClass csc = Program.AllServiceConfig.AllRunningPlanGrps[key];
+                CalcStragGroupClass<T> csc = Program.AllServiceConfig.AllRunningPlanGrps[key] as CalcStragGroupClass<T>;
                 csc.IsBackTest = IsTestBack;
                 ThreadPool.QueueUserWorkItem(new WaitCallback(csc.Run), el);
             }
         }
         
-        void FillNoClosedChances(Dictionary<string, ChanceClass> list)
+        void FillNoClosedChances(Dictionary<string, ChanceClass<T>> list)
         {
             lock (Program.AllServiceConfig.AllNoClosedChanceList)
             {
-                list.Values.ToList<ChanceClass>().ForEach(p => Program.AllServiceConfig.AllNoClosedChanceList.Add(p.GUID, p));
+                list.Values.ToList<ChanceClass<T>>().ForEach(p => Program.AllServiceConfig.AllNoClosedChanceList.Add(p.GUID, (p as ChanceClass<TimeSerialData>) ));
             }
         }
 
@@ -238,7 +238,7 @@ namespace DataRecSvr
                 new LogInfo().WriteFile(NewNo, path, strExpectNo, strtype, true, true);
 
                 //保存策略
-                GlobalClass.SaveStragList(StragClass.getXmlByObjectList<StragClass>(Program.AllServiceConfig.AllStrags.Values.ToList<StragClass>()));
+                GlobalClass.SaveStragList(BaseStragClass<TimeSerialData>.getXmlByObjectList<BaseStragClass<TimeSerialData>>(Program.AllServiceConfig.AllStrags.Values.ToList<BaseStragClass<TimeSerialData>>()));
                 Log("保存策略清单", "保存成功");
             }
             return true;
@@ -277,22 +277,22 @@ namespace DataRecSvr
             //this.Tm.Enabled = false;
         }
 
-        public Dictionary<string, ChanceClass> CloseTheChances(bool IsTestBack)
+        public Dictionary<string, ChanceClass<T>> CloseTheChances(bool IsTestBack)
         {
-            List<ChanceClass> cl = new List<ChanceClass>();
+            List<ChanceClass<T>> cl = new List<ChanceClass<T>>();
             DateTime currTime = DateTime.Now;
-            Dictionary<string, ChanceClass> CloseList = new Dictionary<string, ChanceClass>();
+            Dictionary<string, ChanceClass<T>> CloseList = new Dictionary<string, ChanceClass<T>>();
             if (IsTestBack)//如果回测，使用内存数据
             {
-                cl = Program.AllServiceConfig.AllNoClosedChanceList.Values.ToList<ChanceClass>();
+                cl = Program.AllServiceConfig.AllNoClosedChanceList.Values.Select(a => a).ToList() as List<ChanceClass<T>>;
             }
             else//非回测，使用数据库数据
             {
-                DbChanceList dcl = new PK10ExpectReader().getNoCloseChances(null);
-                cl = dcl.Values.ToList<ChanceClass>();
+                DbChanceList<T> dcl = new PK10ExpectReader().getNoCloseChances<T>(null);
+                cl = dcl.Values.ToList();
             }
 
-            Dictionary<string, ChanceClass> rl = new Dictionary<string, ChanceClass>();
+            Dictionary<string, ChanceClass<T>> rl = new Dictionary<string, ChanceClass<T>>();
             if(cl.Count>0)
                 Log("未关闭机会列表数量为", string.Format("{0}",cl.Count));
             for (int i = 0; i < cl.Count;i++)
@@ -357,7 +357,7 @@ namespace DataRecSvr
                 }
                 //如果策略已经停止
                 //获得策略
-                StragClass sc = Program.AllServiceConfig.AllStrags[sGUId];
+                BaseStragClass<T> sc = Program.AllServiceConfig.AllStrags[sGUId] as BaseStragClass<T>;
                 int mcnt = 0;
                 bool Matched = cl[i].Matched(CurrDataList, out mcnt);
                 cl[i].MatchChips += mcnt;
@@ -387,14 +387,14 @@ namespace DataRecSvr
             //Log("结束机会", "所有非法，以及命中并确认需要结束的机会");
             if (!IsTestBack) //如果非回测，保存交易记录
             {
-                DbChanceList dbsavelist = new DbChanceList();
-                CloseList.Values.ToList<ChanceClass>().ForEach(p => dbsavelist.Add(p.ChanceIndex, p));
+                DbChanceList<T> dbsavelist = new DbChanceList<T>();
+                CloseList.Values.ToList<ChanceClass<T>>().ForEach(p => dbsavelist.Add(p.ChanceIndex, p));
                 CloseChanceInDBAndExchangeService(dbsavelist);
             }
             return rl;
         }
 
-        public void CloseChanceInDBAndExchangeService(DbChanceList NeedClose)
+        public void CloseChanceInDBAndExchangeService(DbChanceList<T> NeedClose)
         {
 
             if (NeedClose == null || NeedClose.Count == 0)
@@ -411,7 +411,7 @@ namespace DataRecSvr
             //int ret = NeedClose.Save(null);
             if (NeedClose != null && NeedClose.Count > 0)
             {
-                int ret = new PK10ExpectReader().SaveChances(NeedClose.Values.ToList<ChanceClass>(), null);
+                int ret = new PK10ExpectReader().SaveChances(NeedClose.Values.ToList<ChanceClass<T>>(), null);
                 if (NeedClose.Count > 0)
                     Log("保存关闭的机会", string.Format("数量:{0}", ret));
             }

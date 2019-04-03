@@ -8,25 +8,27 @@ using WolfInv.com.LogLib;
 using System.Reflection;
 namespace WolfInv.com.PK10CorePress
 {
-    public class ExpectListProcess
+    public abstract class CommExpectListProcess :BaseObjectsLib.CommExpectListProcess<TimeSerialData>
     {
-        ExpectList data;
-        public ExpectListProcess(ExpectList _data)
+        protected ExpectList data;
+        protected CommExpectListProcess(ExpectList _data) : base(_data)
         {
-            data = _data;
         }
+    
+    }
 
-        public ExpectListProcess()
+    public abstract class BaseCollection: BaseObjectsLib.BaseCollection<TimeSerialData>
+    {
+        public new ExpectList orgData;
+    }
+    public class ExpectListProcess : PK10CorePress.CommExpectListProcess
+    {
+        
+        public ExpectListProcess(ExpectList _data):base(_data)
         {
-            // TODO: Complete member initialization
+            //data = _data;
         }
-
-        SerialCollection getSerialData(int reviewCnt)
-        {
-            SerialCollection ret = new SerialCollection();
-            ret.Data = getNoDispCars(reviewCnt);
-            return ret;
-        }
+                            
 
         List<Dictionary<int, string>> getNoDispCars(int reviewCnt)
         {
@@ -68,9 +70,10 @@ namespace WolfInv.com.PK10CorePress
             return reSortRet;
         }
 
-        public CommCollection getSerialData(int reviewCnt, bool ByNo)
+        
+        public override BaseCollection<TimeSerialData> getSerialData(int reviewCnt, bool ByNo=true)
         {
-            CommCollection ret = null;
+            PK10CorePress.BaseCollection ret = null;
             if (ByNo)
             {
                 ret = new SerialCollection();
@@ -86,7 +89,7 @@ namespace WolfInv.com.PK10CorePress
             return ret;
         }
 
-        public List<Dictionary<int, string>> getNoDispNums(int reviewCnt)
+        public override List<Dictionary<int, string>> getNoDispNums(int reviewCnt)
         {
             List<Dictionary<int, string>> ret = new List<Dictionary<int, string>>();
             int lastId = data.Count - 1;
@@ -187,6 +190,7 @@ namespace WolfInv.com.PK10CorePress
             return ret;
         }
 
+        
     }
 
     public class FullRepeatInfo

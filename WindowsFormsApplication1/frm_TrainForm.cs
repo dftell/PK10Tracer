@@ -14,10 +14,11 @@ using System.IO;
 using System.Threading;
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.SecurityLib;
+
 namespace BackTestSystem
 {
     delegate void SetDataGridCallback(string id, DataTable dt,int currRow);
-    public partial class frm_TrainForm : Form
+    public partial class frm_TrainForm<T> : Form where T:TimeSerialData
     {
         
         public frm_TrainForm()
@@ -37,14 +38,14 @@ namespace BackTestSystem
         int FinishedCnt = 0;
         private void btn_Train_Click(object sender, EventArgs e)
         {
-           
+            return;//暂时不支持训练集回测
             long len = long.Parse(this.txt_DataLength.Text);
             int deep = int.Parse(this.txt_LearnDeep.Text);
-            ExpectList el = new ExpectReader().ReadHistory(long.Parse(this.txt_BegExpect.Text), len+deep+1);
-            MLDataFactory mldf = new MLDataFactory(el);
+            ExpectList<T> el = new ExpectReader().ReadHistory<T>(long.Parse(this.txt_BegExpect.Text), len+deep+1);
+            //MLDataFactory mldf = new MLDataFactory(el);
             for (int i = 0; i < 10; i++)
             {
-                MLInstances<int, int> TrainSet = mldf.getAllSpecColRoundLabelAndFeatures(i,deep, chkb_AllUseShift.Checked ? 1 : 0);
+                //MLInstances<int, int> TrainSet = mldf.getAllSpecColRoundLabelAndFeatures(i,deep, chkb_AllUseShift.Checked ? 1 : 0);
                 MachineLearnClass<int, int> SelectFunc;
                 MLType = (Type)this.ddl_MLFunc.SelectedValue;
                 SelectFunc = (MachineLearnClass<int, int>)ClassOperateTool.getInstanceByType(MLType);
@@ -54,7 +55,7 @@ namespace BackTestSystem
 
                 SelectFunc.OnSaveEvent += SaveData;
                 SelectFunc.GroupId = i;
-                SelectFunc.FillTrainData(TrainSet);
+                //SelectFunc.FillTrainData(TrainSet);
                 SelectFunc.InitTrain();
                 
                 SelectFunc.TrainIterorCnt = int.Parse(txt_IteratCnt.Text);
@@ -237,14 +238,15 @@ namespace BackTestSystem
         {
             long len = long.Parse(this.txt_DataLength.Text);
             int deep = int.Parse(this.txt_LearnDeep.Text);
-            ExpectList el = new ExpectReader().ReadHistory(long.Parse(this.txt_BegExpect.Text), len + deep + 1);
+            ExpectList<T> el = new ExpectReader().ReadHistory<T>(long.Parse(this.txt_BegExpect.Text), len + deep + 1);
             
             for (int i = 0; i < 10; i++)
             {
                 MachineLearnClass<int, int> SelectFunc = null;
                 MLType = (Type)this.ddl_MLFunc.SelectedValue;
                 SelectFunc = (MachineLearnClass<int, int>)ClassOperateTool.getInstanceByType(MLType);
-                TestSet = new MLDataFactory(el).getAllSpecColRoundLabelAndFeatures(i,deep, chkb_AllUseShift.Checked ? 1 : 0);
+                //暂时屏蔽机器学习功能
+                //TestSet = new MLDataFactory(el).getAllSpecColRoundLabelAndFeatures(i,deep, chkb_AllUseShift.Checked ? 1 : 0);
                 SelectFunc.OnLoadLocalFile += GetLocalFile;
                 SelectFunc.LoadSummary();
                 SelectFunc.FillStructBySummary(i);

@@ -2,17 +2,17 @@
 using System.Timers;
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.SecurityLib;
-
+using WolfInv.com.PK10CorePress;
 namespace DataRecSvr
 {
-    public partial class ReceiveService :SelfDefBaseService
+    public partial class ReceiveService<T> :SelfDefBaseService<T> where T:TimeSerialData
     {
         System.Timers.Timer Tm_ForPK10 = new System.Timers.Timer();
         System.Timers.Timer Tm_ForTXFFC = new System.Timers.Timer();
         DateTime PK10_LastSignTime=DateTime.MaxValue;
         System.Timers.Timer tm = new System.Timers.Timer();
         Int64 lastFFCNo;
-        public CalcService CalcProcess;
+        public CalcService<T> CalcProcess;
         GlobalClass glb = new GlobalClass();
         public ReceiveService()
         {
@@ -84,7 +84,7 @@ namespace DataRecSvr
             long RepeatMinutes = GlobalClass.TypeDataPoints["PK10"].ReceiveSeconds / 60;
             long RepeatSeconds = GlobalClass.TypeDataPoints["PK10"].ReceiveSeconds;
             PK10_HtmlDataClass hdc = new PK10_HtmlDataClass(GlobalClass.TypeDataPoints["PK10"]);
-            ExpectList el = hdc.getExpectList();
+            ExpectList el = hdc.getExpectList<T>() as ExpectList;
             ////if(el != null && el.Count>0)
             ////{
             ////    Log("接收到的最新数据",el.LastData.ToString());
@@ -110,7 +110,7 @@ namespace DataRecSvr
             {
                 PK10ExpectReader rd = new PK10ExpectReader();
                 //ExpectList currEl = rd.ReadNewestData(DateTime.Today.AddDays(-1*glb.CheckNewestDataDays));//改为10天，防止春节连续多天不更新数据
-                ExpectList currEl = rd.ReadNewestData(DateTime.Today.AddDays(-1 * GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays));//改从PK10配置中获取
+                ExpectList currEl = rd.ReadNewestData<T>(DateTime.Today.AddDays(-1 * GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays)) as ExpectList;//改从PK10配置中获取
                 if ((currEl == null || currEl.Count == 0) || (el.Count > 0 && currEl.Count > 0 && el.LastData.ExpectIndex > currEl.LastData.ExpectIndex))//获取到新数据
                 {
                     Log("接收到数据", string.Format("接收到数据！{0}", el.LastData.ToString()));
@@ -121,9 +121,9 @@ namespace DataRecSvr
                     this.Tm_ForPK10.Interval = FeatureTime.Subtract(CurrTime).TotalMilliseconds;
                     if (rd.SaveNewestData(rd.getNewestData(el, currEl)) > 0)
                     {
-                        CurrDataList = rd.ReadNewestData(DateTime.Now.AddDays(-1* GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays));//前十天的数据 尽量的大于reviewcnt,免得需要再取一次数据
+                        CurrDataList = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1* GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays));//前十天的数据 尽量的大于reviewcnt,免得需要再取一次数据
                         CurrExpectNo = el.LastData.Expect;
-                        Program.AllServiceConfig.LastDataSector = CurrDataList;
+                        Program.AllServiceConfig.LastDataSector = CurrDataList as ExpectList<TimeSerialData>;
                         AfterReceiveProcess();
                     }
                     else
@@ -167,7 +167,7 @@ namespace DataRecSvr
 
             int secCnt = DateTime.Now.Second;
             TXFFC_HtmlDataClass hdc = new TXFFC_HtmlDataClass(GlobalClass.TypeDataPoints["PK10"]);
-            ExpectList el = hdc.getExpectList();
+            ExpectList el = hdc.getExpectList<T>() as ExpectList;
             if (el == null || el.LastData == null)
             {
                 Tm_ForTXFFC.Interval = 5 * 1000;
@@ -196,9 +196,9 @@ namespace DataRecSvr
             }
             //Log("保存分分彩数据", string.Format("期号:{0}",lastFFCNo));
             TXFFCExpectReader rd = new TXFFCExpectReader();
-            ExpectList currEl = rd.ReadNewestData(DateTime.Now.AddDays(-1));
+            ExpectList currEl = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1)) as ExpectList;
             rd.SaveNewestData(rd.getNewestData(el, currEl));
-            currEl = rd.ReadNewestData(DateTime.Now.AddDays(-1));
+            currEl = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1)) as ExpectList;
             //FillOrgData(listView_TXFFCData, currEl);
         }
 

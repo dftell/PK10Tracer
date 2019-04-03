@@ -9,7 +9,7 @@ namespace WolfInv.com.BaseObjectsLib
     /// <summary>
     /// 时序数据，所有彩票，股票，债券，期货等证券数据的基类
     /// </summary>
-    public abstract class TimeSerialData : DetailStringClass, ICloneable
+    public  class TimeSerialData : MongoData
     {
         public Int64 EId;
         public int MissedCnt;
@@ -19,8 +19,8 @@ namespace WolfInv.com.BaseObjectsLib
 
         public DateTime OpenTime { get; set; }
 
-        public abstract object Clone();
+        //public abstract object Clone();
         public bool IsSecurity;
-        public OneCycleData CurrData;
+        //public OneCycleData CurrData;
     }
 }

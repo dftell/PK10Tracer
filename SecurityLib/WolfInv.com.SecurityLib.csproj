@@ -85,6 +85,7 @@
     <Compile Include="DataBuilders\SecurityOneCycleDataBuilder.cs" />
     <Compile Include="Readers\Security\SecurityIndexReader.cs" />
     <Compile Include="Readers\Security\SecurityReader.cs" />
+    <Compile Include="SecurityListProcess.cs" />
     <Compile Include="Strategies\Base\CommStrategyInClass.cs" />
     <Compile Include="Strategies\Base\SIClass.cs" />
     <Compile Include="Strategies\Index\CommIndexStrategy.cs" />

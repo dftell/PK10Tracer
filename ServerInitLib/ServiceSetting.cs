@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WolfInv.com.PK10CorePress;
 using WolfInv.com.Strags;
 using WolfInv.com.LogLib;
 using WolfInv.com.ExchangeLib;
@@ -11,9 +10,10 @@ using WolfInv.com.WinInterComminuteLib;
 using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.ServerInitLib
 {
-    public class ServiceSetting :RemoteServerClass
+
+    public class ServiceSetting<T> :RemoteServerClass where T:TimeSerialData
     {
-        public static ServiceSetting lastInst;
+        public static ServiceSetting<T> lastInst;
         public ServiceSetting()
         {
             lastInst = this;
@@ -21,14 +21,14 @@ namespace WolfInv.com.ServerInitLib
                 
         static GlobalClass _gc;//全局配置
         static ExchangeService _ES;
-        static Dictionary<string, StragClass> _AllStrags;
-        static Dictionary<string, StragRunPlanClass> _AllRunPlannings;
-        static Dictionary<string, CalcStragGroupClass> _AllRunningPlanGrps;
-        static Dictionary<string, ChanceClass> _NoCloseChances;
+        static Dictionary<string, BaseStragClass<T>> _AllStrags;
+        static Dictionary<string, StragRunPlanClass<T>> _AllRunPlannings;
+        static Dictionary<string, CalcStragGroupClass<T>> _AllRunningPlanGrps;
+        static Dictionary<string, ChanceClass<T>> _NoCloseChances;
         static Dictionary<string, AssetUnitClass> _AssetUnits;
-        static List<StragChance> _AllNewChances;
-        static List<ExchangeChance> _AllExchangeChances;
-        static Dictionary<string, ChanceClass> _AllNoClosedChances;
+        static List<StragChance<T>> _AllNewChances;
+        static List<ExchangeChance<T>> _AllExchangeChances;
+        static Dictionary<string, ChanceClass<T>> _AllNoClosedChances;
         static Dictionary<string, List<double>> _AllStdDevs = new Dictionary<string, List<double>>();
         public GlobalClass gc//全局配置
         {
@@ -40,8 +40,8 @@ namespace WolfInv.com.ServerInitLib
             get { return _ES; }
             set { _ES = value; }
         }
-        public ExpectList LastDataSector;
-        public Dictionary<string, StragClass> AllStrags
+        public ExpectList<T> LastDataSector;
+        public Dictionary<string, BaseStragClass<T>> AllStrags
         {
             get
             {
@@ -53,12 +53,12 @@ namespace WolfInv.com.ServerInitLib
             }
         }
 
-        public Dictionary<string, StragRunPlanClass> AllRunPlannings
+        public Dictionary<string, StragRunPlanClass<T>> AllRunPlannings
         {
             get { return _AllRunPlannings; }
             set { _AllRunPlannings = value; }
         }
-        public Dictionary<string, CalcStragGroupClass> AllRunningPlanGrps
+        public Dictionary<string, CalcStragGroupClass<T>> AllRunningPlanGrps
         {
             get { return _AllRunningPlanGrps; }
             set { _AllRunningPlanGrps = value; }
@@ -91,7 +91,7 @@ namespace WolfInv.com.ServerInitLib
                 return new LogInfo().GetLogAfterDate(DateTime.Now.AddHours(-12));
             }
         }
-        public Dictionary<string, ChanceClass> AllNoClosedChanceList { get { return _AllNoClosedChances; } set { _AllNoClosedChances = value; } }
+        public Dictionary<string, ChanceClass<T>> AllNoClosedChanceList { get { return _AllNoClosedChances; } set { _AllNoClosedChances = value; } }
 
         public Dictionary<string, AssetUnitClass> AllAssetUnits
         {
@@ -126,12 +126,12 @@ namespace WolfInv.com.ServerInitLib
                 gc = new GlobalClass();
             this.gc = gc;
             LogableClass.ToLog("初始化服务器设置","初始化策略列表");
-            this.AllStrags = InitServerClass.Init_StragList();
+            this.AllStrags = InitServerClass.Init_StragList<T>();
             LogableClass.ToLog("初始化服务器设置", "初始化运行计划列表");
-            this.AllRunPlannings = InitServerClass.Init_StragPlans();
+            this.AllRunPlannings = InitServerClass.Init_StragPlans<T>();
             LogableClass.ToLog("初始化服务器设置", "初始资产单元列表");
             this.AllAssetUnits = InitServerClass.Init_AssetUnits();
-            this.AllNoClosedChanceList = new Dictionary<string, ChanceClass>();
+            this.AllNoClosedChanceList = new Dictionary<string, ChanceClass<T>>();
             InitSecurity();
 
 
@@ -182,7 +182,7 @@ namespace WolfInv.com.ServerInitLib
         public void GrpThePlan( bool IsBackTest)
         {
             //Log("初始化服务器设置","分组准备运行计划列表");
-            Dictionary<string,CalcStragGroupClass> outret = null;
+            Dictionary<string,CalcStragGroupClass<T>> outret = null;
             this.AllRunningPlanGrps = InitServerClass.InitCalcStrags(ref outret, this.AllStrags, this.AllRunPlannings, this.AllAssetUnits, true, IsBackTest);
         }
 

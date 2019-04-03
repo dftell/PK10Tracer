@@ -11,7 +11,7 @@ using WolfInv.com.ExchangeLib;
 using WolfInv.com.LogLib;
 using WolfInv.com.WinInterComminuteLib;
 using DataRecSvr;
-
+using WolfInv.com.BaseObjectsLib;
 namespace Test_Win
 {
     public class GlobalObj
@@ -39,7 +39,7 @@ namespace Test_Win
             GlobalObj gb = new GlobalObj();
             gb.w = new WindAPI();
             gb.w.start();
-            ReceiveService rc = new ReceiveService();
+            ReceiveService<TimeSerialData> rc = new ReceiveService<TimeSerialData>();
             rc.Start();
             Form2 frm = new Form2(gb);
             Application.Run(frm);
@@ -47,7 +47,7 @@ namespace Test_Win
 
         
 
-        public static ServiceSetting AllServiceConfig;
+        public static ServiceSetting<TimeSerialData> AllServiceConfig;
 
         /// <summary>
         /// 应用程序的主入口点。
@@ -95,7 +95,7 @@ namespace Test_Win
 
         static void InitSystem()
         {
-            AllServiceConfig = new ServiceSetting();
+            AllServiceConfig = new ServiceSetting<TimeSerialData>();
             AllServiceConfig.Init(null);
             AllServiceConfig.GrpThePlan(false);
             AllServiceConfig.CreateChannel(null);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
+using WolfInv.com.PK10CorePress;
 using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.WebCommunicateClass
 {
@@ -159,7 +160,7 @@ namespace WolfInv.com.WebCommunicateClass
                 int bShift = 0;
                 if (cc.HoldTimeCnt > maxcnt)
                     bShift = (int)maxcnt * 2 / 3;
-                int RCnt = (cc.HoldTimeCnt % (maxcnt + 1)) + bShift;
+                int RCnt = (cc.HoldTimeCnt % (maxcnt + 1)) + bShift -1;
                 Int64 Amt = amts.Serials[cc.ChipCount - 1][RCnt]*AssetCnt;
                 if (cc.ChanceType != 2)//非对冲
                 {

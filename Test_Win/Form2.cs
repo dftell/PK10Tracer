@@ -12,6 +12,7 @@ using WolfInv.com.CFZQ_LHProcess;
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.SecurityLib;
 using WolfInv.com.ServerInitLib;
+using WolfInv.com.GuideLib.LinkGuid;
 namespace Test_Win
 {
     public partial class Form2 : Form
@@ -112,16 +113,29 @@ namespace Test_Win
 
 
                 MongoReturnDataList<StockMongoData> fqdata = reader.Stock_FQ(code, data);
-                int n = 0;
-                StockMongoData testobj = null;
-                var test = fqdata.Where(a => (a.date == "2015-07-15"));
-                testobj = test.First();
-                MessageBox.Show(string.Format("{0},{1}", testobj.date, testobj.close));
-                n = fqdata.Count/2;
-                MessageBox.Show(string.Format("{0},{1}", fqdata[n].date, fqdata[n].close));
-                n = fqdata.Count-1;
-                MessageBox.Show(string.Format("{0},{1}", fqdata[n].date, fqdata[n].close));
-
+                ////int n = 0;
+                ////StockMongoData testobj = null;
+                ////var test = fqdata.Where(a => (a.date == "2015-07-15"));
+                ////testobj = test.First();
+                ////MessageBox.Show(string.Format("{0},{1}", testobj.date, testobj.close));
+                ////n = fqdata.Count/2;
+                ////MessageBox.Show(string.Format("{0},{1}", fqdata[n].date, fqdata[n].close));
+                ////n = fqdata.Count-1;
+                ////MessageBox.Show(string.Format("{0},{1}", fqdata[n].date, fqdata[n].close));
+                EMA ema1 = new EMA(fqdata.ToList(a => a.close).ToArray(),12);
+                EMA ema2 = new EMA(fqdata.ToList(a => a.close).ToArray(), 26);
+                Matrix e1 = ema1.GetResult();
+                Matrix e2 = ema2.GetResult();
+                int n = fqdata.Count - 1;
+                MessageBox.Show(string.Format("12:{0:f2},26:{1:f2}",e1[n-1,0],e2[n-1,0]));
+                MACD macd = new MACD(fqdata.ToList(a => a.close).ToArray());
+                Matrix ret = macd.GetResult();
+                
+                int cnt = 10;
+                for (int i = 0; i < cnt; i++)
+                {
+                    MessageBox.Show(string.Format("{0}:{4:f2}=>Diff:{1:f2};DEA:{2:f2};MACD:{3:f2}", fqdata[n - i].date, ret.Detail[n - i, 0], ret.Detail[n - i, 1], ret.Detail[n - i, 2],fqdata[n-i].close));
+                }
             }
             catch(Exception ce)
             {

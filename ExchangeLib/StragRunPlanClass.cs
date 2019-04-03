@@ -22,7 +22,7 @@ namespace WolfInv.com.ExchangeLib
     [Serializable]
     [DescriptionAttribute("策略运行计划类，包括服务开始后是否自动运行，策略执行到期时间"),
         DisplayName("策略运行计划")]
-    public class StragRunPlanClass : DisplayAsTableClass,iDbFile
+    public class StragRunPlanClass<T> : DisplayAsTableClass,iDbFile where T:TimeSerialData
     {
 
         public StragRunPlanClass():base()
@@ -63,7 +63,7 @@ namespace WolfInv.com.ExchangeLib
         Category("策略信息"),
         Description("策略编号"),
         Editor(typeof(StagPickerEditor), typeof(UITypeEditor))]
-        public StragClass PlanStrag { get; set; }
+        public BaseStragClass<T> PlanStrag { get; set; }
         [DisplayName("策略GUID"),
         Category("策略信息"),
         Description("策略编号")]
@@ -178,7 +178,7 @@ namespace WolfInv.com.ExchangeLib
         public string Creator { get; set; }
 
         public bool Running;
-        public List<StragRunPlanClass> getPlanListByXml(string strXml)
+        public List<StragRunPlanClass<T>> getPlanListByXml(string strXml)
         {
             return null;
         }
@@ -283,8 +283,8 @@ namespace WolfInv.com.ExchangeLib
 
     public class StagPickerEditor : UITypeEditor
     {
-        List<StragClass> AllList;
-        Dictionary<string,StragRunPlanClass> AllPlans;
+        List<BaseStragClass<TimeSerialData>> AllList;
+        Dictionary<string,StragRunPlanClass<TimeSerialData>> AllPlans;
         IWindowsFormsEditorService editorService;
         StragPicker picker ;
         public StagPickerEditor()
@@ -303,10 +303,12 @@ namespace WolfInv.com.ExchangeLib
 	        }
             if (this.editorService != null)
             {
-                AllList = StragClass.getObjectListByXml<StragClass>(GlobalClass.ReReadStragList());
-                AllPlans = StragRunPlanClass.getObjectListByXml<StragRunPlanClass>(GlobalClass.getStragRunningPlan(true)).ToDictionary(t => t.GUID, t => t);
-                List<StragClass> list = AllList.Where(t => AllPlans.ContainsKey(t.GUID) == false).ToList<StragClass>();
-                picker = new StragPicker(AllList);//支持一组合对多相同策略
+                AllList = BaseStragClass<TimeSerialData>.getObjectListByXml<BaseStragClass<TimeSerialData>>(GlobalClass.ReReadStragList());
+                AllPlans = StragRunPlanClass<TimeSerialData>.getObjectListByXml<StragRunPlanClass<TimeSerialData>>(GlobalClass.getStragRunningPlan(true)).ToDictionary(t => t.GUID, t => t);
+                List<BaseStragClass<TimeSerialData>> list = AllList.Where(t => AllPlans.ContainsKey(t.GUID) == false).ToList<BaseStragClass<TimeSerialData>>();
+                List<StragClass> list1 = new List<StragClass>();
+                list.ForEach(a=>list1.Add(ConvertionExtensions.ConvertTo<StragClass>(a as IConvertible)));
+                picker = new StragPicker(list1);//支持一组合对多相同策略
                 editorService.ShowDialog(picker);
                 if (picker.SelectedStrag == null)
                 {

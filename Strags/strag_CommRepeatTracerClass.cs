@@ -14,19 +14,19 @@ namespace WolfInv.com.Strags
         CategoryAttribute("持仓属性")]
         public int HoldCnt { get; set; }
         int RealCnt;
-        int CurrChancesCnt=0;
+        int CurrChancesCnt = 0;
         public strag_CommRepeatTracerClass()
             : base()
         {
             _StragClassName = "通用重复号码跟踪策略";
         }
-        public override List<ChanceClass> getChances(CommCollection sc, ExpectData ed)
+        public override List<ChanceClass> getChances(BaseCollection sc, ExpectData ed)
         {
             List<ChanceClass> ret = new List<ChanceClass>();
             CurrChancesCnt = 0;//置零，防止后面留存
             if (this.LastUseData().Count < ReviewExpectCnt)
             {
-                Log("基础数据数量不足", string.Format("小于回览期数:{0}",ReviewExpectCnt));
+                Log("基础数据数量不足", string.Format("小于回览期数:{0}", ReviewExpectCnt));
                 return ret;
             }
             ExpectList LastDataList = this.LastUseData();
@@ -35,7 +35,7 @@ namespace WolfInv.com.Strags
             //Log(string.Format("el数据长度:{0},First:{1};Last{2}", LastDataList.Count,LastDataList.FirstData.Expect,LastDataList.LastData.Expect), string.Format("原始数据长度:{0};First:{1};Last:{2}", sc.orgData.Count,sc.orgData.FirstData.Expect,sc.orgData.LastData.Expect));
             DataTableEx dt = sc.getSubTable(sc.orgData.Count - this.ReviewExpectCnt, this.ReviewExpectCnt);
             List<string> strCodes = new List<string>();
-            for(int i=0;i<10;i++)//遍历每个车号/名次
+            for (int i = 0; i < 10; i++)//遍历每个车号/名次
             {
                 List<int> coldata = null;
                 string strCol = string.Format("{0}", (i + 1) % 10);
@@ -52,17 +52,17 @@ namespace WolfInv.com.Strags
                     continue;
                 }
                 string strCode = "";//其实无需比较，对单个车/名次来说，矩阵都一样,策略只需建立一个即可
-                strCode = string.Format("{0}/{1}",strCol,coldata[0]);
-                
+                strCode = string.Format("{0}/{1}", strCol, coldata[0]);
+
                 //Log(string.Format("车/次:{0}", strCol), strCode);
                 strCodes.Add(strCode);
-                
-                if(HoldCnt >=0) //当持有次数超过指定次数后，不再增加
+
+                if (HoldCnt >= 0) //当持有次数超过指定次数后，不再增加
                     HoldCnt++;//持有次数加1
                 //Log("获得机会处理", string.Format("当前持有次数：{0}", HoldCnt));
                 RealCnt++;
             }
-            
+
             if (strCodes.Count == 0)//机会数为0
                 return ret;
             if (!GetRev)
@@ -127,8 +127,8 @@ namespace WolfInv.com.Strags
         {
             return typeof(OnceChance);
         }
-        
-        public override bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched) //检查需要关闭时（能否保证后面的实例是同一个？）
+
+        public new bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched) //检查需要关闭时（能否保证后面的实例是同一个？）
         {
             cc.HoldTimeCnt = RealCnt;
             if (LastExpectMatched)
@@ -151,20 +151,20 @@ namespace WolfInv.com.Strags
             return true;//一次性机会，无论如何都关闭
         }
 
-        public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        public new long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
             int chips = 0;
             int maxcnt = amts.MaxHoldCnts[chips];
             int bShift = 0;
             int eShift = 0;
-            int bHold = HoldCnt - CurrChancesCnt+1;
+            int bHold = cc.HoldTimeCnt;// HoldCnt - CurrChancesCnt + 1;
             if (cc.IncrementType == InterestType.CompoundInterest)
             {
                 if (cc.AllowMaxHoldTimeCnt > 0 && cc.HoldTimeCnt > cc.AllowMaxHoldTimeCnt)
                 {
                     return 0;
                 }
-                return (long)Math.Floor(cc.FixRate.Value*RestCash/cc.ChipCount);
+                return (long)Math.Floor(cc.FixRate.Value * RestCash / cc.ChipCount);
             }
             //Log("获取机会金额处理", string.Format("当前持有次数：{0}", HoldCnt));
             if (HoldCnt == -1)//如果超出指定的最大持仓次数，跟踪不投注，直到实现后继续跟踪
@@ -181,8 +181,8 @@ namespace WolfInv.com.Strags
                 Log("风险", "通用重复策略结束次数达到最大上限", string.Format("机会{0}持有次数达到{1}次总投入金额已为{2}", cc.ChanceCode, HoldCnt, "未知"));
                 eShift = (int)maxcnt * 2 / 3;
             }
-            
-            int bRCnt = (bHold % (maxcnt + 1)) + bShift-1;
+
+            int bRCnt = (bHold % (maxcnt + 1)) + bShift - 1;
             int eRCnt = (HoldCnt % (maxcnt + 1)) + eShift - 1;
             if (CurrChancesCnt < 4)//如果是4码以下取平均值
             {
@@ -192,5 +192,6 @@ namespace WolfInv.com.Strags
             return amts.Serials[chips][eRCnt];
 
         }
+
     }
 }

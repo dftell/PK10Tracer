@@ -18,7 +18,7 @@ namespace WolfInv.com.Strags
             _StragClassName = "N码长期概率分布择时组合选号策略";
         }
 
-        public override bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
+        public new bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
         {
             if (LastExpectMatched)
             {
@@ -72,7 +72,7 @@ namespace WolfInv.com.Strags
 
         
 
-        public override List<ChanceClass> getChances(CommCollection sc, ExpectData ed)
+        public override List<ChanceClass> getChances(BaseCollection sc, ExpectData ed)
         {
             List<ChanceClass> ret = new List<ChanceClass>();
             ExpectList el = sc.orgData;
@@ -113,7 +113,7 @@ namespace WolfInv.com.Strags
                 this.IsTracing = true;//满足条件，开始持仓
                 //this.debug_maxRate = 0;
             }
-            CommCollection scc = new ExpectListProcess(el).getSerialData(InputMinTimes, BySer);
+            BaseCollection scc = new ExpectListProcess(el).getSerialData(InputMinTimes, BySer) as BaseCollection;
             ret = coc.getChances(scc, el.LastData);
             for (int i = 0; i < ret.Count; i++)
             {
@@ -178,7 +178,7 @@ namespace WolfInv.com.Strags
                 {
                     NoEndChances.Add(key, TmpChances[key]);
                 }
-                CommCollection scc = new ExpectListProcess(useList).getSerialData(InputMinTimes, BySer);
+                BaseCollection scc = new ExpectListProcess(useList).getSerialData(InputMinTimes, BySer) as BaseCollection;
                 List<ChanceClass> ccs = coc.getChances(scc, CurrData);
                 for (int j = 0; j < ccs.Count; j++)//新增机会
                 {

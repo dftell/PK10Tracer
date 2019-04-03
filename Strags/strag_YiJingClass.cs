@@ -18,10 +18,15 @@ namespace WolfInv.com.Strags
             this._StragClassName = "易经选号策略";
         }
 
-        public override List<ChanceClass> getChances(CommCollection sc, ExpectData ed)
+        
+        
+
+        public override List<ChanceClass> getChances(BaseCollection sc, ExpectData ed)
         {
             throw new NotImplementedException();
         }
+
+        
 
         public override StagConfigSetting getInitStagSetting()
         {

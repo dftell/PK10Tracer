@@ -66,6 +66,10 @@
       <Project>{182084e4-c48b-4585-9221-4a54caf7448f}</Project>
       <Name>WolfInv.com.LogLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PK10CorePress\WolfInv.com.PK10CorePress.csproj">
+      <Project>{1b418905-1d78-4758-9b21-cf9bfc054f88}</Project>
+      <Name>WolfInv.com.PK10CorePress</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

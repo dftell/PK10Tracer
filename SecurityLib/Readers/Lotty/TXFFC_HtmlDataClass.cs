@@ -14,9 +14,9 @@ namespace WolfInv.com.SecurityLib
             dataUrl =  GlobalClass.TXFFC_url;
         }
 
-        protected override ExpectList getData(string strHtml)
+        protected override ExpectList<T> getData<T>(string strHtml)
         {
-            ExpectList ret = new ExpectList();
+            ExpectList<T> ret = new ExpectList<T>();
             string strBeg = "<table";
             string strEnd = "</table>";
             int ibeg = strHtml.IndexOf(strBeg);
@@ -36,7 +36,7 @@ namespace WolfInv.com.SecurityLib
                 {
                     XmlNodeList tdlist = nodelist[i].SelectNodes("td");
                     if (tdlist.Count == 0) continue;
-                    ExpectData ed = new ExpectData();
+                    ExpectData<T> ed = new ExpectData<T>();
                     ed.Expect = tdlist[1].InnerText.Replace("-","");
                     ed.OpenCode = tdlist[4].InnerText;
                     ed.OpenTime = DateTime.Parse(tdlist[2].InnerText);
@@ -49,9 +49,9 @@ namespace WolfInv.com.SecurityLib
             return ret;
         }
 
-        protected override ExpectList getHisData(string strHtml)
+        protected override ExpectList<T> getHisData<T>(string strHtml)
         {
-            ExpectList ret = new ExpectList();
+            ExpectList<T> ret = new ExpectList<T>();
             string strBeg = "<table cellspacing=\"0\" cellpadding=\"0\" class=\"dt caipiao mbm\"";
             string strEnd = "</table>";
             int ibeg = strHtml.IndexOf(strBeg);
@@ -73,7 +73,7 @@ namespace WolfInv.com.SecurityLib
                     if (i == 0) continue;
                     XmlNodeList tdlist = nodelist[i].SelectNodes("td");
                     if (tdlist.Count == 0) continue;
-                    ExpectData ed = new ExpectData();
+                    ExpectData<T> ed = new ExpectData<T>();
                     string strExpect = tdlist[0].InnerText;
                     string strIndex = tdlist[1].InnerText;
                     string strOpenCodes = string.Join(",",tdlist[2].InnerText.Substring(0,5).ToCharArray());
@@ -94,9 +94,9 @@ namespace WolfInv.com.SecurityLib
         }
 
 
-        public override ExpectList getHistoryData(string FolderPath,string fileType)
+        public override ExpectList<T> getHistoryData<T>(string FolderPath,string fileType)
         {
-            ExpectList ret = new ExpectList();
+            ExpectList<T> ret = new ExpectList<T>();
             DirectoryInfo dir = new DirectoryInfo(FolderPath);
             FileInfo[] fil = dir.GetFiles();
             foreach (FileInfo f in fil)
@@ -112,9 +112,9 @@ namespace WolfInv.com.SecurityLib
             return ret;
         }
 
-        public ExpectList getFileData(string filename)
+        public ExpectList<T> getFileData<T>(string filename) where T : TimeSerialData
         {
-            ExpectList ret = new ExpectList();
+            ExpectList<T> ret = new ExpectList<T>();
             FileStream file = new FileStream(filename, FileMode.Open,FileAccess.Read);
             StreamReader str = new StreamReader(file, Encoding.Default);
             try
@@ -140,7 +140,7 @@ namespace WolfInv.com.SecurityLib
                     {
                         throw new Exception(string.Format("{0}第{1}行数据异常！", filename, lcnt));
                     }
-                    ExpectData ed = new ExpectData();
+                    ExpectData<T> ed = new ExpectData<T>();
                     ed.OpenCode = string.Join(",", items[1].ToCharArray());
                     string strOrg = items[0];
                     string[] strOrgs = strOrg.Split('-');
@@ -183,11 +183,11 @@ namespace WolfInv.com.SecurityLib
             return ret;
         }
         
-        public override ExpectList getHistoryData(string strdate, int pageid)
+        public override ExpectList<T> getHistoryData<T>(string strdate, int pageid)
         {
             string url = "https://www.e3sh.com/txffc/{0}.html?page={1}";
             string dataUrl =string.Format(url, strdate, pageid);
-            ExpectList ret = new ExpectList();
+            ExpectList<T> ret = new ExpectList<T>();
             HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(dataUrl);
             req.Method = "Get";
             string htmltxt = null;
@@ -204,10 +204,10 @@ namespace WolfInv.com.SecurityLib
             {
                 return ret;
             }
-            return getHisData(htmltxt); ;
+            return getHisData<T>(htmltxt); ;
         }
 
-        protected override ExpectList getXmlData(string strXml)
+        protected override ExpectList<T> getXmlData<T>(string strXml)
         {
             throw new NotImplementedException();
         }

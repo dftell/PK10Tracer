@@ -2,14 +2,14 @@
 using WolfInv.com.BaseObjectsLib;
 namespace PK10Server
 {
-    class ExchangeFactory
+    class ExchangeFactory<T> where T:TimeSerialData
     {
         public GlobalSettingClass gobj;
         public SettingClass setting;
-        public CurrInfo currInfo;
-        public List<ChanceClass> ExecExchange(ExpectData data)
+        public CurrInfo<T> currInfo;
+        public List<ChanceClass<T>> ExecExchange(ExpectData<T> data)
         {
-            List<ChanceClass> ret = new List<ChanceClass>();
+            List<ChanceClass<T>> ret = new List<ChanceClass<T>>();
             //////////ExchanceClass ec = new ExchanceClass();
             //////////for (int i = 0; i < gobj.CurrStags.Count; i++)
             //////////{

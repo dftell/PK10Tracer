@@ -8,7 +8,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
-    <ProjectGuid>1554043d-ff6b-4251-bc78-9e4d6241b631</ProjectGuid>
+    <ProjectGuid>131b3fa5-a9a8-444e-90be-54695a88abee</ProjectGuid>
     <!-- update GUID here -->
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -55,13 +55,13 @@
       <Aliases>wibol</Aliases>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="System.Data">
-      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Data.dll</HintPath>
-      <Aliases>global</Aliases>
+    <Reference Include="WolfInv.com.LogLib">
+      <HintPath>C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.LogLib.dll</HintPath>
+      <Aliases>will</Aliases>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="System.Core">
-      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Core.dll</HintPath>
+    <Reference Include="System.Data">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Data.dll</HintPath>
       <Aliases>global</Aliases>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
@@ -75,9 +75,9 @@
       <Aliases>global</Aliases>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="WolfInv.com.LogLib">
-      <HintPath>C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.LogLib.dll</HintPath>
-      <Aliases>will</Aliases>
+    <Reference Include="System.Core">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Core.dll</HintPath>
+      <Aliases>global</Aliases>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="MongoDB.Bson">

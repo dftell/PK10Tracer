@@ -27,7 +27,7 @@ namespace WolfInv.com.Strags.MLStragClass
             throw new NotImplementedException();
         }
 
-        public override List<ChanceClass> getChances(CommCollection sc, ExpectData ed)
+        public override List<ChanceClass> getChances(BaseCollection sc, ExpectData ed)
         {
             throw new NotImplementedException();
         }

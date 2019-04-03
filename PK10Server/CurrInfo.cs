@@ -3,7 +3,7 @@ using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.Strags;
 namespace PK10Server
 {
-    public class CurrInfo
+    public class CurrInfo<T> where T:TimeSerialData
     {
         public string CurrExpect;
         public string ExecExpect
@@ -14,11 +14,11 @@ namespace PK10Server
             }
         }
 
-        public Dictionary<string, Dictionary<string, List<ChanceClass>>> CurrChances;
+        public Dictionary<string, Dictionary<string, List<ChanceClass<T>>>> CurrChances;
 
         public CurrInfo()
         {
-            CurrChances = new Dictionary<string,Dictionary<string,List<ChanceClass>>>();
+            CurrChances = new Dictionary<string,Dictionary<string,List<ChanceClass<T>>>>();
         }
     }
 

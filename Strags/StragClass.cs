@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using WolfInv.com.PK10CorePress;
-using WolfInv.com.GuideLib;
 using System.Reflection;
 using System.Data;
 using System.ComponentModel;
@@ -17,9 +15,9 @@ namespace WolfInv.com.Strags
 {
     public interface IFindChance
     {
-        List<ChanceClass> getChances(CommCollection sc, ExpectData ed);
+        List<ChanceClass> getChances(BaseCollection sc, ExpectData ed);
     }
-
+    
     /// <summary>
     /// 交易策略
     /// </summary>
@@ -38,7 +36,7 @@ namespace WolfInv.com.Strags
     [XmlInclude(typeof(strag_CommJumpClass))]
     [XmlInclude(typeof(Strag_SingleBayesClass))]
     [XmlInclude(typeof(Strag_SimpleMaxEntryClass))]
-    public abstract class StragClass : BaseStragClass, IFindChance, ISelfSetting,iDbFile
+    public abstract class StragClass : BaseStragClass<TimeSerialData>, iDbFile,IFindChance, ITraceChance, WolfInv.com.BaseObjectsLib.ISpecAmount
     {
         public StragClass():base()
         {
@@ -53,21 +51,6 @@ namespace WolfInv.com.Strags
         {
             Log(this.StragClassName, topic, txt);
         }
-
-        [DescriptionAttribute("个性化设置"),
-        DisplayName("个性化设置"),
-        CategoryAttribute("其他设置"),
-        Editor(typeof(SerialObjectEdit<StagConfigSetting>), typeof(UITypeEditor))]
-        public StagConfigSetting StagSetting { get; set; }
-
-        /// <summary>
-        /// 策略配置
-        /// </summary>
-        [DescriptionAttribute("通用设置"),
-        DisplayName("通用设置"),
-        CategoryAttribute("其他设置"),
-        Editor(typeof(SerialObjectEdit<SettingClass>), typeof(UITypeEditor))]
-        public SettingClass CommSetting { get; set; }
 
         
 
@@ -156,30 +139,13 @@ namespace WolfInv.com.Strags
             return dt;
         }
 
-        public abstract List<ChanceClass> getChances(CommCollection sc, ExpectData ed);
-
-        public abstract StagConfigSetting getInitStagSetting();
 
 
-        //public abstract Int64 getChipAmount(double RestCash, ChanceClass cc, AmoutSerials ams);//查找类默认单利为1，复利为赔率保本对应的凯利公式所算出来的比例
-        
 
-        ////public override Int64 getChipAmount1(double RestCash, ChanceClass cc,AmoutSerials ams)//查找类默认单利为1，复利为赔率保本对应的凯利公式所算出来的比例
-        ////{
-        ////    if (cc.IncrementType == InterestType.SimpleInterest)
-        ////        return 1;
-        ////    else
-        ////    {
-        ////        return 1;//return (long)Math.Floor(RestCash* KellyMethodClass.KellyFormula(cc.ChipCount,1,this.CommSetting.GetGlobalSetting().Odds,));
-        ////    }
-        ////    //return this.CommSetting.GetGlobalSetting().UnitChipArray(cc.ChipCount)[0];//默认返回第一个
-        ////}
-
-
-        public abstract Type getTheChanceType();
-
-
-        public string AssetUnitId { get; set; }
+        public ExpectList LastUseData()
+        {
+            return _LastUseData as ExpectList;
+        }
 
 
         #region  支持propertygrid默认信息
@@ -230,28 +196,76 @@ namespace WolfInv.com.Strags
             return this.GUID;
         }
 
+        public abstract List<ChanceClass> getChances(BaseCollection sc, ExpectData ed);
+
+        public override List<ChanceClass<TimeSerialData>> getChances(BaseCollection<TimeSerialData> sc, ExpectData<TimeSerialData> ed)
+        {
+            return getChances(sc, ed) as List<ChanceClass<TimeSerialData>>;
+        }
+        public bool CheckNeedEndTheChance<T>(ChanceClass<T> cc, bool LastExpectMatched) where T : TimeSerialData
+        {
+            return CheckNeedEndTheChance(cc, LastExpectMatched);
+        }
+
+        public bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
+        {
+            return true;
+        }
+        public long getChipAmount<T>(double RestCash, ChanceClass<T> cc, AmoutSerials amts) where T : TimeSerialData
+        {
+            return getChipAmount(RestCash, cc, amts);
+        }
+
+        public long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        {
+            int chips = 0;
+            int maxcnt = amts.MaxHoldCnts[chips];
+            int bShift = 0;
+            int eShift = 0;
+            int bHold = cc.HoldTimeCnt;// HoldCnt - CurrChancesCnt + 1;
+            if (cc.IncrementType == InterestType.CompoundInterest)
+            {
+                if (cc.AllowMaxHoldTimeCnt > 0 && cc.HoldTimeCnt > cc.AllowMaxHoldTimeCnt)
+                {
+                    return 0;
+                }
+                return (long)Math.Floor(cc.FixRate.Value * RestCash / cc.ChipCount);
+            }
+            //Log("获取机会金额处理", string.Format("当前持有次数：{0}", HoldCnt));
+            
+            if (bHold > maxcnt)
+            {
+                Log("风险", "通用重复策略开始次数达到最大上限", string.Format("机会{0}持有次数达到{1}次总投入金额已为{2}", cc.ChanceCode, bHold, "未知"));
+                bShift = (int)maxcnt * 2 / 3;
+            }
+            int HoldCnt = bHold;
+            int bRCnt = (bHold % (maxcnt + 1)) + bShift - 1;
+            int eRCnt = (HoldCnt % (maxcnt + 1)) + eShift - 1;
+            if (cc.ChipCount < 4)//如果是4码以下取平均值
+            {
+                return (amts.Serials[chips][bRCnt] + amts.Serials[chips][eRCnt]) / 2;
+            }
+            //四码以上取最大值，防止投入不够导致亏损
+            return amts.Serials[chips][eRCnt];
+
+        }
+
+
         public string strObjectName
         {
             get { return "策略"; }
         }
+
+        public bool IsTracing { get; set; }
         #endregion
 
 
-        
+
     }
     
     
  
-    public class StragChance:MarshalByRefObject
-    {
-        public StragClass Strag;
-        public ChanceClass Chance;
-        public StragChance(StragClass _Strag, ChanceClass _Chance)
-        {
-            Strag = _Strag;
-            Chance = _Chance;
-        }
-    }
+    
 
     /// <summary>
     /// 概率检查类
@@ -262,129 +276,6 @@ namespace WolfInv.com.Strags
         DefaultValueAttribute(1.5)
         ]
         double StdvCnt { get; set; }
-    }
-
-
-
-    public abstract class ProbWaveSelectStragClass : ChanceTraceStragClass
-    {
-        
-        protected Dictionary<string, double> RateDic;
-        public GuideResult LocalWaveData;
-        Dictionary<string, MGuide> _UseMainGuides;
-        public Dictionary<string, MGuide> UseMainGuides()
-        {
-            return _UseMainGuides;
-        }
-
-        public void SetUseMainGuides(Dictionary<string, MGuide> value)
-        {
-            _UseMainGuides = value;
-        }
-        Dictionary<string, Int64> _UseAmountList = new Dictionary<string,long>();
-        public Dictionary<string, Int64> UseAmountList()
-        {
-            return _UseAmountList;
-        }
-        public void UseAmountList(Dictionary<string, Int64> value)
-        {
-            _UseAmountList = value;
-        }
-        public GuideResultSet BaseWaves()
-        {
-            //get
-            //{
-            return new GuideResultSet(RateDic);
-            //}
-        }
-
-        public GuideResultSet GuideWaves()
-        {
-            //get
-            //{
-                GuideResultSet ret = new GuideResultSet();
-                if (UseMainGuides() == null || UseMainGuides().Count == 0) return ret;
-                int len = UseMainGuides().Last().Value.CurrValues.Length;
-                for (int i = 0; i < len; i++)
-                {
-                    Dictionary<string, double> dic = new Dictionary<string, double>();
-                    foreach (string key in UseMainGuides().Keys)
-                    {
-                        dic.Add(key, UseMainGuides()[key].CurrValues[i]);
-                    }
-                    ret.NewTable(dic);
-                }
-                return ret;
-            //}
-        }
-
-        public abstract bool CheckEnableIn();
-        public abstract bool CheckEnableOut();
-
-        /// <summary>
-        /// 统一下注数量
-        /// </summary>
-        /// <param name="RestCash"></param>
-        /// <param name="cc"></param>
-        /// <returns></returns>
-        public override Int64 getChipAmount(double RestCash, ChanceClass cc, AmoutSerials ams)
-        {
-            ////if (this.UseAmountList.ContainsKey(this.LastUseData.LastData.Expect))
-            ////{
-            ////    //return this.UseAmountList[this.LastUseData.LastData.Expect];
-            ////}
-            if (cc.IncrementType == InterestType.SimpleInterest) return (int)Math.Floor(this.CommSetting.InitCash * 0.01);
-            double p = (double)(cc.ChipCount / this.CommSetting.Odds);
-            double Normal_p = (double)cc.ChipCount / 10;
-            double _MinRate = Normal_p + this.MinWinRate * (p - Normal_p);
-            p = _MinRate;
-            double b = (double)this.CommSetting.Odds;
-            double q = 1 - p;
-            double rate = (p * b - q) / b;
-            double cs = Math.Sqrt(this.CommSetting.MaxHoldingCnt);
-            Int64 AllAmount = (Int64)Math.Floor(RestCash * rate / cc.ChipCount);
-            //this.UseAmountList.Add(this.LastUseData.LastData.Expect, AllAmount);
-            return AllAmount;
-        }
-
-        
-    }
-
-
-    public abstract class ChanceTraceStragClass :StragClass, ITraceChance,ISpecAmount
-    {
-        bool _IsTracing;
-        public bool IsTracing
-        {
-            get
-            {
-                return _IsTracing;
-            }
-            set
-            {
-                _IsTracing = value;
-            }
-        }
-        public abstract bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched);
-
-        public abstract long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts);
-    }
-
-    /// <summary>
-    /// 整体标准差追踪类
-    /// </summary>
-    public abstract class TotalStdDevTraceStragClass : ChanceTraceStragClass
-    {
-        Dictionary<string, List<double>> AllStdDev;
-        public Dictionary<string, List<double>> getAllStdDev()
-        {
-            return AllStdDev;
-        }
-
-        public void setAllStdDev(Dictionary<string, List<double>> value)
-        {
-            AllStdDev = value;
-        }
     }
 
     public interface ISelfSetting

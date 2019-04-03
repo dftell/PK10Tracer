@@ -14,9 +14,9 @@ namespace WolfInv.com.SecurityLib
         protected DataTypePoint dtp = null;
         protected string dataUrl;
         protected bool UseXmlMothed;
-        public ExpectList getExpectList()
+        public ExpectList<T> getExpectList<T>() where T: TimeSerialData
         {
-            ExpectList ret = new ExpectList();
+            ExpectList<T> ret = new ExpectList<T>();
             HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(dataUrl);
             req.Method = "Get";
             string htmltxt = null;
@@ -29,9 +29,9 @@ namespace WolfInv.com.SecurityLib
                     wr.Close();
                 }
                 if(UseXmlMothed)
-                    return getXmlData(htmltxt);
+                    return getXmlData<T>(htmltxt);
                 else
-                    return getData(htmltxt);
+                    return getData<T>(htmltxt);
             }
             catch(Exception ce)
             {
@@ -55,15 +55,15 @@ namespace WolfInv.com.SecurityLib
             return ret;
         }
 
-        public abstract ExpectList getHistoryData(string FolderPath,string filetype);
+        public abstract ExpectList<T> getHistoryData<T>(string FolderPath,string filetype) where T : TimeSerialData;
 
-        public abstract ExpectList getHistoryData(string strDate, int pageid);
+        public abstract ExpectList<T> getHistoryData<T>(string strDate, int pageid) where T : TimeSerialData;
 
-        protected abstract ExpectList getData(string strHtml);
+        protected abstract ExpectList<T> getData<T>(string strHtml) where T : TimeSerialData;
 
-        protected abstract ExpectList getXmlData(string strXml);
+        protected abstract ExpectList<T> getXmlData<T>(string strXml) where T : TimeSerialData;
 
-        protected abstract ExpectList getHisData(string strHtml);
+        protected abstract ExpectList<T> getHisData<T>(string strHtml) where T : TimeSerialData;
     }
 
 }

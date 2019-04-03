@@ -12,9 +12,10 @@ namespace WolfInv.com.BaseObjectsLib
     /// 孙继磊，2010-10-18
     /// sun.j.l.studio@gmail.com
     /// </remarks>
-    public sealed class Matrix
+    public class Matrix
     {
         int row, column;            //矩阵的行列数
+        List<double[]> datalist=new List<double[]>();
         double[,] data;            //矩阵的数据
         string name = "result";//未用
         #region 构造函数
@@ -23,6 +24,8 @@ namespace WolfInv.com.BaseObjectsLib
             row = rowNum;
             column = columnNum;
             data = new double[row, column];
+            for (int i = 0; i < rowNum; i++)
+                datalist.Add(new double[column]);
         }
         public Matrix(double[,] members)
         {
@@ -30,7 +33,35 @@ namespace WolfInv.com.BaseObjectsLib
             column = members.GetUpperBound(1) + 1;
             data = new double[row, column];
             Array.Copy(members, data, row * column);
+            for (int i = 0; i < row; i++)
+                datalist.Add(members.GetValue(i) as double[]);
         }
+
+        public Matrix(List<double[]> list)
+        {
+            InitList(list);
+        }
+
+        void InitList(List<double[]> list)
+        {
+            row = list.Count;
+            double[][] ddata = list.ToArray();
+            column = list.Select(a => a.Length).Max();
+            //data = new double[row, column];
+            Copy(ddata,out data, row , column);
+            datalist = list;
+        }
+
+        void Copy(double[][] inData,out double[,] outData,int row,int col)
+        {
+            outData = new double[row,col];
+            for (int i=0;i<inData.Length;i++)
+            {
+                for (int j = 0; j < inData[i].Length; j++)
+                    outData[i, j] = inData[i][j];
+            }
+        }
+
         public Matrix(double[] vector)
         {
             row = 1;
@@ -40,9 +71,19 @@ namespace WolfInv.com.BaseObjectsLib
             {
                 data[0, i] = vector[i];
             }
+            for (int i = 0; i < vector.Length; i++)
+            {
+                datalist.Add(new double[] { vector[i] });
+            }
         }
         #endregion
 
+        public List<double[]> ToList()
+        {
+            List<double[]> ret = new List<double[]>();
+            ret.AddRange(datalist.ToArray());
+            return ret;
+        }
 
         #region 属性和索引器
         public int rowNum { get { return row; } }
@@ -86,6 +127,32 @@ namespace WolfInv.com.BaseObjectsLib
             Matrix m = new Matrix(a);
             return m;
         }
+
+        public Matrix getMatrixByRow(int From,int To)
+        {
+            if(To < From)
+            {
+                return null;
+            }
+            if(From < 0)
+            {
+                return null;
+            }
+            if(To > row -1)
+            {
+                return null;
+            }
+            double[] a = new double[column * (To - From + 1)];
+            Array.Copy(data, column * (From - 1), a, 0, column * (To - From + 1));
+            Matrix m = new Matrix(a);
+            return m;
+        }
+
+        public Matrix getMatrixByRow(int From)
+        {
+            return getMatrixByRow(From, row - From - 1);
+        }
+
         public Matrix getColumn(int c)
         {
             if (c > column || c < 0) throw new MatrixException("没有这一列。");
@@ -95,6 +162,12 @@ namespace WolfInv.com.BaseObjectsLib
             return new Matrix(a);
         }
         #endregion
+
+        public void AddRow(double[] row)
+        {
+            datalist.Add(row);
+            InitList(datalist);
+        }
 
         #region 操作符重载  + - * / == !=
         public static Matrix operator !(Matrix a)
@@ -160,6 +233,7 @@ namespace WolfInv.com.BaseObjectsLib
             if (row != t.row || column != t.column) return false;
             return this.Equals(t, 10);
         }
+        
         /// <summary>
         /// 按照给定的精度比较两个矩阵是否相等
         /// </summary>
@@ -180,6 +254,12 @@ namespace WolfInv.com.BaseObjectsLib
             return true;
         }
         #endregion
+
+        public void RemoveAt(int Row)
+        {
+            //Array.Copy(data,0,)
+            datalist.RemoveAt(row);
+        }
     }
 
     public class MatrixException : Exception

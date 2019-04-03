@@ -1,5 +1,5 @@
 ﻿using System.Text;
-namespace WolfInv.com.StrategyLibForWD
+namespace WolfInv.com.SecurityLib
 {
     public class CommFilterResult
     {

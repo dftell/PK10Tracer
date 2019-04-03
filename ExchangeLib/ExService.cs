@@ -9,6 +9,7 @@ using WolfInv.com.Strags;
 using WolfInv.com.LogLib;
 using System.ComponentModel;
 using System.Reflection;
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.ExchangeLib
 {
     [Serializable]
@@ -92,7 +93,7 @@ namespace WolfInv.com.ExchangeLib
         //////}
 
 
-        public bool Push(ref ExchangeChance ec)
+        public bool Push<T>(ref ExchangeChance<T> ec) where T : TimeSerialData
         {
             lock (ed)
             {
@@ -146,7 +147,7 @@ namespace WolfInv.com.ExchangeLib
             }
         }
 
-        public bool Update(ExchangeChance ec)
+        public bool Update<T>(ExchangeChance<T> ec) where T : TimeSerialData
         {
             lock (ed)
             {

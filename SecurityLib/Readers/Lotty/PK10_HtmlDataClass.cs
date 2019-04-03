@@ -13,19 +13,19 @@ namespace WolfInv.com.SecurityLib
             this.dataUrl = GlobalClass.TypeDataPoints["PK10"].RuntimeInfo.DefaultDataUrl;
             this.UseXmlMothed = GlobalClass.TypeDataPoints["PK10"].RuntimeInfo.DefaultUseXmlModel==1;
         }
-        public override ExpectList getHistoryData(string FolderPath, string filetype)
+        public override ExpectList<T> getHistoryData<T>(string FolderPath, string filetype)
         {
             throw new NotImplementedException();
         }
 
-        public override ExpectList getHistoryData(string strDate, int pageid)
+        public override ExpectList<T> getHistoryData<T>(string strDate, int pageid)
         {
             throw new NotImplementedException();
         }
 
-        protected override ExpectList getData(string strHtml)
+        protected override ExpectList<T> getData<T>(string strHtml)
         {
-            ExpectList ret = new ExpectList();
+            ExpectList<T> ret = new ExpectList<T>();
             string startStr = "lg-history-table\">";
             string endStr = "</table>";
             string strXml = strHtml.Substring(strHtml.IndexOf(startStr)+startStr.Length);
@@ -42,7 +42,7 @@ namespace WolfInv.com.SecurityLib
                 {
                     XmlNodeList tdNodes = rows[i].SelectNodes("td");
                     XmlNodeList td2Nodes = tdNodes[2].SelectNodes("div");
-                    ExpectData ed = new ExpectData();
+                    ExpectData<T> ed = new ExpectData<T>();
                     ed.Expect = tdNodes[0].InnerText;
                     string strCode = string.Join(",",td2Nodes[0].InnerText.Replace("10", "0").ToCharArray());
                     ed.OpenCode = ChanceCodes(strCode);
@@ -69,14 +69,14 @@ namespace WolfInv.com.SecurityLib
             return string.Join(",", codeArr);
         }
 
-        protected override ExpectList getHisData(string strHtml)
+        protected override ExpectList<T> getHisData<T>(string strHtml)
         {
             throw new NotImplementedException();
         }
 
-        protected override ExpectList getXmlData(string strXml)
+        protected override ExpectList<T> getXmlData<T>(string strXml)
         {
-            ExpectList ret = new ExpectList();
+            ExpectList<T> ret = new ExpectList<T>();
             XmlDocument doc = new XmlDocument();
             try
             {
@@ -86,11 +86,11 @@ namespace WolfInv.com.SecurityLib
                     return ret;
                 for (int i = rows.Count - 1; i >= 0; i--)
                 {
-                    ExpectData ed = new ExpectData();
+                    ExpectData<T> ed = new ExpectData<T>();
                     ed.Expect = rows[i].Attributes["expect"].Value;
                     ed.OpenCode = rows[i].Attributes["opencode"].Value;
                     ed.OpenTime = DateTime.Parse(rows[i].Attributes["opentime"].Value);
-                    ret.Add(ed);
+                    ret.Add(ed as ExpectData<T>);
                 }
             }
             catch

@@ -13,9 +13,9 @@ namespace WolfInv.com.ServerInitLib
     {
         
 
-        public static Dictionary<string, StragClass> Init_StragList()
+        public static Dictionary<string, BaseStragClass<T>> Init_StragList<T>() where T : TimeSerialData
         {
-            Dictionary<string, StragClass> AllStragList = new Dictionary<string, StragClass>();
+            Dictionary<string, BaseStragClass<T>> AllStragList = new Dictionary<string, BaseStragClass<T>>();
             try
             {
                 string stragList = GlobalClass.ReReadStragList();
@@ -24,7 +24,7 @@ namespace WolfInv.com.ServerInitLib
                     ToLog("策略列表", "为空！");
                     return AllStragList;
                 }
-                List<StragClass> list = StragClass.getObjectListByXml<StragClass>(stragList); //StragClass.getStragsByXml(stragList);
+                List<BaseStragClass<T>> list = BaseStragClass<T>.getObjectListByXml<BaseStragClass<T>>(stragList); //StragClass.getStragsByXml(stragList);
                 if (list == null)
                 {
                     return AllStragList;
@@ -62,16 +62,16 @@ namespace WolfInv.com.ServerInitLib
             return AllStragList;
         }
 
-        public static Dictionary<string, StragRunPlanClass> Init_StragPlans()
+        public static Dictionary<string, StragRunPlanClass<T>> Init_StragPlans<T>() where T:TimeSerialData
         {
             string stragList = GlobalClass.getStragRunningPlan(true);
-            Dictionary<string, StragRunPlanClass> AllRunPlans = new Dictionary<string, StragRunPlanClass>();
+            Dictionary<string, StragRunPlanClass<T>> AllRunPlans = new Dictionary<string, StragRunPlanClass<T>>();
             if (stragList == null || stragList.Trim().Length == 0)
             {
                 ToLog("策略运行计划列表", "为空！");
                 return AllRunPlans;
             }
-            List<StragRunPlanClass> list = StragRunPlanClass.getObjectListByXml<StragRunPlanClass>(stragList);
+            List<StragRunPlanClass<T>> list = StragRunPlanClass<T>.getObjectListByXml<StragRunPlanClass<T>>(stragList);
             if (list == null)
             {
                 return AllRunPlans;
@@ -91,13 +91,13 @@ namespace WolfInv.com.ServerInitLib
         /// <summary>
         /// 初始化计划，将数据类型和运算类型相同的计划分组
         /// </summary>
-        public static Dictionary<string, CalcStragGroupClass> InitCalcStrags(ref Dictionary<string, CalcStragGroupClass> AllStatusStrags,Dictionary<string, StragClass> AllStrags, Dictionary<string, StragRunPlanClass> list,Dictionary<string,AssetUnitClass> AssetUnits, bool StartTheAuto,bool IsBackTest)
+        public static Dictionary<string, CalcStragGroupClass<T>> InitCalcStrags<T>(ref Dictionary<string, CalcStragGroupClass<T>> AllStatusStrags,Dictionary<string, BaseStragClass<T>> AllStrags, Dictionary<string, StragRunPlanClass<T>> list,Dictionary<string,AssetUnitClass> AssetUnits, bool StartTheAuto,bool IsBackTest) where T:TimeSerialData
         {
             if(AllStatusStrags == null)
-                AllStatusStrags = new Dictionary<string, CalcStragGroupClass>();
+                AllStatusStrags = new Dictionary<string, CalcStragGroupClass<T>>();
             foreach (string key in list.Keys) //按相同类型+视图分类，相同类分在一组
             {
-                StragRunPlanClass spc = list[key];
+                StragRunPlanClass<T> spc = list[key];
                 if (AllStatusStrags.SelectMany(t => t.Value.UseSPlans.Select(a => a.GUID)).Contains(key))//支持后续加入计划，只要状态合适都可以加入
                     continue;
                 if (!AllStrags.ContainsKey(spc.PlanStrag.GUID))
@@ -105,7 +105,7 @@ namespace WolfInv.com.ServerInitLib
                     ToLog("计划非法", "计划所对应策略已注销");
                     continue;
                 }
-                StragClass sc = AllStrags[spc.PlanStrag.GUID];
+                BaseStragClass<T> sc = AllStrags[spc.PlanStrag.GUID];
                 spc.PlanStrag = sc;
                 if (spc.AssetUnitInfo != null)//分配资产单元号
                 {
@@ -134,10 +134,10 @@ namespace WolfInv.com.ServerInitLib
                     continue;
                 }
                 
-                CalcStragGroupClass csg = null;
+                CalcStragGroupClass<T> csg = null;
                 if (!AllStatusStrags.ContainsKey(strKey))
                 {
-                    csg = new CalcStragGroupClass();
+                    csg = new CalcStragGroupClass<T>();
                     AllStatusStrags.Add(strKey, csg);
                 }
                 csg = AllStatusStrags[strKey];
@@ -170,8 +170,8 @@ namespace WolfInv.com.ServerInitLib
         /// 判断是否超期运行        /// </summary>
         /// <param name="CurrTime"></param>
         /// <param name="spc"></param>
-        /// <returns></returns>
-        public static bool JudgeInRunTime(DateTime CurrTime, StragRunPlanClass spc)
+        /// <returns></returns></T>
+        public static bool JudgeInRunTime<T>(DateTime CurrTime, StragRunPlanClass<T> spc) where T:TimeSerialData
         {
             string strToday = CurrTime.ToShortDateString();
             DateTime setBegTime = DateTime.Parse(string.Format("{0} {1}", strToday, spc.DailyStartTime));

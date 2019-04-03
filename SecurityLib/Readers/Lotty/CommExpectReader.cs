@@ -9,99 +9,99 @@ namespace WolfInv.com.SecurityLib
     public abstract class CommExpectReader : DataReader
     {
         
-        public override ExpectList ReadHistory(long From, long buffs)
+        public override ExpectList<T> ReadHistory<T>(long From, long buffs)
         {
-            return ReadHistory(From, buffs, false);
+            return ReadHistory<T>(From, buffs, false);
         }
 
 
-        public override ExpectList ReadHistory(long From,long buffs,bool desc)
+        public override ExpectList<T> ReadHistory<T>(long From,long buffs,bool desc)
         {
             DbClass db = GlobalClass.getCurrDb();
             string sql = string.Format("select top {0} * from {2} where expect>='{1}'  order by expect {3}", buffs, From,strHistoryTable,desc?"desc":"");//modify by zhouys 2019/1/8
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
-            return new ExpectList(ds.Tables[0]);
+            return new ExpectList<T>(ds.Tables[0]);
         }
 
 
-        public override ExpectList ReadHistory(long buffs)
+        public override ExpectList<T> ReadHistory<T>(long buffs)
         {
             DbClass db = GlobalClass.getCurrDb();
             string sql = string.Format("select top {0} * from {2}  order by expect desc", buffs,  strHistoryTable);
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
-            return new ExpectList(ds.Tables[0]);
+            return new ExpectList<T>(ds.Tables[0]);
         }
 
-        public override ExpectList ReadHistory()
+        public override ExpectList<T> ReadHistory<T>()
         {
             DbClass db = GlobalClass.getCurrDb();
             string sql = string.Format("select  * from {0}  order by expect", strHistoryTable);
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
-            return new ExpectList(ds.Tables[0]);
+            return new ExpectList<T>(ds.Tables[0]);
         }
 
-        public override ExpectList ReadHistory(string begt,string endt)
+        public override ExpectList<T> ReadHistory<T>(string begt,string endt)
         {
             DbClass db = GlobalClass.getCurrDb();
             string sql = string.Format("select  * from {0}  where opentime between '{1}' and '{2}'", strHistoryTable,begt,endt);
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
-            return new ExpectList(ds.Tables[0]);
+            return new ExpectList<T>(ds.Tables[0]);
         }
 
-        public override ExpectList ReadNewestData(DateTime fromdate)
+        public override ExpectList<T> ReadNewestData<T>(DateTime fromdate)
         {
             DbClass db = GlobalClass.getCurrDb();
             string sql = string.Format("select * from {1} where opentime>='{0}' order by expect", fromdate.ToShortDateString(),strNewestTable);
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
-            return new ExpectList(ds.Tables[0]);
+            return new ExpectList<T>(ds.Tables[0]);
         }
 
-        public override ExpectList ReadNewestData(int LastLng)
+        public override ExpectList<T> ReadNewestData<T>(int LastLng)
         {
             DbClass db = GlobalClass.getCurrDb();
             string sql = string.Format("select * from (select top {0} * from {1} order by expect desc) order by expect", LastLng, strNewestTable);
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
-            return new ExpectList(ds.Tables[0]);
+            return new ExpectList<T>(ds.Tables[0]);
         }
 
-        public override ExpectList ReadNewestData(int ExpectNo, int Cnt)
+        public override ExpectList<T> ReadNewestData<T>(int ExpectNo, int Cnt)
         {
-            return ReadNewestData(ExpectNo, Cnt, false);
+            return ReadNewestData<T>(ExpectNo, Cnt, false);
         }
 
-        public override ExpectList ReadNewestData(int ExpectNo, int Cnt,bool FromHistoryTable)
+        public override ExpectList<T> ReadNewestData<T>(int ExpectNo, int Cnt,bool FromHistoryTable)
         {
             DbClass db = GlobalClass.getCurrDb();
             string sql = string.Format("select * from {2} where Expect<='{0}' and Expect>({0}-{1}) order by expect", ExpectNo, Cnt, FromHistoryTable?strHistoryTable:strNewestTable);
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
-            return new ExpectList(ds.Tables[0]);
+            return new ExpectList<T>(ds.Tables[0]);
         }
 
-        public override int SaveNewestData(ExpectList InData)
+        public override int SaveNewestData<T>(ExpectList<T> InData)
         {
             DbClass db = GlobalClass.getCurrDb();
             string sql = string.Format("select top 0 * from {0}", strNewestTable);
             return db.SaveList(new ConditionSql(sql), InData.Table);
         }
 
-        public override ExpectList GetMissedData(bool IsHistoryData,string strBegT)
+        public override ExpectList<T> GetMissedData<T>(bool IsHistoryData,string strBegT)
         {
             DbClass db = GlobalClass.getCurrDb();
             string sql = string.Format("select * from {1} where opentime>='{0}'", strBegT, IsHistoryData?strMissHistoryTable:strMissNewestTable);
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
-            return new ExpectList(ds.Tables[0]);
+            return new ExpectList<T>(ds.Tables[0]);
         }
 
 
-        public override int SaveHistoryData(ExpectList InData)
+        public override int SaveHistoryData<T>(ExpectList<T> InData)
         {
             DbClass db = GlobalClass.getCurrDb();
             string sql = string.Format("select top 0 * from {0}", strHistoryTable);
@@ -125,9 +125,10 @@ namespace WolfInv.com.SecurityLib
             return ds.Tables[0];
         }
 
-        public override ExpectList getNewestData(ExpectList NewestData, ExpectList ExistData)
+        public override ExpectList<T> getNewestData<T>(ExpectList<T> NewestData, ExpectList<T> ExistData)
         {
-            ExpectList ret = new ExpectList();
+            DataTable dt = null;
+            ExpectList<T> ret = new ExpectList<T>(dt);
             if (NewestData == null) return ret;
             if (ExistData == null) return NewestData;
             HashSet<string> existDic = new HashSet<string>();
@@ -141,14 +142,14 @@ namespace WolfInv.com.SecurityLib
                 {
                     continue;
                 }
-                ret.Add((ExpectData)NewestData[i].Clone());
+                ret.Add(NewestData[i].Clone() as ExpectData<T>);
             }
             return ret;
         }
 
-        public override DbChanceList getNoCloseChances(string strDataOwner)
+        public override DbChanceList<T> getNoCloseChances<T>(string strDataOwner)
         {
-           DbChanceList ret = new DbChanceList();
+           DbChanceList<T> ret = new DbChanceList<T>();
             DbClass db = GlobalClass.getCurrDb();
             string sql = null;
             if (strDataOwner == null || strDataOwner.Trim().Length == 0)
@@ -158,18 +159,18 @@ namespace WolfInv.com.SecurityLib
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
             //ToLog("数据库结果",string.Format("未关闭机会数量为{0}",ds.Tables[0].Rows.Count));
-            ret = new DbChanceList(ds.Tables[0]);
+            ret = new DbChanceList<T>(ds.Tables[0]);
             return ret;
         }
 
-        public override int SaveChances(List<ChanceClass> list,string strDataOwner)
+        public override int SaveChances<T>(List<ChanceClass<T>> list,string strDataOwner)
         {
             if (list.Count == 0)
                 return 0;
-            DbChanceList ret = new DbChanceList();
+            DbChanceList<T> ret = new DbChanceList<T>();
             DbClass db = GlobalClass.getCurrDb();
             string sql = string.Format("select top 0 * from {0}", strChanceTable);
-            DataTable dt = db.getTableBySqlAndList<ChanceClass>(new ConditionSql(sql), list);
+            DataTable dt = db.getTableBySqlAndList<ChanceClass<T>>(new ConditionSql(sql), list);
             if (dt == null)
             {
                 ToLog("保存机会数据错误", "根据数据表结构和提供的列表返回的机会列表错误！");

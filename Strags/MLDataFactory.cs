@@ -7,7 +7,8 @@ using WolfInv.com.MachineLearnLib;
 using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.Strags
 {
-    public class MLDataFactory
+
+    public class MLDataFactory 
     {
         ExpectList Data;
         public MLDataFactory(ExpectList el)

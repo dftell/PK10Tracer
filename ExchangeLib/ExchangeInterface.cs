@@ -13,11 +13,11 @@ namespace WolfInv.com.ExchangeLib
     ////    { return true; }
     ////}
 
-    public class ExchangeChance:MarshalByRefObject
+    public class ExchangeChance<T>:MarshalByRefObject where T:TimeSerialData
     {
         public Int64 Id;
-        ChanceClass _cc;
-        StragClass _sc;
+        ChanceClass<T> _cc;
+        BaseStragClass<T> _sc;
         ExchangeService es;
         public ExchangeService Server { get { return es; } }
         string _InExpect;
@@ -34,7 +34,7 @@ namespace WolfInv.com.ExchangeLib
             get;set;
         }
 
-        public ChanceClass OwnerChance
+        public ChanceClass<T> OwnerChance
         {
             get
             {
@@ -42,7 +42,7 @@ namespace WolfInv.com.ExchangeLib
             }
         }
 
-        public StragClass OccurStrag
+        public BaseStragClass<T> OccurStrag
         {
             get
             {
@@ -50,7 +50,7 @@ namespace WolfInv.com.ExchangeLib
             }
         }
 
-        public ExchangeChance(ExchangeService _es,StragClass sc,string InExpectNo, string CurrExpectNo, ChanceClass cc)
+        public ExchangeChance(ExchangeService _es,BaseStragClass<T> sc,string InExpectNo, string CurrExpectNo, ChanceClass<T> cc)
         {
             _cc = cc;
             _sc = sc;

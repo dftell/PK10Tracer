@@ -14,7 +14,7 @@ namespace WolfInv.com.Strags
             : base()
         {
         }
-        public override bool CheckNeedEndTheChance(ChanceClass cc,bool LastExpectMatched)
+        public new bool CheckNeedEndTheChance(ChanceClass cc,bool LastExpectMatched)
         {
             if (!LastExpectMatched) return false;
             double p = (double)cc.ChipCount / this.CommSetting.Odds ;
@@ -30,7 +30,7 @@ namespace WolfInv.com.Strags
             }
             return false;
         }
-        public override List<ChanceClass> getChances(CommCollection sc, ExpectData ed)
+        public override List<ChanceClass> getChances(BaseCollection sc, ExpectData ed)
         {
             List<ChanceClass> ret = new List<ChanceClass>();
             DataTableEx dt = null;
@@ -120,7 +120,7 @@ namespace WolfInv.com.Strags
             return scs;
         }
 
-        public override Int64 getChipAmount(double RestCash, ChanceClass cc, AmoutSerials ams)
+        public new Int64 getChipAmount(double RestCash, ChanceClass cc, AmoutSerials ams)
         {
             if(cc.IncrementType==  InterestType.SimpleInterest) return (int)Math.Floor(this.CommSetting.InitCash*0.01);
             double p = (double)(cc.ChipCount / this.CommSetting.Odds);

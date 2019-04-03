@@ -9,9 +9,9 @@ using System.Reflection;
 using WolfInv.com.ProbMathLib;
 namespace WolfInv.com.BaseObjectsLib
 {
-    public delegate bool EventCheckNeedEndTheChance(ChanceClass CheckCc,bool LastExpectMatched);
+    public delegate bool EventCheckNeedEndTheChance<T>(ChanceClass<T> CheckCc, bool LastExpectMatched) where T : TimeSerialData;
 
-    public class BaseChance : DisplayAsTableClass
+    public class BaseChance<T> : DisplayAsTableClass where T : TimeSerialData
     {
         /// <summary>
         /// db字段
@@ -64,7 +64,7 @@ namespace WolfInv.com.BaseObjectsLib
         public double BaseAmount = 1;
     }
 
-    public class ChanceClass : BaseChance,IConvertible
+    public class ChanceClass<T> : BaseChance<T>,IConvertible where T:TimeSerialData
     {
         #region 以下字段支持现场恢复，在数据库中保存
         public string StragId;
@@ -115,14 +115,14 @@ namespace WolfInv.com.BaseObjectsLib
         public int AllowMaxHoldTimeCnt;
         public int LastMatchTimesId;
 
-        public ExpectData InputExpect;
+        public ExpectData<T> InputExpect;
         //public string FromStrag;
         //public string StragParams;
         public bool NeedConditionEnd;
         public int MaxHoldTimeCnt;
         
         public List<int> MatchTimesList = new List<int>();
-        public EventCheckNeedEndTheChance OnCheckTheChance;
+        public EventCheckNeedEndTheChance<T> OnCheckTheChance;
 
         public string AssetId;//增加所属资产单元id
         #endregion
@@ -132,35 +132,35 @@ namespace WolfInv.com.BaseObjectsLib
             ChanceIndex = null;
         }
         //以下为trace属性
-        public bool Matched(ExpectData data)
+        public bool Matched(ExpectData<T> data)
         {
             int tmp = 0;
             return Matched(data, out tmp);
         }
 
-        public bool Matched(ExpectData data, out int MatchCnt,bool getRev)
+        public bool Matched(ExpectData<T> data, out int MatchCnt,bool getRev)
         {
             //MatchCnt = 0;
-            ExpectList el = new ExpectList();
+            ExpectList<T> el = new ExpectList<T>();
             el.Add(data);
             return Matched(el, out MatchCnt, getRev);
         }
 
-        public bool Matched(ExpectData data, out int MatchCnt)
+        public bool Matched(ExpectData<T> data, out int MatchCnt)
         {
             //MatchCnt = 0;
-            ExpectList el = new ExpectList();
+            ExpectList<T> el = new ExpectList<T>();
             el.Add(data);
             return Matched(el, out MatchCnt,false);
         }
 
-        public bool Matched(ExpectList data, out int MatchCnt)
+        public bool Matched(ExpectList<T> data, out int MatchCnt)
         {
             MatchCnt = 0;
             return Matched(data, out MatchCnt, false);
         }
 
-        public bool Matched(ExpectList el, out int MatchCnt, bool getRev)
+        public bool Matched(ExpectList<T> el, out int MatchCnt, bool getRev) 
         {
             //ExpectData data = el.LastData;
             string[] strArr = ChanceCode.Split('+');
@@ -184,7 +184,7 @@ namespace WolfInv.com.BaseObjectsLib
             //////Log("计算服务", "获取到期号信息", string.Format("expect:{0};openCode:{1}",inputEd.Expect,inputEd.OpenCode));
             for (int ei = begid+1; ei < el.Count; ei++)
             {
-                ExpectData data = el[ei];
+                ExpectData<T> data = el[ei];
                 for (int k = 0; k < strArr.Length; k++)
                 {
                     //Log("计算服务", string.Format("循环检查进入期数后的期数是否命中机会：{0}", ChanceCode), string.Format("expect:{0};openCode:{1}", data.Expect, data.OpenCode));
@@ -578,9 +578,9 @@ namespace WolfInv.com.BaseObjectsLib
         }
     }
 
-    public abstract class TraceChance : ChanceClass, ITraceChance,ISpecAmount
+    public abstract class TraceChance<T> : ChanceClass<T>, ITraceChance where T : TimeSerialData
     {
-        public bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
+        public bool CheckNeedEndTheChance(ChanceClass<T> cc, bool LastExpectMatched)
         {
             if (this.MatchChips > 0)//如果命中，即关闭
             {
@@ -589,16 +589,16 @@ namespace WolfInv.com.BaseObjectsLib
             return false;
         }
 
-        public abstract long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts);
+        //public abstract long getChipAmount(double RestCash, ChanceClass<T> cc, AmoutSerials amts);
 
         bool _IsTracing;
         
-        bool ITraceChance.CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
-        {
-            throw new NotImplementedException();
-        }
+////////bool ITraceChance<T>.CheckNeedEndTheChance(ChanceClass<T> cc, bool LastExpectMatched)
+////////{
+////////    throw new NotImplementedException();
+////////}
 
-        bool ITraceChance.IsTracing
+        public bool IsTracing
         {
             get
             {
@@ -610,16 +610,21 @@ namespace WolfInv.com.BaseObjectsLib
             }
         }
 
-        long ISpecAmount.getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        
+        //public abstract bool IsTracing { get; set; }
+
+        public abstract bool CheckNeedEndTheChance<T1>(ChanceClass<T1> cc, bool LastExpectMatched) where T1 : TimeSerialData;
+        public abstract long getChipAmount<T1>(double RestCash, ChanceClass<T1> cc, AmoutSerials amts) where T1 : TimeSerialData;
+    }
+
+    public class NolimitTraceChance<T> : TraceChance<T> where T : TimeSerialData
+    {
+        public override bool CheckNeedEndTheChance<T1>(ChanceClass<T1> cc, bool LastExpectMatched)
         {
             throw new NotImplementedException();
         }
-    }
 
-    public class NolimitTraceChance : TraceChance
-    {
-
-        public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        public override long getChipAmount<T>(double RestCash, ChanceClass<T> cc, AmoutSerials amts)
         {
             try
             {
@@ -661,7 +666,7 @@ namespace WolfInv.com.BaseObjectsLib
     /// <summary>
     /// 一次性机会，其整体开始停止时间由发现机会的类控制，机会本身无法指定下次金额，无getChipAmount方法
     /// </summary>
-    public class OnceChance : ChanceClass
+    public class OnceChance<T> : ChanceClass<T> where T : TimeSerialData
     {
         public OnceChance()
         {
@@ -669,22 +674,22 @@ namespace WolfInv.com.BaseObjectsLib
         }
     }
     
-    public class DbChanceList : DisplayAsTableClass,IDictionary<Int64?, ChanceClass>
+    public class DbChanceList<T> : DisplayAsTableClass,IDictionary<Int64?, ChanceClass<T>> where T : TimeSerialData
     {
         DataTable _dt;
-        Dictionary<Int64?, ChanceClass> list;
+        Dictionary<Int64?, ChanceClass<T>> list;
         public DbChanceList()
         {
-            list = new Dictionary<Int64?, ChanceClass>();
+            list = new Dictionary<Int64?, ChanceClass<T>>();
         }
 
         public DbChanceList(DataTable dt)
         {
-            list = new Dictionary<Int64?, ChanceClass>();
+            list = new Dictionary<Int64?, ChanceClass<T>>();
             FillByTable(dt);
         }
 
-        public void  Add(long? key, ChanceClass value)
+        public void  Add(long? key, ChanceClass<T> value)
         {
             if (list.ContainsKey(key))
             {
@@ -714,7 +719,7 @@ namespace WolfInv.com.BaseObjectsLib
             return true;
         }
 
-        public bool  TryGetValue(long? key, out ChanceClass value)
+        public bool  TryGetValue(long? key, out ChanceClass<T> value)
         {
             value = null;
             if (!list.ContainsKey(key))
@@ -725,12 +730,12 @@ namespace WolfInv.com.BaseObjectsLib
             return true;
         }
 
-        public ICollection<ChanceClass>  Values
+        public ICollection<ChanceClass<T>>  Values
         {
             get { return list.Values; }
         }
 
-        public ChanceClass  this[long? key]
+        public ChanceClass<T>  this[long? key]
         {
 	        get 
 	        {
@@ -747,7 +752,7 @@ namespace WolfInv.com.BaseObjectsLib
 	        }
         }
 
-        public void  Add(KeyValuePair<long?,ChanceClass> item)
+        public void  Add(KeyValuePair<long?,ChanceClass<T>> item)
         {
             if (!list.ContainsKey(item.Key))
             {
@@ -760,7 +765,7 @@ namespace WolfInv.com.BaseObjectsLib
             list.Clear();
         }
 
-        public bool  Contains(KeyValuePair<long?,ChanceClass> item)
+        public bool  Contains(KeyValuePair<long?,ChanceClass<T>> item)
         {
             if (list.ContainsKey(item.Key) && list[item.Key].Equals(item.Value))
             {
@@ -769,7 +774,7 @@ namespace WolfInv.com.BaseObjectsLib
             return false;
         }
 
-        public void  CopyTo(KeyValuePair<long?,ChanceClass>[] array, int arrayIndex)
+        public void  CopyTo(KeyValuePair<long?,ChanceClass<T>>[] array, int arrayIndex)
         {
             list.Select(t => t);
         }
@@ -784,7 +789,7 @@ namespace WolfInv.com.BaseObjectsLib
             get { return true; }
         }
 
-        public bool  Remove(KeyValuePair<long?,ChanceClass> item)
+        public bool  Remove(KeyValuePair<long?,ChanceClass<T>> item)
         {
             if (list.ContainsKey(item.Key))
             {
@@ -794,7 +799,7 @@ namespace WolfInv.com.BaseObjectsLib
             return false;
         }
 
-        public IEnumerator<KeyValuePair<long?,ChanceClass>>  GetEnumerator()
+        public IEnumerator<KeyValuePair<long?,ChanceClass<T>>>  GetEnumerator()
         {
             return list.GetEnumerator();
         }
@@ -810,7 +815,7 @@ namespace WolfInv.com.BaseObjectsLib
         public void FillByTable(DataTable dt)
         {
             _dt = dt;
-            List<ChanceClass> ret = this.FillByTable<ChanceClass>(dt,ref TableBuffs);
+            List<ChanceClass<T>> ret = this.FillByTable<ChanceClass<T>>(dt,ref TableBuffs);
             string str = "";
             TableBuffs.ForEach(t=>str= str + "," + t.Name);
             //Log("获取到表",str);
@@ -835,7 +840,7 @@ namespace WolfInv.com.BaseObjectsLib
             {
                 if (_dt == null)
                 {
-                    _dt = ToTable<ChanceClass>(list.Values.ToList<ChanceClass>(), false);
+                    _dt = ToTable<ChanceClass<T>>(list.Values.ToList<ChanceClass<T>>(), false);
                 }
                 return _dt;
             }
@@ -848,4 +853,7 @@ namespace WolfInv.com.BaseObjectsLib
 
         
     }
+
+
+    
 }

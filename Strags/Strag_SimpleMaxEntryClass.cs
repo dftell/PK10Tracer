@@ -41,7 +41,7 @@ namespace WolfInv.com.Strags
         
         
 
-        public override List<ChanceClass> getChances(CommCollection sc, ExpectData ed)
+        public override List<ChanceClass> getChances(BaseCollection sc, ExpectData ed)
         {
             List<ChanceClass> ret = new List<ChanceClass>();
             MLDataFactory pkdls = new MLDataFactory(this.LastUseData());
@@ -121,12 +121,12 @@ namespace WolfInv.com.Strags
             }
         }
 
-        public override bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
+        public new bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
         {
             return true;
         }
 
-        public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        public new long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
             try
             {

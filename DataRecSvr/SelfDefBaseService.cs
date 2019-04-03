@@ -4,18 +4,17 @@ using System.Linq;
 using System.Text;
 using System.ServiceProcess;
 using WolfInv.com.LogLib;
-using WolfInv.com.PK10CorePress;
 using WolfInv.com.ExchangeLib;
 using WolfInv.com.BaseObjectsLib;
 namespace DataRecSvr
 {
-    public  class SelfDefBaseService : ServiceBase
+    public  class SelfDefBaseService<T> : ServiceBase where T:TimeSerialData
     {
         public static string CurrExpectNo;
         public string ServiceName;
-        public static ExpectList CurrDataList;
+        public static ExpectList<T> CurrDataList;
 
-        public ExpectList CurrData
+        public ExpectList<T> CurrData
         {
             get
             {
@@ -27,7 +26,7 @@ namespace DataRecSvr
             }
         }
 
-        public Dictionary<string, Dictionary<string, ExchangeChance>> CurrChances;
+        public Dictionary<string, Dictionary<string, ExchangeChance<T>>> CurrChances;
         public void Log(string topic, string msg)
         {
             LogableClass.ToLog(this.ServiceName, topic, msg);

@@ -16,18 +16,18 @@ namespace PK10Server
     public partial class frm_StragPlanSetting : Form
     {
         bool NewAPlan = false;
-        public StragRunPlanClass SpecObject;
-        public Dictionary<string, StragRunPlanClass> SpecList;
+        public StragRunPlanClass<TimeSerialData> SpecObject;
+        public Dictionary<string, StragRunPlanClass<TimeSerialData>> SpecList;
         public frm_StragPlanSetting()
         {
             InitializeComponent();
             
         }
 
-        void refreshGrid(Dictionary<string,StragRunPlanClass> alllist)
+        void refreshGrid(Dictionary<string,StragRunPlanClass<TimeSerialData>> alllist)
         {
-            List<StragRunPlanClass> list = alllist.Values.ToList<StragRunPlanClass>();
-            DataTable dt = StragRunPlanClass.ToTable<StragRunPlanClass>(list, true,true);
+            List<StragRunPlanClass<TimeSerialData>> list = alllist.Values.ToList<StragRunPlanClass<TimeSerialData>>();
+            DataTable dt = StragRunPlanClass<TimeSerialData>.ToTable<StragRunPlanClass<TimeSerialData>>(list, true,true);
             this.dataGridView1.DataSource = dt;
             this.dataGridView1.Refresh();
         }
@@ -35,7 +35,7 @@ namespace PK10Server
         private void btn_Add_Click(object sender, EventArgs e)
         {
             NewAPlan = true;
-            StragRunPlanClass spc = new StragRunPlanClass();//
+            StragRunPlanClass<TimeSerialData> spc = new StragRunPlanClass<TimeSerialData>();//
             //spc.GUID = "请选择需要配置的策略";
             spc.AutoRunning = true;
             spc.DailyStartTime = "09:07:00";
@@ -48,7 +48,7 @@ namespace PK10Server
 
         private void frm_StragPlanSetting_Load(object sender, EventArgs e)
         {
-            Dictionary<string, StragRunPlanClass> AllList = null;
+            Dictionary<string, StragRunPlanClass<TimeSerialData>> AllList = null;
             if (Program.AllGlobalSetting.AllRunPlannings!=null)
             {
                 AllList = Program.AllGlobalSetting.AllRunPlannings;
@@ -62,7 +62,7 @@ namespace PK10Server
 
         private void btn_Save_Click(object sender, EventArgs e)
         {
-            StragRunPlanClass srp = this.propertyGrid1.SelectedObject as StragRunPlanClass;
+            StragRunPlanClass<TimeSerialData> srp = this.propertyGrid1.SelectedObject as StragRunPlanClass<TimeSerialData>;
             if (srp == null)
             {
                 MessageBox.Show("请先双击列表选择需要修改的计划或点击新增按钮新建计划！");
@@ -70,7 +70,7 @@ namespace PK10Server
             }
             if (Program.AllGlobalSetting.AllStrags.ContainsKey(srp.GUID))
             {
-                StragClass sc = Program.AllGlobalSetting.AllStrags[srp.GUID];
+                BaseStragClass<TimeSerialData> sc = Program.AllGlobalSetting.AllStrags[srp.GUID];
                 ////srp.StragName = sc.StragClassName;
                 ////srp.StragDescript = sc.StragScript;
             }
@@ -97,7 +97,7 @@ namespace PK10Server
 
         bool SaveData()
         {
-            bool suc = GlobalClass.setStragRunningPlan(StragRunPlanClass.getXmlByObjectList<StragRunPlanClass>(Program.AllGlobalSetting.AllRunPlannings.Values.ToList<StragRunPlanClass>()));
+            bool suc = GlobalClass.setStragRunningPlan(StragRunPlanClass<TimeSerialData>.getXmlByObjectList<StragRunPlanClass<TimeSerialData>>(Program.AllGlobalSetting.AllRunPlannings.Values.ToList<StragRunPlanClass<TimeSerialData>>()));
             if (!suc)
             {
                 MessageBox.Show("保存数据错误，点击确定后将回复较早前的数据！");
@@ -127,7 +127,7 @@ namespace PK10Server
 
         private void btn_delete_Click(object sender, EventArgs e)
         {
-            StragRunPlanClass srp = this.propertyGrid1.SelectedObject as StragRunPlanClass;
+            StragRunPlanClass<TimeSerialData> srp = this.propertyGrid1.SelectedObject as StragRunPlanClass<TimeSerialData>;
             if (NewAPlan || srp == null)
             {
                 MessageBox.Show("请先双击列表选择需要删除计划！");

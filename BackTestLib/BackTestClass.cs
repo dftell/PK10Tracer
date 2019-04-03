@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.ExchangeLib;
-using WolfInv.com.PK10CorePress;
+//using WolfInv.com.PK10CorePress;
 using WolfInv.com.ServerInitLib;
 using WolfInv.com.Strags;
 using WolfInv.com.BaseObjectsLib;
@@ -16,18 +16,19 @@ namespace WolfInv.com.BackTestLib
 {
     public delegate void SuccEvent();
         
-    public class BackTestClass
+    public class BackTestClass<T> where T:TimeSerialData
     {
+        DataTypePoint dtp;
         long BegExpect;
         long LoopCnt;
         double Odds;
         SettingClass CurrSetting;
         public long testIndex = 0;
-        public BackTestReturnClass ret = new BackTestReturnClass();
-        public StragClass teststrag;
+        public BackTestReturnClass<T> ret = new BackTestReturnClass<T>();
+        public BaseStragClass<T> teststrag;
         public DataTable SystemStdDevs = new DataTable();
         public SuccEvent FinishedProcess; 
-        public BackTestClass(long From, long buffCnt,SettingClass setting)
+        public BackTestClass(DataTypePoint dtp, long From, long buffCnt,SettingClass setting)
         {
             BegExpect = From;
             LoopCnt = buffCnt;
@@ -39,11 +40,12 @@ namespace WolfInv.com.BackTestLib
         {
             //LoopCnt = 0;
             testIndex = 0;
-            ret = new BackTestReturnClass();
+            ret = new BackTestReturnClass<T>();
             long begNo = BegExpect;
 
-            ExpectReader er = new ExpectReader();
-            ExpectList el = null;
+            //ExpectReader er = new ExpectReader();
+            DataReader er = null;////////////////////////////////
+            ExpectList<T> el = null;
             long cnt = 0;
             
             ret.HoldCntDic = new Dictionary<int, int>();
@@ -51,15 +53,15 @@ namespace WolfInv.com.BackTestLib
             ret.InChipsDic = new Dictionary<int, int>();
             ret.WinChipsDic = new Dictionary<int, int>();
 
-            ExpectList AllData = new ExpectList();
+            ExpectList<T> AllData = new ExpectList<T>();
             testIndex = teststrag.ReviewExpectCnt-1;
-            ExpectList testData = null;
-            Dictionary<string, ChanceClass> NoCloseChances = new Dictionary<string, ChanceClass>();
-            Dictionary<string, ChanceClass> tmpChances = new Dictionary<string, ChanceClass>();
+            ExpectList<T> testData = null;
+            Dictionary<string, ChanceClass<T>> NoCloseChances = new Dictionary<string, ChanceClass<T>>();
+            Dictionary<string, ChanceClass<T>> tmpChances = new Dictionary<string, ChanceClass<T>>();
             
             while (el == null || el.Count > 0) //如果取到的数据长度大于0
             {
-                el = er.ReadHistory(begNo, LoopCnt);
+                el = er.ReadHistory<T>(begNo, LoopCnt);
                 if (el == null)
                 {
                     ret.LoopCnt = cnt * LoopCnt;
@@ -74,7 +76,7 @@ namespace WolfInv.com.BackTestLib
                     ret.Msg = string.Format("成功遍历{0}条记录！共发现机会{1}次！其中,{2}.", testIndex, ret.ChanceList.Count,ret.HoldInfo);
                     break;
                 }
-                AllData = ExpectList.Concat(AllData, el);
+                AllData = ExpectList<T>.Concat(AllData, el);
                 begNo = el.LastData.LExpectNo + 1;
 
                 cnt++;
@@ -95,10 +97,10 @@ namespace WolfInv.com.BackTestLib
                         testData.RemoveAt(0);
                         testData.Add(AllData[(int)testIndex]);
                     }
-                    tmpChances = new Dictionary<string, ChanceClass>();
+                    tmpChances = new Dictionary<string, ChanceClass<T>>();
                     foreach (string key in NoCloseChances.Keys)
                     {
-                        ChanceClass cc = NoCloseChances[key];
+                        ChanceClass<T> cc = NoCloseChances[key];
                         if (cc.Closed == false)
                         {
                             int matchcnt = 0;
@@ -201,20 +203,20 @@ namespace WolfInv.com.BackTestLib
                             }
                         }
                     }
-                    CommCollection sc = new ExpectListProcess(testData).getSerialData(teststrag.ReviewExpectCnt, teststrag.BySer);
+                    BaseCollection<T> sc = new ExpectListProcessBuilder<T>(testData).getProcess().getSerialData(teststrag.ReviewExpectCnt, teststrag.BySer);
                     if (testData.Count == 0) 
                         break;
                     teststrag.SetLastUserData(testData);
-                    List<ChanceClass> cs = teststrag.getChances(sc,testData.LastData);//获取所有机会
+                    List<ChanceClass<T>> cs = teststrag.getChances(sc,testData.LastData);//获取所有机会
                     if (ret.ChanceList == null)
                     {
-                        ret.ChanceList = new List<ChanceClass>();
+                        ret.ChanceList = new List<ChanceClass<T>>();
                     }
                     //ret.ChanceList.AddRange(cs);
-                    NoCloseChances = new Dictionary<string, ChanceClass>();
+                    NoCloseChances = new Dictionary<string, ChanceClass<T>>();
                     foreach(string key in tmpChances.Keys)
                     {
-                        ChanceClass cc = tmpChances[key];
+                        ChanceClass<T> cc = tmpChances[key];
                         NoCloseChances.Add(key, cc);
                     }
                     for (int i = 0; i < cs.Count; i++)
@@ -247,7 +249,7 @@ namespace WolfInv.com.BackTestLib
         /// <param name="es"></param>
         /// <param name="teststragplans"></param>
         /// <returns></returns>
-        public BackTestReturnClass VirExchange(ServiceSetting sc,ref ExchangeService es, StragRunPlanClass[] teststragplans)
+        public BackTestReturnClass<T> VirExchange(ServiceSetting<T> sc,ref ExchangeService es, StragRunPlanClass<T>[] teststragplans)
         {
             //LoopCnt = 0;
             testIndex = 0;
@@ -255,32 +257,32 @@ namespace WolfInv.com.BackTestLib
             if (!teststragplans[0].AssetUnitInfo.Running) //如果资产单元没有启动，启动资产单元
                 teststragplans[0].AssetUnitInfo.Run(false);
              es = teststragplans[0].AssetUnitInfo.ExchangeServer;//设置资产单元的模拟交易器
-            CalcService cs = new CalcService(true,sc,teststragplans.ToDictionary(t=>t.GUID,t=>t));
+            CalcService<T> cs = new CalcService<T>(true,sc,teststragplans.ToDictionary(t=>t.GUID,t=>t));
             cs.IsTestBack = true;
             
             long begNo = BegExpect;
             ExpectReader er = new ExpectReader();
-            ExpectList el = null;
+            ExpectList<T> el = null;
             long cnt = 0;
-            BackTestReturnClass ret = new BackTestReturnClass();
+            BackTestReturnClass<T> ret = new BackTestReturnClass<T>();
             ret.HoldCntDic = new Dictionary<int, int>();
             ret.HoldWinCntDic = new Dictionary<int, int>();
             ret.InChipsDic = new Dictionary<int, int>();
             ret.WinChipsDic = new Dictionary<int, int>();
 
-            ExpectList AllData = new ExpectList();
+            ExpectList<T> AllData = new ExpectList<T>();
             //long testIndex = teststrag.ReviewExpectCnt - 1;
-            StragClass[] teststrags = teststragplans.Select(p => p.PlanStrag).ToArray<StragClass>();
-            testIndex = teststrags.Max<StragClass>(s => s.ReviewExpectCnt);//取所有策略中回览期最大的开始，之前的数据不看
+            BaseStragClass<T>[] teststrags = teststragplans.Select(p => p.PlanStrag).ToArray<BaseStragClass<T>>();
+            testIndex = teststrags.Max<BaseStragClass<T>>(s => s.ReviewExpectCnt);//取所有策略中回览期最大的开始，之前的数据不看
             long InitIndex = testIndex;
-            ExpectList testData = null;
-            ////Dictionary<string, StragChance> NoCloseChances = new Dictionary<string, StragChance>();
-            ////Dictionary<string, StragChance> tmpChances = new Dictionary<string, StragChance>();
+            ExpectList<T> testData = null;
+            ////Dictionary<string, StragChance<T>> NoCloseChances = new Dictionary<string, StragChance<T>>();
+            ////Dictionary<string, StragChance<T>> tmpChances = new Dictionary<string, StragChance<T>>();
             ////Dictionary<Int64, ExchangeChance> NewExchangeRecord = new Dictionary<Int64, ExchangeChance>();
             int AllCnt = 0;
             while (el == null || el.Count > 0) //如果取到的数据长度大于0
             {
-                el = er.ReadHistory(begNo, LoopCnt);
+                el = er.ReadHistory<T>(begNo, LoopCnt);
                 if (el == null)
                 {
                     ret.LoopCnt = cnt * LoopCnt;
@@ -295,7 +297,7 @@ namespace WolfInv.com.BackTestLib
                     //ret.Msg = string.Format("成功遍历{0}条记录！共发现机会{1}次！其中,{2}.", testIndex, ret.ChanceList.Count, ret.HoldInfo);
                     break;
                 }
-                AllData = ExpectList.Concat(AllData, el);
+                AllData = ExpectList<T>.Concat(AllData, el);
                 begNo = el.LastData.LExpectNo + 1;
 
                 cnt++;
@@ -336,31 +338,31 @@ namespace WolfInv.com.BackTestLib
             return ret;
         }
         
-        public BackTestReturnClass VirExchange_oldLogic(ExchangeService es, StragRunPlanClass[] teststragplans)
+        public BackTestReturnClass<T> VirExchange_oldLogic(ExchangeService es, StragRunPlanClass<T>[] teststragplans)
         {
             long begNo = BegExpect;
             ExpectReader er = new ExpectReader();
-            ExpectList el = null;
+            ExpectList<T> el = null;
             long cnt = 0;
-            BackTestReturnClass ret = new BackTestReturnClass();
+            BackTestReturnClass<T> ret = new BackTestReturnClass<T>();
             ret.HoldCntDic = new Dictionary<int, int>();
             ret.HoldWinCntDic = new Dictionary<int, int>();
             ret.InChipsDic = new Dictionary<int, int>();
             ret.WinChipsDic = new Dictionary<int, int>();
 
-            ExpectList AllData = new ExpectList();
+            ExpectList<T> AllData = new ExpectList<T>();
             //long testIndex = teststrag.ReviewExpectCnt - 1;
-            StragClass[] teststrags = teststragplans.Select(p => p.PlanStrag).ToArray<StragClass>();
-            long testIndex = teststrags.Max<StragClass>(s => s.ReviewExpectCnt);//取所有策略中回览期最大的开始，之前的数据不看
+            BaseStragClass<T>[] teststrags = teststragplans.Select(p => p.PlanStrag).ToArray<BaseStragClass<T>>();
+            long testIndex = teststrags.Max<BaseStragClass<T>>(s => s.ReviewExpectCnt);//取所有策略中回览期最大的开始，之前的数据不看
             long InitIndex = testIndex;
-            ExpectList testData = null;
-            Dictionary<string, StragChance> NoCloseChances = new Dictionary<string, StragChance>();
-            Dictionary<string, StragChance> tmpChances = new Dictionary<string, StragChance>();
-            Dictionary<Int64, ExchangeChance> NewExchangeRecord = new Dictionary<Int64, ExchangeChance>();
+            ExpectList<T> testData = null;
+            Dictionary<string, StragChance<T>> NoCloseChances = new Dictionary<string, StragChance<T>>();
+            Dictionary<string, StragChance<T>> tmpChances = new Dictionary<string, StragChance<T>>();
+            Dictionary<Int64, ExchangeChance<T>> NewExchangeRecord = new Dictionary<Int64, ExchangeChance<T>>();
             int AllCnt = 0;
             while (el == null || el.Count > 0) //如果取到的数据长度大于0
             {
-                el = er.ReadHistory(begNo, LoopCnt);
+                el = er.ReadHistory<T>(begNo, LoopCnt);
                 if (el == null)
                 {
                     ret.LoopCnt = cnt * LoopCnt;
@@ -375,7 +377,7 @@ namespace WolfInv.com.BackTestLib
                     ret.Msg = string.Format("成功遍历{0}条记录！共发现机会{1}次！其中,{2}.", testIndex, ret.ChanceList.Count, ret.HoldInfo);
                     break;
                 }
-                AllData = ExpectList.Concat(AllData, el);
+                AllData = ExpectList<T>.Concat(AllData, el);
                 begNo = el.LastData.LExpectNo + 1;
 
                 cnt++;
@@ -404,24 +406,24 @@ namespace WolfInv.com.BackTestLib
                     {
                         teststrags[i].SetLastUserData(testData);
                     }
-                    tmpChances = new Dictionary<string, StragChance>();
+                    tmpChances = new Dictionary<string, StragChance<T>>();
 
                     //关闭所有交易
                     foreach (int id in NewExchangeRecord.Keys)
                     {
-                        ExchangeChance ec = NewExchangeRecord[id];
+                        ExchangeChance<T>  ec = NewExchangeRecord[id];
                         int matchcnt = 0;
                         ec.OwnerChance.Matched(testData.LastData, out matchcnt, false);
                         ec.MatchChips = matchcnt;
                         es.Update(ec);
                         ec = null;
                     }
-                    NewExchangeRecord = new Dictionary<Int64, ExchangeChance>();
+                    NewExchangeRecord = new Dictionary<Int64, ExchangeChance<T>>();
 
                     foreach (string key in NoCloseChances.Keys)
                     {
-                        StragChance scc = NoCloseChances[key];
-                        ChanceClass cc = scc.Chance;
+                        StragChance<T> scc = NoCloseChances[key];
+                        ChanceClass<T> cc = scc.Chance;
                         if (cc.Closed == false)
                         {
                             int matchcnt = 0;
@@ -557,21 +559,21 @@ namespace WolfInv.com.BackTestLib
                         }
                     }
 
-                    List<StragChance> cs = new List<StragChance>();
+                    List<StragChance<T>> cs = new List<StragChance<T>>();
                     for (int i = 0; i < teststrags.Length; i++)
                     {
-                        CommCollection sc = new ExpectListProcess(testData).getSerialData(teststrags[i].ReviewExpectCnt, teststrags[i].BySer);
+                        BaseCollection<T> sc = new ExpectListProcessBuilder<T>(testData).getProcess().getSerialData(teststrags[i].ReviewExpectCnt, teststrags[i].BySer);
                         if (testData.Count == 0)
                             break;
-                        List<ChanceClass> scs = teststrags[i].getChances(sc, testData.LastData);//获取所有机会
+                        List<ChanceClass<T>> scs = teststrags[i].getChances(sc, testData.LastData);//获取所有机会
                         for (int j = 0; j < scs.Count; j++)
                         {
-                            ChanceClass CurrCc = scs[j];
+                            ChanceClass<T> CurrCc = scs[j];
                             ////scs[j].IncrementType = teststragplans[i].IncreamType;
                             ////scs[j].FixAmt = teststragplans[i].FixAmt;
                             ////scs[j].FixRate = teststragplans[i].FixRate;
-                            StragRunPlanClass currPlan = teststragplans[i];
-                            StragClass currStrag = currPlan.PlanStrag;
+                            StragRunPlanClass<T> currPlan = teststragplans[i];
+                            BaseStragClass<T> currStrag = currPlan.PlanStrag;
                             CurrCc.HoldTimeCnt = 1;
                             CurrCc.Cost = CurrCc.ChipCount * CurrCc.UnitCost;
                             CurrCc.Gained = 0;
@@ -585,24 +587,24 @@ namespace WolfInv.com.BackTestLib
                             CurrCc.FixAmt = currPlan.FixAmt;
                             CurrCc.FixRate = currPlan.FixRate;
                             CurrCc.IncrementType = currPlan.IncreamType;
-                            cs.Add(new StragChance(teststrags[i], CurrCc));
+                            cs.Add(new StragChance<T>(teststrags[i], CurrCc));
                         }
                     }
                     if (ret.ChanceList == null)
                     {
-                        ret.ChanceList = new List<ChanceClass>();
+                        ret.ChanceList = new List<ChanceClass<T>>();
                     }
                     //ret.ChanceList.AddRange(cs);
-                    NoCloseChances = new Dictionary<string, StragChance>();
+                    NoCloseChances = new Dictionary<string, StragChance<T>>();
                     foreach (string key in tmpChances.Keys)
                     {
-                        StragChance scc = tmpChances[key];
-                        ChanceClass cc = scc.Chance;
+                        StragChance<T> scc = tmpChances[key];
+                        ChanceClass<T> cc = scc.Chance;
                         NoCloseChances.Add(key, scc);
                         //////ProbWaveSelectStragClass组合改为统一交易
                         ////if ((scc.Strag is ProbWaveSelectStragClass) == false)
                         ////{
-                        ////    ExchangeChance ec = new ExchangeChance(scc.Strag, testData.LastData.Expect, cc);
+                        ////    ExchangeChance<T>  ec = new ExchangeChance(scc.Strag, testData.LastData.Expect, cc);
                         ////    bool Suc = es.Push(ref ec);
                         ////    if (Suc)
                         ////        NewExchangeRecord.Add(ec.Id, ec);
@@ -630,7 +632,7 @@ namespace WolfInv.com.BackTestLib
                             ////////ProbWaveSelectStragClass组合改为统一交易
                             //////if ((cs[i].Strag is ProbWaveSelectStragClass)==false)
                             //////{
-                            //////    ExchangeChance ec = new ExchangeChance(cs[i].Strag, testData.LastData.Expect, cs[i].Chance);//交易
+                            //////    ExchangeChance<T>  ec = new ExchangeChance(cs[i].Strag, testData.LastData.Expect, cs[i].Chance);//交易
                             //////    bool Suc = es.Push(ref ec);
                             //////    if (Suc)
                             //////        NewExchangeRecord.Add(ec.Id, ec);
@@ -643,13 +645,13 @@ namespace WolfInv.com.BackTestLib
                     foreach (string key in NoCloseChances.Keys)
                     {
 
-                        ExchangeChance ec = new ExchangeChance(es, NoCloseChances[key].Strag, NoCloseChances[key].Chance.ExpectCode,testData.LastData.Expect, NoCloseChances[key].Chance);//交易
+                        ExchangeChance<T>  ec = new ExchangeChance<T>(es, NoCloseChances[key].Strag, NoCloseChances[key].Chance.ExpectCode,testData.LastData.Expect, NoCloseChances[key].Chance);//交易
                         if (ec.OccurStrag is ProbWaveSelectStragClass)//对于ProbWaveSelectStragClass，一开始就计算好了Amount
                         {
                             ProbWaveSelectStragClass strag = ec.OccurStrag as ProbWaveSelectStragClass;
                             if (!strag.UseAmountList().ContainsKey(testData.LastData.Expect))
                             {
-                                Int64 AllAmt = (ec.OccurStrag as ChanceTraceStragClass).getChipAmount(es.summary, ec.OwnerChance, ec.OccurStrag.CommSetting.GetGlobalSetting().DefaultHoldAmtSerials);
+                                Int64 AllAmt = (ec.OccurStrag as ISpecAmount).getChipAmount(es.summary, ec.OwnerChance, ec.OccurStrag.CommSetting.GetGlobalSetting().DefaultHoldAmtSerials);
                                 Int64 ChipAmt = (Int64)Math.Floor((double)AllAmt / NoCloseChances.Count);
                                 ec.ExchangeAmount = ChipAmt;
                                 ec.ExchangeRate = ChipAmt/es.summary;
@@ -677,28 +679,28 @@ namespace WolfInv.com.BackTestLib
         }
 
 
-        public RoundBackTestReturnClass RunRound(StragClass teststrag, long TestLong, long StepLong)//滚动获取
+        public RoundBackTestReturnClass<T> RunRound(BaseStragClass<T> teststrag, long TestLong, long StepLong)//滚动获取
         {
             long begNo = BegExpect;
 
             ExpectReader er = new ExpectReader();
-            ExpectList el = null;
+            ExpectList<T> el = null;
             long cnt = 0;
-            RoundBackTestReturnClass ret = new RoundBackTestReturnClass();
-            ExpectList AllData = new ExpectList();
+            RoundBackTestReturnClass<T> ret = new RoundBackTestReturnClass<T>();
+            ExpectList<T> AllData = new ExpectList<T>();
             long testIndex = teststrag.ReviewExpectCnt - 1;
-            ExpectList testData = null;
-            Dictionary<string, ChanceClass> NoCloseChances = new Dictionary<string, ChanceClass>();
-            Dictionary<string, ChanceClass> tmpChances = new Dictionary<string, ChanceClass>();
+            ExpectList<T> testData = null;
+            Dictionary<string, ChanceClass<T>> NoCloseChances = new Dictionary<string, ChanceClass<T>>();
+            Dictionary<string, ChanceClass<T>> tmpChances = new Dictionary<string, ChanceClass<T>>();
     
             long roundId=0;
             int currRid=0;
-            List<Dictionary<string,ChanceClass>> roundNoMatchedChances = new List<Dictionary<string,ChanceClass>>();
+            List<Dictionary<string,ChanceClass<T>>> roundNoMatchedChances = new List<Dictionary<string,ChanceClass<T>>>();
             List<long> roundBegIds=new List<long>();
             
             while (el == null || el.Count > 0) //如果取到的数据长度大于0
             {
-                el = er.ReadHistory(begNo, LoopCnt);
+                el = er.ReadHistory<T>(begNo, LoopCnt);
                 if (el == null)
                 {
                     ret.LoopCnt = cnt * LoopCnt;
@@ -713,7 +715,7 @@ namespace WolfInv.com.BackTestLib
                     ret.Msg = string.Format("成功遍历{0}条记录！", testIndex);
                     break;
                 }
-                AllData = ExpectList.Concat(AllData, el);
+                AllData = ExpectList<T>.Concat(AllData, el);
                 begNo = el.LastData.LExpectNo + 1;
 
                 cnt++;
@@ -737,11 +739,11 @@ namespace WolfInv.com.BackTestLib
                     if (roundBegIds.Count > 0 && testIndex == roundBegIds[currRid] + TestLong)//切换当前滚动id
                     {
                         //取出当前未完成队列，
-                        Dictionary<string,ChanceClass> NoMatchDic = roundNoMatchedChances[currRid];
-                        BackTestReturnClass brc = ret.RoundData[currRid];
+                        Dictionary<string,ChanceClass<T>> NoMatchDic = roundNoMatchedChances[currRid];
+                        BackTestReturnClass<T> brc = ret.RoundData[currRid];
                         foreach (string key in NoMatchDic.Keys)//结束所有未玩成的结果
                         {
-                            ChanceClass cc = NoMatchDic[key];
+                            ChanceClass<T> cc = NoMatchDic[key];
                             int matchcnt = 0;
                             if (cc.Matched(testData.LastData, out matchcnt, teststrag.GetRev))
                             {
@@ -773,16 +775,16 @@ namespace WolfInv.com.BackTestLib
                     {
                         
                         roundBegIds.Add(testIndex);//加入队列
-                        roundNoMatchedChances.Add(new Dictionary<string,ChanceClass>());//加入未完成的机会表到指定队列中
-                        BackTestReturnClass brc = new BackTestReturnClass();
+                        roundNoMatchedChances.Add(new Dictionary<string,ChanceClass<T>>());//加入未完成的机会表到指定队列中
+                        BackTestReturnClass<T> brc = new BackTestReturnClass<T>();
                         ret.RoundData.Add(brc);
                         roundId++;
                     }
                     for(int i=currRid;i<roundBegIds.Count;i++)//处理每个滚动周期的
                     {
-                        ExchanceClass cc = new ExchanceClass();
-                        Dictionary<string,ChanceClass> NoMatchDic = roundNoMatchedChances[i];
-                        BackTestReturnClass brc = ret.RoundData[i];
+                        ExchanceClass<T> cc = new ExchanceClass<T>();
+                        Dictionary<string,ChanceClass<T>> NoMatchDic = roundNoMatchedChances[i];
+                        BackTestReturnClass<T> brc = ret.RoundData[i];
                         cc.Run(testData, teststrag,ref brc.ChanceList,ref NoMatchDic,ref brc.HoldCntDic);
                         roundNoMatchedChances[i] = NoMatchDic;
                         brc.LoopCnt = testIndex - roundBegIds[i] + 1;
@@ -803,11 +805,11 @@ namespace WolfInv.com.BackTestLib
         public string Msg;
     }
     
-    public class BackTestReturnClass : ReturnClass
+    public class BackTestReturnClass<T> : ReturnClass where T:TimeSerialData
     {
         
-        public List<ExpectData> MatchList;
-        public List<ChanceClass> ChanceList;
+        public List<ExpectData<T>> MatchList;
+        public List<ChanceClass<T>> ChanceList;
         
         public Dictionary<int, int> HoldCntDic;
         public Dictionary<int, int> HoldWinCntDic;
@@ -827,7 +829,7 @@ namespace WolfInv.com.BackTestLib
         }
     }
 
-    public class RoundBackTestReturnClass : ReturnClass
+    public class RoundBackTestReturnClass<T> : ReturnClass where T:TimeSerialData
     {
         public List<float> RoundWinRate
         {
@@ -848,10 +850,10 @@ namespace WolfInv.com.BackTestLib
                 return ret;
             }
         }
-        public List<BackTestReturnClass> RoundData ;
+        public List<BackTestReturnClass<T>> RoundData ;
         public RoundBackTestReturnClass()
         {
-            RoundData = new List<BackTestReturnClass>();
+            RoundData = new List<BackTestReturnClass<T>>();
         }
     }
 

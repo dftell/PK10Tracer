@@ -12,15 +12,17 @@ using System.Xml.Serialization;
 using WolfInv.com.BaseObjectsLib;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
-using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.Strags
 {
-    
+    public interface IFindChance<T> where T : TimeSerialData
+    {
+        List<ChanceClass<T>> getChances(BaseCollection<T> sc, ExpectData<T> ed);
+    }
 
     /// <summary>
     /// 策略基类
     /// </summary>
-    public abstract class BaseStragClass : DisplayAsTableClass
+    public abstract class BaseStragClass<T> : DisplayAsTableClass, IFindChance<T>, ISelfSetting where T : TimeSerialData
     {
         string _guid;
         [DescriptionAttribute("GUID"),
@@ -187,23 +189,149 @@ namespace WolfInv.com.Strags
         CategoryAttribute("入场条件"),
         DefaultValueAttribute(false)]
         public bool GetRev{get;set;}//求反
-        
-        
-        
+
+        [DescriptionAttribute("个性化设置"),
+        DisplayName("个性化设置"),
+        CategoryAttribute("其他设置"),
+        Editor(typeof(SerialObjectEdit<StagConfigSetting>), typeof(UITypeEditor))]
+        public StagConfigSetting StagSetting { get; set; }
+
+        /// <summary>
+        /// 策略配置
+        /// </summary>
+        [DescriptionAttribute("通用设置"),
+        DisplayName("通用设置"),
+        CategoryAttribute("其他设置"),
+        Editor(typeof(SerialObjectEdit<SettingClass>), typeof(UITypeEditor))]
+        public SettingClass CommSetting { get; set; }
+
+
+        public string AssetUnitId { get; set; }
 
 
         /// <summary>
         /// 最后在用数据
         /// </summary>
-        ExpectList _LastUseData;
-        public ExpectList LastUseData()
+        protected ExpectList<T> _LastUseData;
+        public ExpectList<T> LastUseData()
         {
             return _LastUseData;
         }
 
-        public void SetLastUserData(ExpectList value)
+        public void SetLastUserData(ExpectList<T> value)
         {
             _LastUseData = value;
         }
-   }
+
+
+        public abstract List<ChanceClass<T>> getChances(BaseCollection<T> sc, ExpectData<T> ed);
+
+        public abstract StagConfigSetting getInitStagSetting();
+
+
+        //public abstract Int64 getChipAmount(double RestCash, ChanceClass cc, AmoutSerials ams);//查找类默认单利为1，复利为赔率保本对应的凯利公式所算出来的比例
+
+
+        ////public override Int64 getChipAmount1(double RestCash, ChanceClass cc,AmoutSerials ams)//查找类默认单利为1，复利为赔率保本对应的凯利公式所算出来的比例
+        ////{
+        ////    if (cc.IncrementType == InterestType.SimpleInterest)
+        ////        return 1;
+        ////    else
+        ////    {
+        ////        return 1;//return (long)Math.Floor(RestCash* KellyMethodClass.KellyFormula(cc.ChipCount,1,this.CommSetting.GetGlobalSetting().Odds,));
+        ////    }
+        ////    //return this.CommSetting.GetGlobalSetting().UnitChipArray(cc.ChipCount)[0];//默认返回第一个
+        ////}
+
+
+        public static DataTable getAllStrags()
+        {
+            Assembly ass = typeof(BaseStragClass<T>).Assembly;
+            Assembly[] assArr = new Assembly[1] { ass };
+            List<Type> types = new List<Type>();
+            //var types = AppDomain.CurrentDomain.GetAssemblies()
+            ////        var types = assArr
+            ////.SelectMany(a => a.GetTypes().Where(t => (t.IsAbstract == false
+            ////                                && (
+            ////                                t.BaseType == typeof(StragClass)
+            ////                                || (t.BaseType.BaseType != null && t.BaseType.BaseType == typeof(StragClass))
+            ////                                || (t.BaseType.BaseType != null && t.BaseType.BaseType.BaseType != null && t.BaseType.BaseType.BaseType == typeof(StragClass))
+            ////                                ))))
+            ////.ToArray();
+            Type[] AllType = ass.GetTypes();
+            for (int i = 0; i < AllType.Length; i++)
+            {
+                Type t = AllType[i];
+                while (t.BaseType != null)//寻找基类是stragclass的所有非抽象类
+                {
+                    if (t.BaseType.Equals(typeof(StragClass)))
+                    {
+                        if (!AllType[i].IsAbstract)
+                        {
+                            types.Add(AllType[i]);
+                            break;
+                        }
+                    }
+                    t = t.BaseType;
+                }
+            }
+            DataTable dt = new DataTable();
+            dt.Columns.Add("text");
+            dt.Columns.Add("value", typeof(string));
+            dt.Columns.Add("class", typeof(Type));
+            for (int i = 0; i < types.Count; i++)
+            {
+                DataRow dr = dt.NewRow();
+                DisplayNameAttribute attribute = Attribute.GetCustomAttribute(types[i], typeof(DisplayNameAttribute), false) as DisplayNameAttribute;
+                string[] names = types[i].FullName.Split('.');
+                if (attribute != null)
+                {
+                    names = new string[] { attribute.DisplayName };
+                }
+                dr["text"] = names[names.Length - 1];
+                dr["value"] = types[i].ToString();
+                dr["class"] = types[i];
+                dt.Rows.Add(dr);
+            }
+            return dt;
+        }
+
+        public static BaseStragClass<T> getStragByName(string className)
+        {
+            Assembly asmb = typeof(BaseStragClass<T>).Assembly;// Assembly.LoadFrom("EnterpriseServerBase.dll");
+            Type sct = asmb.GetType(className);
+            BaseStragClass<T> sc = Activator.CreateInstance(sct) as BaseStragClass<T>;
+            return sc;
+        }
+
+        public static DataTable GetTableByStragList(List<BaseStragClass<T>> Strags)
+        {
+            DataTable dt = new DataTable();
+
+            string strcols = "策略ID,策略描述,按车号视图,策略参数,策略名称,策略类名";
+            string[] cols = strcols.Split(',');
+            for (int i = 0; i < cols.Length; i++)
+            {
+                dt.Columns.Add(cols[i]);
+            }
+            for (int i = 0; i < Strags.Count; i++)
+            {
+                BaseStragClass<T> jcls = Strags[i];
+                DataRow dr = dt.NewRow();
+                dr[0] = jcls.GUID;
+                dr[1] = jcls.StragScript;
+                dr[2] = jcls.BySer;
+                dr[3] = jcls.StagSetting.ToString();
+                dr[4] = jcls.StragClassName;
+                dr[5] = jcls.StragTypeName;
+                dt.Rows.Add(dr);
+            }
+            return dt;
+        }
+
+
+
+
+        public abstract Type getTheChanceType();
+    }
 }

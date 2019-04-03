@@ -64,6 +64,10 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="KDJGuidClass.cs" />
+    <Compile Include="LinkGuid\BaseLinkGuideClass.cs" />
+    <Compile Include="LinkGuid\EMA.cs" />
+    <Compile Include="LinkGuid\MA.cs" />
+    <Compile Include="LinkGuid\MACD.cs" />
     <Compile Include="MacdAreaClass.cs" />
     <Compile Include="MACDDataItem.cs" />
     <Compile Include="MACDGuidClass.cs" />

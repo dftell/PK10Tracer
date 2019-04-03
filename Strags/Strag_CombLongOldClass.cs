@@ -16,7 +16,7 @@ namespace WolfInv.com.Strags
         {
             _StragClassName = "长期组合跟踪策略";
         }
-        public override List<ChanceClass> getChances(CommCollection sc, ExpectData ed)
+        public override List<ChanceClass> getChances(BaseCollection sc, ExpectData ed)
         {
             List<ChanceClass> ret = new List<ChanceClass>();
             Dictionary<string, string> MatchCols = new Dictionary<string, string>();

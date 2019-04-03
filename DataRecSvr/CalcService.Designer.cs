@@ -1,6 +1,6 @@
 ﻿namespace DataRecSvr
 {
-    partial class CalcService
+    partial class CalcService<T>
     {
         /// <summary> 
         /// 必需的设计器变量。

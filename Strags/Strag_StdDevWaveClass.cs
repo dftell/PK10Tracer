@@ -11,7 +11,7 @@ namespace WolfInv.com.Strags
     [DescriptionAttribute("标准差起伏择时选号策略"),
         DisplayName("标准差起伏择时选号策略")]
     [Serializable]
-    public class Strag_StdDevWaveClass:TotalStdDevTraceStragClass,ITraceChance
+    public class Strag_StdDevWaveClass:TotalStdDevTraceStragClass
     {
         
         public Strag_StdDevWaveClass():base()
@@ -19,13 +19,13 @@ namespace WolfInv.com.Strags
             _StragClassName = "标准差起伏择时选号策略";
         }
 
-        public override bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
+        public new bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
         {
 
             return LastExpectMatched;//持续机会
         }
 
-        public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        public new long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace WolfInv.com.Strags
             return 0;
         }
 
-        public override List<ChanceClass> getChances(CommCollection sc, ExpectData ed)
+        public override List<ChanceClass> getChances(BaseCollection sc, ExpectData ed)
         {
             List<ChanceClass> ret = new List<ChanceClass>();
             if (sc == null || sc.Table == null || sc.Table.Rows.Count < this.ReviewExpectCnt)
@@ -75,8 +75,8 @@ namespace WolfInv.com.Strags
             }
             if (getAllStdDev().Count < 20)
                 return ret;
-            MA ma20 = new MA(getAllStdDev().Values.Select(p=>p[10]).ToArray(), 20);
-            MA ma5 = new MA(getAllStdDev().Values.Select(p => p[10]).ToArray(), 5);
+            MA_del ma20 = new MA_del(getAllStdDev().Values.Select(p=>p[10]).ToArray(), 20);
+            MA_del ma5 = new MA_del(getAllStdDev().Values.Select(p => p[10]).ToArray(), 5);
             if (!IsTracing)
             {
                 //if (stdval > 0.2) return ret;

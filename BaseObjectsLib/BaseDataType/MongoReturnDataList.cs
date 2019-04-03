@@ -3,6 +3,7 @@ using MongoDB.Driver;
 using System.Collections.Generic;
 using MongoDB.Bson;
 using System.Data;
+using System.Linq;
 namespace WolfInv.com.BaseObjectsLib
 {
     public class MongoReturnDataList<T> : List<T>, ICloneable where T : MongoData
@@ -126,6 +127,32 @@ namespace WolfInv.com.BaseObjectsLib
             List<TField> ret = new List<TField>();
             this.ForEach(a=>ret.Add(func(a)));
             return ret;
+        }
+
+        public MongoReturnDataList<T> GetDataByIndies(int[] indies)
+        {
+            MongoReturnDataList<T> ret = new MongoReturnDataList<T>();
+            for (int i=0;i< indies.Length; i++)
+            {
+                ret.Add(this[indies[i]]);
+            }
+            return ret;
+        }
+
+        public MongoReturnDataList<T> GetFirstData(int len)
+        {
+            int[] Arr = new int[len];
+            for (int i = 0; i < len; i++)
+                Arr[i] = i;
+            return GetDataByIndies(Arr);
+        }
+
+        public MongoReturnDataList<T> GetLastData(int len)
+        {
+            int[] Arr = new int[len];
+            for (int i = this.Count-len; i < len; i++)
+                Arr[i] = i;
+            return GetDataByIndies(Arr);
         }
 
     }

@@ -2,7 +2,7 @@
 
 namespace BackTestSys
 {
-    partial class BackTestFrm
+    partial class BackTestFrm<T>
     {
         /// <summary>
         /// Required designer variable.
@@ -40,21 +40,21 @@ namespace BackTestSys
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BackTestFrm));
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series13 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series14 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series15 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series16 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BackTestFrm<T>));
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.btn_trainPlan = new System.Windows.Forms.Button();
@@ -72,7 +72,7 @@ namespace BackTestSys
             this.btn_export = new System.Windows.Forms.Button();
             this.btn_startTest = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.runPlanPicker1 = new RunPlanPicker();
+            this.runPlanPicker1 = new WolfInv.com.ExchangeLib.RunPlanPicker();
             this.txt_LearnCnt = new System.Windows.Forms.TextBox();
             this.label31 = new System.Windows.Forms.Label();
             this.txt_AllowMaxHoldTimeCnt = new System.Windows.Forms.TextBox();
@@ -99,6 +99,8 @@ namespace BackTestSys
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label32 = new System.Windows.Forms.Label();
+            this.ddl_DataSource = new System.Windows.Forms.ComboBox();
             this.txt_Timer_Interval = new System.Windows.Forms.TextBox();
             this.label30 = new System.Windows.Forms.Label();
             this.checkBox_UseBuffRsult = new System.Windows.Forms.CheckBox();
@@ -701,6 +703,8 @@ namespace BackTestSys
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox1.Controls.Add(this.label32);
+            this.groupBox1.Controls.Add(this.ddl_DataSource);
             this.groupBox1.Controls.Add(this.txt_Timer_Interval);
             this.groupBox1.Controls.Add(this.label30);
             this.groupBox1.Controls.Add(this.checkBox_UseBuffRsult);
@@ -751,6 +755,28 @@ namespace BackTestSys
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "回测数据设置";
             // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(14, 288);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(82, 24);
+            this.label32.TabIndex = 40;
+            this.label32.Text = "数据源";
+            // 
+            // ddl_DataSource
+            // 
+            this.ddl_DataSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ddl_DataSource.FormattingEnabled = true;
+            this.ddl_DataSource.Items.AddRange(new object[] {
+            "PK10",
+            "TXFFC",
+            "CN_Stock_A"});
+            this.ddl_DataSource.Location = new System.Drawing.Point(118, 283);
+            this.ddl_DataSource.Name = "ddl_DataSource";
+            this.ddl_DataSource.Size = new System.Drawing.Size(285, 32);
+            this.ddl_DataSource.TabIndex = 39;
+            // 
             // txt_Timer_Interval
             // 
             this.txt_Timer_Interval.Location = new System.Drawing.Point(122, 338);
@@ -773,7 +799,7 @@ namespace BackTestSys
             // checkBox_UseBuffRsult
             // 
             this.checkBox_UseBuffRsult.AutoSize = true;
-            this.checkBox_UseBuffRsult.Location = new System.Drawing.Point(118, 298);
+            this.checkBox_UseBuffRsult.Location = new System.Drawing.Point(214, 344);
             this.checkBox_UseBuffRsult.Margin = new System.Windows.Forms.Padding(6);
             this.checkBox_UseBuffRsult.Name = "checkBox_UseBuffRsult";
             this.checkBox_UseBuffRsult.Size = new System.Drawing.Size(186, 28);
@@ -1275,19 +1301,19 @@ namespace BackTestSys
             // 
             // chart1
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
+            chartArea4.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea4);
             this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
+            legend4.Name = "Legend1";
+            this.chart1.Legends.Add(legend4);
             this.chart1.Location = new System.Drawing.Point(0, 0);
             this.chart1.Margin = new System.Windows.Forms.Padding(6);
             this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series1.Legend = "Legend1";
-            series1.Name = "收益率曲线";
-            this.chart1.Series.Add(series1);
+            series9.ChartArea = "ChartArea1";
+            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series9.Legend = "Legend1";
+            series9.Name = "收益率曲线";
+            this.chart1.Series.Add(series9);
             this.chart1.Size = new System.Drawing.Size(1866, 559);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "收益率曲线图";
@@ -1330,34 +1356,34 @@ namespace BackTestSys
             // 
             // chart_ForProb
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chart_ForProb.ChartAreas.Add(chartArea2);
+            chartArea5.Name = "ChartArea1";
+            this.chart_ForProb.ChartAreas.Add(chartArea5);
             this.chart_ForProb.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.Name = "Legend1";
-            this.chart_ForProb.Legends.Add(legend2);
+            legend5.Name = "Legend1";
+            this.chart_ForProb.Legends.Add(legend5);
             this.chart_ForProb.Location = new System.Drawing.Point(6, 6);
             this.chart_ForProb.Margin = new System.Windows.Forms.Padding(6);
             this.chart_ForProb.Name = "chart_ForProb";
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series2.Legend = "Legend1";
-            series2.Name = "概率变动曲线";
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series3.Legend = "Legend1";
-            series3.Name = "Series2";
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series4.Legend = "Legend1";
-            series4.Name = "Series3";
-            series5.ChartArea = "ChartArea1";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series5.Legend = "Legend1";
-            series5.Name = "Series4";
-            this.chart_ForProb.Series.Add(series2);
-            this.chart_ForProb.Series.Add(series3);
-            this.chart_ForProb.Series.Add(series4);
-            this.chart_ForProb.Series.Add(series5);
+            series10.ChartArea = "ChartArea1";
+            series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series10.Legend = "Legend1";
+            series10.Name = "概率变动曲线";
+            series11.ChartArea = "ChartArea1";
+            series11.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series11.Legend = "Legend1";
+            series11.Name = "Series2";
+            series12.ChartArea = "ChartArea1";
+            series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series12.Legend = "Legend1";
+            series12.Name = "Series3";
+            series13.ChartArea = "ChartArea1";
+            series13.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series13.Legend = "Legend1";
+            series13.Name = "Series4";
+            this.chart_ForProb.Series.Add(series10);
+            this.chart_ForProb.Series.Add(series11);
+            this.chart_ForProb.Series.Add(series12);
+            this.chart_ForProb.Series.Add(series13);
             this.chart_ForProb.Size = new System.Drawing.Size(1854, 547);
             this.chart_ForProb.TabIndex = 0;
             this.chart_ForProb.Text = "chart2";
@@ -1404,30 +1430,30 @@ namespace BackTestSys
             // 
             // chart_ForSystemStdDev
             // 
-            chartArea3.Name = "ChartArea1";
-            this.chart_ForSystemStdDev.ChartAreas.Add(chartArea3);
+            chartArea6.Name = "ChartArea1";
+            this.chart_ForSystemStdDev.ChartAreas.Add(chartArea6);
             this.chart_ForSystemStdDev.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend3.Name = "Legend1";
-            this.chart_ForSystemStdDev.Legends.Add(legend3);
+            legend6.Name = "Legend1";
+            this.chart_ForSystemStdDev.Legends.Add(legend6);
             this.chart_ForSystemStdDev.Location = new System.Drawing.Point(6, 6);
             this.chart_ForSystemStdDev.Margin = new System.Windows.Forms.Padding(6);
             this.chart_ForSystemStdDev.Name = "chart_ForSystemStdDev";
-            series6.BorderWidth = 5;
-            series6.ChartArea = "ChartArea1";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series6.Legend = "Legend1";
-            series6.Name = "Series1";
-            series7.ChartArea = "ChartArea1";
-            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series7.Legend = "Legend1";
-            series7.Name = "Series2";
-            series8.ChartArea = "ChartArea1";
-            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series8.Legend = "Legend1";
-            series8.Name = "Series3";
-            this.chart_ForSystemStdDev.Series.Add(series6);
-            this.chart_ForSystemStdDev.Series.Add(series7);
-            this.chart_ForSystemStdDev.Series.Add(series8);
+            series14.BorderWidth = 5;
+            series14.ChartArea = "ChartArea1";
+            series14.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series14.Legend = "Legend1";
+            series14.Name = "Series1";
+            series15.ChartArea = "ChartArea1";
+            series15.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series15.Legend = "Legend1";
+            series15.Name = "Series2";
+            series16.ChartArea = "ChartArea1";
+            series16.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series16.Legend = "Legend1";
+            series16.Name = "Series3";
+            this.chart_ForSystemStdDev.Series.Add(series14);
+            this.chart_ForSystemStdDev.Series.Add(series15);
+            this.chart_ForSystemStdDev.Series.Add(series16);
             this.chart_ForSystemStdDev.Size = new System.Drawing.Size(1854, 547);
             this.chart_ForSystemStdDev.TabIndex = 0;
             this.chart_ForSystemStdDev.Text = "系统整体散乱程度";
@@ -1681,5 +1707,7 @@ namespace BackTestSys
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Button btn_trainPlan;
         private WolfInv.com.ExchangeLib.RunPlanPicker runPlanPicker1;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.ComboBox ddl_DataSource;
     }
 }

@@ -6,21 +6,21 @@ namespace WolfInv.com.SecurityLib
 {
     public interface IDataReader
     {
-        ExpectList GetMissedData(bool IsHistoryData, string strBegT);
-        ExpectList getNewestData(ExpectList NewestData, ExpectList ExistData);
-        DbChanceList getNoCloseChances(string strDataOwner);
-        ExpectList ReadHistory();
-        ExpectList ReadHistory(long buffs);
-        ExpectList ReadHistory(long From, long buffs);
-        ExpectList ReadHistory(long From, long buffs, bool desc);
-        ExpectList ReadHistory(string begt, string endt);
-        ExpectList ReadNewestData(DateTime fromdate);
-        ExpectList ReadNewestData(int LastLng);
-        ExpectList ReadNewestData(int ExpectNo, int Cnt);
-        ExpectList ReadNewestData(int ExpectNo, int Cnt, bool FromHistoryTable);
-        int SaveChances(List<ChanceClass> list, string strDataOwner);
-        int SaveHistoryData(ExpectList InData);
-        int SaveNewestData(ExpectList InData);
+        ExpectList<T> GetMissedData<T>(bool IsHistoryData, string strBegT) where T : TimeSerialData;
+        ExpectList<T> getNewestData<T>(ExpectList<T> NewestData, ExpectList<T> ExistData) where T : TimeSerialData;
+        DbChanceList<T> getNoCloseChances<T>(string strDataOwner) where T : TimeSerialData;
+        ExpectList<T> ReadHistory<T>() where T : TimeSerialData;
+        ExpectList<T> ReadHistory<T>(long buffs) where T : TimeSerialData;
+        ExpectList<T> ReadHistory<T>(long From, long buffs) where T : TimeSerialData;
+        ExpectList<T> ReadHistory<T>(long From, long buffs, bool desc) where T : TimeSerialData;
+        ExpectList<T> ReadHistory<T>(string begt, string endt) where T : TimeSerialData;
+        ExpectList<T> ReadNewestData<T>(DateTime fromdate) where T : TimeSerialData;
+        ExpectList<T> ReadNewestData<T>(int LastLng) where T : TimeSerialData;
+        ExpectList<T> ReadNewestData<T>(int ExpectNo, int Cnt) where T : TimeSerialData;
+        ExpectList<T> ReadNewestData<T>(int ExpectNo, int Cnt, bool FromHistoryTable) where T : TimeSerialData;
+        int SaveChances<T>(List<ChanceClass<T>> list, string strDataOwner) where T : TimeSerialData;
+        int SaveHistoryData<T>(ExpectList<T> InData) where T : TimeSerialData;
+        int SaveNewestData<T>(ExpectList<T> InData) where T : TimeSerialData;
     }
 
 

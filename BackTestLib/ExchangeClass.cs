@@ -5,20 +5,22 @@ using System.Text;
 using WolfInv.com.PK10CorePress;
 using WolfInv.com.Strags;
 using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.ServerInitLib;
+using WolfInv.com.ExchangeLib;
 namespace WolfInv.com.BackTestLib
 {
     
-    public class ExchanceClass
+    public class ExchanceClass<T> where T : TimeSerialData
     {
-        Dictionary<string, ChanceClass> tmpChances = null;
-        public void Run(ExpectList testData, StragClass teststrag, ref List<ChanceClass> ChanceList, ref Dictionary<string, ChanceClass> NoCloseChances, ref Dictionary<int, int> HoldCntDic)
+        Dictionary<string, ChanceClass<T>> tmpChances = null;
+        public void Run(ExpectList<T> testData, BaseStragClass<T> teststrag, ref List<ChanceClass<T>> ChanceList, ref Dictionary<string, ChanceClass<T>> NoCloseChances, ref Dictionary<int, int> HoldCntDic) 
         {
-            tmpChances = new Dictionary<string, ChanceClass>();
-            if (ChanceList == null) ChanceList = new List<ChanceClass>();
-            CommCollection sc = new ExpectListProcess(testData).getSerialData(teststrag.ReviewExpectCnt, teststrag.BySer);
+            tmpChances = new Dictionary<string, ChanceClass<T>>();
+            if (ChanceList == null) ChanceList = new List<ChanceClass<T>>();
+            BaseCollection<T> sc = new ExpectListProcessBuilder<T>(testData).getProcess().getSerialData(teststrag.ReviewExpectCnt, teststrag.BySer);
             foreach (string key in NoCloseChances.Keys)
             {
-                ChanceClass cc = NoCloseChances[key];
+                ChanceClass<T> cc = NoCloseChances[key];
                 if (cc.Closed == false)
                 {
                     int matchcnt = 0;
@@ -59,18 +61,18 @@ namespace WolfInv.com.BackTestLib
                     }
                 }
             }
-            //List<ChanceClass> cs = teststrag.getChances(testData);
+            //List<ChanceClass<T>> cs = teststrag.getChances(testData);
 
-            List<ChanceClass> cs = teststrag.getChances(sc, testData.LastData);
+            List<ChanceClass<T>> cs = teststrag.getChances(sc, testData.LastData);
             if (ChanceList == null)
             {
-                ChanceList = new List<ChanceClass>();
+                ChanceList = new List<ChanceClass<T>>();
             }
             //ret.ChanceList.AddRange(cs);
-            NoCloseChances = new Dictionary<string, ChanceClass>();
+            NoCloseChances = new Dictionary<string, ChanceClass<T>>();
             foreach (string key in tmpChances.Keys)
             {
-                ChanceClass cc = tmpChances[key];
+                ChanceClass<T> cc = tmpChances[key];
                 NoCloseChances.Add(key, cc);
             }
             for (int i = 0; i < cs.Count; i++)
@@ -92,10 +94,11 @@ namespace WolfInv.com.BackTestLib
             }
         }
 
-        public ExchanceReuslt Run(ExpectList testData, StragClass teststrag)
+        public ExchanceReuslt Run(ExpectList<T> testData, BaseStragClass<T> teststrag)
         {
 
             return null;
         }
     }
-}
+
+    }

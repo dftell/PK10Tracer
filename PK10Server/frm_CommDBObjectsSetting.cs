@@ -112,7 +112,7 @@ namespace PK10Server
         bool SaveData()
         {
 
-            //bool suc = GlobalClass.setStragRunningPlan(StragRunPlanClass.getXmlByObjectList<StragRunPlanClass>(Program.AllGlobalSetting.AllRunPlannings.Values.ToList<StragRunPlanClass>()));
+            //bool suc = GlobalClass.setStragRunningPlan(StragRunPlanClass.getXmlByObjectList<StragRunPlanClass<T>>(Program.AllGlobalSetting.AllRunPlannings.Values.ToList<StragRunPlanClass<T>>()));
             bool suc = UseObject.SaveDBFile(OuterList.Values.ToList<T>());
             if (!suc)
             {

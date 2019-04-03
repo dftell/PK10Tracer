@@ -1,6 +1,6 @@
 ﻿namespace PK10Server
 {
-    partial class frm_StragMonitor
+    partial class frm_StragMonitor<T>
     {
         /// <summary>
         /// Required designer variable.

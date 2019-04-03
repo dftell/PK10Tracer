@@ -23,7 +23,7 @@ namespace WolfInv.com.Strags
             _StragClassName = "通用跳转选号策略";
         }
 
-        public override bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
+        public new bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
         {
             cc.HoldTimeCnt = HoldCnt;
             if (LastExpectMatched)
@@ -38,13 +38,13 @@ namespace WolfInv.com.Strags
             return true;
         }
 
-        public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        public new long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
             return amts.Serials[0][HoldCnt-1];
             
         }
 
-        public override List<ChanceClass> getChances(CommCollection sc, ExpectData ed)
+        public override List<ChanceClass> getChances(BaseCollection sc, ExpectData ed)
         {
             List<ChanceClass> ret = new List<ChanceClass>();
             if (sc == null || sc.Table == null || sc.Table.Rows.Count < this.ReviewExpectCnt)

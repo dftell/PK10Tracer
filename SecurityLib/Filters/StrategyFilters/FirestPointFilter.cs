@@ -7,7 +7,7 @@ using WolfInv.com.SecurityLib;
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.GuideLib;
 
-namespace WolfInv.com.StrategyLibForWD.Filters.StrategyFilters
+namespace WolfInv.com.SecurityLib
 {
     public class FirstPointFilter:CommFilterLogicBaseClass
     {

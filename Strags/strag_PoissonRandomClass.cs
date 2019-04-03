@@ -7,9 +7,9 @@ namespace WolfInv.com.Strags
 {
     [DescriptionAttribute("泊松分布选号策略"),
         DisplayName("泊松分布选号策略")]
-    public class strag_PoissonRandomClass:StragClass,ITraceChance,ISpecAmount
+    public class strag_PoissonRandomClass:StragClass
     {
-        public override List<ChanceClass> getChances(CommCollection sc, ExpectData ed)
+        public override List<ChanceClass> getChances(BaseCollection sc, ExpectData ed)
         {
             List<ChanceClass> ret = new List<ChanceClass>();
             

@@ -10,11 +10,12 @@ using WolfInv.com.LogLib;
 using System.Timers;
 using WolfInv.com.WinInterComminuteLib;
 using WolfInv.com.ExchangeLib;
+using WolfInv.com.BaseObjectsLib;
 namespace DataRecSvr
 {
     static class Program
     {
-        public static ServiceSetting AllServiceConfig;
+        public static ServiceSetting<TimeSerialData> AllServiceConfig;
         
         /// <summary>
         /// 应用程序的主入口点。
@@ -26,9 +27,9 @@ namespace DataRecSvr
             { 
                 ServiceBase[] ServicesToRun;
                 LogableClass.ToLog("构建计算服务", "开始");
-                CalcService cs = new CalcService();
+                CalcService<TimeSerialData> cs = new CalcService<TimeSerialData>();
                 LogableClass.ToLog("构建接收服务", "开始");
-                ReceiveService rs = new ReceiveService();
+                ReceiveService<TimeSerialData> rs = new ReceiveService<TimeSerialData>();
                 //SubscriptData sd = new SubscriptData();
                 rs.CalcProcess = cs;
                 //只有接收数据是默认启动，计算服务由接收数据触发
@@ -53,7 +54,7 @@ namespace DataRecSvr
 
         static void InitSystem()
         {
-            AllServiceConfig = new ServiceSetting();
+            AllServiceConfig = new ServiceSetting<TimeSerialData>();
             AllServiceConfig.Init(null);
             AllServiceConfig.GrpThePlan(false);
             AllServiceConfig.CreateChannel(null);

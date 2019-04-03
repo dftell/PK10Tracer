@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E82CC1E2-19CE-4B04-9213-5E7D0F2E440B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WolfInv.com.SecurityStragLib</RootNamespace>
+    <AssemblyName>WolfInv.com.SecurityStragLib</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\project\PK10Tracer\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\project\PK10Tracer\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseSecurityStragClass.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BaseObjectsLib\WolfInv.com.BaseObjectsLib.csproj">
+      <Project>{38b7c927-f264-46a1-a550-388f440d79be}</Project>
+      <Name>WolfInv.com.BaseObjectsLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GuideLib\WolfInv.com.GuideLib.csproj">
+      <Project>{2c724db7-59a5-41cd-8274-c0acb18fcc1a}</Project>
+      <Name>WolfInv.com.GuideLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogLib\WolfInv.com.LogLib.csproj">
+      <Project>{182084e4-c48b-4585-9221-4a54caf7448f}</Project>
+      <Name>WolfInv.com.LogLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SecurityLib\WolfInv.com.SecurityLib.csproj">
+      <Project>{aa6cd329-d212-4998-be10-2a4728175f53}</Project>
+      <Name>WolfInv.com.SecurityLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Strags\WolfInv.com.Strags.csproj">
+      <Project>{c91d683f-3594-4c5e-872e-dfbc09731419}</Project>
+      <Name>WolfInv.com.Strags</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
