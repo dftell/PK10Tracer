@@ -737,7 +737,7 @@ namespace BackTestSys
             //////try
             //////{
             if (btc == null)
-                btc = btc = new BackTestClass<T>(GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()],long.Parse(txt_begExpNo.Text), long.Parse(txt_LoopCnt.Text), setting);
+                btc  = new BackTestClass<T>(GlobalClass.TypeDataPoints[ddl_DataSource.Text],long.Parse(txt_begExpNo.Text), long.Parse(txt_LoopCnt.Text), setting);
             th = new Thread(RunVirtual);
             th.Start();
             return;

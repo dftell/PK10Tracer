@@ -8,25 +8,27 @@ using WolfInv.com.LogLib;
 using System.Reflection;
 namespace WolfInv.com.PK10CorePress
 {
-    public abstract class CommExpectListProcess :BaseObjectsLib.CommExpectListProcess<TimeSerialData>
-    {
-        protected ExpectList data;
-        protected CommExpectListProcess(ExpectList _data) : base(_data)
-        {
-        }
+    ////public abstract class CommExpectListProcess :BaseObjectsLib.CommExpectListProcess<TimeSerialData>
+    ////{
+    ////    protected ExpectList data;
+    ////    protected CommExpectListProcess(ExpectList _data) : base(_data)
+    ////    {
+    ////        data = ConvertionExtensions.CopyTo<ExpectList>(base.Parent_data);
+    ////    }
     
-    }
+    ////}
 
     public abstract class BaseCollection: BaseObjectsLib.BaseCollection<TimeSerialData>
     {
-        public new ExpectList orgData;
+        public ExpectList orgData;
     }
-    public class ExpectListProcess : PK10CorePress.CommExpectListProcess
+    public class ExpectListProcess: BaseObjectsLib.CommExpectListProcess<TimeSerialData> //PK10CorePress.CommExpectListProcess
     {
-        
+        protected ExpectList data;
         public ExpectListProcess(ExpectList _data):base(_data)
         {
-            //data = _data;
+            data = _data;
+            //data = ConvertionExtensions.CopyTo<ExpectList>(base.Parent_data);
         }
                             
 
@@ -37,7 +39,7 @@ namespace WolfInv.com.PK10CorePress
             string RestModel = "1234567890";
             for (int i = 0; i < Math.Min(reviewCnt,data.Count); i++)
             {
-                ExpectData currExpect = data[lastId - i];
+                ExpectData currExpect = data[lastId - i];//  data[lastId - i].CopyTo<ExpectData>();
                 Dictionary<int, string> lastData = null;
                 Dictionary<int, string> newData = new Dictionary<int, string>();
                 if (i > 0)
@@ -85,7 +87,7 @@ namespace WolfInv.com.PK10CorePress
                 ret.Data = getNoDispNums(reviewCnt);
             }
             //LogableClass.ToLog("获取视图集合时赋值原始数据", string.Format("到底做什么用的真忘记了{0}", reviewCnt));
-            ret.orgData = this.data.LastDatas(Math.Min(reviewCnt, data.Count));//？为什么要指定长度？因为回测时输入的原始数据太长？
+            ret.orgData = this.data.LastDatas(Math.Min(reviewCnt, data.Count),false);//as ExpectList<TimeSerialData>;// new ExpectList(this.data.LastDatas(Math.Min(reviewCnt, data.Count)).Table);//？为什么要指定长度？因为回测时输入的原始数据太长？
             return ret;
         }
 
@@ -96,7 +98,7 @@ namespace WolfInv.com.PK10CorePress
             string RestModel = "1234567890";
             for (int i = 0; i < Math.Min(reviewCnt, data.Count); i++)
             {
-                ExpectData currExpect = data[lastId - i];
+                ExpectData currExpect = data[lastId - i].CopyTo<ExpectData>();
                 Dictionary<int, string> lastData = null;
                 Dictionary<int, string> newData = new Dictionary<int, string>();
                 if (i > 0)

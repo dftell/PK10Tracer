@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace WolfInv.com.SecurityLib
         public override BaseCollection<T> getSerialData(int reviewCnt, bool ByNo)
         {
             BaseCollection<T> ret = new SecurityCollection<T>();
-            ret.orgData = data;
+            //ret.orgData = data;
             return ret;
         }
     }
@@ -35,6 +36,8 @@ namespace WolfInv.com.SecurityLib
         public override DataTableEx SerialDistributionTable => throw new NotImplementedException();
 
         public override bool isByNo { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public override DataTable Table => throw new NotImplementedException();
 
         public override int FindLastDataExistCount(int StartPos, int lng, string StrKey, string val)
         {

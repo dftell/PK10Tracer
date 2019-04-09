@@ -8,10 +8,10 @@ namespace WolfInv.com.BaseObjectsLib
 {
     public abstract class CommExpectListProcess<T> : ICommExpectListProcess<T> where T:TimeSerialData
     {
-        protected ExpectList<T> data;
+        protected ExpectList<T> Parent_data;
         protected CommExpectListProcess(ExpectList<T> _data)
         {
-            data = _data;
+            Parent_data = _data;
         }
         public abstract List<Dictionary<int, string>> getNoDispNums(int reviewCnt);
         public abstract BaseCollection<T> getSerialData(int reviewCnt, bool ByNo) ;

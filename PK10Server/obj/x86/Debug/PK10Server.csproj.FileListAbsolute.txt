@@ -44,3 +44,6 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Serv
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.exe
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.pdb
+C:\Users\zhouys\Source\project\Services\PK10Server.exe.config
+C:\Users\zhouys\Source\project\Services\PK10Server.exe
+C:\Users\zhouys\Source\project\Services\PK10Server.pdb

@@ -142,7 +142,7 @@ namespace WolfInv.com.SecurityLib
                 {
                     continue;
                 }
-                ret.Add(NewestData[i].Clone() as ExpectData<T>);
+                ret.Add(NewestData[i]);
             }
             return ret;
         }

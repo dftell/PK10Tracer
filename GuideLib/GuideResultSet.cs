@@ -4,6 +4,7 @@ using System.Linq;
 using System.Data;
 namespace WolfInv.com.GuideLib
 {
+    
     public class GuideResultSet : DataSet
     {
         protected Dictionary<string, double> _data;

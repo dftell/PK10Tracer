@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Drawing.Design;
 namespace WolfInv.com.Strags
 {
+    [Serializable]
     [DisplayName("策略个性化设置")]
     public class StagConfigSetting : DetailStringClass
     {

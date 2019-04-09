@@ -99,7 +99,8 @@ namespace PK10Server
         void RefreshSerialData(ListView lv,bool byNo,int minRow)
         {
             ExpectList<T> el = ViewDataList; ;
-            ExpectListProcessBuilder<T> elp = new ExpectListProcessBuilder<T>(el);
+            
+            ExpectListProcessBuilder<T> elp = new ExpectListProcessBuilder<T>(GlobalClass.TypeDataPoints["PK10"],el);
             BaseCollection<T> sc = elp.getProcess().getSerialData(180, byNo);
             sc.isByNo = byNo;
             lv.Items.Clear();

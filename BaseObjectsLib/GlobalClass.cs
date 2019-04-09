@@ -914,12 +914,15 @@ namespace WolfInv.com.BaseObjectsLib
                     CurrSum = TestSum;
                 }
                 Int64 LastSum = CurrSum;
+                double LastRate = bRate;
                 while (CurrSum < MaxValue)
                 {
                     LastSum = CurrSum;
+                    LastRate = bRate;
                     bRate += stepRate;
                     CurrSum = getSum(i + 1, MaxCnts, FirstAmt, odds, bRate, out Ser);
                 }
+                CurrSum = getSum(i+1,MaxCnts, FirstAmt, odds, LastRate, out Ser);
                 if (NeedAddFirst)
                 {
                     List<long> list = Ser.ToList();

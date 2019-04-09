@@ -11,10 +11,24 @@ namespace WolfInv.com.BaseObjectsLib
     {
 
     }
-
+    [Serializable]
     public class ExpectData<T> : TimeSerialData, IDictionary<string,T> where T : TimeSerialData
     {
         Dictionary<string, T> list = new Dictionary<string, T>();
+
+        public ExpectData()
+        {
+
+        }
+
+        public ExpectData(T a)
+        {
+            this.Expect = a.Expect;
+            this.OpenCode = a.OpenCode;
+            this.OpenTime = a.OpenTime;
+            if (this.ContainsKey(this.Key))
+                this.Add(this.Key, a);
+        }
 
         public T this[string key]
         {
@@ -32,13 +46,13 @@ namespace WolfInv.com.BaseObjectsLib
         {
             get
             {
-                return list.Keys;
+                return list?.Keys;
             }
         }
 
         public ICollection<T> Values
         {
-            get { return list.Values; }
+            get { return list?.Values; }
         }
 
         public int Count
@@ -158,6 +172,7 @@ namespace WolfInv.com.BaseObjectsLib
             }
         }
 
+        
         #endregion
     }
 

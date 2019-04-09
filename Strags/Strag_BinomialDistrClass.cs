@@ -93,7 +93,6 @@ namespace WolfInv.com.Strags
                     {
                         MatchPoisonItems.Add(key,ValidItems[key]);
                     }
-
                 }
                 AllList.Add(strCol, MatchPoisonItems);
             }

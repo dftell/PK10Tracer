@@ -24,7 +24,7 @@ namespace WolfInv.com.PK10CorePress
         public override bool isByNo { get; set; }
 
 
-        public DataTable Table
+        public override DataTable Table
         {
             get
             {

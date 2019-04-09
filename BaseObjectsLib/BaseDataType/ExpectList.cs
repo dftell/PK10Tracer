@@ -9,9 +9,49 @@ namespace WolfInv.com.BaseObjectsLib
 
     public class ExpectList<T> : List<ExpectData<T>> where T :TimeSerialData
     {
-        protected Dictionary<string, MongoReturnDataList<T>> Data;
+        bool Readed=false;
+        protected Dictionary<string, MongoReturnDataList<T>> _Data;
+        protected Dictionary<string, MongoReturnDataList<T>> Data
+        {
+            get
+            {
+                if(Readed)
+                {
+                    return _Data;
+                }
+                _Data = new Dictionary<string, MongoReturnDataList<T>>();
+                if (_MyData.Count == 0) return _Data;
+                if (_MyData[0].Keys == null || _MyData[0].Count == 0)
+                    _Data.Add("Lotty", new MongoReturnDataList<T>());
+                for (int i=0;i<_MyData.Count;i++)
+                {
+                    if (_MyData[i].Keys == null || _MyData[i].Count == 0)//对彩票
+                    {
+                        T val = _MyData[i].CopyTo<T>();
+                        _Data[val.Key].Add(val);
+                    }
+                    else
+                    {
+                        foreach (string key in _MyData[i].Keys)
+                        {
+                            if (!_Data.ContainsKey(key))
+                            {
+                                _Data.Add(key, new MongoReturnDataList<T>());
+                            }
+                            _Data[key].Add(_MyData[i][key]);
+                        }
+                    }
+                }
+                Readed = true;
+                return _Data;
+            }
+            set
+            {
+                _Data = value;
+            }
+        }
 
-        public DataTypePoint UseType;
+        //public DataTypePoint UseType;
         public Cycle Cyc = Cycle.Expect;
         List<ExpectData<T>> _MyData;
         
@@ -40,6 +80,7 @@ namespace WolfInv.com.BaseObjectsLib
         public ExpectList()
         {
             Data = new Dictionary<string, MongoReturnDataList<T>>();
+            _MyData = new List<ExpectData<T>>();
         }
 
         public ExpectData<T> FirstData
@@ -47,9 +88,54 @@ namespace WolfInv.com.BaseObjectsLib
             get { return MyData[0]; }
         }
 
-        public ExpectList(Dictionary<string, MongoReturnDataList<T>> _data)
+        
+        
+        public ExpectList(Dictionary<string, MongoReturnDataList<T>> _data,bool NeedReTime)
         {
+            _MyData = new List<ExpectData<T>>();
+            List<string> datelist = new List<string>();
+            if (NeedReTime)
+            {
+                var times = _data.Values.ToList().Select(a => a.Select(b => b.CurrTime));
+                foreach (var itime in times)
+                {
+                    foreach (string key in itime)
+                    {
+                        if (!datelist.Contains(key))
+                        {
+                            datelist.Add(key);
+                        }
+                    }
+                }
+                datelist.OrderBy(a => a);
+                for (int i = 0; i < datelist.Count; i++)
+                {
+                    ExpectData<T> newData = new ExpectData<T>();
+                    string strCurrDate = datelist[i];
+                    foreach (MongoReturnDataList<T> vals in _data.Values)
+                    {
+                        var val = vals.Where(a => a.CurrTime == strCurrDate);
+                        if (val == null || val.Count<T>() == 0)
+                            continue;
+                        T vData = val.First();
+                        
+                        newData.Add(vData.Key, vData);
+                    }
+                    newData.Expect = newData.First().Value.Expect;
+                    newData.OpenCode = newData.First().Value.OpenCode;
+                    newData.OpenTime = newData.First().Value.OpenTime;
+                    _MyData.Add(newData);
+
+                }
+                
+            }
+            else
+            {
+                _data.First().Value.ForEach(a=> _MyData.Add(new ExpectData<T>(a)));
+            }
+            
             Data = _data;
+            Readed = false;
         }
 
         public ExpectList(DataTable dt)
@@ -70,6 +156,7 @@ namespace WolfInv.com.BaseObjectsLib
                 }
                 MyData.Add(ed);
             }
+            Readed = false;
         }
 
         public ExpectList<T> getSubArray(int FromIndex, int len)
@@ -118,10 +205,10 @@ namespace WolfInv.com.BaseObjectsLib
             {
                 ret.Add(key, Data[key].GetFirstData(RecLng));
             }
-            return new ExpectList<T>(ret);
+            return new ExpectList<T>(ret,false);
         }
 
-        public ExpectList<T> LastDatas(int RecLng)
+        public ExpectList<T> LastDatas(int RecLng,bool ResortTime)
         {
             Dictionary<string, MongoReturnDataList<T>> ret = new Dictionary<string, MongoReturnDataList<T>>();
             int cnt = Data.Select(a => a.Value.Count).Min();
@@ -131,7 +218,7 @@ namespace WolfInv.com.BaseObjectsLib
             {
                 ret.Add(key, Data[key].GetLastData(RecLng));
             }
-            return new ExpectList<T>(ret);
+            return new ExpectList<T>(ret, ResortTime);
         }
 
         public int IndexOf(string ExpectNo)
@@ -171,11 +258,123 @@ namespace WolfInv.com.BaseObjectsLib
                 if (addList[i] == null) continue;
                 for (int j = 0; j < addList[i].Count; j++)
                 {
-                    ret.Add((ExpectData<T>)addList[i][j].Clone());
+                    ret.Add(addList[i][j]);
                 }
             }
             return ret;
         }
+        protected Dictionary<string, Dictionary<string, OneCycleData>> Tables;
+
+        public ExpectList(string DataType, Cycle cyc, DataSet ds)
+        {
+            Tables = new Dictionary<string, Dictionary<string, OneCycleData>>();
+            long MaxCnt = 0;
+            for (int i = 0; i < ds.Tables.Count; i++)
+            {
+                long cnt = ds.Tables[i].Rows.Count;
+                if (cnt > MaxCnt)
+                {
+                    MaxCnt = cnt;
+                }
+            }
+
+            for (int n = 0; n < ds.Tables.Count; n++)
+            {
+                OneCycleData ocd = new OneCycleData();
+                List<OneCycleData> list = ocd.FillByTable<OneCycleData>(ds.Tables[n]);
+                Tables.Add(ds.Tables[n].TableName, list.ToDictionary(p => p.date, p => p));
+            }
+            for (int i = 0; i < MaxCnt; i++)
+            {
+                ExpectData<T> ed = new ExpectData<T>();
+                //ed.ListData
+
+            }
+
+        }
+
+        public int IndexOf(ExpectData<T> item)
+        {
+            return MyData.IndexOf(item);
+        }
+
+        
+        public void Insert(int index, ExpectData<T> item)
+        {
+            MyData.Insert(index, item);
+            Readed = false;
+        }
+
+        public void RemoveAt(int index)
+        {
+            MyData.RemoveAt(index);
+            Readed = false;
+        }
+
+        public ExpectData<T> this[int index]
+        {
+            get
+            {
+                return MyData[index];
+            }
+            set
+            {
+                if (value != null)
+                {
+                    MyData[index] = (ExpectData<T>)value.Clone();
+                }
+                else
+                {
+                    MyData[index] = null;
+                }
+            }
+        }
+
+        public void Add(ExpectData<T> item)
+        {
+            MyData.Add(item);
+            Readed = false;
+        }
+
+        public void Clear()
+        {
+            MyData.Clear();
+            Readed = false;
+        }
+
+        public bool Contains(ExpectData<T> item)
+        {
+            return MyData.Contains(item);
+        }
+
+        public void CopyTo(ExpectData<T>[] array, int arrayIndex)
+        {
+            MyData.CopyTo(array, arrayIndex);
+        }
+
+        public int Count
+        {
+            get { return MyData.Count; }
+        }
+
+        public bool IsReadOnly
+        {
+            get { return true; }
+        }
+
+        public bool Remove(ExpectData<T> item)
+        {
+            Readed = false;
+            return MyData.Remove(item);
+            
+        }
+
+        public IEnumerator<ExpectData<T>> GetEnumerator()
+        {
+            return MyData.GetEnumerator();
+        }
+
+        
     }
 
     

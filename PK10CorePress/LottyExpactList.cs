@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.PK10CorePress
 {
+    [Serializable]
     public class ExpectList : BaseObjectsLib.ExpectList<TimeSerialData>
     {
         public ExpectList()
         { }
-        public ExpectList(Dictionary<string, MongoReturnDataList<TimeSerialData>> _data) : base(_data)
+        public ExpectList(Dictionary<string, MongoReturnDataList<TimeSerialData>> _data) : base(_data,false)
         {
         }
+
 
         public ExpectList(DataTable dt) : base(dt)
         {
@@ -25,11 +27,19 @@ namespace WolfInv.com.PK10CorePress
         {
             get
             {
-                return base[i] as ExpectData;
+                ExpectData ret = new ExpectData();
+                ret.OpenCode = base[i].OpenCode;
+                ret.OpenTime = base[i].OpenTime;
+                ret.Expect = base[i].Expect;
+                return ret;
+                return base[i]  as ExpectData;
+                return base[i].CopyTo<ExpectData>();
             }
             set
             {
-                base[i] = value;
+                if (value == null)
+                    return;
+                base[i] = value.CopyTo<ExpectData>();
             }
         }
 
@@ -37,28 +47,55 @@ namespace WolfInv.com.PK10CorePress
         {
             get
             {
-                return base.LastData as ExpectData;
+                return base.LastData.CopyTo<ExpectData>();
             }
         }
 
         public ExpectList getSubArray(int FromIndex, int len)
         {
-            return base.getSubArray(FromIndex, len) as ExpectList;
+            ExpectList ret = new ExpectList();
+            base.getSubArray(FromIndex, len).ForEach(a => ret.Add(a.CopyTo<ExpectData>()));
+            return ret;// as ExpectList;
         }
 
         public ExpectList FirstDatas(int RecLng)
         {
-            return base.FirstDatas(RecLng) as ExpectList;
+            //ExpectList ret = new ExpectList();
+            //base.FirstDatas(RecLng).ForEach(a => ret.Add(a.CopyTo<ExpectData>()));
+            //return ret;
+            ExpectList ret = new ExpectList();
+            if (RecLng == this.Count) return this;
+            if (RecLng > this.Count)
+                throw new Exception("请求长度超出目标列表长度！");
+            for (int i = 0; i < RecLng; i++)
+            {
+                ret.Add(this[i]);
+            }
+            return ret;
         }
 
-        public ExpectList LastDatas(int RecLng)
+        public ExpectList LastDatas(int RecLng,bool ResortTime)
         {
-            return base.LastDatas(RecLng) as ExpectList;
+            ////ExpectList ret = new ExpectList();
+            ////ExpectList<TimeSerialData> tmp = base.LastDatas(RecLng, ResortTime);
+            //////tmp.ForEach(a => ret.Add(new ExpectData(a)));
+            ////for (int i = 0; i < tmp.Count; i++)
+            ////    ret.Add(tmp[i]);
+            ////return ret;
+            ExpectList ret = new ExpectList();
+            if (RecLng == this.Count) return this;
+            if (RecLng > this.Count)
+                throw new Exception("请求长度超出目标列表长度！");
+            for (int i = this.Count - RecLng; i < this.Count; i++)
+            {
+                ret.Add(this[i]);
+            }
+            return ret;
         }
 
     }
-
-    public class ExpectData: BaseObjectsLib.ExpectData<TimeSerialData>
+    [Serializable]
+    public class ExpectData : BaseObjectsLib.ExpectData<TimeSerialData>
     {
         //////public Int64 EId;
         //////public int MissedCnt;
@@ -67,6 +104,24 @@ namespace WolfInv.com.PK10CorePress
         //////public string OpenCode;
 
         //////public DateTime OpenTime { get; set; }
+
+        public ExpectData()
+        {
+
+        }
+
+        public ExpectData(TimeSerialData T):base(T)
+        {
+
+        }
+        
+
+        public ExpectData GetExpectData<T>(ExpectData<T> data) where T:TimeSerialData
+        {
+            return ConvertionExtensions.Clone(data) as ExpectData;
+        }
+    
+
 
         public string[] ValueList
         {
@@ -124,5 +179,6 @@ namespace WolfInv.com.PK10CorePress
             }
         }
 
+        
     }
 }

@@ -8,21 +8,21 @@ using System.Collections;
 using System.Collections.Generic;
 namespace WolfInv.com.BaseObjectsLib
 {
-    
-    public class MongoData : DisplayAsTableClass, IObjectId, ICloneable, IMatchFilter,IConvertible
+
+    public class MongoData : DisplayAsTableClass, IObjectId, ICloneable, IMatchFilter, IConvertible, IFormatProvider
     {
         public MongoData()
         {
 
         }
 
-        
+
 
         public BsonObjectId _id { get; set; }
 
 
 
-        public T Clone<T>() where T :MongoData
+        public T Clone<T>() where T : MongoData
         {
             return ConvertionExtensions.Clone<T>(this as T);
         }
@@ -63,7 +63,7 @@ namespace WolfInv.com.BaseObjectsLib
         public MongoData ExtentData;
         public void AddExtentData(MongoData ExData)
         {
-              ExtentData = ExData;
+            ExtentData = ExData;
         }
 
         ////public string ItemName<TMongoData>(Func<TMongoData,PropertyInfo> func)
@@ -147,7 +147,7 @@ namespace WolfInv.com.BaseObjectsLib
             throw new NotImplementedException();
         }
 
-        
+
         public object ToType(Type conversionType, IFormatProvider provider)
         {
             throw new NotImplementedException();
@@ -235,7 +235,12 @@ namespace WolfInv.com.BaseObjectsLib
 
         object IConvertible.ToType(Type conversionType, IFormatProvider provider)
         {
-            throw new NotImplementedException();
+            return DetailStringClass.GetObjectByXml(this.ToXml(), conversionType);
+        }
+
+        public object GetFormat(Type formatType)
+        {
+            return this.ToXml();
         }
         #endregion
 

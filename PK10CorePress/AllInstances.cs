@@ -3,16 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using WolfInv.com.BaseObjectsLib;
 
 namespace WolfInv.com.PK10CorePress
 {
+    [Serializable]
+    [XmlInclude(typeof(TraceChance))]
+    [XmlInclude(typeof(NolimitTraceChance))]
+    [XmlInclude(typeof(OnceChance))]
     public class ChanceClass : BaseObjectsLib.ChanceClass<TimeSerialData>
     {
         public EventCheckNeedEndTheChance OnCheckTheChance;
+        public ChanceClass()
+        {
+
+        }
     }
     public abstract class TraceChance : ChanceClass, ITraceChance, ISpecAmount
     {
+        public TraceChance()
+        {
+
+        }
         public bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
         {
             if (this.MatchChips > 0)//如果命中，即关闭
@@ -52,6 +65,10 @@ namespace WolfInv.com.PK10CorePress
     }
     public class NolimitTraceChance : TraceChance
     {
+        public NolimitTraceChance()
+        {
+
+        }
         public override bool CheckNeedEndTheChance<T>(ChanceClass<T> cc, bool LastExpectMatched)
         {
             return CheckNeedEndTheChance(cc, LastExpectMatched);

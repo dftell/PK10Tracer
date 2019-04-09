@@ -7,6 +7,7 @@ using System.ComponentModel;
 using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.Strags
 {
+    [Serializable]
     [DescriptionAttribute("通用N码成长策略"),
         DisplayName("通用N码成长策略")]
     public class strage_CommGrown:StragClass
@@ -75,14 +76,15 @@ namespace WolfInv.com.Strags
 
         public override StagConfigSetting getInitStagSetting()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            return new StagConfigSetting();
         }
 
 
 
         public override Type getTheChanceType()
         {
-            throw new NotImplementedException();
+            return typeof(strage_CommGrown);
         }
 
       

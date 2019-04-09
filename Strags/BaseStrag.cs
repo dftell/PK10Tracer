@@ -22,6 +22,22 @@ namespace WolfInv.com.Strags
     /// <summary>
     /// 策略基类
     /// </summary>
+    [Serializable]
+    [XmlInclude(typeof(strag_CommCombOldClass))]
+    [XmlInclude(typeof(strag_CommLongMissBackBalanceClass))]
+    [XmlInclude(typeof(strag_CommLongTimeBalanceForOldCombClass))]
+    [XmlInclude(typeof(strag_CommOldClass))]
+    [XmlInclude(typeof(strag_CommProbabilityDistributionClass))]
+    [XmlInclude(typeof(strag_grownclass))]
+    [XmlInclude(typeof(strag_CommRepeatTracerClass))]
+    [XmlInclude(typeof(strag_PoissonRandomClass))]
+    [XmlInclude(typeof(Strag_CombLongOldClass))]
+    [XmlInclude(typeof(Strag_BinomialDistrClass))]
+    [XmlInclude(typeof(Strag_StdDevWaveClass))]
+    [XmlInclude(typeof(strag_CommJumpClass))]
+    [XmlInclude(typeof(Strag_SingleBayesClass))]
+    [XmlInclude(typeof(Strag_SimpleMaxEntryClass))]
+    [XmlInclude(typeof(StragClass))]
     public abstract class BaseStragClass<T> : DisplayAsTableClass, IFindChance<T>, ISelfSetting where T : TimeSerialData
     {
         string _guid;

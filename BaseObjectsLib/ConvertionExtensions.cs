@@ -29,6 +29,10 @@ namespace WolfInv.com.BaseObjectsLib
 
         public static object ConvertTo(this IConvertible convertibleValue,Type T)
         {
+            if(convertibleValue == null)
+            {
+                return null;
+            }
             if (string.IsNullOrEmpty(convertibleValue.ToString()))
             {
                 return null;
@@ -292,14 +296,34 @@ namespace WolfInv.com.BaseObjectsLib
             return obj;
         }
 
+        public static object CreateInstance(Type t)
+        {
+            //Type t = typeof(T);
+            object obj = Activator.CreateInstance(t);
+            return obj;
+        }
+
         public static Dictionary<string, Type> GetAllProperties<T>()
         {
             Dictionary<string, Type> ret = new Dictionary<string, Type>();
             Type t = typeof(T);
-            PropertyInfo[] pis = t.GetProperties(BindingFlags.Public);
+            PropertyInfo[] pis = t.GetProperties();
             foreach (PropertyInfo pi in pis)
             {
                 ret.Add(pi.Name, pi.PropertyType);
+            }
+            return ret;
+        }
+
+        public static Dictionary<string, Type> GetAllProperties(Type T)
+        {
+            Dictionary<string, Type> ret = new Dictionary<string, Type>();
+            Type t = T;
+            PropertyInfo[] pis = t.GetProperties();
+            foreach (PropertyInfo pi in pis)
+            {
+                if(!ret.ContainsKey(pi.Name))
+                    ret.Add(pi.Name, pi.PropertyType);
             }
             return ret;
         }
@@ -326,7 +350,7 @@ namespace WolfInv.com.BaseObjectsLib
             }
             return ret;
         }
-
+        
         public static object Clone(object obj)
         {
             if (obj == null) return obj;
@@ -352,6 +376,38 @@ namespace WolfInv.com.BaseObjectsLib
                     pi.SetValue(ret, GetValue(obj, pi.Name));
                 }
                 catch
+                {
+
+                }
+            }
+            return ret;
+        }
+
+        public static T CopyTo<T>(object obj)
+        {
+            if (obj == null)
+                return default(T);
+            Type t = typeof(T);
+            Type tCopy = obj.GetType();
+            T ret = CreateInstance<T>();
+            Dictionary<string, Type> retPips = GetAllProperties(t);
+            Dictionary<string, Type> copyPips = GetAllProperties(tCopy);
+            foreach (string key in retPips.Keys)
+            {
+                if(!copyPips.ContainsKey(key))
+                {
+                    continue;
+                }
+                if (!retPips[key].Equals(copyPips[key]))
+                {
+                    continue;
+                }
+                try
+                {
+                    object val = tCopy.GetProperty(key).GetValue(obj);
+                    t.GetProperty(key).SetValue(ret, val);
+                }
+                catch(Exception ce)
                 {
 
                 }

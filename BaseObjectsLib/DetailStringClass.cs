@@ -53,6 +53,8 @@ namespace WolfInv.com.BaseObjectsLib
         {
             InnerClass<T> ic = new InnerClass<T>();
             ic.list = list;
+            if (ic.list.Count == 0)
+                return "";
             return ic.ToXml();
         }
 
@@ -147,6 +149,11 @@ namespace WolfInv.com.BaseObjectsLib
                     }
                 }
             }
+        }
+
+        public T CopyTo<T>()
+        {
+            return ConvertionExtensions.CopyTo<T>(this);
         }
     }
 

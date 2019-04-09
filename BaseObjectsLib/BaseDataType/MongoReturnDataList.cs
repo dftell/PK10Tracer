@@ -150,8 +150,8 @@ namespace WolfInv.com.BaseObjectsLib
         public MongoReturnDataList<T> GetLastData(int len)
         {
             int[] Arr = new int[len];
-            for (int i = this.Count-len; i < len; i++)
-                Arr[i] = i;
+            for (int i = this.Count-len; i < Count; i++)
+                Arr[i-(this.Count - len)] = i;
             return GetDataByIndies(Arr);
         }
 

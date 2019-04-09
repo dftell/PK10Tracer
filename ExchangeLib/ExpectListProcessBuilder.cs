@@ -6,19 +6,21 @@ namespace WolfInv.com.ExchangeLib
     public class ExpectListProcessBuilder<T> where T:TimeSerialData
     {
         ExpectList<T> data;
-        public ExpectListProcessBuilder(ExpectList<T> _data)
+        DataTypePoint dtp;
+        public ExpectListProcessBuilder(DataTypePoint _dtp,ExpectList<T> _data)
         {
+            dtp = _dtp;
             data = _data;
         }
 
         public CommExpectListProcess<T> getProcess()
         {
             CommExpectListProcess<T> ret = null;
-            switch (data.UseType.DataType)
+            switch (dtp.DataType)
             {
                 case ("PK10"):
                     {
-                        ret = new ExpectListProcess(data as ExpectList) as CommExpectListProcess<T>;
+                        ret = new ExpectListProcess(new ExpectList(data.Table)) as CommExpectListProcess<T>;// ConvertionExtensions.CopyTo<CommExpectListProcess<T>>(new ExpectListProcess(new ExpectList(data.Table)));
                         break;
                     }
                 case (""):

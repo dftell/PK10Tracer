@@ -150,7 +150,7 @@ namespace WolfInv.com.Strags
 
         #region  支持propertygrid默认信息
         static List<StragClass> DBfiles;
-        
+
         static StragClass()
         {
             DBfiles = new List<StragClass>();
@@ -200,11 +200,25 @@ namespace WolfInv.com.Strags
 
         public override List<ChanceClass<TimeSerialData>> getChances(BaseCollection<TimeSerialData> sc, ExpectData<TimeSerialData> ed)
         {
-            return getChances(sc, ed) as List<ChanceClass<TimeSerialData>>;
+            //return null;//            
+            BaseCollection inBc = sc as BaseCollection;
+            ExpectData inData = ed.CopyTo<ExpectData>();
+            try
+            {
+                List<ChanceClass> ret = getChances(inBc, inData);
+                List<ChanceClass<TimeSerialData>> retval = new List<ChanceClass<TimeSerialData>>();
+                ret.ForEach(a => retval.Add(a.CopyTo<ChanceClass<TimeSerialData>>()));
+                return retval;
+            }
+            catch(Exception ce)
+            {
+
+            }
+            return new List<ChanceClass<TimeSerialData>>();
         }
         public bool CheckNeedEndTheChance<T>(ChanceClass<T> cc, bool LastExpectMatched) where T : TimeSerialData
         {
-            return CheckNeedEndTheChance(cc, LastExpectMatched);
+            return true;// CheckNeedEndTheChance(cc, LastExpectMatched);
         }
 
         public bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
@@ -213,7 +227,8 @@ namespace WolfInv.com.Strags
         }
         public long getChipAmount<T>(double RestCash, ChanceClass<T> cc, AmoutSerials amts) where T : TimeSerialData
         {
-            return getChipAmount(RestCash, cc, amts);
+            ChanceClass scc = cc.CopyTo<ChanceClass>();
+            return getChipAmount(RestCash, scc, amts);
         }
 
         public long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)

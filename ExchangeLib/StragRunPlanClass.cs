@@ -176,6 +176,12 @@ namespace WolfInv.com.ExchangeLib
         Description("计划建立人"),
         DefaultValueAttribute("Admin")]
         public string Creator { get; set; }
+        [DisplayName("计划使用数据源"),
+        Category("计划基本信息"),
+        Description("计划使用数据源,PK10,TXFFC,CN_Stock_A等"),
+        DefaultValueAttribute("PK10")]
+        public string UseDataSource { get; set; } 
+        
 
         public bool Running;
         public List<StragRunPlanClass<T>> getPlanListByXml(string strXml)

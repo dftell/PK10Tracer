@@ -14,6 +14,11 @@ namespace WolfInv.com.ExchangeLib
     public delegate void ReturnStdDevList(Dictionary<string, List<double>> list);
     public class CalcStragGroupClass<T> : DisplayAsTableClass where T : TimeSerialData
     {
+        protected DataTypePoint dtp;
+        public CalcStragGroupClass(DataTypePoint _dtp)
+        {
+            dtp = _dtp;
+        }
         public bool IsBackTest { get; set; }
         public CalcStragGroupDelegate Finished;
         public ReturnChances<T> GetNoClosedChances;
@@ -127,7 +132,7 @@ namespace WolfInv.com.ExchangeLib
             BaseCollection<T> cc = null;
             int maxViewCnt = (int)this.UseStrags.Max(t => t.Value.ReviewExpectCnt);
             //Log("计算服务", "最大回览期数", maxViewCnt.ToString());
-            cc = new ExpectListProcessBuilder<T>(el).getProcess().getSerialData(maxViewCnt, this.UseSerial);
+            cc = new ExpectListProcessBuilder<T>(dtp,el).getProcess().getSerialData(maxViewCnt, this.UseSerial);
             // cc.orgData = el;//必须指定原始数据？
             //Log("计算服务", "中间数据长度",cc.Data.Count.ToString());
             Dictionary<StragClass, List<ChanceClass<T>>> css = new Dictionary<StragClass, List<ChanceClass<T>>>();
@@ -421,7 +426,7 @@ namespace WolfInv.com.ExchangeLib
 
         public CalcStragGroupClass<T> Copy()
         {
-            CalcStragGroupClass<T> ret = new CalcStragGroupClass<T>();
+            CalcStragGroupClass<T> ret = new CalcStragGroupClass<T>(this.dtp);
             ret.Finished = this.Finished;
             ret.UseSPlans = getObjectListByXml<StragRunPlanClass<T>>(getXmlByObjectList<StragRunPlanClass<T>>(this.UseSPlans));
             ret.UseStrags = getObjectListByXml<BaseStragClass<T>>(getXmlByObjectList<BaseStragClass<T>>(UseStrags.Values.ToList<BaseStragClass<T>>())).ToDictionary(p=>p.GUID,p=>p);

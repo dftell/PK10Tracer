@@ -13,7 +13,7 @@ using WolfInv.com.ExchangeLib;
 using WolfInv.com.BaseObjectsLib;
 namespace DataRecSvr
 {
-    static class Program
+    public static class Program
     {
         public static ServiceSetting<TimeSerialData> AllServiceConfig;
         

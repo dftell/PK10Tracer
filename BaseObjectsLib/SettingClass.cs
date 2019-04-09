@@ -5,6 +5,7 @@ using System.Text;
 using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.BaseObjectsLib
 {
+    [Serializable]
     public class SettingClass : DetailStringClass
     {
 

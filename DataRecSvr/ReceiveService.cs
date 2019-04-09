@@ -43,12 +43,26 @@ namespace DataRecSvr
 
         void Tm_ForTXFFC_Elapsed(object sender, ElapsedEventArgs e)
         {
-            ReceiveTXFFCData();
+            try
+            {
+                ReceiveTXFFCData();
+            }
+            catch(Exception ce)
+            {
+                Log("接收TXFFC错误", string.Format("{0}：{1}", ce.Message, ce.StackTrace));
+            }
         }
 
         void Tm_ForPK10_Elapsed(object sender, ElapsedEventArgs e)
         {
-            ReceivePK10CData();
+            try
+            {
+                ReceivePK10CData();
+            }
+            catch (Exception ce)
+            {
+                Log("接收PK10错误", string.Format("{0}：{1}", ce.Message, ce.StackTrace));
+            }
         }
 
         public void Start()
@@ -84,7 +98,14 @@ namespace DataRecSvr
             long RepeatMinutes = GlobalClass.TypeDataPoints["PK10"].ReceiveSeconds / 60;
             long RepeatSeconds = GlobalClass.TypeDataPoints["PK10"].ReceiveSeconds;
             PK10_HtmlDataClass hdc = new PK10_HtmlDataClass(GlobalClass.TypeDataPoints["PK10"]);
-            ExpectList el = hdc.getExpectList<T>() as ExpectList;
+            ExpectList<T> tmp = hdc.getExpectList<T>();
+            if (tmp == null || tmp.Count == 0)
+            {
+                this.Tm_ForPK10.Interval = RepeatSeconds / 20 * 1000;
+                Log("尝试接收数据", "未接收到数据,数据源错误！");
+                return;
+            }
+            ExpectList el = new ExpectList(tmp.Table);
             ////if(el != null && el.Count>0)
             ////{
             ////    Log("接收到的最新数据",el.LastData.ToString());
@@ -110,7 +131,7 @@ namespace DataRecSvr
             {
                 PK10ExpectReader rd = new PK10ExpectReader();
                 //ExpectList currEl = rd.ReadNewestData(DateTime.Today.AddDays(-1*glb.CheckNewestDataDays));//改为10天，防止春节连续多天不更新数据
-                ExpectList currEl = rd.ReadNewestData<T>(DateTime.Today.AddDays(-1 * GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays)) as ExpectList;//改从PK10配置中获取
+                ExpectList<T> currEl = rd.ReadNewestData<T>(DateTime.Today.AddDays(-1 * GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays)); ;//改从PK10配置中获取
                 if ((currEl == null || currEl.Count == 0) || (el.Count > 0 && currEl.Count > 0 && el.LastData.ExpectIndex > currEl.LastData.ExpectIndex))//获取到新数据
                 {
                     Log("接收到数据", string.Format("接收到数据！{0}", el.LastData.ToString()));
@@ -119,15 +140,16 @@ namespace DataRecSvr
                     int CurrSec = DateTime.Now.Second;
                     //this.Tm_ForPK10.Interval = (CurrMin % RepeatMinutes < 2 ? 2 : 7 - CurrMin) * 60000 - (CurrSec + RepeatMinutes) * 1000;//5分钟以后见,减掉5秒不断收敛时间，防止延迟接收
                     this.Tm_ForPK10.Interval = FeatureTime.Subtract(CurrTime).TotalMilliseconds;
-                    if (rd.SaveNewestData(rd.getNewestData(el, currEl)) > 0)
+                    if (rd.SaveNewestData(rd.getNewestData<T>(new ExpectList<T>(el.Table), currEl)) > 0)
                     {
                         CurrDataList = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1* GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays));//前十天的数据 尽量的大于reviewcnt,免得需要再取一次数据
                         CurrExpectNo = el.LastData.Expect;
-                        Program.AllServiceConfig.LastDataSector = CurrDataList as ExpectList<TimeSerialData>;
+                        Program.AllServiceConfig.LastDataSector =new ExpectList<TimeSerialData>(CurrDataList.Table) ;
                         AfterReceiveProcess();
                     }
                     else
                     {
+                        this.Tm_ForPK10.Interval = RepeatSeconds / 20 * 1000;
                         Log("保存数据错误", "保存数据数量为0！");
                     }
                 }
@@ -167,7 +189,13 @@ namespace DataRecSvr
 
             int secCnt = DateTime.Now.Second;
             TXFFC_HtmlDataClass hdc = new TXFFC_HtmlDataClass(GlobalClass.TypeDataPoints["PK10"]);
-            ExpectList el = hdc.getExpectList<T>() as ExpectList;
+            ExpectList<T> tmp = hdc.getExpectList<T>();
+            if (tmp == null || tmp.Count == 0)
+            {
+                Tm_ForTXFFC.Interval = 5 * 1000;
+                return;
+            }
+            ExpectList el = new ExpectList(tmp.Table);
             if (el == null || el.LastData == null)
             {
                 Tm_ForTXFFC.Interval = 5 * 1000;
@@ -196,9 +224,14 @@ namespace DataRecSvr
             }
             //Log("保存分分彩数据", string.Format("期号:{0}",lastFFCNo));
             TXFFCExpectReader rd = new TXFFCExpectReader();
-            ExpectList currEl = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1)) as ExpectList;
-            rd.SaveNewestData(rd.getNewestData(el, currEl));
-            currEl = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1)) as ExpectList;
+            ExpectList<T> currEl = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1));
+            ExpectList<T> SaveData = rd.getNewestData<T>(new ExpectList<T>(el.Table), currEl);
+            if (SaveData.Count > 0)
+            {
+                //Log("Save count!", SaveData.Count.ToString());
+                rd.SaveNewestData(SaveData);
+            }
+            currEl = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1));
             //FillOrgData(listView_TXFFCData, currEl);
         }
 
@@ -211,7 +244,14 @@ namespace DataRecSvr
             //////    CalcProcess.StartService();
             //////}
             Log("转移到计算服务", "准备进行计算");
-            this.CalcProcess.Calc();
+            try
+            {
+                this.CalcProcess.Calc();
+            }
+            catch(Exception e)
+            {
+                Log("计算错误", string.Format("{0}：{1}",e.Message,e.StackTrace));
+            }
         }
 
         

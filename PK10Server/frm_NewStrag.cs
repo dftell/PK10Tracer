@@ -8,13 +8,14 @@ using System.Text;
 using System.Windows.Forms;
 using WolfInv.com.Strags;
 using WolfInv.com.PK10CorePress;
+using WolfInv.com.BaseObjectsLib;
 namespace PK10Server
 {
     public partial class frm_NewStrag : Form
     {
         bool DllLoaded = false;
         public bool Saved;
-        public StragClass RetJson=null;
+        public BaseStragClass<TimeSerialData> RetJson=null;
         public frm_NewStrag()
         {
             InitializeComponent();
@@ -50,7 +51,7 @@ namespace PK10Server
 
         private void btn_Save_Click(object sender, EventArgs e)
         {
-            StragClass sc = this.propertyGrid1.SelectedObject as StragClass;
+            BaseStragClass<TimeSerialData> sc = this.propertyGrid1.SelectedObject as BaseStragClass<TimeSerialData>;
             if (sc == null) return;
             //sc.CommSetting.SetGlobalSetting(Program.gc);
             RetJson = sc;

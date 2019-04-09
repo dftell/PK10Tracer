@@ -13,11 +13,11 @@ namespace WolfInv.com.BackTestLib
     public class ExchanceClass<T> where T : TimeSerialData
     {
         Dictionary<string, ChanceClass<T>> tmpChances = null;
-        public void Run(ExpectList<T> testData, BaseStragClass<T> teststrag, ref List<ChanceClass<T>> ChanceList, ref Dictionary<string, ChanceClass<T>> NoCloseChances, ref Dictionary<int, int> HoldCntDic) 
+        public void Run(DataTypePoint dtp,ExpectList<T> testData, BaseStragClass<T> teststrag, ref List<ChanceClass<T>> ChanceList, ref Dictionary<string, ChanceClass<T>> NoCloseChances, ref Dictionary<int, int> HoldCntDic) 
         {
             tmpChances = new Dictionary<string, ChanceClass<T>>();
             if (ChanceList == null) ChanceList = new List<ChanceClass<T>>();
-            BaseCollection<T> sc = new ExpectListProcessBuilder<T>(testData).getProcess().getSerialData(teststrag.ReviewExpectCnt, teststrag.BySer);
+            BaseCollection<T> sc = new ExpectListProcessBuilder<T>(dtp,testData).getProcess().getSerialData(teststrag.ReviewExpectCnt, teststrag.BySer);
             foreach (string key in NoCloseChances.Keys)
             {
                 ChanceClass<T> cc = NoCloseChances[key];

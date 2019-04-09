@@ -30,12 +30,12 @@ namespace Test_Win
         static void Main1()
         {
             LogableClass.ToLog("初始化服务器全局设置", "开始");
-            InitSystem();
+            InitSystem<TimeSerialData>();
             LogableClass.ToLog("启动通道", "开始");
             new CommuniteClass().StartIPCServer();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            
+
             GlobalObj gb = new GlobalObj();
             gb.w = new WindAPI();
             gb.w.start();
@@ -45,7 +45,7 @@ namespace Test_Win
             Application.Run(frm);
         }
 
-        
+
 
         public static ServiceSetting<TimeSerialData> AllServiceConfig;
 
@@ -60,27 +60,22 @@ namespace Test_Win
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 //ServiceBase[] ServicesToRun;
-                LogableClass.ToLog("构建计算服务", "开始");
-                //CalcService cs = new CalcService();
-                LogableClass.ToLog("构建接收服务", "开始");
-                //ReceiveService rs = new ReceiveService();
-                //SubscriptData sd = new SubscriptData();
-                //rs.CalcProcess = cs;
+
                 //只有接收数据是默认启动，计算服务由接收数据触发
                 //ServicesToRun = new ServiceBase[]
                 //{
                 //    rs,sd
                 //};
                 LogableClass.ToLog("初始化服务器全局设置", "开始");
-                InitSystem();
+                InitSystem<TimeSerialData>();
                 LogableClass.ToLog("启动通道", "开始");
                 new CommuniteClass().StartIPCServer();
                 //ServiceBase.Run(ServicesToRun);
                 GlobalObj gb = new GlobalObj();
                 gb.w = new WindAPI();
-                gb.w.start();
+                //gb.w.start();
                 //new ReceiveService().Start();
-                //rs.Start();
+
                 Form2 frm = new Form2(gb);
                 Application.Run(frm);
             }
@@ -93,9 +88,15 @@ namespace Test_Win
 
 
 
-        static void InitSystem()
+        static void InitSystem<T>() where T : TimeSerialData
         {
-            AllServiceConfig = new ServiceSetting<TimeSerialData>();
+            LogableClass.ToLog("构建计算服务", "开始");
+            CalcService<T> cs = new CalcService<T>();
+            LogableClass.ToLog("构建接收服务", "开始");
+            ReceiveService<T> rs = new ReceiveService<T>();
+            //SubscriptData sd = new SubscriptData();
+            rs.CalcProcess = cs;
+            AllServiceConfig = new ServiceSetting<T>() as ServiceSetting<TimeSerialData>;
             AllServiceConfig.Init(null);
             AllServiceConfig.GrpThePlan(false);
             AllServiceConfig.CreateChannel(null);
@@ -103,7 +104,8 @@ namespace Test_Win
             AllServiceConfig.AllAssetUnits.Values.ToList<AssetUnitClass>().ForEach(p => p.Run());//打开各开关
             //RemoteCommClass<ServiceSetting>.SetRemoteInst(AllServiceConfig);
             //AllServiceConfig.AllLogs = new LogInfo().GetLogAfterDate(DateTime.Today.AddHours(-1));
+            DataRecSvr.Program.AllServiceConfig = AllServiceConfig;
+            rs.Start();
         }
-
     }
 }

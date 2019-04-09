@@ -8,7 +8,7 @@ namespace WolfInv.com.BaseObjectsLib
 {
     public abstract class BaseCollection<T>:IBaseCollection where T:TimeSerialData
     {
-        public DataTable Table { get; }
+        public abstract DataTable Table { get; }
         public abstract DataTableEx CarDistributionTable { get; }
         public abstract DataTableEx CarTable { get; }
         public abstract DataTableEx SerialDistributionTable { get; }
@@ -16,7 +16,7 @@ namespace WolfInv.com.BaseObjectsLib
         public abstract bool isByNo { get; set; }
 
         public List<Dictionary<int, string>> Data;
-        public ExpectList<T> orgData;
+        public ExpectList<T> ___orgData;
         public abstract List<double> getAllDistrStdDev(int n,int c);
         public abstract DataTableEx getSubTable(int cnt, int n);
         public abstract int FindLastDataExistCount(int StartPos, int lng, string StrKey, string val);

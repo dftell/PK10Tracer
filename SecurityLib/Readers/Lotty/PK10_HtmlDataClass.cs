@@ -93,9 +93,10 @@ namespace WolfInv.com.SecurityLib
                     ret.Add(ed as ExpectData<T>);
                 }
             }
-            catch
+            catch(Exception e)
             {
-                LogLib.LogableClass.ToLog("非正常的xml数据",strXml);
+
+                LogLib.LogableClass.ToLog(string.Format("非正常的xml数据,[{0}]:[{1}]",e.Message,e.StackTrace),strXml);
             }
             return ret;
         }

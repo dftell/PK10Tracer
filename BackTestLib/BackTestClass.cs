@@ -28,8 +28,10 @@ namespace WolfInv.com.BackTestLib
         public BaseStragClass<T> teststrag;
         public DataTable SystemStdDevs = new DataTable();
         public SuccEvent FinishedProcess; 
-        public BackTestClass(DataTypePoint dtp, long From, long buffCnt,SettingClass setting)
+        public BackTestClass(DataTypePoint _dtpName, long From, long buffCnt,SettingClass setting)
         {
+            dtp = _dtpName;
+
             BegExpect = From;
             LoopCnt = buffCnt;
             CurrSetting = setting;
@@ -203,7 +205,7 @@ namespace WolfInv.com.BackTestLib
                             }
                         }
                     }
-                    BaseCollection<T> sc = new ExpectListProcessBuilder<T>(testData).getProcess().getSerialData(teststrag.ReviewExpectCnt, teststrag.BySer);
+                    BaseCollection<T> sc = new ExpectListProcessBuilder<T>(dtp,testData).getProcess().getSerialData(teststrag.ReviewExpectCnt, teststrag.BySer);
                     if (testData.Count == 0) 
                         break;
                     teststrag.SetLastUserData(testData);
@@ -562,7 +564,7 @@ namespace WolfInv.com.BackTestLib
                     List<StragChance<T>> cs = new List<StragChance<T>>();
                     for (int i = 0; i < teststrags.Length; i++)
                     {
-                        BaseCollection<T> sc = new ExpectListProcessBuilder<T>(testData).getProcess().getSerialData(teststrags[i].ReviewExpectCnt, teststrags[i].BySer);
+                        BaseCollection<T> sc = new ExpectListProcessBuilder<T>(dtp,testData).getProcess().getSerialData(teststrags[i].ReviewExpectCnt, teststrags[i].BySer);
                         if (testData.Count == 0)
                             break;
                         List<ChanceClass<T>> scs = teststrags[i].getChances(sc, testData.LastData);//获取所有机会
@@ -785,7 +787,7 @@ namespace WolfInv.com.BackTestLib
                         ExchanceClass<T> cc = new ExchanceClass<T>();
                         Dictionary<string,ChanceClass<T>> NoMatchDic = roundNoMatchedChances[i];
                         BackTestReturnClass<T> brc = ret.RoundData[i];
-                        cc.Run(testData, teststrag,ref brc.ChanceList,ref NoMatchDic,ref brc.HoldCntDic);
+                        cc.Run(dtp,testData, teststrag,ref brc.ChanceList,ref NoMatchDic,ref brc.HoldCntDic);
                         roundNoMatchedChances[i] = NoMatchDic;
                         brc.LoopCnt = testIndex - roundBegIds[i] + 1;
                         ret.RoundData[i] = brc;

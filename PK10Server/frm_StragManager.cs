@@ -125,7 +125,7 @@ namespace PK10Server
 
         bool Update(bool DeleteOperate)
         {
-            StragClass sc = this.propertyGrid1.SelectedObject as StragClass;
+            BaseStragClass<TimeSerialData> sc = this.propertyGrid1.SelectedObject as BaseStragClass<TimeSerialData>;
             if (sc == null)
             {
                 MessageBox.Show("请先双击选择要操作的策略！");

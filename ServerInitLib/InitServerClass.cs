@@ -112,8 +112,11 @@ namespace WolfInv.com.ServerInitLib
                     
                     sc.AssetUnitId = spc.AssetUnitInfo.UnitId;
                 }
-                string strModel = "Type_{0}_ViewBySerial_{1}";//按类和数据视图分类
-                string strKey = string.Format(strModel, sc.GetType().Name, sc.BySer);
+                ///更新为首先按数据源分类，然后按类和视图分类
+                //string strModel = "Type_{0}_ViewBySerial_{1}";//按类和数据视图分类
+                //string strKey = string.Format(strModel, sc.GetType().Name, sc.BySer);
+                string strModel = "DS_{2}Type_{0}_ViewBySerial_{1}";//更新为首先按数据源分类，然后按类和视图分类
+                string strKey = string.Format(strModel, sc.GetType().Name, sc.BySer,spc.UseDataSource);
                 if (!IsBackTest)
                 {
                     if (spc.ExpiredTime < DateTime.Now)
@@ -137,7 +140,7 @@ namespace WolfInv.com.ServerInitLib
                 CalcStragGroupClass<T> csg = null;
                 if (!AllStatusStrags.ContainsKey(strKey))
                 {
-                    csg = new CalcStragGroupClass<T>();
+                    csg = new CalcStragGroupClass<T>(GlobalClass.TypeDataPoints[spc.UseDataSource]);
                     AllStatusStrags.Add(strKey, csg);
                 }
                 csg = AllStatusStrags[strKey];
