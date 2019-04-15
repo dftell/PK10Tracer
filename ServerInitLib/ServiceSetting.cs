@@ -169,9 +169,10 @@ namespace WolfInv.com.ServerInitLib
                 LogableClass.ToLog(string.Format("准备获取[{0}]除权除息数据", key), "开始");
                 DateTime now = DateTime.Now;
                 List<string[]> test = new List<string[]>();
+                //List<string[]> codeGrp = GroupBuilder.ToGroup<string>(codes, dtp.CodeGrpCnt);
                 test.Add(new string[] { "000001" });
-                //dtp.RuntimeInfo.XDXRList = InitSecurityClass.getAllXDXRDataAsync(key,dtp.RuntimeInfo.getGrpCodes);
-                dtp.RuntimeInfo.XDXRList = new MongoDataDictionary<XDXRData>();//用时再取
+                dtp.RuntimeInfo.XDXRList = InitSecurityClass.getAllXDXRDataAsync(key,dtp.RuntimeInfo.getGrpCodes);
+                //dtp.RuntimeInfo.XDXRList = new MongoDataDictionary<XDXRData>();//用时再取
                 //dtp.RuntimeInfo.XDXRList = InitSecurityClass.getAllXDXRDataAsync(key, test);
                 ToLog("获取XDXR总共经历时间", DateTime.Now.Subtract(now).TotalSeconds.ToString());
                 LogableClass.ToLog(string.Format("获取[{0}]除权除息数据", key), string.Format("总数量:{0}", dtp.RuntimeInfo.XDXRList.Sum(p=>p.Value.Count)));

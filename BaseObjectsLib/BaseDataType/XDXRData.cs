@@ -25,12 +25,14 @@ namespace WolfInv.com.BaseObjectsLib
 */
     /// </summary>
 
-    public class XDXRData:MongoData,ICodeData,IDateData
+    public class XDXRData:MongoData,ICodeData,IDateData,IDateStampData
     {
         public int? category { get; set; }
         public string category_meaning { get; set; }
         public string code { get; set; }
         public string date{ get; set; }
+
+        public double date_stamp { get; set; }
         public double? fenhong{ get; set; }
         public double? fenshu { get; set; }
         public double? liquidity_after { get; set; }

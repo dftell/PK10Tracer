@@ -10,7 +10,10 @@ namespace WolfInv.com.SecurityLib
         {
 
         }
-
+        public DateSerialCodeDataReader(string db):base(db)
+        {
+            
+        }
         public DateSerialCodeDataReader(string db, string docname, string[] codes):base(db,docname)
         {
             secCodes = codes;

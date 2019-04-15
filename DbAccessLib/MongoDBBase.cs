@@ -3,6 +3,7 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace WolfInv.com.DbAccessLib
 {
@@ -13,9 +14,9 @@ namespace WolfInv.com.DbAccessLib
 
         //private readonly MongoDataBaseContext _dbContext;
 
-        private IMongoClient _client;
+        private static IMongoClient _client;
 
-        private IMongoDatabase _database;
+        private static IMongoDatabase _database;
 
         protected override void InitStr()
         {
@@ -40,11 +41,14 @@ namespace WolfInv.com.DbAccessLib
             {
                 if (_database != null)
                     return true;
-                _client = new MongoClient(this.ConnStr);
-                //未开启验证模式数据库连接
-                // var client = new MongoClient("mongodb://127.0.0.1:27017"); 
-                //指定要操作的数据库
-                _database = _client.GetDatabase(this.DbName);
+                if (_client == null)
+                {
+                    _client = new MongoClient(this.ConnStr);
+                    //未开启验证模式数据库连接
+                    // var client = new MongoClient("mongodb://127.0.0.1:27017"); 
+                    //指定要操作的数据库
+                    _database = _client.GetDatabase(this.DbName);
+                }
             }
             catch (Exception ce)
             {
@@ -55,6 +59,11 @@ namespace WolfInv.com.DbAccessLib
             return true;
         }
 
+        void Close()
+        {
+            //_client.req
+        }
+        
 
         public MongoDBBase(MongoDataBaseContext mongoDataBase)
 
@@ -1054,7 +1063,8 @@ namespace WolfInv.com.DbAccessLib
                 //不指定查询字段
                 if (field == null || field.Length == 0)
                 {
-                    if (sort == null) return client.Find(filter).Limit(IntLimit);
+                    if (sort == null)
+                        return client.Find(filter).Limit(IntLimit);
                     //进行排序
                     return client.Find(filter).Sort(sort).Limit(IntLimit);
                 }
@@ -1071,8 +1081,9 @@ namespace WolfInv.com.DbAccessLib
                     return client.Find(filter).Limit(IntLimit).Project<T>(projection);
                 }
                 //排序查询
-                return client.Find(filter).Sort(sort).Limit(IntLimit).Project<T>(projection);
-
+                IFindFluent<T, T>  ret = client.Find(filter).Sort(sort).Limit(IntLimit).Project<T>(projection);
+                
+                return ret;
             }
 
             catch (Exception ex)
@@ -1082,6 +1093,37 @@ namespace WolfInv.com.DbAccessLib
                 return null;
             }
 
+        }
+        
+        public List<T> FindList<T>(string collName,string sql,string sort = null,int? limit = null,string project=null) //where  T : class, new()
+        {
+            List<T> ret = new List<T>();
+            try
+            {
+
+                var client = _database.GetCollection<T>(collName);
+                FilterDefinition<T> filter = sql;
+                IFindFluent<T,T> tmp = client.Find(filter);
+                if(sort != null)
+                {
+                    tmp = tmp.Sort(sort);
+                }
+                if(limit != null)
+                {
+                    tmp = tmp.Limit(limit.Value);
+                }
+                if(project != null)
+                {
+                    ProjectionDefinition<T, T> pd = project;
+                    tmp = tmp.Project(pd);
+                }
+                ret = tmp.ToList();
+            }
+            catch(Exception e)
+            {
+
+            }
+            return ret;
         }
 
         public List<T> FindList<T>(string collName, FilterDefinition<T> filter, string[] field = null, SortDefinition<T> sort = null, int LimitCnt = 0) //where T : class, new()
@@ -1094,25 +1136,75 @@ namespace WolfInv.com.DbAccessLib
         }
         #endregion
 
+        #region 聚合
+        public IAsyncCursor<T> _GroupBy<T>(string collName, string[] strStag) //where T : class, new()
+        {
+            IList<IPipelineStageDefinition> stages = new List<IPipelineStageDefinition>();
+            AggregateOptions aggs = new AggregateOptions();
+            
+            for (int i=0;i<strStag.Length;i++)
+            {
+                
+                PipelineStageDefinition<T,T> stage = new JsonPipelineStageDefinition<T,T>(strStag[i]);
+                stages.Add(stage);
+            }
+            PipelineDefinition<T,T> pipeline = new PipelineStagePipelineDefinition<T,T>(stages);
+
+            //排序查询
+            try
+            {
+                var client = _database.GetCollection<T>(collName);
+                return client.Aggregate(pipeline);
+            }
+            catch(Exception e)
+            {
+                return null;
+            }
+            
+
+        }
+
+        public List<T> GroupBy<T>(string colName,string[] strStag)
+        {
+            List<T> ret = new List<T>();
+            IAsyncCursor<T> data = _GroupBy<T>(colName, strStag);
+            return data.ToList<T>();
+            ////if (data.Current == null)
+            ////    return ret;
+            ////foreach(T a in data.Current)
+            ////{
+            ////    ret.Add(a);
+            ////}
+            ////while(data.MoveNext())
+            ////{
+            ////    foreach (T a in data.Current)
+            ////    {
+            ////        ret.Add(a);
+            ////    }
+            ////}
+            ////return ret;
+        }
+
+        #endregion
 
 
         #region FindListAsync 异步查询集合
 
-            /// <summary>
+        /// <summary>
 
-            /// 异步查询集合
+        /// 异步查询集合
 
-            /// </summary>
+        /// </summary>
 
-            /// <param name="host">mongodb连接信息</param>
+        /// <param name="host">mongodb连接信息</param>
 
-            /// <param name="filter">查询条件</param>
+        /// <param name="filter">查询条件</param>
 
-            /// <param name="field">要查询的字段,不写时查询全部</param>
+        /// <param name="field">要查询的字段,不写时查询全部</param>
 
-            /// <param name="sort">要排序的字段</param>
+        /// <param name="sort">要排序的字段</param>
 
-            /// <returns></returns>
+        /// <returns></returns>
 
         public async Task<List<T>> _FindListAsync<T>(string collName, FilterDefinition<T> filter, string[] field = null, SortDefinition<T> sort = null,int cnt=0) where T : class, new()
         {

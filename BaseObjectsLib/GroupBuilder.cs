@@ -35,6 +35,29 @@ namespace WolfInv.com.BaseObjectsLib
             return ret;
         }
 
+        public static List<MongoDataDictionary<T>> ToGroup<T>(MongoDataDictionary<T> orgArr,int grpCnt=0) where T:MongoData
+        {
+            List<MongoDataDictionary<T>> ret = new List<MongoDataDictionary<T>>();
+            int realcnt = grpCnt;
+            if (grpCnt <= 0)
+                realcnt = orgArr.Count / 10;
+            int grpInnerCnt = (int)Math.Floor((double)orgArr.Count / realcnt);//每组个数
+            int lastInnerCnt = orgArr.Count - grpInnerCnt * (realcnt - 1);
+            for (int i = 0; i < realcnt; i++)
+            {
+                int copycnt = grpInnerCnt;
+                if (i == realcnt - 1)
+                {
+                    copycnt = lastInnerCnt;
+                }
+                MongoReturnDataList<T>[] grpcodes = new MongoReturnDataList<T>[copycnt];
+                Array.Copy(orgArr.Values.ToList().ToArray(),i * grpInnerCnt, grpcodes, 0, copycnt);//复制到数组中去
+                
+                ret.Add(new MongoDataDictionary<T>(grpcodes));
+            }
+            return ret;
+        }
+
 
     }
 

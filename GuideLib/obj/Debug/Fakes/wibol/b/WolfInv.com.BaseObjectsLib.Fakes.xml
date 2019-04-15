@@ -1684,13 +1684,16 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.Bind(WolfInv.com.BaseObjectsLib.ICodeData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
+            <summary>将接口的成员绑定到此填充码。</summary>
+        </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.Bind(WolfInv.com.BaseObjectsLib.IDateData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.Bind(WolfInv.com.BaseObjectsLib.IExchangeData)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.Bind(WolfInv.com.BaseObjectsLib.IDateStampData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.Bind(WolfInv.com.BaseObjectsLib.IMatchFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.Bind(WolfInv.com.BaseObjectsLib.IExchangeData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.Bind(WolfInv.com.BaseObjectsLib.IOHLCData)">
@@ -1867,7 +1870,7 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.Behavior">
             <summary>为已填充的类型的所有方法分配行为</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.Bind(WolfInv.com.BaseObjectsLib.IMatchFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.Bind(WolfInv.com.BaseObjectsLib.IObjectId)">
@@ -1993,7 +1996,7 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectDataEEE.Behavior">
             <summary>为已填充的类型的所有方法分配行为</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectDataEEE.Bind(WolfInv.com.BaseObjectsLib.IMatchFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectDataEEE.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectDataEEE.Bind(WolfInv.com.BaseObjectsLib.IObjectId)">
@@ -2686,6 +2689,9 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimGroupBuilder.ToGroupOf1M0ArrayInt32``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{``0[],System.Int32,System.Collections.Generic.List{``0[]}})">
             <summary>设置 GroupBuilder.ToGroup(!!0[] orgArr, Int32 grpCnt) 的 填充码</summary>
         </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimGroupBuilder.ToGroupOf1MongoDataDictionaryOfM0Int32``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{WolfInv.com.BaseObjectsLib.MongoDataDictionary{``0},System.Int32,System.Collections.Generic.List{WolfInv.com.BaseObjectsLib.MongoDataDictionary{``0}}})">
+            <summary>设置 GroupBuilder.ToGroup(MongoDataDictionary`1&lt;!!0&gt; orgArr, Int32 grpCnt) 的 填充码</summary>
+        </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimHistoryData">
             <summary>WolfInv.com.BaseObjectsLib.HistoryData 的填充码类型</summary>
         </member>
@@ -2782,7 +2788,7 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimLottyData.Behavior">
             <summary>为已填充的类型的所有方法分配行为</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimLottyData.Bind(WolfInv.com.BaseObjectsLib.IMatchFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimLottyData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimLottyData.Bind(WolfInv.com.BaseObjectsLib.IObjectId)">
@@ -3457,17 +3463,17 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.AllInstances.CloneOf1``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{WolfInv.com.BaseObjectsLib.MongoData,``0})">
             <summary>设置 MongoData.Clone() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.AllInstances.ComprBsonDocument">
+            <summary>设置 MongoData.Compr(BsonDocument bs) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.AllInstances.ComprBsonElement">
+            <summary>设置 MongoData.Compr(BsonElement bs) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.AllInstances.GetFormatType">
             <summary>设置 MongoData.GetFormat(Type formatType) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.AllInstances.GetTypeCode">
             <summary>设置 MongoData.GetTypeCode() 的 填充码</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.AllInstances.MatchBsonDocument">
-            <summary>设置 MongoData.Match(BsonDocument bs) 的 填充码</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.AllInstances.MatchBsonElement">
-            <summary>设置 MongoData.Match(BsonElement bs) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.AllInstances.SystemIConvertibleGetTypeCode">
             <summary>设置 MongoData.System.IConvertible.GetTypeCode() 的 填充码</summary>
@@ -3580,7 +3586,7 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.Behavior">
             <summary>为已填充的类型的所有方法分配行为</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.Bind(WolfInv.com.BaseObjectsLib.IMatchFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.Bind(WolfInv.com.BaseObjectsLib.IObjectId)">
@@ -3607,6 +3613,12 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.CloneOf1``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{``0})">
             <summary>设置 MongoData.Clone() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.ComprBsonDocument">
+            <summary>设置 MongoData.Compr(BsonDocument bs) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.ComprBsonElement">
+            <summary>设置 MongoData.Compr(BsonElement bs) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.Constructor">
             <summary>设置 MongoData.MongoData() 的 填充码</summary>
         </member>
@@ -3615,12 +3627,6 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.GetTypeCode">
             <summary>设置 MongoData.GetTypeCode() 的 填充码</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.MatchBsonDocument">
-            <summary>设置 MongoData.Match(BsonDocument bs) 的 填充码</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.MatchBsonElement">
-            <summary>设置 MongoData.Match(BsonElement bs) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.SystemIConvertibleGetTypeCode">
             <summary>设置 MongoData.System.IConvertible.GetTypeCode() 的 填充码</summary>
@@ -3736,6 +3742,12 @@
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDataDictionary`1.AllInstances">
             <summary>为所有实例成员定义填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDataDictionary`1.AllInstances.UnionMongoDataDictionaryOfT0">
+            <summary>设置 MongoDataDictionary`1.Union(MongoDataDictionary`1&lt;!0&gt; vals) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDataDictionary`1.AllInstances._ctorb__2_0MongoReturnDataListOfT0">
+            <summary>设置 MongoDataDictionary`1.&lt;.ctor&gt;b__2_0(MongoReturnDataList`1&lt;!0&gt; a) 的 填充码</summary>
+        </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDataDictionary`1.BehaveAsCurrent">
             <summary>为已填充的类型的所有方法分配“Current”行为</summary>
         </member>
@@ -3777,6 +3789,15 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDataDictionary`1.Constructor">
             <summary>设置 MongoDataDictionary`1.MongoDataDictionary`1() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDataDictionary`1.ConstructorMongoReturnDataListOfT0Array">
+            <summary>设置 MongoDataDictionary`1.MongoDataDictionary`1(MongoReturnDataList`1&lt;!0&gt;[] inputdata) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDataDictionary`1.UnionMongoDataDictionaryOfT0">
+            <summary>设置 MongoDataDictionary`1.Union(MongoDataDictionary`1&lt;!0&gt; vals) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDataDictionary`1._ctorb__2_0MongoReturnDataListOfT0">
+            <summary>设置 MongoDataDictionary`1.&lt;.ctor&gt;b__2_0(MongoReturnDataList`1&lt;!0&gt; a) 的 填充码</summary>
         </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDataList">
             <summary>WolfInv.com.BaseObjectsLib.MongoDataList 的填充码类型</summary>
@@ -3825,6 +3846,39 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDataList.Constructor">
             <summary>设置 MongoDataList.MongoDataList() 的 填充码</summary>
+        </member>
+        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime">
+            <summary>WolfInv.com.BaseObjectsLib.MongoDateTime 的填充码类型</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime.#ctor">
+            <summary>初始化新的填充码实例</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime.#ctor(WolfInv.com.BaseObjectsLib.MongoDateTime)">
+            <summary>初始化给定实例的新填充码</summary>
+        </member>
+        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime.AllInstances">
+            <summary>为所有实例成员定义填充码</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime.BehaveAsCurrent">
+            <summary>为已填充的类型的所有方法分配“Current”行为</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime.BehaveAsNotImplemented">
+            <summary>为已填充的类型的所有方法分配“NotImplemented”行为</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime.Behavior">
+            <summary>为已填充的类型的所有方法分配行为</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime.Constructor">
+            <summary>设置 MongoDateTime.MongoDateTime() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime.StampDateTime">
+            <summary>设置 MongoDateTime.Stamp(DateTime dt) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime.StampString">
+            <summary>设置 MongoDateTime.Stamp(String strdt) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime.StaticConstructor">
+            <summary>设置 MongoDateTime.MongoDateTime() 的 填充码</summary>
         </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoReturnDataList`1">
             <summary>WolfInv.com.BaseObjectsLib.MongoReturnDataList`1 的填充码类型</summary>
@@ -4129,13 +4183,16 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Bind(WolfInv.com.BaseObjectsLib.ICodeData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
+            <summary>将接口的成员绑定到此填充码。</summary>
+        </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Bind(WolfInv.com.BaseObjectsLib.IDateData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Bind(WolfInv.com.BaseObjectsLib.IExchangeData)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Bind(WolfInv.com.BaseObjectsLib.IDateStampData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Bind(WolfInv.com.BaseObjectsLib.IMatchFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Bind(WolfInv.com.BaseObjectsLib.IExchangeData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Bind(WolfInv.com.BaseObjectsLib.IOHLCData)">
@@ -4705,13 +4762,16 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Bind(WolfInv.com.BaseObjectsLib.ICodeData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
+            <summary>将接口的成员绑定到此填充码。</summary>
+        </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Bind(WolfInv.com.BaseObjectsLib.IDateData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Bind(WolfInv.com.BaseObjectsLib.IExchangeData)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Bind(WolfInv.com.BaseObjectsLib.IDateStampData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Bind(WolfInv.com.BaseObjectsLib.IMatchFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Bind(WolfInv.com.BaseObjectsLib.IExchangeData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Bind(WolfInv.com.BaseObjectsLib.IOHLCData)">
@@ -4768,6 +4828,12 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.AllInstances.FullCodeGet">
             <summary>设置 StockInfoMongoData.get_FullCode() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.AllInstances.OnMarketDaysGet">
+            <summary>设置 StockInfoMongoData.get_OnMarketDays() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.AllInstances.OnMarketDaysSetInt32">
+            <summary>设置 StockInfoMongoData.set_OnMarketDays(Int32 value) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.AllInstances.codeGet">
             <summary>设置 StockInfoMongoData.get_code() 的 填充码</summary>
         </member>
@@ -4822,7 +4888,7 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.Bind(WolfInv.com.BaseObjectsLib.ICodeData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.Bind(WolfInv.com.BaseObjectsLib.IMatchFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.Bind(WolfInv.com.BaseObjectsLib.IObjectId)">
@@ -4848,6 +4914,12 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.FullCodeGet">
             <summary>设置 StockInfoMongoData.get_FullCode() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.OnMarketDaysGet">
+            <summary>设置 StockInfoMongoData.get_OnMarketDays() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.OnMarketDaysSetInt32">
+            <summary>设置 StockInfoMongoData.set_OnMarketDays(Int32 value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.codeGet">
             <summary>设置 StockInfoMongoData.get_code() 的 填充码</summary>
@@ -4915,13 +4987,16 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Bind(WolfInv.com.BaseObjectsLib.ICodeData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
+            <summary>将接口的成员绑定到此填充码。</summary>
+        </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Bind(WolfInv.com.BaseObjectsLib.IDateData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Bind(WolfInv.com.BaseObjectsLib.IExchangeData)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Bind(WolfInv.com.BaseObjectsLib.IDateStampData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Bind(WolfInv.com.BaseObjectsLib.IMatchFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Bind(WolfInv.com.BaseObjectsLib.IExchangeData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Bind(WolfInv.com.BaseObjectsLib.IOHLCData)">
@@ -5074,7 +5149,7 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.Behavior">
             <summary>为已填充的类型的所有方法分配行为</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.Bind(WolfInv.com.BaseObjectsLib.IMatchFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.Bind(WolfInv.com.BaseObjectsLib.IObjectId)">
@@ -5236,6 +5311,12 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.AllInstances.dateSetString">
             <summary>设置 XDXRData.set_date(String value) 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.AllInstances.date_stampGet">
+            <summary>设置 XDXRData.get_date_stamp() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.AllInstances.date_stampSetDouble">
+            <summary>设置 XDXRData.set_date_stamp(Double value) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.AllInstances.fenhongGet">
             <summary>设置 XDXRData.get_fenhong() 的 填充码</summary>
         </member>
@@ -5320,10 +5401,13 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.Bind(WolfInv.com.BaseObjectsLib.ICodeData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
+            <summary>将接口的成员绑定到此填充码。</summary>
+        </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.Bind(WolfInv.com.BaseObjectsLib.IDateData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.Bind(WolfInv.com.BaseObjectsLib.IMatchFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.Bind(WolfInv.com.BaseObjectsLib.IDateStampData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.Bind(WolfInv.com.BaseObjectsLib.IObjectId)">
@@ -5370,6 +5454,12 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.dateSetString">
             <summary>设置 XDXRData.set_date(String value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.date_stampGet">
+            <summary>设置 XDXRData.get_date_stamp() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.date_stampSetDouble">
+            <summary>设置 XDXRData.set_date_stamp(Double value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.fenhongGet">
             <summary>设置 XDXRData.get_fenhong() 的 填充码</summary>
@@ -6391,6 +6481,18 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubICommExpectListProcess`1.WolfInv#com#BaseObjectsLib#ICommExpectListProcess{T}#getSerialData(System.Int32,System.Boolean)">
             <summary>设置 ICommExpectListProcess`1.getSerialData(Int32 reviewCnt, Boolean ByNo) 的 存根</summary>
         </member>
+        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubICompareFilter">
+            <summary>WolfInv.com.BaseObjectsLib.ICompareFilter 的存根类型</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubICompareFilter.#ctor">
+            <summary>初始化 type StubICompareFilter 的新实例</summary>
+        </member>
+        <member name="F:WolfInv.com.BaseObjectsLib.Fakes.StubICompareFilter.ComprBsonElement">
+            <summary>设置 ICompareFilter.Compr(BsonElement filter) 的 stub</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubICompareFilter.WolfInv#com#BaseObjectsLib#ICompareFilter#Compr(MongoDB.Bson.BsonElement)">
+            <summary>设置 ICompareFilter.Compr(BsonElement filter) 的 存根</summary>
+        </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubIDateData">
             <summary>WolfInv.com.BaseObjectsLib.IDateData 的存根类型</summary>
         </member>
@@ -6450,6 +6552,9 @@
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.AttachBackingFieldTodate">
             <summary>附加委托以将 StubIExchangeData.date 作为具有支持字段的属性进行模拟。</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.AttachBackingFieldTodate_stamp">
+            <summary>附加委托以将 StubIExchangeData.date_stamp 作为具有支持字段的属性进行模拟。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.AttachBackingFieldTohigh">
             <summary>附加委托以将 StubIExchangeData.high 作为具有支持字段的属性进行模拟。</summary>
@@ -6517,6 +6622,9 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.WolfInv#com#BaseObjectsLib#IDateData#date">
             <summary>设置 IDateData.get_date() 的 stub</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.WolfInv#com#BaseObjectsLib#IDateStampData#date_stamp">
+            <summary>设置 IDateStampData.get_date_stamp() 的 stub</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.WolfInv#com#BaseObjectsLib#IOHLCData#high">
             <summary>设置 IOHLCData.get_high() 的 stub</summary>
         </member>
@@ -6525,6 +6633,12 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.WolfInv#com#BaseObjectsLib#IOHLCData#open">
             <summary>设置 IOHLCData.get_open() 的 stub</summary>
+        </member>
+        <member name="F:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.stampGetDate">
+            <summary>设置 IDateStampData.get_date_stamp() 的 stub</summary>
+        </member>
+        <member name="F:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.stampSetDateDouble">
+            <summary>设置 IDateStampData.set_date_stamp(Double value) 的 stub</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.WolfInv#com#BaseObjectsLib#iVolAmount#vol">
             <summary>设置 iVolAmount.get_vol() 的 stub</summary>
@@ -6681,18 +6795,6 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubIIndexData.WolfInv#com#BaseObjectsLib#IIndexData#up_count">
             <summary>设置 IIndexData.get_up_count() 的 stub</summary>
-        </member>
-        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubIMatchFilter">
-            <summary>WolfInv.com.BaseObjectsLib.IMatchFilter 的存根类型</summary>
-        </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubIMatchFilter.#ctor">
-            <summary>初始化 type StubIMatchFilter 的新实例</summary>
-        </member>
-        <member name="F:WolfInv.com.BaseObjectsLib.Fakes.StubIMatchFilter.MatchBsonElement">
-            <summary>设置 IMatchFilter.Match(BsonElement filter) 的 stub</summary>
-        </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubIMatchFilter.WolfInv#com#BaseObjectsLib#IMatchFilter#Match(MongoDB.Bson.BsonElement)">
-            <summary>设置 IMatchFilter.Match(BsonElement filter) 的 存根</summary>
         </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubIOHLCData">
             <summary>WolfInv.com.BaseObjectsLib.IOHLCData 的存根类型</summary>
@@ -7090,6 +7192,9 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubMongoDataDictionary`1.#ctor">
             <summary>初始化新实例</summary>
         </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubMongoDataDictionary`1.#ctor(WolfInv.com.BaseObjectsLib.MongoReturnDataList{`0}[])">
+            <summary>初始化新实例</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubMongoDataDictionary`1.CallBase">
             <summary>获取或设置一个值，该值指示是否应调用基方法而不调用回退行为</summary>
         </member>
@@ -7130,6 +7235,24 @@
             <summary>获取或设置实例行为。</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubMongoDataList.InstanceObserver">
+            <summary>获取或设置实例观察者。</summary>
+        </member>
+        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubMongoDateTime">
+            <summary>WolfInv.com.BaseObjectsLib.MongoDateTime 的存根类型</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubMongoDateTime.#ctor">
+            <summary>初始化新实例</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubMongoDateTime.CallBase">
+            <summary>获取或设置一个值，该值指示是否应调用基方法而不调用回退行为</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubMongoDateTime.InitializeStub">
+            <summary>初始化 type StubMongoDateTime 的新实例</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubMongoDateTime.InstanceBehavior">
+            <summary>获取或设置实例行为。</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubMongoDateTime.InstanceObserver">
             <summary>获取或设置实例观察者。</summary>
         </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubMongoReturnDataList`1">

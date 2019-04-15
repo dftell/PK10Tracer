@@ -24,6 +24,19 @@ namespace WolfInv.com.SecurityLib
             //ret.orgData = data;
             return ret;
         }
+
+        /// <summary>
+        /// 初步简单过滤，获得当前可用的股票，可以附加条件，如当日是否停牌，是否ST，均线之上等
+        /// </summary>
+        /// <returns></returns>
+        BaseCollection<T> SampleFilterSecurity() 
+        {
+            SecurityCollection<T> ret = new SecurityCollection<T>();
+            ExpectList<T> orgData = Parent_data;
+            ret.___orgData = Parent_data;
+
+            return ret;
+        }
     }
 
 

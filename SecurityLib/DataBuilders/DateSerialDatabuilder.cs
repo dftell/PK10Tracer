@@ -15,6 +15,7 @@ namespace WolfInv.com.SecurityLib
         public abstract MongoReturnDataList<T> getData<T>(string begT, bool Asc) where T : MongoData;
         public abstract MongoReturnDataList<T> getData<T>(string begT, string endT, bool Asc) where T : MongoData;
         public abstract MongoReturnDataList<T> getData<T>(string endt, int Cycs, bool Asc) where T : MongoData;
+        public abstract MongoReturnDataList<T1> getDataGroupBy<T1>(string[] sqls) where T1 : MongoData;
         public abstract MongoReturnDataList<T> getFullTimeSerial<T>() where T : MongoData;
     }
 }

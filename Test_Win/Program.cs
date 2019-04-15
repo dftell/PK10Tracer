@@ -57,6 +57,9 @@ namespace Test_Win
 
             try
             {
+                ////DateTime dt = new DateTime(1991,4,3,12,0,1,12);
+                ////DateTime bt = DateTime.Parse("1990-01-01");
+                ////long val = (long)MongoDateTime.Stamp(dt);
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 //ServiceBase[] ServicesToRun;
@@ -72,7 +75,7 @@ namespace Test_Win
                 new CommuniteClass().StartIPCServer();
                 //ServiceBase.Run(ServicesToRun);
                 GlobalObj gb = new GlobalObj();
-                gb.w = new WindAPI();
+                //gb.w = new WindAPI();
                 //gb.w.start();
                 //new ReceiveService().Start();
 
@@ -91,11 +94,11 @@ namespace Test_Win
         static void InitSystem<T>() where T : TimeSerialData
         {
             LogableClass.ToLog("构建计算服务", "开始");
-            CalcService<T> cs = new CalcService<T>();
+            //CalcService<T> cs = new CalcService<T>();
             LogableClass.ToLog("构建接收服务", "开始");
-            ReceiveService<T> rs = new ReceiveService<T>();
+            //ReceiveService<T> rs = new ReceiveService<T>();
             //SubscriptData sd = new SubscriptData();
-            rs.CalcProcess = cs;
+            //rs.CalcProcess = cs;
             AllServiceConfig = new ServiceSetting<T>() as ServiceSetting<TimeSerialData>;
             AllServiceConfig.Init(null);
             AllServiceConfig.GrpThePlan(false);
@@ -105,7 +108,7 @@ namespace Test_Win
             //RemoteCommClass<ServiceSetting>.SetRemoteInst(AllServiceConfig);
             //AllServiceConfig.AllLogs = new LogInfo().GetLogAfterDate(DateTime.Today.AddHours(-1));
             DataRecSvr.Program.AllServiceConfig = AllServiceConfig;
-            rs.Start();
+            //rs.Start();
         }
     }
 }

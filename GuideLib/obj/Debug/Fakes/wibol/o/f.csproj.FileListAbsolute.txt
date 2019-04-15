@@ -17,3 +17,4 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\Fakes\wibol\o\
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\Fakes\wibol\o\f.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\Fakes\wibol\o\WolfInv.com.BaseObjectsLib.Fakes.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\Fakes\wibol\o\WolfInv.com.BaseObjectsLib.Fakes.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\Fakes\wibol\b\WolfInv.com.DbAccessLib.pdb

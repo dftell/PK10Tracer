@@ -18,12 +18,14 @@ namespace Test_Win
     public partial class Form2 : Form
     {
         GlobalObj gb;
+        DateTime begT;
+        string[] useCodes;
         public Form2(GlobalObj _gb)
         {
             gb = _gb;
             InitializeComponent();
             //gb.Sys = new SystemGlobal(gb.w);
-
+            
         }
 
         private void btn_gl_Click(object sender, EventArgs e)
@@ -97,49 +99,101 @@ namespace Test_Win
             frm.Show();
         }
 
+
         private void btn_TestDayData_Click(object sender, EventArgs e)
         {
             DataTypePoint dtp =  GlobalClass.TypeDataPoints["CN_Stock_A"];
-            string code = "600519";
-            if(!dtp.RuntimeInfo.SecurityCodes.Contains(code))
-            {
-                MessageBox.Show(string.Format("证券{0}不存在！",code));
-                return;
-            }
-            SecurityReader reader = new SecurityReader("CN_Stock_A", dtp.HistoryTable, new string[1] { code });
+            //string code = "600519"; 
+            ////if(!dtp.RuntimeInfo.SecurityCodes.Contains(code))
+            ////{
+            ////    MessageBox.Show(string.Format("证券{0}不存在！",code));
+            ////    return;
+            ////}
+            int MaxThrdCnt = int.Parse(this.txt_maxThreadCnt.Text);
+            int GrpUnitCnt = int.Parse(this.txt_GrpUnitCnt.Text);
+            int ThrdInterVal = int.Parse(this.txt_ThrdInterval.Text);
+            CommMarketClass cmc = new CommMarketClass(dtp);
+            string strendT = this.txt_endT.Text;
+            string strbegT = this.txt_begT.Text;
+            if(useCodes == null)
+                useCodes =  cmc.GetMarketsStocks("000001", strendT, 500,true, true, false);
+            string[] currCodes = new string[useCodes.Length];
+            
             try
             {
-                MongoReturnDataList<StockMongoData> data = reader.GetAllCodeDateSerialDataList<StockMongoData>("2015-07-15", "2019-03-27")?[code];
+                Array.Copy(useCodes, 0, currCodes, 0, currCodes.Length);
+                List<string[]> codeGrps = GroupBuilder.ToGroup<string>(currCodes, currCodes.Length / dtp.ThreadUnitCnt);
+                begT = DateTime.Now;
+                DisplayCnt(currCodes.Length,codeGrps.Count, 0, 0,0);
 
+                SecurityGrpReader<StockMongoData> sgr = new SecurityGrpReader<StockMongoData>();
+                sgr.CheckEvent = DisplayCnt;
+                MongoDataDictionary<StockMongoData> data = sgr.GetResult(codeGrps,(a)=>
+                    {
+                        SecurityReader sr = new SecurityReader(dtp.DataType,dtp.HistoryTable,a);
+                        MongoDataDictionary<StockMongoData> res = sr.GetAllCodeDateSerialDataList<StockMongoData>(strbegT, strendT);
+                        return res;
+                    }, dtp.MaxThreadCnt, 1);
+                DisplayCnt(currCodes.Length, codeGrps.Count, MaxThrdCnt, 0,data.Count);
+                begT = DateTime.Now;
+                List<MongoDataDictionary <StockMongoData>> datalist = GroupBuilder.ToGroup<StockMongoData>(data, currCodes.Length / dtp.ThreadUnitCnt);
+                sgr.CheckEvent = DisplayCnt;
 
-                MongoReturnDataList<StockMongoData> fqdata = reader.Stock_FQ(code, data);
-                ////int n = 0;
-                ////StockMongoData testobj = null;
-                ////var test = fqdata.Where(a => (a.date == "2015-07-15"));
-                ////testobj = test.First();
-                ////MessageBox.Show(string.Format("{0},{1}", testobj.date, testobj.close));
-                ////n = fqdata.Count/2;
-                ////MessageBox.Show(string.Format("{0},{1}", fqdata[n].date, fqdata[n].close));
-                ////n = fqdata.Count-1;
-                ////MessageBox.Show(string.Format("{0},{1}", fqdata[n].date, fqdata[n].close));
-                EMA ema1 = new EMA(fqdata.ToList(a => a.close).ToArray(),12);
-                EMA ema2 = new EMA(fqdata.ToList(a => a.close).ToArray(), 26);
-                Matrix e1 = ema1.GetResult();
-                Matrix e2 = ema2.GetResult();
-                int n = fqdata.Count - 1;
-                MessageBox.Show(string.Format("12:{0:f2},26:{1:f2}",e1[n-1,0],e2[n-1,0]));
-                MACD macd = new MACD(fqdata.ToList(a => a.close).ToArray());
-                Matrix ret = macd.GetResult();
-                
-                int cnt = 10;
-                for (int i = 0; i < cnt; i++)
+                data = sgr.GetResult(datalist, (a) =>
                 {
-                    MessageBox.Show(string.Format("{0}:{4:f2}=>Diff:{1:f2};DEA:{2:f2};MACD:{3:f2}", fqdata[n - i].date, ret.Detail[n - i, 0], ret.Detail[n - i, 1], ret.Detail[n - i, 2],fqdata[n-i].close));
-                }
+                    return new SecurityReader(dtp.DataType).FQ(a, dtp.RuntimeInfo.XDXRList);
+                },dtp.MaxThreadCnt, 1);
+                DisplayCnt(currCodes.Length, codeGrps.Count, MaxThrdCnt, 0, data.Count);
+                ////    reader.GetAllCodeDateSerialDataList<StockMongoData>("2015-07-15", "2019-03-27");
+                ////data = reader.Stock_FQ(data, dtp.RuntimeInfo.XDXRList);
+
+                ////MongoReturnDataList<StockMongoData> fqdata = reader.Stock_FQ(code, data);
+                ////////int n = 0;
+                ////////StockMongoData testobj = null;
+                ////////var test = fqdata.Where(a => (a.date == "2015-07-15"));
+                ////////testobj = test.First();
+                ////////MessageBox.Show(string.Format("{0},{1}", testobj.date, testobj.close));
+                ////////n = fqdata.Count/2;
+                ////////MessageBox.Show(string.Format("{0},{1}", fqdata[n].date, fqdata[n].close));
+                ////////n = fqdata.Count-1;
+                ////////MessageBox.Show(string.Format("{0},{1}", fqdata[n].date, fqdata[n].close));
+                ////EMA ema1 = new EMA(fqdata.ToList(a => a.close).ToArray(),12);
+                ////EMA ema2 = new EMA(fqdata.ToList(a => a.close).ToArray(), 26);
+                ////Matrix e1 = ema1.GetResult();
+                ////Matrix e2 = ema2.GetResult();
+                ////int n = fqdata.Count - 1;
+                ////MessageBox.Show(string.Format("12:{0:f2},26:{1:f2}",e1[n-1,0],e2[n-1,0]));
+                ////MACD macd = new MACD(fqdata.ToList(a => a.close).ToArray());
+                ////Matrix ret = macd.GetResult();
+
+                ////int cnt = 10;
+                ////for (int i = 0; i < cnt; i++)
+                ////{
+                ////    MessageBox.Show(string.Format("{0}:{4:f2}=>Diff:{1:f2};DEA:{2:f2};MACD:{3:f2}", fqdata[n - i].date, ret.Detail[n - i, 0], ret.Detail[n - i, 1], ret.Detail[n - i, 2],fqdata[n-i].close));
+                ////}
             }
             catch(Exception ce)
             {
                 MessageBox.Show(ce.Message);
+            }
+        }
+
+        void DisplayCnt(int total,int grpcnt,int finishedgrp,int inpoolcnt,int rescnt)
+        {
+            try
+            {
+                progressBar1.Maximum = total;//设置最大长度值
+                progressBar1.Value = rescnt;//设置当前值
+                                            //progressBar1.Step = 5;//设置没次增长多少
+                DateTime curr = DateTime.Now;
+                double secs = curr.Subtract(begT).TotalSeconds;
+                string str = string.Format("Total:{3};Grp:{2};Finished:{0};{1} in Pool;Result:{4};rate:{5:f2}%;Time:{6}", finishedgrp, inpoolcnt, grpcnt,total,rescnt,rescnt*100.00/(total*1.00), secs);
+                this.lbl_process.Text  = str;
+                this.lbl_process.Refresh();
+            }
+            catch(Exception ce)
+            {
+
             }
         }
     }

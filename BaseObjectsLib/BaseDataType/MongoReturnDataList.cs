@@ -38,7 +38,7 @@ namespace WolfInv.com.BaseObjectsLib
             {
                 BsonElement bs = new BsonElement(col,BsonValue.Create(val));
                 //LogLib.LogableClass.ToLog("查询条件", string.Format("{0}=>{1}",col,val));
-                List<T> list = this.FindAll(p => p.Match(bs)==true);
+                List<T> list = this.FindAll(p => p.Compr(bs)==true);
                 
                 //this.Clear();
                 list?.ForEach(p => ret.Add(p));
@@ -55,7 +55,7 @@ namespace WolfInv.com.BaseObjectsLib
             MongoReturnDataList<T> ret = new MongoReturnDataList<T>();
             try
             {
-                List<T> list = this.FindAll(p => (p as MongoData).Match(func));
+                List<T> list = this.FindAll(p => (p as MongoData).Compr(func));
                 //this.Clear();
                 list.ForEach(p => ret.Add(p));
             }

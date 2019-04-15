@@ -4,12 +4,157 @@ using System.Collections.Generic;
 using MongoDB.Driver;
 using System;
 using WolfInv.com.ProbMathLib;
+using System.Threading.Tasks;
+using System.Linq;
+using System.Threading;
 namespace WolfInv.com.SecurityLib
 {
+    public delegate void CheckFinishedCnt(int total,int grpcnt,int FinishedGrpCnt,int InPoolCnt,int FinishedCnt); 
+    public class SecurityGrpReader<T> where T: MongoData
+    {
+        string DataType;
+        string DocumentTable;
+        string[] allcodes;
+        //List<string[]> codelist;
+        //List<MongoDataDictionary<T>> mongoCodeList;
+        public CheckFinishedCnt CheckEvent;
+        Func<string[], MongoDataDictionary<T>> ExeFunc;
+        Func<MongoDataDictionary<T>, MongoDataDictionary<T>> ExecMongoFunc;
+        MongoDataDictionary<T> GroupResult;
+        int finished = 0;
+        int PoolCnt = 0;
+        int LastId = 0;
+        public SecurityGrpReader()
+        {
 
+
+
+        }
+
+        public MongoDataDictionary<T> GetResult(List<string[]> codes, Func<string[],MongoDataDictionary<T>> func,int MaxThreadCnt=20,int InterValMilSecs=1000)
+        {
+            CheckEvent(codes.Select(a=>a.Length).Sum(), codes.Count, 0, 0,0);
+            List<string[]> codelist = codes;
+            ExeFunc = func;
+            GroupResult = new MongoDataDictionary<T>();
+            ////for (int i=0;i< MaxThreadCnt; i++)
+            ////{
+            ////    new Task(ExecSr, codelist[i]).Start();
+            ////    LastId = i;
+            ////    PoolCnt++;
+            ////    Thread.Sleep(InterValMilSecs);
+
+            ////}
+            LastId = 0;
+            finished = 0;
+            PoolCnt = 0;
+            while (finished< codes.Count)
+            {
+                
+                if (PoolCnt < MaxThreadCnt)
+                {
+                    
+                    int CurrCnt = PoolCnt;
+                    for (int i = CurrCnt; i < MaxThreadCnt; i++)
+                    {
+                        if (LastId >= codelist.Count)
+                            break;
+                        new Task(ExecSr, codelist[LastId]).Start();
+                        LastId++;
+                        PoolCnt++;
+                        Thread.Sleep(InterValMilSecs);
+                    }
+                    CheckEvent(codes.Select(a => a.Length).Sum(),codes.Count, finished, PoolCnt, GroupResult.Count);
+                    continue;
+                }
+                System.Threading.Thread.Sleep(InterValMilSecs);
+            }
+            return GroupResult;
+        }
+
+        public MongoDataDictionary<T> GetResult(List<MongoDataDictionary<T>> codes, Func<MongoDataDictionary<T>, MongoDataDictionary<T>> func, int MaxThreadCnt = 20, int InterValMilSecs = 1000)
+        {
+            CheckEvent(codes.Count, codes.Count, 0, 0, 0);
+            List<MongoDataDictionary<T>> mongoCodeList = codes;
+            ExecMongoFunc = func;
+            GroupResult = new MongoDataDictionary<T>();
+            ////for (int i=0;i< MaxThreadCnt; i++)
+            ////{
+            ////    new Task(ExecSr, codelist[i]).Start();
+            ////    LastId = i;
+            ////    PoolCnt++;
+            ////    Thread.Sleep(InterValMilSecs);
+
+            ////}
+            LastId = 0;
+            finished = 0;
+            PoolCnt = 0;
+            while (finished < codes.Count)
+            {
+
+                if (PoolCnt < MaxThreadCnt)
+                {
+
+                    int CurrCnt = PoolCnt;
+                    for (int i = CurrCnt; i < MaxThreadCnt; i++)
+                    {
+                        if (LastId >= mongoCodeList.Count)
+                            break;
+                        new Task(ExecMongoSr, mongoCodeList[LastId]).Start();
+                        LastId++;
+                        PoolCnt++;
+                        Thread.Sleep(InterValMilSecs);
+                    }
+                    CheckEvent(codes.Select(a=>a.Values.Count).Sum(), codes.Count, finished, PoolCnt, GroupResult.Count);
+                    continue;
+                }
+                System.Threading.Thread.Sleep(InterValMilSecs);
+            }
+            return GroupResult;
+        }
+
+        public void ExecSr(object obj) 
+        {
+            string[] codes = obj as string[];
+            MongoDataDictionary<T>  res = ExeFunc(codes);
+            if(res != null)
+            {
+                GroupResult.Union(res);
+                
+            }
+            else
+            {
+
+            }
+            finished++;
+            PoolCnt--;
+            //(obj as SecurityReader);
+        }
+
+        public void ExecMongoSr(object obj)
+        {
+            MongoDataDictionary<T> codes = obj as MongoDataDictionary<T>;
+            MongoDataDictionary<T> res = ExecMongoFunc(codes);
+            if (res != null)
+            {
+                GroupResult.Union(res);
+
+            }
+            else
+            {
+
+            }
+            finished++;
+            PoolCnt--;
+            //(obj as SecurityReader);
+        }
+
+    }
     public class SecurityReader: DateSerialCodeDataReader,ICodeDataList, IGetAllTimeSerialList
     {
-        public SecurityReader(string db, string docname, string[] codes) : base(db, docname, codes)
+        public SecurityReader(string type):base(type)
+        { }
+        public SecurityReader(string db, string docname, string[] codes=null) : base(db, docname, codes)
         {
         }
 
@@ -60,7 +205,50 @@ namespace WolfInv.com.SecurityLib
             return list;
         }
 
-        
+        public MongoReturnDataList<T> GetAllVaildList<T>(string[] sqls) where T : MongoData
+        {
+            string[] ret = null;
+            MongoReturnDataList<T> retdata = (builder as DateSerialCodeDataBuilder).getDataGroupBy<T>(sqls);
+            return retdata;
+        }
+
+        public MongoDataDictionary<StockMongoData> Stock_FQ(MongoDataDictionary<StockMongoData> orgData, MongoDataDictionary<XDXRData> XData =null, PriceAdj fqType = PriceAdj.Fore)
+        {
+            MongoDataDictionary<StockMongoData> ret = new MongoDataDictionary<StockMongoData>();
+            foreach(string key in orgData.Keys)
+            {
+                MongoReturnDataList<StockMongoData> val = orgData[key];
+                MongoReturnDataList<XDXRData> xval = null;
+                if(XData != null)
+                {
+                    if(XData.ContainsKey(key))
+                    {
+                        xval = XData[key];
+                    }
+                }
+                if (!ret.ContainsKey(key))
+                {
+                    ret.Add(key,Stock_FQ(key, val, xval, fqType));
+                }
+            }
+            return ret;
+        }
+
+        public MongoDataDictionary<StockMongoData> FQ(MongoDataDictionary<StockMongoData> orgData, MongoDataDictionary<XDXRData> xdata, PriceAdj fqType = PriceAdj.Fore)
+        {
+            MongoDataDictionary<StockMongoData> ret = new MongoDataDictionary<StockMongoData>();
+
+            foreach (string key in orgData.Keys)
+            {
+                MongoReturnDataList<StockMongoData> val = orgData[key];
+                MongoReturnDataList<XDXRData> xval = xdata[key];                
+                if (!ret.ContainsKey(key))
+                {
+                    ret.Add(key, Stock_FQ(key, val, xval, fqType));
+                }
+            }
+            return ret;
+        }
 
         public MongoReturnDataList<StockMongoData> Stock_FQ(string code,MongoReturnDataList<StockMongoData> org_bfq_data=null, MongoReturnDataList<XDXRData> org_xdxr_data = null, PriceAdj fqType = PriceAdj.Fore) 
         {
@@ -79,7 +267,7 @@ namespace WolfInv.com.SecurityLib
                 org_bfq_data = new SecurityReader(base.DbTypeName, base.TableName, new string[] { code }).GetAllCodeDateSerialDataList<StockMongoData>()?[code];
             if (org_xdxr_data == null)
                 org_xdxr_data = new XDXRReader().getXDXRList(DbTypeName, code);
-            MongoReturnDataList<XDXRData> xdxr_data = org_xdxr_data.Copy(true);
+            MongoReturnDataList<XDXRData> xdxr_data = org_xdxr_data.Copy(false);
             MongoReturnDataList<StockMongoData> bfq_data = org_bfq_data.Copy(false);
             MongoReturnDataList<StockMongoData> ret = bfq_data;
             if (bfq_data.Count == 0) return ret;

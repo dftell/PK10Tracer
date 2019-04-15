@@ -182,7 +182,8 @@ namespace WolfInv.com.ProbMathLib
         {
             T[] ret = new T[list.Count];
             int cnt = list.Count;
-            ret[list.Count / 2 + 1] = list[list.Count / 2 + 1];
+            if(list.Count>2)
+                ret[list.Count / 2 + 1] = list[list.Count / 2 + 1];
             for (int i=0;i<=list.Count/2;i++)
             {
                 ret[i] = list[cnt -1 - i];

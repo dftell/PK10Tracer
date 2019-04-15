@@ -12,21 +12,18 @@ using WolfInv.com.Strags;
 
 namespace WolfInv.com.SecurityStragLib
 {
-    public class BaseSecurityStragClass<T>:BaseStragClass<T> where T:TimeSerialData
+    public abstract class BaseSecurityStragClass<T>:BaseStragClass<T> where T:TimeSerialData
     {
-        public override List<ChanceClass<T>> getChances(BaseCollection<T> sc, ExpectData<T> ed)
-        {
-            throw new NotImplementedException();
-        }
+        //public override List<ChanceClass<T>> getChances(BaseCollection<T> sc, ExpectData<T> ed);
 
-        public override StagConfigSetting getInitStagSetting()
-        {
-            throw new NotImplementedException();
-        }
+        //public override StagConfigSetting getInitStagSetting()
+        //{
+
+        //}
 
         public override Type getTheChanceType()
         {
-            throw new NotImplementedException();
+            return this.GetType();
         }
 
         void test()

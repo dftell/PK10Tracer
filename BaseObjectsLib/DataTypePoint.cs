@@ -46,6 +46,8 @@ namespace WolfInv.com.BaseObjectsLib
         public int NeedLoadAllXDXR = 0;
         public string DateIndex = "000001";
         public int CodeGrpCnt = 100;
+        public int MaxThreadCnt = 50;
+        public int ThreadUnitCnt = 20;
         public Dictionary<Cycle,List<string>> AllTypeTimes;//所有的期数/时间戳
 
 
@@ -92,7 +94,7 @@ namespace WolfInv.com.BaseObjectsLib
                     return new List<string[]>();
                 if (CodeGrp == null)
                 {
-                    CodeGrp = GroupBuilder.ToGroup<string>(SecurityCodes, parent.CodeGrpCnt);
+                    CodeGrp = GroupBuilder.ToGroup<string>(SecurityCodes, SecurityCodes.Length/parent.CodeGrpCnt);
                 }
                 return CodeGrp;
             }

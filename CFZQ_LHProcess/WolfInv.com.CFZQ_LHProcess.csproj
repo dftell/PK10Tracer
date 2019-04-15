@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
-    <Compile Include="CommMarketClass.cs" />
     <Compile Include="JRGCDBClass.cs" />
     <Compile Include="JRGCMongoDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

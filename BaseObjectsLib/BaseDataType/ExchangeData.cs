@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 namespace WolfInv.com.BaseObjectsLib
 {
-    public interface IExchangeData: IDateData,ICodeData,IOHLCData, iVolAmount
+    public interface IExchangeData: IDateData,ICodeData,IOHLCData, iVolAmount, IDateStampData
     {
 
     }
@@ -38,6 +38,10 @@ namespace WolfInv.com.BaseObjectsLib
         /// </summary>
         public string sec { get; set; }
 
+        /// <summary>
+        /// 上市天数
+        /// </summary>
+        public int OnMarketDays { get; set; }
         string _fullcode;
         public string FullCode
         {

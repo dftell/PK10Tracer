@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace WolfInv.com.BaseObjectsLib
 {
 
-    public class MongoData : DisplayAsTableClass, IObjectId, ICloneable, IMatchFilter, IConvertible, IFormatProvider
+    public class MongoData : DisplayAsTableClass, IObjectId, ICloneable, ICompareFilter, IConvertible, IFormatProvider
     {
         public MongoData()
         {
@@ -33,7 +33,7 @@ namespace WolfInv.com.BaseObjectsLib
         }
 
 
-        public bool Match(BsonElement bs)
+        public bool Compr(BsonElement bs)
         {
             Type t = this.GetType();
             BsonElement key = bs;
@@ -46,7 +46,7 @@ namespace WolfInv.com.BaseObjectsLib
             return BsonValue.Create(val) as object;
         };
 
-        public bool Match(BsonDocument bs)
+        public bool Compr(BsonDocument bs)
         {
             Type t = this.GetType();
             foreach (BsonElement key in bs)
@@ -252,9 +252,9 @@ namespace WolfInv.com.BaseObjectsLib
         BsonObjectId _id { get; set; }
     }
 
-    public interface IMatchFilter
+    public interface ICompareFilter
     {
-        bool Match(BsonElement filter);
+        bool Compr(BsonElement filter);
     }
 
     public interface ICodeData

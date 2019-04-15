@@ -15,6 +15,10 @@ namespace WolfInv.com.SecurityLib
         {
 
         }
+        protected MongoDataReader(string db)
+        {
+            DbTypeName = db;
+        }
         protected MongoDataReader(string db,string docname)
         {
             DbTypeName = db;

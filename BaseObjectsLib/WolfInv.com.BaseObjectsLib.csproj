@@ -92,6 +92,7 @@
     <Compile Include="MatrixTableCell.cs" />
     <Compile Include="MatrixTableRows.cs" />
     <Compile Include="MongoDataList.cs" />
+    <Compile Include="MongoDateTime.cs" />
     <Compile Include="MTable.cs" />
     <Compile Include="PK10Object.cs" />
     <Compile Include="PrintClass.cs" />

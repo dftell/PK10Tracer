@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommMarketClass.cs" />
     <Compile Include="DataBuilders\CodeDataBuilder.cs" />
     <Compile Include="DataBuilders\DateSerialCodeDataBuilder.cs" />
     <Compile Include="DataBuilders\DateSerialDatabuilder.cs" />

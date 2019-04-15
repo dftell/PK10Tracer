@@ -31,6 +31,8 @@ namespace WolfInv.com.SecurityLib
         MongoReturnDataList<T1> getData<T1>(string endt,int Cycs, bool Asc) where T1 : MongoData;
 
         MongoReturnDataList<T1> getFullTimeSerial<T1>() where T1 : MongoData;
+
+        MongoReturnDataList<T1> getDataGroupBy<T1>(string[] sqls) where T1 : MongoData;
     }
     public abstract class MongoDataBuilder 
     {

@@ -36,6 +36,17 @@
             this.btn_swhyCommQuery = new System.Windows.Forms.Button();
             this.btn_SubScript = new System.Windows.Forms.Button();
             this.btn_TestDayData = new System.Windows.Forms.Button();
+            this.lbl_process = new System.Windows.Forms.Label();
+            this.txt_maxThreadCnt = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txt_GrpUnitCnt = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txt_ThrdInterval = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txt_begT = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txt_endT = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -84,10 +95,12 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(12, 708);
+            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar1.Location = new System.Drawing.Point(12, 667);
             this.progressBar1.Margin = new System.Windows.Forms.Padding(4);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(974, 32);
+            this.progressBar1.Size = new System.Drawing.Size(1027, 36);
             this.progressBar1.TabIndex = 3;
             // 
             // btn_swhyCommQuery
@@ -121,11 +134,117 @@
             this.btn_TestDayData.UseVisualStyleBackColor = true;
             this.btn_TestDayData.Click += new System.EventHandler(this.btn_TestDayData_Click);
             // 
+            // lbl_process
+            // 
+            this.lbl_process.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbl_process.AutoSize = true;
+            this.lbl_process.Location = new System.Drawing.Point(12, 729);
+            this.lbl_process.Name = "lbl_process";
+            this.lbl_process.Size = new System.Drawing.Size(82, 24);
+            this.lbl_process.TabIndex = 7;
+            this.lbl_process.Text = "label2";
+            // 
+            // txt_maxThreadCnt
+            // 
+            this.txt_maxThreadCnt.Location = new System.Drawing.Point(269, 459);
+            this.txt_maxThreadCnt.Name = "txt_maxThreadCnt";
+            this.txt_maxThreadCnt.Size = new System.Drawing.Size(138, 35);
+            this.txt_maxThreadCnt.TabIndex = 8;
+            this.txt_maxThreadCnt.Text = "40";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(114, 463);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(130, 24);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "最大线程数";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(114, 517);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(154, 24);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "分组单元数量";
+            // 
+            // txt_GrpUnitCnt
+            // 
+            this.txt_GrpUnitCnt.Location = new System.Drawing.Point(269, 513);
+            this.txt_GrpUnitCnt.Name = "txt_GrpUnitCnt";
+            this.txt_GrpUnitCnt.Size = new System.Drawing.Size(138, 35);
+            this.txt_GrpUnitCnt.TabIndex = 10;
+            this.txt_GrpUnitCnt.Text = "25";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(114, 574);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(106, 24);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "线程间隙";
+            // 
+            // txt_ThrdInterval
+            // 
+            this.txt_ThrdInterval.Location = new System.Drawing.Point(269, 570);
+            this.txt_ThrdInterval.Name = "txt_ThrdInterval";
+            this.txt_ThrdInterval.Size = new System.Drawing.Size(138, 35);
+            this.txt_ThrdInterval.TabIndex = 12;
+            this.txt_ThrdInterval.Text = "1";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(114, 354);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(106, 24);
+            this.label5.TabIndex = 15;
+            this.label5.Text = "开始日期";
+            // 
+            // txt_begT
+            // 
+            this.txt_begT.Location = new System.Drawing.Point(269, 350);
+            this.txt_begT.Name = "txt_begT";
+            this.txt_begT.Size = new System.Drawing.Size(138, 35);
+            this.txt_begT.TabIndex = 14;
+            this.txt_begT.Text = "2017-1-1";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(114, 412);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(106, 24);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "结束日期";
+            // 
+            // txt_endT
+            // 
+            this.txt_endT.Location = new System.Drawing.Point(269, 408);
+            this.txt_endT.Name = "txt_endT";
+            this.txt_endT.Size = new System.Drawing.Size(138, 35);
+            this.txt_endT.TabIndex = 16;
+            this.txt_endT.Text = "2019-4-7";
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1052, 762);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.txt_endT);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.txt_begT);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.txt_ThrdInterval);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.txt_GrpUnitCnt);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.txt_maxThreadCnt);
+            this.Controls.Add(this.lbl_process);
             this.Controls.Add(this.btn_TestDayData);
             this.Controls.Add(this.btn_SubScript);
             this.Controls.Add(this.btn_swhyCommQuery);
@@ -152,5 +271,16 @@
         private System.Windows.Forms.Button btn_swhyCommQuery;
         private System.Windows.Forms.Button btn_SubScript;
         private System.Windows.Forms.Button btn_TestDayData;
+        private System.Windows.Forms.Label lbl_process;
+        private System.Windows.Forms.TextBox txt_maxThreadCnt;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txt_GrpUnitCnt;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txt_ThrdInterval;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txt_begT;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txt_endT;
     }
 }

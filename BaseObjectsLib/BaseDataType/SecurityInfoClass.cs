@@ -2,7 +2,7 @@
 
 namespace WolfInv.com.BaseObjectsLib
 {
-    public class SecurityInfoClass 
+    public class SecurityInfoClass
     {
         public string StockID { get; set; }
         public string StockName { get; set; }

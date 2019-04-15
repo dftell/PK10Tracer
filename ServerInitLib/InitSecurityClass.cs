@@ -30,9 +30,8 @@ namespace WolfInv.com.ServerInitLib
             
             return ret;
         }
-        static MongoDataDictionary<XDXRData> AllXDXRDatas;
-        static int grpcnt = 0;
-        static MongoDataDictionary<XDXRData> getAllXDXRDataAsync(string DataType,List<string[]> codeGrp)
+
+        public static MongoDataDictionary<XDXRData> getAllXDXRDataAsync(string DataType,List<string[]> codeGrp)
         {
             if(GlobalClass.TypeDataPoints[DataType].NeedLoadAllXDXR==0)
             {
@@ -41,84 +40,19 @@ namespace WolfInv.com.ServerInitLib
             DateTime now = DateTime.Now;
             //MongoDataDictionary<XDXRData> ret = new MongoDataDictionary<XDXRData>();
             ////DateSerialCodeDataBuilder dcdb = new DateSerialCodeDataBuilder("CN_Stock_A",GlobalClass.TypeDataPoints["CN_Stock_A"].XDXRTable,codes);
-            AllXDXRDatas = new MongoDataDictionary<XDXRData>();
-            for (int i = 0; i < codeGrp.Count; i++)
+            SecurityGrpReader<XDXRData> sgr = new SecurityGrpReader<XDXRData>();
+            sgr.CheckEvent = (a,b,c,d,f)=> { };
+            MongoDataDictionary<XDXRData> data = sgr.GetResult(codeGrp, (a) =>
             {
-                string[] codes = codeGrp[i];
-                XDXRReader reader = new XDXRReader(DataType, GlobalClass.TypeDataPoints[DataType].XDXRTable, codes);
-                //MongoDataDictionary<XDXRData>  list = await Exec(reader);
-                //FillDic(ref ret, await Exec(reader));
-                ExecClass exobj = new ExecClass(reader,i);
-                exobj.OnFinished += Finished;
-                //ThreadPool.QueueUserWorkItem();
-                
-                new Thread(new ThreadStart(exobj.Exec)).Start();
-                Thread.Sleep(500);
-            }
-            while(grpcnt< codeGrp.Count)
-            {
-                Thread.Sleep(1000);
-            }
-            ToLog("经历时间",DateTime.Now.Subtract(now).TotalSeconds.ToString());
-            return AllXDXRDatas;
+                XDXRReader reader = new XDXRReader(GlobalClass.TypeDataPoints[DataType].DataType, GlobalClass.TypeDataPoints[DataType].XDXRTable, a);
+                MongoDataDictionary<XDXRData> res = reader.GetAllCodeDateSerialDataList<XDXRData>(true);
+                return res;
+            }, GlobalClass.TypeDataPoints[DataType].MaxThreadCnt, 1);
+
+            return data;
         }
 
-        static void Finished(MongoDataDictionary<XDXRData> list)
-        {
-            if (list == null || list.Count == 0)
-            {
-                grpcnt++;
-                return;
-            }
-            lock (AllXDXRDatas)
-            {
-                if (AllXDXRDatas.Count == 0)
-                {
-                    AllXDXRDatas = list;
-                }
-                else
-                {
-                    foreach (string key in list.Keys)
-                    {
-                        if (!AllXDXRDatas.ContainsKey(key))
-                            AllXDXRDatas.Add(key, list[key]);
-                    }
-                }
-                grpcnt++;
-            }
-        }
         
-
-        delegate void FinishedEvent(MongoDataDictionary<XDXRData> list);
-
-        class ExecClass
-        {
-            XDXRReader reader;
-            public FinishedEvent OnFinished;
-            int index;
-            public ExecClass(XDXRReader _reader,int _index)
-            {
-                reader = _reader;
-                index = _index;
-            }
-            public void Exec()
-            {
-                OnFinished(getDBList(reader,index));
-            }
-
-            Func<XDXRReader,int, MongoDataDictionary<XDXRData>> getDBList = delegate (XDXRReader reader,int index)
-            {
-                MongoDataDictionary<XDXRData> list = reader.GetAllCodeDateSerialDataList<XDXRData>(true);
-                if (list == null)
-                {
-                    LogableClass.ToLog("获取除权除息数据错误");
-                    return list;
-                }
-                LogableClass.ToLog("获取到除权除息数据", string.Format("Index:{2};股票数：{0}；总条数：{1}", list.Count, list.Sum(p => p.Value.Count),index));
-                return list;
-            };
-        }
-
         
         static void FillDic(ref MongoDataDictionary<XDXRData> ret, MongoDataDictionary<XDXRData> list)
         {
