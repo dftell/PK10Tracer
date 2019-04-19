@@ -64,10 +64,12 @@ namespace WolfInv.com.StrategyLibForWD
             for (int i = 0; i < bdt.Count; i++)
             {
                 BaseDataItemClass info = bdt[i] as BaseDataItemClass;
-                SecurityInfo si = new SecurityInfo();
-                si.secType = SecType.Equit;
-                si.BaseInfo = info;
-                si.DateIndex = new Dictionary<DateTime, int>();
+                SecurityInfo si = new SecurityInfo
+                {
+                    secType = SecType.Equit,
+                    BaseInfo = info,
+                    DateIndex = new Dictionary<DateTime, int>()
+                };
                 if (alllist.ContainsKey(si.BaseInfo.WindCode))
                 {
                     throw (new Exception("初始化系统出现重复股票！"));

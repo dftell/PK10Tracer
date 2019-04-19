@@ -19,7 +19,7 @@ namespace WolfInv.com.SecurityLib
             ExpectList<T> ret = new ExpectList<T>();
             HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(dataUrl);
             req.Method = "Get";
-            string htmltxt = null;
+            string htmltxt = "";
             try
             {
                 using (WebResponse wr = req.GetResponse())
@@ -35,22 +35,30 @@ namespace WolfInv.com.SecurityLib
             }
             catch(Exception ce)
             {
-                LogLib.LogableClass.ToLog("主机连接错误,切换主机", ce.Message);
+               
+                LogLib.LogableClass.ToLog(string.Format("主机连接错误！url:{0};接收到数据:{1}",dataUrl,htmltxt), ce.Message);
                 //切换主备host
                 if(dtp.RuntimeInfo == null)
                 {
                     dtp.RuntimeInfo = new DataPointBuff();
                 }
-                if(dtp.RuntimeInfo.DefaultDataUrl.Equals(dtp.MainDataUrl))
+                if (dtp.AutoSwitchHost==1)
                 {
-                    dtp.RuntimeInfo.DefaultDataUrl = dtp.SubDataUrl;
+                    if (dtp.RuntimeInfo.DefaultDataUrl.Equals(dtp.MainDataUrl))
+                    {
+                        dtp.RuntimeInfo.DefaultDataUrl = dtp.SubDataUrl;
+                    }
+                    else
+                    {
+                        dtp.RuntimeInfo.DefaultDataUrl = dtp.MainDataUrl;
+                    }
+                    dtp.SrcUseXml = (dtp.SrcUseXml == 1 ? 0 : 1);
+                    LogLib.LogableClass.ToLog("切换到主机", dtp.RuntimeInfo.DefaultDataUrl);
                 }
                 else
                 {
-                    dtp.RuntimeInfo.DefaultDataUrl = dtp.MainDataUrl;
+                    LogLib.LogableClass.ToLog("未设置自动切换到主机", "等待下次看是否能恢复！");
                 }
-                dtp.SrcUseXml = (dtp.SrcUseXml==1?0:1);
-                LogLib.LogableClass.ToLog("切换到主机", dtp.RuntimeInfo.DefaultDataUrl);
             }
             return ret;
         }

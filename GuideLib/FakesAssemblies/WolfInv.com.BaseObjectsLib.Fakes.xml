@@ -61,6 +61,12 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.ChipCountSetInt32">
             <summary>设置 BaseChance`1.set_ChipCount(Int32 value) 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.ClosedGet">
+            <summary>设置 BaseChance`1.get_Closed() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.ClosedSetBoolean">
+            <summary>设置 BaseChance`1.set_Closed(Boolean value) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.CostGet">
             <summary>设置 BaseChance`1.get_Cost() 的 填充码</summary>
         </member>
@@ -189,6 +195,12 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.ChipCountSetInt32">
             <summary>设置 BaseChance`1.set_ChipCount(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.ClosedGet">
+            <summary>设置 BaseChance`1.get_Closed() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.ClosedSetBoolean">
+            <summary>设置 BaseChance`1.set_Closed(Boolean value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.Constructor">
             <summary>设置 BaseChance`1.BaseChance`1() 的 填充码</summary>
@@ -517,6 +529,30 @@
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances">
             <summary>为所有实例成员定义填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.AllowMaxHoldTimeCntGet">
+            <summary>设置 ChanceClass`1.get_AllowMaxHoldTimeCnt() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.AllowMaxHoldTimeCntSetInt32">
+            <summary>设置 ChanceClass`1.set_AllowMaxHoldTimeCnt(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.AssetIdGet">
+            <summary>设置 ChanceClass`1.get_AssetId() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.AssetIdSetString">
+            <summary>设置 ChanceClass`1.set_AssetId(String value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.FixAmtGet">
+            <summary>设置 ChanceClass`1.get_FixAmt() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.FixAmtSetNullableOfInt64">
+            <summary>设置 ChanceClass`1.set_FixAmt(Nullable`1&lt;Int64&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.FixRateGet">
+            <summary>设置 ChanceClass`1.get_FixRate() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.FixRateSetNullableOfDouble">
+            <summary>设置 ChanceClass`1.set_FixRate(Nullable`1&lt;Double&gt; value) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.GUIDGet">
             <summary>设置 ChanceClass`1.get_GUID() 的 填充码</summary>
         </member>
@@ -535,6 +571,18 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.IncrementTypeSetInterestType">
             <summary>设置 ChanceClass`1.set_IncrementType(InterestType value) 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.IsTracerGet">
+            <summary>设置 ChanceClass`1.get_IsTracer() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.IsTracerSetInt32">
+            <summary>设置 ChanceClass`1.set_IsTracer(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.LastMatchTimesIdGet">
+            <summary>设置 ChanceClass`1.get_LastMatchTimesId() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.LastMatchTimesIdSetInt32">
+            <summary>设置 ChanceClass`1.set_LastMatchTimesId(Int32 value) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.MatchedExpectDataOfT0">
             <summary>设置 ChanceClass`1.Matched(ExpectData`1&lt;!0&gt; data) 的 填充码</summary>
         </member>
@@ -549,6 +597,30 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.MatchedExpectListOfT0Int32OutBoolean">
             <summary>设置 ChanceClass`1.Matched(ExpectList`1&lt;!0&gt; el, Int32&amp; MatchCnt, Boolean getRev) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.MinWinRateGet">
+            <summary>设置 ChanceClass`1.get_MinWinRate() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.MinWinRateSetDouble">
+            <summary>设置 ChanceClass`1.set_MinWinRate(Double value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.NeedConditionEndGet">
+            <summary>设置 ChanceClass`1.get_NeedConditionEnd() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.NeedConditionEndSetBoolean">
+            <summary>设置 ChanceClass`1.set_NeedConditionEnd(Boolean value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.OddsGet">
+            <summary>设置 ChanceClass`1.get_Odds() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.OddsSetDouble">
+            <summary>设置 ChanceClass`1.set_Odds(Double value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.StragIdGet">
+            <summary>设置 ChanceClass`1.get_StragId() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.StragIdSetString">
+            <summary>设置 ChanceClass`1.set_StragId(String value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.ToBooleanIFormatProvider">
             <summary>设置 ChanceClass`1.ToBoolean(IFormatProvider provider) 的 填充码</summary>
@@ -601,8 +673,26 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.TracerableGet">
             <summary>设置 ChanceClass`1.get_Tracerable() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.UserIdGet">
+            <summary>设置 ChanceClass`1.get_UserId() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.UserIdSetString">
+            <summary>设置 ChanceClass`1.set_UserId(String value) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.isPureGet">
             <summary>设置 ChanceClass`1.get_isPure() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllowMaxHoldTimeCntGet">
+            <summary>设置 ChanceClass`1.get_AllowMaxHoldTimeCnt() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllowMaxHoldTimeCntSetInt32">
+            <summary>设置 ChanceClass`1.set_AllowMaxHoldTimeCnt(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AssetIdGet">
+            <summary>设置 ChanceClass`1.get_AssetId() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AssetIdSetString">
+            <summary>设置 ChanceClass`1.set_AssetId(String value) 的 填充码</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.BehaveAsCurrent">
             <summary>为已填充的类型的所有方法分配“Current”行为</summary>
@@ -627,6 +717,18 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.FillNListOfStringListOfStringStringInt32Int32">
             <summary>设置 ChanceClass`1.FillN(List`1&lt;String&gt; list, List`1&lt;String&gt; subCode, String code, Int32 start, Int32 n) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.FixAmtGet">
+            <summary>设置 ChanceClass`1.get_FixAmt() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.FixAmtSetNullableOfInt64">
+            <summary>设置 ChanceClass`1.set_FixAmt(Nullable`1&lt;Int64&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.FixRateGet">
+            <summary>设置 ChanceClass`1.get_FixRate() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.FixRateSetNullableOfDouble">
+            <summary>设置 ChanceClass`1.set_FixRate(Nullable`1&lt;Double&gt; value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.GUIDGet">
             <summary>设置 ChanceClass`1.get_GUID() 的 填充码</summary>
@@ -655,6 +757,18 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.IsSingleOrDoubleChanceString">
             <summary>设置 ChanceClass`1.IsSingleOrDoubleChance(String code) 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.IsTracerGet">
+            <summary>设置 ChanceClass`1.get_IsTracer() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.IsTracerSetInt32">
+            <summary>设置 ChanceClass`1.set_IsTracer(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.LastMatchTimesIdGet">
+            <summary>设置 ChanceClass`1.get_LastMatchTimesId() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.LastMatchTimesIdSetInt32">
+            <summary>设置 ChanceClass`1.set_LastMatchTimesId(Int32 value) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.MatchedExpectDataOfT0">
             <summary>设置 ChanceClass`1.Matched(ExpectData`1&lt;!0&gt; data) 的 填充码</summary>
         </member>
@@ -663,6 +777,30 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.MatchedExpectListOfT0Int32Out">
             <summary>设置 ChanceClass`1.Matched(ExpectList`1&lt;!0&gt; data, Int32&amp; MatchCnt) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.MinWinRateGet">
+            <summary>设置 ChanceClass`1.get_MinWinRate() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.MinWinRateSetDouble">
+            <summary>设置 ChanceClass`1.set_MinWinRate(Double value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.NeedConditionEndGet">
+            <summary>设置 ChanceClass`1.get_NeedConditionEnd() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.NeedConditionEndSetBoolean">
+            <summary>设置 ChanceClass`1.set_NeedConditionEnd(Boolean value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.OddsGet">
+            <summary>设置 ChanceClass`1.get_Odds() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.OddsSetDouble">
+            <summary>设置 ChanceClass`1.set_Odds(Double value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.StragIdGet">
+            <summary>设置 ChanceClass`1.get_StragId() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.StragIdSetString">
+            <summary>设置 ChanceClass`1.set_StragId(String value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.ToBooleanIFormatProvider">
             <summary>设置 ChanceClass`1.ToBoolean(IFormatProvider provider) 的 填充码</summary>
@@ -714,6 +852,12 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.TracerableGet">
             <summary>设置 ChanceClass`1.get_Tracerable() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.UserIdGet">
+            <summary>设置 ChanceClass`1.get_UserId() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.UserIdSetString">
+            <summary>设置 ChanceClass`1.set_UserId(String value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.getAllSubCodeStringInt32">
             <summary>设置 ChanceClass`1.getAllSubCode(String OrgCode, Int32 subCodeLng) 的 填充码</summary>
@@ -2401,6 +2545,9 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.StartColsGet">
             <summary>设置 GlobalClass.get_StartCols() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.StatusUrlModelGet">
+            <summary>设置 GlobalClass.get_StatusUrlModel() 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.SysParamsGet">
             <summary>设置 GlobalClass.get_SysParams() 的 填充码</summary>
         </member>
@@ -2610,6 +2757,9 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.StaticConstructor">
             <summary>设置 GlobalClass.GlobalClass() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.StatusUrlModelGet">
+            <summary>设置 GlobalClass.get_StatusUrlModel() 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.SysParamsGet">
             <summary>设置 GlobalClass.get_SysParams() 的 填充码</summary>

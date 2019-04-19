@@ -12,7 +12,6 @@ using WolfInv.com.PK10CorePress;
 using WolfInv.com.Strags;
 using System.IO;
 using System.Threading;
-using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.SecurityLib;
 
 namespace BackTestSystem

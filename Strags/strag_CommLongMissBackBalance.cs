@@ -120,9 +120,10 @@ namespace WolfInv.com.Strags
             return scs;
         }
 
-        public new Int64 getChipAmount(double RestCash, ChanceClass cc, AmoutSerials ams)
+        public override Int64 getChipAmount(double RestCash, ChanceClass cc, AmoutSerials ams)
         {
-            if(cc.IncrementType==  InterestType.SimpleInterest) return (int)Math.Floor(this.CommSetting.InitCash*0.01);
+            if(cc.IncrementType==  InterestType.SimpleInterest)
+                return (int)Math.Floor(this.CommSetting.InitCash*0.01);
             double p = (double)(cc.ChipCount / this.CommSetting.Odds);
             double Normal_p = (double)cc.ChipCount / 10;
             double _MinRate = Normal_p + this.MinWinRate * (p - Normal_p);

@@ -28,7 +28,7 @@ namespace BackTestSys
         BackgroundWorker bw;
         BackTestReturnClass<T> ret=null;
         BackTestClass<T> btc = null;
-        MainForm<TimeSerialData> CheckFrm;
+        MainForm  CheckFrm;
         ExchangeService es;
         BaseStragClass<T> sc;
         Thread th = null;
@@ -518,7 +518,7 @@ namespace BackTestSys
         {
             //if (CheckFrm == null)
             //{
-                CheckFrm = new MainForm<TimeSerialData>();
+                CheckFrm = new MainForm();
                 CheckFrm.Show();
                 return;
             //}
@@ -537,7 +537,7 @@ namespace BackTestSys
             //MessageBox.Show(strExpect);
             ////if (CheckFrm == null)
             ////{
-                CheckFrm = new MainForm<TimeSerialData>();
+                CheckFrm = new MainForm();
             ////    CheckFrm.InputExpect = int.Parse(strExpect);
             ////    CheckFrm.Show();
             ////    return;
@@ -972,7 +972,7 @@ namespace BackTestSys
             //MessageBox.Show(strExpect);
             ////if (CheckFrm == null)
             ////{
-            CheckFrm = new MainForm<TimeSerialData>();
+            CheckFrm = new MainForm();
             ////    CheckFrm.InputExpect = int.Parse(strExpect);
             ////    CheckFrm.Show();
             ////    return;
@@ -992,7 +992,7 @@ namespace BackTestSys
             //MessageBox.Show(strExpect);
             ////if (CheckFrm == null)
             ////{
-            CheckFrm = new MainForm<TimeSerialData>();
+            CheckFrm = new MainForm();
             ////    CheckFrm.InputExpect = int.Parse(strExpect);
             ////    CheckFrm.Show();
             ////    return;

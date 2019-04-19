@@ -8,7 +8,6 @@ using WolfInv.com.Strags;
 using WolfInv.com.ServerInitLib;
 using WolfInv.com.LogLib;
 using System.Timers;
-using WolfInv.com.WinInterComminuteLib;
 using WolfInv.com.ExchangeLib;
 using WolfInv.com.BaseObjectsLib;
 namespace DataRecSvr

@@ -44,9 +44,9 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecS
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.ProjectInstaller.resources
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.csproj.GenerateResource.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\Source\project\Services\DataRecSvr.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.csproj.CopyComplete
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.exe
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.pdb
-C:\Users\zhouys\source\project\Services\DataRecSvr.exe.config
-C:\Users\zhouys\source\project\Services\DataRecSvr.exe
-C:\Users\zhouys\source\project\Services\DataRecSvr.pdb
+C:\Users\zhouys\Source\project\Services\DataRecSvr.exe.config
+C:\Users\zhouys\Source\project\Services\DataRecSvr.exe
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.exe

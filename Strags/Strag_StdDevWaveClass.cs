@@ -19,17 +19,17 @@ namespace WolfInv.com.Strags
             _StragClassName = "标准差起伏择时选号策略";
         }
 
-        public new bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
+        public override bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
         {
 
             return LastExpectMatched;//持续机会
         }
 
-        public new long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
             try
             {
-                if (cc.HoldTimeCnt > cc.MaxHoldTimeCnt && cc.MaxHoldTimeCnt>0)//但是只有第一次有投入
+                if (cc.HoldTimeCnt > cc.AllowMaxHoldTimeCnt && cc.AllowMaxHoldTimeCnt > 0)//但是只有第一次有投入
                 {
                     return 0;
                 }

@@ -148,7 +148,7 @@ namespace WolfInv.com.Strags
                     cc.ExpectCode = ed.Expect;
                     cc.CreateTime = DateTime.Now;
                     cc.UpdateTime = DateTime.Now;
-                    cc.MaxHoldTimeCnt = 1;
+                    cc.AllowMaxHoldTimeCnt = 1;
                     cc.Closed = false;
                     ret.Add(cc);
                 }
@@ -180,7 +180,7 @@ namespace WolfInv.com.Strags
                 cc.ChanceCode = string.Join("+", AllCodes.Keys.ToArray());
                 cc.CreateTime = DateTime.Now;
                 cc.UpdateTime = DateTime.Now;
-                cc.MaxHoldTimeCnt = 1;
+                cc.AllowMaxHoldTimeCnt = 1;
                 cc.Closed = false;
                 ret.Add(cc);
             }
@@ -217,14 +217,15 @@ namespace WolfInv.com.Strags
             return LastExpectMatched;
         }
 
-        public new long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
+            cc.AllowMaxHoldTimeCnt = 1;
             try
             {
                 
                 if (cc.IncrementType == InterestType.CompoundInterest)
                 {
-                    if (cc.MaxHoldTimeCnt >0 && cc.HoldTimeCnt > cc.MaxHoldTimeCnt)
+                    if (cc.AllowMaxHoldTimeCnt > 0 && cc.HoldTimeCnt > cc.AllowMaxHoldTimeCnt)
                     {
                         return 0;
                     }
@@ -234,11 +235,12 @@ namespace WolfInv.com.Strags
                     long ret = (long)Math.Ceiling((double)(RestCash * rate));
                     return ret;
                 }
-                if (cc.ChipCount < this.InputMinTimes && cc.HoldTimeCnt > cc.MaxHoldTimeCnt && cc.MaxHoldTimeCnt > 0)
+                //大于5码的不受限制
+                if (cc.ChipCount < this.InputMinTimes && cc.HoldTimeCnt > cc.AllowMaxHoldTimeCnt && cc.AllowMaxHoldTimeCnt > 0)
                 {
                     return 0;
                 }
-                if (cc.HoldTimeCnt <= cc.MaxHoldTimeCnt && cc.MaxHoldTimeCnt > 0) //如果小于等于1
+                if (cc.HoldTimeCnt <= cc.AllowMaxHoldTimeCnt && cc.AllowMaxHoldTimeCnt > 0) //如果小于等于1
                 {
                     return cc.FixAmt.Value;
                 }
@@ -256,7 +258,7 @@ namespace WolfInv.com.Strags
             }
             catch (Exception e)
             {
-                Log("错误", "获取单码金额错误", e.Message);
+                Log("错误", string.Format("二项分布，获取单码金额错误:{0}", e.Message), e.StackTrace);
             }
             return 1;
         }

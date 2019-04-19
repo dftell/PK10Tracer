@@ -18,7 +18,7 @@ namespace WolfInv.com.Strags
             _StragClassName = "N码长期概率分布择时组合选号策略";
         }
 
-        public new bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
+        public override bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
         {
             if (LastExpectMatched)
             {

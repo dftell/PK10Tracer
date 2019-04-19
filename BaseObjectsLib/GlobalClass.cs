@@ -98,12 +98,12 @@ namespace WolfInv.com.BaseObjectsLib
         public static string strLoginUrlModel = "http://www.wolfinv.com/PK10/App/login.asp?User={0}&Password={1}";
         public static string strRequestInstsURL = "http://www.wolfinv.com/pk10/app/requestinsts.asp";
         public static string strAssetInfoURL = "http://www.wolfinv.com/pk10/app/getAssetLists.asp";
-        public static string dbServer = "www.wolfinv.com";//"47.95.222.142";//"www.wolfinv.com";
-        public static string dbName =  "PK10db";
-        public static string dbUser =  "sa";
-        public static string dbPwd =  "bolts";
+        public static string dbServer = "";// "www.wolfinv.com";//"47.95.222.142";//"www.wolfinv.com";
+        public static string dbName = "";//"PK10db";
+        public static string dbUser = "";//"sa";
+        public static string dbPwd = "";//"bolts";
         public static string TXFFC_url = "http://www.off0.com/index.php";
-        public static string PK10_url = "http://d.apiplus.net/newly.do?token=tf066705d12dcb288k&code=bjpk10&format=xml&rows=100";
+        //public static string PK10_url = "http://d.apiplus.net/newly.do?token=tf066705d12dcb288k&code=bjpk10&format=xml&rows=100";
         //ExpectList t_newExpectData;
         bool b_AllowExchange;
         public static XmlDocument XmlDoc;
@@ -282,6 +282,7 @@ namespace WolfInv.com.BaseObjectsLib
             }
         }
 
+
         string _ClientUserPwd;
         public string ClientPassword
         {
@@ -308,6 +309,17 @@ namespace WolfInv.com.BaseObjectsLib
                 return SysParams["System"]["LoginUrlModel"];
             return "";
         }}
+
+        public string StatusUrlModel
+        {
+            get
+            {
+                if (SysParams.Count > 0)
+                    return SysParams["System"]["StatusUrlModel"];
+                return "";
+            }
+
+        }
 
         public string LoginDefaultHost{get{
             if(SysParams.Count > 0)
@@ -642,6 +654,11 @@ namespace WolfInv.com.BaseObjectsLib
 
         public static DbClass getCurrDb()
         {
+            dbServer = TypeDataPoints["PK10"].DbHost;
+            dbUser = TypeDataPoints["PK10"].DbUser;
+            dbName = TypeDataPoints["PK10"].DbName;
+            dbPwd = TypeDataPoints["PK10"].DbPassword;
+
             return new DbClass(dbServer, dbUser, dbPwd, dbName);
         }
 

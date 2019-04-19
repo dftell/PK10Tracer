@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{6A28259F-0369-4801-8B73-540BD4B7C7D5}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DataRecSvr</RootNamespace>
     <AssemblyName>DataRecSvr</AssemblyName>
@@ -35,7 +35,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\project\Services\</OutputPath>
+    <OutputPath>..\..\..\..\project\PK10Tracer\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -57,8 +57,12 @@
   <PropertyGroup>
     <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
-    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -138,7 +142,7 @@
       <Name>WolfInv.com.Strags</Name>
     </ProjectReference>
     <ProjectReference Include="..\WinInterComminuteLib\WolfInv.com.WinInterComminuteLib.csproj">
-      <Project>{7859D79D-EDD5-4B79-B3DA-072432BC8FCC}</Project>
+      <Project>{7859d79d-edd5-4b79-b3da-072432bc8fcc}</Project>
       <Name>WolfInv.com.WinInterComminuteLib</Name>
     </ProjectReference>
   </ItemGroup>
@@ -175,12 +179,19 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
+    <PreBuildEvent>del /Q ..\services\*.dll
+del /Q ..\services\*.pdb
+del /Q ..\services\*.exe</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>xcopy /Y WolfInv.com.*.dll ..\services\
+xcopy /Y *.pdb ..\services\
+xcopy /Y DataRecSvr.exe ..\services\
+xcopy /Y WAPIWrapperCSharp.dll ..\services\
+xcopy /Y MongoDB.*.dll ..\services\
+xcopy /Y DocumentFormat.OpenXml.dll ..\services\
+
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

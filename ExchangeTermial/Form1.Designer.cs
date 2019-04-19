@@ -62,7 +62,7 @@
             // txt_user
             // 
             this.txt_user.Location = new System.Drawing.Point(284, 102);
-            this.txt_user.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txt_user.Margin = new System.Windows.Forms.Padding(6);
             this.txt_user.Name = "txt_user";
             this.txt_user.Size = new System.Drawing.Size(272, 35);
             this.txt_user.TabIndex = 2;
@@ -70,7 +70,7 @@
             // txt_password
             // 
             this.txt_password.Location = new System.Drawing.Point(284, 182);
-            this.txt_password.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.txt_password.Margin = new System.Windows.Forms.Padding(6);
             this.txt_password.Name = "txt_password";
             this.txt_password.PasswordChar = '*';
             this.txt_password.Size = new System.Drawing.Size(272, 35);
@@ -79,7 +79,7 @@
             // btn_login
             // 
             this.btn_login.Location = new System.Drawing.Point(264, 286);
-            this.btn_login.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btn_login.Margin = new System.Windows.Forms.Padding(6);
             this.btn_login.Name = "btn_login";
             this.btn_login.Size = new System.Drawing.Size(120, 48);
             this.btn_login.TabIndex = 4;
@@ -91,12 +91,13 @@
             // 
             this.btn_cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btn_cancel.Location = new System.Drawing.Point(388, 286);
-            this.btn_cancel.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btn_cancel.Margin = new System.Windows.Forms.Padding(6);
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.Size = new System.Drawing.Size(120, 48);
             this.btn_cancel.TabIndex = 5;
             this.btn_cancel.Text = "取消";
             this.btn_cancel.UseVisualStyleBackColor = true;
+            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
             // Form1
             // 
@@ -112,10 +113,10 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.MaximizeBox = false;
             this.Name = "Form1";
-            this.Text = "菠菜量化分析终端-武府黑科技";
+            this.Text = "快乐割菜-登录";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

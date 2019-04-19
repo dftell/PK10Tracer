@@ -2,7 +2,7 @@
 using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.Strags
 {
-    public abstract class ChanceTraceStragClass :StragClass
+    public abstract class ChanceTraceStragClass : StragClass
     {
         bool _IsTracing;
         public bool IsTracing
@@ -16,6 +16,10 @@ namespace WolfInv.com.Strags
                 _IsTracing = value;
             }
         }
-       
+
+        public override bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
+        {
+            return LastExpectMatched;
+        }
     }
 }

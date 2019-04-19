@@ -15,7 +15,7 @@ namespace WolfInv.com.PK10CorePress
     public class ChanceClass : BaseObjectsLib.ChanceClass<TimeSerialData>
     {
         public EventCheckNeedEndTheChance OnCheckTheChance;
-        public ChanceClass()
+        public ChanceClass():base()
         {
 
         }
@@ -126,9 +126,9 @@ namespace WolfInv.com.PK10CorePress
 
     public class OnceChance : ChanceClass
     {
-        public OnceChance()
+        public OnceChance():base()
         {
-            AllowMaxHoldTimeCnt = 1;
+            //AllowMaxHoldTimeCnt = 1;
         }
     }
 

@@ -53,7 +53,7 @@ namespace WolfInv.com.BaseObjectsLib
 
         //public DataTypePoint UseType;
         public Cycle Cyc = Cycle.Expect;
-        List<ExpectData<T>> _MyData;
+        List<ExpectData<T>> _MyData= new List<ExpectData<T>>();
         
         protected List<ExpectData<T>> MyData
         {
@@ -184,13 +184,16 @@ namespace WolfInv.com.BaseObjectsLib
                     _table.Columns.Add("OpenCode", typeof(string));
                     _table.Columns.Add("OpenTime", typeof(DateTime));
                 }
-                for (int i = 0; i < this.Count; i++)
+                lock (_table)
                 {
-                    DataRow dr = _table.NewRow();
-                    dr[0] = this[i].Expect;
-                    dr[1] = this[i].OpenCode;
-                    dr[2] = this[i].OpenTime;
-                    _table.Rows.Add(dr);
+                    for (int i = 0; i < this.Count; i++)
+                    {
+                        DataRow dr = _table.NewRow();
+                        dr[0] = this[i].Expect;
+                        dr[1] = this[i].OpenCode;
+                        dr[2] = this[i].OpenTime;
+                        _table.Rows.Add(dr);
+                    }
                 }
                 return _table;
             }

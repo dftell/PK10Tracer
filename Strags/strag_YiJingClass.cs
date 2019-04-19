@@ -18,15 +18,20 @@ namespace WolfInv.com.Strags
             this._StragClassName = "易经选号策略";
         }
 
-        
-        
+        public override bool CheckNeedEndTheChance(ChanceClass cc1, bool LastExpectMatched1)
+        {
+            return LastExpectMatched1;
+        }
 
         public override List<ChanceClass> getChances(BaseCollection sc, ExpectData ed)
         {
             throw new NotImplementedException();
         }
 
-        
+        public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        {
+            return getDefaultChipAmount(RestCash, cc, amts);
+        }
 
         public override StagConfigSetting getInitStagSetting()
         {

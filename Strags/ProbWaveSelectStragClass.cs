@@ -21,6 +21,10 @@ namespace WolfInv.com.Strags
         {
             _UseMainGuides = value;
         }
+        public override bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
+        {
+            return LastExpectMatched;
+        }
         Dictionary<string, Int64> _UseAmountList = new Dictionary<string,long>();
         public Dictionary<string, Int64> UseAmountList()
         {
@@ -67,7 +71,7 @@ namespace WolfInv.com.Strags
         /// <param name="RestCash"></param>
         /// <param name="cc"></param>
         /// <returns></returns>
-        public Int64 getChipAmount(double RestCash, ChanceClass cc, AmoutSerials ams)
+        public override Int64 getChipAmount(double RestCash, ChanceClass cc, AmoutSerials ams)
         {
             ////if (this.UseAmountList.ContainsKey(this.LastUseData.LastData.Expect))
             ////{

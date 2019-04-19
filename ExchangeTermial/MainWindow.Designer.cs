@@ -38,10 +38,12 @@
             this.mnu_RefreshInsts = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_Operate = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuRefreshWebToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reLoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_Setting = new System.Windows.Forms.ToolStripMenuItem();
             this.mnu_SetAssetUnitCnt = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btn_AddHedge = new System.Windows.Forms.Button();
             this.btn_SelfAddCombo = new System.Windows.Forms.Button();
@@ -55,14 +57,13 @@
             this.txt_Insts = new System.Windows.Forms.TextBox();
             this.txt_ExpectNo = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.timer_RequestInst = new System.Timers.Timer();
-            this.reLoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.timer_RequestInst = new System.Timers.Timer();
+            this.TSMI_sendStatusInfor = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -95,7 +96,8 @@
             // tsmi_View
             // 
             this.tsmi_View.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnu_RefreshInsts});
+            this.mnu_RefreshInsts,
+            this.TSMI_sendStatusInfor});
             this.tsmi_View.Name = "tsmi_View";
             this.tsmi_View.Size = new System.Drawing.Size(74, 35);
             this.tsmi_View.Text = "查看";
@@ -123,6 +125,13 @@
             this.mnuRefreshWebToolStripMenuItem.Text = "睡觉";
             this.mnuRefreshWebToolStripMenuItem.Click += new System.EventHandler(this.mnuRefreshWebToolStripMenuItem_Click);
             // 
+            // reLoadToolStripMenuItem
+            // 
+            this.reLoadToolStripMenuItem.Name = "reLoadToolStripMenuItem";
+            this.reLoadToolStripMenuItem.Size = new System.Drawing.Size(324, 38);
+            this.reLoadToolStripMenuItem.Text = "醒来";
+            this.reLoadToolStripMenuItem.Click += new System.EventHandler(this.reLoadToolStripMenuItem_Click);
+            // 
             // tsmi_Setting
             // 
             this.tsmi_Setting.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -134,7 +143,7 @@
             // mnu_SetAssetUnitCnt
             // 
             this.mnu_SetAssetUnitCnt.Name = "mnu_SetAssetUnitCnt";
-            this.mnu_SetAssetUnitCnt.Size = new System.Drawing.Size(304, 38);
+            this.mnu_SetAssetUnitCnt.Size = new System.Drawing.Size(324, 38);
             this.mnu_SetAssetUnitCnt.Text = "资产单元投资规模";
             this.mnu_SetAssetUnitCnt.Click += new System.EventHandler(this.mnu_SetAssetUnitCnt_Click);
             // 
@@ -162,6 +171,19 @@
             this.tabPage1.Size = new System.Drawing.Size(1694, 1120);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "概要";
+            // 
+            // webBrowser1
+            // 
+            this.webBrowser1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.webBrowser1.Location = new System.Drawing.Point(6, 258);
+            this.webBrowser1.Margin = new System.Windows.Forms.Padding(6);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(40, 40);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.Size = new System.Drawing.Size(1672, 782);
+            this.webBrowser1.TabIndex = 0;
+            this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser1_DocumentCompleted);
             // 
             // groupBox1
             // 
@@ -308,19 +330,6 @@
             this.label1.Text = "下注期号";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
-            // webBrowser1
-            // 
-            this.webBrowser1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.webBrowser1.Location = new System.Drawing.Point(6, 258);
-            this.webBrowser1.Margin = new System.Windows.Forms.Padding(6);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(40, 40);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(1672, 782);
-            this.webBrowser1.TabIndex = 0;
-            this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser1_DocumentCompleted);
-            // 
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.WhiteSmoke;
@@ -328,7 +337,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(6);
-            this.tabPage2.Size = new System.Drawing.Size(1694, 1117);
+            this.tabPage2.Size = new System.Drawing.Size(1694, 1120);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "数据";
             // 
@@ -361,24 +370,24 @@
             this.toolStripStatusLabel2.Size = new System.Drawing.Size(300, 33);
             this.toolStripStatusLabel2.Text = "Status";
             // 
+            // toolStripStatusLabel3
+            // 
+            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(257, 33);
+            this.toolStripStatusLabel3.Text = "toolStripStatusLabel3";
+            // 
             // timer_RequestInst
             // 
             this.timer_RequestInst.Enabled = true;
             this.timer_RequestInst.SynchronizingObject = this;
             this.timer_RequestInst.Elapsed += new System.Timers.ElapsedEventHandler(this.timer_RequestInst_Tick);
             // 
-            // reLoadToolStripMenuItem
+            // TSMI_sendStatusInfor
             // 
-            this.reLoadToolStripMenuItem.Name = "reLoadToolStripMenuItem";
-            this.reLoadToolStripMenuItem.Size = new System.Drawing.Size(324, 38);
-            this.reLoadToolStripMenuItem.Text = "醒来";
-            this.reLoadToolStripMenuItem.Click += new System.EventHandler(this.reLoadToolStripMenuItem_Click);
-            // 
-            // toolStripStatusLabel3
-            // 
-            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(257, 33);
-            this.toolStripStatusLabel3.Text = "toolStripStatusLabel3";
+            this.TSMI_sendStatusInfor.Name = "TSMI_sendStatusInfor";
+            this.TSMI_sendStatusInfor.Size = new System.Drawing.Size(324, 38);
+            this.TSMI_sendStatusInfor.Text = "上报状态";
+            this.TSMI_sendStatusInfor.Click += new System.EventHandler(this.TSMI_sendStatusInfor_Click);
             // 
             // MainWindow
             // 
@@ -441,5 +450,6 @@
         private System.Windows.Forms.ToolStripMenuItem mnuRefreshWebToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reLoadToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
+        private System.Windows.Forms.ToolStripMenuItem TSMI_sendStatusInfor;
     }
 }

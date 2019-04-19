@@ -1,80 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Data;
 using WolfInv.com.BaseObjectsLib;
-using WolfInv.com.LogLib;
 using System.Reflection;
-using WolfInv.com.ProbMathLib;
 namespace WolfInv.com.BaseObjectsLib
 {
     public delegate bool EventCheckNeedEndTheChance<T>(ChanceClass<T> CheckCc, bool LastExpectMatched) where T : TimeSerialData;
 
-    public class BaseChance<T> : DisplayAsTableClass where T : TimeSerialData
-    {
-        /// <summary>
-        /// db字段
-        /// </summary>
-        /// 
-        //int _chanceindex;
-        public Int64? ChanceIndex;
-        public string ChanceCode { get; set; }
-        public int ChipCount { get; set; }
-        public string ExpectCode { get; set; }
-        public Int64 UnitCost { get; set; }
-        public DateTime ExecDate { get; set; }
-        public Int64 Cost { get; set; }
-        public double Profit { get; set; }
-        public double Gained { get; set; }
-        public int HoldTimeCnt { get; set; }
-        public int CurrTimes { get; set; }
-        public int InputTimes { get; set; }
-        public int IsEnd { get; set; }
-        public DateTime CreateTime { get; set; }
-        public DateTime UpdateTime { get; set; }
-        public int ChanceType { get; set; }
-        public Int64 BaseCost { get; set; }
-        
-        
-        
-        /// <summary>
-        /// json用是否可以跟踪
-        /// </summary>
-
-
-
-        public bool Closed;
-
-        
-
-        /// <summary>
-        /// json用单注金额
-        /// </summary>
-        
-
-        public string SignExpectNo { get; set; }
-        public string EndExpectNo { get; set; }
-        public string strInputTimes { get; set; }
-        
-        
-        
-        
-        
-        public double BaseAmount = 1;
-    }
-
     public class ChanceClass<T> : BaseChance<T>,IConvertible where T:TimeSerialData
     {
+        public ChanceClass():base()
+        {
+            ChanceIndex = null;
+        }
         #region 以下字段支持现场恢复，在数据库中保存
-        public string StragId;
-        public string UserId;
-        public double Odds;
-        public int IsTracer;//db字段
-        public double MinWinRate;
+        public string StragId { get; set; }
+        public string UserId { get; set; }
+        public double Odds { get; set; }
+        public int IsTracer { get; set; }//db字段
+        public double MinWinRate { get; set; }
         public InterestType IncrementType { get; set; }
-        public double? FixRate;
-        public Int64? FixAmt;
+        public double? FixRate { get; set; }
+        public Int64? FixAmt { get; set; }
         string _guid;
         public string GUID //统一处理用
         {
@@ -111,26 +58,23 @@ namespace WolfInv.com.BaseObjectsLib
         #endregion
 
         #region 以下属性支持回测以及计算
-        public int MatchChips = 0;
-        public int AllowMaxHoldTimeCnt;
-        public int LastMatchTimesId;
+        public int MatchChips =0;
+        public int AllowMaxHoldTimeCnt { get; set; }
+        public int LastMatchTimesId { get; set; }
 
         public ExpectData<T> InputExpect;
         //public string FromStrag;
         //public string StragParams;
-        public bool NeedConditionEnd;
-        public int MaxHoldTimeCnt;
+        public bool NeedConditionEnd { get; set; }
+        //public int MaxHoldTimeCnt;
         
         public List<int> MatchTimesList = new List<int>();
         public EventCheckNeedEndTheChance<T> OnCheckTheChance;
 
-        public string AssetId;//增加所属资产单元id
+        public string AssetId { get; set; }//增加所属资产单元id
         #endregion
 
-        public ChanceClass()
-        {
-            ChanceIndex = null;
-        }
+        
         //以下为trace属性
         public bool Matched(ExpectData<T> data)
         {
@@ -576,282 +520,6 @@ namespace WolfInv.com.BaseObjectsLib
         {
             throw new NotImplementedException();
         }
-    }
-
-    public abstract class TraceChance<T> : ChanceClass<T>, ITraceChance where T : TimeSerialData
-    {
-        public bool CheckNeedEndTheChance(ChanceClass<T> cc, bool LastExpectMatched)
-        {
-            if (this.MatchChips > 0)//如果命中，即关闭
-            {
-                return true;
-            }
-            return false;
-        }
-
-        //public abstract long getChipAmount(double RestCash, ChanceClass<T> cc, AmoutSerials amts);
-
-        bool _IsTracing;
-        
-////////bool ITraceChance<T>.CheckNeedEndTheChance(ChanceClass<T> cc, bool LastExpectMatched)
-////////{
-////////    throw new NotImplementedException();
-////////}
-
-        public bool IsTracing
-        {
-            get
-            {
-                return _IsTracing;
-            }
-            set
-            {
-                _IsTracing = value;
-            }
-        }
-
-        
-        //public abstract bool IsTracing { get; set; }
-
-        public abstract bool CheckNeedEndTheChance<T1>(ChanceClass<T1> cc, bool LastExpectMatched) where T1 : TimeSerialData;
-        public abstract long getChipAmount<T1>(double RestCash, ChanceClass<T1> cc, AmoutSerials amts) where T1 : TimeSerialData;
-    }
-
-    public class NolimitTraceChance<T> : TraceChance<T> where T : TimeSerialData
-    {
-        public override bool CheckNeedEndTheChance<T1>(ChanceClass<T1> cc, bool LastExpectMatched)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override long getChipAmount<T>(double RestCash, ChanceClass<T> cc, AmoutSerials amts)
-        {
-            try
-            {
-                //////if (amts.Serials[cc.ChipCount - 1].Length == 0)
-                //////{
-                //////    Log("获取单码金额", "队列长度为0");
-                //////}
-                //////else
-                //////{
-                //////    Log(string.Format("获取到{0}码金额:{1}",cc.ChipCount,cc.HoldTimeCnt),string.Join(",",amts.Serials[cc.ChipCount-1]));
-                //////}
-                
-                
-                if (cc.IncrementType == InterestType.CompoundInterest)
-                {
-                    double rate = KellyMethodClass.KellyFormula(cc.ChipCount,10,9.75,1.01);
-                    long ret = (long)Math.Floor((double)(RestCash * rate ));
-                    return ret;
-                }
-                int chips = cc.ChipCount - 1;
-                int maxcnt = amts.MaxHoldCnts[chips];
-                int bShift = 0;
-                if (cc.HoldTimeCnt > maxcnt)
-                {
-                    Log("风险", "达到最大上限", string.Format("机会{0}持有次数达到{1}次总投入金额已为{2}",cc.ChanceCode,cc.HoldTimeCnt,Cost));
-                    bShift = (int)maxcnt * 2 / 3;
-                }
-                int RCnt = (cc.HoldTimeCnt % (maxcnt+1)) + bShift-1;
-                return amts.Serials[chips][RCnt];
-            }
-            catch (Exception e)
-            {
-                Log("错误","获取单码金额错误", e.Message);
-            }
-            return 1;
-        }
-    }
-
-    /// <summary>
-    /// 一次性机会，其整体开始停止时间由发现机会的类控制，机会本身无法指定下次金额，无getChipAmount方法
-    /// </summary>
-    public class OnceChance<T> : ChanceClass<T> where T : TimeSerialData
-    {
-        public OnceChance()
-        {
-            AllowMaxHoldTimeCnt = 1;
-        }
-    }
-    
-    public class DbChanceList<T> : DisplayAsTableClass,IDictionary<Int64?, ChanceClass<T>> where T : TimeSerialData
-    {
-        DataTable _dt;
-        Dictionary<Int64?, ChanceClass<T>> list;
-        public DbChanceList()
-        {
-            list = new Dictionary<Int64?, ChanceClass<T>>();
-        }
-
-        public DbChanceList(DataTable dt)
-        {
-            list = new Dictionary<Int64?, ChanceClass<T>>();
-            FillByTable(dt);
-        }
-
-        public void  Add(long? key, ChanceClass<T> value)
-        {
-            if (list.ContainsKey(key))
-            {
-                LogableClass.ToLog("错误","插入机会错误","存在相同的Key");
-                return;
-            }
-            list.Add(key, value);
-        }
-
-        public bool  ContainsKey(long? key)
-        {
-            return list.ContainsKey(key);
-        }
-
-        public ICollection<long?>  Keys
-        {
-            get { return list.Keys; }
-        }
-
-        public bool  Remove(long? key)
-        {
-            if (!list.ContainsKey(key))
-            {
-                return false;
-            }
-            list.Remove(key);
-            return true;
-        }
-
-        public bool  TryGetValue(long? key, out ChanceClass<T> value)
-        {
-            value = null;
-            if (!list.ContainsKey(key))
-            {
-                return false;
-            }
-            value = list[key];
-            return true;
-        }
-
-        public ICollection<ChanceClass<T>>  Values
-        {
-            get { return list.Values; }
-        }
-
-        public ChanceClass<T>  this[long? key]
-        {
-	        get 
-	        {
-                if(list.ContainsKey(key))
-                    return list[key];
-                return null;
-	        }
-	          set 
-	        {
-                if (list.ContainsKey(key))
-                {
-                    list[key] = value;
-                }
-	        }
-        }
-
-        public void  Add(KeyValuePair<long?,ChanceClass<T>> item)
-        {
-            if (!list.ContainsKey(item.Key))
-            {
-                list.Add(item.Key,item.Value);
-            }
-        }
-
-        public void  Clear()
-        {
-            list.Clear();
-        }
-
-        public bool  Contains(KeyValuePair<long?,ChanceClass<T>> item)
-        {
-            if (list.ContainsKey(item.Key) && list[item.Key].Equals(item.Value))
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public void  CopyTo(KeyValuePair<long?,ChanceClass<T>>[] array, int arrayIndex)
-        {
-            list.Select(t => t);
-        }
-
-        public int  Count
-        {
-            get { return list.Count; }
-        }
-
-        public bool  IsReadOnly
-        {
-            get { return true; }
-        }
-
-        public bool  Remove(KeyValuePair<long?,ChanceClass<T>> item)
-        {
-            if (list.ContainsKey(item.Key))
-            {
-                list.Remove(item.Key);
-                return true;
-            }
-            return false;
-        }
-
-        public IEnumerator<KeyValuePair<long?,ChanceClass<T>>>  GetEnumerator()
-        {
-            return list.GetEnumerator();
-        }
-
-        System.Collections.IEnumerator  System.Collections.IEnumerable.GetEnumerator()
-        {
- 	        throw new NotImplementedException();
-        }
-
-
-        static List<MemberInfo> TableBuffs;
-
-        public void FillByTable(DataTable dt)
-        {
-            _dt = dt;
-            List<ChanceClass<T>> ret = this.FillByTable<ChanceClass<T>>(dt,ref TableBuffs);
-            string str = "";
-            TableBuffs.ForEach(t=>str= str + "," + t.Name);
-            //Log("获取到表",str);
-            for (int i = 0; i < ret.Count; i++)
-            {
-                //Log("未关闭数据展示", string.Format("idx:{0};code:{1}",ret[i].ChanceIndex,ret[i].ChanceCode));
-                if (!this.ContainsKey(ret[i].ChanceIndex))
-                {
-                    this.Add(ret[i].ChanceIndex, ret[i]);
-                }
-                else
-                {
-                    Log("错误","机会已存在", string.Format("Idx:{0};Sid:{1};Code:{2}",ret[i].ChanceIndex,ret[i].StragId,ret[i].ChanceCode));
-                }
-            }
-            //list = ret.ToDictionary(t=>t.ChanceIndex,t=>t);
-        }
-
-        public DataTable Table
-        {
-            get
-            {
-                if (_dt == null)
-                {
-                    _dt = ToTable<ChanceClass<T>>(list.Values.ToList<ChanceClass<T>>(), false);
-                }
-                return _dt;
-            }
-        }
-
-        ////public int Save(string DataOwner)
-        ////{
-        ////    return new PK10ExpectReader().SaveChances(list.Values.ToList<ChanceClass>(), DataOwner);
-        ////}
-
-        
     }
 
 

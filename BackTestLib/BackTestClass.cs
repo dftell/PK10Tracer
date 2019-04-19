@@ -123,10 +123,10 @@ namespace WolfInv.com.BackTestLib
                                 if (Matched)
                                 {
                                     int LastMatchId = cc.LastMatchTimesId;//最后一次匹配次序号
-                                    int maxHoldCnt = cc.MaxHoldTimeCnt;
+                                    int maxHoldCnt = cc.AllowMaxHoldTimeCnt;
                                     if (cc.HoldTimeCnt - cc.LastMatchTimesId > maxHoldCnt )
                                     {
-                                        cc.MaxHoldTimeCnt = cc.HoldTimeCnt - cc.LastMatchTimesId;
+                                        cc.AllowMaxHoldTimeCnt = cc.HoldTimeCnt - cc.LastMatchTimesId;
                                     }
                                     cc.LastMatchTimesId = cc.HoldTimeCnt;
                                 }
@@ -446,10 +446,10 @@ namespace WolfInv.com.BackTestLib
                                 if (Matched)//匹配到了
                                 {
                                     int LastMatchId = cc.LastMatchTimesId;//最后一次匹配次序号
-                                    int maxHoldCnt = cc.MaxHoldTimeCnt;
+                                    int maxHoldCnt = cc.AllowMaxHoldTimeCnt;
                                     if (cc.HoldTimeCnt - cc.LastMatchTimesId > maxHoldCnt)
                                     {
-                                        cc.MaxHoldTimeCnt = cc.HoldTimeCnt - cc.LastMatchTimesId;
+                                        cc.AllowMaxHoldTimeCnt = cc.HoldTimeCnt - cc.LastMatchTimesId;
                                     }
                                     cc.LastMatchTimesId = cc.HoldTimeCnt;
                                 }
@@ -585,7 +585,7 @@ namespace WolfInv.com.BackTestLib
                             CurrCc.UpdateTime = CurrCc.CreateTime;
                             CurrCc.StragId = currStrag.GUID;
                             CurrCc.ExpectCode = el.LastData.Expect;
-                            CurrCc.MaxHoldTimeCnt = currPlan.AllowMaxHoldTimeCnt;
+                            CurrCc.AllowMaxHoldTimeCnt = currPlan.AllowMaxHoldTimeCnt;
                             CurrCc.FixAmt = currPlan.FixAmt;
                             CurrCc.FixRate = currPlan.FixRate;
                             CurrCc.IncrementType = currPlan.IncreamType;

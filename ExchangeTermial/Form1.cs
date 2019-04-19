@@ -19,6 +19,8 @@ namespace ExchangeTermial
             string strName = Program.gc.ClientUserName;
             this.txt_user.Text = Program.gc.ClientUserName;
             this.txt_password.Text = Program.gc.ClientPassword;
+            this.CancelButton = this.btn_cancel;
+            this.AcceptButton = this.btn_login;
         }
 
         private void btn_login_Click(object sender, EventArgs e)
@@ -50,6 +52,11 @@ namespace ExchangeTermial
         private void Form1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void btn_cancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

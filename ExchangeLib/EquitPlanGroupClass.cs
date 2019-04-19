@@ -5,7 +5,6 @@ using System.Text;
 using WolfInv.com.PK10CorePress;
 using WolfInv.com.Strags;
 using WolfInv.com.BaseObjectsLib;
-using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.SecurityLib;
 namespace WolfInv.com.ExchangeLib
 {
@@ -180,7 +179,7 @@ namespace WolfInv.com.ExchangeLib
                     CurrCc.UpdateTime = CurrCc.CreateTime;
                     CurrCc.StragId = currStrag.GUID;
                     CurrCc.ExpectCode = el.LastData.Expect;
-                    CurrCc.MaxHoldTimeCnt = currPlan.AllowMaxHoldTimeCnt;
+                    CurrCc.AllowMaxHoldTimeCnt = currPlan.AllowMaxHoldTimeCnt;
                     CurrCc.ChanceType = currPlan.OutPutType;
                     NewList.Add(CurrCc);
                 }

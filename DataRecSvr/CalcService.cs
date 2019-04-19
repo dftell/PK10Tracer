@@ -177,7 +177,11 @@ namespace DataRecSvr
                 
                 SettingClass comSetting = new SettingClass();
                 comSetting.SetGlobalSetting(Program.AllServiceConfig.gc);
-                if (!csc.initRunningData(comSetting, NoClosedChances.Values.ToList<ChanceClass<T>>()))
+                List<ChanceClass<T>> NoClsList = NoClosedChances.Values.ToList();
+                //NoClsList.ForEach(a=>Log(a.ChanceCode,a.ToDetailString()));
+                //Log("未关闭机会数量", NoClosedChances.Count.ToString());
+                //NoClsList.ForEach(a => Log("策略：", a.StragId));
+                if (!csc.initRunningData(comSetting, NoClsList))
                 {
                     Log("为计划组分配通用参数", "配置计划组的通用参数失败,该组计划暂时不参与运算！");
                     continue;

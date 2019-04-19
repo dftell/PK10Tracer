@@ -9,7 +9,7 @@ namespace WolfInv.com.BaseObjectsLib
         public string MainDataUrl = "";
         public string SubDataUrl = "";
         public int SrcUseXml = 1;
-
+        public int AutoSwitchHost = 0;//是否自动切换主机
 
         public string DataDecode = "utf-8";
         public string DbHost;
@@ -104,5 +104,6 @@ namespace WolfInv.com.BaseObjectsLib
         public string DefaultDataUrl;
         public int DefaultUseXmlModel;
         public string DefaultDataDecode;
+        
     }
 }

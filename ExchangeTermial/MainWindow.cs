@@ -16,6 +16,8 @@ using WolfInv.com.BaseObjectsLib;
 using System.Timers;
 using System.Threading;
 using WolfInv.com.LogLib;
+using System.Net;
+using System.Net.Sockets;
 namespace ExchangeTermial
 {
     public partial class MainWindow : Form
@@ -32,10 +34,53 @@ namespace ExchangeTermial
         WebRule wr = null;
         bool ReadySleep = false;
         double CurrVal = 0;
+        System.Timers.Timer SendStatusTimer = new System.Timers.Timer();
         public MainWindow()
         {
             InitializeComponent();
             wr = WebRuleBuilder.Create(Program.gc);
+        }
+
+        void Set_SendTime(bool Running,long InterVal = 20 * 60 * 1000)
+        {
+            
+            SendStatusTimer.Interval = InterVal;
+            SendStatusTimer.Elapsed += SendStatusTimer_Elapsed;
+            SendStatusTimer.Enabled = Running;
+            if(Running)
+            {
+                SendStatusTimer_Elapsed(null, null);
+            }
+        }
+
+        private void SendStatusTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            string ip = GetIpAddress();
+            string id = Program.gc.ClientUserName;
+            string money = string.Format("{0:f2}", CurrVal);
+            string urlModel = "{0}{1}{2}";
+            string getModel = "?Ip={0}&User={1}&CurrVal={2}&Logined={3}&Sleep={4}&Load={5}";
+            string reqmsg = string.Format(getModel,ip,id,money,Logined,InSleep,WebBrowserLoad);
+            string url = string.Format(urlModel, Program.gc.InstHost, Program.gc.StatusUrlModel, reqmsg);
+            CommResult cr = new CommunicateToServer().SendStatusInfo(url);
+            if (!cr.Succ)
+            {
+                RefreshSendStatusInfo(cr.Message);
+            }
+            else
+            {
+                RefreshSendStatusInfo("朕已知悉！");
+            }
+        }
+
+        private string GetIpAddress()
+        {
+            string hostName = Dns.GetHostName();   //获取本机名
+            IPHostEntry localhost = Dns.GetHostByName(hostName);    //方法已过期，可以获取IPv4的地址
+                                                                    //IPHostEntry localhost = Dns.GetHostEntry(hostName);   //获取IPv6地址
+            IPAddress localaddr = localhost.AddressList[0];
+
+            return localaddr.ToString();
         }
 
         private void MainWindow_Load(object sender, EventArgs e)
@@ -71,6 +116,7 @@ namespace ExchangeTermial
             }
             this.timer_RequestInst.Interval = 60 * 1000;
             this.timer_RequestInst.Enabled = true;
+            Set_SendTime(true);
         }
 
         
@@ -95,6 +141,7 @@ namespace ExchangeTermial
         {
 
             HtmlDocument doc = webBrowser1.Document;
+            CurrVal = wr.GetCurrMoney(doc);
             if (webBrowser1.ReadyState == WebBrowserReadyState.Complete)
             {
                 
@@ -189,12 +236,7 @@ namespace ExchangeTermial
                 {
                     return;
                 }
-                ////if(Logined)
-                ////{
-                ////    //网页中间刷新
-                ////    CurrVal = wr.GetCurrMoney(doc);
-
-                ////}
+                
                 //////加载自定义脚本后的处理
                 ////while(true)
                 ////{
@@ -205,6 +247,12 @@ namespace ExchangeTermial
                 ////Logined = true;
                 ////this.timer_RequestInst_Tick(null, null);
             }
+            //if (Logined)
+            //{
+            //    //网页中间刷新
+                
+
+            //}
             ////}
         }
 
@@ -260,6 +308,8 @@ namespace ExchangeTermial
 
         private void timer_RequestInst_Tick(object sender, ElapsedEventArgs e)
         {
+            Random rd = new Random();
+            int rndtime = rd.Next(1000, 60*1000);//增加随机数，防止单机多客户端并行同时下注
             if (InSleep)//还在睡觉,唤醒
             {
                 LoadUrl();
@@ -268,7 +318,7 @@ namespace ExchangeTermial
                 ////    System.Threading.Thread.Sleep(30*1000);
                 ////}
                 InSleep = false;
-                this.timer_RequestInst.Interval = 30 * 1000;//等待唤醒以后再访问
+                this.timer_RequestInst.Interval = 30 * 1000+ rndtime;//等待唤醒以后再访问
                 return;
             }
             DateTime CurrTime = DateTime.Now;
@@ -305,7 +355,7 @@ namespace ExchangeTermial
                 ////{
                 ////    this.timer_RequestInst.Interval = (5-CurrMin)*6000;//5分钟以后见
                 ////}
-                this.timer_RequestInst.Interval = 2 * 60 * 1000 -1000;//5分钟以后见,减掉1秒不*断收敛时间，防止延迟接收
+                this.timer_RequestInst.Interval = 2 * 60 * 1000 + rndtime;//5分钟以后见,减掉1秒不*断收敛时间，防止延迟接收
                 //ToAdd:填充各内容
                 this.txt_ExpectNo.Text = ic.Expect;
                 this.txt_OpenTime.Text = ic.LastTime;
@@ -334,7 +384,7 @@ namespace ExchangeTermial
                 {
                     //下一个时间点是9：08
                     DateTime TargetTime = DateTime.Today.AddHours(9).AddMinutes(30);
-                    this.timer_RequestInst.Interval = TargetTime.Subtract(CurrTime).TotalMilliseconds;
+                    this.timer_RequestInst.Interval = TargetTime.Subtract(CurrTime).TotalMilliseconds+ rndtime;
                     reLoadWebBrowser();//开百度网页
                 }
                 else
@@ -342,11 +392,11 @@ namespace ExchangeTermial
                     
                     if (CurrTime.Subtract(LastInstsTime).Minutes > 7)//如果离上期时间超过7分钟，说明数据未接收到，那不要再频繁以10秒访问服务器
                     {
-                        this.timer_RequestInst.Interval = 2 * 60 * 1000;
+                        this.timer_RequestInst.Interval = 2 * 60 * 1000 + rndtime;
                     }
-                    else //一般未接收到，10秒以后再试
+                    else //一般未接收到，2*60秒以后再试
                     {
-                        this.timer_RequestInst.Interval = 2 * 60 * 1000;
+                        this.timer_RequestInst.Interval = 2 * 60 * 1000+ rndtime;
                     }
                 }
             }
@@ -394,7 +444,6 @@ namespace ExchangeTermial
         private void mnuRefreshWebToolStripMenuItem_Click(object sender, EventArgs e)
         {
             reLoadWebBrowser();
-            
         }
 
         void reLoadWebBrowser()
@@ -405,7 +454,9 @@ namespace ExchangeTermial
             WebBrowserLoad = false;
             Logined = false;
             InSleep = true;
-            
+            Set_SendTime(false);
+
+
         }
 
         private void reLoadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -418,6 +469,18 @@ namespace ExchangeTermial
             this.toolStripStatusLabel1.Text = string.Format("已加载页面:{0};已登录:{1};睡眠状态:{2}",WebBrowserLoad,Logined,InSleep);
             this.toolStripStatusLabel2.Text = string.Format("当前余额：{0}",CurrVal);
             this.statusStrip1.Items[2].Text = string.Format("{0}秒后见", this.timer_RequestInst.Interval / 1000);
+        }
+
+        void RefreshSendStatusInfo(string msg)
+        {
+            toolStripStatusLabel3.Text = msg;
+            toolStripStatusLabel3.Enabled = true;
+            toolStripStatusLabel3.Visible = true;
+        }
+
+        private void TSMI_sendStatusInfor_Click(object sender, EventArgs e)
+        {
+            this.SendStatusTimer_Elapsed(null, null);
         }
     }
 }

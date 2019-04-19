@@ -38,8 +38,9 @@ namespace WolfInv.com.Strags
             return true;
         }
 
-        public new long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
+            return getDefaultChipAmount(RestCash, cc, amts);
             return amts.Serials[0][HoldCnt-1];
             
         }

@@ -37,6 +37,9 @@ F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\WindowsFormsAp
 C:\Users\zhouys\Source\project\PK10Tracer\PK10BackTestSystem.exe.config
 C:\Users\zhouys\Source\project\PK10Tracer\PK10BackTestSystem.exe
 C:\Users\zhouys\Source\project\PK10Tracer\PK10BackTestSystem.pdb
+C:\Users\zhouys\Source\project\BackTest\PK10BackTestSystem.exe.config
+C:\Users\zhouys\Source\project\BackTest\PK10BackTestSystem.exe
+C:\Users\zhouys\Source\project\BackTest\PK10BackTestSystem.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTestSys.csprojAssemblyReference.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\Interop.MSScriptControl.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTestSys.csproj.ResolveComReference.cache
@@ -54,6 +57,4 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTestSys.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\PK10BackTestSystem.exe
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\PK10BackTestSystem.pdb
-C:\Users\zhouys\Source\project\BackTest\PK10BackTestSystem.exe.config
-C:\Users\zhouys\Source\project\BackTest\PK10BackTestSystem.exe
-C:\Users\zhouys\Source\project\BackTest\PK10BackTestSystem.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\PK10BackTestSystem.exe.config

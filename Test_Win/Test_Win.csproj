@@ -36,6 +36,9 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -154,10 +157,6 @@
       <Project>{5f99902c-df70-4b54-a58c-9b19a0114b6b}</Project>
       <Name>WolfInv.com.ServerInitLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WinInterComminuteLib\WolfInv.com.WinInterComminuteLib.csproj">
-      <Project>{7859d79d-edd5-4b79-b3da-072432bc8fcc}</Project>
-      <Name>WolfInv.com.WinInterComminuteLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CFZQ_LHProcess\WolfInv.com.CFZQ_LHProcess.csproj">
       <Project>{70baebe6-dfd2-4aa3-a8a9-04f88ea61551}</Project>
       <Name>WolfInv.com.CFZQ_LHProcess</Name>
@@ -165,6 +164,10 @@
     <ProjectReference Include="..\StrategyLibForWD\WolfInv.com.StrategyLibForWD.csproj">
       <Project>{ad1632c3-203d-4b8f-91b1-3474dddc1a49}</Project>
       <Name>WolfInv.com.StrategyLibForWD</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WinInterComminuteLib\WolfInv.com.WinInterComminuteLib.csproj">
+      <Project>{7859d79d-edd5-4b79-b3da-072432bc8fcc}</Project>
+      <Name>WolfInv.com.WinInterComminuteLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

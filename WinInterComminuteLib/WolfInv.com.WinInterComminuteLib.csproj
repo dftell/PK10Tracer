@@ -8,8 +8,8 @@
     <ProjectGuid>{7859D79D-EDD5-4B79-B3DA-072432BC8FCC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WinInterComminuteLib</RootNamespace>
-    <AssemblyName>WinInterComminuteLib</AssemblyName>
+    <RootNamespace>WolfInv.com.WinInterComminuteLib</RootNamespace>
+    <AssemblyName>WolfInv.com.WinInterComminuteLib</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

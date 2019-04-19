@@ -11,10 +11,11 @@ using System.Collections.Generic;
 
 namespace PK10Server
 {
-    public partial class MainForm<T> : Form where T: TimeSerialData
+    
+    public partial class MainForm:BaseForm_DESIGN
     {
-        ExpectList<T> _ViewDataList ;
-        ExpectList<T> ViewDataList
+        ExpectList<TimeSerialData> _ViewDataList ;
+        ExpectList<TimeSerialData> ViewDataList
         {
             get { return _ViewDataList; }
             set { _ViewDataList = value; }
@@ -23,10 +24,11 @@ namespace PK10Server
         int NewestExpectNo = 0;
         public int InputExpect;
         GlobalClass gobj;
-        public MainForm()
+        public MainForm():base()
         {
-            //GlobalClass gc = new GlobalClass();
-            InitializeComponent();
+            
+                InitializeComponent();
+            
             gobj = new GlobalClass();
             
         }
@@ -53,6 +55,9 @@ namespace PK10Server
             ////ViewDataList = er.ReadNewestData(DateTime.Now.AddDays(-1));
             ////RefreshGrid();
             RefreshNewestData();
+            this.wb_DSMonitor.ScriptErrorsSuppressed = true;
+            this.wb_DSMonitor.Url = new Uri(GlobalClass.TypeDataPoints["PK10"].RuntimeInfo.DefaultDataUrl);
+            
         }
 
         public void ReLoad()
@@ -64,7 +69,7 @@ namespace PK10Server
             }
             else
             {
-                ViewDataList = er.ReadNewestData<T>(DateTime.Today.AddDays(-1* GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays));
+                ViewDataList = er.ReadNewestData<TimeSerialData>(DateTime.Today.AddDays(-1* GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays));
             }
         }
 
@@ -98,10 +103,10 @@ namespace PK10Server
 
         void RefreshSerialData(ListView lv,bool byNo,int minRow)
         {
-            ExpectList<T> el = ViewDataList; ;
+            ExpectList<TimeSerialData> el = ViewDataList; ;
             
-            ExpectListProcessBuilder<T> elp = new ExpectListProcessBuilder<T>(GlobalClass.TypeDataPoints["PK10"],el);
-            BaseCollection<T> sc = elp.getProcess().getSerialData(180, byNo);
+            ExpectListProcessBuilder<TimeSerialData> elp = new ExpectListProcessBuilder<TimeSerialData>(GlobalClass.TypeDataPoints["PK10"],el);
+            BaseCollection<TimeSerialData> sc = elp.getProcess().getSerialData(180, byNo);
             sc.isByNo = byNo;
             lv.Items.Clear();
             for (int i = minRow-1; i < sc.Table.Rows.Count; i++)
@@ -157,7 +162,7 @@ namespace PK10Server
         {
             this.timer_For_NewestData.Enabled = false;
             int NextNo = int.Parse(this.txt_NewestExpect.Text.Trim());
-            ViewDataList = er.ReadNewestData<T>(NextNo+1,180,true);
+            ViewDataList = er.ReadNewestData<TimeSerialData>(NextNo+1,180,true);
             if (ViewDataList == null || ViewDataList.Count == 0)
                 return;
             RefreshGrid();
@@ -177,7 +182,7 @@ namespace PK10Server
         void RefreshNewestTXFFCData()
         {
             TXFFCExpectReader rd = new TXFFCExpectReader();
-            ExpectList<T> currEl = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1));
+            ExpectList<TimeSerialData> currEl = rd.ReadNewestData<TimeSerialData>(DateTime.Now.AddDays(-1));
             FillOrgData(listView_TXFFCData, currEl);
         }
 
@@ -185,7 +190,7 @@ namespace PK10Server
         {
             this.timer_For_NewestData.Enabled = false;
             int NextNo = int.Parse(this.txt_NewestExpect.Text.Trim());
-            ViewDataList = er.ReadNewestData<T>(NextNo - 1, 180,true);
+            ViewDataList = er.ReadNewestData<TimeSerialData>(NextNo - 1, 180,true);
             RefreshGrid();
             RefreshNewestData();
         }
@@ -193,7 +198,7 @@ namespace PK10Server
         private void timer_For_NewestData_Tick(object sender, EventArgs e)
         {
             DateTime CurrTime = DateTime.Now;
-            ViewDataList = er.ReadNewestData<T>(DateTime.Now.AddDays(-1* GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays));
+            ViewDataList = er.ReadNewestData<TimeSerialData>(DateTime.Now.AddDays(-1* GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays));
             int CurrExpectNo = int.Parse(ViewDataList.LastData.Expect);
             if (CurrExpectNo > this.NewestExpectNo)
             {
@@ -269,10 +274,10 @@ namespace PK10Server
             lv.Columns.Add("开奖时间",200);
         }
 
-        void FillOrgData(ListView lv, ExpectList<T> el)
+        void FillOrgData(ListView lv, ExpectList<TimeSerialData> el)
         {
             lv.Items.Clear();
-            if (el == null) return;
+            if (el == null||el.Count == 0) return;
             int cnt = (int)el.LastData.OpenTime.Subtract(el.FirstData.OpenTime).TotalMinutes + 1;
             for (int i = el.Count - 1;i>=0 ; i--)
             {
@@ -301,9 +306,9 @@ namespace PK10Server
                 {
                     continue;//非指定类型跳过
                 }
-                ExpectList<T> el = rder.getFileData<T>(f.FullName);
+                ExpectList<TimeSerialData> el = rder.getFileData<TimeSerialData>(f.FullName);
                 TXFFCExpectReader rd = new TXFFCExpectReader();
-                ExpectList<T> currEl = rd.ReadHistory<T>();
+                ExpectList<TimeSerialData> currEl = rd.ReadHistory<TimeSerialData>();
                 rd.SaveHistoryData(rd.getNewestData(el, currEl));
                 //currEl = rd.ReadNewestData(DateTime.Now.AddDays(-1));
                 //FillOrgData(listView_TXFFCData, currEl);
@@ -318,10 +323,10 @@ namespace PK10Server
             TXFFC_HtmlDataClass rder = new TXFFC_HtmlDataClass(GlobalClass.TypeDataPoints["TXFFC"]);
             TXFFCExpectReader er = new TXFFCExpectReader();
             string StrBegDate = "2018-08-25";
-            ExpectList<T> el = er.GetMissedData<T>(true, StrBegDate);
+            ExpectList<TimeSerialData> el = er.GetMissedData<TimeSerialData>(true, StrBegDate);
             for (int i = 0; i < el.Count; i++)
             {
-                ExpectList<T> tmpList = new ExpectList<T>();
+                ExpectList<TimeSerialData> tmpList = new ExpectList<TimeSerialData>();
                 DateTime endT = el[i].OpenTime;
                 DateTime begT = el[i].OpenTime.AddMinutes(-1 * el[i].MissedCnt-1);
                 DateTime tt = DateTime.Parse(begT.ToShortDateString());
@@ -331,13 +336,13 @@ namespace PK10Server
                     string strTt = tt.ToString("yyyy-MM-dd");
                     for (int j = 1; j <= 29; j++)
                     {
-                        ExpectList<T> wlist = rder.getHistoryData<T>(strTt, j);//取到web
-                        tmpList = ExpectList<T>.Concat(tmpList, wlist);
+                        ExpectList<TimeSerialData> wlist = rder.getHistoryData<TimeSerialData>(strTt, j);//取到web
+                        tmpList = ExpectList<TimeSerialData>.Concat(tmpList, wlist);
                         Thread.Sleep(800);
                     }
                     tt=tt.AddDays(1);
                 }
-                ExpectList<T> currEl = er.ReadHistory<T>(begT0.ToString(),endT.AddDays(1).ToString());
+                ExpectList<TimeSerialData> currEl = er.ReadHistory<TimeSerialData>(begT0.ToString(),endT.AddDays(1).ToString());
                 er.SaveHistoryData(er.getNewestData(tmpList, currEl));
             }
         }
@@ -365,15 +370,15 @@ namespace PK10Server
 
         private void tsmi_RunMonitor_Click(object sender, EventArgs e)
         {
-            frm_StragMonitor<T> frm = new frm_StragMonitor<T>();
+            frm_StragMonitor<TimeSerialData> frm = new frm_StragMonitor<TimeSerialData>();
             frm.Show();
         }
 
         private void ToolStripMenuItem_StragRunPlan_Click(object sender, EventArgs e)
         {
             //frm_StragPlanSetting frm = new frm_StragPlanSetting();
-            frm_CommDBObjectsSetting<StragRunPlanClass<T>> frm = new frm_CommDBObjectsSetting<StragRunPlanClass<T>>();
-            frm.OuterList = Program.AllGlobalSetting.AllRunPlannings as Dictionary<string, StragRunPlanClass<T>>;
+            frm_CommDBObjectsSetting<StragRunPlanClass<TimeSerialData>> frm = new frm_CommDBObjectsSetting<StragRunPlanClass<TimeSerialData>>();
+            frm.OuterList = Program.AllGlobalSetting.AllRunPlannings as Dictionary<string, StragRunPlanClass<TimeSerialData>>;
             frm.Show();
         }
 
@@ -382,6 +387,23 @@ namespace PK10Server
             frm_CommDBObjectsSetting<AssetUnitClass> frm = new frm_CommDBObjectsSetting<AssetUnitClass>();
             frm.OuterList = Program.AllGlobalSetting.AllAssetUnits;
             frm.Show();
+        }
+
+        private void ToolStripMenuItem_TestDataSrc_Click(object sender, EventArgs e)
+        {
+            PK10_HtmlDataClass hdc = new PK10_HtmlDataClass(GlobalClass.TypeDataPoints["PK10"]);
+            ExpectList<TimeSerialData> tmp = hdc.getExpectList<TimeSerialData>();
+            if(tmp == null)
+            {
+                MessageBox.Show("数据源错误！");
+                return;
+            }
+            if(tmp.Count == 0)
+            {
+                MessageBox.Show("数据长度为0！");
+                return;
+            }
+            MessageBox.Show(tmp.LastData.ToDetailString());
         }
     }
 

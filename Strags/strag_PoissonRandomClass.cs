@@ -39,12 +39,12 @@ namespace WolfInv.com.Strags
             }
         }
 
-        public bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
+        public override bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
         {
             return true;
         }
 
-        public long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
             return (Int64)Math.Floor(RestCash*0.001);//ProbMath.GetFactorial
         }

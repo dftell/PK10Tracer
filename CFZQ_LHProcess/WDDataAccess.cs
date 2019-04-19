@@ -509,7 +509,7 @@ namespace WolfInv.com.CFZQ_LHProcess
                     wddata = new object[darr.Length];
                     for (int i = 0; i < darr.Length; i++)
                     {
-                        if (darr[i] != null && !double.IsInfinity((double)darr[i]) && !double.IsNaN((double)darr[i]))
+                        if (!double.IsInfinity((double)darr[i]) && !double.IsNaN((double)darr[i]))
                             wddata[i] = (decimal)darr[i];
                     }
                     darr.CopyTo(wddata, 0);

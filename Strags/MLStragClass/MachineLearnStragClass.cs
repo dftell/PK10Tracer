@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using WolfInv.com.PK10CorePress;
 namespace WolfInv.com.Strags.MLStragClass
 {
     ///机器学习基类
@@ -22,6 +22,10 @@ namespace WolfInv.com.Strags.MLStragClass
         }
 
         public abstract void Train();
+        public override bool CheckNeedEndTheChance(ChanceClass cc1, bool LastExpectMatched1)
+        {
+            return LastExpectMatched1;
+        }
     }
 
     /// <summary>
@@ -39,6 +43,7 @@ namespace WolfInv.com.Strags.MLStragClass
     /// </summary>
     public abstract class BayesLearnStragClass : MachineLearnStragClass
     {
+        
     }
 
 }

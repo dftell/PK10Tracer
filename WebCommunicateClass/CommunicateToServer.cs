@@ -109,5 +109,25 @@ namespace WolfInv.com.WebCommunicateClass
             return ret;
         }
 
+        public CommResult SendStatusInfo(string requestUrl)
+        {
+            CommResult ret = new CommResult();
+            string url = requestUrl;
+            string json = AccessWebServerClass.GetData(url, Encoding.Default);
+            try
+            {
+                ret.Succ = true;
+                ret.Message = null;
+                ret.Json = json;
+                ret.Result = new List<RecordObject>();
+            }
+            catch(Exception ce)
+            {
+                ret.Message = ce.StackTrace;
+                ret.Json = ce.Message;
+                ret.Result = null;
+            }
+            return ret;
+        }
     }
 }

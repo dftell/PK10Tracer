@@ -47,24 +47,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BackTestLib\WolfInv.com.BackTestLib.csproj">
-      <Project>{6B37D13C-F107-48B3-9105-1BD0E00A75FC}</Project>
-      <Name>WolfInv.com.BackTestLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BaseObjectsLib\WolfInv.com.BaseObjectsLib.csproj">
-      <Project>{38B7C927-F264-46A1-A550-388F440D79BE}</Project>
+      <Project>{38b7c927-f264-46a1-a550-388f440d79be}</Project>
       <Name>WolfInv.com.BaseObjectsLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LogLib\WolfInv.com.LogLib.csproj">
-      <Project>{182084E4-C48B-4585-9221-4A54CAF7448F}</Project>
-      <Name>WolfInv.com.LogLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PK10CorePress\WolfInv.com.PK10CorePress.csproj">
-      <Project>{1B418905-1D78-4758-9B21-CF9BFC054F88}</Project>
+      <Project>{1b418905-1d78-4758-9b21-cf9bfc054f88}</Project>
       <Name>WolfInv.com.PK10CorePress</Name>
     </ProjectReference>
     <ProjectReference Include="..\Strags\WolfInv.com.Strags.csproj">
-      <Project>{C91D683F-3594-4C5E-872E-DFBC09731419}</Project>
+      <Project>{c91d683f-3594-4c5e-872e-dfbc09731419}</Project>
       <Name>WolfInv.com.Strags</Name>
     </ProjectReference>
   </ItemGroup>

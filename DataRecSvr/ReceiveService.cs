@@ -113,7 +113,7 @@ namespace DataRecSvr
             if (el == null || el.Count == 0)
             {
                 this.Tm_ForPK10.Interval = RepeatSeconds / 20 * 1000;
-                Log("尝试接收数据", "未接收到数据,数据源错误！");
+                Log("尝试接收数据", "未接收到数据,转换数据源错误！");
                 return;
             }
             
@@ -145,7 +145,9 @@ namespace DataRecSvr
                         CurrDataList = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1* GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays));//前十天的数据 尽量的大于reviewcnt,免得需要再取一次数据
                         CurrExpectNo = el.LastData.Expect;
                         Program.AllServiceConfig.LastDataSector =new ExpectList<TimeSerialData>(CurrDataList.Table) ;
-                        AfterReceiveProcess();
+                        bool res = AfterReceiveProcess();
+                        if(res == false)
+                            this.Tm_ForPK10.Interval = RepeatSeconds / 20 * 1000;
                     }
                     else
                     {
@@ -165,14 +167,22 @@ namespace DataRecSvr
                     else
                     {
                         Log("接收数据", "未接收到数据！");
-                        if (CurrTime.Subtract(PK10_LastSignTime).TotalMinutes > RepeatMinutes+ RepeatMinutes*2/5)//如果离上期时间超过2/5个周期，说明数据未接收到，那不要再频繁以10秒访问服务器
-                        {
-                            this.Tm_ForPK10.Interval = RepeatSeconds / 5 * 1000;
-                        }
-                        else //一般未接收到，10秒以后再试，改为50分之一个周期再试
-                        {
-                            this.Tm_ForPK10.Interval = RepeatSeconds / 20 * 1000;
-                        }
+                        //if (NormalRecievedTime > CurrTime)
+                        //{
+                        //    this.Tm_ForPK10.Interval =  NormalRecievedTime.AddMinutes(1).Subtract(CurrTime).TotalMilliseconds;
+                        //}
+                        //else
+                        //{
+                            //this.Tm_ForPK10.Interval = RepeatSeconds / 20 * 1000;
+                            if (CurrTime.Subtract(PK10_LastSignTime).TotalMinutes > RepeatMinutes + RepeatMinutes * 2 / 5)//如果离上期时间超过2/5个周期，说明数据未接收到，那不要再频繁以10秒访问服务器
+                            {
+                                this.Tm_ForPK10.Interval = RepeatSeconds / 5 * 1000;
+                            }
+                            else //一般未接收到，10秒以后再试，改为50分之一个周期再试
+                            {
+                                this.Tm_ForPK10.Interval = RepeatSeconds / 20 * 1000;
+                            }
+                        //}
                     }
                 }
             }
@@ -235,7 +245,7 @@ namespace DataRecSvr
             //FillOrgData(listView_TXFFCData, currEl);
         }
 
-        void AfterReceiveProcess()
+        bool AfterReceiveProcess()
         {
             //刷新客户端数据
 
@@ -251,7 +261,9 @@ namespace DataRecSvr
             catch(Exception e)
             {
                 Log("计算错误", string.Format("{0}：{1}",e.Message,e.StackTrace));
+                return false;
             }
+            return true;
         }
 
         

@@ -255,5 +255,14 @@ namespace WolfInv.com.Strags
             return typeof(NolimitTraceChance);
         }
 
+        public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        {
+            return getDefaultChipAmount(RestCash, cc, amts);
+        }
+
+        public override bool CheckNeedEndTheChance(ChanceClass cc1, bool LastExpectMatched1)
+        {
+            return LastExpectMatched1;
+        }
     }
 }

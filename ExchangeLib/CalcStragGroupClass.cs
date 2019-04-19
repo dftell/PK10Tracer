@@ -72,10 +72,12 @@ namespace WolfInv.com.ExchangeLib
             //未关闭列表只代表服务器计算，未包括客户自定义的。所以不是全部，要和数据库合并才全面
             CurrSetting = CommSetting;
             CurrExistChanceList = new Dictionary<string, ChanceClass<T>>();
+            //Log("错误", "并没有","测试");
             //ToLog("计算服务", "策略执行准备", "为每个组合分配未关闭的机会");
             for (int i = 0; i < ExistChances.Count; i++)
             {
                 ChanceClass<T> cc = ExistChances[i];
+                //Log("错误", cc.ChanceCode, cc.ToDetailString());
                 bool Matched = false;
                 if (this.AllNoClosedChances.ContainsKey(cc.GUID))//先检查内存，如果已经存在,直接加入
                 {
@@ -130,7 +132,9 @@ namespace WolfInv.com.ExchangeLib
                 UseStrags[key].SetLastUserData(el);
             //准备数据
             BaseCollection<T> cc = null;
-            int maxViewCnt = (int)this.UseStrags.Max(t => t.Value.ReviewExpectCnt);
+            int maxViewCnt = 2;
+            if(this.UseStrags.Count>0)
+                maxViewCnt = (int)this.UseStrags.Max(t => t.Value?.ReviewExpectCnt);
             //Log("计算服务", "最大回览期数", maxViewCnt.ToString());
             cc = new ExpectListProcessBuilder<T>(dtp,el).getProcess().getSerialData(maxViewCnt, this.UseSerial);
             // cc.orgData = el;//必须指定原始数据？
@@ -287,7 +291,7 @@ namespace WolfInv.com.ExchangeLib
                     CurrCc.UpdateTime = CurrCc.CreateTime;
                     CurrCc.StragId = currStrag.GUID;
                     CurrCc.ExpectCode = el.LastData.Expect;
-                    CurrCc.MaxHoldTimeCnt = currPlan.AllowMaxHoldTimeCnt;
+                    CurrCc.AllowMaxHoldTimeCnt = currPlan.AllowMaxHoldTimeCnt;
                     CurrCc.ChanceType = currPlan.OutPutType;
                     NewList.Add(CurrCc);
                 }

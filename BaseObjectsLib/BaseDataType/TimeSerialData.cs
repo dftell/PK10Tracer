@@ -12,6 +12,10 @@ namespace WolfInv.com.BaseObjectsLib
     [Serializable]
     public class TimeSerialData : MongoData
     {
+        public TimeSerialData()
+        {
+
+        }
         public Int64 EId { get; set; }
         public int MissedCnt { get; set; }
         public string LastExpect { get; set; }

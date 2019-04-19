@@ -16,7 +16,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\..\..\project\PK10Tracer\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -58,9 +58,11 @@
     <Compile Include="BaseCollection.cs" />
     <Compile Include="BaseDataItemClass.cs" />
     <Compile Include="BaseDataTable.cs" />
+    <Compile Include="BaseDataType\BaseChance.cs" />
     <Compile Include="BaseDataType\baseLottyTypes.cs" />
     <Compile Include="BaseDataType\baseSecurityTypes.cs" />
     <Compile Include="BaseDataType\ChanceClass.cs" />
+    <Compile Include="BaseDataType\DbChanceList.cs" />
     <Compile Include="BaseDataType\EnumHelper.cs" />
     <Compile Include="BaseDataType\ExchangeData.cs" />
     <Compile Include="BaseDataType\ExpectData.cs" />
@@ -71,9 +73,12 @@
     <Compile Include="BaseDataType\MongoData.cs" />
     <Compile Include="BaseDataType\MongoDataDictionary.cs" />
     <Compile Include="BaseDataType\MongoReturnDataList.cs" />
+    <Compile Include="BaseDataType\NolimitTraceChance.cs" />
+    <Compile Include="BaseDataType\OnceChance.cs" />
     <Compile Include="BaseDataType\OneCycleData.cs" />
     <Compile Include="BaseDataType\SecurityInfoClass.cs" />
     <Compile Include="BaseDataType\TimeSerialData.cs" />
+    <Compile Include="BaseDataType\TraceChance.cs" />
     <Compile Include="CommExpectListProcess.cs" />
     <Compile Include="CommResult.cs" />
     <Compile Include="ConvertionExtensions.cs" />

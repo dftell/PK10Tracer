@@ -144,7 +144,7 @@ namespace WolfInv.com.Strags
 
         public ExpectList LastUseData()
         {
-            return _LastUseData as ExpectList;
+            return new ExpectList(_LastUseData.Table);
         }
 
 
@@ -212,26 +212,28 @@ namespace WolfInv.com.Strags
             }
             catch(Exception ce)
             {
-
+                Log(string.Format("策略{0}错误",this.StragClassName), string.Format("{0}:{1}",ce.Message,ce.StackTrace));
             }
             return new List<ChanceClass<TimeSerialData>>();
         }
         public bool CheckNeedEndTheChance<T>(ChanceClass<T> cc, bool LastExpectMatched) where T : TimeSerialData
         {
-            return true;// CheckNeedEndTheChance(cc, LastExpectMatched);
+            ChanceClass cc1 = cc.CopyTo<ChanceClass>();
+            return CheckNeedEndTheChance(cc1, LastExpectMatched);
         }
 
-        public bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
-        {
-            return true;
-        }
+        public abstract bool CheckNeedEndTheChance(ChanceClass cc1, bool LastExpectMatched1);
+        //{
+        //    return false;
+        //}
         public long getChipAmount<T>(double RestCash, ChanceClass<T> cc, AmoutSerials amts) where T : TimeSerialData
         {
             ChanceClass scc = cc.CopyTo<ChanceClass>();
             return getChipAmount(RestCash, scc, amts);
         }
 
-        public long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        public abstract long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts);
+        public long getDefaultChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
             int chips = 0;
             int maxcnt = amts.MaxHoldCnts[chips];

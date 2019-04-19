@@ -73,11 +73,18 @@ namespace PK10Server
             ////new c2().printName();
             ////new c3().printName();
             ////return;
-            LogableClass.ToLog("测试", "看看");
-            InitSystem();
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm<TimeSerialData>());
+            try
+            {
+                LogableClass.ToLog("测试", "看看");
+                InitSystem();
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new MainForm());
+            }
+            catch(Exception ce)
+            {
+                MessageBox.Show(string.Format("{0}:{1}", ce.Message, ce.StackTrace));
+            }
         }
 
         static void InitSystem()

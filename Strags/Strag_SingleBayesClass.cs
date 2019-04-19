@@ -68,7 +68,7 @@ namespace WolfInv.com.Strags
                 cc.ChipCount = ChanceClass.getChipsByCode(cc.ChanceCode);
                 cc.CreateTime = DateTime.Now;
                 cc.UpdateTime = DateTime.Now;
-                cc.MaxHoldTimeCnt = 1;
+                cc.AllowMaxHoldTimeCnt = 1;
                 cc.Closed = false;
                 ret.Add(cc);
             }
@@ -100,19 +100,19 @@ namespace WolfInv.com.Strags
             }
         }
 
-        public new bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
+        public override bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
         {
             return LastExpectMatched;
         }
 
-        public new long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
             try
             {
                 
                 if (cc.IncrementType == InterestType.CompoundInterest)
                 {
-                    if (cc.MaxHoldTimeCnt >0 && cc.HoldTimeCnt > 1)
+                    if (cc.AllowMaxHoldTimeCnt > 0 && cc.HoldTimeCnt > 1)
                     {
                         return 0;
                     }
@@ -131,7 +131,7 @@ namespace WolfInv.com.Strags
             }
             catch (Exception e)
             {
-                Log("错误", "获取单码金额错误", e.Message);
+                Log("错误", string.Format("获取单码金额错误:{0}", e.Message), e.StackTrace);
             }
             return 1;
         }

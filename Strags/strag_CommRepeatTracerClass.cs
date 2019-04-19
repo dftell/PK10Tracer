@@ -24,12 +24,18 @@ namespace WolfInv.com.Strags
         {
             List<ChanceClass> ret = new List<ChanceClass>();
             CurrChancesCnt = 0;//置零，防止后面留存
-            if (this.LastUseData().Count < ReviewExpectCnt)
+            ExpectList LastDataList = this.LastUseData();
+            if(LastDataList == null)
+            {
+                Log(this.StragClassName,"数据为空！");
+                return ret;
+            }
+            if (LastDataList.Count < ReviewExpectCnt)
             {
                 Log("基础数据数量不足", string.Format("小于回览期数:{0}", ReviewExpectCnt));
                 return ret;
             }
-            ExpectList LastDataList = this.LastUseData();
+            //ExpectList LastDataList = datas;
             ExpectData PreData = LastDataList[LastDataList.Count - 2];
             //Log(string.Format("前期{0}:{1}", PreData.Expect, PreData.OpenCode), string.Format("当期{0}:{1}", LastDataList.LastData.Expect, LastDataList.LastData.OpenCode));
             //Log(string.Format("el数据长度:{0},First:{1};Last{2}", LastDataList.Count,LastDataList.FirstData.Expect,LastDataList.LastData.Expect), string.Format("原始数据长度:{0};First:{1};Last:{2}", sc.orgData.Count,sc.orgData.FirstData.Expect,sc.orgData.LastData.Expect));
@@ -128,7 +134,7 @@ namespace WolfInv.com.Strags
             return typeof(OnceChance);
         }
 
-        public new bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched) //检查需要关闭时（能否保证后面的实例是同一个？）
+        public override bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched) //检查需要关闭时（能否保证后面的实例是同一个？）
         {
             cc.HoldTimeCnt = RealCnt;
             if (LastExpectMatched)
@@ -137,21 +143,9 @@ namespace WolfInv.com.Strags
                 this.HoldCnt = 0;
             }
             return true;// LastExpectMatched;
-            if (LastExpectMatched)//如果任何一个机会命中了，将持有次数置0
-            {
-                this.HoldCnt = 0;
-                RealCnt = 0;
-                Log("有结果命中", string.Format("持有次数:{0};允许机会持有的最大次数:{1}", this.HoldCnt, cc.MaxHoldTimeCnt));
-            }
-            if (this.HoldCnt > cc.MaxHoldTimeCnt)//如果没有命中，但是超出了最大持仓次数
-            {
-                Log("持有次数大于机会的最大次数", string.Format("持有次数:{0};允许机会持有的最大次数:{1}", this.HoldCnt, cc.MaxHoldTimeCnt));
-                this.HoldCnt = -1;
-            }
-            return true;//一次性机会，无论如何都关闭
         }
 
-        public new long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
             int chips = 0;
             int maxcnt = amts.MaxHoldCnts[chips];

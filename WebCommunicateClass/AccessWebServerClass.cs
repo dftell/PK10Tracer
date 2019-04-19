@@ -24,7 +24,9 @@ namespace WolfInv.com.WebCommunicateClass
             }
             catch (Exception ce)
             {
-                throw ce;
+                return ce.Message;
+                    
+                    //throw ce;
             }
             return ret;
         }

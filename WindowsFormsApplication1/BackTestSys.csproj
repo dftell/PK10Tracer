@@ -54,6 +54,12 @@
   <PropertyGroup>
     <ApplicationIcon>favicon-2018080209415870.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>BackTestSys.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="DocumentFormat.OpenXml, Version=2.0.5022.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -247,7 +253,7 @@
       <Name>WolfInv.com.PK10CorePress</Name>
     </ProjectReference>
     <ProjectReference Include="..\PK10Server\PK10Server.csproj">
-      <Project>{0AD8131F-5C2D-4E18-8677-3C6782FDDBD4}</Project>
+      <Project>{0ad8131f-5c2d-4e18-8677-3c6782fddbd4}</Project>
       <Name>PK10Server</Name>
     </ProjectReference>
     <ProjectReference Include="..\ProbMathLib\WolfInv.com.ProbMathLib.csproj">
@@ -267,7 +273,7 @@
       <Name>WolfInv.com.Strags</Name>
     </ProjectReference>
     <ProjectReference Include="..\WinInterComminuteLib\WolfInv.com.WinInterComminuteLib.csproj">
-      <Project>{7859D79D-EDD5-4B79-B3DA-072432BC8FCC}</Project>
+      <Project>{7859d79d-edd5-4b79-b3da-072432bc8fcc}</Project>
       <Name>WolfInv.com.WinInterComminuteLib</Name>
     </ProjectReference>
   </ItemGroup>

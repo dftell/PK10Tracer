@@ -16,6 +16,12 @@ namespace WolfInv.com.Strags
         {
             _StragClassName = "长期组合跟踪策略";
         }
+
+        public override bool CheckNeedEndTheChance(ChanceClass cc1, bool LastExpectMatched1)
+        {
+            return LastExpectMatched1;
+        }
+
         public override List<ChanceClass> getChances(BaseCollection sc, ExpectData ed)
         {
             List<ChanceClass> ret = new List<ChanceClass>();
@@ -159,6 +165,11 @@ namespace WolfInv.com.Strags
                 ret.Add(cc);
             }
             return ret;
+        }
+
+        public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        {
+            return getDefaultChipAmount(RestCash, cc, amts);
         }
 
         public override StagConfigSetting getInitStagSetting()

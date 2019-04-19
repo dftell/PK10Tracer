@@ -30,9 +30,11 @@ namespace DataRecSvr
                 if(dtp.SubScriptModel == 1)//订阅模式
                 {
                     DataTypes.Add(key, dtp);
-                    Timer_Ex timer = new Timer_Ex(index,key);
-                    timer.AutoReset = true;
-                    timer.Interval = dtp.ReceiveSeconds * 1000;
+                    Timer_Ex timer = new Timer_Ex(index, key)
+                    {
+                        AutoReset = true,
+                        Interval = dtp.ReceiveSeconds * 1000
+                    };
                     timer.Elapsed += new ElapsedEventHandler(Timer_Elapsed);
                     timer.Enabled = false;
                     if (Tm_ForSubScripts == null) Tm_ForSubScripts = new List<Timer_Ex>();
@@ -193,7 +195,7 @@ namespace DataRecSvr
 
         public void Subscript(bool NeedReqData)
         {
-            SubObj = new WD_SubscriptTimeDataClass();
+            //SubObj = new WD_SubscriptTimeDataClass();
             SubObj.UpdateAll = dtp.SubScriptUpdateAll==1;
             SubObj.AfterUpdate += UpdateData;
             bool bAllsec = SubObj.GetAllEquits(dtp.SubScriptSector);//获得指定板块下的所有品种清单

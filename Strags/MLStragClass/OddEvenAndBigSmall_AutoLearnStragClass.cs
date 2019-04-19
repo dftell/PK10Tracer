@@ -39,7 +39,12 @@ namespace WolfInv.com.Strags.MLStragClass
 
         public override Type getTheChanceType()
         {
-            throw new NotImplementedException();
+            return this.GetType();
+        }
+
+        public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        {
+            return getDefaultChipAmount(RestCash, cc, amts);
         }
     }
 }
