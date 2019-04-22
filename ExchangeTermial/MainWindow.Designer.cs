@@ -36,6 +36,7 @@
             this.tsmi_System = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_View = new System.Windows.Forms.ToolStripMenuItem();
             this.mnu_RefreshInsts = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMI_sendStatusInfor = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_Operate = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuRefreshWebToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reLoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,6 +46,7 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btn_TestJscript = new System.Windows.Forms.Button();
             this.btn_AddHedge = new System.Windows.Forms.Button();
             this.btn_SelfAddCombo = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -63,7 +65,7 @@
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer_RequestInst = new System.Timers.Timer();
-            this.TSMI_sendStatusInfor = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi_knockTheEgg = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -105,15 +107,23 @@
             // mnu_RefreshInsts
             // 
             this.mnu_RefreshInsts.Name = "mnu_RefreshInsts";
-            this.mnu_RefreshInsts.Size = new System.Drawing.Size(324, 38);
+            this.mnu_RefreshInsts.Size = new System.Drawing.Size(208, 38);
             this.mnu_RefreshInsts.Text = "刷新指令";
             this.mnu_RefreshInsts.Click += new System.EventHandler(this.mnu_RefreshInsts_Click);
+            // 
+            // TSMI_sendStatusInfor
+            // 
+            this.TSMI_sendStatusInfor.Name = "TSMI_sendStatusInfor";
+            this.TSMI_sendStatusInfor.Size = new System.Drawing.Size(208, 38);
+            this.TSMI_sendStatusInfor.Text = "上报状态";
+            this.TSMI_sendStatusInfor.Click += new System.EventHandler(this.TSMI_sendStatusInfor_Click);
             // 
             // tsmi_Operate
             // 
             this.tsmi_Operate.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuRefreshWebToolStripMenuItem,
-            this.reLoadToolStripMenuItem});
+            this.reLoadToolStripMenuItem,
+            this.tsmi_knockTheEgg});
             this.tsmi_Operate.Name = "tsmi_Operate";
             this.tsmi_Operate.Size = new System.Drawing.Size(74, 35);
             this.tsmi_Operate.Text = "操作";
@@ -143,7 +153,7 @@
             // mnu_SetAssetUnitCnt
             // 
             this.mnu_SetAssetUnitCnt.Name = "mnu_SetAssetUnitCnt";
-            this.mnu_SetAssetUnitCnt.Size = new System.Drawing.Size(324, 38);
+            this.mnu_SetAssetUnitCnt.Size = new System.Drawing.Size(304, 38);
             this.mnu_SetAssetUnitCnt.Text = "资产单元投资规模";
             this.mnu_SetAssetUnitCnt.Click += new System.EventHandler(this.mnu_SetAssetUnitCnt_Click);
             // 
@@ -187,6 +197,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btn_TestJscript);
             this.groupBox1.Controls.Add(this.btn_AddHedge);
             this.groupBox1.Controls.Add(this.btn_SelfAddCombo);
             this.groupBox1.Controls.Add(this.label4);
@@ -210,13 +221,25 @@
             this.groupBox1.Text = "指令信息";
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
+            // btn_TestJscript
+            // 
+            this.btn_TestJscript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_TestJscript.Location = new System.Drawing.Point(1575, 182);
+            this.btn_TestJscript.Margin = new System.Windows.Forms.Padding(6);
+            this.btn_TestJscript.Name = "btn_TestJscript";
+            this.btn_TestJscript.Size = new System.Drawing.Size(90, 42);
+            this.btn_TestJscript.TabIndex = 12;
+            this.btn_TestJscript.Text = "测脚本";
+            this.btn_TestJscript.UseVisualStyleBackColor = true;
+            this.btn_TestJscript.Click += new System.EventHandler(this.btn_TestJscript_Click);
+            // 
             // btn_AddHedge
             // 
             this.btn_AddHedge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_AddHedge.Location = new System.Drawing.Point(1546, 182);
+            this.btn_AddHedge.Location = new System.Drawing.Point(1484, 182);
             this.btn_AddHedge.Margin = new System.Windows.Forms.Padding(6);
             this.btn_AddHedge.Name = "btn_AddHedge";
-            this.btn_AddHedge.Size = new System.Drawing.Size(124, 42);
+            this.btn_AddHedge.Size = new System.Drawing.Size(90, 42);
             this.btn_AddHedge.TabIndex = 11;
             this.btn_AddHedge.Text = "加对冲";
             this.btn_AddHedge.UseVisualStyleBackColor = true;
@@ -227,7 +250,7 @@
             this.btn_SelfAddCombo.Location = new System.Drawing.Point(1392, 182);
             this.btn_SelfAddCombo.Margin = new System.Windows.Forms.Padding(6);
             this.btn_SelfAddCombo.Name = "btn_SelfAddCombo";
-            this.btn_SelfAddCombo.Size = new System.Drawing.Size(142, 42);
+            this.btn_SelfAddCombo.Size = new System.Drawing.Size(90, 42);
             this.btn_SelfAddCombo.TabIndex = 10;
             this.btn_SelfAddCombo.Text = "加组合";
             this.btn_SelfAddCombo.UseVisualStyleBackColor = true;
@@ -382,12 +405,12 @@
             this.timer_RequestInst.SynchronizingObject = this;
             this.timer_RequestInst.Elapsed += new System.Timers.ElapsedEventHandler(this.timer_RequestInst_Tick);
             // 
-            // TSMI_sendStatusInfor
+            // tsmi_knockTheEgg
             // 
-            this.TSMI_sendStatusInfor.Name = "TSMI_sendStatusInfor";
-            this.TSMI_sendStatusInfor.Size = new System.Drawing.Size(324, 38);
-            this.TSMI_sendStatusInfor.Text = "上报状态";
-            this.TSMI_sendStatusInfor.Click += new System.EventHandler(this.TSMI_sendStatusInfor_Click);
+            this.tsmi_knockTheEgg.Name = "tsmi_knockTheEgg";
+            this.tsmi_knockTheEgg.Size = new System.Drawing.Size(324, 38);
+            this.tsmi_knockTheEgg.Text = "砸蛋";
+            this.tsmi_knockTheEgg.Click += new System.EventHandler(this.tsmi_knockTheEgg_Click);
             // 
             // MainWindow
             // 
@@ -451,5 +474,7 @@
         private System.Windows.Forms.ToolStripMenuItem reLoadToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
         private System.Windows.Forms.ToolStripMenuItem TSMI_sendStatusInfor;
+        private System.Windows.Forms.Button btn_TestJscript;
+        private System.Windows.Forms.ToolStripMenuItem tsmi_knockTheEgg;
     }
 }

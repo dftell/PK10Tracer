@@ -22,6 +22,7 @@ namespace DataRecSvr
                 this.ServiceName = "定时刷新接收数据服务";
                 Tm_ForPK10.Enabled = false;
                 Tm_ForPK10.AutoReset = true;
+                
                 Tm_ForPK10.Interval = GlobalClass.TypeDataPoints["PK10"].ReceiveSeconds * 1000;
                 Tm_ForPK10.Elapsed += new ElapsedEventHandler(Tm_ForPK10_Elapsed);
                 Tm_ForTXFFC.Enabled = false;
@@ -34,7 +35,7 @@ namespace DataRecSvr
             }
             catch(Exception e)
             {
-                Log("启动服务错误！", e.Message);
+                Log("定时刷新接收数据服务错误！", string.Format("{0}:{1}",e.Message,e.StackTrace));
             }
             //tm.Elapsed += new ElapsedEventHandler(tm_Elapsed);        
         }

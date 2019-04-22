@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Linq;
 namespace WolfInv.com.BaseObjectsLib
 {
     public class DataTypePoint:DetailStringClass
@@ -57,11 +58,21 @@ namespace WolfInv.com.BaseObjectsLib
             DataType = name;
             Type t = this.GetType();
             FieldInfo[] fs = t.GetFields();
+            
             for(int i=0;i<fs.Length;i++)
             {
                 if(list.ContainsKey(fs[i].Name))
                 {
-                    fs[i].SetValue(this, Convert.ChangeType(list[fs[i].Name],fs[i].FieldType));
+                    //ToLog(fs[i].Name, list[fs[i].Name]);
+                    try
+                    {
+                        fs[i].SetValue(this, Convert.ChangeType(list[fs[i].Name], fs[i].FieldType));
+                    }
+                    catch(Exception ce)
+                    {
+                        ToLog(fs[i].Name, list[fs[i].Name]);
+                        throw ce;
+                    }
                 }
             }
         }

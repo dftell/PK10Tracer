@@ -24,6 +24,7 @@
       
       <item key="MainDataUrl" value="http://d.apiplus.net/newly.do?token=tf066705d12dcb288k&amp;code=bjpk10&amp;format=xml&amp;rows=100"/>
       <item key="SubDataUrl" value="https://www.52cp2.com/pk10/history"/>
+      <item key="AutoSwitchHost" value="true"/>
       <item key="SrcUseXml" value="1"/>
       <item key="DataDecode" value="utf-8"/>
     </config>

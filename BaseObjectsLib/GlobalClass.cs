@@ -26,6 +26,7 @@ namespace WolfInv.com.BaseObjectsLib
                 _TypeDataPoints = new Dictionary<string, DataTypePoint>();
                 foreach (string key in DataTypes.Keys)
                 {
+                    //ToLog("test_", string.Join(",",SystemDbTables[key].Select(a=>string.Format("{0}=>{1}",a.Key,a.Value).ToList().ToArray())));
                     DataTypePoint dtp = new DataTypePoint(key, SystemDbTables[key]);
                     _TypeDataPoints.Add(key, dtp);
                 }

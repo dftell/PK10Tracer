@@ -12,6 +12,7 @@ using WolfInv.com.LogLib;
 using WolfInv.com.WinInterComminuteLib;
 using DataRecSvr;
 using WolfInv.com.BaseObjectsLib;
+using System.IO;
 namespace Test_Win
 {
     public class GlobalObj
@@ -19,8 +20,11 @@ namespace Test_Win
         public WindAPI w;
         public SystemGlobal Sys;
     }
+
+   
     static class Program
     {
+        
         //public static ServiceSetting AllServiceConfig;
         private delegate void barDelegate(int no);
         /// <summary>
@@ -29,6 +33,8 @@ namespace Test_Win
         [STAThread]
         static void Main1()
         {
+            splitFile("share", "function(", '}');
+            return;
             LogableClass.ToLog("初始化服务器全局设置", "开始");
             InitSystem<TimeSerialData>();
             LogableClass.ToLog("启动通道", "开始");
@@ -45,7 +51,38 @@ namespace Test_Win
             Application.Run(frm);
         }
 
+        static void splitFile(string filename,string key,char lastkey)
+        {
+            string strPath = typeof(GlobalClass).Assembly.Location;
+            string strJsPath = Path.GetDirectoryName(strPath) + "\\" + filename;
+            StreamReader rd = File.OpenText(strJsPath);
+            string StrAll = rd.ReadToEnd();
+            rd.Close();
+            StreamWriter wr = new StreamWriter(strJsPath + ".js");
+            string strLine = StrAll;
+            if(key == "function")
+            {
 
+            }
+            int startPos = 1;
+            int pos = strLine.IndexOf(key, startPos);
+            while(pos > 0)
+            {
+                string restline = strLine.Substring(0,pos).Trim();
+                if(restline[restline.Length-1]== lastkey)
+                {
+                    wr.WriteLine(restline);
+                    strLine = strLine.Substring(pos);
+                    startPos = 1;
+                }
+                else
+                {
+                    startPos = pos + 1;
+                }
+                pos = strLine.IndexOf(key, startPos);
+            }
+            wr.Close();
+        }
 
         public static ServiceSetting<TimeSerialData> AllServiceConfig;
 
@@ -54,7 +91,8 @@ namespace Test_Win
         /// </summary>
         static void Main()
         {
-
+            splitFile("share", "function", '}');
+            return;
             try
             {
                 ////DateTime dt = new DateTime(1991,4,3,12,0,1,12);

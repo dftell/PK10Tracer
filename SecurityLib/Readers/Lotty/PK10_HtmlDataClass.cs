@@ -11,6 +11,7 @@ namespace WolfInv.com.SecurityLib
             //this.dataUrl = "https://www.52cp.cn/pk10/history";// 
             //GlobalClass.PK10_url; //"https://www.52cp.cn/pk10/history";
             this.dataUrl = GlobalClass.TypeDataPoints["PK10"].RuntimeInfo.DefaultDataUrl;
+            //LogLib.LogableClass.ToLog("数据源url", this.dataUrl);
             this.UseXmlMothed = GlobalClass.TypeDataPoints["PK10"].RuntimeInfo.DefaultUseXmlModel==1;
         }
         public override ExpectList<T> getHistoryData<T>(string FolderPath, string filetype)

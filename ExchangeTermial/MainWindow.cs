@@ -33,12 +33,20 @@ namespace ExchangeTermial
         bool Logined = false;
         WebRule wr = null;
         bool ReadySleep = false;
-        double CurrVal = 0;
+        double CurrVal
+        {
+            get
+            {
+                HtmlDocument doc = webBrowser1.Document;
+                return wr.GetCurrMoney(doc);
+            }
+        }
         System.Timers.Timer SendStatusTimer = new System.Timers.Timer();
         public MainWindow()
         {
             InitializeComponent();
             wr = WebRuleBuilder.Create(Program.gc);
+            this.Text = string.Format("{0}[{2}][v:{1}]", this.Text, Program.VerNo, Program.gc.ClientUserName); 
         }
 
         void Set_SendTime(bool Running,long InterVal = 20 * 60 * 1000)
@@ -58,9 +66,10 @@ namespace ExchangeTermial
             string ip = GetIpAddress();
             string id = Program.gc.ClientUserName;
             string money = string.Format("{0:f2}", CurrVal);
+            string ver = Program.VerNo;
             string urlModel = "{0}{1}{2}";
-            string getModel = "?Ip={0}&User={1}&CurrVal={2}&Logined={3}&Sleep={4}&Load={5}";
-            string reqmsg = string.Format(getModel,ip,id,money,Logined,InSleep,WebBrowserLoad);
+            string getModel = @"?Ip={0}&User={1}&CurrVal={2}&Logined={3}&Sleep={4}&Load={5}&Ver={6}";
+            string reqmsg = string.Format(getModel,ip,id,money,Logined?1:0,InSleep?1:0,WebBrowserLoad?1:0,ver);
             string url = string.Format(urlModel, Program.gc.InstHost, Program.gc.StatusUrlModel, reqmsg);
             CommResult cr = new CommunicateToServer().SendStatusInfo(url);
             if (!cr.Succ)
@@ -119,8 +128,6 @@ namespace ExchangeTermial
             Set_SendTime(true);
         }
 
-        
-
         void AddScript()
         {
             HtmlElement head = webBrowser1.Document.GetElementsByTagName("head")[0];
@@ -141,7 +148,7 @@ namespace ExchangeTermial
         {
 
             HtmlDocument doc = webBrowser1.Document;
-            CurrVal = wr.GetCurrMoney(doc);
+            //CurrVal = wr.GetCurrMoney(doc);
             if (webBrowser1.ReadyState == WebBrowserReadyState.Complete)
             {
                 
@@ -181,7 +188,7 @@ namespace ExchangeTermial
                                 LogableClass.ToLog(webBrowser1.Url.Host, "还没完全加载！");
                                 return;
                             }
-                            CurrVal = wr.GetCurrMoney(doc);
+                            //CurrVal = wr.GetCurrMoney(doc);
                             Logined = true;
                             //this.timer_RequestInst_Tick(null, null);
                             if (!IsLogined)
@@ -268,7 +275,7 @@ namespace ExchangeTermial
             }
             catch (Exception e)
             {
-                throw e;
+                //throw e;
             }
             return ret;
         }
@@ -385,7 +392,9 @@ namespace ExchangeTermial
                     //下一个时间点是9：08
                     DateTime TargetTime = DateTime.Today.AddHours(9).AddMinutes(30);
                     this.timer_RequestInst.Interval = TargetTime.Subtract(CurrTime).TotalMilliseconds+ rndtime;
-                    reLoadWebBrowser();//开百度网页
+                    KnockEgg();//敲蛋
+                    Thread.Sleep(5000);//暂停，等发送消息
+                    reLoadWebBrowser();//开百度网页，睡觉
                 }
                 else
                 {
@@ -400,7 +409,6 @@ namespace ExchangeTermial
                     }
                 }
             }
-            
             RefreshStatus();
         }
 
@@ -455,9 +463,7 @@ namespace ExchangeTermial
             Logined = false;
             InSleep = true;
             Set_SendTime(false);
-
-
-        }
+       }
 
         private void reLoadToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -469,6 +475,7 @@ namespace ExchangeTermial
             this.toolStripStatusLabel1.Text = string.Format("已加载页面:{0};已登录:{1};睡眠状态:{2}",WebBrowserLoad,Logined,InSleep);
             this.toolStripStatusLabel2.Text = string.Format("当前余额：{0}",CurrVal);
             this.statusStrip1.Items[2].Text = string.Format("{0}秒后见", this.timer_RequestInst.Interval / 1000);
+            SendStatusTimer_Elapsed(null, null);
         }
 
         void RefreshSendStatusInfo(string msg)
@@ -481,6 +488,38 @@ namespace ExchangeTermial
         private void TSMI_sendStatusInfor_Click(object sender, EventArgs e)
         {
             this.SendStatusTimer_Elapsed(null, null);
+        }
+
+        private void btn_TestJscript_Click(object sender, EventArgs e)
+        {
+            string[] arg = this.txt_NewInsts.Lines;
+            
+            //SendMsg
+            string[] useArg = new string[arg.Length - 1];
+            Array.Copy(arg, 1, useArg, 0, useArg.Length);
+            try
+            {
+                AddScript();
+                webBrowser1.Document.InvokeScript("JumpFillPage", null);
+                Thread.Sleep(3000);
+                AddScript();
+                webBrowser1.Document.InvokeScript(arg[0], useArg);
+            }
+            catch(Exception ce)
+            {
+                MessageBox.Show(e.ToString());
+            }
+        }
+
+        void KnockEgg()
+        {
+            AddScript();
+            webBrowser1.Document.InvokeScript("ClickEgg",new object[] { Program.VerNo });
+        }
+
+        private void tsmi_knockTheEgg_Click(object sender, EventArgs e)
+        {
+            KnockEgg();
         }
     }
 }

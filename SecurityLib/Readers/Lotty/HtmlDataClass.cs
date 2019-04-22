@@ -18,6 +18,7 @@ namespace WolfInv.com.SecurityLib
         {
             ExpectList<T> ret = new ExpectList<T>();
             HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(dataUrl);
+            //LogLib.LogableClass.ToLog(dataUrl, UseXmlMothed.ToString());
             req.Method = "Get";
             string htmltxt = "";
             try
@@ -52,7 +53,7 @@ namespace WolfInv.com.SecurityLib
                     {
                         dtp.RuntimeInfo.DefaultDataUrl = dtp.MainDataUrl;
                     }
-                    dtp.SrcUseXml = (dtp.SrcUseXml == 1 ? 0 : 1);
+                    dtp.RuntimeInfo.DefaultUseXmlModel = dtp.RuntimeInfo.DefaultUseXmlModel==1?0:1;// dtp.SrcUseXml = (dtp.SrcUseXml == 1 ? 0 : 1);
                     LogLib.LogableClass.ToLog("切换到主机", dtp.RuntimeInfo.DefaultDataUrl);
                 }
                 else

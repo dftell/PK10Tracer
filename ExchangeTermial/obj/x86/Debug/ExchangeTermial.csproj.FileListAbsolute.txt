@@ -35,12 +35,12 @@ F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeTermia
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.csproj.CopyComplete
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.exe
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.pdb
-C:\Users\zhouys\Source\project\PK10Tracer\ExchangeTermial.exe.config
-C:\Users\zhouys\Source\project\PK10Tracer\ExchangeTermial.exe
-C:\Users\zhouys\Source\project\PK10Tracer\ExchangeTermial.pdb
 C:\Users\zhouys\Source\project\PK10TracerClient\ExchangeTermial.exe.config
 C:\Users\zhouys\Source\project\PK10TracerClient\ExchangeTermial.exe
 C:\Users\zhouys\Source\project\PK10TracerClient\ExchangeTermial.pdb
+C:\Users\zhouys\Source\project\PK10Tracer\ExchangeTermial.exe.config
+C:\Users\zhouys\Source\project\PK10Tracer\ExchangeTermial.exe
+C:\Users\zhouys\Source\project\PK10Tracer\ExchangeTermial.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.csprojAssemblyReference.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.csproj.ResolveComReference.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.Form1.resources
