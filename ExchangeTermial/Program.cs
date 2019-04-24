@@ -15,13 +15,20 @@ namespace ExchangeTermial
         /// 应用程序的主入口点。
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             VerNo = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             gc = new GlobalClass();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            string strName=null;
+            string strPassword=null;
+            if(args != null && args.Length >= 2)
+            {
+                strName = args[0];
+                strPassword = args[1];
+            }
+            Application.Run(new Form1(strName,strPassword));
             Application.Exit();
         }
     }

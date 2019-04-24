@@ -35,7 +35,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\project\PK10Tracer\</OutputPath>
+    <OutputPath>bin\debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -179,18 +179,22 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>del /Q ..\services\*.dll
-del /Q ..\services\*.pdb
-del /Q ..\services\*.exe</PreBuildEvent>
+    <PreBuildEvent>cd /d C:\Users\zhouys\Source\project\Services\
+del /Q *.dll
+del /Q *.pdb
+del /Q *.exe
+del /Q *.log</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>xcopy /Y WolfInv.com.*.dll ..\services\
-xcopy /Y *.pdb ..\services\
-xcopy /Y DataRecSvr.exe ..\services\
-xcopy /Y WAPIWrapperCSharp.dll ..\services\
-xcopy /Y MongoDB.*.dll ..\services\
-xcopy /Y DocumentFormat.OpenXml.dll ..\services\
-
+    <PostBuildEvent>rem cd /d C:\Users\zhouys\Source\project\Services
+xcopy /Y *.*  C:\Users\zhouys\Source\project\Services
+rem%25~dp0\*.*
+rem xcopy /Y @outdic\WolfInv.com.*.dll 
+rem xcopy /Y @outdic\*.pdb .\
+rem xcopy /Y @outdic\DataRecSvr.exe .\
+rem xcopy /Y @outdic\WAPIWrapperCSharp.dll .\
+rem xcopy /Y @outdic\MongoDB.*.dll .\
+rem xcopy /Y @outdic\DocumentFormat.OpenXml.dll .\
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

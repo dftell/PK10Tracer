@@ -34,4 +34,9 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\Fakes\wibol\o\
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\Fakes\wibol\o\WolfInv.com.BaseObjectsLib.Fakes.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\Fakes\wibol\o\WolfInv.com.BaseObjectsLib.Fakes.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\Fakes\wibol\b\WolfInv.com.DbAccessLib.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\WolfInv.com.GuideLib.csprojAssemblyReference.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\Fakes\wibol\b\WolfInv.com.LogLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\Fakes\wibol\b\MongoDB.Driver.Core.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\Fakes\wibol\b\MongoDB.Driver.Core.xml
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\Fakes\wibol\b\MongoDB.Driver.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\Fakes\wibol\b\MongoDB.Driver.xml
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\Fakes\wibol\b\System.Runtime.InteropServices.RuntimeInformation.dll

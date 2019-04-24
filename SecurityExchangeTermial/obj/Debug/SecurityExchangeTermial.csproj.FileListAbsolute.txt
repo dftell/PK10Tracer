@@ -7,3 +7,4 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityExchangeTermial\obj\Debug
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityExchangeTermial\obj\Debug\SecurityExchangeTermial.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityExchangeTermial\obj\Debug\SecurityExchangeTermial.exe
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityExchangeTermial\obj\Debug\SecurityExchangeTermial.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityExchangeTermial\obj\Debug\SecurityExchangeTermial.csprojAssemblyReference.cache

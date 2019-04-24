@@ -31,11 +31,11 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\project\PK10Tracer\</OutputPath>
+    <OutputPath>bin\debug\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -169,17 +169,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>del /Q ..\PK10TracerClient\*.dll
-del /Q ..\PK10TracerClient\*.pdb
-del /Q ..\PK10TracerClient\*.exe</PreBuildEvent>
+    <PreBuildEvent>cd /d C:\Users\zhouys\Source\project\PK10TracerClient\
+del /Q *.dll
+del /Q *.pdb
+del /Q *.exe
+del /Q *.log</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>xcopy /Y WolfInv.com.*.dll ..\PK10TracerClient\
-xcopy /Y *.pdb ..\PK10TracerClient\
-xcopy /Y ExchangeTermial.exe ..\PK10TracerClient\
-xcopy /Y WAPIWrapperCSharp.dll ..\PK10TracerClient\
-xcopy /Y MongoDB.*.dll ..\PK10TracerClient\
-xcopy /Y DocumentFormat.OpenXml.dll ..\PK10TracerClient\</PostBuildEvent>
+    <PostBuildEvent>xcopy /Y *.*  C:\Users\zhouys\Source\project\PK10TracerClient</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

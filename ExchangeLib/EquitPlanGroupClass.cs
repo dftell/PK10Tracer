@@ -17,6 +17,19 @@ namespace WolfInv.com.ExchangeLib
         public new void ExecRun(object data)
         {
             ExpectList<T> el = data as ExpectList<T>;
+            //2019/4/22日出现错过732497，732496两期记录错过，但是732498却收到的情况，同时，正好在732498多次重复策略正好开出结束，因错过2期导致一直未归零，
+            //一直长时间追号开出近60期
+            //为避免出现这种情况
+            //判断是否错过了期数，如果错过期数，将所有追踪策略归零，不再追号,也不再执行选号程序，
+            //是否要连续停几期？执行完后，在接收策略里面发现前10期有不连续的情况，直接跳过，只接收数据不执行选号。
+            
+            if(el.MissExpectCount()>1)//期号不连续
+            {
+
+            }
+
+
+
             //Log("计算服务","准备数据", "为每个策略分配数据");
             foreach (string key in UseStrags.Keys)
                 UseStrags[key].SetLastUserData(el);

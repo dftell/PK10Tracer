@@ -281,7 +281,7 @@ namespace DataRecSvr
             //this.Tm.Enabled = false;
         }
 
-        public Dictionary<string, ChanceClass<T>> CloseTheChances(bool IsTestBack)
+        public Dictionary<string, ChanceClass<T>> CloseTheChances(bool IsTestBack,bool ForceCloseAllData=false)
         {
             List<ChanceClass<T>> cl = new List<ChanceClass<T>>();
             DateTime currTime = DateTime.Now;
@@ -299,6 +299,23 @@ namespace DataRecSvr
             Dictionary<string, ChanceClass<T>> rl = new Dictionary<string, ChanceClass<T>>();
             if(cl.Count>0)
                 Log("未关闭机会列表数量为", string.Format("{0}",cl.Count));
+            //2019/4/22日出现错过732497，732496两期记录错过，但是732498却收到的情况，同时，正好在732498多次重复策略正好开出结束，因错过2期导致一直未归零，
+            //一直长时间追号开出近60期
+            //为避免出现这种情况
+            //判断是否错过了期数，如果错过期数，将所有追踪策略归零，不再追号,也不再执行选号程序，
+            //是否要连续停几期？执行完后，在接收策略里面发现前10期有不连续的情况，直接跳过，只接收数据不执行选号。
+            if (this.CurrData.MissExpectCount() > 1)
+            {
+                if (!IsTestBack) //如果非回测，保存交易记录
+                {
+                    DbChanceList<T> dbsavelist = new DbChanceList<T>();
+                    cl.ForEach(p => dbsavelist.Add(p.ChanceIndex, p));
+                    CloseChanceInDBAndExchangeService(dbsavelist,true);//强制关闭，就算命中也不算其盈利
+                }
+                return rl;
+            }
+
+
             for (int i = 0; i < cl.Count;i++)
             {
                 string sGUId = cl[i].StragId;
@@ -398,7 +415,7 @@ namespace DataRecSvr
             return rl;
         }
 
-        public void CloseChanceInDBAndExchangeService(DbChanceList<T> NeedClose)
+        public void CloseChanceInDBAndExchangeService(DbChanceList<T> NeedClose,bool ForceClose= false)
         {
 
             if (NeedClose == null || NeedClose.Count == 0)
@@ -408,9 +425,14 @@ namespace DataRecSvr
             foreach (Int64 id in NeedClose.Keys)
             {
                 NeedClose[id].IsEnd = 1;
+                if (ForceClose)
+                {
+                    NeedClose[id].MatchChips = 0;
+                }
                 NeedClose[id].Gained = NeedClose[id].MatchChips * NeedClose[id].Odds * NeedClose[id].UnitCost;
                 NeedClose[id].Profit = NeedClose[id].Gained - NeedClose[id].Cost;
                 NeedClose[id].UpdateTime = DateTime.Now;
+                
             }
             //int ret = NeedClose.Save(null);
             if (NeedClose != null && NeedClose.Count > 0)

@@ -14,6 +14,8 @@ namespace DataRecSvr
         Int64 lastFFCNo;
         public CalcService<T> CalcProcess;
         GlobalClass glb = new GlobalClass();
+        int MissExpectEventPassCnt = 0;
+        int MaxMissEventCnt = 15;
         public ReceiveService()
         {
             InitializeComponent();
@@ -146,9 +148,32 @@ namespace DataRecSvr
                         CurrDataList = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1* GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays));//前十天的数据 尽量的大于reviewcnt,免得需要再取一次数据
                         CurrExpectNo = el.LastData.Expect;
                         Program.AllServiceConfig.LastDataSector =new ExpectList<TimeSerialData>(CurrDataList.Table) ;
-                        bool res = AfterReceiveProcess();
-                        if(res == false)
-                            this.Tm_ForPK10.Interval = RepeatSeconds / 20 * 1000;
+                        //2019/4/22日出现错过732497，732496两期记录错过，但是732498却收到的情况，同时，正好在732498多次重复策略正好开出结束，因错过2期导致一直未归零，
+                        //一直长时间追号开出近60期
+                        //为避免出现这种情况
+                        //判断是否错过了期数，如果错过期数，将所有追踪策略归零，不再追号,也不再执行选号程序，
+                        //是否要连续停几期？执行完后，在接收策略里面发现前10期有不连续的情况，直接跳过，只接收数据不执行选号。
+                        if (MissExpectEventPassCnt > 0)//如果出现错期
+                        {
+                            if (MissExpectEventPassCnt <= MaxMissEventCnt)//超过最大平稳期，置零,下次再计算
+                            {
+                                MissExpectEventPassCnt = 0;
+                            }
+                            else //继续跳过
+                            {
+                                MissExpectEventPassCnt++;
+                            }
+                        }
+                        else//第一次及平稳期后进行计算
+                        {
+                            bool res = AfterReceiveProcess();
+                            if (res == false)
+                                this.Tm_ForPK10.Interval = RepeatSeconds / 20 * 1000;
+                            if (CurrDataList.MissExpectCount() > 1)//执行完计算(关闭所有记录)后再标记为已错期
+                            {
+                                MissExpectEventPassCnt = 1;
+                            }
+                        }
                     }
                     else
                     {

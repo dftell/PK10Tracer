@@ -127,8 +127,26 @@ namespace WolfInv.com.ExchangeLib
         public void ExecRun(object data)
         {
             ExpectList<T> el = data as ExpectList<T>;
+            //2019/4/22日出现错过732497，732496两期记录错过，但是732498却收到的情况，同时，正好在732498多次重复策略正好开出结束，因错过2期导致一直未归零，
+            //一直长时间追号开出近60期
+            //为避免出现这种情况
+            //判断是否错过了期数，如果错过期数，将所有追踪策略归零，不再追号,也不再执行选号程序，
+            //是否要连续停几期？执行完后，在接收策略里面发现前10期有不连续的情况，直接跳过，只接收数据不执行选号。
+            bool MissExpects = false;
+            if (el.MissExpectCount() > 1)//期号不连续
+            {
+                MissExpects = true;
+            }
+            DbChanceList<T> OldDbList = new DbChanceList<T>();
+            Dictionary<string, ChanceClass<T>> OldList = new Dictionary<string, ChanceClass<T>>();
+            List<ChanceClass<T>> NewList = new List<ChanceClass<T>>();
+            if (MissExpects)//不处理任何事情
+            {
+                return;
+            }
+
             //Log("计算服务","准备数据", "为每个策略分配数据");
-            foreach(string key in UseStrags.Keys)
+            foreach (string key in UseStrags.Keys)
                 UseStrags[key].SetLastUserData(el);
             //准备数据
             BaseCollection<T> cc = null;
@@ -142,9 +160,9 @@ namespace WolfInv.com.ExchangeLib
             Dictionary<StragClass, List<ChanceClass<T>>> css = new Dictionary<StragClass, List<ChanceClass<T>>>();
             //Log("计算服务", "计算数据", "为每个策略计算最大回顾周期数据");
             //遍历每个策略获得机会
-            DbChanceList<T> OldDbList = new DbChanceList<T>();
-            Dictionary<string, ChanceClass<T>> OldList = new Dictionary<string, ChanceClass<T>>();
-            List<ChanceClass<T>> NewList = new List<ChanceClass<T>>();
+            
+            
+            
             //Log("计算服务", "遍历所有策略", string.Format("策略数量:{0}",this.UseStrags.Count));
             CloseAllExchance(el);//清空所有可视化机会
             #region 获取交易机会
@@ -172,6 +190,10 @@ namespace WolfInv.com.ExchangeLib
                 }
                 BaseStragClass<T> currStrag = UseStrags[currPlan.PlanStrag.GUID];
                 currStrag.SetLastUserData(el);//必须给策略填充数据
+                ////////////////////////////////////////////////////////////////////
+                ///
+                ///
+                ///////////////////////////////////////////////////////////////////
                 List<ChanceClass<T>> cs = currStrag.getChances(cc, el.LastData);//获取该策略的机会
                 if (currStrag is TotalStdDevTraceStragClass)//如果是整体标准差类，记录所有的标准差数据
                 {

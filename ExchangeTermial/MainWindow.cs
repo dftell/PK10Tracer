@@ -18,6 +18,8 @@ using System.Threading;
 using WolfInv.com.LogLib;
 using System.Net;
 using System.Net.Sockets;
+using System.Text.RegularExpressions;
+
 namespace ExchangeTermial
 {
     public partial class MainWindow : Form
@@ -63,7 +65,7 @@ namespace ExchangeTermial
 
         private void SendStatusTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            string ip = GetIpAddress();
+            string ip = MyIpInfo;
             string id = Program.gc.ClientUserName;
             string money = string.Format("{0:f2}", CurrVal);
             string ver = Program.VerNo;
@@ -82,14 +84,41 @@ namespace ExchangeTermial
             }
         }
 
-        private string GetIpAddress()
+        string _MyIpInfo = null;
+        string MyIpInfo
+        {
+            get
+            {
+                if (_MyIpInfo == null)
+                {
+                    _MyIpInfo = GetIpInfo();
+                }
+                return _MyIpInfo;
+            }
+        }
+
+        private string GetIpInfo()
         {
             string hostName = Dns.GetHostName();   //获取本机名
             IPHostEntry localhost = Dns.GetHostByName(hostName);    //方法已过期，可以获取IPv4的地址
                                                                     //IPHostEntry localhost = Dns.GetHostEntry(hostName);   //获取IPv6地址
             IPAddress localaddr = localhost.AddressList[0];
-
-            return localaddr.ToString();
+            string ip;
+            using (WebClient webClient = new WebClient())
+            {
+                try
+                {
+                    var content = webClient.DownloadString("http://www.net.cn/static/customercare/yourip.asp"); //站获得IP的网页 "http://www.ip138.com/ips1388.asp"
+                                                                                                //判断IP是否合法
+                    ip = new Regex(@"((\d{1,3}\.){3}\d{1,3})").Match(content).Groups[1].Value;
+                }
+                catch(Exception ce)
+                {
+                    ip = localaddr.ToString();
+                }
+            }
+            return string.Format("{0}:{1}",hostName,ip);
+            //return localaddr.ToString();
         }
 
         private void MainWindow_Load(object sender, EventArgs e)

@@ -88,7 +88,13 @@ namespace WolfInv.com.BaseObjectsLib
             get { return MyData[0]; }
         }
 
-        
+        public long MissExpectCount()
+        {
+            int cnt = this.Count;
+            long lastid = long.Parse(this[cnt - 1].Expect);
+            long preid = long.Parse(this[cnt - 2].Expect);
+            return lastid - preid;
+        }
         
         public ExpectList(Dictionary<string, MongoReturnDataList<T>> _data,bool NeedReTime)
         {

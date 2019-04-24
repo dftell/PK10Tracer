@@ -940,7 +940,11 @@ namespace WolfInv.com.BaseObjectsLib
                     bRate += stepRate;
                     CurrSum = getSum(i + 1, MaxCnts, FirstAmt, odds, bRate, out Ser);
                 }
-                CurrSum = getSum(i+1,MaxCnts, FirstAmt, odds, LastRate, out Ser);
+                CurrSum = getSum(i + 1, MaxCnts, FirstAmt, odds, LastRate, out Ser);
+                if (i == 0)//对于单注，多加10个元素，给重复策略用。
+                {
+                    getSum(i + 1, MaxCnts+10, FirstAmt, odds, LastRate, out Ser);
+                }
                 if (NeedAddFirst)
                 {
                     List<long> list = Ser.ToList();

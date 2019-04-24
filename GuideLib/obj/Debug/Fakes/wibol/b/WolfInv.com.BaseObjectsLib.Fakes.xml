@@ -1951,6 +1951,12 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.AllInstances.AddStringT0">
             <summary>设置 ExpectData`1.Add(String key, !0 value) 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.AllInstances.ArrLenGet">
+            <summary>设置 ExpectData`1.get_ArrLen() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.AllInstances.ArrLenSetInt32">
+            <summary>设置 ExpectData`1.set_ArrLen(Int32 value) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.AllInstances.Clear">
             <summary>设置 ExpectData`1.Clear() 的 填充码</summary>
         </member>
@@ -1974,6 +1980,9 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.AllInstances.IsReadOnlyGet">
             <summary>设置 ExpectData`1.get_IsReadOnly() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.AllInstances.IsValidData">
+            <summary>设置 ExpectData`1.IsValidData() 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.AllInstances.ItemGetString">
             <summary>设置 ExpectData`1.get_Item(String key) 的 填充码</summary>
@@ -2004,6 +2013,12 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.AllInstances.ValuesGet">
             <summary>设置 ExpectData`1.get_Values() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.ArrLenGet">
+            <summary>设置 ExpectData`1.get_ArrLen() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.ArrLenSetInt32">
+            <summary>设置 ExpectData`1.set_ArrLen(Int32 value) 的 填充码</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.BehaveAsCurrent">
             <summary>为已填充的类型的所有方法分配“Current”行为</summary>
@@ -2076,6 +2091,9 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.IsReadOnlyGet">
             <summary>设置 ExpectData`1.get_IsReadOnly() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.IsValidData">
+            <summary>设置 ExpectData`1.IsValidData() 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.ItemGetString">
             <summary>设置 ExpectData`1.get_Item(String key) 的 填充码</summary>
@@ -2257,6 +2275,9 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.LastDatasInt32Boolean">
             <summary>设置 ExpectList`1.LastDatas(Int32 RecLng, Boolean ResortTime) 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.MissExpectCount">
+            <summary>设置 ExpectList`1.MissExpectCount() 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.MyDataGet">
             <summary>设置 ExpectList`1.get_MyData() 的 填充码</summary>
         </member>
@@ -2269,8 +2290,8 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.TableGet">
             <summary>设置 ExpectList`1.get_Table() 的 填充码</summary>
         </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances._ctorb__14_0T0">
-            <summary>设置 ExpectList`1.&lt;.ctor&gt;b__14_0(!0 a) 的 填充码</summary>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances._ctorb__15_0T0">
+            <summary>设置 ExpectList`1.&lt;.ctor&gt;b__15_0(!0 a) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.getSubArrayInt32Int32">
             <summary>设置 ExpectList`1.getSubArray(Int32 FromIndex, Int32 len) 的 填充码</summary>
@@ -2374,6 +2395,9 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.LastDatasInt32Boolean">
             <summary>设置 ExpectList`1.LastDatas(Int32 RecLng, Boolean ResortTime) 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.MissExpectCount">
+            <summary>设置 ExpectList`1.MissExpectCount() 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.MyDataGet">
             <summary>设置 ExpectList`1.get_MyData() 的 填充码</summary>
         </member>
@@ -2386,8 +2410,8 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.TableGet">
             <summary>设置 ExpectList`1.get_Table() 的 填充码</summary>
         </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1._ctorb__14_0T0">
-            <summary>设置 ExpectList`1.&lt;.ctor&gt;b__14_0(!0 a) 的 填充码</summary>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1._ctorb__15_0T0">
+            <summary>设置 ExpectList`1.&lt;.ctor&gt;b__15_0(!0 a) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.getSubArrayInt32Int32">
             <summary>设置 ExpectList`1.getSubArray(Int32 FromIndex, Int32 len) 的 填充码</summary>

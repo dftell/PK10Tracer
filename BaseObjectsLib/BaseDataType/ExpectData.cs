@@ -12,9 +12,21 @@ namespace WolfInv.com.BaseObjectsLib
 
     }
     [Serializable]
-    public class ExpectData<T> : TimeSerialData, IDictionary<string,T> where T : TimeSerialData
+    public class ExpectData<T> : TimeSerialData, IDictionary<string, T> where T : TimeSerialData
     {
         Dictionary<string, T> list = new Dictionary<string, T>();
+        public int _ArrLen = 10;//对pk10
+        public int ArrLen
+        {
+            get
+            {
+                return _ArrLen;
+            }
+            set
+            {
+                _ArrLen = value;
+            }
+        }
 
         public ExpectData()
         {
@@ -28,6 +40,35 @@ namespace WolfInv.com.BaseObjectsLib
             this.OpenTime = a.OpenTime;
             if (this.ContainsKey(this.Key))
                 this.Add(this.Key, a);
+        }
+        
+        public bool IsValidData()
+        {
+            string[] vals = ValueList;
+            if(vals.Length != ArrLen)
+            {
+                return false;
+            }
+            Dictionary<int, string> all = new Dictionary<int, string>();
+            for(int i=0;i<vals.Length;i++)
+            {
+                int r = -1;
+                bool conv = int.TryParse(vals[i], out r);
+                if (conv == false)
+                    return false;
+                if (all.ContainsKey(r))
+                    return false;
+                all.Add(r, vals[i]);
+            }
+            if (all.Count != ArrLen) //多此一举
+                return false;
+            //完整性
+            ////for(int i=1;i<=10;i++)
+            ////{
+            ////    if (!all.ContainsKey(i))
+            ////        return false;
+            ////}
+            return true;
         }
 
         public T this[string key]

@@ -48,6 +48,8 @@ namespace WolfInv.com.SecurityLib
                     string strCode = string.Join(",",td2Nodes[0].InnerText.Replace("10", "0").ToCharArray());
                     ed.OpenCode = ChanceCodes(strCode);
                     ed.OpenTime = DateTime.Now.Date.Add(DateTime.Parse(tdNodes[1].InnerText).TimeOfDay);
+                    if (!ed.IsValidData())
+                        continue;
                     ret.Add(ed);
                 }
             }
@@ -91,6 +93,8 @@ namespace WolfInv.com.SecurityLib
                     ed.Expect = rows[i].Attributes["expect"].Value;
                     ed.OpenCode = rows[i].Attributes["opencode"].Value;
                     ed.OpenTime = DateTime.Parse(rows[i].Attributes["opentime"].Value);
+                    if (!ed.IsValidData())
+                        continue;
                     ret.Add(ed as ExpectData<T>);
                 }
             }

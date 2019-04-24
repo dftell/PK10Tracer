@@ -566,27 +566,37 @@ namespace PK10Server
 
         private void dg_AssetUnits_DoubleClick(object sender, EventArgs e)
         {
-            if (this.dg_AssetUnits.CurrentRow.Index < 0)
-            {
-                return;
-            }
-            if (UseSetting == null) return;
-            AssetUnitClass auc = null;
             try
             {
-                DataTable dt = this.dg_AssetUnits.Tag as DataTable;
-                string id = dt.Rows[dg_AssetUnits.CurrentRow.Index]["UnitId"].ToString();
-                auc = UseSetting.AllAssetUnits[id];
-                if (auc == null) 
+                if (this.dg_AssetUnits.CurrentRow.Index < 0)
+                {
                     return;
+                }
+                if (UseSetting == null) return;
+                AssetUnitClass auc = null;
+                try
+                {
+                    DataTable dt = this.dg_AssetUnits.Tag as DataTable;
+                    string id = dt.Rows[dg_AssetUnits.CurrentRow.Index]["UnitId"].ToString();
+                    auc = UseSetting.AllAssetUnits[id];
+                    if (auc == null)
+                        return;
+                }
+                catch
+                {
+                    return;
+                }
+                //dg_AssetUnits as
+                DataView moneyLines = new DataView(auc.SummaryLine());
+                lock (moneyLines)
+                {
+                    this.chart_ForGuide.Series[0].Points.DataBindXY(moneyLines, "id", moneyLines, "val");
+                }
             }
-            catch
+            catch(Exception ce)
             {
-                return;
+
             }
-            //dg_AssetUnits as
-            DataView moneyLines = new DataView(auc.SummaryLine());
-            this.chart_ForGuide.Series[0].Points.DataBindXY(moneyLines, "id", moneyLines, "val");
         }
 
         void refreshAssetUnitDll()
@@ -618,63 +628,81 @@ namespace PK10Server
             }
             try
             {
+                
+
                 Chart chrt = this.chart_ForGuide;
                 Dictionary<string, AssetUnitClass> assetUnits = UseSetting.AllAssetUnits;
-                ////////////string strExpect = dt.Rows[dt.Rows.Count - 1]["Expect"].ToString();
-                ////////////Int64 MinExpect = Int64.Parse(strExpect) - 180;
-                ////////////string sql = string.Format("Expect>={0}", MinExpect);
-                ////////////DataView dv_stddev = new DataView(dt);
-                ////////////dv_stddev.RowFilter = sql;
-                bool Changed = false;
-                foreach (string id in assetUnits.Keys)
+                //System.Threading.Thread.Sleep(10 * 1000);
+                lock (assetUnits)
                 {
-                    DataTable dt = assetUnits[id].SummaryLine();
-                    if (this.AssetTimeSummary.ContainsKey(id) == false || (this.AssetTimeSummary.ContainsKey(id) && dt.Rows.Count != this.AssetTimeSummary[id]))
+
+                    ////////////string strExpect = dt.Rows[dt.Rows.Count - 1]["Expect"].ToString();
+                    ////////////Int64 MinExpect = Int64.Parse(strExpect) - 180;
+                    ////////////string sql = string.Format("Expect>={0}", MinExpect);
+                    ////////////DataView dv_stddev = new DataView(dt);
+                    ////////////dv_stddev.RowFilter = sql;
+                    bool Changed = false;
+                    List<string> keys = assetUnits.Keys.ToList();
+                    List<AssetUnitClass> vals = assetUnits.Values.ToList();
+                    //foreach (string id in assetUnits.Keys)
+                    for (int ai = 0; ai < keys.Count; ai++)
                     {
-                        if(!this.AssetTimeSummary.ContainsKey(id))
+                        string id = keys[ai];
+
+                        DataTable dt = vals[ai].SummaryLine();
+                        if (this.AssetTimeSummary.ContainsKey(id) == false || (this.AssetTimeSummary.ContainsKey(id) && dt.Rows.Count != this.AssetTimeSummary[id]))
                         {
-                            this.AssetTimeSummary.Add(id, 0);
+                            if (!this.AssetTimeSummary.ContainsKey(id))
+                            {
+                                this.AssetTimeSummary.Add(id, 0);
+                            }
+                            this.AssetTimeSummary[id] = dt.Rows.Count;
+                            Changed = true;
+                            vals[ai].SaveDataToFile();
+                            //saveAssetLines(id, dt);//保存
                         }
-                        this.AssetTimeSummary[id] = dt.Rows.Count; 
-                        Changed = true;
-                        assetUnits[id].SaveDataToFile();
-                        //saveAssetLines(id, dt);//保存
                     }
-                }
-                //if (!Changed)//没有任何改变，不刷新
-                //    return;
-                
-                int i = 0;
-                if (chrt.Series.Count < assetUnits.Count - 1)
-                {
-                    chrt.Series.Clear();
-                    
-                    foreach (string strName in assetUnits.Keys)
+                    //if (!Changed)//没有任何改变，不刷新
+                    //    return;
+
+                    int i = 0;
+                    if (chrt.Series.Count < vals.Count - 1)
                     {
-                        Series sr = new Series(assetUnits[strName].UnitName);
-                        sr.ChartType = SeriesChartType.Line;
-                        chrt.Series.Add(sr);
+                        chrt.Series.Clear();
+
+                       // foreach (string strName in assetUnits.Keys)
+                        for (int ai = 0; ai < keys.Count; ai++)
+                        {
+                            string strName = keys[ai];
+                            Series sr = new Series(vals[ai].UnitName);
+                            sr.ChartType = SeriesChartType.Line;
+                            chrt.Series.Add(sr);
+                            i++;
+                        }
+                        //chrt.GetToolTipText += new EventHandler<ToolTipEventArgs>(chart_ForSystemStdDev_GetToolTipText);
+                    }
+                    i = 0;
+                    //foreach (string strName in assetUnits.Keys)
+                    
+                    for(int ai=0;ai<keys.Count;ai++)
+                    {
+                        //System.Threading.Thread.Sleep(5 * 1000);
+                        string strName = keys[ai];
+                        DataTable dt = vals[ai].SummaryLine();
+                        var drs = dt.Select("id>0", "id desc").Take<DataRow>(Len);
+                        DataTable DispDt = dt.Clone();
+                        foreach (DataRow dr in drs)
+                        {
+                            DispDt.Rows.Add(dr.ItemArray);
+                        }
+                        DataView dv = new DataView(DispDt);
+                        dv.Sort = "id asc";
+                        chrt.Series[i].Points.DataBindY(dv, "val");
                         i++;
                     }
-                    //chrt.GetToolTipText += new EventHandler<ToolTipEventArgs>(chart_ForSystemStdDev_GetToolTipText);
+                    this.chart_ForGuide = chrt;
+                    this.chart_ForGuide.Show();
                 }
-                i = 0;
-                foreach (string strName in assetUnits.Keys)
-                {
-                    DataTable dt = assetUnits[strName].SummaryLine();
-                    var drs = dt.Select("id>0", "id desc").Take<DataRow>(Len);
-                    DataTable DispDt = dt.Clone();
-                    foreach(DataRow dr in drs)
-                    {
-                        DispDt.Rows.Add(dr.ItemArray);
-                    }                    
-                    DataView dv = new DataView(DispDt);
-                    dv.Sort = "id asc";
-                    chrt.Series[i].Points.DataBindY(dv, "val");
-                    i++;
-                }
-                this.chart_ForGuide = chrt;
-                this.chart_ForGuide.Show();
                 //this.chart_ForSystemStdDev.DataSource = dv_stddev;
 
                 //this.chart_ForSystemStdDev.Series[0].Points.DataBindXY(dv_stddev, "Expect", dv_stddev, "StdDev");

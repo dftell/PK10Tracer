@@ -56,6 +56,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_Win", "Test_Win\Test_W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackTestSys", "WindowsFormsApplication1\BackTestSys.csproj", "{793BC432-5BE7-4531-BF7A-B987C940E921}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientSvr", "ClientSvr\ClientSvr.csproj", "{CBB8288D-BC02-4DBE-A9E4-A0599083B1E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -328,6 +330,18 @@ Global
 		{793BC432-5BE7-4531-BF7A-B987C940E921}.Release|Mixed Platforms.Build.0 = Release|x86
 		{793BC432-5BE7-4531-BF7A-B987C940E921}.Release|x86.ActiveCfg = Release|x86
 		{793BC432-5BE7-4531-BF7A-B987C940E921}.Release|x86.Build.0 = Release|x86
+		{CBB8288D-BC02-4DBE-A9E4-A0599083B1E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBB8288D-BC02-4DBE-A9E4-A0599083B1E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBB8288D-BC02-4DBE-A9E4-A0599083B1E0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{CBB8288D-BC02-4DBE-A9E4-A0599083B1E0}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{CBB8288D-BC02-4DBE-A9E4-A0599083B1E0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CBB8288D-BC02-4DBE-A9E4-A0599083B1E0}.Debug|x86.Build.0 = Debug|Any CPU
+		{CBB8288D-BC02-4DBE-A9E4-A0599083B1E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBB8288D-BC02-4DBE-A9E4-A0599083B1E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBB8288D-BC02-4DBE-A9E4-A0599083B1E0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{CBB8288D-BC02-4DBE-A9E4-A0599083B1E0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{CBB8288D-BC02-4DBE-A9E4-A0599083B1E0}.Release|x86.ActiveCfg = Release|Any CPU
+		{CBB8288D-BC02-4DBE-A9E4-A0599083B1E0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

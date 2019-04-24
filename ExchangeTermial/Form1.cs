@@ -13,12 +13,21 @@ namespace ExchangeTermial
 {
     public partial class Form1 : Form
     {
-        public Form1()
+
+        public Form1(string username,string password)
         {
             InitializeComponent();
+            
             string strName = Program.gc.ClientUserName;
-            this.txt_user.Text = Program.gc.ClientUserName;
-            this.txt_password.Text = Program.gc.ClientPassword;
+            strName = Program.gc.ClientUserName; //不能省略
+            string strPwd = Program.gc.ClientPassword;
+            if(username != null)
+            {
+                strName = username;
+                strPwd = password;
+            }
+            this.txt_user.Text = strName;
+            this.txt_password.Text = strPwd;
             this.CancelButton = this.btn_cancel;
             this.AcceptButton = this.btn_login;
         }

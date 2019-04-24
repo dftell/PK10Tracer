@@ -178,7 +178,7 @@ namespace WolfInv.com.Strags
 
             int bRCnt = (bHold % (maxcnt + 1)) + bShift - 1;
             int eRCnt = (HoldCnt % (maxcnt + 1)) + eShift - 1;
-            if (CurrChancesCnt < 4)//如果是4码以下取平均值
+            if (CurrChancesCnt < 4)//如果是4码以下取平均值 --需要改变
             {
                 return (amts.Serials[chips][bRCnt] + amts.Serials[chips][eRCnt]) / 2;
             }

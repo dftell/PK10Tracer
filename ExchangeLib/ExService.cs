@@ -81,6 +81,7 @@ namespace WolfInv.com.ExchangeLib
             if (MoneyChangeTable != null)
                 MoneyChangeTable.Rows.Clear();
             CurrMoney = _InitCash;
+            ExpectMoneyLine = new Dictionary<string, double>();
             //MoneyLine = new List<double>();
             _ExpectCnt = 0;
         }
