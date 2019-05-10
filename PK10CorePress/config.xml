@@ -74,6 +74,8 @@
       <item key="CodeGrpCnt" value="40"/>
     </config>
     <config type="System">
+      <item key="WXLogUrl" value="http://localhost/app/test.asp"/>
+      <item key="WXLogNoticeUser" value="testqun"/>
       <item key="ForWeb" value="Web_Kcai"/>
       <item key="InstHost" value="http://www.wolfinv.com"/>
       <item key="MinChips" value="100"/>

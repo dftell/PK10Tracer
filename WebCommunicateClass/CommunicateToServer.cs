@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 
 using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.RemoteObjectsLib;
+
 namespace WolfInv.com.WebCommunicateClass
 {
     public class CommunicateToServer

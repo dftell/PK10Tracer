@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.IO;
-using System.Data;
 using System.Reflection;
 namespace WolfInv.com.LogLib
 {
@@ -104,119 +102,6 @@ namespace WolfInv.com.LogLib
         protected void WriteToFile(string txt,string specPath, string filename, string filetype)
         {
             threadWrite(txt, specPath,filename, filetype, true,false);
-        }
-    }
-
-    public class LogInfo : LogClass
-    {
-        public Dictionary<DateTime, string> GetLogAfterDate(DateTime dt)
-        {
-            //LogableClass.ToLog("获取指定时间以后的日志列表", dt.ToString());
-            if (LogBuffs == null) 
-                LogBuffs = new Dictionary<DateTime, string>();
-            Dictionary<DateTime, string> tmp = new Dictionary<DateTime, string>();
-            foreach (DateTime t in LogBuffs.Keys)
-            {
-                if (t.CompareTo(dt)>0)
-                {
-                    tmp.Add(t,LogBuffs[t]);
-                }
-            }
-            //tmp = LogBuffs.Where(t => (t.Key.CompareTo(dt) > 0)) as Dictionary<DateTime, string>;
-            if (tmp == null)
-            {
-                LogableClass.ToLog("原始日志数量", LogBuffs.Count.ToString());
-                return new Dictionary<DateTime, string>();
-            }
-            //LogableClass.ToLog("获取到日志数量", tmp.Count.ToString());
-            return tmp;
-        }
-
-        public void ClearBuff(DateTime befDate)
-        {
-            LogableClass.ToLog("清空指定时间以后的日志列表", befDate.ToString());
-            if (LogBuffs == null)
-                LogBuffs = new Dictionary<DateTime, string>();
-            Dictionary<DateTime, string> tmp = LogBuffs.Where(t => t.Key > befDate) as Dictionary<DateTime, string>;
-            LogBuffs = tmp;
-        }
-
-        public void ClearBuff()
-        {
-            LogBuffs.Clear();// 
-        }
-
-        public DataTable GetLogTableAfterDate(DateTime dt)
-        {
-            DataTable tab = new DataTable();
-            tab.Columns.Add("LogTime", typeof(DateTime));
-            tab.Columns.Add("Log", typeof(string));
-            Dictionary<DateTime, string> ret = GetLogAfterDate(dt);
-            if (ret == null)
-            {
-                return tab;
-            }
-            foreach (DateTime key in ret.Keys)
-            {
-                DataRow dr = tab.NewRow();
-                dr[0] = key;
-                dr[1] = ret[key];
-                tab.Rows.Add(dr);
-            }
-            return tab;
-
-        }
-        
-        public void WriteFile(string txt, string specPath, string filename, string filetype,bool NoTime,bool writeover)
-        {
-            threadWrite(txt, specPath, filename, filetype, NoTime, writeover);
-        }
-    }
-
-    public interface iLog
-    {
-        string LogName { get;}
-        void Log(string logname, string Topic, string msg);
-        void Log(string Topic, string Msg);
-        void Log(string msg);
-    }
-
-    public class LogableClass:MarshalByRefObject,iLog
-    {
-        static LogInfo LogClass = new LogInfo(); 
-        protected static string _logname = "System";
-        public string LogName
-        {
-            get { return _logname; }
-        }
-
-        public void Log(string topic, string Msg)
-        {
-            Log(LogName, topic, Msg);
-        }
-
-        public void Log(string msg)
-        {
-            LogClass.WriteWithFunc(LogName, "", msg, 2);
-        }
-
-        public void Log(string logname, string Topic, string msg)
-        {
-            LogClass.WriteWithFunc(logname, Topic, msg, 2);
-        }
-
-        public static void ToLog(string topic, string Msg)
-        {
-            LogClass.WriteWithFunc(_logname, topic, Msg, 2);
-        }
-
-        public static void ToLog(string msg)
-        {
-            LogClass.WriteWithFunc(_logname, "", msg, 3);
-        }
-        public static void ToLog(string logname, string Topic, string msg)
-        {
-            LogClass.WriteWithFunc(logname, Topic, msg, 2);
         }
     }
 }

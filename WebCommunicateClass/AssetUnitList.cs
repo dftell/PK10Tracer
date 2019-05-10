@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
 using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.RemoteObjectsLib;
+
 namespace WolfInv.com.WebCommunicateClass
 {
     public class AssetUnitList : RecordObject, IList<AssetUnitInfo>, iSerialJsonClass<mAssetUnitList>

@@ -35,7 +35,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\debug\</OutputPath>
+    <OutputPath>..\..\..\..\project\PK10TracerClient\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -53,6 +53,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>favicon-2018080209415870.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
@@ -136,6 +139,10 @@
       <Project>{2D91CEF1-5BAA-4AE2-A6D5-7AC55E992AD1}</Project>
       <Name>WolfInv.com.WebRuleLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WolfInv.com.RemoteObjectLib\WolfInv.com.RemoteObjectLib.csproj">
+      <Project>{5512ddfb-0ca8-4bb7-ac01-e21bdc814f0f}</Project>
+      <Name>WolfInv.com.RemoteObjectLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon-2018080209415870.ico" />
@@ -169,14 +176,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>cd /d C:\Users\zhouys\Source\project\PK10TracerClient\
+    <PreBuildEvent>cd /d C:\Users\zhouys\Source\project\PK10TracerClient
 del /Q *.dll
 del /Q *.pdb
 del /Q *.exe
 del /Q *.log</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>xcopy /Y *.*  C:\Users\zhouys\Source\project\PK10TracerClient</PostBuildEvent>
+    <PostBuildEvent>rem xcopy /Y *.* C:\Users\zhouys\Source\project\PK10TracerClient\</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

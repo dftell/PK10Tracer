@@ -97,3 +97,5 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\bin\debug\MongoDB.Driv
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\bin\debug\MongoDB.Bson.xml
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\bin\debug\DnsClient.xml
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\bin\debug\System.Buffers.xml
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\bin\debug\WolfInv.com.RemoteObjectLib.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DataRecSvr\bin\debug\WolfInv.com.RemoteObjectLib.pdb

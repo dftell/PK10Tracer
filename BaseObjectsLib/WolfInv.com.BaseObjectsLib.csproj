@@ -80,7 +80,6 @@
     <Compile Include="BaseDataType\TimeSerialData.cs" />
     <Compile Include="BaseDataType\TraceChance.cs" />
     <Compile Include="CommExpectListProcess.cs" />
-    <Compile Include="CommResult.cs" />
     <Compile Include="ConvertionExtensions.cs" />
     <Compile Include="DataFrame.cs" />
     <Compile Include="DataListConverter.cs" />

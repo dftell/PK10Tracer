@@ -3,8 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WolfInv.com.BaseObjectsLib
+
+namespace WolfInv.com.RemoteObjectsLib
 {
+    /// <summary>
+    /// 所有数据类的基类
+    /// </summary>
+    public class RecordObject : MarshalByRefObject
+    {
+
+
+    }
     public class CommResult : MarshalByRefObject  
     {
         public bool Succ;

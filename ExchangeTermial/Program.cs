@@ -4,13 +4,15 @@ using System.Linq;
 using System.Windows.Forms;
 //using WolfInv.com.PK10CorePress;
 using WolfInv.com.BaseObjectsLib;
-//using WolfInv.com.SecurityLib;
+using WolfInv.com.LogLib;
 namespace ExchangeTermial
 {
     public static class Program
     {
         public static GlobalClass gc;
         public static string VerNo;
+        public static WXLogClass wxl;
+        public static string Title;
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
@@ -19,17 +21,40 @@ namespace ExchangeTermial
         {
             VerNo = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             gc = new GlobalClass();
+            bool AutoLogin = false;
+            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            
             string strName=null;
             string strPassword=null;
             if(args != null && args.Length >= 2)
             {
                 strName = args[0];
                 strPassword = args[1];
+                AutoLogin = true;
             }
-            Application.Run(new Form1(strName,strPassword));
-            Application.Exit();
+            Form1 frm = null;
+            wxl = new WXLogClass("客户端",gc.WXLogNoticeUser, gc.WXLogUrl);//指定默认登录用户，为捕捉第一次产生错误用。
+            ContinueRun:
+            try
+            {
+                frm =  new Form1(strName, strPassword, AutoLogin);
+                string msg = wxl.Log(string.Format("{0}","客户端启动！"));
+                Application.Run(frm);
+                GC.SuppressFinalize(frm);
+            }
+            catch(Exception ce)
+            {
+                LogableClass.ToLog("错误","退出界面:"+ce.Message,ce.StackTrace);
+                wxl.Log("错误", string.Format("{0}:退出界面!",Title),string.Format("详细原因[{0}]:{1}" , ce.Message, ce.StackTrace));
+                AutoLogin = true;
+                GC.SuppressFinalize(frm);
+                frm = null;
+
+                goto ContinueRun;
+            }
+            //Application.Exit();
         }
     }
 }

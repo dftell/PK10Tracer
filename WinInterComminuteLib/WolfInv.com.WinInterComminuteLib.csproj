@@ -23,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <RegisterForComInterop>false</RegisterForComInterop>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,6 +36,12 @@
   </PropertyGroup>
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>WolfInv.com.WinInterComminuteLib.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -52,14 +59,17 @@
     <Compile Include="WinComminuteClass.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BaseObjectsLib\WolfInv.com.BaseObjectsLib.csproj">
-      <Project>{38b7c927-f264-46a1-a550-388f440d79be}</Project>
-      <Name>WolfInv.com.BaseObjectsLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LogLib\WolfInv.com.LogLib.csproj">
       <Project>{182084E4-C48B-4585-9221-4A54CAF7448F}</Project>
       <Name>WolfInv.com.LogLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WolfInv.com.RemoteObjectLib\WolfInv.com.RemoteObjectLib.csproj">
+      <Project>{5512DDFB-0CA8-4BB7-AC01-E21BDC814F0F}</Project>
+      <Name>WolfInv.com.RemoteObjectLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="WolfInv.com.WinInterComminuteLib.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

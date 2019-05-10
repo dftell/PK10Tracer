@@ -235,9 +235,8 @@ namespace WolfInv.com.Strags
         public abstract long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts);
         public long getDefaultChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
-            int chips = 0;
+            int chips = cc.ChipCount-1;
             int maxcnt = amts.MaxHoldCnts[chips];
-            int bShift = 0;
             int eShift = 0;
             int bHold = cc.HoldTimeCnt;// HoldCnt - CurrChancesCnt + 1;
             if (cc.IncrementType == InterestType.CompoundInterest)
@@ -253,16 +252,9 @@ namespace WolfInv.com.Strags
             if (bHold > maxcnt)
             {
                 Log("风险", "通用重复策略开始次数达到最大上限", string.Format("机会{0}持有次数达到{1}次总投入金额已为{2}", cc.ChanceCode, bHold, "未知"));
-                bShift = (int)maxcnt * 2 / 3;
+                eShift = (int)maxcnt * 2 / 3;
             }
-            int HoldCnt = bHold;
-            int bRCnt = (bHold % (maxcnt + 1)) + bShift - 1;
-            int eRCnt = (HoldCnt % (maxcnt + 1)) + eShift - 1;
-            if (cc.ChipCount < 4)//如果是4码以下取平均值
-            {
-                return (amts.Serials[chips][bRCnt] + amts.Serials[chips][eRCnt]) / 2;
-            }
-            //四码以上取最大值，防止投入不够导致亏损
+            int eRCnt = (bHold % (maxcnt + 1)) + eShift - 1;
             return amts.Serials[chips][eRCnt];
 
         }

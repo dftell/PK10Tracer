@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.PK10CorePress;
+using System.Linq;
 namespace WolfInv.com.Strags
 {
     [DescriptionAttribute("通用重复号码跟踪策略"),
@@ -147,11 +148,12 @@ namespace WolfInv.com.Strags
 
         public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
+            
             int chips = 0;
             int maxcnt = amts.MaxHoldCnts[chips];
             int bShift = 0;
             int eShift = 0;
-            int bHold = cc.HoldTimeCnt;// HoldCnt - CurrChancesCnt + 1;
+            int bHold = HoldCnt-cc.ChipCount+1;// HoldCnt - CurrChancesCnt + 1;
             if (cc.IncrementType == InterestType.CompoundInterest)
             {
                 if (cc.AllowMaxHoldTimeCnt > 0 && cc.HoldTimeCnt > cc.AllowMaxHoldTimeCnt)
@@ -161,7 +163,7 @@ namespace WolfInv.com.Strags
                 return (long)Math.Floor(cc.FixRate.Value * RestCash / cc.ChipCount);
             }
             //Log("获取机会金额处理", string.Format("当前持有次数：{0}", HoldCnt));
-            if (HoldCnt == -1)//如果超出指定的最大持仓次数，跟踪不投注，直到实现后继续跟踪
+            if (HoldCnt <0)//如果超出指定的最大持仓次数，跟踪不投注，直到实现后继续跟踪
             {
                 return 0;
             }
@@ -175,15 +177,43 @@ namespace WolfInv.com.Strags
                 Log("风险", "通用重复策略结束次数达到最大上限", string.Format("机会{0}持有次数达到{1}次总投入金额已为{2}", cc.ChanceCode, HoldCnt, "未知"));
                 eShift = (int)maxcnt * 2 / 3;
             }
-
-            int bRCnt = (bHold % (maxcnt + 1)) + bShift - 1;
-            int eRCnt = (HoldCnt % (maxcnt + 1)) + eShift - 1;
-            if (CurrChancesCnt < 4)//如果是4码以下取平均值 --需要改变
+            Log("状态", string.Format("HoldCnt:{0};HoldTimes:{1};Chips:{2}",HoldCnt,cc.HoldTimeCnt,cc.ChipCount));
+            try
             {
-                return (amts.Serials[chips][bRCnt] + amts.Serials[chips][eRCnt]) / 2;
+
+                int bRCnt = (bHold % (maxcnt + 1)) + bShift -1;
+                ////int eRCnt = (HoldCnt % (maxcnt + 1)) + eShift - 1;
+                ////if (CurrChancesCnt < 4)//如果是4码以下取平均值 --需要改变
+                ////{
+                ////    return (amts.Serials[chips][bRCnt] + amts.Serials[chips][eRCnt]) / 2;
+                ////}
+                //////四码以上取最大值，防止投入不够导致亏损
+                ////return amts.Serials[chips][eRCnt];
+                
+                if (cc.ChipCount == 1)
+                    return amts.Serials[chips][bRCnt];
+                return calcMutliChanceAmount(cc, amts, bRCnt);
             }
-            //四码以上取最大值，防止投入不够导致亏损
-            return amts.Serials[chips][eRCnt];
+            catch(Exception e)
+            {
+                Log(e.Message, e.StackTrace);
+                return 1;
+            }
+
+        }
+
+        long calcMutliChanceAmount(ChanceClass cc, AmoutSerials amts,int holdTimes)
+        {
+            if (holdTimes < 2) return 1;
+            int HavingHoldTime = holdTimes ;
+            long[] arr = amts.Serials[0];
+            long[] HaveArr = new long[HavingHoldTime];
+            Array.Copy(arr, HaveArr, HavingHoldTime);
+            long HaveSum = HaveArr.Sum();
+            long minAmount  =(long) Math.Ceiling(HaveSum / (this.CommSetting.GetGlobalSetting().Odds- cc.ChipCount));
+            if (minAmount <= 1)
+                minAmount = 1;
+            return minAmount;
 
         }
 

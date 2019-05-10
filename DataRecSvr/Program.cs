@@ -23,7 +23,10 @@ namespace DataRecSvr
         {
 
             try
-            { 
+            {
+                GlobalClass gc = new GlobalClass();
+                string url = gc.WXLogUrl;
+                url = gc.WXLogNoticeUser;
                 ServiceBase[] ServicesToRun;
                 LogableClass.ToLog("构建计算服务", "开始");
                 CalcService<TimeSerialData> cs = new CalcService<TimeSerialData>();

@@ -19,6 +19,7 @@ using WolfInv.com.LogLib;
 using System.Net;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
+using WolfInv.com.RemoteObjectsLib;
 
 namespace ExchangeTermial
 {
@@ -48,7 +49,8 @@ namespace ExchangeTermial
         {
             InitializeComponent();
             wr = WebRuleBuilder.Create(Program.gc);
-            this.Text = string.Format("{0}[{2}][v:{1}]", this.Text, Program.VerNo, Program.gc.ClientUserName); 
+            this.Text = string.Format("{0}[{2}][v:{1}]", this.Text, Program.VerNo, Program.gc.ClientUserName);
+            Program.Title = this.Text;
         }
 
         void Set_SendTime(bool Running,long InterVal = 20 * 60 * 1000)
@@ -81,6 +83,7 @@ namespace ExchangeTermial
             else
             {
                 RefreshSendStatusInfo("朕已知悉！");
+                //Program.wxl.Log("可用余额:" + money);
             }
         }
 
@@ -145,12 +148,13 @@ namespace ExchangeTermial
                 //this.webBrowser1.Url = new Uri(url);
                 this.webBrowser1.Navigate(url);
                 this.webBrowser1.ScriptErrorsSuppressed = true;
-                LogableClass.ToLog(webBrowser1.Url.Host, "准备唤醒！");
+                LogableClass.ToLog(webBrowser1?.Url?.Host, "准备唤醒！");
 
             }
             catch(Exception ce)
             {
                 LogableClass.ToLog("错误", ce.Message, ce.StackTrace);
+                Program.wxl.Log("错误","唤醒网页错误",string.Format("{0}:{1}", ce.Message, ce.StackTrace));
             }
             this.timer_RequestInst.Interval = 60 * 1000;
             this.timer_RequestInst.Enabled = true;
@@ -344,101 +348,112 @@ namespace ExchangeTermial
 
         private void timer_RequestInst_Tick(object sender, ElapsedEventArgs e)
         {
-            Random rd = new Random();
-            int rndtime = rd.Next(1000, 60*1000);//增加随机数，防止单机多客户端并行同时下注
-            if (InSleep)//还在睡觉,唤醒
+            try
             {
-                LoadUrl();
-                ////while(!Logined)
-                ////{
-                ////    System.Threading.Thread.Sleep(30*1000);
-                ////}
-                InSleep = false;
-                this.timer_RequestInst.Interval = 30 * 1000+ rndtime;//等待唤醒以后再访问
-                return;
-            }
-            DateTime CurrTime = DateTime.Now;
-            CommunicateToServer wc = new CommunicateToServer();
-            CommResult cr = wc.getRequestInsts(GlobalClass.strRequestInstsURL);
-            if (!cr.Succ)
-            {
-                this.statusStrip1.Items[0].Text = cr.Message;
-                return;
-            }
-            if (cr.Cnt != 1)
-            {
-                this.statusStrip1.Items[0].Text = "无指令！";
-                return;
-            }
-            RequestClass ic = cr.Result[0] as RequestClass;
-            if (ic == null)
-            {
-                this.statusStrip1.Items[0].Text = "指令内容错误！";
-                return;
-            }
-            Int64 CurrExpectNo = Int64.Parse(ic.Expect);
-            this.statusStrip1.Items[1].Text = DateTime.Now.ToLongTimeString();
-            if (CurrExpectNo > this.NewExpect || RefreshTimes == 0) //获取到最新指令
-            {
-                LastInstsTime = DateTime.Now;
-                int CurrMin = DateTime.Now.Minute % 5;
-
-                ////if (CurrMin % 5 < 2)
-                ////{
-                ////    this.timer_RequestInst.Interval = (2-CurrMin)*60000;//加分钟以后见
-                ////}
-                ////else
-                ////{
-                ////    this.timer_RequestInst.Interval = (5-CurrMin)*6000;//5分钟以后见
-                ////}
-                this.timer_RequestInst.Interval = 2 * 60 * 1000 + rndtime;//5分钟以后见,减掉1秒不*断收敛时间，防止延迟接收
-                //ToAdd:填充各内容
-                this.txt_ExpectNo.Text = ic.Expect;
-                this.txt_OpenTime.Text = ic.LastTime;
-                this.txt_Insts.Text = ic.getUserInsts(Program.gc);
-                this.NewExpect = CurrExpectNo;
-                if(!Logined)
-                {
-                    Logined = wr.IsLogined(this.webBrowser1.Document);
-                }
-                if (Logined)
-                {
-                    if(RefreshTimes>0)
-                        this.btn_Send_Click(null, null);
-                    RefreshTimes = 1;
-                }
-                else//如果没有登录，重新载入,当前指令不发送，只要不发送，这条指令就不会存入缓存。可以下次获取到再发
+                Random rd = new Random();
+                int rndtime = rd.Next(1000, 60 * 1000);//增加随机数，防止单机多客户端并行同时下注
+                if (InSleep)//还在睡觉,唤醒
                 {
                     LoadUrl();
-                    
+                    ////while(!Logined)
+                    ////{
+                    ////    System.Threading.Thread.Sleep(30*1000);
+                    ////}
+                    InSleep = false;
+                    this.timer_RequestInst.Interval = 30 * 1000 + rndtime;//等待唤醒以后再访问
+                    return;
                 }
-                
-            }
-            else
-            {
-                if (CurrTime.Hour < 9)//如果在9点前
+                DateTime CurrTime = DateTime.Now;
+                CommunicateToServer wc = new CommunicateToServer();
+                CommResult cr = wc.getRequestInsts(GlobalClass.strRequestInstsURL);
+                if (!cr.Succ)
                 {
-                    //下一个时间点是9：08
-                    DateTime TargetTime = DateTime.Today.AddHours(9).AddMinutes(30);
-                    this.timer_RequestInst.Interval = TargetTime.Subtract(CurrTime).TotalMilliseconds+ rndtime;
-                    KnockEgg();//敲蛋
-                    Thread.Sleep(5000);//暂停，等发送消息
-                    reLoadWebBrowser();//开百度网页，睡觉
+                    this.statusStrip1.Items[0].Text = cr.Message;
+                    return;
+                }
+                if (cr.Cnt != 1)
+                {
+                    this.statusStrip1.Items[0].Text = "无指令！";
+                    return;
+                }
+                RequestClass ic = cr.Result[0] as RequestClass;
+                if (ic == null)
+                {
+                    this.statusStrip1.Items[0].Text = "指令内容错误！";
+                    Program.wxl.Log(this.statusStrip1.Items[0].Text);
+                    return;
+                }
+                Int64 CurrExpectNo = Int64.Parse(ic.Expect);
+                this.statusStrip1.Items[1].Text = DateTime.Now.ToLongTimeString();
+                if (CurrExpectNo > this.NewExpect || RefreshTimes == 0) //获取到最新指令
+                {
+                    LastInstsTime = DateTime.Now;
+                    int CurrMin = DateTime.Now.Minute % 5;
+
+                    ////if (CurrMin % 5 < 2)
+                    ////{
+                    ////    this.timer_RequestInst.Interval = (2-CurrMin)*60000;//加分钟以后见
+                    ////}
+                    ////else
+                    ////{
+                    ////    this.timer_RequestInst.Interval = (5-CurrMin)*6000;//5分钟以后见
+                    ////}
+                    this.timer_RequestInst.Interval = 2 * 60 * 1000 + rndtime;//5分钟以后见,减掉1秒不*断收敛时间，防止延迟接收
+                                                                              //ToAdd:填充各内容
+                    this.txt_ExpectNo.Text = ic.Expect;
+                    this.txt_OpenTime.Text = ic.LastTime;
+                    this.txt_Insts.Text = ic.getUserInsts(Program.gc);
+                    this.NewExpect = CurrExpectNo;
+                    if (!Logined)
+                    {
+                        Logined = wr.IsLogined(this.webBrowser1.Document);
+                    }
+                    if (Logined)
+                    {
+                        if (RefreshTimes > 0)
+                            this.btn_Send_Click(null, null);
+                        RefreshTimes = 1;
+                    }
+                    else//如果没有登录，重新载入,当前指令不发送，只要不发送，这条指令就不会存入缓存。可以下次获取到再发
+                    {
+                        LoadUrl();
+
+                    }
+
                 }
                 else
                 {
-                    
-                    if (CurrTime.Subtract(LastInstsTime).Minutes > 7)//如果离上期时间超过7分钟，说明数据未接收到，那不要再频繁以10秒访问服务器
+                    if (CurrTime.Hour < 9)//如果在9点前
                     {
-                        this.timer_RequestInst.Interval = 2 * 60 * 1000 + rndtime;
+                        //下一个时间点是9：08
+                        DateTime TargetTime = DateTime.Today.AddHours(9).AddMinutes(30);
+                        this.timer_RequestInst.Interval = TargetTime.Subtract(CurrTime).TotalMilliseconds + rndtime;
+                        KnockEgg();//敲蛋
+                        Application.DoEvents();
+                        Thread.Sleep(5000);//暂停，等发送消息
+                        reLoadWebBrowser();//开百度网页，睡觉
                     }
-                    else //一般未接收到，2*60秒以后再试
+                    else
                     {
-                        this.timer_RequestInst.Interval = 2 * 60 * 1000+ rndtime;
+
+                        if (CurrTime.Subtract(LastInstsTime).Minutes > 7)//如果离上期时间超过7分钟，说明数据未接收到，那不要再频繁以10秒访问服务器
+                        {
+                            this.timer_RequestInst.Interval = 2 * 60 * 1000 + rndtime;
+                        }
+                        else //一般未接收到，2*60秒以后再试
+                        {
+                            this.timer_RequestInst.Interval = 2 * 60 * 1000 + rndtime;
+                        }
                     }
                 }
+                RefreshStatus();
             }
-            RefreshStatus();
+            catch(Exception ce)
+            {
+                LogableClass.ToLog("错误", "刷新指令",string.Format("{0}:{1}",ce.Message,ce.StackTrace));
+                Program.wxl.Log("错误", "刷新指令", string.Format("{0}:{1}", ce.Message, ce.StackTrace));
+
+            }
         }
 
         string ReCalcTheInstChips()
@@ -458,12 +473,30 @@ namespace ExchangeTermial
             Rule_ForKcaiCom rule = new Rule_ForKcaiCom(Program.gc);
             AddScript();
             string msg = rule.IntsToJsonString(this.txt_Insts.Text, Program.gc.ChipUnit);
+            double lastval = this.CurrVal;
             //SendMsg
             webBrowser1.Document.InvokeScript("SendMsg", new string[] { this.NewExpect.ToString(), msg });
+            Application.DoEvents();
+            Thread.Sleep(5 * 1000);
+            webBrowser1.Refresh();
+            Application.DoEvents();
+            Thread.Sleep(3 * 1000);
+            string ValTip = "无";
+            if(CurrVal<=lastval)
+            {
+                ValTip = "下注后金额无变化，您的下注可能在20秒内没被执行！请注意查看！";
+            }
+            Program.wxl.Log(string.Format("[{0}]:{1};下注前金额:{2:f2};现可用余额:{3:f2}；提示:{4}",this.NewExpect, this.txt_Insts.Text, lastval,this.CurrVal,ValTip));
             ////if (e != null)
             ////{
             ////    MessageBox.Show(msg);
             ////}
+            
+            if(sender != null)
+            {
+                Thread.Sleep(2 * 1000);
+                MessageBox.Show(string.Format("下注前金额:{0:f2};现可用余额:{1:f2}；提示:{2}",lastval, this.CurrVal,ValTip));
+            }
         }
 
         private void mnu_SetAssetUnitCnt_Click(object sender, EventArgs e)

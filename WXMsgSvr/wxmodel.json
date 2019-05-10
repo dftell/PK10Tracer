@@ -1,0 +1,125 @@
+﻿{
+    "BaseResponse": {
+        "Ret": 0,
+        "ErrMsg": ""
+    },
+    "AddMsgCount": 1,
+    "新增信息": null,
+    "AddMsgList": [
+        {
+            "MsgId": "320984672637990367",
+            "服务端返回的消息id，可用于撤回接口参数。如果是图片，该参数还可以作为调用微信获取图片接口的参数之一。": null,
+            "FromUserName": "@abf90232027117affa7f0c0df3d1bf20",
+            "发消息的人": null,
+            "ToUserName": "@abf90232027117affa7f0c0df3d1bf20",
+            "发给谁": null,
+            "MsgType": 51,
+            "消息类型，1为文字，3为图片...，具体请参照消息类型表": null,
+            "Content": "",
+            "Status": 3,
+            "ImgStatus": 1,
+            "CreateTime": 1520927383,
+            "VoiceLength": 0,
+            "PlayLength": 0,
+            "FileName": "",
+            "FileSize": "",
+            "MediaId": "",
+            "Url": "",
+            "AppMsgType": 0,
+            "StatusNotifyCode": 4,
+            "ForwardFlag": 0,
+            "AppInfo": {
+                "AppID": "",
+                "Type": 0
+            },
+            "HasProductId": 0,
+            "Ticket": "",
+            "ImgHeight": 0,
+            "ImgWidth": 0,
+            "SubMsgType": 0,
+            "NewMsgId": 320984672637990367,
+            "OriContent": "",
+            "EncryFileName": ""
+        }
+    ],
+    "ModContactCount": 0,
+    "联系人修改": null,
+    "ModContactList": [],
+    "DelContactCount": 0,
+    "联系人删除": null,
+    "DelContactList": [],
+    "ModChatRoomMemberCount": 0,
+    "群内成员变动": null,
+    "ModChatRoomMemberList": [],
+    "ContinueFlag": 0,
+    "SyncKey": {
+        "新一轮消息更新用这些SyncKey": null,
+        "Count": 7,
+        "List": [
+            {
+                "Key": 1,
+                "Val": 700722177
+            },
+            {
+                "Key": 2,
+                "Val": 700724325
+            },
+            {
+                "Key": 3,
+                "Val": 700724315
+            },
+            {
+                "Key": 11,
+                "Val": 700724093
+            },
+            {
+                "Key": 201,
+                "Val": 1520927383
+            },
+            {
+                "Key": 1000,
+                "Val": 1520925834
+            },
+            {
+                "Key": 1001,
+                "Val": 1520917874
+            }
+        ]
+    },
+    "SKey": "",
+    "SyncCheckKey": {
+        "新一轮消息同步用这些Key": null,
+        "Count": 7,
+        "List": [
+            {
+                "Key": 1,
+                "Val": 700722177
+            },
+            {
+                "Key": 2,
+                "Val": 700724325
+            },
+            {
+                "Key": 3,
+                "Val": 700724315
+            },
+            {
+                "Key": 11,
+                "Val": 700724093
+            },
+            {
+                "Key": 201,
+                "Val": 1520927383
+            },
+            {
+                "Key": 1000,
+                "Val": 1520925834
+            },
+            {
+                "Key": 1001,
+                "Val": 1520917874
+            }
+        ]
+    }
+
+}

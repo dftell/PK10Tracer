@@ -658,9 +658,10 @@ namespace PK10Server
                             }
                             this.AssetTimeSummary[id] = dt.Rows.Count;
                             Changed = true;
-                            vals[ai].SaveDataToFile();
+                            
                             //saveAssetLines(id, dt);//保存
                         }
+                        vals[ai].SaveDataToFile();
                     }
                     //if (!Changed)//没有任何改变，不刷新
                     //    return;

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebMsg.Aop\WebMsg.Aop.csproj" />
+    <ProjectReference Include="..\WebMsg.IApp\WebMsg.IApp.csproj" />
+    <ProjectReference Include="..\WebMsg.IRepository\WebMsg.IRepository.csproj" />
+    <ProjectReference Include="..\WebMsg.Models\WebMsg.Models.csproj" />
+  </ItemGroup>
+
+</Project>

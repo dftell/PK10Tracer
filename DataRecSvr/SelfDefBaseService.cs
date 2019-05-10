@@ -13,7 +13,7 @@ namespace DataRecSvr
         public static string CurrExpectNo;
         public string ServiceName;
         public static ExpectList<T> CurrDataList;
-
+        //protected WXLogClass wxl = new WXLogClass("服务器管理员",GlobalClass.LogUser, GlobalClass.LogUrl);
         public ExpectList<T> CurrData
         {
             get
@@ -27,9 +27,11 @@ namespace DataRecSvr
         }
 
         public Dictionary<string, Dictionary<string, ExchangeChance<T>>> CurrChances;
-        public void Log(string topic, string msg)
+        public void Log(string topic, string msg,bool ToWXMsg=false)
         {
             LogableClass.ToLog(this.ServiceName, topic, msg);
+            if(ToWXMsg)
+                Program.AllServiceConfig.wxlog.Log(this.ServiceName, topic, msg);
         }
     }
 }

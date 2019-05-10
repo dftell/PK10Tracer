@@ -38,3 +38,6 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Release\Fakes\wibol\
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Release\Fakes\wibol\o\f.csprojAssemblyReference.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Release\Fakes\wibol\o\WolfInv.com.BaseObjectsLib.Fakes.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Release\Fakes\wibol\o\WolfInv.com.BaseObjectsLib.Fakes.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Release\Fakes\wibol\b\WolfInv.com.DbAccessLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Release\Fakes\wibol\b\WolfInv.com.LogLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Release\WolfInv.com.GuideLib.csprojAssemblyReference.cache

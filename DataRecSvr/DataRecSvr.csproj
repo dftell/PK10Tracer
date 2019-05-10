@@ -186,15 +186,8 @@ del /Q *.exe
 del /Q *.log</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>rem cd /d C:\Users\zhouys\Source\project\Services
-xcopy /Y *.*  C:\Users\zhouys\Source\project\Services
-rem%25~dp0\*.*
-rem xcopy /Y @outdic\WolfInv.com.*.dll 
-rem xcopy /Y @outdic\*.pdb .\
-rem xcopy /Y @outdic\DataRecSvr.exe .\
-rem xcopy /Y @outdic\WAPIWrapperCSharp.dll .\
-rem xcopy /Y @outdic\MongoDB.*.dll .\
-rem xcopy /Y @outdic\DocumentFormat.OpenXml.dll .\
+    <PostBuildEvent>xcopy /Y *.*  C:\Users\zhouys\Source\project\Services
+
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

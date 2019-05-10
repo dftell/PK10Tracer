@@ -37,17 +37,131 @@
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances">
             <summary>为所有实例成员定义填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.BaseCostGet">
+            <summary>设置 BaseChance`1.get_BaseCost() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.BaseCostSetInt64">
+            <summary>设置 BaseChance`1.set_BaseCost(Int64 value) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.ChanceCodeGet">
             <summary>设置 BaseChance`1.get_ChanceCode() 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.ChanceCodeSetString">
             <summary>设置 BaseChance`1.set_ChanceCode(String value) 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.ChanceTypeGet">
+            <summary>设置 BaseChance`1.get_ChanceType() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.ChanceTypeSetInt32">
+            <summary>设置 BaseChance`1.set_ChanceType(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.ChipCountGet">
+            <summary>设置 BaseChance`1.get_ChipCount() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.ChipCountSetInt32">
+            <summary>设置 BaseChance`1.set_ChipCount(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.ClosedGet">
+            <summary>设置 BaseChance`1.get_Closed() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.ClosedSetBoolean">
+            <summary>设置 BaseChance`1.set_Closed(Boolean value) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.CostGet">
             <summary>设置 BaseChance`1.get_Cost() 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.CostSetInt64">
             <summary>设置 BaseChance`1.set_Cost(Int64 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.CreateTimeGet">
+            <summary>设置 BaseChance`1.get_CreateTime() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.CreateTimeSetDateTime">
+            <summary>设置 BaseChance`1.set_CreateTime(DateTime value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.CurrTimesGet">
+            <summary>设置 BaseChance`1.get_CurrTimes() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.CurrTimesSetInt32">
+            <summary>设置 BaseChance`1.set_CurrTimes(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.EndExpectNoGet">
+            <summary>设置 BaseChance`1.get_EndExpectNo() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.EndExpectNoSetString">
+            <summary>设置 BaseChance`1.set_EndExpectNo(String value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.ExecDateGet">
+            <summary>设置 BaseChance`1.get_ExecDate() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.ExecDateSetDateTime">
+            <summary>设置 BaseChance`1.set_ExecDate(DateTime value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.ExpectCodeGet">
+            <summary>设置 BaseChance`1.get_ExpectCode() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.ExpectCodeSetString">
+            <summary>设置 BaseChance`1.set_ExpectCode(String value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.GainedGet">
+            <summary>设置 BaseChance`1.get_Gained() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.GainedSetDouble">
+            <summary>设置 BaseChance`1.set_Gained(Double value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.HoldTimeCntGet">
+            <summary>设置 BaseChance`1.get_HoldTimeCnt() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.HoldTimeCntSetInt32">
+            <summary>设置 BaseChance`1.set_HoldTimeCnt(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.InputTimesGet">
+            <summary>设置 BaseChance`1.get_InputTimes() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.InputTimesSetInt32">
+            <summary>设置 BaseChance`1.set_InputTimes(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.IsEndGet">
+            <summary>设置 BaseChance`1.get_IsEnd() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.IsEndSetInt32">
+            <summary>设置 BaseChance`1.set_IsEnd(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.ProfitGet">
+            <summary>设置 BaseChance`1.get_Profit() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.ProfitSetDouble">
+            <summary>设置 BaseChance`1.set_Profit(Double value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.SignExpectNoGet">
+            <summary>设置 BaseChance`1.get_SignExpectNo() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.SignExpectNoSetString">
+            <summary>设置 BaseChance`1.set_SignExpectNo(String value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.UnitCostGet">
+            <summary>设置 BaseChance`1.get_UnitCost() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.UnitCostSetInt64">
+            <summary>设置 BaseChance`1.set_UnitCost(Int64 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.UpdateTimeGet">
+            <summary>设置 BaseChance`1.get_UpdateTime() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.UpdateTimeSetDateTime">
+            <summary>设置 BaseChance`1.set_UpdateTime(DateTime value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.strInputTimesGet">
+            <summary>设置 BaseChance`1.get_strInputTimes() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.strInputTimesSetString">
+            <summary>设置 BaseChance`1.set_strInputTimes(String value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.BaseCostGet">
+            <summary>设置 BaseChance`1.get_BaseCost() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.BaseCostSetInt64">
+            <summary>设置 BaseChance`1.set_BaseCost(Int64 value) 的 填充码</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.BehaveAsCurrent">
             <summary>为已填充的类型的所有方法分配“Current”行为</summary>
@@ -70,6 +184,24 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.ChanceCodeSetString">
             <summary>设置 BaseChance`1.set_ChanceCode(String value) 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.ChanceTypeGet">
+            <summary>设置 BaseChance`1.get_ChanceType() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.ChanceTypeSetInt32">
+            <summary>设置 BaseChance`1.set_ChanceType(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.ChipCountGet">
+            <summary>设置 BaseChance`1.get_ChipCount() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.ChipCountSetInt32">
+            <summary>设置 BaseChance`1.set_ChipCount(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.ClosedGet">
+            <summary>设置 BaseChance`1.get_Closed() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.ClosedSetBoolean">
+            <summary>设置 BaseChance`1.set_Closed(Boolean value) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.Constructor">
             <summary>设置 BaseChance`1.BaseChance`1() 的 填充码</summary>
         </member>
@@ -79,6 +211,90 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.CostSetInt64">
             <summary>设置 BaseChance`1.set_Cost(Int64 value) 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.CreateTimeGet">
+            <summary>设置 BaseChance`1.get_CreateTime() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.CreateTimeSetDateTime">
+            <summary>设置 BaseChance`1.set_CreateTime(DateTime value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.CurrTimesGet">
+            <summary>设置 BaseChance`1.get_CurrTimes() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.CurrTimesSetInt32">
+            <summary>设置 BaseChance`1.set_CurrTimes(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.EndExpectNoGet">
+            <summary>设置 BaseChance`1.get_EndExpectNo() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.EndExpectNoSetString">
+            <summary>设置 BaseChance`1.set_EndExpectNo(String value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.ExecDateGet">
+            <summary>设置 BaseChance`1.get_ExecDate() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.ExecDateSetDateTime">
+            <summary>设置 BaseChance`1.set_ExecDate(DateTime value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.ExpectCodeGet">
+            <summary>设置 BaseChance`1.get_ExpectCode() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.ExpectCodeSetString">
+            <summary>设置 BaseChance`1.set_ExpectCode(String value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.GainedGet">
+            <summary>设置 BaseChance`1.get_Gained() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.GainedSetDouble">
+            <summary>设置 BaseChance`1.set_Gained(Double value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.HoldTimeCntGet">
+            <summary>设置 BaseChance`1.get_HoldTimeCnt() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.HoldTimeCntSetInt32">
+            <summary>设置 BaseChance`1.set_HoldTimeCnt(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.InputTimesGet">
+            <summary>设置 BaseChance`1.get_InputTimes() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.InputTimesSetInt32">
+            <summary>设置 BaseChance`1.set_InputTimes(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.IsEndGet">
+            <summary>设置 BaseChance`1.get_IsEnd() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.IsEndSetInt32">
+            <summary>设置 BaseChance`1.set_IsEnd(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.ProfitGet">
+            <summary>设置 BaseChance`1.get_Profit() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.ProfitSetDouble">
+            <summary>设置 BaseChance`1.set_Profit(Double value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.SignExpectNoGet">
+            <summary>设置 BaseChance`1.get_SignExpectNo() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.SignExpectNoSetString">
+            <summary>设置 BaseChance`1.set_SignExpectNo(String value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.UnitCostGet">
+            <summary>设置 BaseChance`1.get_UnitCost() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.UnitCostSetInt64">
+            <summary>设置 BaseChance`1.set_UnitCost(Int64 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.UpdateTimeGet">
+            <summary>设置 BaseChance`1.get_UpdateTime() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.UpdateTimeSetDateTime">
+            <summary>设置 BaseChance`1.set_UpdateTime(DateTime value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.strInputTimesGet">
+            <summary>设置 BaseChance`1.get_strInputTimes() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.strInputTimesSetString">
+            <summary>设置 BaseChance`1.set_strInputTimes(String value) 的 填充码</summary>
+        </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseCollection`1">
             <summary>WolfInv.com.BaseObjectsLib.BaseCollection`1 的填充码类型</summary>
         </member>
@@ -87,9 +303,6 @@
         </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseCollection`1.AllInstances">
             <summary>为所有实例成员定义填充码</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseCollection`1.AllInstances.TableGet">
-            <summary>设置 BaseCollection`1.get_Table() 的 填充码</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseCollection`1.BehaveAsCurrent">
             <summary>为已填充的类型的所有方法分配“Current”行为</summary>
@@ -105,9 +318,6 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseCollection`1.Constructor">
             <summary>设置 BaseCollection`1.BaseCollection`1() 的 填充码</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseCollection`1.TableGet">
-            <summary>设置 BaseCollection`1.get_Table() 的 填充码</summary>
         </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseData">
             <summary>WolfInv.com.BaseObjectsLib.BaseData 的填充码类型</summary>
@@ -319,6 +529,30 @@
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances">
             <summary>为所有实例成员定义填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.AllowMaxHoldTimeCntGet">
+            <summary>设置 ChanceClass`1.get_AllowMaxHoldTimeCnt() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.AllowMaxHoldTimeCntSetInt32">
+            <summary>设置 ChanceClass`1.set_AllowMaxHoldTimeCnt(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.AssetIdGet">
+            <summary>设置 ChanceClass`1.get_AssetId() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.AssetIdSetString">
+            <summary>设置 ChanceClass`1.set_AssetId(String value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.FixAmtGet">
+            <summary>设置 ChanceClass`1.get_FixAmt() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.FixAmtSetNullableOfInt64">
+            <summary>设置 ChanceClass`1.set_FixAmt(Nullable`1&lt;Int64&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.FixRateGet">
+            <summary>设置 ChanceClass`1.get_FixRate() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.FixRateSetNullableOfDouble">
+            <summary>设置 ChanceClass`1.set_FixRate(Nullable`1&lt;Double&gt; value) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.GUIDGet">
             <summary>设置 ChanceClass`1.get_GUID() 的 填充码</summary>
         </member>
@@ -337,6 +571,18 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.IncrementTypeSetInterestType">
             <summary>设置 ChanceClass`1.set_IncrementType(InterestType value) 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.IsTracerGet">
+            <summary>设置 ChanceClass`1.get_IsTracer() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.IsTracerSetInt32">
+            <summary>设置 ChanceClass`1.set_IsTracer(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.LastMatchTimesIdGet">
+            <summary>设置 ChanceClass`1.get_LastMatchTimesId() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.LastMatchTimesIdSetInt32">
+            <summary>设置 ChanceClass`1.set_LastMatchTimesId(Int32 value) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.MatchedExpectDataOfT0">
             <summary>设置 ChanceClass`1.Matched(ExpectData`1&lt;!0&gt; data) 的 填充码</summary>
         </member>
@@ -351,6 +597,30 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.MatchedExpectListOfT0Int32OutBoolean">
             <summary>设置 ChanceClass`1.Matched(ExpectList`1&lt;!0&gt; el, Int32&amp; MatchCnt, Boolean getRev) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.MinWinRateGet">
+            <summary>设置 ChanceClass`1.get_MinWinRate() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.MinWinRateSetDouble">
+            <summary>设置 ChanceClass`1.set_MinWinRate(Double value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.NeedConditionEndGet">
+            <summary>设置 ChanceClass`1.get_NeedConditionEnd() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.NeedConditionEndSetBoolean">
+            <summary>设置 ChanceClass`1.set_NeedConditionEnd(Boolean value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.OddsGet">
+            <summary>设置 ChanceClass`1.get_Odds() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.OddsSetDouble">
+            <summary>设置 ChanceClass`1.set_Odds(Double value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.StragIdGet">
+            <summary>设置 ChanceClass`1.get_StragId() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.StragIdSetString">
+            <summary>设置 ChanceClass`1.set_StragId(String value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.ToBooleanIFormatProvider">
             <summary>设置 ChanceClass`1.ToBoolean(IFormatProvider provider) 的 填充码</summary>
@@ -403,8 +673,26 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.TracerableGet">
             <summary>设置 ChanceClass`1.get_Tracerable() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.UserIdGet">
+            <summary>设置 ChanceClass`1.get_UserId() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.UserIdSetString">
+            <summary>设置 ChanceClass`1.set_UserId(String value) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllInstances.isPureGet">
             <summary>设置 ChanceClass`1.get_isPure() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllowMaxHoldTimeCntGet">
+            <summary>设置 ChanceClass`1.get_AllowMaxHoldTimeCnt() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AllowMaxHoldTimeCntSetInt32">
+            <summary>设置 ChanceClass`1.set_AllowMaxHoldTimeCnt(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AssetIdGet">
+            <summary>设置 ChanceClass`1.get_AssetId() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.AssetIdSetString">
+            <summary>设置 ChanceClass`1.set_AssetId(String value) 的 填充码</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.BehaveAsCurrent">
             <summary>为已填充的类型的所有方法分配“Current”行为</summary>
@@ -429,6 +717,18 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.FillNListOfStringListOfStringStringInt32Int32">
             <summary>设置 ChanceClass`1.FillN(List`1&lt;String&gt; list, List`1&lt;String&gt; subCode, String code, Int32 start, Int32 n) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.FixAmtGet">
+            <summary>设置 ChanceClass`1.get_FixAmt() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.FixAmtSetNullableOfInt64">
+            <summary>设置 ChanceClass`1.set_FixAmt(Nullable`1&lt;Int64&gt; value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.FixRateGet">
+            <summary>设置 ChanceClass`1.get_FixRate() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.FixRateSetNullableOfDouble">
+            <summary>设置 ChanceClass`1.set_FixRate(Nullable`1&lt;Double&gt; value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.GUIDGet">
             <summary>设置 ChanceClass`1.get_GUID() 的 填充码</summary>
@@ -457,6 +757,18 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.IsSingleOrDoubleChanceString">
             <summary>设置 ChanceClass`1.IsSingleOrDoubleChance(String code) 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.IsTracerGet">
+            <summary>设置 ChanceClass`1.get_IsTracer() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.IsTracerSetInt32">
+            <summary>设置 ChanceClass`1.set_IsTracer(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.LastMatchTimesIdGet">
+            <summary>设置 ChanceClass`1.get_LastMatchTimesId() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.LastMatchTimesIdSetInt32">
+            <summary>设置 ChanceClass`1.set_LastMatchTimesId(Int32 value) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.MatchedExpectDataOfT0">
             <summary>设置 ChanceClass`1.Matched(ExpectData`1&lt;!0&gt; data) 的 填充码</summary>
         </member>
@@ -465,6 +777,30 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.MatchedExpectListOfT0Int32Out">
             <summary>设置 ChanceClass`1.Matched(ExpectList`1&lt;!0&gt; data, Int32&amp; MatchCnt) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.MinWinRateGet">
+            <summary>设置 ChanceClass`1.get_MinWinRate() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.MinWinRateSetDouble">
+            <summary>设置 ChanceClass`1.set_MinWinRate(Double value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.NeedConditionEndGet">
+            <summary>设置 ChanceClass`1.get_NeedConditionEnd() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.NeedConditionEndSetBoolean">
+            <summary>设置 ChanceClass`1.set_NeedConditionEnd(Boolean value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.OddsGet">
+            <summary>设置 ChanceClass`1.get_Odds() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.OddsSetDouble">
+            <summary>设置 ChanceClass`1.set_Odds(Double value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.StragIdGet">
+            <summary>设置 ChanceClass`1.get_StragId() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.StragIdSetString">
+            <summary>设置 ChanceClass`1.set_StragId(String value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.ToBooleanIFormatProvider">
             <summary>设置 ChanceClass`1.ToBoolean(IFormatProvider provider) 的 填充码</summary>
@@ -516,6 +852,12 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.TracerableGet">
             <summary>设置 ChanceClass`1.get_Tracerable() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.UserIdGet">
+            <summary>设置 ChanceClass`1.get_UserId() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.UserIdSetString">
+            <summary>设置 ChanceClass`1.set_UserId(String value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimChanceClass`1.getAllSubCodeStringInt32">
             <summary>设置 ChanceClass`1.getAllSubCode(String OrgCode, Int32 subCodeLng) 的 填充码</summary>
@@ -595,54 +937,6 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimCommExpectListProcess`1.ConstructorExpectListOfT0">
             <summary>设置 CommExpectListProcess`1.CommExpectListProcess`1(ExpectList`1&lt;!0&gt; _data) 的 填充码</summary>
         </member>
-        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimCommResult">
-            <summary>WolfInv.com.BaseObjectsLib.CommResult 的填充码类型</summary>
-        </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimCommResult.#ctor">
-            <summary>初始化新的填充码实例</summary>
-        </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimCommResult.#ctor(WolfInv.com.BaseObjectsLib.CommResult)">
-            <summary>初始化给定实例的新填充码</summary>
-        </member>
-        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimCommResult.AllInstances">
-            <summary>为所有实例成员定义填充码</summary>
-        </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimCommResult.BehaveAsCurrent">
-            <summary>为已填充的类型的所有方法分配“Current”行为</summary>
-        </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimCommResult.BehaveAsNotImplemented">
-            <summary>为已填充的类型的所有方法分配“NotImplemented”行为</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimCommResult.Behavior">
-            <summary>为已填充的类型的所有方法分配行为</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimCommResult.Constructor">
-            <summary>设置 CommResult.CommResult() 的 填充码</summary>
-        </member>
-        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimCommResult`1">
-            <summary>WolfInv.com.BaseObjectsLib.CommResult`1 的填充码类型</summary>
-        </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimCommResult`1.#ctor">
-            <summary>初始化新的填充码实例</summary>
-        </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimCommResult`1.#ctor(WolfInv.com.BaseObjectsLib.CommResult{`0})">
-            <summary>初始化给定实例的新填充码</summary>
-        </member>
-        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimCommResult`1.AllInstances">
-            <summary>为所有实例成员定义填充码</summary>
-        </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimCommResult`1.BehaveAsCurrent">
-            <summary>为已填充的类型的所有方法分配“Current”行为</summary>
-        </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimCommResult`1.BehaveAsNotImplemented">
-            <summary>为已填充的类型的所有方法分配“NotImplemented”行为</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimCommResult`1.Behavior">
-            <summary>为已填充的类型的所有方法分配行为</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimCommResult`1.Constructor">
-            <summary>设置 CommResult`1.CommResult`1() 的 填充码</summary>
-        </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimConvertionExtensions">
             <summary>WolfInv.com.BaseObjectsLib.ConvertionExtensions 的填充码类型</summary>
         </member>
@@ -670,8 +964,14 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimConvertionExtensions.ConvertToOf1IConvertible``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{System.IConvertible,``0})">
             <summary>设置 ConvertionExtensions.ConvertTo(IConvertible convertibleValue) 的 填充码</summary>
         </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimConvertionExtensions.CopyToOf1Object``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{System.Object,``0})">
+            <summary>设置 ConvertionExtensions.CopyTo(Object obj) 的 填充码</summary>
+        </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimConvertionExtensions.CreateInstanceOf1``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{``0})">
             <summary>设置 ConvertionExtensions.CreateInstance() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimConvertionExtensions.CreateInstanceType">
+            <summary>设置 ConvertionExtensions.CreateInstance(Type t) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimConvertionExtensions.EqualObjectStringFuncOfObjectObjectObject">
             <summary>设置 ConvertionExtensions.Equal(Object tdoc, String keyname, Func`2&lt;Object,Object&gt; act, Object val) 的 填充码</summary>
@@ -681,6 +981,9 @@
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimConvertionExtensions.GetAllPropertiesOf1``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{System.Collections.Generic.Dictionary{System.String,System.Type}})">
             <summary>设置 ConvertionExtensions.GetAllProperties() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimConvertionExtensions.GetAllPropertiesType">
+            <summary>设置 ConvertionExtensions.GetAllProperties(Type T) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimConvertionExtensions.GetValueObjectString">
             <summary>设置 ConvertionExtensions.GetValue(Object tdoc, String keyname) 的 填充码</summary>
@@ -1159,6 +1462,9 @@
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimDetailStringClass.AllInstances">
             <summary>为所有实例成员定义填充码</summary>
         </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimDetailStringClass.AllInstances.CopyToOf1``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{WolfInv.com.BaseObjectsLib.DetailStringClass,``0})">
+            <summary>设置 DetailStringClass.CopyTo() 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimDetailStringClass.AllInstances.SetDefaultValueAttribute">
             <summary>设置 DetailStringClass.SetDefaultValueAttribute() 的 填充码</summary>
         </member>
@@ -1191,6 +1497,9 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimDetailStringClass.Constructor">
             <summary>设置 DetailStringClass.DetailStringClass() 的 填充码</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimDetailStringClass.CopyToOf1``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{``0})">
+            <summary>设置 DetailStringClass.CopyTo() 的 填充码</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimDetailStringClass.GetObjectByXmlOf1String``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{System.String,``0})">
             <summary>设置 DetailStringClass.GetObjectByXml(String str) 的 填充码</summary>
@@ -1471,13 +1780,16 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.Bind(WolfInv.com.BaseObjectsLib.ICodeData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
+            <summary>将接口的成员绑定到此填充码。</summary>
+        </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.Bind(WolfInv.com.BaseObjectsLib.IDateData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.Bind(WolfInv.com.BaseObjectsLib.IExchangeData)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.Bind(WolfInv.com.BaseObjectsLib.IDateStampData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.Bind(WolfInv.com.BaseObjectsLib.IMatchFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.Bind(WolfInv.com.BaseObjectsLib.IExchangeData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.Bind(WolfInv.com.BaseObjectsLib.IOHLCData)">
@@ -1499,6 +1811,9 @@
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.Bind(System.IConvertible)">
+            <summary>将接口的成员绑定到此填充码。</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.Bind(System.IFormatProvider)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.ChgRateGet">
@@ -1588,6 +1903,12 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.AllInstances.AddStringT0">
             <summary>设置 ExpectData`1.Add(String key, !0 value) 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.AllInstances.ArrLenGet">
+            <summary>设置 ExpectData`1.get_ArrLen() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.AllInstances.ArrLenSetInt32">
+            <summary>设置 ExpectData`1.set_ArrLen(Int32 value) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.AllInstances.Clear">
             <summary>设置 ExpectData`1.Clear() 的 填充码</summary>
         </member>
@@ -1611,6 +1932,9 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.AllInstances.IsReadOnlyGet">
             <summary>设置 ExpectData`1.get_IsReadOnly() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.AllInstances.IsValidData">
+            <summary>设置 ExpectData`1.IsValidData() 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.AllInstances.ItemGetString">
             <summary>设置 ExpectData`1.get_Item(String key) 的 填充码</summary>
@@ -1642,6 +1966,12 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.AllInstances.ValuesGet">
             <summary>设置 ExpectData`1.get_Values() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.ArrLenGet">
+            <summary>设置 ExpectData`1.get_ArrLen() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.ArrLenSetInt32">
+            <summary>设置 ExpectData`1.set_ArrLen(Int32 value) 的 填充码</summary>
+        </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.BehaveAsCurrent">
             <summary>为已填充的类型的所有方法分配“Current”行为</summary>
         </member>
@@ -1651,7 +1981,7 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.Behavior">
             <summary>为已填充的类型的所有方法分配行为</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.Bind(WolfInv.com.BaseObjectsLib.IMatchFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.Bind(WolfInv.com.BaseObjectsLib.IObjectId)">
@@ -1667,6 +1997,9 @@
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.Bind(System.IConvertible)">
+            <summary>将接口的成员绑定到此填充码。</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.Bind(System.IFormatProvider)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.Bind(System.Collections.IEnumerable)">
@@ -1686,6 +2019,9 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.Constructor">
             <summary>设置 ExpectData`1.ExpectData`1() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.ConstructorT0">
+            <summary>设置 ExpectData`1.ExpectData`1(!0 a) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.ContainsKeyString">
             <summary>设置 ExpectData`1.ContainsKey(String key) 的 填充码</summary>
@@ -1707,6 +2043,9 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.IsReadOnlyGet">
             <summary>设置 ExpectData`1.get_IsReadOnly() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.IsValidData">
+            <summary>设置 ExpectData`1.IsValidData() 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectData`1.ItemGetString">
             <summary>设置 ExpectData`1.get_Item(String key) 的 填充码</summary>
@@ -1771,7 +2110,7 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectDataEEE.Behavior">
             <summary>为已填充的类型的所有方法分配行为</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectDataEEE.Bind(WolfInv.com.BaseObjectsLib.IMatchFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectDataEEE.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectDataEEE.Bind(WolfInv.com.BaseObjectsLib.IObjectId)">
@@ -1787,6 +2126,9 @@
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectDataEEE.Bind(System.IConvertible)">
+            <summary>将接口的成员绑定到此填充码。</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectDataEEE.Bind(System.IFormatProvider)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectDataEEE.Bind(System.Collections.IEnumerable)">
@@ -1825,8 +2167,32 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.#ctor(WolfInv.com.BaseObjectsLib.ExpectList{`0})">
             <summary>初始化给定实例的新填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AddExpectDataOfT0">
+            <summary>设置 ExpectList`1.Add(ExpectData`1&lt;!0&gt; item) 的 填充码</summary>
+        </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances">
             <summary>为所有实例成员定义填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.AddExpectDataOfT0">
+            <summary>设置 ExpectList`1.Add(ExpectData`1&lt;!0&gt; item) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.Clear">
+            <summary>设置 ExpectList`1.Clear() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.ContainsExpectDataOfT0">
+            <summary>设置 ExpectList`1.Contains(ExpectData`1&lt;!0&gt; item) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.CopyToExpectDataOfT0ArrayInt32">
+            <summary>设置 ExpectList`1.CopyTo(ExpectData`1&lt;!0&gt;[] array, Int32 arrayIndex) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.CountGet">
+            <summary>设置 ExpectList`1.get_Count() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.DataGet">
+            <summary>设置 ExpectList`1.get_Data() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.DataSetDictionaryOfStringMongoReturnDataListOfT0">
+            <summary>设置 ExpectList`1.set_Data(Dictionary`2&lt;String,MongoReturnDataList`1&lt;!0&gt;&gt; value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.FirstDataGet">
             <summary>设置 ExpectList`1.get_FirstData() 的 填充码</summary>
@@ -1834,20 +2200,50 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.FirstDatasInt32">
             <summary>设置 ExpectList`1.FirstDatas(Int32 RecLng) 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.GetEnumerator">
+            <summary>设置 ExpectList`1.GetEnumerator() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.IndexOfExpectDataOfT0">
+            <summary>设置 ExpectList`1.IndexOf(ExpectData`1&lt;!0&gt; item) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.IndexOfString">
             <summary>设置 ExpectList`1.IndexOf(String ExpectNo) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.InsertInt32ExpectDataOfT0">
+            <summary>设置 ExpectList`1.Insert(Int32 index, ExpectData`1&lt;!0&gt; item) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.IsReadOnlyGet">
+            <summary>设置 ExpectList`1.get_IsReadOnly() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.ItemGetInt32">
+            <summary>设置 ExpectList`1.get_Item(Int32 index) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.ItemSetInt32ExpectDataOfT0">
+            <summary>设置 ExpectList`1.set_Item(Int32 index, ExpectData`1&lt;!0&gt; value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.LastDataGet">
             <summary>设置 ExpectList`1.get_LastData() 的 填充码</summary>
         </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.LastDatasInt32">
-            <summary>设置 ExpectList`1.LastDatas(Int32 RecLng) 的 填充码</summary>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.LastDatasInt32Boolean">
+            <summary>设置 ExpectList`1.LastDatas(Int32 RecLng, Boolean ResortTime) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.MissExpectCount">
+            <summary>设置 ExpectList`1.MissExpectCount() 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.MyDataGet">
             <summary>设置 ExpectList`1.get_MyData() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.RemoveAtInt32">
+            <summary>设置 ExpectList`1.RemoveAt(Int32 index) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.RemoveExpectDataOfT0">
+            <summary>设置 ExpectList`1.Remove(ExpectData`1&lt;!0&gt; item) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.TableGet">
             <summary>设置 ExpectList`1.get_Table() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances._ctorb__15_0T0">
+            <summary>设置 ExpectList`1.&lt;.ctor&gt;b__15_0(!0 a) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.getSubArrayInt32Int32">
             <summary>设置 ExpectList`1.getSubArray(Int32 FromIndex, Int32 len) 的 填充码</summary>
@@ -1885,6 +2281,9 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.Bind(System.Collections.Generic.IReadOnlyList{WolfInv.com.BaseObjectsLib.ExpectData{`0}})">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.Clear">
+            <summary>设置 ExpectList`1.Clear() 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.ConcatExpectListOfT0ExpectListOfT0Array">
             <summary>设置 ExpectList`1.Concat(ExpectList`1&lt;!0&gt; descList, ExpectList`1&lt;!0&gt;[] addList) 的 填充码</summary>
         </member>
@@ -1894,8 +2293,26 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.ConstructorDataTable">
             <summary>设置 ExpectList`1.ExpectList`1(DataTable dt) 的 填充码</summary>
         </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.ConstructorDictionaryOfStringMongoReturnDataListOfT0">
-            <summary>设置 ExpectList`1.ExpectList`1(Dictionary`2&lt;String,MongoReturnDataList`1&lt;!0&gt;&gt; _data) 的 填充码</summary>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.ConstructorDictionaryOfStringMongoReturnDataListOfT0Boolean">
+            <summary>设置 ExpectList`1.ExpectList`1(Dictionary`2&lt;String,MongoReturnDataList`1&lt;!0&gt;&gt; _data, Boolean NeedReTime) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.ConstructorStringCycleDataSet">
+            <summary>设置 ExpectList`1.ExpectList`1(String DataType, Cycle cyc, DataSet ds) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.ContainsExpectDataOfT0">
+            <summary>设置 ExpectList`1.Contains(ExpectData`1&lt;!0&gt; item) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.CopyToExpectDataOfT0ArrayInt32">
+            <summary>设置 ExpectList`1.CopyTo(ExpectData`1&lt;!0&gt;[] array, Int32 arrayIndex) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.CountGet">
+            <summary>设置 ExpectList`1.get_Count() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.DataGet">
+            <summary>设置 ExpectList`1.get_Data() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.DataSetDictionaryOfStringMongoReturnDataListOfT0">
+            <summary>设置 ExpectList`1.set_Data(Dictionary`2&lt;String,MongoReturnDataList`1&lt;!0&gt;&gt; value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.FirstDataGet">
             <summary>设置 ExpectList`1.get_FirstData() 的 填充码</summary>
@@ -1903,20 +2320,50 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.FirstDatasInt32">
             <summary>设置 ExpectList`1.FirstDatas(Int32 RecLng) 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.GetEnumerator">
+            <summary>设置 ExpectList`1.GetEnumerator() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.IndexOfExpectDataOfT0">
+            <summary>设置 ExpectList`1.IndexOf(ExpectData`1&lt;!0&gt; item) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.IndexOfString">
             <summary>设置 ExpectList`1.IndexOf(String ExpectNo) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.InsertInt32ExpectDataOfT0">
+            <summary>设置 ExpectList`1.Insert(Int32 index, ExpectData`1&lt;!0&gt; item) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.IsReadOnlyGet">
+            <summary>设置 ExpectList`1.get_IsReadOnly() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.ItemGetInt32">
+            <summary>设置 ExpectList`1.get_Item(Int32 index) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.ItemSetInt32ExpectDataOfT0">
+            <summary>设置 ExpectList`1.set_Item(Int32 index, ExpectData`1&lt;!0&gt; value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.LastDataGet">
             <summary>设置 ExpectList`1.get_LastData() 的 填充码</summary>
         </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.LastDatasInt32">
-            <summary>设置 ExpectList`1.LastDatas(Int32 RecLng) 的 填充码</summary>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.LastDatasInt32Boolean">
+            <summary>设置 ExpectList`1.LastDatas(Int32 RecLng, Boolean ResortTime) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.MissExpectCount">
+            <summary>设置 ExpectList`1.MissExpectCount() 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.MyDataGet">
             <summary>设置 ExpectList`1.get_MyData() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.RemoveAtInt32">
+            <summary>设置 ExpectList`1.RemoveAt(Int32 index) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.RemoveExpectDataOfT0">
+            <summary>设置 ExpectList`1.Remove(ExpectData`1&lt;!0&gt; item) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.TableGet">
             <summary>设置 ExpectList`1.get_Table() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1._ctorb__15_0T0">
+            <summary>设置 ExpectList`1.&lt;.ctor&gt;b__15_0(!0 a) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.getSubArrayInt32Int32">
             <summary>设置 ExpectList`1.getSubArray(Int32 FromIndex, Int32 len) 的 填充码</summary>
@@ -2074,6 +2521,9 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.StartColsGet">
             <summary>设置 GlobalClass.get_StartCols() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.StatusUrlModelGet">
+            <summary>设置 GlobalClass.get_StatusUrlModel() 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.SysParamsGet">
             <summary>设置 GlobalClass.get_SysParams() 的 填充码</summary>
         </member>
@@ -2088,6 +2538,12 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.ValidOldestHistoryExpectGet">
             <summary>设置 GlobalClass.get_ValidOldestHistoryExpect() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.WXLogNoticeUserGet">
+            <summary>设置 GlobalClass.get_WXLogNoticeUser() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.WXLogUrlGet">
+            <summary>设置 GlobalClass.get_WXLogUrl() 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.getStragXml">
             <summary>设置 GlobalClass.getStragXml() 的 填充码</summary>
@@ -2206,6 +2662,12 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.JoinHedgeGet">
             <summary>设置 GlobalClass.get_JoinHedge() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.LogUrlGet">
+            <summary>设置 GlobalClass.get_LogUrl() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.LogUserGet">
+            <summary>设置 GlobalClass.get_LogUser() 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.LoginDefaultHostGet">
             <summary>设置 GlobalClass.get_LoginDefaultHost() 的 填充码</summary>
         </member>
@@ -2284,6 +2746,9 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.StaticConstructor">
             <summary>设置 GlobalClass.GlobalClass() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.StatusUrlModelGet">
+            <summary>设置 GlobalClass.get_StatusUrlModel() 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.SysParamsGet">
             <summary>设置 GlobalClass.get_SysParams() 的 填充码</summary>
         </member>
@@ -2307,6 +2772,12 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.ValidOldestHistoryExpectGet">
             <summary>设置 GlobalClass.get_ValidOldestHistoryExpect() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.WXLogNoticeUserGet">
+            <summary>设置 GlobalClass.get_WXLogNoticeUser() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.WXLogUrlGet">
+            <summary>设置 GlobalClass.get_WXLogUrl() 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.getCurrDb">
             <summary>设置 GlobalClass.getCurrDb() 的 填充码</summary>
@@ -2361,6 +2832,9 @@
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimGroupBuilder.ToGroupOf1M0ArrayInt32``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{``0[],System.Int32,System.Collections.Generic.List{``0[]}})">
             <summary>设置 GroupBuilder.ToGroup(!!0[] orgArr, Int32 grpCnt) 的 填充码</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimGroupBuilder.ToGroupOf1MongoDataDictionaryOfM0Int32``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{WolfInv.com.BaseObjectsLib.MongoDataDictionary{``0},System.Int32,System.Collections.Generic.List{WolfInv.com.BaseObjectsLib.MongoDataDictionary{``0}}})">
+            <summary>设置 GroupBuilder.ToGroup(MongoDataDictionary`1&lt;!!0&gt; orgArr, Int32 grpCnt) 的 填充码</summary>
         </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimHistoryData">
             <summary>WolfInv.com.BaseObjectsLib.HistoryData 的填充码类型</summary>
@@ -2458,7 +2932,7 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimLottyData.Behavior">
             <summary>为已填充的类型的所有方法分配行为</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimLottyData.Bind(WolfInv.com.BaseObjectsLib.IMatchFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimLottyData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimLottyData.Bind(WolfInv.com.BaseObjectsLib.IObjectId)">
@@ -2474,6 +2948,9 @@
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimLottyData.Bind(System.IConvertible)">
+            <summary>将接口的成员绑定到此填充码。</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimLottyData.Bind(System.IFormatProvider)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimLottyData.Constructor">
@@ -3130,14 +3607,17 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.AllInstances.CloneOf1``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{WolfInv.com.BaseObjectsLib.MongoData,``0})">
             <summary>设置 MongoData.Clone() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.AllInstances.ComprBsonDocument">
+            <summary>设置 MongoData.Compr(BsonDocument bs) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.AllInstances.ComprBsonElement">
+            <summary>设置 MongoData.Compr(BsonElement bs) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.AllInstances.GetFormatType">
+            <summary>设置 MongoData.GetFormat(Type formatType) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.AllInstances.GetTypeCode">
             <summary>设置 MongoData.GetTypeCode() 的 填充码</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.AllInstances.MatchBsonDocument">
-            <summary>设置 MongoData.Match(BsonDocument bs) 的 填充码</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.AllInstances.MatchBsonElement">
-            <summary>设置 MongoData.Match(BsonElement bs) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.AllInstances.SystemIConvertibleGetTypeCode">
             <summary>设置 MongoData.System.IConvertible.GetTypeCode() 的 填充码</summary>
@@ -3250,7 +3730,7 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.Behavior">
             <summary>为已填充的类型的所有方法分配行为</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.Bind(WolfInv.com.BaseObjectsLib.IMatchFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.Bind(WolfInv.com.BaseObjectsLib.IObjectId)">
@@ -3268,23 +3748,29 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.Bind(System.IConvertible)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.Bind(System.IFormatProvider)">
+            <summary>将接口的成员绑定到此填充码。</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.Clone">
             <summary>设置 MongoData.Clone() 的 填充码</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.CloneOf1``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{``0})">
             <summary>设置 MongoData.Clone() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.ComprBsonDocument">
+            <summary>设置 MongoData.Compr(BsonDocument bs) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.ComprBsonElement">
+            <summary>设置 MongoData.Compr(BsonElement bs) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.Constructor">
             <summary>设置 MongoData.MongoData() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.GetFormatType">
+            <summary>设置 MongoData.GetFormat(Type formatType) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.GetTypeCode">
             <summary>设置 MongoData.GetTypeCode() 的 填充码</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.MatchBsonDocument">
-            <summary>设置 MongoData.Match(BsonDocument bs) 的 填充码</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.MatchBsonElement">
-            <summary>设置 MongoData.Match(BsonElement bs) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoData.SystemIConvertibleGetTypeCode">
             <summary>设置 MongoData.System.IConvertible.GetTypeCode() 的 填充码</summary>
@@ -3400,6 +3886,12 @@
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDataDictionary`1.AllInstances">
             <summary>为所有实例成员定义填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDataDictionary`1.AllInstances.UnionMongoDataDictionaryOfT0">
+            <summary>设置 MongoDataDictionary`1.Union(MongoDataDictionary`1&lt;!0&gt; vals) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDataDictionary`1.AllInstances._ctorb__2_0MongoReturnDataListOfT0">
+            <summary>设置 MongoDataDictionary`1.&lt;.ctor&gt;b__2_0(MongoReturnDataList`1&lt;!0&gt; a) 的 填充码</summary>
+        </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDataDictionary`1.BehaveAsCurrent">
             <summary>为已填充的类型的所有方法分配“Current”行为</summary>
         </member>
@@ -3441,6 +3933,15 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDataDictionary`1.Constructor">
             <summary>设置 MongoDataDictionary`1.MongoDataDictionary`1() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDataDictionary`1.ConstructorMongoReturnDataListOfT0Array">
+            <summary>设置 MongoDataDictionary`1.MongoDataDictionary`1(MongoReturnDataList`1&lt;!0&gt;[] inputdata) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDataDictionary`1.UnionMongoDataDictionaryOfT0">
+            <summary>设置 MongoDataDictionary`1.Union(MongoDataDictionary`1&lt;!0&gt; vals) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDataDictionary`1._ctorb__2_0MongoReturnDataListOfT0">
+            <summary>设置 MongoDataDictionary`1.&lt;.ctor&gt;b__2_0(MongoReturnDataList`1&lt;!0&gt; a) 的 填充码</summary>
         </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDataList">
             <summary>WolfInv.com.BaseObjectsLib.MongoDataList 的填充码类型</summary>
@@ -3489,6 +3990,39 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDataList.Constructor">
             <summary>设置 MongoDataList.MongoDataList() 的 填充码</summary>
+        </member>
+        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime">
+            <summary>WolfInv.com.BaseObjectsLib.MongoDateTime 的填充码类型</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime.#ctor">
+            <summary>初始化新的填充码实例</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime.#ctor(WolfInv.com.BaseObjectsLib.MongoDateTime)">
+            <summary>初始化给定实例的新填充码</summary>
+        </member>
+        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime.AllInstances">
+            <summary>为所有实例成员定义填充码</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime.BehaveAsCurrent">
+            <summary>为已填充的类型的所有方法分配“Current”行为</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime.BehaveAsNotImplemented">
+            <summary>为已填充的类型的所有方法分配“NotImplemented”行为</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime.Behavior">
+            <summary>为已填充的类型的所有方法分配行为</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime.Constructor">
+            <summary>设置 MongoDateTime.MongoDateTime() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime.StampDateTime">
+            <summary>设置 MongoDateTime.Stamp(DateTime dt) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime.StampString">
+            <summary>设置 MongoDateTime.Stamp(String strdt) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime.StaticConstructor">
+            <summary>设置 MongoDateTime.MongoDateTime() 的 填充码</summary>
         </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoReturnDataList`1">
             <summary>WolfInv.com.BaseObjectsLib.MongoReturnDataList`1 的填充码类型</summary>
@@ -3793,13 +4327,16 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Bind(WolfInv.com.BaseObjectsLib.ICodeData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
+            <summary>将接口的成员绑定到此填充码。</summary>
+        </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Bind(WolfInv.com.BaseObjectsLib.IDateData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Bind(WolfInv.com.BaseObjectsLib.IExchangeData)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Bind(WolfInv.com.BaseObjectsLib.IDateStampData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Bind(WolfInv.com.BaseObjectsLib.IMatchFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Bind(WolfInv.com.BaseObjectsLib.IExchangeData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Bind(WolfInv.com.BaseObjectsLib.IOHLCData)">
@@ -3821,6 +4358,9 @@
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Bind(System.IConvertible)">
+            <summary>将接口的成员绑定到此填充码。</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Bind(System.IFormatProvider)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Constructor">
@@ -3912,30 +4452,6 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimPrintClass.ToClassInfo">
             <summary>设置 PrintClass.ToClassInfo() 的 填充码</summary>
-        </member>
-        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimRecordObject">
-            <summary>WolfInv.com.BaseObjectsLib.RecordObject 的填充码类型</summary>
-        </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimRecordObject.#ctor">
-            <summary>初始化新的填充码实例</summary>
-        </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimRecordObject.#ctor(WolfInv.com.BaseObjectsLib.RecordObject)">
-            <summary>初始化给定实例的新填充码</summary>
-        </member>
-        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimRecordObject.AllInstances">
-            <summary>为所有实例成员定义填充码</summary>
-        </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimRecordObject.BehaveAsCurrent">
-            <summary>为已填充的类型的所有方法分配“Current”行为</summary>
-        </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimRecordObject.BehaveAsNotImplemented">
-            <summary>为已填充的类型的所有方法分配“NotImplemented”行为</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimRecordObject.Behavior">
-            <summary>为已填充的类型的所有方法分配行为</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimRecordObject.Constructor">
-            <summary>设置 RecordObject.RecordObject() 的 填充码</summary>
         </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimSecBuffData">
             <summary>WolfInv.com.BaseObjectsLib.SecBuffData 的填充码类型</summary>
@@ -4366,13 +4882,16 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Bind(WolfInv.com.BaseObjectsLib.ICodeData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
+            <summary>将接口的成员绑定到此填充码。</summary>
+        </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Bind(WolfInv.com.BaseObjectsLib.IDateData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Bind(WolfInv.com.BaseObjectsLib.IExchangeData)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Bind(WolfInv.com.BaseObjectsLib.IDateStampData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Bind(WolfInv.com.BaseObjectsLib.IMatchFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Bind(WolfInv.com.BaseObjectsLib.IExchangeData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Bind(WolfInv.com.BaseObjectsLib.IOHLCData)">
@@ -4394,6 +4913,9 @@
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Bind(System.IConvertible)">
+            <summary>将接口的成员绑定到此填充码。</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Bind(System.IFormatProvider)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Constructor">
@@ -4425,6 +4947,12 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.AllInstances.FullCodeGet">
             <summary>设置 StockInfoMongoData.get_FullCode() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.AllInstances.OnMarketDaysGet">
+            <summary>设置 StockInfoMongoData.get_OnMarketDays() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.AllInstances.OnMarketDaysSetInt32">
+            <summary>设置 StockInfoMongoData.set_OnMarketDays(Int32 value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.AllInstances.codeGet">
             <summary>设置 StockInfoMongoData.get_code() 的 填充码</summary>
@@ -4480,7 +5008,7 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.Bind(WolfInv.com.BaseObjectsLib.ICodeData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.Bind(WolfInv.com.BaseObjectsLib.IMatchFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.Bind(WolfInv.com.BaseObjectsLib.IObjectId)">
@@ -4498,11 +5026,20 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.Bind(System.IConvertible)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.Bind(System.IFormatProvider)">
+            <summary>将接口的成员绑定到此填充码。</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.Constructor">
             <summary>设置 StockInfoMongoData.StockInfoMongoData() 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.FullCodeGet">
             <summary>设置 StockInfoMongoData.get_FullCode() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.OnMarketDaysGet">
+            <summary>设置 StockInfoMongoData.get_OnMarketDays() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.OnMarketDaysSetInt32">
+            <summary>设置 StockInfoMongoData.set_OnMarketDays(Int32 value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimStockInfoMongoData.codeGet">
             <summary>设置 StockInfoMongoData.get_code() 的 填充码</summary>
@@ -4570,13 +5107,16 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Bind(WolfInv.com.BaseObjectsLib.ICodeData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
+            <summary>将接口的成员绑定到此填充码。</summary>
+        </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Bind(WolfInv.com.BaseObjectsLib.IDateData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Bind(WolfInv.com.BaseObjectsLib.IExchangeData)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Bind(WolfInv.com.BaseObjectsLib.IDateStampData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Bind(WolfInv.com.BaseObjectsLib.IMatchFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Bind(WolfInv.com.BaseObjectsLib.IExchangeData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Bind(WolfInv.com.BaseObjectsLib.IOHLCData)">
@@ -4598,6 +5138,9 @@
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Bind(System.IConvertible)">
+            <summary>将接口的成员绑定到此填充码。</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Bind(System.IFormatProvider)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Constructor">
@@ -4669,6 +5212,48 @@
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances">
             <summary>为所有实例成员定义填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.CurrTimeGet">
+            <summary>设置 TimeSerialData.get_CurrTime() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.EIdGet">
+            <summary>设置 TimeSerialData.get_EId() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.EIdSetInt64">
+            <summary>设置 TimeSerialData.set_EId(Int64 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.ExpectGet">
+            <summary>设置 TimeSerialData.get_Expect() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.ExpectSetString">
+            <summary>设置 TimeSerialData.set_Expect(String value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.IsSecurityGet">
+            <summary>设置 TimeSerialData.get_IsSecurity() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.IsSecuritySetBoolean">
+            <summary>设置 TimeSerialData.set_IsSecurity(Boolean value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.KeyGet">
+            <summary>设置 TimeSerialData.get_Key() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.LastExpectGet">
+            <summary>设置 TimeSerialData.get_LastExpect() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.LastExpectSetString">
+            <summary>设置 TimeSerialData.set_LastExpect(String value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.MissedCntGet">
+            <summary>设置 TimeSerialData.get_MissedCnt() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.MissedCntSetInt32">
+            <summary>设置 TimeSerialData.set_MissedCnt(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.OpenCodeGet">
+            <summary>设置 TimeSerialData.get_OpenCode() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.OpenCodeSetString">
+            <summary>设置 TimeSerialData.set_OpenCode(String value) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.OpenTimeGet">
             <summary>设置 TimeSerialData.get_OpenTime() 的 填充码</summary>
         </member>
@@ -4684,7 +5269,7 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.Behavior">
             <summary>为已填充的类型的所有方法分配行为</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.Bind(WolfInv.com.BaseObjectsLib.IMatchFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.Bind(WolfInv.com.BaseObjectsLib.IObjectId)">
@@ -4702,8 +5287,53 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.Bind(System.IConvertible)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.Bind(System.IFormatProvider)">
+            <summary>将接口的成员绑定到此填充码。</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.Constructor">
             <summary>设置 TimeSerialData.TimeSerialData() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.CurrTimeGet">
+            <summary>设置 TimeSerialData.get_CurrTime() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.EIdGet">
+            <summary>设置 TimeSerialData.get_EId() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.EIdSetInt64">
+            <summary>设置 TimeSerialData.set_EId(Int64 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.ExpectGet">
+            <summary>设置 TimeSerialData.get_Expect() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.ExpectSetString">
+            <summary>设置 TimeSerialData.set_Expect(String value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.IsSecurityGet">
+            <summary>设置 TimeSerialData.get_IsSecurity() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.IsSecuritySetBoolean">
+            <summary>设置 TimeSerialData.set_IsSecurity(Boolean value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.KeyGet">
+            <summary>设置 TimeSerialData.get_Key() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.LastExpectGet">
+            <summary>设置 TimeSerialData.get_LastExpect() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.LastExpectSetString">
+            <summary>设置 TimeSerialData.set_LastExpect(String value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.MissedCntGet">
+            <summary>设置 TimeSerialData.get_MissedCnt() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.MissedCntSetInt32">
+            <summary>设置 TimeSerialData.set_MissedCnt(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.OpenCodeGet">
+            <summary>设置 TimeSerialData.get_OpenCode() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.OpenCodeSetString">
+            <summary>设置 TimeSerialData.set_OpenCode(String value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.OpenTimeGet">
             <summary>设置 TimeSerialData.get_OpenTime() 的 填充码</summary>
@@ -4801,6 +5431,12 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.AllInstances.dateSetString">
             <summary>设置 XDXRData.set_date(String value) 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.AllInstances.date_stampGet">
+            <summary>设置 XDXRData.get_date_stamp() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.AllInstances.date_stampSetDouble">
+            <summary>设置 XDXRData.set_date_stamp(Double value) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.AllInstances.fenhongGet">
             <summary>设置 XDXRData.get_fenhong() 的 填充码</summary>
         </member>
@@ -4885,10 +5521,13 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.Bind(WolfInv.com.BaseObjectsLib.ICodeData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
+            <summary>将接口的成员绑定到此填充码。</summary>
+        </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.Bind(WolfInv.com.BaseObjectsLib.IDateData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.Bind(WolfInv.com.BaseObjectsLib.IMatchFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.Bind(WolfInv.com.BaseObjectsLib.IDateStampData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.Bind(WolfInv.com.BaseObjectsLib.IObjectId)">
@@ -4904,6 +5543,9 @@
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.Bind(System.IConvertible)">
+            <summary>将接口的成员绑定到此填充码。</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.Bind(System.IFormatProvider)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.Constructor">
@@ -4932,6 +5574,12 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.dateSetString">
             <summary>设置 XDXRData.set_date(String value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.date_stampGet">
+            <summary>设置 XDXRData.get_date_stamp() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.date_stampSetDouble">
+            <summary>设置 XDXRData.set_date_stamp(Double value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimXDXRData.fenhongGet">
             <summary>设置 XDXRData.get_fenhong() 的 填充码</summary>
@@ -5122,6 +5770,12 @@
         <member name="F:WolfInv.com.BaseObjectsLib.Fakes.StubBaseCollection`1.SerialDistributionTableGet">
             <summary>设置 BaseCollection`1.get_SerialDistributionTable() 的 stub</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubBaseCollection`1.Table">
+            <summary>设置 BaseCollection`1.get_Table() 的 stub</summary>
+        </member>
+        <member name="F:WolfInv.com.BaseObjectsLib.Fakes.StubBaseCollection`1.TableGet">
+            <summary>设置 BaseCollection`1.get_Table() 的 stub</summary>
+        </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubBaseCollection`1.getAllDistrStdDev(System.Int32,System.Int32)">
             <summary>设置 BaseCollection`1.getAllDistrStdDev(Int32 n, Int32 c) 的 存根</summary>
         </member>
@@ -5280,42 +5934,6 @@
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubCommExpectListProcess`1.getSerialData(System.Int32,System.Boolean)">
             <summary>设置 CommExpectListProcess`1.getSerialData(Int32 reviewCnt, Boolean ByNo) 的 存根</summary>
-        </member>
-        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubCommResult">
-            <summary>WolfInv.com.BaseObjectsLib.CommResult 的存根类型</summary>
-        </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubCommResult.#ctor">
-            <summary>初始化新实例</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubCommResult.CallBase">
-            <summary>获取或设置一个值，该值指示是否应调用基方法而不调用回退行为</summary>
-        </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubCommResult.InitializeStub">
-            <summary>初始化 type StubCommResult 的新实例</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubCommResult.InstanceBehavior">
-            <summary>获取或设置实例行为。</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubCommResult.InstanceObserver">
-            <summary>获取或设置实例观察者。</summary>
-        </member>
-        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubCommResult`1">
-            <summary>WolfInv.com.BaseObjectsLib.CommResult`1 的存根类型</summary>
-        </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubCommResult`1.#ctor">
-            <summary>初始化新实例</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubCommResult`1.CallBase">
-            <summary>获取或设置一个值，该值指示是否应调用基方法而不调用回退行为</summary>
-        </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubCommResult`1.InitializeStub">
-            <summary>初始化 type StubCommResult 的新实例</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubCommResult`1.InstanceBehavior">
-            <summary>获取或设置实例行为。</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubCommResult`1.InstanceObserver">
-            <summary>获取或设置实例观察者。</summary>
         </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubDataFrame`1">
             <summary>WolfInv.com.BaseObjectsLib.DataFrame`1 的存根类型</summary>
@@ -5701,6 +6319,9 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubExpectData`1.#ctor">
             <summary>初始化新实例</summary>
         </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubExpectData`1.#ctor(`0)">
+            <summary>初始化新实例</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubExpectData`1.CallBase">
             <summary>获取或设置一个值，该值指示是否应调用基方法而不调用回退行为</summary>
         </member>
@@ -5752,7 +6373,10 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubExpectList`1.#ctor(System.Data.DataTable)">
             <summary>初始化新实例</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubExpectList`1.#ctor(System.Collections.Generic.Dictionary{System.String,WolfInv.com.BaseObjectsLib.MongoReturnDataList{`0}})">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubExpectList`1.#ctor(System.Collections.Generic.Dictionary{System.String,WolfInv.com.BaseObjectsLib.MongoReturnDataList{`0}},System.Boolean)">
+            <summary>初始化新实例</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubExpectList`1.#ctor(System.String,WolfInv.com.BaseObjectsLib.Cycle,System.Data.DataSet)">
             <summary>初始化新实例</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubExpectList`1.CallBase">
@@ -5941,6 +6565,18 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubICommExpectListProcess`1.WolfInv#com#BaseObjectsLib#ICommExpectListProcess{T}#getSerialData(System.Int32,System.Boolean)">
             <summary>设置 ICommExpectListProcess`1.getSerialData(Int32 reviewCnt, Boolean ByNo) 的 存根</summary>
         </member>
+        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubICompareFilter">
+            <summary>WolfInv.com.BaseObjectsLib.ICompareFilter 的存根类型</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubICompareFilter.#ctor">
+            <summary>初始化 type StubICompareFilter 的新实例</summary>
+        </member>
+        <member name="F:WolfInv.com.BaseObjectsLib.Fakes.StubICompareFilter.ComprBsonElement">
+            <summary>设置 ICompareFilter.Compr(BsonElement filter) 的 stub</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubICompareFilter.WolfInv#com#BaseObjectsLib#ICompareFilter#Compr(MongoDB.Bson.BsonElement)">
+            <summary>设置 ICompareFilter.Compr(BsonElement filter) 的 存根</summary>
+        </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubIDateData">
             <summary>WolfInv.com.BaseObjectsLib.IDateData 的存根类型</summary>
         </member>
@@ -6000,6 +6636,9 @@
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.AttachBackingFieldTodate">
             <summary>附加委托以将 StubIExchangeData.date 作为具有支持字段的属性进行模拟。</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.AttachBackingFieldTodate_stamp">
+            <summary>附加委托以将 StubIExchangeData.date_stamp 作为具有支持字段的属性进行模拟。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.AttachBackingFieldTohigh">
             <summary>附加委托以将 StubIExchangeData.high 作为具有支持字段的属性进行模拟。</summary>
@@ -6067,6 +6706,9 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.WolfInv#com#BaseObjectsLib#IDateData#date">
             <summary>设置 IDateData.get_date() 的 stub</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.WolfInv#com#BaseObjectsLib#IDateStampData#date_stamp">
+            <summary>设置 IDateStampData.get_date_stamp() 的 stub</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.WolfInv#com#BaseObjectsLib#IOHLCData#high">
             <summary>设置 IOHLCData.get_high() 的 stub</summary>
         </member>
@@ -6075,6 +6717,12 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.WolfInv#com#BaseObjectsLib#IOHLCData#open">
             <summary>设置 IOHLCData.get_open() 的 stub</summary>
+        </member>
+        <member name="F:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.stampGetDate">
+            <summary>设置 IDateStampData.get_date_stamp() 的 stub</summary>
+        </member>
+        <member name="F:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.stampSetDateDouble">
+            <summary>设置 IDateStampData.set_date_stamp(Double value) 的 stub</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.WolfInv#com#BaseObjectsLib#iVolAmount#vol">
             <summary>设置 iVolAmount.get_vol() 的 stub</summary>
@@ -6231,18 +6879,6 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubIIndexData.WolfInv#com#BaseObjectsLib#IIndexData#up_count">
             <summary>设置 IIndexData.get_up_count() 的 stub</summary>
-        </member>
-        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubIMatchFilter">
-            <summary>WolfInv.com.BaseObjectsLib.IMatchFilter 的存根类型</summary>
-        </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubIMatchFilter.#ctor">
-            <summary>初始化 type StubIMatchFilter 的新实例</summary>
-        </member>
-        <member name="F:WolfInv.com.BaseObjectsLib.Fakes.StubIMatchFilter.MatchBsonElement">
-            <summary>设置 IMatchFilter.Match(BsonElement filter) 的 stub</summary>
-        </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubIMatchFilter.WolfInv#com#BaseObjectsLib#IMatchFilter#Match(MongoDB.Bson.BsonElement)">
-            <summary>设置 IMatchFilter.Match(BsonElement filter) 的 存根</summary>
         </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubIOHLCData">
             <summary>WolfInv.com.BaseObjectsLib.IOHLCData 的存根类型</summary>
@@ -6640,6 +7276,9 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubMongoDataDictionary`1.#ctor">
             <summary>初始化新实例</summary>
         </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubMongoDataDictionary`1.#ctor(WolfInv.com.BaseObjectsLib.MongoReturnDataList{`0}[])">
+            <summary>初始化新实例</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubMongoDataDictionary`1.CallBase">
             <summary>获取或设置一个值，该值指示是否应调用基方法而不调用回退行为</summary>
         </member>
@@ -6680,6 +7319,24 @@
             <summary>获取或设置实例行为。</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubMongoDataList.InstanceObserver">
+            <summary>获取或设置实例观察者。</summary>
+        </member>
+        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubMongoDateTime">
+            <summary>WolfInv.com.BaseObjectsLib.MongoDateTime 的存根类型</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubMongoDateTime.#ctor">
+            <summary>初始化新实例</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubMongoDateTime.CallBase">
+            <summary>获取或设置一个值，该值指示是否应调用基方法而不调用回退行为</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubMongoDateTime.InitializeStub">
+            <summary>初始化 type StubMongoDateTime 的新实例</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubMongoDateTime.InstanceBehavior">
+            <summary>获取或设置实例行为。</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubMongoDateTime.InstanceObserver">
             <summary>获取或设置实例观察者。</summary>
         </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubMongoReturnDataList`1">
@@ -6803,24 +7460,6 @@
             <summary>获取或设置实例行为。</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubPrintClass.InstanceObserver">
-            <summary>获取或设置实例观察者。</summary>
-        </member>
-        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubRecordObject">
-            <summary>WolfInv.com.BaseObjectsLib.RecordObject 的存根类型</summary>
-        </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubRecordObject.#ctor">
-            <summary>初始化新实例</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubRecordObject.CallBase">
-            <summary>获取或设置一个值，该值指示是否应调用基方法而不调用回退行为</summary>
-        </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubRecordObject.InitializeStub">
-            <summary>初始化 type StubRecordObject 的新实例</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubRecordObject.InstanceBehavior">
-            <summary>获取或设置实例行为。</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubRecordObject.InstanceObserver">
             <summary>获取或设置实例观察者。</summary>
         </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubSecBuffData">

@@ -62,7 +62,7 @@ namespace PK10Server
         public static ServiceSetting<TimeSerialData> AllGlobalSetting;
 
         public static frm_StragMonitor<TimeSerialData> frm_Monitor;
-
+        static WXLogClass wxlog;
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
@@ -75,6 +75,7 @@ namespace PK10Server
             ////return;
             try
             {
+                
                 LogableClass.ToLog("测试", "看看");
                 InitSystem();
                 Application.EnableVisualStyles();

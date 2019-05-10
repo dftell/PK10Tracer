@@ -174,15 +174,15 @@ namespace WolfInv.com.Strags
                     //////else
                     //////    strCode = string.Format("{0}/{1}", SerStrs[ishift].Trim(), i);
                     string strCode = this.BySer ? string.Format("{0}/{1}+{2}/{3}", (key+1)%10, MatchChances[_key], (key1+1)%10, MatchChances[_key1]) : string.Format("{0}/{1}+{2}/{3}", MatchChances[_key], key, MatchChances[_key1], key1);
-                    if (SameNoCnt >= 3)
+                    if (SameNoCnt>=3)//所有相同个数等于
                     {
-                        if (Time1> MinLimit && Time2 > MinLimit &&  this.ChipCount == SameNoCnt)
+                        if (Time1>= MinLimit && Time2 >= MinLimit &&  this.ChipCount == SameNoCnt)
                         {
                             Matched = true;
                         }
                         //////else
                         //////{
-                            if ((Time1 + Time2) > (LevelU1 + LevelU2) && Time1>LevelU2 && Time2>LevelU2)
+                            if ((Time1 + Time2) >= (LevelU1 + LevelU2) && Time1>=LevelU2 && Time2>LevelU2)
                             {
                                 Matched = true;
                             }
@@ -190,21 +190,21 @@ namespace WolfInv.com.Strags
                     }
                     if (SameNoCnt >= 2)
                     {
-                        if(Time1*2>(LevelU2+LevelU1) && Time2*2>(LevelU2+LevelU1) && (Time1+Time2)>2*LevelU1)
+                        if(Time1*2>=(LevelU2+LevelU1) && Time2*2>=(LevelU2+LevelU1) && (Time1+Time2)>=2*LevelU1)
                         {
                             Matched = true;
                         }
                     }
                     if (SameNoCnt >= 1)
                     {
-                        if (Time1 > LevelU1 && Time2 > LevelU1 && (Time1 + Time2) > (LevelU1 + LevelU0))
+                        if (Time1 >= LevelU1 && Time2 >= LevelU1 && (Time1 + Time2) >= (LevelU1 + LevelU0))
                         {
                             Matched = true;
                         }
                     }
                     if (SameNoCnt >= -2)
                     {
-                        if (Time1 * 2 > (LevelU0 + LevelU1) && Time2 * 2 > (LevelU1 + LevelU0))
+                        if (Time1 * 2 >= (LevelU0 + LevelU1) && Time2 * 2 >= (LevelU1 + LevelU0))
                         {
                             Matched = true;
                         }

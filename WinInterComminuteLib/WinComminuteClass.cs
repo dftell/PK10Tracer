@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Ipc;
-using WolfInv.com.BaseObjectsLib;
+//using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.LogLib;
 using System.Security.Principal;
 namespace WolfInv.com.WinInterComminuteLib
@@ -26,27 +26,27 @@ namespace WolfInv.com.WinInterComminuteLib
             IpcClientChannel icc = new IpcClientChannel();
             if (ChannelServices.GetChannel(icc.ChannelName) == null)
             {
-                Log("IPC客户端日志", "注册客户端通道", icc.ChannelName);
+                //Log("IPC客户端日志", "注册客户端通道", icc.ChannelName);
                 ChannelServices.RegisterChannel(icc);
                 iccs.Add(icc);
             }
             else
             {
-                Log("IPC客户端日志", "存在客户端通道", icc.ChannelName);
+                //Log("IPC客户端日志", "存在客户端通道", icc.ChannelName);
             }
             T ret = default(T);
             object obj;
-            Log("IPC客户端日志", "检查是否管理员", IsRoot().ToString());
+            //Log("IPC客户端日志", "检查是否管理员", IsRoot().ToString());
             try
             {
                 string ChannleName =  string.Format("ipc://WolfIPC_Channel/{0}", ClassName);
-                Log("IPC客户端日志","访问通道", ChannleName);
+                //Log("IPC客户端日志","访问通道", ChannleName);
                 obj = Activator.GetObject(typeof(T), ChannleName);
                 ret = (T)obj;
             }
             catch (Exception e)
             {
-                Log("IPC客户端日志", "访问通道失败", e.Message);
+                //Log("IPC客户端日志", "访问通道失败", e.Message);
                 return ret;
             }
             return ret; //返回一个空内容的壳，需要调用GetRemoteData实际调取数据

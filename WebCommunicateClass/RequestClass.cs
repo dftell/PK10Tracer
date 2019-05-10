@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Web.Script.Serialization;
 using WolfInv.com.PK10CorePress;
 using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.RemoteObjectsLib;
+
 namespace WolfInv.com.WebCommunicateClass
 {
     /// <summary>

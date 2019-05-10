@@ -5,7 +5,7 @@ using System.Text;
 using WolfInv.com.BaseObjectsLib;
 //using WolfInv.com.PK10CorePress;
 using WolfInv.com.Strags;
-
+using WolfInv.com.LogLib;
 using WolfInv.com.SecurityLib;
 namespace WolfInv.com.ExchangeLib
 {
@@ -15,8 +15,10 @@ namespace WolfInv.com.ExchangeLib
     public class CalcStragGroupClass<T> : DisplayAsTableClass where T : TimeSerialData
     {
         protected DataTypePoint dtp;
+        WXLogClass wxl;
         public CalcStragGroupClass(DataTypePoint _dtp)
         {
+            wxl = new WXLogClass("服务器管理员",GlobalClass.LogUser,GlobalClass.LogUrl);
             dtp = _dtp;
         }
         public bool IsBackTest { get; set; }
@@ -199,8 +201,11 @@ namespace WolfInv.com.ExchangeLib
                 {
                     grpTotolStdDic = (currStrag as TotalStdDevTraceStragClass).getAllStdDev();
                 }
-                if(cs.Count>0)
+                if (cs.Count > 0 && !IsBackTest)
+                {
                     Log("计算服务", string.Format("策略[{0}/{1}]", currStrag.GUID, currStrag.StragScript), string.Format("取得机会数量为:{0}", cs.Count));
+                    wxl.Log("计算服务", string.Format("策略[{0}/{1}]", currStrag.GUID, currStrag.StragScript), string.Format("取得机会数量为:{0}", cs.Count));
+                }
                 Dictionary<string, ChanceClass<T>> StragChances = CurrExistChanceList.Where(p => p.Value.StragId == currStrag.GUID).ToDictionary(p => p.Value.ChanceCode, p => p.Value);
                 AmoutSerials amts = GlobalClass.getOptSerials(CurrSetting.Odds,currPlan.InitCash,1);
                 Int64 restAmt = currStrag.CommSetting.GetGlobalSetting().DefMaxLost;//初始资金

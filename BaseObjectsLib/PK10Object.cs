@@ -9,14 +9,7 @@ using System.ComponentModel;
 using System.Data;
 namespace WolfInv.com.BaseObjectsLib
 {
-    /// <summary>
-    /// 所有数据类的基类
-    /// </summary>
-    public class RecordObject : MarshalByRefObject  
-    {
-
-        
-    }
+    
 
     
 

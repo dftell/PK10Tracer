@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Script.Serialization;
 using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.RemoteObjectsLib;
 //using WolfInv.com.WebRuleLib;
 
 namespace WolfInv.com.WebCommunicateClass

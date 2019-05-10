@@ -165,13 +165,16 @@
             this.splitContainer1.Panel1.Controls.Add(this.groupBox3);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox2);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
+            
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl2);
             this.splitContainer1.Panel2.Controls.Add(this.statusStrip1);
             this.splitContainer1.Size = new System.Drawing.Size(2044, 890);
-            this.splitContainer1.SplitterDistance = 288;
+            this.splitContainer1.SplitterDistance = 200;
+            
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer1.TabIndex = 0;
             // 
             // groupBox3
@@ -498,9 +501,10 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.tabControl3);
             this.splitContainer2.Size = new System.Drawing.Size(2044, 887);
-            this.splitContainer2.SplitterDistance = 290;
+            this.splitContainer2.SplitterDistance = 200;
             this.splitContainer2.SplitterWidth = 8;
             this.splitContainer2.TabIndex = 0;
+            
             // 
             // tabControl3
             // 

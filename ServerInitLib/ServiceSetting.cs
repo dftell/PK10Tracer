@@ -14,6 +14,7 @@ namespace WolfInv.com.ServerInitLib
     public class ServiceSetting<T> :RemoteServerClass where T:TimeSerialData
     {
         public static ServiceSetting<T> lastInst;
+        public WXLogClass wxlog;
         public ServiceSetting()
         {
             lastInst = this;
@@ -125,11 +126,15 @@ namespace WolfInv.com.ServerInitLib
             if (gc == null)
                 gc = new GlobalClass();
             this.gc = gc;
+            wxlog = new WXLogClass("服务器管理员",gc.WXLogNoticeUser, gc.WXLogUrl);
             LogableClass.ToLog("初始化服务器设置","初始化策略列表");
+            wxlog.Log("初始化服务器设置", "初始化策略列表");
             this.AllStrags = InitServerClass.Init_StragList<T>();
             LogableClass.ToLog("初始化服务器设置", "初始化运行计划列表");
+            wxlog.Log("初始化服务器设置", "初始化运行计划列表");
             this.AllRunPlannings = InitServerClass.Init_StragPlans<T>();
             LogableClass.ToLog("初始化服务器设置", "初始资产单元列表");
+            wxlog.Log("初始化服务器设置", "初始资产单元列表");
             this.AllAssetUnits = InitServerClass.Init_AssetUnits();
             this.AllNoClosedChanceList = new Dictionary<string, ChanceClass<T>>();
             InitSecurity();

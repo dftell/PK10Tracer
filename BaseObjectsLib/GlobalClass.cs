@@ -14,6 +14,25 @@ namespace WolfInv.com.BaseObjectsLib
         public GlobalClass()
         {
             //_logname = "config";
+            ReadConfig();
+        }
+
+        static string _LogUser;
+        static string _LogUrl;
+        public static string LogUser
+        {
+            get
+            {
+                return _LogUser;
+            }
+        }
+
+        public static string LogUrl
+        {
+            get
+            {
+                return _LogUrl;
+            }
         }
 
         public static Dictionary<string, DataTypePoint> _TypeDataPoints;
@@ -112,6 +131,39 @@ namespace WolfInv.com.BaseObjectsLib
         public static Dictionary<string, AmoutSerials> AllSerialSettings;
 
         #region 自定义属性
+        public string WXLogUrl
+        {
+            get
+            {
+                if (SysParams.ContainsKey("System"))
+                {
+                    if (SysParams["System"].ContainsKey("WXLogUrl"))
+                    {
+                        
+                        _LogUrl = SysParams["System"]["WXLogUrl"];
+                        return _LogUrl;
+                    }
+                }
+                return null;
+            }
+        }
+
+        public string WXLogNoticeUser
+        {
+            get
+            {
+                if (SysParams.ContainsKey("System"))
+                {
+                    if (SysParams["System"].ContainsKey("WXLogNoticeUser"))
+                    {
+                        _LogUser = SysParams["System"]["WXLogNoticeUser"];
+                        return _LogUser;
+                    }
+                }
+                return null;
+            }
+        }
+
         public string InstHost
         {
             get
@@ -675,7 +727,7 @@ namespace WolfInv.com.BaseObjectsLib
         {
 
             ReadConfig();
-            ReReadStragList();
+            //ReReadStragList();
         }
         
         static string _strStragJsons = null;
@@ -687,6 +739,7 @@ namespace WolfInv.com.BaseObjectsLib
             return _strStragJsons;
         }
 
+        
         public void setStragXml(string value)
         {
             if (_strStragJsons != value)

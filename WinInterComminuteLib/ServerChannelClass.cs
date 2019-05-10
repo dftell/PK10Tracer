@@ -6,10 +6,12 @@ using System.Text;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Ipc;
-using WolfInv.com.BaseObjectsLib;
+//using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.LogLib;
 using System.Reflection;
 using System.Data;
+using WolfInv.com.RemoteObjectsLib;
+
 namespace WolfInv.com.WinInterComminuteLib
 {
 

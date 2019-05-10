@@ -9,12 +9,14 @@ using System.Windows.Forms;
 using WolfInv.com.WebCommunicateClass;
 //using WolfInv.com.PK10CorePress;
 using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.RemoteObjectsLib;
+
 namespace ExchangeTermial
 {
     public partial class Form1 : Form
     {
 
-        public Form1(string username,string password)
+        public Form1(string username,string password,bool AutoLogin)
         {
             InitializeComponent();
             
@@ -30,6 +32,8 @@ namespace ExchangeTermial
             this.txt_password.Text = strPwd;
             this.CancelButton = this.btn_cancel;
             this.AcceptButton = this.btn_login;
+            if (AutoLogin)
+                btn_login_Click(null, null);
         }
 
         private void btn_login_Click(object sender, EventArgs e)
@@ -53,6 +57,8 @@ namespace ExchangeTermial
             Program.gc.Odds = ret.BaseInfo.Odds;
             GlobalClass.SetConfig();
             this.Hide();
+            //必须重新指定登录用户
+            Program.wxl = new WolfInv.com.LogLib.WXLogClass(Program.gc.ClientUserName, Program.gc.WXLogNoticeUser, Program.gc.WXLogUrl);
             MainWindow mw = new MainWindow();
             mw.Show();
 

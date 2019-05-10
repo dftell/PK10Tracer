@@ -37,7 +37,7 @@ namespace DataRecSvr
             }
             catch(Exception e)
             {
-                Log("定时刷新接收数据服务错误！", string.Format("{0}:{1}",e.Message,e.StackTrace));
+                Log("定时刷新接收数据服务错误！", string.Format("{0}:{1}",e.Message,e.StackTrace),true);
             }
             //tm.Elapsed += new ElapsedEventHandler(tm_Elapsed);        
         }
@@ -52,7 +52,7 @@ namespace DataRecSvr
             }
             catch(Exception ce)
             {
-                Log("接收TXFFC错误", string.Format("{0}：{1}", ce.Message, ce.StackTrace));
+                Log("接收TXFFC错误", string.Format("{0}：{1}", ce.Message, ce.StackTrace),true);
             }
         }
 
@@ -64,7 +64,7 @@ namespace DataRecSvr
             }
             catch (Exception ce)
             {
-                Log("接收PK10错误", string.Format("{0}：{1}", ce.Message, ce.StackTrace));
+                Log("接收PK10错误", string.Format("{0}：{1}", ce.Message, ce.StackTrace),true);
             }
         }
 
@@ -105,7 +105,7 @@ namespace DataRecSvr
             if (tmp == null || tmp.Count == 0)
             {
                 this.Tm_ForPK10.Interval = RepeatSeconds / 20 * 1000;
-                Log("尝试接收数据", "未接收到数据,数据源错误！");
+                Log("尝试接收数据", "未接收到数据,数据源错误！",true);
                 return;
             }
             ExpectList el = new ExpectList(tmp.Table);
@@ -116,7 +116,7 @@ namespace DataRecSvr
             if (el == null || el.Count == 0)
             {
                 this.Tm_ForPK10.Interval = RepeatSeconds / 20 * 1000;
-                Log("尝试接收数据", "未接收到数据,转换数据源错误！");
+                Log("尝试接收数据", "未接收到数据,转换数据源错误！",true);
                 return;
             }
             
@@ -137,7 +137,8 @@ namespace DataRecSvr
                 ExpectList<T> currEl = rd.ReadNewestData<T>(DateTime.Today.AddDays(-1 * GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays)); ;//改从PK10配置中获取
                 if ((currEl == null || currEl.Count == 0) || (el.Count > 0 && currEl.Count > 0 && el.LastData.ExpectIndex > currEl.LastData.ExpectIndex))//获取到新数据
                 {
-                    Log("接收到数据", string.Format("接收到数据！{0}", el.LastData.ToString()));
+                    Log("接收到数据", string.Format("接收到数据！{0}", el.LastData.ToString()),true);
+                    //Program.AllServiceConfig.wxlog.Log("接收到数据", string.Format("接收到数据！{0}", el.LastData.ToString()));
                     PK10_LastSignTime = CurrTime;
                     long CurrMin = DateTime.Now.Minute % RepeatMinutes;
                     int CurrSec = DateTime.Now.Second;
@@ -155,6 +156,7 @@ namespace DataRecSvr
                         //是否要连续停几期？执行完后，在接收策略里面发现前10期有不连续的情况，直接跳过，只接收数据不执行选号。
                         if (MissExpectEventPassCnt > 0)//如果出现错期
                         {
+                            Log("接收到错期数据", string.Format("接收到数据！{0}", el.LastData.ToString()), true);
                             if (MissExpectEventPassCnt <= MaxMissEventCnt)//超过最大平稳期，置零,下次再计算
                             {
                                 MissExpectEventPassCnt = 0;
@@ -178,12 +180,12 @@ namespace DataRecSvr
                     else
                     {
                         this.Tm_ForPK10.Interval = RepeatSeconds / 20 * 1000;
-                        Log("保存数据错误", "保存数据数量为0！");
+                        Log("保存数据错误", "保存数据数量为0！",true);
                     }
                 }
                 else
                 {
-                    Log("接收到非最新数据",string.Format("id:{0}",el.LastData.Expect));
+                    Log("接收到非最新数据",string.Format("id:{0}",el.LastData.Expect),false);
                     if (CurrTime.Hour < 9)//如果在9点前
                     {
                         //下一个时间点是9：07 //9:30
@@ -216,7 +218,7 @@ namespace DataRecSvr
             {
                 Log(e.Message,e.StackTrace);
             }
-            Log("接收数据", string.Format("当前访问时间为：{0},{1}秒后继续访问！",CurrTime.ToString(),this.Tm_ForPK10.Interval/1000));
+            //Log("接收数据", string.Format("当前访问时间为：{0},{1}秒后继续访问！",CurrTime.ToString(),this.Tm_ForPK10.Interval/1000),false);
             //FillOrgData(listView_TXFFCData, currEl);
         }
 
