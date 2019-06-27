@@ -2,10 +2,6 @@
 
 namespace WolfInv.com.GuideLib
 {
-    public class CommDataIntface
-    {
-
-    }
     public class CommDataBuilder
     {
         ////public PriceAdj prcAdj;

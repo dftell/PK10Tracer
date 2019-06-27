@@ -16,11 +16,13 @@ namespace WolfInv.com.ExchangeLib
      {
         Int64 Eindex = 0;
         double Odds = 0;
-        public ExchangeDataTable()
+        public ExchangeDataTable():base()
         {
+            Odds = 9.75;
+            InitColumns();
         }
         
-        public ExchangeDataTable(double odds)
+        public ExchangeDataTable(double odds):base()
         {
             Odds = odds;
             InitColumns();

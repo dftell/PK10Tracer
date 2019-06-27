@@ -39,8 +39,15 @@ namespace WolfInv.com.SecurityLib
         public abstract ExpectList<T> ReadNewestData<T>(int LastLng) where T : TimeSerialData;
         public abstract ExpectList<T> ReadNewestData<T>(int ExpectNo, int Cnt) where T : TimeSerialData;
         public abstract ExpectList<T> ReadNewestData<T>(int ExpectNo, int Cnt, bool FromHistoryTable) where T : TimeSerialData;
-        public abstract int SaveChances<T>(List<ChanceClass<T>> list, string strDataOwner) where T : TimeSerialData;
+        public abstract int SaveChances<T>(List<ChanceClass<T>> list, string strDataOwner=null) where T : TimeSerialData;
         public abstract int SaveHistoryData<T>(ExpectList<T> InData) where T : TimeSerialData;
         public abstract int SaveNewestData<T>(ExpectList<T> InData) where T : TimeSerialData;
+
+        public abstract int DeleteChanceByIndex(long index, string strDataOwner = null);
+
+        public abstract int DeleteExpectData(string expectid);
+
+        public abstract void ExecProduce(string Procs);
     }
+
 }

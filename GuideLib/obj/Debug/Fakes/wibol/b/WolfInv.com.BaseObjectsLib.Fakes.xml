@@ -439,6 +439,9 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseDataItemClass.ConstructorDataRow">
             <summary>设置 BaseDataItemClass.BaseDataItemClass(DataRow dr) 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseDataItemClass.ConstructorString">
+            <summary>设置 BaseDataItemClass.BaseDataItemClass(String code) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseDataItemClass.ExchangeNormalGet">
             <summary>设置 BaseDataItemClass.get_ExchangeNormal() 的 填充码</summary>
         </member>
@@ -1780,10 +1783,10 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.Bind(WolfInv.com.BaseObjectsLib.ICodeData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.Bind(WolfInv.com.BaseObjectsLib.ICodeDateStampData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.Bind(WolfInv.com.BaseObjectsLib.IDateData)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimExchangeMongoData.Bind(WolfInv.com.BaseObjectsLib.IDateStampData)">
@@ -2542,6 +2545,9 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.WXLogNoticeUserGet">
             <summary>设置 GlobalClass.get_WXLogNoticeUser() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.WXLogNoticeUserSetString">
+            <summary>设置 GlobalClass.set_WXLogNoticeUser(String value) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.WXLogUrlGet">
             <summary>设置 GlobalClass.get_WXLogUrl() 的 填充码</summary>
         </member>
@@ -2775,6 +2781,9 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.WXLogNoticeUserGet">
             <summary>设置 GlobalClass.get_WXLogNoticeUser() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.WXLogNoticeUserSetString">
+            <summary>设置 GlobalClass.set_WXLogNoticeUser(String value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.WXLogUrlGet">
             <summary>设置 GlobalClass.get_WXLogUrl() 的 填充码</summary>
@@ -4327,10 +4336,10 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Bind(WolfInv.com.BaseObjectsLib.ICodeData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Bind(WolfInv.com.BaseObjectsLib.ICodeDateStampData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Bind(WolfInv.com.BaseObjectsLib.IDateData)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimOneCycleData.Bind(WolfInv.com.BaseObjectsLib.IDateStampData)">
@@ -4882,10 +4891,10 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Bind(WolfInv.com.BaseObjectsLib.ICodeData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Bind(WolfInv.com.BaseObjectsLib.ICodeDateStampData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Bind(WolfInv.com.BaseObjectsLib.IDateData)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockIndexMongoData.Bind(WolfInv.com.BaseObjectsLib.IDateStampData)">
@@ -5107,10 +5116,10 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Bind(WolfInv.com.BaseObjectsLib.ICodeData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Bind(WolfInv.com.BaseObjectsLib.ICodeDateStampData)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Bind(WolfInv.com.BaseObjectsLib.IDateData)">
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Bind(WolfInv.com.BaseObjectsLib.ICompareFilter)">
             <summary>将接口的成员绑定到此填充码。</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimStockMongoData.Bind(WolfInv.com.BaseObjectsLib.IDateStampData)">
@@ -5819,6 +5828,9 @@
             <summary>初始化新实例</summary>
         </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubBaseDataItemClass.#ctor(System.Data.DataRow)">
+            <summary>初始化新实例</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubBaseDataItemClass.#ctor(System.String)">
             <summary>初始化新实例</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubBaseDataItemClass.CallBase">
@@ -6547,6 +6559,36 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubICodeData.WolfInv#com#BaseObjectsLib#ICodeData#code">
             <summary>设置 ICodeData.get_code() 的 stub</summary>
         </member>
+        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubICodeDateStampData">
+            <summary>WolfInv.com.BaseObjectsLib.ICodeDateStampData 的存根类型</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubICodeDateStampData.#ctor">
+            <summary>初始化 type StubICodeDateStampData 的新实例</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubICodeDateStampData.AttachBackingFieldTocode">
+            <summary>附加委托以将 StubICodeDateStampData.code 作为具有支持字段的属性进行模拟。</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubICodeDateStampData.AttachBackingFieldTodate_stamp">
+            <summary>附加委托以将 StubICodeDateStampData.date_stamp 作为具有支持字段的属性进行模拟。</summary>
+        </member>
+        <member name="F:WolfInv.com.BaseObjectsLib.Fakes.StubICodeDateStampData.CodeGet">
+            <summary>设置 ICodeData.get_code() 的 stub</summary>
+        </member>
+        <member name="F:WolfInv.com.BaseObjectsLib.Fakes.StubICodeDateStampData.CodeSetString">
+            <summary>设置 ICodeData.set_code(String value) 的 stub</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubICodeDateStampData.WolfInv#com#BaseObjectsLib#ICodeData#code">
+            <summary>设置 ICodeData.get_code() 的 stub</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubICodeDateStampData.WolfInv#com#BaseObjectsLib#IDateStampData#date_stamp">
+            <summary>设置 IDateStampData.get_date_stamp() 的 stub</summary>
+        </member>
+        <member name="F:WolfInv.com.BaseObjectsLib.Fakes.StubICodeDateStampData.stampGetDate">
+            <summary>设置 IDateStampData.get_date_stamp() 的 stub</summary>
+        </member>
+        <member name="F:WolfInv.com.BaseObjectsLib.Fakes.StubICodeDateStampData.stampSetDateDouble">
+            <summary>设置 IDateStampData.set_date_stamp(Double value) 的 stub</summary>
+        </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubICommExpectListProcess`1">
             <summary>WolfInv.com.BaseObjectsLib.ICommExpectListProcess`1 的存根类型</summary>
         </member>
@@ -6634,9 +6676,6 @@
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.AttachBackingFieldTocode">
             <summary>附加委托以将 StubIExchangeData.code 作为具有支持字段的属性进行模拟。</summary>
         </member>
-        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.AttachBackingFieldTodate">
-            <summary>附加委托以将 StubIExchangeData.date 作为具有支持字段的属性进行模拟。</summary>
-        </member>
         <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.AttachBackingFieldTodate_stamp">
             <summary>附加委托以将 StubIExchangeData.date_stamp 作为具有支持字段的属性进行模拟。</summary>
         </member>
@@ -6663,12 +6702,6 @@
         </member>
         <member name="F:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.CodeSetString">
             <summary>设置 ICodeData.set_code(String value) 的 stub</summary>
-        </member>
-        <member name="F:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.DateGet">
-            <summary>设置 IDateData.get_date() 的 stub</summary>
-        </member>
-        <member name="F:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.DateSetString">
-            <summary>设置 IDateData.set_date(String value) 的 stub</summary>
         </member>
         <member name="F:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.HighGet">
             <summary>设置 IOHLCData.get_high() 的 stub</summary>
@@ -6702,9 +6735,6 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.WolfInv#com#BaseObjectsLib#ICodeData#code">
             <summary>设置 ICodeData.get_code() 的 stub</summary>
-        </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.WolfInv#com#BaseObjectsLib#IDateData#date">
-            <summary>设置 IDateData.get_date() 的 stub</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubIExchangeData.WolfInv#com#BaseObjectsLib#IDateStampData#date_stamp">
             <summary>设置 IDateStampData.get_date_stamp() 的 stub</summary>

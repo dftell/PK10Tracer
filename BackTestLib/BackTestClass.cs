@@ -20,6 +20,7 @@ namespace WolfInv.com.BackTestLib
     {
         DataTypePoint dtp;
         long BegExpect;
+        long EndExpect;
         long LoopCnt;
         double Odds;
         SettingClass CurrSetting;
@@ -28,11 +29,12 @@ namespace WolfInv.com.BackTestLib
         public BaseStragClass<T> teststrag;
         public DataTable SystemStdDevs = new DataTable();
         public SuccEvent FinishedProcess; 
-        public BackTestClass(DataTypePoint _dtpName, long From, long buffCnt,SettingClass setting)
+        public BackTestClass(DataTypePoint _dtpName, long FromE,long buffCnt,SettingClass setting, long EndE=0)
         {
             dtp = _dtpName;
 
-            BegExpect = From;
+            BegExpect = FromE;
+            EndExpect = EndE;
             LoopCnt = buffCnt;
             CurrSetting = setting;
             testIndex = 0;
@@ -263,7 +265,8 @@ namespace WolfInv.com.BackTestLib
             cs.IsTestBack = true;
             
             long begNo = BegExpect;
-            ExpectReader er = new ExpectReader();
+            //ExpectReader er = new ExpectReader();
+            DataReader er = DataReaderBuild.CreateReader(dtp.DataType,dtp.HistoryTable,dtp.RuntimeInfo.SecurityCodes); //支持所有数据
             ExpectList<T> el = null;
             long cnt = 0;
             BackTestReturnClass<T> ret = new BackTestReturnClass<T>();

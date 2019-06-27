@@ -1,0 +1,151 @@
+﻿<root>
+  <configs>
+    <config type="DataType">
+      <item key="PK10" value="北京赛车"/>
+      <item key="TXFFC" value="腾讯分分彩"/>
+    </config>
+    <config type="PK10">
+      <item key="DBType" value="SqlServer"/>
+      <item key="DbHost" value="www.wolfinv.com"/>
+      <item key="DbUser" value="sa"/>
+      <item key="DbPassword" value="bolts"/>
+      <item key="DbName" value="PK10DB"/>
+      <item key="NewestTable" value="PK10_Newestdata"/>
+      <item key="HistoryTable" value="historydata"/>
+      <item key="MissHistoryTable" value="v_PK10_HistoryData_Miss"/>
+      <item key="MissNewestTable" value="v_PK10_NewestData_Miss"/>
+      <item key="ChanceTable" value="PK10_ChanceTable"/>
+      <item key="ResultTable" value="tmp_PK10_LongTermAll_ProbWaveTable"/>
+      <item key="ReceiveSeconds" value="1200"/>
+      <item key="ReceiveStartTime" value="09:30:00"/>
+      <item key="CheckNewestDataDays" value="15"/>
+      <item key="MainDataUrl" value="http://d.apiplus.net/newly.do?token=tf066705d12dcb288k&amp;code=bjpk10&amp;format=xml&amp;rows=100"/>
+      <item key="AutoSwitchHost" value="1"/>
+      <item key="SubDataUrl"   value="https://www.52cp2.com/pk10/history"/>
+      <item key="SrcUseXml" value="1"/>
+      <item key="DataDecode" value="utf-8"/>
+    </config>
+    <config type="TXFFC">
+      <item key="DBType" value="SqlServer"/>
+      <item key="NewestTable" value="TXFFC_Newestdata"/>
+      <item key="HistoryTable" value="TXFFC_historydata"/>
+      <item key="MissHistoryTable" value="v_TXFFC_HistoryData_Miss"/>
+      <item key="MissNewestTable" value="v_TXFFC_NewestData_Miss"/>
+      <item key="ChanceTable" value="TXFFC_ChanceTable"/>
+      <item key="ResultTable" value="tmp_TXFFC_LongTermAll_ProbWaveTable"/>
+      <item key="ReceiveSeconds" value="10"/>
+    </config>
+    <config type="CN_Stock_A">
+      <item key="DbType" value="MongoDB"/>
+      <item key="DbHost" value="pk10.wolfinv.com:27017"/>
+      <item key="DbUser" value=""/>
+      <item key="DbPassword" value="MongoDB"/>
+      <item key="DbName" value="quantaxis"/>
+      <item key="NewestTable" value="stock_day"/>
+      <item key="HistoryTable" value="stock_day"/>
+      <item key="MissHistoryTable" value="v_PK10_HistoryData_Miss"/>
+      <item key="MissNewestTable" value="v_PK10_NewestData_Miss"/>
+      <item key="ChanceTable" value="CNStockA_ChanceTable"/>
+      <item key="ResultTable" value="tmp_PK10_LongTermAll_ProbWaveTable"/>
+      <item key="ReceiveSeconds" value="600"/>
+      <item key="RecieveStartTime" value="09:30:00"/>
+      <item key="RecieveEndTime" value="15:30:00"/>
+      <item key="CheckNewestDataDays" value="600"/>
+      <item key="SubScriptModel" value="1"/>
+      <item key="SubScriptSrc" value="WD"/>
+      <item key="SubScriptSector" value="a001010100000000"/>
+      <item key="SubScriptFields" value="rt_last,rt_open,rt_high,rt_low,rt_vol,rt_amt"/>
+      <item key="SubScriptOptions" value=""/>
+      <item key="SubScriptUpdateAll" value="0"/>
+      <item key="SaveInterVal" value="60000"/>
+      <item key="IndexDayTable" value="index_day"/>
+      <item key="IndexTable" value="index_list"/>
+      <item key="BlackTable" value="stock_block"/>
+      <item key="StockListTable" value="stock_list"/>
+      <item key="XDXRTable" value="stock_xdxr"/>
+      <item key="NeedLoadAllCodes" value="1"/>
+      <item key="NeedLoadAllXDXR" value="1"/>
+      <item key="IsSecurityData" value="1"/>
+      <item key="DateIndex" value="000001"/>
+      <item key="CodeGrpCnt" value="40"/>
+    </config>
+    <config type="System">
+      <item key="WXLogUrl" value="http://106.12.129.122/App/WXMsgPage.aspx"/>
+      <item key="WXLogNoticeUser" value="testqun"/>
+      <item key="ForWeb" value="Web_Kcai"/>
+      <item key="InstHost" value="http://www.wolfinv.com"/>
+      <item key="MinChips" value="100"/>
+      <item key="URL" value="http://r.apiplus.net/newly.do?token=ee3d74d24c1f9d746ebac68945f7d36f&amp;code=bjpk10&amp;rows=5&amp;format=xml"/>
+      <item key="StartCol" value="0"/>
+      <item key="InterVal" value="20000"/>
+      <item key="Odds" value="9.75"/>
+      <item key="MutliColMinTimes" value="10"/>
+      <item key="SingleColMinTimes" value="49"/>
+      <item key="BackColor_R" value="205"/>
+      <item key="BackColor_G" value="201"/>
+      <item key="BackColor_B" value="201"/>
+      <item key="TotalCnt" value="1"/>
+      <item key="AllowExchange" value="1"/>
+      <item key="IsClient" value="1"/>
+      <item key="ClientUsername" value="gsyh"/>
+      <item key="ClientPassword" value="abcdef123"/>
+      <item key="LoginUrlModel" value="https://www.kcai{0}.com"/>
+      <item key="StatusUrlModel" value="/pk10/App/StatusInfo.asp"/>
+      <item key="ScriptUrlModel" value="/pk10/App/{0}.js"/>
+      <item key="LoginDefaultHost" value="331"/>
+      <item key="LoginHostList" value="331;337;773;779;334"/>
+      <item key="LoginInstFillOrEnCode" value="2"/>
+      <item key="LoginInFrame" value="0"/>
+      <item key="AllowHedge" value="0"/>
+      <item key="JoinHedge" value="1"/>
+      <item key="HedgeTimes" value="2"/>
+      <item key="DefMaxLost" value="20000"/>
+      <item key="DefFirstAmt" value="1"/>
+    </config>
+    <config type="Research">
+      <item key="FromPage" value="10"/>
+      <item key="NewestHistoryExpect" value="684462"/>
+      <item key="SingleCarRepeatCnt" value="2"/>
+      <item key="RepeatCheckCnt" value="1/1"/>
+      <item key="StartCol" value="1"/>
+      <item key="ValidOldestHistoryExpect" value="590965"/>
+    </config>
+    <config type="Exchange">
+      <item key="Unit" value="1"/>
+      <item key="URL" value="https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxnewloginpage?ticket=A-QwWEZvwlAvL6GkazlL9IqG@qrticket_0&amp;uuid=Ifr4XWb3HQ==&amp;lang=zh_CN&amp;scan=1508399175"/>
+      <item key="MinTimesFor1" value="70"/>
+      <item key="MinTimesFor2" value="45"/>
+      <item key="MinTimesFor3" value="31"/>
+      <item key="MinTimesFor4" value="22"/>
+      <item key="MinTimesFor5" value="18"/>
+      <item key="MinTimesFor6" value="15"/>
+      <item key="MinTimesFor7" value="11"/>
+      <item key="MinTimesFor8" value="13"/>
+      <item key="Serial1" value="1,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,4,4,5,5,6,7,7,8,9,10,11,13,14,16,17,19,22,24,27,30,34,37,42,47,52,58,65,72,81,90,100,112,125,139,155,173,193,216,241,268,299,334,372,415,463,517,577,643,718,801,893,996,1111,1240,1383,1543,1721,1920,2142,2390,2666,2974,3318"/>
+      <item key="Serial2" value="1,1,1,1,2,2,3,3,4,5,7,9,11,14,18,23,29,36,46,58,74,94,119,151,192,243,308,391,496,629,798,1012,1283,1628,2064,2618,3321,4212,5342,6775"/>
+      <item key="Serial3" value="1,1,1,2,3,4,6,9,13,19,28,41,61,89,131,193,284,417,613,901,1325,1948,2864,4210,6190,9100"/>
+      <item key="Serial4" value="1,1,2,3,5,9,15,26,44,76,129,221,377,644,1100,1879,3209,5481,9361"/>
+      <item key="Serial5" value="1,2,4,9,19,42,92,200,437,954,2082,4545"/>
+      <item key="Serial6" value="1,2,5,14,37,99,264,704,1877,5005"/>
+      <item key="Serial7" value="1,3,11,41,152,563,2085,7724"/>
+      <item key="Serial8" value="1,6,42,294,2057,14388"/>
+      <item key="Serial9" value="1,44,1958,87131"/>
+      <item key="SerTotal1" value="5"/>
+      <item key="SerTotal2" value="5"/>
+      <item key="SerTotal3" value="5"/>
+      <item key="SerTotal4" value="5"/>
+      <item key="SerTotal5" value="5"/>
+      <item key="SerTotal6" value="1"/>
+      <item key="SerTotal7" value="5"/>
+      <item key="SerTotal8" value="1"/>
+    </config>
+    <config type="Asset">
+      <item key="InitCash" value="20000"/>
+      <item key="Costed" value="0"/>
+      <item key="Gained" value="0"/>
+      <item key="TotalCash" value="20000"/>
+      <item key="AChanceMaxRate" value="125"/>
+      <item key="TotalMaxRate" value="125"/>
+    </config>
+  </configs>
+</root>

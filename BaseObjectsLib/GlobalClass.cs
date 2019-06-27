@@ -152,6 +152,10 @@ namespace WolfInv.com.BaseObjectsLib
         {
             get
             {
+                if(_LogUser != null)
+                {
+                    return _LogUser;
+                }
                 if (SysParams.ContainsKey("System"))
                 {
                     if (SysParams["System"].ContainsKey("WXLogNoticeUser"))
@@ -161,6 +165,11 @@ namespace WolfInv.com.BaseObjectsLib
                     }
                 }
                 return null;
+            }
+            set
+            {
+                _LogUser = value;
+                SysParams["System"]["WXLogNoticeUser"] = value;
             }
         }
 

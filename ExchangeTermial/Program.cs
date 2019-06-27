@@ -13,6 +13,8 @@ namespace ExchangeTermial
         public static string VerNo;
         public static WXLogClass wxl;
         public static string Title;
+        public static string User;
+        public static int UserId;
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
@@ -36,7 +38,7 @@ namespace ExchangeTermial
             }
             Form1 frm = null;
             wxl = new WXLogClass("客户端",gc.WXLogNoticeUser, gc.WXLogUrl);//指定默认登录用户，为捕捉第一次产生错误用。
-            ContinueRun:
+            //ContinueRun:
             try
             {
                 frm =  new Form1(strName, strPassword, AutoLogin);
@@ -46,13 +48,15 @@ namespace ExchangeTermial
             }
             catch(Exception ce)
             {
+                wxl = new WXLogClass(User, gc.WXLogNoticeUser, gc.WXLogUrl);
                 LogableClass.ToLog("错误","退出界面:"+ce.Message,ce.StackTrace);
-                wxl.Log("错误", string.Format("{0}:退出界面!",Title),string.Format("详细原因[{0}]:{1}" , ce.Message, ce.StackTrace));
-                AutoLogin = true;
-                GC.SuppressFinalize(frm);
-                frm = null;
+                wxl.Log("错误退出交易终端，请立即手动启动终端！", string.Format("{0}:退出界面!",Title),string.Format("详细原因[{0}]:{1}" , ce.Message, ce.StackTrace));
+                ////AutoLogin = true;
+                ////if(frm != null)
+                ////    GC.SuppressFinalize(frm);
+                ////frm = null;
 
-                goto ContinueRun;
+                //goto ContinueRun;
             }
             //Application.Exit();
         }

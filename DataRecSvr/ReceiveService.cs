@@ -22,15 +22,22 @@ namespace DataRecSvr
             try
             {
                 this.ServiceName = "定时刷新接收数据服务";
-                Tm_ForPK10.Enabled = false;
-                Tm_ForPK10.AutoReset = true;
-                
-                Tm_ForPK10.Interval = GlobalClass.TypeDataPoints["PK10"].ReceiveSeconds * 1000;
-                Tm_ForPK10.Elapsed += new ElapsedEventHandler(Tm_ForPK10_Elapsed);
-                Tm_ForTXFFC.Enabled = false;
-                Tm_ForTXFFC.AutoReset = true;
-                Tm_ForTXFFC.Interval = 10*1000+GlobalClass.TypeDataPoints["TXFFC"].ReceiveSeconds * 1000;
-                Tm_ForTXFFC.Elapsed += new ElapsedEventHandler(Tm_ForTXFFC_Elapsed);
+                if (GlobalClass.DataTypes.ContainsKey("PK10"))
+                {
+                    Tm_ForPK10.Enabled = false;
+                    Tm_ForPK10.AutoReset = true;
+
+                    Tm_ForPK10.Interval = GlobalClass.TypeDataPoints["PK10"].ReceiveSeconds * 1000;
+                    Tm_ForPK10.Elapsed += new ElapsedEventHandler(Tm_ForPK10_Elapsed);
+                }
+                if (GlobalClass.DataTypes.ContainsKey("TXFFC"))
+                {
+
+                    Tm_ForTXFFC.Enabled = false;
+                    Tm_ForTXFFC.AutoReset = true;
+                    Tm_ForTXFFC.Interval = 10 * 1000 + GlobalClass.TypeDataPoints["TXFFC"].ReceiveSeconds * 1000;
+                    Tm_ForTXFFC.Elapsed += new ElapsedEventHandler(Tm_ForTXFFC_Elapsed);
+                }
                 tm.Interval = 5 * 1000;
                 tm.Enabled = false;
                 tm.AutoReset = true;
@@ -76,14 +83,21 @@ namespace DataRecSvr
         protected override void OnStart(string[] args)
         {
             // TODO: 在此处添加代码以启动服务。
-            Tm_ForPK10.Enabled = true;
-            Log("开始服务", "开始接收数据！");
-            Tm_ForPK10_Elapsed(null, null);
-            Log("开始服务", "接收数据成功！");
-            Tm_ForTXFFC.Enabled = true;
-            Tm_ForTXFFC_Elapsed(null, null);
-            //tm.Enabled = true;
-            //tm_Elapsed(null, null);
+            if (GlobalClass.DataTypes.ContainsKey("PK10"))
+            {
+                Tm_ForPK10.Enabled = true;
+                Log("开始服务", "开始接收数据！");
+                Tm_ForPK10_Elapsed(null, null);
+            }
+            if (GlobalClass.DataTypes.ContainsKey("TXFFC"))
+            {
+                Log("开始服务", "接收数据成功！");
+                Tm_ForTXFFC.Enabled = true;
+                Tm_ForTXFFC_Elapsed(null, null);
+            }
+                //tm.Enabled = true;
+                //tm_Elapsed(null, null);
+            
         }
 
         protected override void OnStop()
@@ -121,15 +135,15 @@ namespace DataRecSvr
             }
             
             DateTime StartTime = CurrTime.Date.Add(GlobalClass.TypeDataPoints["PK10"].ReceiveStartTime.TimeOfDay);
-            Log("当日开始时间", StartTime.ToLongTimeString());
+            //Log("当日开始时间", StartTime.ToLongTimeString());
             int PassCnt = (int)Math.Floor(CurrTime.Subtract(StartTime).TotalMinutes / RepeatMinutes);
-            Log("经历过的周期", PassCnt.ToString());
+            //Log("经历过的周期", PassCnt.ToString());
             DateTime PassedTime = StartTime.AddMinutes(PassCnt * RepeatMinutes);//正常的上期时间
-            Log("前期时间", PassedTime.ToLongTimeString());
+            //Log("前期时间", PassedTime.ToLongTimeString());
             DateTime FeatureTime = StartTime.AddMinutes((PassCnt + 1) * RepeatMinutes);//正常的下期时间
-            Log("后期时间", FeatureTime.ToLongTimeString());
+            //Log("后期时间", FeatureTime.ToLongTimeString());
             DateTime NormalRecievedTime = StartTime.AddSeconds((PassCnt + 1.4) * RepeatSeconds);//正常的接收到时间
-            Log("当期正常接收时间", FeatureTime.ToLongTimeString());
+            //Log("当期正常接收时间", FeatureTime.ToLongTimeString());
             try
             {
                 PK10ExpectReader rd = new PK10ExpectReader();
@@ -137,7 +151,7 @@ namespace DataRecSvr
                 ExpectList<T> currEl = rd.ReadNewestData<T>(DateTime.Today.AddDays(-1 * GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays)); ;//改从PK10配置中获取
                 if ((currEl == null || currEl.Count == 0) || (el.Count > 0 && currEl.Count > 0 && el.LastData.ExpectIndex > currEl.LastData.ExpectIndex))//获取到新数据
                 {
-                    Log("接收到数据", string.Format("接收到数据！{0}", el.LastData.ToString()),true);
+                    Log("接收到数据", string.Format("接收到数据！{0}", el.LastData.OpenCode),true);
                     //Program.AllServiceConfig.wxlog.Log("接收到数据", string.Format("接收到数据！{0}", el.LastData.ToString()));
                     PK10_LastSignTime = CurrTime;
                     long CurrMin = DateTime.Now.Minute % RepeatMinutes;
@@ -147,8 +161,14 @@ namespace DataRecSvr
                     if (rd.SaveNewestData(rd.getNewestData<T>(new ExpectList<T>(el.Table), currEl)) > 0)
                     {
                         CurrDataList = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1* GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays));//前十天的数据 尽量的大于reviewcnt,免得需要再取一次数据
+                        if(CurrDataList == null)
+                        {
+                            this.Tm_ForPK10.Interval = RepeatSeconds / 20 * 1000;
+                            Log("计算最新数据错误", "无法获取最新数据发生错误，请检查数据库是否正常！", true);
+                            return;
+                        }
                         CurrExpectNo = el.LastData.Expect;
-                        Program.AllServiceConfig.LastDataSector =new ExpectList<TimeSerialData>(CurrDataList.Table) ;
+                        Program.AllServiceConfig.LastDataSector = new ExpectList<TimeSerialData>(CurrDataList.Table) ;
                         //2019/4/22日出现错过732497，732496两期记录错过，但是732498却收到的情况，同时，正好在732498多次重复策略正好开出结束，因错过2期导致一直未归零，
                         //一直长时间追号开出近60期
                         //为避免出现这种情况
@@ -226,7 +246,7 @@ namespace DataRecSvr
         {
 
             int secCnt = DateTime.Now.Second;
-            TXFFC_HtmlDataClass hdc = new TXFFC_HtmlDataClass(GlobalClass.TypeDataPoints["PK10"]);
+            TXFFC_HtmlDataClass hdc = new TXFFC_HtmlDataClass(GlobalClass.TypeDataPoints["TXFFC"]);
             ExpectList<T> tmp = hdc.getExpectList<T>();
             if (tmp == null || tmp.Count == 0)
             {

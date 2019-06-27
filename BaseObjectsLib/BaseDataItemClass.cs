@@ -6,6 +6,23 @@ namespace WolfInv.com.BaseObjectsLib
 {
     public class BaseDataItemClass : PrintClass, iFillable
     {
+        public BaseDataItemClass()
+        {
+
+        }
+
+        public BaseDataItemClass(string code)
+        {
+            SecCode = code;
+        }
+
+        
+
+        public BaseDataItemClass(DataRow dr)
+        {
+
+            FillByDataRow(dr);
+        }
         //WindAPI w;
         /// <summary>
         /// 万得内部名称，专供指数顶类
@@ -132,17 +149,7 @@ namespace WolfInv.com.BaseObjectsLib
                 return SecType.Other;
             }
         }
-        public BaseDataItemClass()
-        {
-
-
-        }
-
-        public BaseDataItemClass(DataRow dr)
-        {
-
-            FillByDataRow(dr);
-        }
+        
 
         public void FillByDataRow(DataRow dr)
         {

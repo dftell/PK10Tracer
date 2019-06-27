@@ -7,7 +7,7 @@ namespace WolfInv.com.SecurityLib
     /// </summary>
     public abstract class CommFilterLogicBaseClass : iCommCallBackable
     {
-        public CommStrategyBaseClass ExecStrategy;
+        public CommStrategyBaseClass ExecStrategy { get; set; }
         public BaseDataItemClass BaseInfo;
         public string secCode;
         public DateTime Endt;

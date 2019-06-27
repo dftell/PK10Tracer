@@ -31,6 +31,7 @@ namespace WolfInv.com.BaseObjectsLib
         public static DataTable ToTable<T>(List<T> list, bool UseDisplayNameAsColumnName, bool OnlyDisplayDefName, ref Dictionary<string, MemberInfo> DisIs)
         {
             DataTable ret = new DataTable();
+            int lasti = 0;
             try
             {
                 MemberInfo[] pis = typeof(T).GetMembers();
@@ -88,6 +89,7 @@ namespace WolfInv.com.BaseObjectsLib
                 }
                 for (int i = 0; i < list.Count; i++)
                 {
+                    lasti = i;
                     DataRow dr = ret.NewRow();
                     foreach (string key in DisIs.Keys)
                     {
@@ -118,7 +120,7 @@ namespace WolfInv.com.BaseObjectsLib
             }
             catch (Exception e)
             {
-                ToLog("错误", "将对象列表转换为数据表错误！", string.Format("{0}:{1}",e.Message,e.StackTrace));
+                ToLog("错误", "将对象列表转换为数据表错误！", string.Format("[{2}]{0}:{1}",e.Message,e.StackTrace,list[lasti].ToString()));
             }
             return ret;
         }
@@ -128,6 +130,8 @@ namespace WolfInv.com.BaseObjectsLib
             List<MemberInfo> ret = null;
             return FillByTable<T>(dt, ref ret);
         }
+
+        
 
         public List<T> FillByTable<T>(DataTable dt,ref List<MemberInfo> TableBuffs)
         {

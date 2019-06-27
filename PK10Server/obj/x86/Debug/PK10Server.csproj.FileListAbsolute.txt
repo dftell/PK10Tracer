@@ -28,9 +28,13 @@ F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\PK10Server\obj
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.csproj.CopyComplete
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.exe
 F:\cfzqzhouys\个人文件夹\策略交易终端开发\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.pdb
+C:\Users\zhouys\Source\project\Services\PK10Server.exe.config
+C:\Users\zhouys\Source\project\Services\PK10Server.exe
+C:\Users\zhouys\Source\project\Services\PK10Server.pdb
 C:\Users\zhouys\Source\project\PK10Tracer\PK10Server.exe.config
 C:\Users\zhouys\Source\project\PK10Tracer\PK10Server.exe
 C:\Users\zhouys\Source\project\PK10Tracer\PK10Server.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.csprojAssemblyReference.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.BaseTForm.resources
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.frm_NewStrag.resources
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.frm_StragManager.resources
@@ -41,10 +45,6 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Serv
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.frm_CommDBObjectsSetting.resources
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.csproj.GenerateResource.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.csproj.CoreCompileInputs.cache
-C:\Users\zhouys\Source\project\Services\PK10Server.exe.config
-C:\Users\zhouys\Source\project\Services\PK10Server.exe
-C:\Users\zhouys\Source\project\Services\PK10Server.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.exe
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.csprojAssemblyReference.cache

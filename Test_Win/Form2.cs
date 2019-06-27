@@ -20,10 +20,12 @@ namespace Test_Win
         GlobalObj gb;
         DateTime begT;
         string[] useCodes;
+        DataTypePoint dtp;
         public Form2(GlobalObj _gb)
         {
             gb = _gb;
             InitializeComponent();
+            dtp = GlobalClass.TypeDataPoints["CN_Stock_A"];
             //gb.Sys = new SystemGlobal(gb.w);
             
         }
@@ -102,7 +104,7 @@ namespace Test_Win
 
         private void btn_TestDayData_Click(object sender, EventArgs e)
         {
-            DataTypePoint dtp =  GlobalClass.TypeDataPoints["CN_Stock_A"];
+            
             //string code = "600519"; 
             ////if(!dtp.RuntimeInfo.SecurityCodes.Contains(code))
             ////{

@@ -23,6 +23,21 @@ namespace WolfInv.com.SecurityLib
             datatype = DataType;
         }
 
+        public override int DeleteChanceByIndex(long index, string strDataOwner = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int DeleteExpectData(string expectid)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void ExecProduce(string Procs)
+        {
+            throw new NotImplementedException();
+        }
+
         ////public NoSqlDataReader(string DataTable,Cycle DataCycle)
         ////{
         ////    this.strNewestTable = string.Format("{0}_{1}",DataTable,DataCycle);

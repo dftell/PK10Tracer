@@ -40,6 +40,7 @@
             this.tsmi_Operate = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuRefreshWebToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reLoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi_knockTheEgg = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_Setting = new System.Windows.Forms.ToolStripMenuItem();
             this.mnu_SetAssetUnitCnt = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -65,7 +66,6 @@
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer_RequestInst = new System.Timers.Timer();
-            this.tsmi_knockTheEgg = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -131,16 +131,23 @@
             // mnuRefreshWebToolStripMenuItem
             // 
             this.mnuRefreshWebToolStripMenuItem.Name = "mnuRefreshWebToolStripMenuItem";
-            this.mnuRefreshWebToolStripMenuItem.Size = new System.Drawing.Size(324, 38);
+            this.mnuRefreshWebToolStripMenuItem.Size = new System.Drawing.Size(160, 38);
             this.mnuRefreshWebToolStripMenuItem.Text = "睡觉";
             this.mnuRefreshWebToolStripMenuItem.Click += new System.EventHandler(this.mnuRefreshWebToolStripMenuItem_Click);
             // 
             // reLoadToolStripMenuItem
             // 
             this.reLoadToolStripMenuItem.Name = "reLoadToolStripMenuItem";
-            this.reLoadToolStripMenuItem.Size = new System.Drawing.Size(324, 38);
+            this.reLoadToolStripMenuItem.Size = new System.Drawing.Size(160, 38);
             this.reLoadToolStripMenuItem.Text = "醒来";
             this.reLoadToolStripMenuItem.Click += new System.EventHandler(this.reLoadToolStripMenuItem_Click);
+            // 
+            // tsmi_knockTheEgg
+            // 
+            this.tsmi_knockTheEgg.Name = "tsmi_knockTheEgg";
+            this.tsmi_knockTheEgg.Size = new System.Drawing.Size(160, 38);
+            this.tsmi_knockTheEgg.Text = "砸蛋";
+            this.tsmi_knockTheEgg.Click += new System.EventHandler(this.tsmi_knockTheEgg_Click);
             // 
             // tsmi_Setting
             // 
@@ -405,13 +412,6 @@
             this.timer_RequestInst.SynchronizingObject = this;
             this.timer_RequestInst.Elapsed += new System.Timers.ElapsedEventHandler(this.timer_RequestInst_Tick);
             // 
-            // tsmi_knockTheEgg
-            // 
-            this.tsmi_knockTheEgg.Name = "tsmi_knockTheEgg";
-            this.tsmi_knockTheEgg.Size = new System.Drawing.Size(324, 38);
-            this.tsmi_knockTheEgg.Text = "砸蛋";
-            this.tsmi_knockTheEgg.Click += new System.EventHandler(this.tsmi_knockTheEgg_Click);
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
@@ -424,7 +424,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "MainWindow";
-            this.Text = "快乐割菜";
+            this.Text = "     c c dz , ";
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

@@ -241,7 +241,11 @@ namespace PK10Server
 
         private void timer_For_getHtmlData_Tick(object sender, EventArgs e)
         {
-            RefreshNewestTXFFCData();
+            if(GlobalClass.DataTypes.ContainsKey("TXFFC"))
+            {
+                RefreshNewestTXFFCData();
+            }
+            
             return;
             //////int secCnt = DateTime.Now.Second;
             //////if (secCnt > 10)
@@ -320,6 +324,7 @@ namespace PK10Server
 
         private void tsmi_getTXFFCHistoryFromWeb_Click(object sender, EventArgs e)
         {
+            Application.DoEvents();
             TXFFC_HtmlDataClass rder = new TXFFC_HtmlDataClass(GlobalClass.TypeDataPoints["TXFFC"]);
             TXFFCExpectReader er = new TXFFCExpectReader();
             string StrBegDate = "2018-08-25";
@@ -338,6 +343,7 @@ namespace PK10Server
                     {
                         ExpectList<TimeSerialData> wlist = rder.getHistoryData<TimeSerialData>(strTt, j);//取到web
                         tmpList = ExpectList<TimeSerialData>.Concat(tmpList, wlist);
+                        Application.DoEvents();
                         Thread.Sleep(800);
                     }
                     tt=tt.AddDays(1);

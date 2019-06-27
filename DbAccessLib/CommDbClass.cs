@@ -50,5 +50,6 @@ namespace WolfInv.com.DbAccessLib
 
         public abstract DataTable getTableBySqlAndList<T>(ConditionSql sql, List<T> list);
 
+        public abstract int ExecSql(ConditionSql sql);
     }
 }

@@ -163,7 +163,7 @@ namespace WolfInv.com.SecurityLib
             return ret;
         }
 
-        public override int SaveChances<T>(List<ChanceClass<T>> list,string strDataOwner)
+        public override int SaveChances<T>(List<ChanceClass<T>> list,string strDataOwner=null)
         {
             if (list.Count == 0)
                 return 0;
@@ -182,6 +182,33 @@ namespace WolfInv.com.SecurityLib
                 sql = string.Format("Select * from {0} where IsEnd=0 and UserId='{1}'", strChanceTable,strDataOwner);
             return db.UpdateOrNewList(new ConditionSql(sql), dt);
 
+        }
+
+        public override int DeleteChanceByIndex(long index,string strDataOwner = null)
+        {
+            DbClass db = GlobalClass.getCurrDb();
+            string sql = null;
+            if (strDataOwner == null || strDataOwner.Trim().Length == 0)
+                sql = string.Format("Delete  from {0} where ChanceIndex={1}", strChanceTable,index);
+            else
+                sql = string.Format("Select * from {0} where ChanceIndex={1} and UserId='{2}'", strChanceTable, index,strDataOwner);
+            return db.ExecSql(new ConditionSql(sql));
+        }
+
+        public override int DeleteExpectData(string expectid)
+        {
+            DbClass db = GlobalClass.getCurrDb();
+            string sql = null;
+            sql = string.Format("Delete  from {0} where expect='{1}'", strNewestTable, expectid);
+            return db.ExecSql(new ConditionSql(sql));
+        }
+
+        public override void ExecProduce(string Procs)
+        {
+            DbClass db = GlobalClass.getCurrDb();
+            string sql = null;
+            sql = Procs;
+            db.ExecSql(new ConditionSql(sql));
         }
     }
 

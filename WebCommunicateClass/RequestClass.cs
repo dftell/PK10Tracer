@@ -158,12 +158,16 @@ namespace WolfInv.com.WebCommunicateClass
                 //修改为自动计算出来的结果
                 //Int64 Amt = cc.UnitCost*setting.SerTotal(cc.ChipCount);
                 int chips = cc.ChipCount - 1;
-                int maxcnt = amts.MaxHoldCnts[chips];
+                int maxcnt = 1;
+                if(amts.MaxHoldCnts.Length< chips)//只支持小注数策略，大注数全部使用1
+                    maxcnt = amts.MaxHoldCnts[chips];
                 int bShift = 0;
                 if (cc.HoldTimeCnt > maxcnt)
                     bShift = (int)maxcnt * 2 / 3;
                 int RCnt = (cc.HoldTimeCnt % (maxcnt + 1)) + bShift -1;
-                Int64 Amt = amts.Serials[cc.ChipCount - 1][RCnt]*AssetCnt;
+                Int64 Amt = 1;
+                if(amts.MaxHoldCnts.Length < chips)
+                    Amt = amts.Serials[chips][RCnt]*AssetCnt;
                 if (cc.ChanceType != 2)//非对冲
                 {
                     if (cc.ChanceType == 1)//一次性下注

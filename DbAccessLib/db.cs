@@ -68,6 +68,26 @@ namespace WolfInv.com.DbAccessLib
             return ret;
         }
 
+        public override int ExecSql(ConditionSql sql)
+        {
+            if (OpenConnect() == false)
+            {
+                return -1;
+            }
+            try
+            {
+                SqlCommand sc = new SqlCommand(sql.sql, conn);
+                return sc.ExecuteNonQuery();
+            }
+            catch (Exception ce)
+            {
+                Log("错误", "查询错误", string.Format("{0}:{1}", sql.sql, ce.Message));
+                return -1;
+            }
+        }
+
+        
+
         public override int SaveList(ConditionSql sql,DataTable dt)
         {
             if (OpenConnect() == false)

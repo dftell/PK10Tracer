@@ -120,6 +120,26 @@ namespace BackTestSys
             this.listView1.ContextMenuStrip = contextMenuStrip_ForListView;
             this.dataGridView_ExchangeDetail.ContextMenuStrip = contextMenuStrip_ForListView;
             CheckForIllegalCrossThreadCalls = false;
+            LoadDataSrc();
+        }
+
+        void LoadDataSrc()
+        {
+            this.ddl_DataSource.Items.Clear();
+            DataTable dt = new DataTable();
+            dt.Columns.Add("value");
+            dt.Columns.Add("text");
+            foreach(string key in GlobalClass.DataTypes.Keys)
+            {
+                DataRow dr = dt.NewRow();
+                dr["value"] = key;
+                dr["text"] = GlobalClass.DataTypes[key];
+                dt.Rows.Add(dr);
+            }
+            this.ddl_DataSource.DataSource = dt;
+            this.ddl_DataSource.DisplayMember = "text";
+            this.ddl_DataSource.ValueMember = "value";
+        
         }
 
         void tsmi_ExportExcel_Click(object sender, EventArgs e)
@@ -555,7 +575,15 @@ namespace BackTestSys
         private void btn_VirExchange_Click(object sender, EventArgs e)
         {
             if (this.ddl_DataSource.SelectedIndex < 0)
+            {
+                MessageBox.Show("请选择回测数据源！");
                 return;
+            } 
+            if(runPlanPicker1 == null || this.runPlanPicker1.Plans == null)
+            {
+                MessageBox.Show("请选择回测策略");
+                return;
+            }
             StragRunPlanClass<T>[] plans = this.runPlanPicker1.Plans as StragRunPlanClass<T>[];
             if (plans == null || plans.Length == 0)
                 return;
@@ -736,8 +764,23 @@ namespace BackTestSys
             //this.timer_Tip_Tick(null, null);
             //////try
             //////{
+            long BegT = 0;
+            long EndT = 0;
+            
+            if(ddl_DataSource.SelectedValue.ToString().Equals("CN_Stock_A"))
+            {
+                DateTime dtbeg = DateTime.Parse(this.txt_begExpNo.Text);
+                DateTime dtend = DateTime.Parse(this.txt_endExpNo.Text);
+                BegT = dtbeg.Ticks;
+                EndT = dtend.Ticks;
+            }
+            else
+            {
+                BegT = long.Parse(this.txt_begExpNo.Text);
+                EndT = long.Parse(this.txt_endExpNo.Text);
+            }
             if (btc == null)
-                btc  = new BackTestClass<T>(GlobalClass.TypeDataPoints[ddl_DataSource.Text],long.Parse(txt_begExpNo.Text), long.Parse(txt_LoopCnt.Text), setting);
+                btc  = new BackTestClass<T>(GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()],BegT, long.Parse(txt_LoopCnt.Text), setting,EndT);
             th = new Thread(RunVirtual);
             th.Start();
             return;
@@ -1006,6 +1049,18 @@ namespace BackTestSys
             frm_TrainForm<TimeSerialData> frm = new frm_TrainForm<TimeSerialData>();
             frm.ShowDialog();
             
+        }
+
+        private void ddl_DataSource_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddl_DataSource.SelectedIndex < 0)
+                return;
+            string txtsrc = ddl_DataSource.SelectedValue.ToString();
+            if(txtsrc.Equals("CN_Stock_A"))
+            {
+                this.txt_begExpNo.Text = "2008-1-1";
+                this.txt_endExpNo.Text = "2018-12-31";
+            }
         }
     }
 

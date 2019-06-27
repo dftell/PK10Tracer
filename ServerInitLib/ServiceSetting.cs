@@ -176,7 +176,8 @@ namespace WolfInv.com.ServerInitLib
                 List<string[]> test = new List<string[]>();
                 //List<string[]> codeGrp = GroupBuilder.ToGroup<string>(codes, dtp.CodeGrpCnt);
                 test.Add(new string[] { "000001" });
-                dtp.RuntimeInfo.XDXRList = InitSecurityClass.getAllXDXRDataAsync(key,dtp.RuntimeInfo.getGrpCodes);
+                //dtp.RuntimeInfo.XDXRList = InitSecurityClass.getAllXDXRDataAsync(key,dtp.RuntimeInfo.getGrpCodes);
+                dtp.RuntimeInfo.XDXRList = InitSecurityClass.getAllXDXRDataAsync(key, test);
                 //dtp.RuntimeInfo.XDXRList = new MongoDataDictionary<XDXRData>();//用时再取
                 //dtp.RuntimeInfo.XDXRList = InitSecurityClass.getAllXDXRDataAsync(key, test);
                 ToLog("获取XDXR总共经历时间", DateTime.Now.Subtract(now).TotalSeconds.ToString());

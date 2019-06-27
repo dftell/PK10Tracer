@@ -60,5 +60,7 @@ namespace WolfInv.com.WebCommunicateClass
         public UserBaseInfo ParentInfo;
         public int GroupId;
         public bool IsAdmin;
+        public string WXToUser;
+        public string AssetConfig;
     }
 }

@@ -10,7 +10,7 @@ using WolfInv.com.WebCommunicateClass;
 //using WolfInv.com.PK10CorePress;
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.RemoteObjectsLib;
-
+using System.Xml;
 namespace ExchangeTermial
 {
     public partial class Form1 : Form
@@ -29,6 +29,7 @@ namespace ExchangeTermial
                 strPwd = password;
             }
             this.txt_user.Text = strName;
+            Program.User = strName;
             this.txt_password.Text = strPwd;
             this.CancelButton = this.btn_cancel;
             this.AcceptButton = this.btn_login;
@@ -52,9 +53,33 @@ namespace ExchangeTermial
                 return ;
             }
             UserInfoClass ret =  cr.Result[0] as UserInfoClass;
+            Program.UserId = ret.BaseInfo.UserId;
             Program.gc.ClientUserName = ret.BaseInfo.UserCode;
             Program.gc.ClientPassword = ret.BaseInfo.Password;
             Program.gc.Odds = ret.BaseInfo.Odds;
+            Program.gc.WXLogNoticeUser = ret.BaseInfo.WXToUser;
+            XmlDocument xmldoc = new XmlDocument();
+            try
+            {
+                xmldoc.LoadXml(ret.BaseInfo.AssetConfig);
+                XmlNodeList items = xmldoc.SelectNodes("config[@type='AssetUnits']/item");
+                Dictionary<string, int> assetconfig = new Dictionary<string, int>();
+                if(items.Count>0)
+                {
+                    for (int i = 0; i < items.Count; i++)
+                    {
+                        string key = items[i].SelectSingleNode("@key").Value;
+                        int val = int.Parse(items[i].SelectSingleNode("@value").Value);
+                        if (!assetconfig.ContainsKey(key))
+                            assetconfig.Add(key, val);
+                    }
+                }
+                Program.gc.AssetUnits = assetconfig;
+            }
+            catch
+            {
+
+            }
             GlobalClass.SetConfig();
             this.Hide();
             //必须重新指定登录用户

@@ -50,6 +50,7 @@
     <Compile Include="BaseDataPointGuidClass.cs" />
     <Compile Include="Builder\BaseDataProcess.cs" />
     <Compile Include="Builder\CommDataBuilder.cs" />
+    <Compile Include="Builder\CommDataIntface.cs" />
     <Compile Include="Builder\CommGuidProcess.cs" />
     <Compile Include="Builder\DateSerialGuidBuilder.cs" />
     <Compile Include="Builder\ICommGuidProcess.cs" />

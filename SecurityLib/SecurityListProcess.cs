@@ -9,8 +9,10 @@ namespace WolfInv.com.SecurityLib
 {
     public class SecurityListProcess <T>: CommExpectListProcess<T> where T :TimeSerialData
     {
+        DataTypePoint dtp;
         public SecurityListProcess(ExpectList<T> _data) :base(_data)
         {
+            dtp = GlobalClass.TypeDataPoints["CN_Stock_A"];
         }
 
         public override List<Dictionary<int, string>> getNoDispNums(int reviewCnt)
@@ -21,6 +23,8 @@ namespace WolfInv.com.SecurityLib
         public override BaseCollection<T> getSerialData(int reviewCnt, bool ByNo)
         {
             BaseCollection<T> ret = new SecurityCollection<T>();
+            CommMarketClass cmc = new CommMarketClass(dtp);
+            //cmc.GetMarketsStocks("000001", strendT, 500, true, true, false);
             //ret.orgData = data;
             return ret;
         }

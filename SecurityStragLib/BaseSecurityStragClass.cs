@@ -9,11 +9,17 @@ using WolfInv.com.GuideLib;
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.LogLib;
 using WolfInv.com.Strags;
-
+using WolfInv.com.SecurityLib;
 namespace WolfInv.com.SecurityStragLib
 {
     public abstract class BaseSecurityStragClass<T>:BaseStragClass<T> where T:TimeSerialData
     {
+        protected CommFilterLogicBaseClass LogicFilter;
+
+        protected BaseSecurityStragClass()
+        {
+        }
+
         //public override List<ChanceClass<T>> getChances(BaseCollection<T> sc, ExpectData<T> ed);
 
         //public override StagConfigSetting getInitStagSetting()
@@ -26,9 +32,6 @@ namespace WolfInv.com.SecurityStragLib
             return this.GetType();
         }
 
-        void test()
-        {
-            
-        }
+        
     }
 }

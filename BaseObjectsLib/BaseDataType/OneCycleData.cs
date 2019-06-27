@@ -58,6 +58,11 @@ namespace WolfInv.com.BaseObjectsLib
         double date_stamp { get; set; }
     }
 
+    public interface ICodeDateStampData:ICodeData,IDateStampData
+    {
+
+    }
+
     
 }
 ;

@@ -12,6 +12,7 @@ namespace WolfInv.com.SecurityLib
         public TXFFC_HtmlDataClass(DataTypePoint dp) : base(dp)
         {
             dataUrl =  GlobalClass.TXFFC_url;
+            this.dataUrl = GlobalClass.TypeDataPoints["TXFFC"].RuntimeInfo.DefaultDataUrl;
         }
 
         protected override ExpectList<T> getData<T>(string strHtml)

@@ -52,12 +52,16 @@ namespace WolfInv.com.SecurityLib
 
         public override ExpectList<T> ReadHistory<T>(long From, long buffs)
         {
-            throw new NotImplementedException();
+            return ReadHistory<T>(From, buffs, true);
         }
 
         public override ExpectList<T> ReadHistory<T>(long From, long buffs, bool desc)
         {
-            throw new NotImplementedException();
+            DateTime dt = new DateTime( From);
+            MongoDataDictionary<T> res = GetAllCodeDateSerialDataList<T>(string.Format("{0}-{1}-{2}",dt.Year,dt.Month.ToString().PadLeft(2,'0'),dt.Day.ToString().PadLeft(2,'0')), true);
+            Dictionary<string, MongoReturnDataList<T>> data = res;
+            ExpectList<T> ret = new ExpectList<T>(data, true);
+            return ret;
         }
 
         public override ExpectList<T> ReadHistory<T>(string begt, string endt)
@@ -100,5 +104,19 @@ namespace WolfInv.com.SecurityLib
             throw new NotImplementedException();
         }
         //public abstract MongoDataList GetAllTimeSerialList();
+        public override int DeleteChanceByIndex(long index, string strDataOwner = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int DeleteExpectData(string expectid)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void ExecProduce(string Procs)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

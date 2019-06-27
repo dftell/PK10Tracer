@@ -46,10 +46,13 @@ namespace WolfInv.com.SecurityLib
                 filter = filter & Builders<T>.Filter.In(a => (a as ICodeData).code, Codes);
             filter = filter & Builders<T>.Filter.Gte(a => (a as IDateStampData).date_stamp, MongoDateTime.Stamp(begT));
             SortDefinition<T> sort = null;
-            if(Asc)
-                sort = Builders<T>.Sort.Ascending(a => (a as IDateData).date);
+            FieldDefinition<T> fd = "{code_1_date_stamp_1:1}";
+            if (Asc)
+                //sort = Builders<T>.Sort.Ascending(a => (a as IDateStampData).date_stamp);
+                sort = Builders<T>.Sort.Ascending(fd);
             else
-                sort = Builders<T>.Sort.Descending(a => (a as IDateData).date);
+                //sort = Builders<T>.Sort.Descending(a => (a as IDateStampData).date_stamp);
+                sort = Builders<T>.Sort.Descending(fd);
             //查询字段
             string[] fileds = null;
             return new MongoReturnDataList<T>(_mongoDB.FindList<T>(this.TableName, filter, fileds, sort));
@@ -101,10 +104,10 @@ namespace WolfInv.com.SecurityLib
         {
             FilterDefinition<T> filter = Builders<T>.Filter.Empty;
             if (Codes.Length == 1)
-                filter = filter & Builders<T>.Filter.Eq(a => (a as ICodeData).code, Codes[0]);
+                filter = filter & Builders<T>.Filter.Eq(a => (a as ICodeDateStampData).code, Codes[0]);
             else
-                filter = filter & Builders<T>.Filter.In(a => (a as ICodeData).code, Codes);
-            filter = filter & Builders<T>.Filter.Lte(a => (a as IDateStampData).date_stamp, MongoDateTime.Stamp(endT));
+                filter = filter & Builders<T>.Filter.In(a => (a as ICodeDateStampData).code, Codes);
+            filter = filter & Builders<T>.Filter.Lte(a => (a as ICodeDateStampData).date_stamp, MongoDateTime.Stamp(endT));
             SortDefinition<T> sort = null;
             FieldDefinition<T> fd = "{code_1_date_stamp_1:1}";
             if (Asc)

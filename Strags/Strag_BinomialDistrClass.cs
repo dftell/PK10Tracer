@@ -236,15 +236,26 @@ namespace WolfInv.com.Strags
                     return ret;
                 }
                 //大于5码的不受限制
+                int shift = 0;
                 if (cc.ChipCount < this.InputMinTimes && cc.HoldTimeCnt > cc.AllowMaxHoldTimeCnt && cc.AllowMaxHoldTimeCnt > 0)
                 {
-                    return 0;
+                    if(cc.ChipCount>=2)//大于等于3的，超过了一定期数以后可以跟号。4码5次，3码7次,2码11次。n+(5-n)^2
+                    {
+                        shift = cc.ChipCount + (5 - ChipCount) ^ 2;
+                    }
+                    else
+                    {
+                        shift = 50;
+                    }
+                    Log(string.Format("组合信息:{0};指定最小长度:{1}",cc.ChanceCode??"", this.InputMinTimes),string.Format("当前次数:{0};最小入场次数:{1}",cc.HoldTimeCnt,shift));
+                    if(cc.HoldTimeCnt<shift)
+                        return 0;
                 }
                 if (cc.HoldTimeCnt <= cc.AllowMaxHoldTimeCnt && cc.AllowMaxHoldTimeCnt > 0) //如果小于等于1
                 {
                     return cc.FixAmt.Value;
                 }
-                int hcnt = cc.HoldTimeCnt - 0;
+                int hcnt = cc.HoldTimeCnt - shift;
                 int chips = cc.ChipCount - 1;
                 int maxcnt = amts.MaxHoldCnts[chips];
                 int bShift = 0;

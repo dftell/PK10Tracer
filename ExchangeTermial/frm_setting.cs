@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using WolfInv.com.WebCommunicateClass;
 //using WolfInv.com.PK10CorePress;
 using WolfInv.com.BaseObjectsLib;
 //using WolfInv.com.SecurityLib;
@@ -41,6 +42,7 @@ namespace ExchangeTermial
             gc.AssetUnits = ret;
             try
             {
+                SaveToServer(ret);
                 GlobalClass.SetConfig();
                 this.Close();
             }
@@ -48,6 +50,16 @@ namespace ExchangeTermial
             {
                 MessageBox.Show(ce.Message);
             }
+        }
+
+        void SaveToServer(Dictionary<string,int> assets)
+        {
+            string strReq = "<config  type='AssetUnits'>{0}</config>";
+            string[] list = assets.Select(a => string.Format("<item key='{0}' value='{1}'/>", a.Key, a.Value)).ToArray();
+            string urlModel = "http://www.wolfinv.com/pk10/app/UpdateUser.asp?UserId={0}&AssetConfig={1}";
+            string reqAsset = string.Format(strReq, string.Join("", list));
+            string url = string.Format(urlModel, Program.UserId, reqAsset);
+            AccessWebServerClass.GetData(url, Encoding.UTF8);
         }
 
         DataTable getAssetUnitSetting(Dictionary<string,string> aul,Dictionary<string,int> aus)

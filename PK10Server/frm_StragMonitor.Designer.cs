@@ -82,6 +82,7 @@
             this.tmi_StartPlan = new System.Windows.Forms.ToolStripMenuItem();
             this.tmi_StopPlan = new System.Windows.Forms.ToolStripMenuItem();
             this.tmi_Edit = new System.Windows.Forms.ToolStripMenuItem();
+            this.tmi_Delete = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.dg_StragList = new System.Windows.Forms.DataGridView();
             this.tabPage8 = new System.Windows.Forms.TabPage();
@@ -149,7 +150,7 @@
             // 
             this.splitContainer_Main.Panel2.Controls.Add(this.tabControl1);
             this.splitContainer_Main.Size = new System.Drawing.Size(1540, 1103);
-            this.splitContainer_Main.SplitterDistance = 781;
+            this.splitContainer_Main.SplitterDistance = 780;
             this.splitContainer_Main.SplitterWidth = 8;
             this.splitContainer_Main.TabIndex = 0;
             // 
@@ -168,7 +169,7 @@
             // splitContainer_Up.Panel2
             // 
             this.splitContainer_Up.Panel2.Controls.Add(this.groupBox1);
-            this.splitContainer_Up.Size = new System.Drawing.Size(1540, 781);
+            this.splitContainer_Up.Size = new System.Drawing.Size(1540, 780);
             this.splitContainer_Up.SplitterDistance = 534;
             this.splitContainer_Up.SplitterWidth = 8;
             this.splitContainer_Up.TabIndex = 0;
@@ -181,7 +182,7 @@
             this.groupBox2.Margin = new System.Windows.Forms.Padding(6);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(6);
-            this.groupBox2.Size = new System.Drawing.Size(534, 781);
+            this.groupBox2.Size = new System.Drawing.Size(534, 780);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "交易品种监控";
@@ -196,7 +197,7 @@
             this.tabControl2.Margin = new System.Windows.Forms.Padding(6);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(522, 741);
+            this.tabControl2.Size = new System.Drawing.Size(522, 740);
             this.tabControl2.TabIndex = 0;
             // 
             // tabPage4
@@ -206,7 +207,7 @@
             this.tabPage4.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(6);
-            this.tabPage4.Size = new System.Drawing.Size(716, 694);
+            this.tabPage4.Size = new System.Drawing.Size(506, 693);
             this.tabPage4.TabIndex = 0;
             this.tabPage4.Text = "基础数据";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -243,8 +244,9 @@
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dg_baseData.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dg_baseData.RowTemplate.Height = 23;
-            this.dg_baseData.Size = new System.Drawing.Size(704, 682);
+            this.dg_baseData.Size = new System.Drawing.Size(494, 681);
             this.dg_baseData.TabIndex = 0;
+            this.dg_baseData.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dg_baseData_MouseUp);
             // 
             // tabPage5
             // 
@@ -254,7 +256,7 @@
             this.tabPage5.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(6);
-            this.tabPage5.Size = new System.Drawing.Size(506, 694);
+            this.tabPage5.Size = new System.Drawing.Size(506, 693);
             this.tabPage5.TabIndex = 1;
             this.tabPage5.Text = "波动曲线图";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -349,7 +351,7 @@
             series1.Legend = "Legend1";
             series1.Name = "数据4";
             this.chart_ForGuide.Series.Add(series1);
-            this.chart_ForGuide.Size = new System.Drawing.Size(488, 555);
+            this.chart_ForGuide.Size = new System.Drawing.Size(488, 554);
             this.chart_ForGuide.TabIndex = 0;
             this.chart_ForGuide.Text = "波动曲线图";
             // 
@@ -359,7 +361,7 @@
             this.tabPage10.Location = new System.Drawing.Point(8, 39);
             this.tabPage10.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage10.Name = "tabPage10";
-            this.tabPage10.Size = new System.Drawing.Size(716, 694);
+            this.tabPage10.Size = new System.Drawing.Size(506, 691);
             this.tabPage10.TabIndex = 2;
             this.tabPage10.Text = "资产单元";
             this.tabPage10.UseVisualStyleBackColor = true;
@@ -372,7 +374,7 @@
             this.dg_AssetUnits.Margin = new System.Windows.Forms.Padding(6);
             this.dg_AssetUnits.Name = "dg_AssetUnits";
             this.dg_AssetUnits.RowTemplate.Height = 23;
-            this.dg_AssetUnits.Size = new System.Drawing.Size(716, 694);
+            this.dg_AssetUnits.Size = new System.Drawing.Size(506, 691);
             this.dg_AssetUnits.TabIndex = 0;
             this.dg_AssetUnits.DoubleClick += new System.EventHandler(this.dg_AssetUnits_DoubleClick);
             // 
@@ -384,7 +386,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(6);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(6);
-            this.groupBox1.Size = new System.Drawing.Size(998, 781);
+            this.groupBox1.Size = new System.Drawing.Size(998, 780);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "策略状态监控";
@@ -400,7 +402,7 @@
             this.tabControl3.Margin = new System.Windows.Forms.Padding(6);
             this.tabControl3.Name = "tabControl3";
             this.tabControl3.SelectedIndex = 0;
-            this.tabControl3.Size = new System.Drawing.Size(986, 741);
+            this.tabControl3.Size = new System.Drawing.Size(986, 740);
             this.tabControl3.TabIndex = 1;
             // 
             // tabPage9
@@ -409,7 +411,7 @@
             this.tabPage9.Location = new System.Drawing.Point(8, 39);
             this.tabPage9.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage9.Name = "tabPage9";
-            this.tabPage9.Size = new System.Drawing.Size(970, 694);
+            this.tabPage9.Size = new System.Drawing.Size(970, 693);
             this.tabPage9.TabIndex = 3;
             this.tabPage9.Text = "分组状态";
             this.tabPage9.UseVisualStyleBackColor = true;
@@ -446,7 +448,7 @@
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dg_PlanGrps.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dg_PlanGrps.RowTemplate.Height = 23;
-            this.dg_PlanGrps.Size = new System.Drawing.Size(970, 694);
+            this.dg_PlanGrps.Size = new System.Drawing.Size(970, 693);
             this.dg_PlanGrps.TabIndex = 0;
             // 
             // tabPage6
@@ -456,7 +458,7 @@
             this.tabPage6.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(6);
-            this.tabPage6.Size = new System.Drawing.Size(760, 694);
+            this.tabPage6.Size = new System.Drawing.Size(970, 691);
             this.tabPage6.TabIndex = 0;
             this.tabPage6.Text = "计划运行状态";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -496,7 +498,7 @@
             dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dg_stragStatus.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.dg_stragStatus.RowTemplate.Height = 23;
-            this.dg_stragStatus.Size = new System.Drawing.Size(748, 682);
+            this.dg_stragStatus.Size = new System.Drawing.Size(958, 679);
             this.dg_stragStatus.TabIndex = 0;
             this.dg_stragStatus.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dg_stragStatus_MouseUp);
             // 
@@ -507,9 +509,10 @@
             this.tmi_refreshPlans,
             this.tmi_StartPlan,
             this.tmi_StopPlan,
-            this.tmi_Edit});
+            this.tmi_Edit,
+            this.tmi_Delete});
             this.contextMenuStrip_OperatePlan.Name = "contextMenuStrip_OperatePlan";
-            this.contextMenuStrip_OperatePlan.Size = new System.Drawing.Size(233, 148);
+            this.contextMenuStrip_OperatePlan.Size = new System.Drawing.Size(233, 184);
             // 
             // tmi_refreshPlans
             // 
@@ -536,8 +539,15 @@
             // 
             this.tmi_Edit.Name = "tmi_Edit";
             this.tmi_Edit.Size = new System.Drawing.Size(232, 36);
-            this.tmi_Edit.Text = "Edit";
+            this.tmi_Edit.Text = "修改";
             this.tmi_Edit.Click += new System.EventHandler(this.tmi_Edit_Click);
+            // 
+            // tmi_Delete
+            // 
+            this.tmi_Delete.Name = "tmi_Delete";
+            this.tmi_Delete.Size = new System.Drawing.Size(232, 36);
+            this.tmi_Delete.Text = "删除";
+            this.tmi_Delete.Click += new System.EventHandler(this.tmi_Delete_Click);
             // 
             // tabPage7
             // 
@@ -546,7 +556,7 @@
             this.tabPage7.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(6);
-            this.tabPage7.Size = new System.Drawing.Size(760, 694);
+            this.tabPage7.Size = new System.Drawing.Size(970, 691);
             this.tabPage7.TabIndex = 1;
             this.tabPage7.Text = "策略清单";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -583,7 +593,7 @@
             dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dg_StragList.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
             this.dg_StragList.RowTemplate.Height = 23;
-            this.dg_StragList.Size = new System.Drawing.Size(748, 682);
+            this.dg_StragList.Size = new System.Drawing.Size(958, 679);
             this.dg_StragList.TabIndex = 0;
             this.dg_StragList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dg_StragList_MouseUp);
             // 
@@ -593,7 +603,7 @@
             this.tabPage8.Location = new System.Drawing.Point(8, 39);
             this.tabPage8.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Size = new System.Drawing.Size(760, 694);
+            this.tabPage8.Size = new System.Drawing.Size(970, 691);
             this.tabPage8.TabIndex = 2;
             this.tabPage8.Text = "委托状态";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -606,8 +616,9 @@
             this.dg_NoCloseChances.Margin = new System.Windows.Forms.Padding(6);
             this.dg_NoCloseChances.Name = "dg_NoCloseChances";
             this.dg_NoCloseChances.RowTemplate.Height = 23;
-            this.dg_NoCloseChances.Size = new System.Drawing.Size(760, 694);
+            this.dg_NoCloseChances.Size = new System.Drawing.Size(970, 691);
             this.dg_NoCloseChances.TabIndex = 0;
+            this.dg_NoCloseChances.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dg_NoCloseChances_MouseUp);
             // 
             // tabControl1
             // 
@@ -619,7 +630,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(6);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1540, 314);
+            this.tabControl1.Size = new System.Drawing.Size(1540, 315);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -629,7 +640,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(6);
-            this.tabPage1.Size = new System.Drawing.Size(1524, 267);
+            this.tabPage1.Size = new System.Drawing.Size(1524, 268);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "交易记录";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -666,8 +677,9 @@
             dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dg_ExchangeList.RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
             this.dg_ExchangeList.RowTemplate.Height = 23;
-            this.dg_ExchangeList.Size = new System.Drawing.Size(1512, 255);
+            this.dg_ExchangeList.Size = new System.Drawing.Size(1512, 256);
             this.dg_ExchangeList.TabIndex = 0;
+            this.dg_ExchangeList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dg_ExchangeList_MouseUp);
             // 
             // tabPage2
             // 
@@ -677,7 +689,7 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(6);
             this.tabPage2.Size = new System.Drawing.Size(1524, 267);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "策略记录";
+            this.tabPage2.Text = "历史委托";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // tabPage3
@@ -725,6 +737,7 @@
             this.dg_LoginList.RowTemplate.Height = 23;
             this.dg_LoginList.Size = new System.Drawing.Size(1524, 267);
             this.dg_LoginList.TabIndex = 0;
+            this.dg_LoginList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dg_LoginList_MouseUp);
             // 
             // menuStrip1
             // 
@@ -869,5 +882,6 @@
         private System.Windows.Forms.TextBox txt_AssetTimeLength;
         private System.Windows.Forms.ComboBox ddl_assetunits;
         private System.Windows.Forms.Button btn_clearNet;
+        private System.Windows.Forms.ToolStripMenuItem tmi_Delete;
     }
 }

@@ -40,7 +40,15 @@ namespace ExchangeTermial
         {
             get
             {
-                HtmlDocument doc = webBrowser1.Document;
+                HtmlDocument doc = null;
+                try
+                {
+                    doc = webBrowser1.Document;
+                }
+                catch
+                {
+
+                }
                 return wr.GetCurrMoney(doc);
             }
         }
@@ -141,20 +149,29 @@ namespace ExchangeTermial
             string url = string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost);
             try
             {
-                
-                //this.webBrowser1 = null;
-                //this.webBrowser1 = new WebBrowser();
-                this.webBrowser1.DocumentCompleted += webBrowser1_DocumentCompleted;
-                //this.webBrowser1.Url = new Uri(url);
-                this.webBrowser1.Navigate(url);
-                this.webBrowser1.ScriptErrorsSuppressed = true;
-                LogableClass.ToLog(webBrowser1?.Url?.Host, "准备唤醒！");
+                lock (webBrowser1)
+                {
+
+                    //this.webBrowser1 = null;
+                    //this.webBrowser1 = new WebBrowser();
+                    this.webBrowser1.DocumentCompleted += webBrowser1_DocumentCompleted;
+                    //this.webBrowser1.Url = new Uri(url);
+                    this.webBrowser1.Navigate(url);
+                    this.webBrowser1.ScriptErrorsSuppressed = true;
+                    LogableClass.ToLog(webBrowser1?.Url?.Host, "准备唤醒！");
+                    Program.wxl.Log("起来", "不愿做奴隶的程序们！");
+                }
+                ////else
+                ////{
+                ////    Program.wxl.Log("起不来", "睡眠不足！");
+                ////    return;
+                ////}
 
             }
             catch(Exception ce)
             {
                 LogableClass.ToLog("错误", ce.Message, ce.StackTrace);
-                Program.wxl.Log("错误","唤醒网页错误",string.Format("{0}:{1}", ce.Message, ce.StackTrace));
+                Program.wxl.Log("错误","起床困难户。",string.Format("{0}:{1}", ce.Message, ce.StackTrace));
             }
             this.timer_RequestInst.Interval = 60 * 1000;
             this.timer_RequestInst.Enabled = true;
@@ -374,13 +391,14 @@ namespace ExchangeTermial
                 if (cr.Cnt != 1)
                 {
                     this.statusStrip1.Items[0].Text = "无指令！";
+                    Program.wxl.Log("无指令！");
                     return;
                 }
                 RequestClass ic = cr.Result[0] as RequestClass;
                 if (ic == null)
                 {
                     this.statusStrip1.Items[0].Text = "指令内容错误！";
-                    Program.wxl.Log(this.statusStrip1.Items[0].Text);
+                    Program.wxl.Log("指令内容错误！");
                     return;
                 }
                 Int64 CurrExpectNo = Int64.Parse(ic.Expect);
@@ -416,7 +434,8 @@ namespace ExchangeTermial
                     }
                     else//如果没有登录，重新载入,当前指令不发送，只要不发送，这条指令就不会存入缓存。可以下次获取到再发
                     {
-                        LoadUrl();
+                        if(webBrowser1.ReadyState == WebBrowserReadyState.Complete)//如果状态完成了还是没有登录，那就要重新登陆
+                            LoadUrl();
 
                     }
 
@@ -451,7 +470,7 @@ namespace ExchangeTermial
             catch(Exception ce)
             {
                 LogableClass.ToLog("错误", "刷新指令",string.Format("{0}:{1}",ce.Message,ce.StackTrace));
-                Program.wxl.Log("错误", "刷新指令", string.Format("{0}:{1}", ce.Message, ce.StackTrace));
+                Program.wxl.Log("错误", "刷新指令发生错误。", string.Format("{0}:{1}", ce.Message, ce.StackTrace));
 
             }
         }
@@ -465,38 +484,56 @@ namespace ExchangeTermial
         private void btn_Send_Click(object sender, EventArgs e)
         {
             if (this.txt_Insts.Text.Trim().Length == 0) return;
-            if(dicExistInst.ContainsKey(this.NewExpect))
-            {
-                return;
-            }
-            dicExistInst.Add(this.NewExpect, this.txt_Insts.Text);
+            
             Rule_ForKcaiCom rule = new Rule_ForKcaiCom(Program.gc);
             AddScript();
             string msg = rule.IntsToJsonString(this.txt_Insts.Text, Program.gc.ChipUnit);
             double lastval = this.CurrVal;
             //SendMsg
-            webBrowser1.Document.InvokeScript("SendMsg", new string[] { this.NewExpect.ToString(), msg });
-            Application.DoEvents();
-            Thread.Sleep(5 * 1000);
-            webBrowser1.Refresh();
-            Application.DoEvents();
-            Thread.Sleep(3 * 1000);
-            string ValTip = "无";
-            if(CurrVal<=lastval)
+            int maxCnt = 10;
+            int sendCnt = 0;
+            int sleepsec = 60;
+            while(webBrowser1.ReadyState != WebBrowserReadyState.Complete)
             {
-                ValTip = "下注后金额无变化，您的下注可能在20秒内没被执行！请注意查看！";
+                sendCnt++;
+                
+                Program.wxl.Log("警告",string.Format("第{0}次浏览器加载未完成",sendCnt),string.Format("请检查主机http://www.kcai{0}.com是否正常！",Program.gc.LoginDefaultHost));
+                //LoadUrl();
+                Application.DoEvents();
+                Thread.Sleep(sleepsec * 1000);
+                if (sendCnt> maxCnt)
+                {
+                    LoadUrl();
+                    Program.wxl.Log("错误", "发送指令失败！", string.Format("连续{0}次未发送出下注指令！", sendCnt));
+                    return;
+                }
             }
-            Program.wxl.Log(string.Format("[{0}]:{1};下注前金额:{2:f2};现可用余额:{3:f2}；提示:{4}",this.NewExpect, this.txt_Insts.Text, lastval,this.CurrVal,ValTip));
+            webBrowser1.Document.InvokeScript("SendMsg", new object[] { this.NewExpect.ToString(), msg,Program.gc.ClientUserName, Program.gc.WXLogNoticeUser,this.txt_Insts.Text, lastval });
+            if (!dicExistInst.ContainsKey(this.NewExpect))
+            {
+                dicExistInst.Add(this.NewExpect, this.txt_Insts.Text);
+            }
+            //Application.DoEvents();
+            //Thread.Sleep(5 * 1000);
+            //webBrowser1.Refresh();
+            //Application.DoEvents();
+            //Thread.Sleep(3 * 1000);
+            ////string ValTip = "无";
+            ////if(CurrVal<=lastval)
+            ////{
+            ////    ValTip = "下注后金额无变化，您的下注可能在20秒内没被执行！请注意查看！";
+            ////}
+            //Program.wxl.Log(string.Format("[{0}]:{1};下注前金额:{2:f2};现可用余额:{3:f2}；提示:{4}",this.NewExpect, this.txt_Insts.Text, lastval,this.CurrVal,ValTip));
             ////if (e != null)
             ////{
             ////    MessageBox.Show(msg);
             ////}
-            
-            if(sender != null)
-            {
-                Thread.Sleep(2 * 1000);
-                MessageBox.Show(string.Format("下注前金额:{0:f2};现可用余额:{1:f2}；提示:{2}",lastval, this.CurrVal,ValTip));
-            }
+
+            //if (sender != null)
+            //{
+            //    Thread.Sleep(2 * 1000);
+            //    MessageBox.Show(string.Format("下注前金额:{0:f2};现可用余额:{1:f2}；提示:{2}", lastval, this.CurrVal, ValTip));
+            //}
         }
 
         private void mnu_SetAssetUnitCnt_Click(object sender, EventArgs e)
@@ -520,12 +557,35 @@ namespace ExchangeTermial
         {
             ReadySleep = true;
             string url = "https://www.baidu.com";
-            this.webBrowser1.Navigate(url);
+            try
+            {
+                if (webBrowser1.ReadyState == WebBrowserReadyState.Complete)
+                {
+                    this.webBrowser1.Navigate(url);
+                }
+                else
+                {
+                    Program.wxl.Log("程序们，再坚持一会","让其他屌丝们干完事了一起睡！");
+                    
+                    ReadySleep = false;
+                    Thread.Sleep(2 * 60 * 1000);
+                    return;
+                }
+            }
+            catch(Exception ce)
+            {
+                ReadySleep = false;
+                Thread.Sleep(2 * 60 * 1000);
+                LogableClass.ToLog("错误", "此刻无法入眠", string.Format("{0}:{1}", ce.Message, ce.StackTrace));
+                Program.wxl.Log("错误", "此刻无法入眠，让我再酝酿一番如何？", string.Format("{0}:{1}", ce.Message, ce.StackTrace));
+                return;
+            }
             WebBrowserLoad = false;
             Logined = false;
             InSleep = true;
             Set_SendTime(false);
-       }
+            Program.wxl.Log("洗洗睡吧，明日再薅！");
+        }
 
         private void reLoadToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -576,7 +636,8 @@ namespace ExchangeTermial
         void KnockEgg()
         {
             AddScript();
-            webBrowser1.Document.InvokeScript("ClickEgg",new object[] { Program.VerNo });
+            webBrowser1.Document.InvokeScript("ClickEgg",new object[] { Program.gc.ClientUserName, Program.gc.WXLogNoticeUser });
+            //Program.wxl.Log("已为您砸金蛋！");
         }
 
         private void tsmi_knockTheEgg_Click(object sender, EventArgs e)

@@ -177,7 +177,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>cd /d C:\Users\zhouys\Source\project\PK10TracerClient
-del /Q *.dll
 del /Q *.pdb
 del /Q *.exe
 del /Q *.log</PreBuildEvent>

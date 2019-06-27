@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 namespace WolfInv.com.BaseObjectsLib
 {
-    public interface IExchangeData: IDateData,ICodeData,IOHLCData, iVolAmount, IDateStampData
+    public interface IExchangeData: ICodeDateStampData, IOHLCData, iVolAmount, IDateStampData
     {
 
     }
