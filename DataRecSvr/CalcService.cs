@@ -20,6 +20,9 @@ namespace DataRecSvr
 {
     public partial class CalcService<T> : SelfDefBaseService<T> where T :TimeSerialData
     {
+        public DataTypePoint DataPoint { get; set; }
+        public string[] Codes { get; set; }
+        public string ReadDataTableName { get; set; }
         public bool AllowCalc = false;
         int FinishedThreads = 0;
         int RunThreads = 0;
@@ -290,9 +293,10 @@ namespace DataRecSvr
             {
                 cl = Program.AllServiceConfig.AllNoClosedChanceList.Values.Select(a => a).ToList() as List<ChanceClass<T>>;
             }
-            else//非回测，使用数据库数据
+            else//非回测，使用数据库数据ReadDataTableName
             {
-                DbChanceList<T> dcl = new PK10ExpectReader().getNoCloseChances<T>(null);
+                //DbChanceList<T> dcl = new PK10ExpectReader().getNoCloseChances<T>(null);
+                DbChanceList<T> dcl = DataReaderBuild.CreateReader(DataPoint.DataType, ReadDataTableName, Codes).getNoCloseChances<T>(null);
                 cl = dcl.Values.ToList();
             }
 
@@ -437,7 +441,8 @@ namespace DataRecSvr
             //int ret = NeedClose.Save(null);
             if (NeedClose != null && NeedClose.Count > 0)
             {
-                int ret = new PK10ExpectReader().SaveChances(NeedClose.Values.ToList<ChanceClass<T>>(), null);
+                //int ret = new PK10ExpectReader().SaveChances(NeedClose.Values.ToList<ChanceClass<T>>(), null);
+                int ret = DataReaderBuild.CreateReader(DataPoint.DataType,ReadDataTableName,Codes).SaveChances(NeedClose.Values.ToList<ChanceClass<T>>(), null);
                 if (NeedClose.Count > 0)
                     Log("保存关闭的机会", string.Format("数量:{0}", ret));
             }

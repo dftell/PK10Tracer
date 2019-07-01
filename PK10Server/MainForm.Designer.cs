@@ -91,6 +91,7 @@
             this.tsmi_getTXFFCHistoryTxtData = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_getTXFFCHistoryFromWeb = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem_TestDataSrc = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi_getHistoryData = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_CommSetting = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem_StragManager = new System.Windows.Forms.ToolStripMenuItem();
@@ -98,6 +99,7 @@
             this.tsmi_AssetUnitMgr = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.timer_For_getHtmlData = new System.Windows.Forms.Timer(this.components);
+            this.tssl_Count = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -111,6 +113,7 @@
             this.tabPage4.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.tabPage6.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -155,6 +158,7 @@
             // 
             this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer1.Location = new System.Drawing.Point(4, 4);
             this.splitContainer1.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer1.Name = "splitContainer1";
@@ -165,7 +169,6 @@
             this.splitContainer1.Panel1.Controls.Add(this.groupBox3);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox2);
             this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
-            
             // 
             // splitContainer1.Panel2
             // 
@@ -173,8 +176,6 @@
             this.splitContainer1.Panel2.Controls.Add(this.statusStrip1);
             this.splitContainer1.Size = new System.Drawing.Size(2044, 890);
             this.splitContainer1.SplitterDistance = 200;
-            
-            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer1.TabIndex = 0;
             // 
             // groupBox3
@@ -370,7 +371,7 @@
             this.tabControl2.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(2040, 572);
+            this.tabControl2.Size = new System.Drawing.Size(2040, 646);
             this.tabControl2.TabIndex = 1;
             // 
             // tabPage3
@@ -380,7 +381,7 @@
             this.tabPage3.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage3.Size = new System.Drawing.Size(2024, 525);
+            this.tabPage3.Size = new System.Drawing.Size(2024, 599);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "排名信息";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -392,7 +393,7 @@
             this.listView_forSerial.Location = new System.Drawing.Point(4, 4);
             this.listView_forSerial.Margin = new System.Windows.Forms.Padding(4);
             this.listView_forSerial.Name = "listView_forSerial";
-            this.listView_forSerial.Size = new System.Drawing.Size(2016, 517);
+            this.listView_forSerial.Size = new System.Drawing.Size(2016, 591);
             this.listView_forSerial.TabIndex = 0;
             this.listView_forSerial.UseCompatibleStateImageBehavior = false;
             this.listView_forSerial.View = System.Windows.Forms.View.Details;
@@ -404,7 +405,7 @@
             this.tabPage4.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage4.Size = new System.Drawing.Size(2024, 509);
+            this.tabPage4.Size = new System.Drawing.Size(2024, 610);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "对象信息";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -416,7 +417,7 @@
             this.listView_ForCar.Location = new System.Drawing.Point(4, 4);
             this.listView_ForCar.Margin = new System.Windows.Forms.Padding(4);
             this.listView_ForCar.Name = "listView_ForCar";
-            this.listView_ForCar.Size = new System.Drawing.Size(2016, 501);
+            this.listView_ForCar.Size = new System.Drawing.Size(2016, 602);
             this.listView_ForCar.TabIndex = 0;
             this.listView_ForCar.UseCompatibleStateImageBehavior = false;
             this.listView_ForCar.View = System.Windows.Forms.View.Details;
@@ -427,7 +428,7 @@
             this.tabPage5.Location = new System.Drawing.Point(8, 39);
             this.tabPage5.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(2024, 509);
+            this.tabPage5.Size = new System.Drawing.Size(2024, 610);
             this.tabPage5.TabIndex = 2;
             this.tabPage5.Text = "PK10数据";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -439,7 +440,7 @@
             this.listView_PK10Data.Location = new System.Drawing.Point(0, 0);
             this.listView_PK10Data.Margin = new System.Windows.Forms.Padding(4);
             this.listView_PK10Data.Name = "listView_PK10Data";
-            this.listView_PK10Data.Size = new System.Drawing.Size(2024, 509);
+            this.listView_PK10Data.Size = new System.Drawing.Size(2024, 610);
             this.listView_PK10Data.TabIndex = 2;
             this.listView_PK10Data.UseCompatibleStateImageBehavior = false;
             this.listView_PK10Data.View = System.Windows.Forms.View.Details;
@@ -450,7 +451,7 @@
             this.tabPage6.Location = new System.Drawing.Point(8, 39);
             this.tabPage6.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(2024, 509);
+            this.tabPage6.Size = new System.Drawing.Size(2024, 610);
             this.tabPage6.TabIndex = 3;
             this.tabPage6.Text = "TXFFC数据";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -462,7 +463,7 @@
             this.listView_TXFFCData.Location = new System.Drawing.Point(0, 0);
             this.listView_TXFFCData.Margin = new System.Windows.Forms.Padding(4);
             this.listView_TXFFCData.Name = "listView_TXFFCData";
-            this.listView_TXFFCData.Size = new System.Drawing.Size(2024, 509);
+            this.listView_TXFFCData.Size = new System.Drawing.Size(2024, 610);
             this.listView_TXFFCData.TabIndex = 1;
             this.listView_TXFFCData.UseCompatibleStateImageBehavior = false;
             this.listView_TXFFCData.View = System.Windows.Forms.View.Details;
@@ -470,10 +471,12 @@
             // statusStrip1
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
-            this.statusStrip1.Location = new System.Drawing.Point(0, 572);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tssl_Count});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 646);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 14, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(2040, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(2040, 36);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -501,10 +504,9 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.tabControl3);
             this.splitContainer2.Size = new System.Drawing.Size(2044, 887);
-            this.splitContainer2.SplitterDistance = 200;
+            this.splitContainer2.SplitterDistance = 199;
             this.splitContainer2.SplitterWidth = 8;
             this.splitContainer2.TabIndex = 0;
-            
             // 
             // tabControl3
             // 
@@ -515,7 +517,7 @@
             this.tabControl3.Margin = new System.Windows.Forms.Padding(6);
             this.tabControl3.Name = "tabControl3";
             this.tabControl3.SelectedIndex = 0;
-            this.tabControl3.Size = new System.Drawing.Size(2044, 589);
+            this.tabControl3.Size = new System.Drawing.Size(2044, 680);
             this.tabControl3.TabIndex = 0;
             // 
             // tabPage7
@@ -525,7 +527,7 @@
             this.tabPage7.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(6);
-            this.tabPage7.Size = new System.Drawing.Size(2028, 542);
+            this.tabPage7.Size = new System.Drawing.Size(2028, 633);
             this.tabPage7.TabIndex = 0;
             this.tabPage7.Text = "单利策略";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -536,7 +538,7 @@
             this.listView_SIStrags.Location = new System.Drawing.Point(6, 6);
             this.listView_SIStrags.Margin = new System.Windows.Forms.Padding(6);
             this.listView_SIStrags.Name = "listView_SIStrags";
-            this.listView_SIStrags.Size = new System.Drawing.Size(2016, 530);
+            this.listView_SIStrags.Size = new System.Drawing.Size(2016, 621);
             this.listView_SIStrags.TabIndex = 0;
             this.listView_SIStrags.UseCompatibleStateImageBehavior = false;
             // 
@@ -547,7 +549,7 @@
             this.tabPage8.Margin = new System.Windows.Forms.Padding(6);
             this.tabPage8.Name = "tabPage8";
             this.tabPage8.Padding = new System.Windows.Forms.Padding(6);
-            this.tabPage8.Size = new System.Drawing.Size(2028, 542);
+            this.tabPage8.Size = new System.Drawing.Size(2028, 633);
             this.tabPage8.TabIndex = 1;
             this.tabPage8.Text = "复利策略";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -558,7 +560,7 @@
             this.listView_CIStrags.Location = new System.Drawing.Point(6, 6);
             this.listView_CIStrags.Margin = new System.Windows.Forms.Padding(6);
             this.listView_CIStrags.Name = "listView_CIStrags";
-            this.listView_CIStrags.Size = new System.Drawing.Size(2016, 530);
+            this.listView_CIStrags.Size = new System.Drawing.Size(2016, 621);
             this.listView_CIStrags.TabIndex = 0;
             this.listView_CIStrags.UseCompatibleStateImageBehavior = false;
             // 
@@ -721,7 +723,8 @@
             this.tMI_HistoryBackTest,
             this.tsmi_getTXFFCHistoryTxtData,
             this.tsmi_getTXFFCHistoryFromWeb,
-            this.ToolStripMenuItem_TestDataSrc});
+            this.ToolStripMenuItem_TestDataSrc,
+            this.tsmi_getHistoryData});
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
             this.toolStripMenuItem3.Size = new System.Drawing.Size(74, 35);
             this.toolStripMenuItem3.Text = "操作";
@@ -759,6 +762,13 @@
             this.ToolStripMenuItem_TestDataSrc.Size = new System.Drawing.Size(440, 38);
             this.ToolStripMenuItem_TestDataSrc.Text = "测试数据源";
             this.ToolStripMenuItem_TestDataSrc.Click += new System.EventHandler(this.ToolStripMenuItem_TestDataSrc_Click);
+            // 
+            // tsmi_getHistoryData
+            // 
+            this.tsmi_getHistoryData.Name = "tsmi_getHistoryData";
+            this.tsmi_getHistoryData.Size = new System.Drawing.Size(440, 38);
+            this.tsmi_getHistoryData.Text = "读取历史记录";
+            this.tsmi_getHistoryData.Click += new System.EventHandler(this.tsmi_getHistoryData_Click);
             // 
             // toolStripMenuItem6
             // 
@@ -809,6 +819,12 @@
             this.timer_For_getHtmlData.Interval = 60000;
             this.timer_For_getHtmlData.Tick += new System.EventHandler(this.timer_For_getHtmlData_Tick);
             // 
+            // tssl_Count
+            // 
+            this.tssl_Count.Name = "tssl_Count";
+            this.tssl_Count.Size = new System.Drawing.Size(132, 31);
+            this.tssl_Count.Text = "tssl_Count";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
@@ -838,6 +854,8 @@
             this.tabPage4.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
@@ -924,5 +942,7 @@
         private System.Windows.Forms.WebBrowser wb_StatusMonitor;
         private System.Windows.Forms.WebBrowser wb_DSMonitor;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem_TestDataSrc;
+        private System.Windows.Forms.ToolStripMenuItem tsmi_getHistoryData;
+        private System.Windows.Forms.ToolStripStatusLabel tssl_Count;
     }
 }

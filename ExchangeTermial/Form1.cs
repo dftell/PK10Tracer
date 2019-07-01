@@ -11,6 +11,8 @@ using WolfInv.com.WebCommunicateClass;
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.RemoteObjectsLib;
 using System.Xml;
+using WolfInv.com.WebRuleLib;
+
 namespace ExchangeTermial
 {
     public partial class Form1 : Form
@@ -40,7 +42,7 @@ namespace ExchangeTermial
         private void btn_login_Click(object sender, EventArgs e)
         {
             
-            CommunicateToServer cts=new CommunicateToServer();
+            CommunicateToServer cts =new CommunicateToServer();
             CommResult cr =  cts.Login( GlobalClass.strLoginUrlModel, this.txt_user.Text,this.txt_password.Text);
             if(cr == null)
             {
@@ -52,6 +54,8 @@ namespace ExchangeTermial
                 MessageBox.Show(cr.Message);
                 return ;
             }
+            this.Cursor = Cursors.WaitCursor;
+            this.Hide();
             UserInfoClass ret =  cr.Result[0] as UserInfoClass;
             Program.UserId = ret.BaseInfo.UserId;
             Program.gc.ClientUserName = ret.BaseInfo.UserCode;
@@ -80,13 +84,28 @@ namespace ExchangeTermial
             {
 
             }
+            //Program.gc.LoginDefaultHost = WebRuleBuilder.Create(Program.gc).GetChanle(Program.gc.WebNavUrl, Program.gc.LoginDefaultHost); ;
             GlobalClass.SetConfig();
             this.Hide();
+            this.Cursor = Cursors.Default;
             //必须重新指定登录用户
             Program.wxl = new WolfInv.com.LogLib.WXLogClass(Program.gc.ClientUserName, Program.gc.WXLogNoticeUser, Program.gc.WXLogUrl);
             MainWindow mw = new MainWindow();
-            mw.Show();
+            
+            DialogResult res = mw.ShowDialog();
 
+            //////while ( res == DialogResult.OK)//如果frm退出是因为要求重启
+            //////{
+            //////    if (mw.ForceReboot)
+            //////    {
+            //////        mw.ForceReboot = false;
+            //////        Program.Reboot = false;
+            //////        mw = new MainWindow();
+            //////        res = mw.ShowDialog();
+            //////    }
+            //////    //GC.SuppressFinalize(frm);
+            //////}
+            Application.Exit();
         }
 
         private void Form1_Load(object sender, EventArgs e)

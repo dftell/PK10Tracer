@@ -3,15 +3,22 @@ using System.Timers;
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.SecurityLib;
 using WolfInv.com.PK10CorePress;
+using WolfInv.com.ServerInitLib;
+using WolfInv.com.ExchangeLib;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 namespace DataRecSvr
 {
     public partial class ReceiveService<T> :SelfDefBaseService<T> where T:TimeSerialData
     {
         System.Timers.Timer Tm_ForPK10 = new System.Timers.Timer();
         System.Timers.Timer Tm_ForTXFFC = new System.Timers.Timer();
+        System.Timers.Timer Tm_ForCAN28 = new Timer();
         DateTime PK10_LastSignTime=DateTime.MaxValue;
         System.Timers.Timer tm = new System.Timers.Timer();
         Int64 lastFFCNo;
+        Int64 lastCAN28No;
         public CalcService<T> CalcProcess;
         GlobalClass glb = new GlobalClass();
         int MissExpectEventPassCnt = 0;
@@ -29,6 +36,7 @@ namespace DataRecSvr
 
                     Tm_ForPK10.Interval = GlobalClass.TypeDataPoints["PK10"].ReceiveSeconds * 1000;
                     Tm_ForPK10.Elapsed += new ElapsedEventHandler(Tm_ForPK10_Elapsed);
+
                 }
                 if (GlobalClass.DataTypes.ContainsKey("TXFFC"))
                 {
@@ -37,6 +45,14 @@ namespace DataRecSvr
                     Tm_ForTXFFC.AutoReset = true;
                     Tm_ForTXFFC.Interval = 10 * 1000 + GlobalClass.TypeDataPoints["TXFFC"].ReceiveSeconds * 1000;
                     Tm_ForTXFFC.Elapsed += new ElapsedEventHandler(Tm_ForTXFFC_Elapsed);
+                }
+                if (GlobalClass.DataTypes.ContainsKey("CAN28"))
+                {
+
+                    Tm_ForCAN28.Enabled = false;
+                    Tm_ForCAN28.AutoReset = true;
+                    Tm_ForCAN28.Interval = 10 * 1000 + GlobalClass.TypeDataPoints["CAN28"].ReceiveSeconds * 1000;
+                    Tm_ForCAN28.Elapsed += new ElapsedEventHandler(Tm_ForCAN28_Elapsed);
                 }
                 tm.Interval = 5 * 1000;
                 tm.Enabled = false;
@@ -49,7 +65,17 @@ namespace DataRecSvr
             //tm.Elapsed += new ElapsedEventHandler(tm_Elapsed);        
         }
 
-        
+        private void Tm_ForCAN28_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
+                ReceiveData("CAN28",Tm_ForCAN28,null,null,false);
+            }
+            catch (Exception ce)
+            {
+                Log("接收加拿大28错误", string.Format("{0}：{1}", ce.Message, ce.StackTrace), true);
+            }
+        }
 
         void Tm_ForTXFFC_Elapsed(object sender, ElapsedEventArgs e)
         {
@@ -95,9 +121,15 @@ namespace DataRecSvr
                 Tm_ForTXFFC.Enabled = true;
                 Tm_ForTXFFC_Elapsed(null, null);
             }
-                //tm.Enabled = true;
-                //tm_Elapsed(null, null);
-            
+            if (GlobalClass.DataTypes.ContainsKey("CAN28"))
+            {
+                Log("开始服务", "接收数据成功！");
+                Tm_ForCAN28.Enabled = true;
+                Tm_ForCAN28_Elapsed(null, null);
+            }
+            //tm.Enabled = true;
+            //tm_Elapsed(null, null);
+
         }
 
         protected override void OnStop()
@@ -188,7 +220,7 @@ namespace DataRecSvr
                         }
                         else//第一次及平稳期后进行计算
                         {
-                            bool res = AfterReceiveProcess();
+                            bool res = AfterReceiveProcess(CalcProcess);
                             if (res == false)
                                 this.Tm_ForPK10.Interval = RepeatSeconds / 20 * 1000;
                             if (CurrDataList.MissExpectCount() > 1)//执行完计算(关闭所有记录)后再标记为已错期
@@ -292,8 +324,172 @@ namespace DataRecSvr
             currEl = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1));
             //FillOrgData(listView_TXFFCData, currEl);
         }
+        
+        private void  ReceiveData(string DataType,Timer useTimer,string strReadTableName,string[] codes,bool NeedCalc = false)
+        {
+            DataReader rd = DataReaderBuild.CreateReader(DataType, strReadTableName, codes);
+            lock (rd)
+            {
+                HtmlDataClass hdc = null;
+                DataTypePoint dtp = GlobalClass.TypeDataPoints[DataType];
+                Log("接收数据", "准备接收数据");
+                DateTime CurrTime = DateTime.Now;
+                long RepeatMinutes = dtp.ReceiveSeconds / 60;
+                long RepeatSeconds = dtp.ReceiveSeconds;
+                hdc = HtmlDataClass.CreateInstance(dtp);
+                ExpectList<T> tmp = hdc.getExpectList<T>();
+                if (tmp == null || tmp.Count == 0)
+                {
+                    useTimer.Interval = RepeatSeconds / 20 * 1000;
+                    Log("尝试接收数据", "未接收到数据,数据源错误！", glb.ExceptNoticeFlag);
+                    return;
+                }
+                ExpectList el = new ExpectList(tmp.Table);
+                ////if(el != null && el.Count>0)
+                ////{
+                ////    Log("接收到的最新数据",el.LastData.ToString());
+                ////}
+                if (el == null || el.Count == 0)
+                {
+                    useTimer.Interval = RepeatSeconds / 20 * 1000;
+                    Log("尝试接收数据", "未接收到数据,转换数据源错误！", glb.ExceptNoticeFlag);
+                    return;
+                }
 
-        bool AfterReceiveProcess()
+                DateTime StartTime = CurrTime.Date.Add(dtp.ReceiveStartTime.TimeOfDay);
+                //Log("当日开始时间", StartTime.ToLongTimeString());
+                int PassCnt = (int)Math.Floor(CurrTime.Subtract(StartTime).TotalMinutes / RepeatMinutes);
+                //Log("经历过的周期", PassCnt.ToString());
+                DateTime PassedTime = StartTime.AddMinutes(PassCnt * RepeatMinutes);//正常的上期时间
+                //Log("前期时间", PassedTime.ToLongTimeString());
+                DateTime FeatureTime = StartTime.AddMinutes((PassCnt + 1) * RepeatMinutes);//正常的下期时间
+                 //Log("后期时间", FeatureTime.ToLongTimeString());
+                DateTime NormalRecievedTime = StartTime.AddSeconds((PassCnt + 1.4) * RepeatSeconds);//正常的接收到时间
+                //Log("当期正常接收时间", FeatureTime.ToLongTimeString());
+                try
+                {
+                    //PK10ExpectReader rd = new PK10ExpectReader();
+
+                    //ExpectList currEl = rd.ReadNewestData(DateTime.Today.AddDays(-1*glb.CheckNewestDataDays));//改为10天，防止春节连续多天不更新数据
+                    //ExpectList<T> currEl = rd.ReadNewestData<T>(DateTime.Today.AddDays(-1 * dtp.CheckNewestDataDays)); ;//改从PK10配置中获取
+                    //Log("接收第一期数据", el.FirstData.Expect, true);
+                    ExpectList<T> currEl = rd.ReadNewestData<T>(100);
+                    if ((currEl == null || currEl.Count == 0) || (el.Count > 0 && currEl.Count > 0 && el.LastData.ExpectIndex > currEl.LastData.ExpectIndex))//获取到新数据
+                    {
+                        Log("接收到数据", string.Format("接收到数据！新数据：[{0},{1}],老数据:[{2},{3}]", el.LastData.Expect, el.LastData.OpenCode, currEl.LastData.Expect, currEl.LastData.OpenCode), glb.NormalNoticeFlag);
+                        //Program.AllServiceConfig.wxlog.Log("接收到数据", string.Format("接收到数据！{0}", el.LastData.ToString()));
+                        PK10_LastSignTime = CurrTime;
+                        long CurrMin = DateTime.Now.Minute % RepeatMinutes;
+                        int CurrSec = DateTime.Now.Second;
+                        //useTimer.Interval = (CurrMin % RepeatMinutes < 2 ? 2 : 7 - CurrMin) * 60000 - (CurrSec + RepeatMinutes) * 1000;//5分钟以后见,减掉5秒不断收敛时间，防止延迟接收
+                        useTimer.Interval = FeatureTime.Subtract(CurrTime).TotalMilliseconds;
+                        ExpectList<T>  NewList = rd.getNewestData<T>(new ExpectList<T>(el.Table), currEl);
+                        string[] expects = NewList.DataList.Select(a=>a.Expect).ToArray();
+                        //Log("存在数据",string.Format("共{0}期:[{1}]", currEl.Count,string.Join(",", currEl.DataList.Select(a=>a.Expect).ToArray())),true);
+                        if (NewList.Count == 0)
+                        {
+                            Log("待保存数据数量为0", "无须保存！", glb.ExceptNoticeFlag);
+                            useTimer.Interval = RepeatSeconds  * 1000;
+                            return;
+                        }
+                        int savecnt = rd.SaveNewestData(NewList);
+                        if (savecnt > 0)
+                        {
+                            CurrDataList = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1 * dtp.CheckNewestDataDays));//前十天的数据 尽量的大于reviewcnt,免得需要再取一次数据
+                            if (CurrDataList == null)
+                            {
+                                useTimer.Interval = RepeatSeconds / 20 * 1000;
+                                Log("计算最新数据错误", "无法获取最新数据发生错误，请检查数据库是否正常！", glb.ExceptNoticeFlag);
+                                return;
+                            }
+                            CurrExpectNo = el.LastData.Expect;
+
+                            Program.AllServiceConfig.LastDataSector = new ExpectList<TimeSerialData>(CurrDataList.Table);
+                            //2019/4/22日出现错过732497，732496两期记录错过，但是732498却收到的情况，同时，正好在732498多次重复策略正好开出结束，因错过2期导致一直未归零，
+                            //一直长时间追号开出近60期
+                            //为避免出现这种情况
+                            //判断是否错过了期数，如果错过期数，将所有追踪策略归零，不再追号,也不再执行选号程序，
+                            //是否要连续停几期？执行完后，在接收策略里面发现前10期有不连续的情况，直接跳过，只接收数据不执行选号。
+                            if (MissExpectEventPassCnt > 0)//如果出现错期
+                            {
+                                Log("接收到错期数据", string.Format("接收到数据！{0}", el.LastData.ToString()), glb.ExceptNoticeFlag);
+                                if (MissExpectEventPassCnt <= MaxMissEventCnt)//超过最大平稳期，置零,下次再计算
+                                {
+                                    MissExpectEventPassCnt = 0;
+                                }
+                                else //继续跳过
+                                {
+                                    MissExpectEventPassCnt++;
+                                }
+                            }
+                            else//第一次及平稳期后进行计算
+                            {
+                                bool res = false;
+                                if (NeedCalc)
+                                {
+                                    CalcProcess.DataPoint = dtp;
+                                    CalcProcess.ReadDataTableName = strReadTableName;
+                                    CalcProcess.Codes = codes;
+                                    res = AfterReceiveProcess(CalcProcess);
+                                    if (res == false)
+                                        useTimer.Interval = RepeatSeconds / 20 * 1000;
+                                    if (CurrDataList.MissExpectCount() > 1)//执行完计算(关闭所有记录)后再标记为已错期
+                                    {
+                                        MissExpectEventPassCnt = 1;
+                                    }
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            Log("待保存数据！", string.Format("总共{0}期数据:[{1}]", NewList.Count, string.Join(";", expects)), glb.ExceptNoticeFlag);
+
+                            useTimer.Interval = RepeatSeconds / (savecnt == 0 ? 1 : 20) * 1000;//如果为0，只是没保存，不管它，只是提示，如果保存为负，继续获取。
+                            //Log("保存数据错误", string.Format("保存数据数量为{0}，间隔时间为{1}秒！", savecnt, useTimer.Interval), glb.ExceptNoticeFlag);
+                        }
+                    }
+                    else
+                    {
+                        //Log("接收到非最新数据", string.Format("id:{0}", el.LastData.Expect), false);
+                        if (CurrTime.Hour < StartTime.Hour)//如果在9点前
+                        {
+                            //下一个时间点是9：07 //9:30
+                            DateTime TargetTime = DateTime.Today.AddHours(StartTime.Hour).AddMinutes(StartTime.Minute);
+                            useTimer.Interval = TargetTime.Subtract(CurrTime).TotalMilliseconds;
+                        }
+                        else
+                        {
+                            Log("接收数据", "未接收到数据！");
+                            //if (NormalRecievedTime > CurrTime)
+                            //{
+                            //    useTimer.Interval =  NormalRecievedTime.AddMinutes(1).Subtract(CurrTime).TotalMilliseconds;
+                            //}
+                            //else
+                            //{
+                            //useTimer.Interval = RepeatSeconds / 20 * 1000;
+                            if (CurrTime.Subtract(PK10_LastSignTime).TotalMinutes > RepeatMinutes + RepeatMinutes * 2 / 5)//如果离上期时间超过2/5个周期，说明数据未接收到，那不要再频繁以10秒访问服务器
+                            {
+                                useTimer.Interval = RepeatSeconds / 5 * 1000;
+                            }
+                            else //一般未接收到，10秒以后再试，改为50分之一个周期再试
+                            {
+                                useTimer.Interval = RepeatSeconds / 20 * 1000;
+                            }
+                            //}
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Log(e.Message, e.StackTrace);
+                }
+                //Log("接收数据", string.Format("当前访问时间为：{0},{1}秒后继续访问！",CurrTime.ToString(),useTimer.Interval/1000),false);
+                //FillOrgData(listView_TXFFCData, currEl);
+            }
+        }
+
+        bool AfterReceiveProcess(CalcService<T> CalcObj)
         {
             //刷新客户端数据
 
@@ -301,10 +497,11 @@ namespace DataRecSvr
             //////{
             //////    CalcProcess.StartService();
             //////}
-            Log("转移到计算服务", "准备进行计算");
+            //Log("转移到计算服务", "准备进行计算");
             try
             {
-                this.CalcProcess.Calc();
+                //this.CalcProcess.Calc();
+                CalcObj.Calc();
             }
             catch(Exception e)
             {

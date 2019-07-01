@@ -8,6 +8,10 @@ namespace WolfInv.com.WebCommunicateClass
 {
     public class AccessWebServerClass
     {
+        public static string GetData(string url)
+        {
+            return GetData(url, Encoding.UTF8);
+        }
         public static string GetData(string url, Encoding Encode)
         {
             string ret = "";
@@ -24,7 +28,7 @@ namespace WolfInv.com.WebCommunicateClass
             }
             catch (Exception ce)
             {
-                return ce.Message;
+                return null;
                     
                     //throw ce;
             }

@@ -9,6 +9,7 @@ namespace WolfInv.com.SecurityLib
     public abstract class CommExpectReader : DataReader
     {
         
+        
         public override ExpectList<T> ReadHistory<T>(long From, long buffs)
         {
             return ReadHistory<T>(From, buffs, false);
@@ -17,7 +18,7 @@ namespace WolfInv.com.SecurityLib
 
         public override ExpectList<T> ReadHistory<T>(long From,long buffs,bool desc)
         {
-            DbClass db = GlobalClass.getCurrDb();
+            DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select top {0} * from {2} where expect>='{1}'  order by expect {3}", buffs, From,strHistoryTable,desc?"desc":"");//modify by zhouys 2019/1/8
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
@@ -27,7 +28,7 @@ namespace WolfInv.com.SecurityLib
 
         public override ExpectList<T> ReadHistory<T>(long buffs)
         {
-            DbClass db = GlobalClass.getCurrDb();
+            DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select top {0} * from {2}  order by expect desc", buffs,  strHistoryTable);
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
@@ -36,7 +37,7 @@ namespace WolfInv.com.SecurityLib
 
         public override ExpectList<T> ReadHistory<T>()
         {
-            DbClass db = GlobalClass.getCurrDb();
+            DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select  * from {0}  order by expect", strHistoryTable);
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
@@ -45,7 +46,7 @@ namespace WolfInv.com.SecurityLib
 
         public override ExpectList<T> ReadHistory<T>(string begt,string endt)
         {
-            DbClass db = GlobalClass.getCurrDb();
+            DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select  * from {0}  where opentime between '{1}' and '{2}'", strHistoryTable,begt,endt);
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
@@ -54,7 +55,7 @@ namespace WolfInv.com.SecurityLib
 
         public override ExpectList<T> ReadNewestData<T>(DateTime fromdate)
         {
-            DbClass db = GlobalClass.getCurrDb();
+            DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select * from {1} where opentime>='{0}' order by expect", fromdate.ToShortDateString(),strNewestTable);
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
@@ -63,8 +64,8 @@ namespace WolfInv.com.SecurityLib
 
         public override ExpectList<T> ReadNewestData<T>(int LastLng)
         {
-            DbClass db = GlobalClass.getCurrDb();
-            string sql = string.Format("select * from (select top {0} * from {1} order by expect desc) order by expect", LastLng, strNewestTable);
+            DbClass db = GlobalClass.getCurrDb(strDataType);
+            string sql = string.Format("select * from (select top {0} * from {1} order by expect desc) a order by expect", LastLng, strNewestTable);
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
             return new ExpectList<T>(ds.Tables[0]);
@@ -77,7 +78,7 @@ namespace WolfInv.com.SecurityLib
 
         public override ExpectList<T> ReadNewestData<T>(int ExpectNo, int Cnt,bool FromHistoryTable)
         {
-            DbClass db = GlobalClass.getCurrDb();
+            DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select * from {2} where Expect<='{0}' and Expect>({0}-{1}) order by expect", ExpectNo, Cnt, FromHistoryTable?strHistoryTable:strNewestTable);
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
@@ -86,14 +87,14 @@ namespace WolfInv.com.SecurityLib
 
         public override int SaveNewestData<T>(ExpectList<T> InData)
         {
-            DbClass db = GlobalClass.getCurrDb();
+            DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select top 0 * from {0}", strNewestTable);
             return db.SaveList(new ConditionSql(sql), InData.Table);
         }
 
         public override ExpectList<T> GetMissedData<T>(bool IsHistoryData,string strBegT)
         {
-            DbClass db = GlobalClass.getCurrDb();
+            DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select * from {1} where opentime>='{0}'", strBegT, IsHistoryData?strMissHistoryTable:strMissNewestTable);
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
@@ -103,7 +104,7 @@ namespace WolfInv.com.SecurityLib
 
         public override int SaveHistoryData<T>(ExpectList<T> InData)
         {
-            DbClass db = GlobalClass.getCurrDb();
+            DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select top 0 * from {0}", strHistoryTable);
             return db.SaveList(new ConditionSql(sql), InData.Table);
         }
@@ -111,14 +112,14 @@ namespace WolfInv.com.SecurityLib
 
         public int SaveProbWaveResult(DataTable dt)
         {
-            DbClass db = GlobalClass.getCurrDb();
+            DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select * from {0}",strResultTable );
             return db.SaveNewList(new ConditionSql(sql), dt);
         }
 
         public DataTable GetProWaveResult(Int64 begid)
         {
-            DbClass db = GlobalClass.getCurrDb();
+            DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select * from {0} where Expect>='{1}' order by Expect", this.strResultTable, begid);
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
@@ -130,7 +131,10 @@ namespace WolfInv.com.SecurityLib
             DataTable dt = null;
             ExpectList<T> ret = new ExpectList<T>(dt);
             if (NewestData == null) return ret;
-            if (ExistData == null) return NewestData;
+            if(ExistData == null)
+            {
+                ExistData = new ExpectList<T>();
+            }
             HashSet<string> existDic = new HashSet<string>();
             for (int i = 0; i < ExistData.Count; i++)
             {
@@ -150,7 +154,7 @@ namespace WolfInv.com.SecurityLib
         public override DbChanceList<T> getNoCloseChances<T>(string strDataOwner)
         {
            DbChanceList<T> ret = new DbChanceList<T>();
-            DbClass db = GlobalClass.getCurrDb();
+            DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = null;
             if (strDataOwner == null || strDataOwner.Trim().Length == 0)
                 sql = string.Format("Select * from {0} where IsEnd=0", strChanceTable);
@@ -168,7 +172,7 @@ namespace WolfInv.com.SecurityLib
             if (list.Count == 0)
                 return 0;
             DbChanceList<T> ret = new DbChanceList<T>();
-            DbClass db = GlobalClass.getCurrDb();
+            DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select top 0 * from {0}", strChanceTable);
             DataTable dt = db.getTableBySqlAndList<ChanceClass<T>>(new ConditionSql(sql), list);
             if (dt == null)
@@ -186,7 +190,7 @@ namespace WolfInv.com.SecurityLib
 
         public override int DeleteChanceByIndex(long index,string strDataOwner = null)
         {
-            DbClass db = GlobalClass.getCurrDb();
+            DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = null;
             if (strDataOwner == null || strDataOwner.Trim().Length == 0)
                 sql = string.Format("Delete  from {0} where ChanceIndex={1}", strChanceTable,index);
@@ -197,7 +201,7 @@ namespace WolfInv.com.SecurityLib
 
         public override int DeleteExpectData(string expectid)
         {
-            DbClass db = GlobalClass.getCurrDb();
+            DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = null;
             sql = string.Format("Delete  from {0} where expect='{1}'", strNewestTable, expectid);
             return db.ExecSql(new ConditionSql(sql));
@@ -205,7 +209,7 @@ namespace WolfInv.com.SecurityLib
 
         public override void ExecProduce(string Procs)
         {
-            DbClass db = GlobalClass.getCurrDb();
+            DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = null;
             sql = Procs;
             db.ExecSql(new ConditionSql(sql));

@@ -65,6 +65,14 @@ namespace WolfInv.com.BaseObjectsLib
             }
         }
 
+        public List<ExpectData<T>> DataList
+        {
+            get
+            {
+                return MyData;
+            }
+        }
+
         public ExpectData<T> LastData
         {
             get
@@ -77,6 +85,8 @@ namespace WolfInv.com.BaseObjectsLib
                 return MyData[MyData.Count - 1];
             }
         }
+
+        
         public ExpectList()
         {
             Data = new Dictionary<string, MongoReturnDataList<T>>();
@@ -87,6 +97,16 @@ namespace WolfInv.com.BaseObjectsLib
         {
             get { return MyData[0]; }
         }
+
+        
+        public long MinExpect
+        {
+            get
+            {
+                return MyData.Select(a => long.Parse(a.Expect)).Min();
+            }
+        }
+        
 
         public long MissExpectCount()
         {
@@ -260,7 +280,13 @@ namespace WolfInv.com.BaseObjectsLib
 
         public static ExpectList<T> Concat(ExpectList<T> descList, params ExpectList<T>[] addList)
         {
-            ExpectList<T> ret = descList;
+            ExpectList<T> ret = new ExpectList<T>();
+            if (descList == null)
+                descList = new ExpectList<T>();
+            for(int i=0;i<descList.Count;i++)
+            {
+                ret.Add(descList[i]);
+            }
             if (ret == null) ret = new ExpectList<T>();
             for (int i = 0; i < addList.Length; i++)
             {

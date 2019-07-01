@@ -15,6 +15,10 @@ namespace ExchangeTermial
         public static string Title;
         public static string User;
         public static int UserId;
+        public static bool Reboot;
+        public static string strName = null;
+        public static string strPassword = null;
+        public static bool AutoLogin = false;
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
@@ -23,13 +27,12 @@ namespace ExchangeTermial
         {
             VerNo = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             gc = new GlobalClass();
-            bool AutoLogin = false;
+            
             
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             
-            string strName=null;
-            string strPassword=null;
+            
             if(args != null && args.Length >= 2)
             {
                 strName = args[0];
@@ -45,6 +48,8 @@ namespace ExchangeTermial
                 string msg = wxl.Log(string.Format("{0}","客户端启动！"));
                 Application.Run(frm);
                 GC.SuppressFinalize(frm);
+                wxl.Log(string.Format("{0}", "客户端退出！"));
+
             }
             catch(Exception ce)
             {

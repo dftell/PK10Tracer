@@ -25,7 +25,10 @@ namespace Test_Win
         {
             gb = _gb;
             InitializeComponent();
-            dtp = GlobalClass.TypeDataPoints["CN_Stock_A"];
+            if (GlobalClass.TypeDataPoints.ContainsKey("CN_Stock_A"))
+            {
+                dtp = GlobalClass.TypeDataPoints["CN_Stock_A"];
+            }
             //gb.Sys = new SystemGlobal(gb.w);
             
         }

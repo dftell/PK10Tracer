@@ -34,7 +34,7 @@ namespace Test_Win
         static void Main1()
         {
             splitFile("share", "function(", '}');
-            return;
+            //return;
             LogableClass.ToLog("初始化服务器全局设置", "开始");
             InitSystem<TimeSerialData>();
             LogableClass.ToLog("启动通道", "开始");
@@ -43,8 +43,8 @@ namespace Test_Win
             Application.SetCompatibleTextRenderingDefault(false);
 
             GlobalObj gb = new GlobalObj();
-            gb.w = new WindAPI();
-            gb.w.start();
+            ////gb.w = new WindAPI();
+            ////gb.w.start();
             ReceiveService<TimeSerialData> rc = new ReceiveService<TimeSerialData>();
             rc.Start();
             Form2 frm = new Form2(gb);
@@ -89,7 +89,7 @@ namespace Test_Win
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
-        static void Main()
+        static void Main2()
         {
             splitFile("share", "function", '}');
             return;
@@ -147,6 +147,26 @@ namespace Test_Win
             //AllServiceConfig.AllLogs = new LogInfo().GetLogAfterDate(DateTime.Today.AddHours(-1));
             DataRecSvr.Program.AllServiceConfig = AllServiceConfig;
             //rs.Start();
+        }
+
+        static void Main()
+        {
+            splitFile("share", "function(", '}');
+            //return;
+            LogableClass.ToLog("初始化服务器全局设置", "开始");
+            InitSystem<TimeSerialData>();
+            LogableClass.ToLog("启动通道", "开始");
+            new CommuniteClass().StartIPCServer();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            GlobalObj gb = new GlobalObj();
+            ////gb.w = new WindAPI();
+            ////gb.w.start();
+            ReceiveService<TimeSerialData> rc = new ReceiveService<TimeSerialData>();
+            rc.Start();
+            Form2 frm = new Form2(gb);
+            Application.Run(frm);
         }
     }
 }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using WolfInv.com.WebCommunicateClass;
 using WolfInv.com.BaseObjectsLib;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 //using WolfInv.com.SecurityLib;
 namespace WolfInv.com.WebRuleLib
 {
@@ -173,6 +176,65 @@ namespace WolfInv.com.WebRuleLib
             }
             return ret;
         }
+
+        protected override Dictionary<string, int> GetChanlesInfo(string NavUrl)
+        {
+            Dictionary<string, int> ret = new Dictionary<string, int>();
+            AccessWebServerClass wcc = new AccessWebServerClass();
+            string strHtml = AccessWebServerClass.GetData(NavUrl);
+            Regex regTr = new Regex(@"www\.kcai(.*?)\.com");
+            MatchCollection mcs = regTr.Matches(strHtml);
+            List<string> list = new List<string>();
+            string urlModel = "https://www.kcai{0}.com";
+            Task[] tasks = new Task[mcs.Count];
+            for(int i=0;i<mcs.Count;i++)
+            {
+                string name = mcs[i].Value.Replace("www.kcai","").Replace(".com","");
+                DateTime begT = DateTime.Now;
+                string url = string.Format(urlModel, name);
+                ConnectClass cls = new ConnectClass(ret, name, url);
+                //new Thread(new ThreadStart(cls.ConnectToUrl)).Start();
+                tasks[i] = new Task(cls.ConnectToUrl);
+                tasks[i].Start();
+                ////string reqdata = AccessWebServerClass.GetData(url);
+                ////DateTime endT = DateTime.Now;
+                ////if(reqdata == null)
+                ////{
+                ////    ret.Add(name, 0);
+                ////    continue;
+                ////}
+                ////int rate = (int)(reqdata.Length/ endT.Subtract(begT).TotalSeconds);
+                ////ret.Add(name, rate);
+            }
+            Task.WaitAll(tasks);
+            return ret;
+        }
+        class ConnectClass
+        {
+            string name;
+            Dictionary<string, int> ret;
+            string ConnUrl;
+            public ConnectClass(Dictionary<string, int> _ret,string _name,string _url)
+            {
+                ret = _ret;
+                ConnUrl = _url;
+                name = _name;
+            }
+            public void ConnectToUrl()
+            {
+                DateTime begT = DateTime.Now;
+                string reqdata = AccessWebServerClass.GetData(ConnUrl);
+                DateTime endT = DateTime.Now;
+                if (reqdata == null)
+                {
+                    ret.Add(name, 0);
+                    return;
+                }
+                int rate = (int)(reqdata.Length / endT.Subtract(begT).TotalSeconds);
+                ret.Add(name, rate);
+            }
+        }
+
     }
 
 }

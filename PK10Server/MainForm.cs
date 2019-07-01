@@ -8,7 +8,8 @@ using WolfInv.com.ExchangeLib;
 using WolfInv.com.PK10CorePress;
 using WolfInv.com.SecurityLib;
 using System.Collections.Generic;
-
+using System.Linq;
+using Microsoft.VisualBasic;
 namespace PK10Server
 {
     
@@ -20,7 +21,8 @@ namespace PK10Server
             get { return _ViewDataList; }
             set { _ViewDataList = value; }
         }
-        PK10ExpectReader er = new PK10ExpectReader();
+        //PK10ExpectReader er = new PK10ExpectReader();
+        DataReader er = DataReaderBuild.CreateReader(GlobalClass.TypeDataPoints.First().Key, null, null);
         int NewestExpectNo = 0;
         public int InputExpect;
         GlobalClass gobj;
@@ -56,7 +58,7 @@ namespace PK10Server
             ////RefreshGrid();
             RefreshNewestData();
             this.wb_DSMonitor.ScriptErrorsSuppressed = true;
-            this.wb_DSMonitor.Url = new Uri(GlobalClass.TypeDataPoints["PK10"].RuntimeInfo.DefaultDataUrl);
+            this.wb_DSMonitor.Url = new Uri(GlobalClass.TypeDataPoints[GlobalClass.TypeDataPoints.First().Key].RuntimeInfo.DefaultDataUrl);
             
         }
 
@@ -69,7 +71,7 @@ namespace PK10Server
             }
             else
             {
-                ViewDataList = er.ReadNewestData<TimeSerialData>(DateTime.Today.AddDays(-1* GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays));
+                ViewDataList = er.ReadNewestData<TimeSerialData>(DateTime.Today.AddDays(-1* GlobalClass.TypeDataPoints.First().Value.CheckNewestDataDays));
             }
         }
 
@@ -410,6 +412,75 @@ namespace PK10Server
                 return;
             }
             MessageBox.Show(tmp.LastData.ToDetailString());
+        }
+
+        private void tsmi_getHistoryData_Click(object sender, EventArgs e)
+        {
+            string endPage = Interaction.InputBox("请输入结束页编号", "结束页编辑框", "", 100, 100).Trim();
+            string[] pages = endPage.Split('-');
+            int begi = int.Parse(pages[0].Trim());
+            int endi = int.Parse(pages[1].Trim());
+            HtmlDataClass rder = HtmlDataClass.CreateInstance(GlobalClass.TypeDataPoints.First().Value);
+            CommExpectReader er = DataReaderBuild.CreateReader(GlobalClass.TypeDataPoints.First().Key, null, null) as CommExpectReader;
+            Application.DoEvents();
+            
+            ExpectList<TimeSerialData> tmpList = new ExpectList<TimeSerialData>();
+            for (int i=begi;i<=endi;i++)
+            {
+                
+                ExpectList<TimeSerialData> wlist = new ExpectList<TimeSerialData>();
+                wlist = rder.getHistoryData<TimeSerialData>(null, i);//取到web
+                ExpectList<TimeSerialData> wtrue = new ExpectList<TimeSerialData>();
+                wtrue = er.getNewestData(wlist, tmpList);// 
+                tmpList = ExpectList<TimeSerialData>.Concat(tmpList, wtrue);
+                this.tssl_Count.Text = string.Format("访问第{1}页，共计获取到{0}条记录",tmpList.Count,i );
+                if(tmpList.Count>=100)
+                {
+                    ExpectList<TimeSerialData> currEl = er.ReadHistory<TimeSerialData>(tmpList.MinExpect, 10000);
+                    ExpectList<TimeSerialData> NewEl = er.getNewestData(tmpList, currEl);
+                    long res1 = er.SaveHistoryData(NewEl);
+                    tmpList = new ExpectList<TimeSerialData>();
+                    this.tssl_Count.Text = string.Format("访问第{1}页，共计成功保存了{0}条记录", res1, i);
+                }
+                Application.DoEvents();
+                Thread.Sleep(10000);
+            }
+            ExpectList<TimeSerialData> currEl1 = er.ReadHistory<TimeSerialData>(tmpList.MinExpect, 10000);
+            ExpectList<TimeSerialData> NewEl1 = er.getNewestData(tmpList, currEl1);
+            long res = er.SaveHistoryData(NewEl1);
+            if(res>0)
+            {
+                MessageBox.Show(string.Format("成功获取到{0}条历史记录！", res));
+            }
+            else
+            {
+                MessageBox.Show(string.Format("保存{0}条历史记录失败！",NewEl1.Count));
+            }
+            ////string StrBegDate = "2018-08-25";
+            ////ExpectList<TimeSerialData> el = er.GetMissedData<TimeSerialData>(true, StrBegDate);
+            ////for (int i = 0; i < el.Count; i++)
+            ////{
+            ////    ExpectList<TimeSerialData> tmpList = new ExpectList<TimeSerialData>();
+            ////    DateTime endT = el[i].OpenTime;
+            ////    DateTime begT = el[i].OpenTime.AddMinutes(-1 * el[i].MissedCnt - 1);
+            ////    DateTime tt = DateTime.Parse(begT.ToShortDateString());
+            ////    DateTime begT0 = tt;
+            ////    while (tt <= endT)
+            ////    {
+            ////        string strTt = tt.ToString("yyyy-MM-dd");
+            ////        for (int j = 1; j <= 29; j++)
+            ////        {
+            ////            ExpectList<TimeSerialData> wlist = rder .getHistoryData<TimeSerialData>(strTt, j);//取到web
+            ////            tmpList = ExpectList<TimeSerialData>.Concat(tmpList, wlist);
+            ////            Application.DoEvents();
+            ////            Thread.Sleep(800);
+            ////        }
+            ////        tt = tt.AddDays(1);
+            ////    }
+            ////    ExpectList<TimeSerialData> currEl = er.ReadHistory<TimeSerialData>(begT0.ToString(), endT.AddDays(1).ToString());
+            ////    er.SaveHistoryData(er.getNewestData(tmpList, currEl));
+            ////}
+
         }
     }
 

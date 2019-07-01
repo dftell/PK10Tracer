@@ -79,3 +79,4 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\bin\debug\WolfInv
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\bin\debug\WolfInv.com.GuideLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\bin\debug\WolfInv.com.RemoteObjectLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\bin\debug\WolfInv.com.RemoteObjectLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.exe.config

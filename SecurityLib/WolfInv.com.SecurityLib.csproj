@@ -73,6 +73,7 @@
     <Compile Include="Filters\iCallBackable.cs" />
     <Compile Include="Filters\StrategyFilters\FirestPointFilter.cs" />
     <Compile Include="Readers\DateSerialCodeDataReader.cs" />
+    <Compile Include="Readers\Lotty\CAN28_HtmlDataClass.cs" />
     <Compile Include="Readers\Lotty\CommExpectReader.cs" />
     <Compile Include="Readers\DataReader.cs" />
     <Compile Include="Readers\EquitReader.cs" />

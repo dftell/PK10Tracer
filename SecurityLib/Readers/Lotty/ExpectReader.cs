@@ -42,16 +42,22 @@ namespace WolfInv.com.SecurityLib
             DataReader ret = null;
             switch(strType)
             {
-                case "PK10":
+                case "CAN28":
                 {
-                        ret = new ExpectReader();
+                        ret = new CAN28ExpectReader();
                         break;
                 }
+                case "TXFFC":
+                    {
+                        ret = new TXFFCExpectReader();
+                        break;
+                    }
                 case "CN_Stock_A":
                 {
                         ret = new SecurityReader(strType,docName,codes);
                         break;
                 }
+                case "PK10":
                 default:
                     {
                         ret = new ExpectReader();
@@ -60,5 +66,32 @@ namespace WolfInv.com.SecurityLib
             }
             return ret;
         }
+
+        public static CommExpectReader CreateInstance(string strtype)
+        {
+            CommExpectReader ret = null;
+            switch (strtype)
+            {
+                case "PK10":
+                    {
+                        ret = new PK10ExpectReader();
+                        break;
+                    }
+                case "TXFFC":
+                    {
+                        ret = new TXFFCExpectReader();
+                        break;
+                    }
+                case "":
+                    {
+                        break;
+                    }
+
+            }
+
+            return ret;
+        }
     }
+
+
 }

@@ -2194,6 +2194,9 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.DataGet">
             <summary>设置 ExpectList`1.get_Data() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.DataListGet">
+            <summary>设置 ExpectList`1.get_DataList() 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.DataSetDictionaryOfStringMongoReturnDataListOfT0">
             <summary>设置 ExpectList`1.set_Data(Dictionary`2&lt;String,MongoReturnDataList`1&lt;!0&gt;&gt; value) 的 填充码</summary>
         </member>
@@ -2230,6 +2233,9 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.LastDatasInt32Boolean">
             <summary>设置 ExpectList`1.LastDatas(Int32 RecLng, Boolean ResortTime) 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.MinExpectGet">
+            <summary>设置 ExpectList`1.get_MinExpect() 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.MissExpectCount">
             <summary>设置 ExpectList`1.MissExpectCount() 的 填充码</summary>
         </member>
@@ -2245,8 +2251,8 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.TableGet">
             <summary>设置 ExpectList`1.get_Table() 的 填充码</summary>
         </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances._ctorb__15_0T0">
-            <summary>设置 ExpectList`1.&lt;.ctor&gt;b__15_0(!0 a) 的 填充码</summary>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances._ctorb__19_0T0">
+            <summary>设置 ExpectList`1.&lt;.ctor&gt;b__19_0(!0 a) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.getSubArrayInt32Int32">
             <summary>设置 ExpectList`1.getSubArray(Int32 FromIndex, Int32 len) 的 填充码</summary>
@@ -2314,6 +2320,9 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.DataGet">
             <summary>设置 ExpectList`1.get_Data() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.DataListGet">
+            <summary>设置 ExpectList`1.get_DataList() 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.DataSetDictionaryOfStringMongoReturnDataListOfT0">
             <summary>设置 ExpectList`1.set_Data(Dictionary`2&lt;String,MongoReturnDataList`1&lt;!0&gt;&gt; value) 的 填充码</summary>
         </member>
@@ -2350,6 +2359,9 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.LastDatasInt32Boolean">
             <summary>设置 ExpectList`1.LastDatas(Int32 RecLng, Boolean ResortTime) 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.MinExpectGet">
+            <summary>设置 ExpectList`1.get_MinExpect() 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.MissExpectCount">
             <summary>设置 ExpectList`1.MissExpectCount() 的 填充码</summary>
         </member>
@@ -2365,8 +2377,8 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.TableGet">
             <summary>设置 ExpectList`1.get_Table() 的 填充码</summary>
         </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1._ctorb__15_0T0">
-            <summary>设置 ExpectList`1.&lt;.ctor&gt;b__15_0(!0 a) 的 填充码</summary>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1._ctorb__19_0T0">
+            <summary>设置 ExpectList`1.&lt;.ctor&gt;b__19_0(!0 a) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.getSubArrayInt32Int32">
             <summary>设置 ExpectList`1.getSubArray(Int32 FromIndex, Int32 len) 的 填充码</summary>
@@ -2452,6 +2464,9 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.DefaultHoldAmtSerialsGet">
             <summary>设置 GlobalClass.get_DefaultHoldAmtSerials() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.ExceptNoticeFlagGet">
+            <summary>设置 GlobalClass.get_ExceptNoticeFlag() 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.ForWebGet">
             <summary>设置 GlobalClass.get_ForWeb() 的 填充码</summary>
         </member>
@@ -2476,6 +2491,9 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.LoginDefaultHostGet">
             <summary>设置 GlobalClass.get_LoginDefaultHost() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.LoginDefaultHostSetString">
+            <summary>设置 GlobalClass.set_LoginDefaultHost(String value) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.LoginHostListGet">
             <summary>设置 GlobalClass.get_LoginHostList() 的 填充码</summary>
         </member>
@@ -2499,6 +2517,9 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.NewestHistoryExpectGet">
             <summary>设置 GlobalClass.get_NewestHistoryExpect() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.NormalNoticeFlagGet">
+            <summary>设置 GlobalClass.get_NormalNoticeFlag() 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.OddsGet">
             <summary>设置 GlobalClass.get_Odds() 的 填充码</summary>
@@ -2550,6 +2571,9 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.WXLogUrlGet">
             <summary>设置 GlobalClass.get_WXLogUrl() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.WebNavUrlGet">
+            <summary>设置 GlobalClass.get_WebNavUrl() 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.getStragXml">
             <summary>设置 GlobalClass.getStragXml() 的 填充码</summary>
@@ -2647,6 +2671,9 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.DefaultHoldAmtSerialsGet">
             <summary>设置 GlobalClass.get_DefaultHoldAmtSerials() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.ExceptNoticeFlagGet">
+            <summary>设置 GlobalClass.get_ExceptNoticeFlag() 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.ForWebGet">
             <summary>设置 GlobalClass.get_ForWeb() 的 填充码</summary>
         </member>
@@ -2677,6 +2704,9 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.LoginDefaultHostGet">
             <summary>设置 GlobalClass.get_LoginDefaultHost() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.LoginDefaultHostSetString">
+            <summary>设置 GlobalClass.set_LoginDefaultHost(String value) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.LoginHostListGet">
             <summary>设置 GlobalClass.get_LoginHostList() 的 填充码</summary>
         </member>
@@ -2700,6 +2730,9 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.NewestHistoryExpectGet">
             <summary>设置 GlobalClass.get_NewestHistoryExpect() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.NormalNoticeFlagGet">
+            <summary>设置 GlobalClass.get_NormalNoticeFlag() 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.OddsGet">
             <summary>设置 GlobalClass.get_Odds() 的 填充码</summary>
@@ -2788,8 +2821,11 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.WXLogUrlGet">
             <summary>设置 GlobalClass.get_WXLogUrl() 的 填充码</summary>
         </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.getCurrDb">
-            <summary>设置 GlobalClass.getCurrDb() 的 填充码</summary>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.WebNavUrlGet">
+            <summary>设置 GlobalClass.get_WebNavUrl() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.getCurrDbString">
+            <summary>设置 GlobalClass.getCurrDb(String strType) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.getCurrNoSQLDbString">
             <summary>设置 GlobalClass.getCurrNoSQLDb(String typename) 的 填充码</summary>

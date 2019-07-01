@@ -73,6 +73,31 @@ namespace WolfInv.com.SecurityLib
         protected abstract ExpectList<T> getXmlData<T>(string strXml) where T : TimeSerialData;
 
         protected abstract ExpectList<T> getHisData<T>(string strHtml) where T : TimeSerialData;
+
+        public static HtmlDataClass CreateInstance(DataTypePoint dtp)
+        {
+            HtmlDataClass ret = null;
+            switch(dtp.DataType)
+            {
+                case "TXFFC":
+                    {
+                        ret = new TXFFC_HtmlDataClass(dtp);
+                        break;
+                    }
+                case "CAN28":
+                    {
+                        ret = new CAN28_HtmlDataClass(dtp);
+                        break;
+                    }
+                case "PK10":
+                default:
+                    {
+                        ret = new PK10_HtmlDataClass(dtp);
+                        break;
+                    }
+            }
+            return ret;
+        }
     }
 
 }

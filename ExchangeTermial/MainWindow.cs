@@ -23,9 +23,10 @@ using WolfInv.com.RemoteObjectsLib;
 
 namespace ExchangeTermial
 {
+    delegate void CloseCallBack();
     public partial class MainWindow : Form
     {
-        Int64 NewExpect;
+        Int64 NewExpect=0;
         bool WebBrowserLoad = false;
         Dictionary<int, RequestClass> CurrDic = new Dictionary<int, RequestClass>();
         DateTime LastInstsTime = DateTime.MaxValue;
@@ -36,6 +37,7 @@ namespace ExchangeTermial
         bool Logined = false;
         WebRule wr = null;
         bool ReadySleep = false;
+        public bool ForceReboot { get; set; }
         double CurrVal
         {
             get
@@ -61,20 +63,40 @@ namespace ExchangeTermial
             Program.Title = this.Text;
         }
 
+        
+
         void Set_SendTime(bool Running,long InterVal = 20 * 60 * 1000)
         {
             
             SendStatusTimer.Interval = InterVal;
             SendStatusTimer.Elapsed += SendStatusTimer_Elapsed;
             SendStatusTimer.Enabled = Running;
-            if(Running)
+            ////if(Running)
+            ////{
+            ////    SendStatusTimer_Elapsed(null, null);
+            ////}
+        }
+
+        private void CloseFrm()
+        {
+            if (this.InvokeRequired)//Control.InvokeReauqired判断是否是创建控件线程，不是为true，则需要invoke到创建控件的线程，是就为false，直接操作控件
             {
-                SendStatusTimer_Elapsed(null, null);
+                CloseCallBack stcb = new CloseCallBack(CloseFrm);
+                this.Invoke(stcb, new object[] {  });
+            }
+            else
+            {
+                this.Close();
             }
         }
 
         private void SendStatusTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
+            DateTime now = DateTime.Now;
+            if (dicExistInst != null && dicExistInst.Count > 0)
+            {
+                SwitchChanle();
+            }
             string ip = MyIpInfo;
             string id = Program.gc.ClientUserName;
             string money = string.Format("{0:f2}", CurrVal);
@@ -93,6 +115,33 @@ namespace ExchangeTermial
                 RefreshSendStatusInfo("朕已知悉！");
                 //Program.wxl.Log("可用余额:" + money);
             }
+        }
+        void SwitchChanle()
+        {
+            //Program.wxl.Log("正在进行网络线路测速！",string.Format("当前线路:{0}", Program.gc.LoginDefaultHost));
+            string hostname = wr.GetChanle(Program.gc.WebNavUrl, Program.gc.LoginDefaultHost);
+
+            if (!Program.gc.LoginDefaultHost.Equals(hostname))//如果主机无法连接或者连接最差，切换主机
+            {
+
+                Program.wxl.Log("客户端无法连接到下注服务器，或者连速较慢，客户端自动切换线路！", string.Format("已为您从线路{0}自动切换到线路{1}！", Program.gc.LoginDefaultHost, hostname));
+                Program.gc.LoginDefaultHost = hostname;
+                LoadUrl();
+                return;
+            }
+        }
+
+        void Reboot()
+        {
+            Program.wxl.Log("自动重新启动客户端！");
+            Program.User = Program.gc.ClientUserName;
+            Program.strPassword = Program.gc.ClientPassword;
+            Program.AutoLogin = true;
+            Program.Reboot = true;
+            //this.Close();
+            this.DialogResult = DialogResult.OK;
+            ForceReboot = true;
+            CloseFrm();
         }
 
         string _MyIpInfo = null;
@@ -137,7 +186,8 @@ namespace ExchangeTermial
             AssetUnitList = getAssetLists();
             dicExistInst = new Dictionary<long, string>();
             LoadUrl();
-
+            this.timer_RequestInst.Enabled = true;
+            Set_SendTime(true);
 
         }
 
@@ -158,6 +208,8 @@ namespace ExchangeTermial
                     //this.webBrowser1.Url = new Uri(url);
                     this.webBrowser1.Navigate(url);
                     this.webBrowser1.ScriptErrorsSuppressed = true;
+                    Application.DoEvents();
+                    Thread.Sleep(3 * 1000);
                     LogableClass.ToLog(webBrowser1?.Url?.Host, "准备唤醒！");
                     Program.wxl.Log("起来", "不愿做奴隶的程序们！");
                 }
@@ -173,14 +225,23 @@ namespace ExchangeTermial
                 LogableClass.ToLog("错误", ce.Message, ce.StackTrace);
                 Program.wxl.Log("错误","起床困难户。",string.Format("{0}:{1}", ce.Message, ce.StackTrace));
             }
+            Application.DoEvents();
+            //Thread.Sleep(10 * 1000);
+
             this.timer_RequestInst.Interval = 60 * 1000;
-            this.timer_RequestInst.Enabled = true;
-            Set_SendTime(true);
+            //this.timer_RequestInst.Enabled = true;
+            //Set_SendTime(true);
         }
 
         void AddScript()
         {
-            HtmlElement head = webBrowser1.Document.GetElementsByTagName("head")[0];
+            HtmlElementCollection elHeads =  webBrowser1.Document.GetElementsByTagName("head");
+            if(elHeads == null)
+            {
+                Program.wxl.Log("网页未正常加载，无法注入代码！");
+                return;
+            }
+            HtmlElement head = elHeads[0];
             //创建script标签
             HtmlElement scriptEl = webBrowser1.Document.CreateElement("script");
             IHTMLScriptElement element = (IHTMLScriptElement)scriptEl.DomElement;
@@ -340,6 +401,9 @@ namespace ExchangeTermial
 
         }
 
+        
+        
+
         private void groupBox1_Enter(object sender, EventArgs e)
         {
 
@@ -402,8 +466,11 @@ namespace ExchangeTermial
                     return;
                 }
                 Int64 CurrExpectNo = Int64.Parse(ic.Expect);
-                this.statusStrip1.Items[1].Text = DateTime.Now.ToLongTimeString();
-                if (CurrExpectNo > this.NewExpect || RefreshTimes == 0) //获取到最新指令
+                //if (this.statusStrip1.Items.Count >= 2)
+                //{
+                this.toolStripStatusLabel2.Text = DateTime.Now.ToLongTimeString();
+                //}
+                if (CurrExpectNo > this.NewExpect || (RefreshTimes == 0 )) //获取到最新指令
                 {
                     LastInstsTime = DateTime.Now;
                     int CurrMin = DateTime.Now.Minute % 5;
@@ -421,7 +488,11 @@ namespace ExchangeTermial
                     this.txt_ExpectNo.Text = ic.Expect;
                     this.txt_OpenTime.Text = ic.LastTime;
                     this.txt_Insts.Text = ic.getUserInsts(Program.gc);
+                    string[] insts = this.txt_Insts.Text.Trim().Replace("+"," ").Split(' ');
+                    long AllSum = insts.Where(a => a.Trim().Length > 1).ToList().Select(a => long.Parse(a.Trim().Split('/')[2])).Sum();
                     this.NewExpect = CurrExpectNo;
+                    
+                    
                     if (!Logined)
                     {
                         Logined = wr.IsLogined(this.webBrowser1.Document);
@@ -429,7 +500,14 @@ namespace ExchangeTermial
                     if (Logined)
                     {
                         if (RefreshTimes > 0)
+                        {
+                            if (AllSum == 0)
+                            {
+                                Program.wxl.Log("空信号", "当期指令为空信号，或者金额为0", string.Format("{0}:{1}", ic.Expect, this.txt_Insts.Text));
+                                return;
+                            }
                             this.btn_Send_Click(null, null);
+                        }
                         RefreshTimes = 1;
                     }
                     else//如果没有登录，重新载入,当前指令不发送，只要不发送，这条指令就不会存入缓存。可以下次获取到再发
@@ -475,6 +553,8 @@ namespace ExchangeTermial
             }
         }
 
+        
+
         string ReCalcTheInstChips()
         {
             string ret = null;
@@ -495,11 +575,18 @@ namespace ExchangeTermial
             int sleepsec = 60;
             while(webBrowser1.ReadyState != WebBrowserReadyState.Complete)
             {
+
+                
                 sendCnt++;
                 
-                Program.wxl.Log("警告",string.Format("第{0}次浏览器加载未完成",sendCnt),string.Format("请检查主机http://www.kcai{0}.com是否正常！",Program.gc.LoginDefaultHost));
+                Program.wxl.Log("警告",string.Format("第{0}次浏览器加载未完成",sendCnt),string.Format("请检查线路{0}是否正常！",Program.gc.LoginDefaultHost));
                 //LoadUrl();
+                SwitchChanle();
+                //Reboot();
+                this.NewExpect--;//允许下次再接收数据发送
+                return;
                 Application.DoEvents();
+
                 Thread.Sleep(sleepsec * 1000);
                 if (sendCnt> maxCnt)
                 {
@@ -596,8 +683,8 @@ namespace ExchangeTermial
         {
             this.toolStripStatusLabel1.Text = string.Format("已加载页面:{0};已登录:{1};睡眠状态:{2}",WebBrowserLoad,Logined,InSleep);
             this.toolStripStatusLabel2.Text = string.Format("当前余额：{0}",CurrVal);
-            this.statusStrip1.Items[2].Text = string.Format("{0}秒后见", this.timer_RequestInst.Interval / 1000);
-            SendStatusTimer_Elapsed(null, null);
+            this.toolStripStatusLabel3.Text = string.Format("{0}秒后见", this.timer_RequestInst.Interval / 1000);
+            //SendStatusTimer_Elapsed(null, null);
         }
 
         void RefreshSendStatusInfo(string msg)

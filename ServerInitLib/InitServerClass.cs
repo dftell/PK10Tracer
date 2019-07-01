@@ -140,8 +140,16 @@ namespace WolfInv.com.ServerInitLib
                 CalcStragGroupClass<T> csg = null;
                 if (!AllStatusStrags.ContainsKey(strKey))
                 {
-                    csg = new CalcStragGroupClass<T>(GlobalClass.TypeDataPoints[spc.UseDataSource]);
-                    AllStatusStrags.Add(strKey, csg);
+                    if (GlobalClass.TypeDataPoints.ContainsKey(spc.UseDataSource))//如果计划不属于数据源，不加载
+                    {
+                        csg = new CalcStragGroupClass<T>(GlobalClass.TypeDataPoints[spc.UseDataSource]);
+                        AllStatusStrags.Add(strKey, csg);
+                    }
+                }
+                if(!AllStatusStrags.ContainsKey(strKey))
+                {
+                    ToLog("计划不属于使用的数据源", strKey);
+                    continue;
                 }
                 csg = AllStatusStrags[strKey];
                 if(spc.AssetUnitInfo != null)

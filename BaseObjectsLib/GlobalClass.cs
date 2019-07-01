@@ -383,11 +383,18 @@ namespace WolfInv.com.BaseObjectsLib
 
         }
 
-        public string LoginDefaultHost{get{
-            if(SysParams.Count > 0)
-                return SysParams["System"]["LoginDefaultHost"];
-            return "";
-        }}
+        public string LoginDefaultHost{
+            get
+            {
+                if (SysParams.Count > 0)
+                    return SysParams["System"]["LoginDefaultHost"];
+                return "";
+            }
+            set
+            {
+                SysParams["System"]["LoginDefaultHost"] = value;
+            }
+        }
 
         public string LoginHostList{get{
             if(SysParams.Count > 0)
@@ -418,9 +425,44 @@ namespace WolfInv.com.BaseObjectsLib
         {
             get
             {
-                if (SysParams.Count > 0)
+                if (SysParams.Count > 0 && SysParams["System"].ContainsKey("CheckNewestDataDays"))
                     return int.Parse(SysParams["System"]["CheckNewestDataDays"]);
                 return 0;
+            }
+        }
+
+        public string WebNavUrl 
+        {
+            get
+            {
+                if (SysParams.Count > 0 && SysParams["System"].ContainsKey("WebNavUrl"))
+                    return SysParams["System"]["WebNavUrl"];
+                return null;
+            }
+        }
+        /// <summary>
+        /// 正常消息通知开关
+        /// </summary>
+        public bool NormalNoticeFlag
+        {
+            get
+            {
+                if (SysParams.Count > 0 && SysParams["System"].ContainsKey("NormalNoticeFlag"))
+                    return SysParams["System"]["NormalNoticeFlag"]=="1";
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 意外消息通知开关
+        /// </summary>
+        public bool ExceptNoticeFlag
+        {
+            get
+            {
+                if (SysParams.Count > 0 && SysParams["System"].ContainsKey("ExceptNoticeFlag"))
+                    return SysParams["System"]["ExceptNoticeFlag"] == "1";
+                return false;
             }
         }
 
@@ -714,12 +756,12 @@ namespace WolfInv.com.BaseObjectsLib
             }
         }
 
-        public static DbClass getCurrDb()
+        public static DbClass getCurrDb(string strType)
         {
-            dbServer = TypeDataPoints["PK10"].DbHost;
-            dbUser = TypeDataPoints["PK10"].DbUser;
-            dbName = TypeDataPoints["PK10"].DbName;
-            dbPwd = TypeDataPoints["PK10"].DbPassword;
+            dbServer = TypeDataPoints[strType].DbHost;
+            dbUser = TypeDataPoints[strType].DbUser;
+            dbName = TypeDataPoints[strType].DbName;
+            dbPwd = TypeDataPoints[strType].DbPassword;
 
             return new DbClass(dbServer, dbUser, dbPwd, dbName);
         }
