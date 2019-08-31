@@ -12,7 +12,8 @@ namespace WolfInv.com.SecurityLib
             //GlobalClass.PK10_url; //"https://www.52cp.cn/pk10/history";
             this.dataUrl = GlobalClass.TypeDataPoints["PK10"].RuntimeInfo.DefaultDataUrl;
             //LogLib.LogableClass.ToLog("数据源url", this.dataUrl);
-            this.UseXmlMothed = GlobalClass.TypeDataPoints["PK10"].RuntimeInfo.DefaultUseXmlModel==1;
+            //this.UseXmlMothed = GlobalClass.TypeDataPoints["PK10"].RuntimeInfo.DefaultUseXmlModel==1;
+            this.UseDataType = GlobalClass.TypeDataPoints["PK10"].RuntimeInfo.DefaultUseDataType;// 
         }
         public override ExpectList<T> getHistoryData<T>(string FolderPath, string filetype)
         {
@@ -24,7 +25,7 @@ namespace WolfInv.com.SecurityLib
             throw new NotImplementedException();
         }
 
-        protected override ExpectList<T> getData<T>(string strHtml)
+        public override ExpectList<T> getData<T>(string strHtml)
         {
             ExpectList<T> ret = new ExpectList<T>();
             string startStr = "lg-history-table\">";
@@ -72,12 +73,12 @@ namespace WolfInv.com.SecurityLib
             return string.Join(",", codeArr);
         }
 
-        protected override ExpectList<T> getHisData<T>(string strHtml)
+        public override ExpectList<T> getHisData<T>(string strHtml)
         {
             throw new NotImplementedException();
         }
 
-        protected override ExpectList<T> getXmlData<T>(string strXml)
+        public override ExpectList<T> getXmlData<T>(string strXml)
         {
             ExpectList<T> ret = new ExpectList<T>();
             XmlDocument doc = new XmlDocument();
@@ -104,6 +105,16 @@ namespace WolfInv.com.SecurityLib
                 LogLib.LogableClass.ToLog(string.Format("非正常的xml数据,[{0}]:[{1}]",e.Message,e.StackTrace),strXml);
             }
             return ret;
+        }
+
+        public override ExpectList<T> getJsonData<T>(string strXml)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override ExpectList<T> getTextData<T>(string strXml)
+        {
+            throw new NotImplementedException();
         }
     }
 

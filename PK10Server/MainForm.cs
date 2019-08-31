@@ -201,6 +201,10 @@ namespace PK10Server
         {
             DateTime CurrTime = DateTime.Now;
             ViewDataList = er.ReadNewestData<TimeSerialData>(DateTime.Now.AddDays(-1* GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays));
+            if(ViewDataList== null ||ViewDataList.LastData == null)
+            {
+
+            }
             int CurrExpectNo = int.Parse(ViewDataList.LastData.Expect);
             if (CurrExpectNo > this.NewestExpectNo)
             {

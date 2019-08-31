@@ -80,6 +80,10 @@
     <Compile Include="Readers\Lotty\ExpectReader.cs" />
     <Compile Include="Readers\Lotty\HtmlDataClass.cs" />
     <Compile Include="Readers\IDataReader.cs" />
+    <Compile Include="Readers\Lotty\IHtmlDataClass.cs" />
+    <Compile Include="Readers\Lotty\IHtmlDataClass1.cs" />
+    <Compile Include="Readers\Lotty\kl12\KL12_HtmlDataClass.cs" />
+    <Compile Include="Readers\Lotty\kl12\SCKL12_HtmlDataClass.cs" />
     <Compile Include="Readers\MongoDataReader.cs" />
     <Compile Include="Readers\Security\NoSqlDataReader.cs" />
     <Compile Include="Readers\Lotty\PK10_HtmlDataClass.cs" />

@@ -31,8 +31,6 @@ namespace ExchangeTermial
             
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            
-            
             if(args != null && args.Length >= 2)
             {
                 strName = args[0];
@@ -40,7 +38,7 @@ namespace ExchangeTermial
                 AutoLogin = true;
             }
             Form1 frm = null;
-            wxl = new WXLogClass("客户端",gc.WXLogNoticeUser, gc.WXLogUrl);//指定默认登录用户，为捕捉第一次产生错误用。
+            wxl = new WXLogClass("客户端",gc.WXLogNoticeUser,string.Format(gc.WXLogUrl,gc.WXSVRHost));//指定默认登录用户，为捕捉第一次产生错误用。
             //ContinueRun:
             try
             {

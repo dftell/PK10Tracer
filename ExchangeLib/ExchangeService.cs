@@ -60,10 +60,15 @@ namespace WolfInv.com.ExchangeLib
         public bool UpdateChance<T>(ExchangeChance<T> ec,out double Gained) where T:TimeSerialData
         {
             string sqlmodule = "{0}='{1}'";
+            Gained = 0;
             string sql = string.Format(sqlmodule, "Id", ec.Id);
             DataRow[] drs = this.Select(sql,"");
-            if (drs.Length != 1)
-                throw new  Exception("需要更新的下注Id不存在");
+            if (drs.Length < 1)
+            {
+                //throw new Exception("需要更新的下注Id不存在");
+                return false;
+            }
+                
             DataRow dr = drs[0];
             double CurrOdds = double.Parse(dr["Odds"].ToString());
             double dGained = CurrOdds * ec.ExchangeAmount * ec.MatchChips;

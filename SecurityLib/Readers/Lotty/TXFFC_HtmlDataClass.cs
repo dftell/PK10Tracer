@@ -15,7 +15,7 @@ namespace WolfInv.com.SecurityLib
             this.dataUrl = GlobalClass.TypeDataPoints["TXFFC"].RuntimeInfo.DefaultDataUrl;
         }
 
-        protected override ExpectList<T> getData<T>(string strHtml)
+        public override ExpectList<T> getData<T>(string strHtml)
         {
             ExpectList<T> ret = new ExpectList<T>();
             string strBeg = "<table";
@@ -50,7 +50,7 @@ namespace WolfInv.com.SecurityLib
             return ret;
         }
 
-        protected override ExpectList<T> getHisData<T>(string strHtml)
+        public override ExpectList<T> getHisData<T>(string strHtml)
         {
             ExpectList<T> ret = new ExpectList<T>();
             string strBeg = "<table cellspacing=\"0\" cellpadding=\"0\" class=\"dt caipiao mbm\"";
@@ -208,7 +208,17 @@ namespace WolfInv.com.SecurityLib
             return getHisData<T>(htmltxt); ;
         }
 
-        protected override ExpectList<T> getXmlData<T>(string strXml)
+        public override ExpectList<T> getXmlData<T>(string strXml)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override ExpectList<T> getJsonData<T>(string strXml)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override ExpectList<T> getTextData<T>(string strXml)
         {
             throw new NotImplementedException();
         }

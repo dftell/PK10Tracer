@@ -48,7 +48,8 @@ namespace WolfInv.com.BaseObjectsLib
             obj = (T)this.propertyGrid1.SelectedObject;
             this.Hide();
             this.Visible = false;
-            //this.Close();
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void btn_Close_Click(object sender, EventArgs e)

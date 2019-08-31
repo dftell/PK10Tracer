@@ -18,7 +18,7 @@ namespace WolfInv.com.SecurityLib
             this.dataUrl = GlobalClass.TypeDataPoints["CAN28"].RuntimeInfo.DefaultDataUrl;
         }
 
-        protected override ExpectList<T> getData<T>(string strHtml)
+        public override ExpectList<T> getData<T>(string strHtml)
         {
             DateTime Now = DateTime.Now;
             ExpectList<T> ret = new ExpectList<T>();
@@ -89,7 +89,7 @@ namespace WolfInv.com.SecurityLib
             return ret;
         }
 
-        protected override ExpectList<T> getHisData<T>(string strHtml)
+        public override ExpectList<T> getHisData<T>(string strHtml)
         {
             return getData<T>(strHtml);
             ExpectList<T> ret = new ExpectList<T>();
@@ -248,10 +248,21 @@ namespace WolfInv.com.SecurityLib
             return getHisData<T>(htmltxt); ;
         }
 
-        protected override ExpectList<T> getXmlData<T>(string strXml)
+        public override ExpectList<T> getXmlData<T>(string strXml)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override ExpectList<T> getJsonData<T>(string strXml)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override ExpectList<T> getTextData<T>(string strXml)
         {
             throw new NotImplementedException();
         }
     }
+
 
 }

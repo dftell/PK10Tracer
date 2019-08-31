@@ -127,7 +127,7 @@ namespace WolfInv.com.ServerInitLib
             if (gc == null)
                 gc = new GlobalClass();
             this.gc = gc;
-            wxlog = new WXLogClass("服务器管理员",gc.WXLogNoticeUser, gc.WXLogUrl);
+            wxlog = new WXLogClass("服务器管理员",gc.WXLogNoticeUser,string.Format(gc.WXLogUrl,gc.WXSVRHost));
             LogableClass.ToLog("初始化服务器设置","初始化策略列表");
             wxlog.Log("初始化服务器设置", "初始化策略列表");
             this.AllStrags = InitServerClass.Init_StragList<T>();
@@ -151,7 +151,8 @@ namespace WolfInv.com.ServerInitLib
                 if(dtp.RuntimeInfo == null)
                     dtp.RuntimeInfo = new DataPointBuff(dtp);
                 dtp.RuntimeInfo.DefaultDataUrl = dtp.MainDataUrl;
-                dtp.RuntimeInfo.DefaultUseXmlModel = dtp.SrcUseXml;
+                //dtp.RuntimeInfo.DefaultUseXmlModel = dtp.SrcUseXml;
+                dtp.RuntimeInfo.DefaultUseDataType = dtp.MainDataType;
                 dtp.RuntimeInfo.DefaultDataDecode = dtp.DataDecode;
                 if (dtp.IsSecurityData == 0)
                 {

@@ -43,7 +43,7 @@ namespace PK10Server
                     {
 
                         WinComminuteClass wc = new WinComminuteClass();
-                        _UseSetting = wc.GetServerObject<ServiceSetting<T>>(null);
+                        _UseSetting = wc.GetServerObject<ServiceSetting<T>>(GlobalClass.DataTypes.First().Key);
 
                     }
                     catch (Exception ce)

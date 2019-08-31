@@ -21,24 +21,28 @@ namespace WolfInv.com.LogLib
             ToUser = strToUser;
             Url = _url;
         }
-        public string Log(string logname, string Topic, string msg)
+        public string Log(string logname, string Topic, string msg, string DefaultUrl = null)
         {
             //ToUser = logname;
-            return SendToWX(string.Format("来自用户[{0}]<{1}>的消息:[{2}]{3}", logname, getFuncName(), Topic, msg));
+            return SendToWX(string.Format("来自用户[{0}]<{1}>的消息:[{2}]{3}", logname, getFuncName(), Topic, msg), DefaultUrl);
         }
 
-        public string Log(string Topic, string Msg)
+        public string Log(string Topic, string Msg, string DefaultUrl = null)
         {
-            return SendToWX(string.Format("来自用户[{0}]<{1}>的消息:[{2}]{3}", FromUser, getFuncName(), Topic, Msg));
+            return SendToWX(string.Format("来自用户[{0}]<{1}>的消息:[{2}]{3}", FromUser, getFuncName(), Topic, Msg), DefaultUrl);
         }
 
-        public string Log(string msg)
+        public string Log(string msg, string DefaultUrl = null)
         {
-            return SendToWX(string.Format("来自用户[{0}]<{1}>的消息:{2}", FromUser, getFuncName(), msg));
+            return SendToWX(string.Format("来自用户[{0}]<{1}>的消息:{2}", FromUser, getFuncName(), msg), DefaultUrl);
         }
 
-        string SendToWX(string Msg)
+        string SendToWX(string Msg,string DefaultUrl=null)
         {
+            if(DefaultUrl!=null)
+            {
+                Url = DefaultUrl;
+            }
             if(wc == null)
                 wc = new WebClient();
             string strUrl = string.Format("{0}?ToUser={1}&Msg={2}", Url, ToUser,string.Format("{0}",Msg));

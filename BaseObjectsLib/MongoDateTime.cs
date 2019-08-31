@@ -21,6 +21,13 @@ namespace WolfInv.com.BaseObjectsLib
             DateTime.TryParse(strdt, out dt);
             return Stamp(dt);
         }
+
+        public static DateTime StampToDate(double stamp)
+        {
+            DateTime ret = new DateTime();
+            ret = BaseTime.ToLocalTime().AddMilliseconds((long)(stamp*1000.00));
+            return ret;
+        }
     }
 
     

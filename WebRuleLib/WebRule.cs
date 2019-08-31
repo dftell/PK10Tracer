@@ -26,7 +26,7 @@ namespace WolfInv.com.WebRuleLib
 
         protected abstract Dictionary<string, int> GetChanlesInfo(string url);
 
-        public string GetChanle(string url,string CurrChanle)
+        public string GetChanle(string url,string CurrChanle,bool ForceGetFastChanle=false)
         {
             Dictionary<string, int> chls = GetChanlesInfo(url);//获得所有线路的信息
             string ret = CurrChanle;
@@ -42,9 +42,16 @@ namespace WolfInv.com.WebRuleLib
                 }
                 else
                 {
-                    if (chls.Where(a => a.Value > 0).OrderBy(a => a.Value).First().Key.Equals(CurrChanle))//如果能访问的通道中当前通道排名最后，切换为最快线路
+                    if (ForceGetFastChanle)//强制获取最快线路
                     {
                         ret = GetFastChanle(chls);
+                    }
+                    else
+                    {
+                        if (chls.Where(a => a.Value > 0).OrderBy(a => a.Value).First().Key.Equals(CurrChanle))//如果能访问的通道中当前通道排名最后，切换为最快线路
+                        {
+                            ret = GetFastChanle(chls);
+                        }
                     }
                 }
             }
@@ -53,6 +60,8 @@ namespace WolfInv.com.WebRuleLib
 
         string GetFastChanle(Dictionary<string, int> Chanles)
         {
+            if (Chanles == null || Chanles.Count == 0)
+                return null;
             int val = Chanles.Where(a => a.Value > 0).Max(a => a.Value);//获取最大网速值
             if (val <= 0)//小于等于0返回空
                 return null;

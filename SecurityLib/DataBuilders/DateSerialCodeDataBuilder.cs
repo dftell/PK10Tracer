@@ -95,7 +95,7 @@ namespace WolfInv.com.SecurityLib
             {
                 sql = "{date_stamp:{$lte:{1},$gte:{2}},code:{$in:['{0}']}}".Replace("{0}", string.Join("','",Codes)).Replace("{1}", MongoDateTime.Stamp(endT).ToString()).Replace("{2}", MongoDateTime.Stamp(begT).ToString()); ;
             }
-            string sort = "{date_stamp:1,code:1}";
+            string sort = "{code_1_date_stamp_1:1}";
             return new MongoReturnDataList<T>(_mongoDB.FindList<T>(this.TableName, sql,sort));
         }
 

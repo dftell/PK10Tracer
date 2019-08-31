@@ -5,15 +5,18 @@ using WolfInv.com.BaseObjectsLib;
 using System;
 namespace WolfInv.com.SecurityLib
 {
-    public abstract class HtmlDataClass
+    public abstract class HtmlDataClass : IHtmlDataClass
     {
         protected HtmlDataClass(DataTypePoint dp)
         {
             dtp = dp;
+            UseDataType = dtp.RuntimeInfo.DefaultUseDataType;
+            dataUrl = dtp.RuntimeInfo.DefaultDataUrl;
         }
         protected DataTypePoint dtp = null;
         protected string dataUrl;
-        protected bool UseXmlMothed;
+        //protected bool UseXmlMothed;
+        protected string UseDataType;
         public ExpectList<T> getExpectList<T>() where T: TimeSerialData
         {
             ExpectList<T> ret = new ExpectList<T>();
@@ -29,10 +32,18 @@ namespace WolfInv.com.SecurityLib
                     htmltxt = new StreamReader(wr.GetResponseStream(), Encoding.GetEncoding("utf-8")).ReadToEnd();
                     wr.Close();
                 }
-                if(UseXmlMothed)
-                    return getXmlData<T>(htmltxt);
-                else
-                    return getData<T>(htmltxt);
+                switch (UseDataType)
+                {
+                    case "XML":
+                        return getXmlData<T>(htmltxt);
+                    case "JSON":
+                        return getJsonData<T>(htmltxt);
+                    case "TXT":
+                        return getTextData<T>(htmltxt);
+                    case "HTML":
+                    default:
+                        return getData<T>(htmltxt);
+                }
             }
             catch(Exception ce)
             {
@@ -48,12 +59,15 @@ namespace WolfInv.com.SecurityLib
                     if (dtp.RuntimeInfo.DefaultDataUrl.Equals(dtp.MainDataUrl))
                     {
                         dtp.RuntimeInfo.DefaultDataUrl = dtp.SubDataUrl;
+                        dtp.RuntimeInfo.DefaultUseDataType = dtp.SubDataType;
                     }
                     else
                     {
                         dtp.RuntimeInfo.DefaultDataUrl = dtp.MainDataUrl;
+                        dtp.RuntimeInfo.DefaultUseDataType = dtp.MainDataType;
                     }
-                    dtp.RuntimeInfo.DefaultUseXmlModel = dtp.RuntimeInfo.DefaultUseXmlModel==1?0:1;// dtp.SrcUseXml = (dtp.SrcUseXml == 1 ? 0 : 1);
+                    //dtp.RuntimeInfo.DefaultUseXmlModel = dtp.RuntimeInfo.DefaultUseXmlModel==1?0:1;// dtp.SrcUseXml = (dtp.SrcUseXml == 1 ? 0 : 1);
+                    //dtp.RuntimeInfo.DefaultUseDataType = dtp.RuntimeInfo.DefaultUseXmlModel == 1 ? 0 : 1;
                     LogLib.LogableClass.ToLog("切换到主机", dtp.RuntimeInfo.DefaultDataUrl);
                 }
                 else
@@ -68,11 +82,12 @@ namespace WolfInv.com.SecurityLib
 
         public abstract ExpectList<T> getHistoryData<T>(string strDate, int pageid) where T : TimeSerialData;
 
-        protected abstract ExpectList<T> getData<T>(string strHtml) where T : TimeSerialData;
+        public abstract ExpectList<T> getData<T>(string strHtml) where T : TimeSerialData;
 
-        protected abstract ExpectList<T> getXmlData<T>(string strXml) where T : TimeSerialData;
+        public abstract ExpectList<T> getXmlData<T>(string strXml) where T : TimeSerialData;
+        public abstract ExpectList<T> getJsonData<T>(string strXml) where T : TimeSerialData;
 
-        protected abstract ExpectList<T> getHisData<T>(string strHtml) where T : TimeSerialData;
+        public abstract ExpectList<T> getHisData<T>(string strHtml) where T : TimeSerialData;
 
         public static HtmlDataClass CreateInstance(DataTypePoint dtp)
         {
@@ -89,6 +104,16 @@ namespace WolfInv.com.SecurityLib
                         ret = new CAN28_HtmlDataClass(dtp);
                         break;
                     }
+                case "SCKL12":
+                    {
+                        ret = new SCKL12_HtmlDataClass(dtp);
+                        break;
+                    }
+                case "NLKL12":
+                    {
+                        ret = new NLKL12_HtmlDataClass(dtp);
+                        break;
+                    }
                 case "PK10":
                 default:
                     {
@@ -98,6 +123,8 @@ namespace WolfInv.com.SecurityLib
             }
             return ret;
         }
+
+        public abstract ExpectList<T> getTextData<T>(string strXml) where T : TimeSerialData;
     }
 
 }

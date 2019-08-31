@@ -58,15 +58,43 @@ namespace WolfInv.com.SecurityLib
         public override ExpectList<T> ReadHistory<T>(long From, long buffs, bool desc)
         {
             DateTime dt = new DateTime( From);
-            MongoDataDictionary<T> res = GetAllCodeDateSerialDataList<T>(string.Format("{0}-{1}-{2}",dt.Year,dt.Month.ToString().PadLeft(2,'0'),dt.Day.ToString().PadLeft(2,'0')), true);
-            Dictionary<string, MongoReturnDataList<T>> data = res;
-            ExpectList<T> ret = new ExpectList<T>(data, true);
-            return ret;
+            DateTime test = dt.AddDays(-1);
+            
+            DateTime et = dt.AddTicks(dt.Subtract(test).Ticks*buffs);
+            string begt = string.Format("{0}-{1}-{2}", dt.Year, dt.Month.ToString().PadLeft(2, '0'), dt.Day.ToString().PadLeft(2, '0'));
+            string endt = string.Format("{0}-{1}-{2}", et.Year, et.Month.ToString().PadLeft(2, '0'), et.Day.ToString().PadLeft(2, '0'));
+
+
+            ////MongoDataDictionary<T> res = GetAllCodeDateSerialDataList<T>(string.Format("{0}-{1}-{2}",dt.Year,dt.Month.ToString().PadLeft(2,'0'),dt.Day.ToString().PadLeft(2,'0')), true);
+            ////Dictionary<string, MongoReturnDataList<T>> data = res;
+            ////ExpectList<T> ret = new ExpectList<T>(data, true);
+
+            return ReadHistory<T>(begt,endt);
         }
 
         public override ExpectList<T> ReadHistory<T>(string begt, string endt)
         {
-            throw new NotImplementedException();
+            DateTime dt = DateTime.Parse(begt);
+            MongoDataDictionary<ExchangeMongoData> res = GetAllCodeDateSerialDataList<ExchangeMongoData>(begt,endt, true);
+            Dictionary<string, MongoReturnDataList<ExchangeMongoData>> data = res;
+            ExpectList<ExchangeMongoData> ret = new ExpectList<ExchangeMongoData>(data, true);
+            ExpectList<T> retlist = new ExpectList<T>();
+            ret.DataList.ForEach(a => {
+                ExpectData<T> ed = new ExpectData<T>();
+                ed.CurrTime = null;
+                ed.Key = "Security";
+                foreach(string code in a.Keys)
+                {
+                    if(ed.CurrTime == null)
+                    {
+                        ed.CurrTime = a[code].date;
+                    }
+                    ed.Expect = MongoDateTime.StampToDate(a[code].date_stamp).Ticks.ToString();
+                    ed.Add(code,a[code] as T);
+                }
+                retlist.Add(ed);
+            });
+            return retlist;
         }
 
         public override ExpectList<T> ReadNewestData<T>(DateTime fromdate)

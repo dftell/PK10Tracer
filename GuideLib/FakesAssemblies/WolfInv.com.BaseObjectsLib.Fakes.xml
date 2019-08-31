@@ -2548,6 +2548,9 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.StatusUrlModelGet">
             <summary>设置 GlobalClass.get_StatusUrlModel() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.SvrConfigUrlGet">
+            <summary>设置 GlobalClass.get_SvrConfigUrl() 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.SysParamsGet">
             <summary>设置 GlobalClass.get_SysParams() 的 填充码</summary>
         </member>
@@ -2571,6 +2574,12 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.WXLogUrlGet">
             <summary>设置 GlobalClass.get_WXLogUrl() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.WXSVRHostGet">
+            <summary>设置 GlobalClass.get_WXSVRHost() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.WXSVRHostSetString">
+            <summary>设置 GlobalClass.set_WXSVRHost(String value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.AllInstances.WebNavUrlGet">
             <summary>设置 GlobalClass.get_WebNavUrl() 的 填充码</summary>
@@ -2788,6 +2797,9 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.StatusUrlModelGet">
             <summary>设置 GlobalClass.get_StatusUrlModel() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.SvrConfigUrlGet">
+            <summary>设置 GlobalClass.get_SvrConfigUrl() 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.SysParamsGet">
             <summary>设置 GlobalClass.get_SysParams() 的 填充码</summary>
         </member>
@@ -2812,6 +2824,9 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.ValidOldestHistoryExpectGet">
             <summary>设置 GlobalClass.get_ValidOldestHistoryExpect() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.WXLogHostGet">
+            <summary>设置 GlobalClass.get_WXLogHost() 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.WXLogNoticeUserGet">
             <summary>设置 GlobalClass.get_WXLogNoticeUser() 的 填充码</summary>
         </member>
@@ -2820,6 +2835,12 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.WXLogUrlGet">
             <summary>设置 GlobalClass.get_WXLogUrl() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.WXSVRHostGet">
+            <summary>设置 GlobalClass.get_WXSVRHost() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.WXSVRHostSetString">
+            <summary>设置 GlobalClass.set_WXSVRHost(String value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimGlobalClass.WebNavUrlGet">
             <summary>设置 GlobalClass.get_WebNavUrl() 的 填充码</summary>
@@ -2958,6 +2979,42 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimInnerClass`1.Constructor">
             <summary>设置 InnerClass`1.InnerClass`1() 的 填充码</summary>
+        </member>
+        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimJsonableClass`1">
+            <summary>WolfInv.com.BaseObjectsLib.JsonableClass`1 的填充码类型</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimJsonableClass`1.#ctor">
+            <summary>初始化新的填充码实例</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimJsonableClass`1.#ctor(WolfInv.com.BaseObjectsLib.JsonableClass{`0})">
+            <summary>初始化给定实例的新填充码</summary>
+        </member>
+        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimJsonableClass`1.AllInstances">
+            <summary>为所有实例成员定义填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimJsonableClass`1.AllInstances.FromJsonString">
+            <summary>设置 JsonableClass`1.FromJson(String strjson) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimJsonableClass`1.AllInstances.ToJson">
+            <summary>设置 JsonableClass`1.ToJson() 的 填充码</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimJsonableClass`1.BehaveAsCurrent">
+            <summary>为已填充的类型的所有方法分配“Current”行为</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimJsonableClass`1.BehaveAsNotImplemented">
+            <summary>为已填充的类型的所有方法分配“NotImplemented”行为</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimJsonableClass`1.Behavior">
+            <summary>为已填充的类型的所有方法分配行为</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimJsonableClass`1.Constructor">
+            <summary>设置 JsonableClass`1.JsonableClass`1() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimJsonableClass`1.FromJsonString">
+            <summary>设置 JsonableClass`1.FromJson(String strjson) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimJsonableClass`1.ToJson">
+            <summary>设置 JsonableClass`1.ToJson() 的 填充码</summary>
         </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimLottyData">
             <summary>WolfInv.com.BaseObjectsLib.LottyData 的填充码类型</summary>
@@ -4065,6 +4122,9 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime.StampString">
             <summary>设置 MongoDateTime.Stamp(String strdt) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime.StampToDateDouble">
+            <summary>设置 MongoDateTime.StampToDate(Double stamp) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimMongoDateTime.StaticConstructor">
             <summary>设置 MongoDateTime.MongoDateTime() 的 填充码</summary>
@@ -5260,6 +5320,9 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.CurrTimeGet">
             <summary>设置 TimeSerialData.get_CurrTime() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.CurrTimeSetString">
+            <summary>设置 TimeSerialData.set_CurrTime(String value) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.EIdGet">
             <summary>设置 TimeSerialData.get_EId() 的 填充码</summary>
         </member>
@@ -5268,6 +5331,18 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.ExpectGet">
             <summary>设置 TimeSerialData.get_Expect() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.ExpectSerialByTypeGet">
+            <summary>设置 TimeSerialData.get_ExpectSerialByType() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.ExpectSerialByTypeSetInt32">
+            <summary>设置 TimeSerialData.set_ExpectSerialByType(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.ExpectSerialLongGet">
+            <summary>设置 TimeSerialData.get_ExpectSerialLong() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.ExpectSerialLongSetInt32">
+            <summary>设置 TimeSerialData.set_ExpectSerialLong(Int32 value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.ExpectSetString">
             <summary>设置 TimeSerialData.set_Expect(String value) 的 填充码</summary>
@@ -5280,6 +5355,9 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.KeyGet">
             <summary>设置 TimeSerialData.get_Key() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.KeySetString">
+            <summary>设置 TimeSerialData.set_Key(String value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.AllInstances.LastExpectGet">
             <summary>设置 TimeSerialData.get_LastExpect() 的 填充码</summary>
@@ -5341,6 +5419,9 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.CurrTimeGet">
             <summary>设置 TimeSerialData.get_CurrTime() 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.CurrTimeSetString">
+            <summary>设置 TimeSerialData.set_CurrTime(String value) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.EIdGet">
             <summary>设置 TimeSerialData.get_EId() 的 填充码</summary>
         </member>
@@ -5349,6 +5430,18 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.ExpectGet">
             <summary>设置 TimeSerialData.get_Expect() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.ExpectSerialByTypeGet">
+            <summary>设置 TimeSerialData.get_ExpectSerialByType() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.ExpectSerialByTypeSetInt32">
+            <summary>设置 TimeSerialData.set_ExpectSerialByType(Int32 value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.ExpectSerialLongGet">
+            <summary>设置 TimeSerialData.get_ExpectSerialLong() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.ExpectSerialLongSetInt32">
+            <summary>设置 TimeSerialData.set_ExpectSerialLong(Int32 value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.ExpectSetString">
             <summary>设置 TimeSerialData.set_Expect(String value) 的 填充码</summary>
@@ -5361,6 +5454,9 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.KeyGet">
             <summary>设置 TimeSerialData.get_Key() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.KeySetString">
+            <summary>设置 TimeSerialData.set_Key(String value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimTimeSerialData.LastExpectGet">
             <summary>设置 TimeSerialData.get_LastExpect() 的 填充码</summary>
@@ -7113,6 +7209,24 @@
         </member>
         <member name="F:WolfInv.com.BaseObjectsLib.Fakes.StubInnerClass`1.ToString01">
             <summary>设置 DetailStringClass.ToString() 的 stub</summary>
+        </member>
+        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubJsonableClass`1">
+            <summary>WolfInv.com.BaseObjectsLib.JsonableClass`1 的存根类型</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubJsonableClass`1.#ctor">
+            <summary>初始化新实例</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubJsonableClass`1.CallBase">
+            <summary>获取或设置一个值，该值指示是否应调用基方法而不调用回退行为</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubJsonableClass`1.InitializeStub">
+            <summary>初始化 type StubJsonableClass 的新实例</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubJsonableClass`1.InstanceBehavior">
+            <summary>获取或设置实例行为。</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubJsonableClass`1.InstanceObserver">
+            <summary>获取或设置实例观察者。</summary>
         </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubLottyData">
             <summary>WolfInv.com.BaseObjectsLib.LottyData 的存根类型</summary>

@@ -182,6 +182,10 @@ namespace WolfInv.com.WebRuleLib
             Dictionary<string, int> ret = new Dictionary<string, int>();
             AccessWebServerClass wcc = new AccessWebServerClass();
             string strHtml = AccessWebServerClass.GetData(NavUrl);
+            if(strHtml == null)
+            {
+                return ret;
+            }
             Regex regTr = new Regex(@"www\.kcai(.*?)\.com");
             MatchCollection mcs = regTr.Matches(strHtml);
             List<string> list = new List<string>();
@@ -230,7 +234,11 @@ namespace WolfInv.com.WebRuleLib
                     ret.Add(name, 0);
                     return;
                 }
-                int rate = (int)(reqdata.Length / endT.Subtract(begT).TotalSeconds);
+                int rate = 0;
+                if (reqdata.IndexOf("K彩在线娱乐")>0)
+                {
+                    rate = (int)(reqdata.Length / endT.Subtract(begT).TotalSeconds);
+                }
                 ret.Add(name, rate);
             }
         }

@@ -14,7 +14,7 @@ namespace WolfInv.com.WinInterComminuteLib
     {
         static List<IpcClientChannel> iccs = new List<IpcClientChannel>();
 
-        public T GetServerObject<T>(string specName)
+        public T GetServerObject<T>(string specName,bool WriteLog=false)
         {
             string FullName = typeof(T).FullName;
             string[] NameArr = FullName.Split('.');
@@ -43,10 +43,17 @@ namespace WolfInv.com.WinInterComminuteLib
                 //Log("IPC客户端日志","访问通道", ChannleName);
                 obj = Activator.GetObject(typeof(T), ChannleName);
                 ret = (T)obj;
+                if(WriteLog)
+                    Log("IPC客户端日志", "访问通道成功", ChannleName);
             }
             catch (Exception e)
             {
-                //Log("IPC客户端日志", "访问通道失败", e.Message);
+                Log("IPC客户端日志", "访问通道失败", string.Format("{0}:{1}",e.Message,e.StackTrace));
+                if(ret is RemoteServerClass)
+                {
+                    (ret as RemoteServerClass).Success = false;
+                    (ret as RemoteServerClass).Message = string.Format("{0}:{1}", e.Message,e.StackTrace);
+                }
                 return ret;
             }
             return ret; //返回一个空内容的壳，需要调用GetRemoteData实际调取数据

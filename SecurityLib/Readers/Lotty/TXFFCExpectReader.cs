@@ -30,4 +30,34 @@
         }
     }
 
+    public class SCKL12_ExpectReader : CommExpectReader
+    {
+        public SCKL12_ExpectReader()
+        {
+            strDataType = "SCKL12";
+
+
+            ////strNewestTable = "CAN28_Newestdata";
+            ////strHistoryTable = "CAN28_historydata";
+            ////strMissHistoryTable = "v_CAN28_HistoryData_Miss";
+            ////strMissNewestTable = "v_CAN28_NewestData_Miss";
+            InitTables();
+        }
+    }
+
+    public class NLKL12_ExpectReader : CommExpectReader
+    {
+        public NLKL12_ExpectReader()
+        {
+            strDataType = "NLKL12";
+
+
+            ////strNewestTable = "CAN28_Newestdata";
+            ////strHistoryTable = "CAN28_historydata";
+            ////strMissHistoryTable = "v_CAN28_HistoryData_Miss";
+            ////strMissNewestTable = "v_CAN28_NewestData_Miss";
+            InitTables();
+        }
+    }
+
 }

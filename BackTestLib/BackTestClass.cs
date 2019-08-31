@@ -36,6 +36,10 @@ namespace WolfInv.com.BackTestLib
             BegExpect = FromE;
             EndExpect = EndE;
             LoopCnt = buffCnt;
+            if (_dtpName.DataType.ToUpper().Equals("CN_STOCK_A"))
+            {
+                //LoopCnt = 1000 * 60 * 60 * 24 * buffCnt;//1000*60*60*24 一天
+            }
             CurrSetting = setting;
             testIndex = 0;
         }
@@ -287,7 +291,14 @@ namespace WolfInv.com.BackTestLib
             int AllCnt = 0;
             while (el == null || el.Count > 0) //如果取到的数据长度大于0
             {
-                el = er.ReadHistory<T>(begNo, LoopCnt);
+                if (dtp.IsSecurityData == 1)
+                {
+                    el = er.ReadHistory<T>(begNo, LoopCnt);
+                }
+                else
+                {
+                    el = er.ReadHistory<T>(begNo, LoopCnt);
+                }
                 if (el == null)
                 {
                     ret.LoopCnt = cnt * LoopCnt;
@@ -303,8 +314,15 @@ namespace WolfInv.com.BackTestLib
                     break;
                 }
                 AllData = ExpectList<T>.Concat(AllData, el);
-                begNo = el.LastData.LExpectNo + 1;
-
+                if (dtp.IsSecurityData==0)
+                {
+                    begNo = el.LastData.LExpectNo + 1;//加一期
+                }
+                else
+                {
+                    DateTime dt = new DateTime(el.LastData.LExpectNo);
+                    begNo = dt.AddDays(1).Ticks;//加一个周期,如果要回测其他周期，AddDays许更换为其他时间周期
+                }
                 cnt++;
                 //Todo:
 
@@ -320,9 +338,12 @@ namespace WolfInv.com.BackTestLib
                     }
                     else
                     {
-                        if (AllData[(int)testIndex].ExpectIndex != testData.LastData.ExpectIndex + 1)
+                        if (dtp.IsSecurityData == 0)//如果非证券，判断两个期号之间是否连续
                         {
-                            throw new Exception(string.Format("{1}第{0}期后出现数据遗漏，请补充数据后继续测试！", testData.LastData.Expect, testData.LastData.OpenTime));
+                            if (AllData[(int)testIndex].ExpectIndex != testData.LastData.ExpectIndex + 1)
+                            {
+                                throw new Exception(string.Format("{1}第{0}期后出现数据遗漏，请补充数据后继续测试！", testData.LastData.Expect, testData.LastData.OpenTime));
+                            }
                         }
                         testData.RemoveAt(0);
                         testData.Add(AllData[(int)testIndex]);

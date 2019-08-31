@@ -15,3 +15,9 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\obj\Debug\WolfInv.
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\obj\Debug\WolfInv.com.BaseObjectsLib.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\obj\Debug\WolfInv.com.BaseObjectsLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\BaseObjectsLib\obj\Debug\WolfInv.com.BaseObjectsLib.pdb
+S:\dftell\PK10Tracer\BaseObjectsLib\obj\Debug\WolfInv.com.BaseObjectsLib.csprojAssemblyReference.cache
+S:\dftell\PK10Tracer\BaseObjectsLib\obj\Debug\WolfInv.com.BaseObjectsLib.SerialableObjectEditor.resources
+S:\dftell\PK10Tracer\BaseObjectsLib\obj\Debug\WolfInv.com.BaseObjectsLib.csproj.GenerateResource.cache
+S:\dftell\PK10Tracer\BaseObjectsLib\obj\Debug\WolfInv.com.BaseObjectsLib.csproj.CoreCompileInputs.cache
+S:\dftell\PK10Tracer\BaseObjectsLib\obj\Debug\WolfInv.com.BaseObjectsLib.dll
+S:\dftell\PK10Tracer\BaseObjectsLib\obj\Debug\WolfInv.com.BaseObjectsLib.pdb

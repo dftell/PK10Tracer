@@ -194,7 +194,11 @@ namespace WolfInv.com.BaseObjectsLib
 
         public long LExpectNo
         {
-            get { return long.Parse(Expect); }
+            get {
+                if (IsSecurity)
+                    return DateTime.Parse(CurrTime).Ticks;
+                return long.Parse(Expect);
+            }
         }
         public long ExpectIndex
         {

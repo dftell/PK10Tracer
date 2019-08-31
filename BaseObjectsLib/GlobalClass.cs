@@ -19,6 +19,7 @@ namespace WolfInv.com.BaseObjectsLib
 
         static string _LogUser;
         static string _LogUrl;
+
         public static string LogUser
         {
             get
@@ -33,6 +34,11 @@ namespace WolfInv.com.BaseObjectsLib
             {
                 return _LogUrl;
             }
+        }
+
+        public static string WXLogHost
+        {
+            get { return _wxsvrhost; }
         }
 
         public static Dictionary<string, DataTypePoint> _TypeDataPoints;
@@ -148,6 +154,31 @@ namespace WolfInv.com.BaseObjectsLib
             }
         }
 
+        static string _wxsvrhost;
+        public string WXSVRHost
+        {
+            get
+            {
+                if (_wxsvrhost != null)
+                {
+                    return _wxsvrhost;
+                }
+                if (SysParams.ContainsKey("System"))
+                {
+                    if (SysParams["System"].ContainsKey("WXSVRHost"))
+                    {
+                        _wxsvrhost = SysParams["System"]["WXSVRHost"];
+                        return _wxsvrhost;
+                    }
+                }
+                return null;
+            }
+            set
+            {
+                _wxsvrhost = value;
+                SysParams["System"]["WXSVRHost"] = value;
+            }
+        }
         public string WXLogNoticeUser
         {
             get
@@ -172,6 +203,36 @@ namespace WolfInv.com.BaseObjectsLib
                 SysParams["System"]["WXLogNoticeUser"] = value;
             }
         }
+
+        public string SvrConfigUrl
+        {
+            get
+            {
+                if (SysParams.ContainsKey("System"))
+                {
+                    if (SysParams["System"].ContainsKey("SvrConfigUrl"))
+                    {
+                        return SysParams["System"]["SvrConfigUrl"];
+                    }
+                }
+                return null;
+            }
+        }
+
+        //////public string SvrScriptUrl
+        //////{
+        //////    get
+        //////    {
+        //////        if (SysParams.ContainsKey("System"))
+        //////        {
+        //////            if (SysParams["System"].ContainsKey("SvrScriptUrl"))
+        //////            {
+        //////                return SysParams["System"]["SvrScriptUrl"];
+        //////            }
+        //////        }
+        //////        return null;
+        //////    }
+        //////}
 
         public string InstHost
         {

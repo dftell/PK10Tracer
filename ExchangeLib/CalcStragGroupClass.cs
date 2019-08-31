@@ -18,7 +18,7 @@ namespace WolfInv.com.ExchangeLib
         WXLogClass wxl;
         public CalcStragGroupClass(DataTypePoint _dtp)
         {
-            wxl = new WXLogClass("服务器管理员",GlobalClass.LogUser,GlobalClass.LogUrl);
+            wxl = new WXLogClass("服务器管理员",GlobalClass.LogUser, string.Format(GlobalClass.LogUrl,GlobalClass.WXLogHost));
             dtp = _dtp;
         }
         public bool IsBackTest { get; set; }

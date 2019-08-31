@@ -19,8 +19,8 @@ namespace WolfInv.com.SecurityLib
         public ExpectReader()
             : base()
         {
-            strNewestTable = "Newestdata";
-            strHistoryTable = "historydata";
+            //strNewestTable = "Newestdata";
+            //strHistoryTable = "historydata";
 
         }
     }
@@ -57,6 +57,16 @@ namespace WolfInv.com.SecurityLib
                         ret = new SecurityReader(strType,docName,codes);
                         break;
                 }
+                case "SCKL12":
+                    {
+                        ret = new SCKL12_ExpectReader();
+                        break;
+                    }
+                case "NLKL12":
+                    {
+                        ret = new NLKL12_ExpectReader();
+                        break;
+                    }
                 case "PK10":
                 default:
                     {

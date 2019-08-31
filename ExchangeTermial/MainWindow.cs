@@ -37,7 +37,9 @@ namespace ExchangeTermial
         bool Logined = false;
         WebRule wr = null;
         bool ReadySleep = false;
+        bool ScriptLoaded = false;
         public bool ForceReboot { get; set; }
+        int ChanleUseTimes = -1;
         double CurrVal
         {
             get
@@ -119,16 +121,40 @@ namespace ExchangeTermial
         void SwitchChanle()
         {
             //Program.wxl.Log("正在进行网络线路测速！",string.Format("当前线路:{0}", Program.gc.LoginDefaultHost));
-            string hostname = wr.GetChanle(Program.gc.WebNavUrl, Program.gc.LoginDefaultHost);
+            string hostname = wr.GetChanle(Program.gc.WebNavUrl, Program.gc.LoginDefaultHost,ChanleUseTimes>=5);
 
             if (!Program.gc.LoginDefaultHost.Equals(hostname))//如果主机无法连接或者连接最差，切换主机
             {
-
-                Program.wxl.Log("客户端无法连接到下注服务器，或者连速较慢，客户端自动切换线路！", string.Format("已为您从线路{0}自动切换到线路{1}！", Program.gc.LoginDefaultHost, hostname));
+                if (ChanleUseTimes >= 5)
+                {
+                    Program.wxl.Log(string.Format("客户端长期使用该线路[{0}次]，自动切换到新线路！",ChanleUseTimes), string.Format("已为您从线路{0}自动切换到线路{1}！", Program.gc.LoginDefaultHost, hostname));
+                    
+                }
+                else
+                {
+                    Program.wxl.Log("客户端无法连接到下注服务器，或者连速较慢，客户端自动切换线路！", string.Format("已为您从线路{0}自动切换到线路{1}！", Program.gc.LoginDefaultHost, hostname));
+                }
+                ChanleUseTimes = -1;
                 Program.gc.LoginDefaultHost = hostname;
+                GlobalClass.SetConfig();
                 LoadUrl();
+                Logined = true;//如果这个不设置，不会重新下注，而要等到多次刷新后才会为真
                 return;
             }
+            else
+            {
+                if (ChanleUseTimes >= 5)
+                {
+                    Program.wxl.Log(string.Format("客户端长期使用该线路[{0}次]，强制自动切换到新线路！", ChanleUseTimes), string.Format("已为您从线路{0}自动切换到线路{1}！", Program.gc.LoginDefaultHost, hostname));
+                    ChanleUseTimes = -1;
+                    Program.gc.LoginDefaultHost = hostname;
+                    GlobalClass.SetConfig();
+                    LoadUrl();
+                    Logined = true;//如果这个不设置，不会重新下注，而要等到多次刷新后才会为真
+                    return;
+                }
+            }
+
         }
 
         void Reboot()
@@ -210,8 +236,13 @@ namespace ExchangeTermial
                     this.webBrowser1.ScriptErrorsSuppressed = true;
                     Application.DoEvents();
                     Thread.Sleep(3 * 1000);
+                    ScriptLoaded = false;
                     LogableClass.ToLog(webBrowser1?.Url?.Host, "准备唤醒！");
-                    Program.wxl.Log("起来", "不愿做奴隶的程序们！");
+                    Program.wxl.Log("起来", "不愿做奴隶的程序们！",string.Format(Program.gc.WXLogUrl,Program.gc.WXSVRHost));
+                    if(ChanleUseTimes<0)//载入时线路访问次数置0
+                    {
+                        ChanleUseTimes = 0;
+                    }
                 }
                 ////else
                 ////{
@@ -253,6 +284,7 @@ namespace ExchangeTermial
             element.text = this.getScriptText(string.Format("{0}_Pure.js", scriptFile));
             //将script标签添加到head标签中
             head.AppendChild(scriptEl);
+            ScriptLoaded = true;
         }
 
         private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -278,7 +310,9 @@ namespace ExchangeTermial
                     {
                         if (!WebBrowserLoad)//第一次载入
                         {
+
                             LogableClass.ToLog(webBrowser1.Url.Host, "首次进入，加载文件！");
+                            //if(!ScriptLoaded)
                             AddScript(); //执行js代码,未来修改为网络载入
                             webBrowser1.Document.InvokeScript("Login", new string[] { Program.gc.ClientUserName, Program.gc.ClientPassword });
                             WebBrowserLoad = true;
@@ -455,14 +489,14 @@ namespace ExchangeTermial
                 if (cr.Cnt != 1)
                 {
                     this.statusStrip1.Items[0].Text = "无指令！";
-                    Program.wxl.Log("无指令！");
+                    Program.wxl.Log("无指令！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
                     return;
                 }
                 RequestClass ic = cr.Result[0] as RequestClass;
                 if (ic == null)
                 {
                     this.statusStrip1.Items[0].Text = "指令内容错误！";
-                    Program.wxl.Log("指令内容错误！");
+                    Program.wxl.Log("指令内容错误！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
                     return;
                 }
                 Int64 CurrExpectNo = Int64.Parse(ic.Expect);
@@ -501,9 +535,19 @@ namespace ExchangeTermial
                     {
                         if (RefreshTimes > 0)
                         {
+                            //发送请求时线路次数加一
+                            if(ChanleUseTimes<0)
+                            {
+                                ChanleUseTimes = 1;
+                            }
+                            else
+                            {
+                                ChanleUseTimes++;
+                            }
                             if (AllSum == 0)
                             {
-                                Program.wxl.Log("空信号", "当期指令为空信号，或者金额为0", string.Format("{0}:{1}", ic.Expect, this.txt_Insts.Text));
+                                Program.wxl.Log(string.Format("第{0}期", this.txt_ExpectNo.Text), "当期指令为空信号，或者金额为0", string.Format("{0}:[{1}]", "指令", this.txt_Insts.Text), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                                SwitchChanle();//赶着空指令切换线路
                                 return;
                             }
                             this.btn_Send_Click(null, null);
@@ -548,7 +592,7 @@ namespace ExchangeTermial
             catch(Exception ce)
             {
                 LogableClass.ToLog("错误", "刷新指令",string.Format("{0}:{1}",ce.Message,ce.StackTrace));
-                Program.wxl.Log("错误", "刷新指令发生错误。", string.Format("{0}:{1}", ce.Message, ce.StackTrace));
+                Program.wxl.Log("错误", "刷新指令发生错误。", string.Format("{0}:{1}", ce.Message, ce.StackTrace), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
 
             }
         }
@@ -566,6 +610,7 @@ namespace ExchangeTermial
             if (this.txt_Insts.Text.Trim().Length == 0) return;
             
             Rule_ForKcaiCom rule = new Rule_ForKcaiCom(Program.gc);
+            //if (!ScriptLoaded)
             AddScript();
             string msg = rule.IntsToJsonString(this.txt_Insts.Text, Program.gc.ChipUnit);
             double lastval = this.CurrVal;
@@ -579,11 +624,12 @@ namespace ExchangeTermial
                 
                 sendCnt++;
                 
-                Program.wxl.Log("警告",string.Format("第{0}次浏览器加载未完成",sendCnt),string.Format("请检查线路{0}是否正常！",Program.gc.LoginDefaultHost));
+                Program.wxl.Log("警告",string.Format("第{0}次浏览器加载未完成",sendCnt),string.Format("请检查线路{0}是否正常！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost)));
                 //LoadUrl();
                 SwitchChanle();
                 //Reboot();
                 this.NewExpect--;//允许下次再接收数据发送
+                RefreshTimes = 1;//让第一次发生错误后下次刷新指令会自动发送
                 return;
                 Application.DoEvents();
 
@@ -595,7 +641,7 @@ namespace ExchangeTermial
                     return;
                 }
             }
-            webBrowser1.Document.InvokeScript("SendMsg", new object[] { this.NewExpect.ToString(), msg,Program.gc.ClientUserName, Program.gc.WXLogNoticeUser,this.txt_Insts.Text, lastval });
+            webBrowser1.Document.InvokeScript("SendMsg", new object[] { this.NewExpect.ToString(), msg,Program.gc.ClientUserName, Program.gc.WXLogNoticeUser,this.txt_Insts.Text, lastval,string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost) });
             if (!dicExistInst.ContainsKey(this.NewExpect))
             {
                 dicExistInst.Add(this.NewExpect, this.txt_Insts.Text);
@@ -652,7 +698,7 @@ namespace ExchangeTermial
                 }
                 else
                 {
-                    Program.wxl.Log("程序们，再坚持一会","让其他屌丝们干完事了一起睡！");
+                    Program.wxl.Log("程序们，再坚持一会","让其他屌丝们干完事了一起睡！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
                     
                     ReadySleep = false;
                     Thread.Sleep(2 * 60 * 1000);
@@ -664,14 +710,14 @@ namespace ExchangeTermial
                 ReadySleep = false;
                 Thread.Sleep(2 * 60 * 1000);
                 LogableClass.ToLog("错误", "此刻无法入眠", string.Format("{0}:{1}", ce.Message, ce.StackTrace));
-                Program.wxl.Log("错误", "此刻无法入眠，让我再酝酿一番如何？", string.Format("{0}:{1}", ce.Message, ce.StackTrace));
+                Program.wxl.Log("错误", "此刻无法入眠，让我再酝酿一番如何？", string.Format("{0}:{1}", ce.Message, ce.StackTrace), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
                 return;
             }
             WebBrowserLoad = false;
             Logined = false;
             InSleep = true;
             Set_SendTime(false);
-            Program.wxl.Log("洗洗睡吧，明日再薅！");
+            Program.wxl.Log("洗洗睡吧，明日再薅！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
         }
 
         private void reLoadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -708,6 +754,7 @@ namespace ExchangeTermial
             Array.Copy(arg, 1, useArg, 0, useArg.Length);
             try
             {
+                //if (!ScriptLoaded)
                 AddScript();
                 webBrowser1.Document.InvokeScript("JumpFillPage", null);
                 Thread.Sleep(3000);
@@ -722,8 +769,9 @@ namespace ExchangeTermial
 
         void KnockEgg()
         {
-            AddScript();
-            webBrowser1.Document.InvokeScript("ClickEgg",new object[] { Program.gc.ClientUserName, Program.gc.WXLogNoticeUser });
+            //if (!ScriptLoaded)
+                AddScript();
+            webBrowser1.Document.InvokeScript("ClickEgg",new object[] { Program.gc.ClientUserName, Program.gc.WXLogNoticeUser,string.Format(Program.gc.WXLogUrl,Program.gc.WXSVRHost) });
             //Program.wxl.Log("已为您砸金蛋！");
         }
 

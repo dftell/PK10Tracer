@@ -54,13 +54,15 @@ namespace WolfInv.com.BaseObjectsLib
         }
     }
 
-    public class ExchangeMongoData : MongoData, IExchangeData
+    public class ExchangeMongoData : TimeSerialData, IExchangeData
     {
-        public string date { get; set; }
+        string _date = "1990-01-01";
+        public string date { get { return _date; } set { _date = value; CurrTime = value; } }
         public double date_stamp { get; set; }
 
         public Cycle Cyc;
-        public string code { get; set; }
+        string _code;
+        public string code { get { return _code; } set {_code=value;Key = value; } }
         public double open { get; set; }
         public double high { get; set; }
         public double low { get; set; }
@@ -71,6 +73,10 @@ namespace WolfInv.com.BaseObjectsLib
         public OneCycleData PreData;
         public OneCycleData NextData;
         double _ChgRate = 0;
+        public ExchangeMongoData()
+        {
+            _IsSecurity = true;
+        }
         /// <summary>
         /// 涨幅
         /// </summary>
@@ -88,9 +94,22 @@ namespace WolfInv.com.BaseObjectsLib
                 }
                 return _ChgRate;
             }
+
+            
         }
 
 
+        ////public bool IsSecurity { get {return true; } set { } }
+
+        ////public string Key
+        ////{
+        ////    get
+        ////    {
+        ////        return code;
+        ////    }
+        ////    set
+        ////    { }
+        ////}
 
         public DataSet ToDataSet<T>(List<T> list) where T: MongoData
         {

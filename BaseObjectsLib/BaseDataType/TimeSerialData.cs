@@ -16,18 +16,55 @@ namespace WolfInv.com.BaseObjectsLib
         {
 
         }
+        int t_ExpectSerialByType = 1;
+        /// <summary>
+        /// 1,int 2,date
+        /// </summary>
+        public int ExpectSerialByType//1,int 2,date
+        {
+            get { return t_ExpectSerialByType; }
+            set { t_ExpectSerialByType = value; }
+        }
+        /// <summary>
+        /// 如果是date，序号位数
+        /// </summary>
+        public int ExpectSerialLong { get; set; }//
         public Int64 EId { get; set; }
         public int MissedCnt { get; set; }
         public string LastExpect { get; set; }
         public string Expect { get; set; }
         public string OpenCode { get; set; }
 
-        public string Key { get { return "Lotty"; } }
-        public string CurrTime { get {return OpenTime.ToString(); }  }
+        protected string _key = "Lotty";
+       
+        public string Key
+        {
+            get { return _key; }
+            set { _key = value; }
+        }
+        string _currTime = null;
+        public string CurrTime {
+            get
+            {
+                return _currTime;
+            }
+            set
+            {
+                _currTime = value;
+                if (value != null)
+                {
+                    DateTime dt;
+                    bool suc = DateTime.TryParse(value, out dt);
+                    if(suc)
+                        OpenTime = dt;
+                }
+            }
+        }
 
         public DateTime OpenTime { get; set; }
 
         //public abstract object Clone();
+        protected bool _IsSecurity = false;
         public bool IsSecurity { get; set; }
         //public OneCycleData CurrData;
     }

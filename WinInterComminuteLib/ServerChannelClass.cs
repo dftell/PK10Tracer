@@ -123,7 +123,8 @@ namespace WolfInv.com.WinInterComminuteLib
     public class RemoteServerClass : LogableClass
     {
         protected Dictionary<string, IpcServerChannel> channels = new Dictionary<string, IpcServerChannel>();
-
+        public bool Success;
+        public string Message;
         public bool CreateChannel(string specName)
         {
             string FullName = this.GetType().FullName;

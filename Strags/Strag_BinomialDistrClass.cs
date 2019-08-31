@@ -240,9 +240,10 @@ namespace WolfInv.com.Strags
                 if (cc.ChipCount < this.InputMinTimes && cc.HoldTimeCnt > cc.AllowMaxHoldTimeCnt && cc.AllowMaxHoldTimeCnt > 0)
                 {
                     int CurrChipCount = ChanceClass.getChipsByCode(cc.ChanceCode);
-                    if(CurrChipCount >= 2)//大于等于3的，超过了一定期数以后可以跟号。4码5次，3码7次,2码11次。6-n+(6-n)^2
+                    if(CurrChipCount >= 2)//大于等于3的，超过了一定期数以后可以跟号。4码5次，3码7次,2码11次。6-n+(6-n+1)^2 
                     {
-                        shift = (this.InputMinTimes+1 - CurrChipCount) + (this.InputMinTimes +1- CurrChipCount) ^ 2;
+                        shift = (this.InputMinTimes+1 - CurrChipCount) + (this.InputMinTimes +1- CurrChipCount+1) ^ 2;
+                        //shift = (6 - CurrChipCount) + (6 - CurrChipCount + 1) ^ 2;
                     }
                     else
                     {

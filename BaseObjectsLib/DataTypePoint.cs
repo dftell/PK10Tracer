@@ -8,8 +8,10 @@ namespace WolfInv.com.BaseObjectsLib
     {
         public int IsSecurityData = 0;//是否是证券数据
         public string MainDataUrl = "";
+        public string MainDataType = "XML";//HTML,XML,JSON,TXT
         public string SubDataUrl = "";
-        public int SrcUseXml = 1;
+        public string SubDataType = "HTML";//HTML,XML,JSON,TXT
+        //public int SrcUseXml = 1;
         public int AutoSwitchHost = 0;//是否自动切换主机
 
         public string DataDecode = "utf-8";
@@ -71,10 +73,14 @@ namespace WolfInv.com.BaseObjectsLib
                     catch(Exception ce)
                     {
                         ToLog(fs[i].Name, list[fs[i].Name]);
-                        throw ce;
+                        //throw ce;
                     }
                 }
             }
+            this.RuntimeInfo = new DataPointBuff();
+            this.RuntimeInfo.DefaultDataUrl = this.MainDataUrl;
+            this.RuntimeInfo.DefaultUseDataType = this.MainDataType;
+            this.RuntimeInfo.DefaultDataDecode = this.DataDecode;
         }
     }
 
@@ -113,7 +119,8 @@ namespace WolfInv.com.BaseObjectsLib
 
         //默认的
         public string DefaultDataUrl;
-        public int DefaultUseXmlModel;
+        //public int DefaultUseXmlModel;
+        public string DefaultUseDataType;//HTML,XML,JSON,TXT
         public string DefaultDataDecode;
         
     }

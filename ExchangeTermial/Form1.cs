@@ -12,7 +12,7 @@ using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.RemoteObjectsLib;
 using System.Xml;
 using WolfInv.com.WebRuleLib;
-
+using System.Web.Script.Serialization;
 namespace ExchangeTermial
 {
     public partial class Form1 : Form
@@ -84,6 +84,22 @@ namespace ExchangeTermial
             {
 
             }
+            if (Program.gc.SvrConfigUrl != null)//获取服务器默认配置
+            {
+                string strConfig = AccessWebServerClass.GetData(Program.gc.SvrConfigUrl, Encoding.UTF8);
+                if (strConfig != null && strConfig.Trim().Length > 0)
+                {
+                    SvrConfigClass scc = new SvrConfigClass().getObjectByJsonString(strConfig);
+                    if(scc.DefaultExchangeHost != null)
+                    {
+                        Program.gc.LoginDefaultHost = scc.DefaultExchangeHost;
+                    }
+                    if(scc.WXSvrHost!= null)
+                    {
+                        Program.gc.WXSVRHost = scc.WXSvrHost;
+                    }
+                }
+            }
             //Program.gc.LoginDefaultHost = WebRuleBuilder.Create(Program.gc).GetChanle(Program.gc.WebNavUrl, Program.gc.LoginDefaultHost); ;
             GlobalClass.SetConfig();
             this.Hide();
@@ -91,7 +107,6 @@ namespace ExchangeTermial
             //必须重新指定登录用户
             Program.wxl = new WolfInv.com.LogLib.WXLogClass(Program.gc.ClientUserName, Program.gc.WXLogNoticeUser, Program.gc.WXLogUrl);
             MainWindow mw = new MainWindow();
-            
             DialogResult res = mw.ShowDialog();
 
             //////while ( res == DialogResult.OK)//如果frm退出是因为要求重启
@@ -107,6 +122,21 @@ namespace ExchangeTermial
             //////}
             Application.Exit();
         }
+
+        class SvrConfigClass:iSerialJsonClass<SvrConfigClass>
+        {
+            public string WXSvrHost { get; set; }
+            public string DefaultExchangeHost { get; set; }
+
+            public SvrConfigClass getObjectByJsonString(string str)
+            {
+                SvrConfigClass ret = null;
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                ret = js.Deserialize<SvrConfigClass>(str);
+                return ret;
+            }
+        }
+
 
         private void Form1_Load(object sender, EventArgs e)
         {

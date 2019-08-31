@@ -13,6 +13,7 @@ using WolfInv.com.WinInterComminuteLib;
 using DataRecSvr;
 using WolfInv.com.BaseObjectsLib;
 using System.IO;
+using WolfInv.com.PK10CorePress;
 namespace Test_Win
 {
     public class GlobalObj
@@ -151,6 +152,14 @@ namespace Test_Win
 
         static void Main()
         {
+            
+            //////////测试读取数据
+            //////////GlobalObj gb = new GlobalObj();
+            ////////GlobalClass gc = new GlobalClass();
+            ////////string str = GlobalClass.dbName;//触发静态
+            ////////KL12_HtmlDataClass hd = new KL12_HtmlDataClass(GlobalClass.TypeDataPoints["SCKL12"]);
+            ////////ExpectList<TimeSerialData> el = hd.getExpectList<TimeSerialData>();
+            ////////return;
             splitFile("share", "function(", '}');
             //return;
             LogableClass.ToLog("初始化服务器全局设置", "开始");

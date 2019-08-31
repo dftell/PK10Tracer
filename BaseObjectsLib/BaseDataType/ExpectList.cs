@@ -82,6 +82,8 @@ namespace WolfInv.com.BaseObjectsLib
                 //////    string test = "1";
                 //////    test = "1";
                 //////}
+                if (MyData == null || MyData.Count == 0)
+                    return null;
                 return MyData[MyData.Count - 1];
             }
         }
@@ -110,10 +112,34 @@ namespace WolfInv.com.BaseObjectsLib
 
         public long MissExpectCount()
         {
+            if (this.Count <= 1)
+                return 1;
             int cnt = this.Count;
             long lastid = long.Parse(this[cnt - 1].Expect);
             long preid = long.Parse(this[cnt - 2].Expect);
-            return lastid - preid;
+            if(this[cnt-1].ExpectSerialByType==1)//如果是连续期号，直接计算差
+                return lastid - preid;
+            if(this[cnt - 1].ExpectSerialByType == 2)//如果是按日期
+            {
+                string e1 =  this[cnt - 1].Expect.Trim();
+                string e2 = this[cnt - 2].Expect.Trim();
+                if (e1.Length != e2.Length)
+                    return 999;
+                int sL =  this[cnt - 1].ExpectSerialLong;//编号长度
+                int dL = e1.Length - sL;//日期长度
+                int s1 = int.Parse(e1.Substring(dL, sL));//最后值序号
+                int s2 = int.Parse(e2.Substring(dL, sL));//倒数第二个序号
+                if (e1.Substring(0,dL).Equals(e2.Substring(0,dL)))//如果日期相等
+                {
+                    return s1 - s2;
+                }
+                else
+                {
+                    return s2;//默认前面一个的值是正常的。？？？？？
+                }
+
+            }
+            return 1;
         }
         
         public ExpectList(Dictionary<string, MongoReturnDataList<T>> _data,bool NeedReTime)

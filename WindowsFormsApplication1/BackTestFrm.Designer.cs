@@ -1163,7 +1163,7 @@ namespace BackTestSys
             this.txt_LoopCnt.Name = "txt_LoopCnt";
             this.txt_LoopCnt.Size = new System.Drawing.Size(68, 35);
             this.txt_LoopCnt.TabIndex = 3;
-            this.txt_LoopCnt.Text = "1000";
+            this.txt_LoopCnt.Text = "10";
             // 
             // label2
             // 
