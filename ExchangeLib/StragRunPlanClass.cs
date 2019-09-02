@@ -68,7 +68,20 @@ namespace WolfInv.com.ExchangeLib
         Category("策略信息"),
         Description("策略编号")]
         public string Strag_GUID { get { if (PlanStrag != null) return PlanStrag.GUID; return ""; } }
-        
+
+        [DescriptionAttribute("策略所属彩种"),
+        DisplayName("策略所属彩种"),
+            DefaultValueAttribute("PK10"),
+        CategoryAttribute("全局设置")]
+        public string StragLotteryName
+        {
+            get
+            {
+                if (PlanStrag != null)
+                    return PlanStrag.StragLotteryName;
+                return null;
+            }
+        }
 
         [DisplayName("策略名称"),
         Category("策略信息"),

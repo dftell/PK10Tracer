@@ -171,7 +171,7 @@ namespace DataRecSvr
                 }
                 Dictionary<string, CalcStragGroupClass<TimeSerialData>> allGrps = Program.AllServiceConfig.AllRunningPlanGrps as Dictionary<string, CalcStragGroupClass<TimeSerialData>>;
                 //加入后续启动的计划
-                Program.AllServiceConfig.AllRunningPlanGrps = InitServerClass.InitCalcStrags<TimeSerialData>(ref allGrps, Program.AllServiceConfig.AllStrags as Dictionary<string, BaseStragClass<TimeSerialData>>, Program.AllServiceConfig.AllRunPlannings, Program.AllServiceConfig.AllAssetUnits, false,this.IsTestBack);
+                Program.AllServiceConfig.AllRunningPlanGrps = InitServerClass.InitCalcStrags<TimeSerialData>(DataPoint, ref allGrps, Program.AllServiceConfig.AllStrags as Dictionary<string, BaseStragClass<TimeSerialData>>, Program.AllServiceConfig.AllRunPlannings, Program.AllServiceConfig.AllAssetUnits, false,this.IsTestBack);
             }
             foreach (string key in Program.AllServiceConfig.AllRunningPlanGrps.Keys)//再次为计划组分配资源，保证策略和计划一直在内存。
             {

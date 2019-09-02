@@ -67,6 +67,11 @@ namespace WolfInv.com.SecurityLib
                         ret = new NLKL12_ExpectReader();
                         break;
                     }
+                case "GDKL11":
+                    {
+                        ret = new GDKL11_ExpectReader();
+                        break;
+                    }
                 case "PK10":
                 default:
                     {

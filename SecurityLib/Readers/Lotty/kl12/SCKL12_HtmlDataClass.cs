@@ -31,4 +31,13 @@ namespace WolfInv.com.SecurityLib
 
     }
 
+    public class GDKL11_HtmlDataClass : KL11_HtmlDataClass
+    {
+        public GDKL11_HtmlDataClass(DataTypePoint dp) : base(dp)
+        {
+            //dataUrl = GlobalClass.TXFFC_url;
+            //this.dataUrl = dtp.RuntimeInfo.DefaultDataUrl;
+        }
+
+    }
 }

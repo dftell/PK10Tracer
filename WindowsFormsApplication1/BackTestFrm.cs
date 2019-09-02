@@ -799,7 +799,7 @@ namespace BackTestSys
             //try
             //{
             Dictionary<string, CalcStragGroupClass<TimeSerialData>> rest = null;
-            Program.AllSettings.AllRunningPlanGrps = InitServerClass.InitCalcStrags<TimeSerialData>(ref rest, Program.AllSettings.AllStrags, SCList.ToDictionary(p => p.GUID, p => p as StragRunPlanClass<TimeSerialData>), Program.AllSettings.AllAssetUnits, true,true);//注入plans
+            Program.AllSettings.AllRunningPlanGrps = InitServerClass.InitCalcStrags<TimeSerialData>(GlobalClass.TypeDataPoints[this.ddl_DataSource.SelectedValue.ToString()],ref rest, Program.AllSettings.AllStrags, SCList.ToDictionary(p => p.GUID, p => p as StragRunPlanClass<TimeSerialData>), Program.AllSettings.AllAssetUnits, true,true);//注入plans
             btc.FinishedProcess = new SuccEvent(Finished);
             ret = btc.VirExchange(Program.AllSettings as ServiceSetting<T> , ref es, SCList.ToArray());
             //}

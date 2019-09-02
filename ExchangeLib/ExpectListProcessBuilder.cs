@@ -16,23 +16,39 @@ namespace WolfInv.com.ExchangeLib
         public CommExpectListProcess<T> getProcess()
         {
             CommExpectListProcess<T> ret = null;
-            switch (dtp.DataType)
+            if (dtp.IsSecurityData == 1)
             {
-                case ("PK10"):
-                    {
-                        ret = new ExpectListProcess(new ExpectList(data.Table)) as CommExpectListProcess<T>;// ConvertionExtensions.CopyTo<CommExpectListProcess<T>>(new ExpectListProcess(new ExpectList(data.Table)));
-                        break;
-                    }
-                case (""):
-                    {
-                        break;
-                    }
-                default:
-                    {
-
-                        ret = new SecurityListProcess<T>(data);
-                        break;
-                    }
+                ret = new SecurityListProcess<T>(data);
+            }
+            else
+            {
+                switch (dtp.DataType)
+                {
+                    case "PK10":
+                        {
+                            ret = new ExpectListProcess(new ExpectList(data.Table)) as CommExpectListProcess<T>;// ConvertionExtensions.CopyTo<CommExpectListProcess<T>>(new ExpectListProcess(new ExpectList(data.Table)));
+                            break;
+                        }
+                    case "SCKL12":
+                    case "NLKL12":
+                        {
+                            ret = new CombinLottery_ExpectListProcess(new ExpectList(data.Table)) as CommExpectListProcess<T>;
+                            (ret as CombinLottery_ExpectListProcess).AllNums = 12;
+                            (ret as CombinLottery_ExpectListProcess).SelectNums = 5;
+                            break;
+                        }
+                    case "GDKL11":
+                        {
+                            ret = new CombinLottery_ExpectListProcess(new ExpectList(data.Table)) as CommExpectListProcess<T>;
+                            (ret as CombinLottery_ExpectListProcess).AllNums = 11;
+                            (ret as CombinLottery_ExpectListProcess).SelectNums = 5;
+                            break;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
             }
             return ret;
         }
@@ -51,24 +67,42 @@ namespace WolfInv.com.ExchangeLib
         public DataReader getReader()
         {
             DataReader ret = null;
-            switch (dtp.DataType)
+            if(dtp.IsSecurityData==1)
             {
-                case ("PK10"):
-                    {
-                        ret = new ExpectReader();
-                        break;
-                    }
-                case (""):
-                    {
-                        break;
-                    }
-                default:
-                    {
-
-                        ret = new SecurityReader(dtp.DataType,dtp.NewestTable, codes);
-                        break;
-                    }
+                ret = new SecurityReader(dtp.DataType, dtp.NewestTable, codes);
             }
+            else
+            {
+                //ret = new ExpectReader();
+                switch (dtp.DataType)
+                {
+                    case "PK10":
+                        {
+                            ret = new ExpectReader();
+                            break;
+                        }
+                    case "SCKL12":
+                        {
+                            ret = new SCKL12_ExpectReader();
+                            break;
+                        }
+                    case "NLKL12":
+                        {
+                            ret = new NLKL12_ExpectReader();
+                            break;
+                        }
+                    case "GDKL11":
+                        {
+                            ret = new GDKL11_ExpectReader();
+                            break;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
+            }
+           
             return ret;
         }
     }

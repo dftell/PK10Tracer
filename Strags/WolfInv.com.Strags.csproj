@@ -50,7 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseStrag.cs" />
-    <Compile Include="ChanceTraceStragClass.cs" />
+    <Compile Include="PK10\ChanceTraceStragClass.cs" />
     <Compile Include="CommPickEditClass.cs" />
     <Compile Include="CommSelectOjectDialog.cs">
       <SubType>Form</SubType>
@@ -58,14 +58,15 @@
     <Compile Include="CommSelectOjectDialog.Designer.cs">
       <DependentUpon>CommSelectOjectDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="KLXxY\Strag_KLXxY_Combin_All8_All3.cs" />
     <Compile Include="MLDataFactory.cs" />
     <Compile Include="MLStragClass\MachineLearnStragClass.cs" />
     <Compile Include="MLStragClass\OddEvenAndBigSmall_AutoLearnStragClass.cs" />
-    <Compile Include="ProbWaveSelectStragClass.cs" />
+    <Compile Include="PK10\ProbWaveSelectStragClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StagConfigSetting.cs" />
     <Compile Include="StragClass.cs" />
-    <Compile Include="strage_CommGrown.cs" />
+    <Compile Include="PK10\strage_CommGrown.cs" />
     <Compile Include="StragPicker.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,21 +79,21 @@
     <Compile Include="StragsPicker.Designer.cs">
       <DependentUpon>StragsPicker.cs</DependentUpon>
     </Compile>
-    <Compile Include="Strag_SimpleMaxEntryClass.cs" />
-    <Compile Include="Strag_SingleBayesClass.cs" />
-    <Compile Include="Strag_BinomialDistrClass.cs" />
-    <Compile Include="Strag_CombLongOldClass.cs" />
-    <Compile Include="strag_CommCombOldClass.cs" />
-    <Compile Include="strag_CommJumpClass.cs" />
-    <Compile Include="strag_CommLongMissBackBalance.cs" />
-    <Compile Include="strag_CommLongTimeBalanceForOldCombClass.cs" />
-    <Compile Include="strag_CommOldClass.cs" />
-    <Compile Include="strag_CommProbabilityDistributionClass.cs" />
-    <Compile Include="strag_CommRepeatTracerClass.cs" />
-    <Compile Include="strag_grownclass.cs" />
-    <Compile Include="strag_PoissonRandomClass.cs" />
-    <Compile Include="Strag_StdDevWaveClass.cs" />
-    <Compile Include="strag_YiJingClass.cs" />
+    <Compile Include="PK10\Strag_SimpleMaxEntryClass.cs" />
+    <Compile Include="PK10\Strag_SingleBayesClass.cs" />
+    <Compile Include="PK10\Strag_BinomialDistrClass.cs" />
+    <Compile Include="PK10\Strag_CombLongOldClass.cs" />
+    <Compile Include="PK10\strag_CommCombOldClass.cs" />
+    <Compile Include="PK10\strag_CommJumpClass.cs" />
+    <Compile Include="PK10\strag_CommLongMissBackBalance.cs" />
+    <Compile Include="PK10\strag_CommLongTimeBalanceForOldCombClass.cs" />
+    <Compile Include="PK10\strag_CommOldClass.cs" />
+    <Compile Include="PK10\strag_CommProbabilityDistributionClass.cs" />
+    <Compile Include="PK10\strag_CommRepeatTracerClass.cs" />
+    <Compile Include="PK10\strag_grownclass.cs" />
+    <Compile Include="PK10\strag_PoissonRandomClass.cs" />
+    <Compile Include="PK10\Strag_StdDevWaveClass.cs" />
+    <Compile Include="PK10\strag_YiJingClass.cs" />
     <Compile Include="TotalStdDevTraceStragClass.cs" />
     <Compile Include="TranceChanceClass.cs" />
   </ItemGroup>

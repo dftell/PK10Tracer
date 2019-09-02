@@ -99,7 +99,7 @@ namespace PK10Server
         public void RefreshGrid()
         {
             RefreshSerialData(this.listView_forSerial, true,this.gobj.MutliColMinTimes);
-            RefreshSerialData(this.listView_ForCar, false, this.gobj.MutliColMinTimes);
+            //RefreshSerialData(this.listView_ForCar, false, this.gobj.MutliColMinTimes);
         }
 
 
@@ -107,7 +107,7 @@ namespace PK10Server
         {
             ExpectList<TimeSerialData> el = ViewDataList; ;
             
-            ExpectListProcessBuilder<TimeSerialData> elp = new ExpectListProcessBuilder<TimeSerialData>(GlobalClass.TypeDataPoints["PK10"],el);
+            ExpectListProcessBuilder<TimeSerialData> elp = new ExpectListProcessBuilder<TimeSerialData>(GlobalClass.TypeDataPoints.First().Value,el);
             BaseCollection<TimeSerialData> sc = elp.getProcess().getSerialData(180, byNo);
             sc.isByNo = byNo;
             lv.Items.Clear();
@@ -200,7 +200,7 @@ namespace PK10Server
         private void timer_For_NewestData_Tick(object sender, EventArgs e)
         {
             DateTime CurrTime = DateTime.Now;
-            ViewDataList = er.ReadNewestData<TimeSerialData>(DateTime.Now.AddDays(-1* GlobalClass.TypeDataPoints["PK10"].CheckNewestDataDays));
+            ViewDataList = er.ReadNewestData<TimeSerialData>(DateTime.Now.AddDays(-1* GlobalClass.TypeDataPoints.First().Value.CheckNewestDataDays));
             if(ViewDataList== null ||ViewDataList.LastData == null)
             {
 
@@ -403,7 +403,7 @@ namespace PK10Server
 
         private void ToolStripMenuItem_TestDataSrc_Click(object sender, EventArgs e)
         {
-            PK10_HtmlDataClass hdc = new PK10_HtmlDataClass(GlobalClass.TypeDataPoints["PK10"]);
+            PK10_HtmlDataClass hdc = new PK10_HtmlDataClass(GlobalClass.TypeDataPoints.First().Value);
             ExpectList<TimeSerialData> tmp = hdc.getExpectList<TimeSerialData>();
             if(tmp == null)
             {

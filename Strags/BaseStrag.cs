@@ -12,6 +12,7 @@ using System.Xml.Serialization;
 using WolfInv.com.BaseObjectsLib;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
+using WolfInv.com.Strags.KLXxY;
 namespace WolfInv.com.Strags
 {
     public interface IFindChance<T> where T : TimeSerialData
@@ -77,6 +78,14 @@ namespace WolfInv.com.Strags
             {
                 return this.GetType().FullName;
             } 
+        }
+        [DescriptionAttribute("策略所属彩种"),
+        DisplayName("策略所属彩种"),
+            DefaultValueAttribute("PK10"),
+        CategoryAttribute("全局设置")]
+        public string StragLotteryName
+        {
+            get;set;
         }
         /// <summary>
         /// debug info

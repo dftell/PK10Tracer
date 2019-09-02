@@ -267,6 +267,10 @@ namespace WolfInv.com.SecurityLib
                     Web52CP_Lotty_KL12_DataClass obj = dc.result[i];
                     data.Expect = obj.expect;
                     data.OpenCode = obj.num;
+                    if(string.IsNullOrEmpty(obj.num))
+                    {
+                        data.OpenCode = string.Format("{0},{1},{2},{3},{4}",obj.num1,obj.num2,obj.num3,obj.num4,obj.num5);
+                    }
                     data.OpenTime = new DateTime(1970,1,1).ToLocalTime().AddSeconds(obj.opentime);
                     data.ExpectSerialByType = 2;
                     data.ExpectSerialLong = 3;
@@ -320,7 +324,7 @@ namespace WolfInv.com.SecurityLib
         public string pre3;
         public string cen3;
         public string aft3;
-        public string numl;
+        public string num1;
         public string num2;
         public string num3;
         public string num4;
@@ -329,6 +333,16 @@ namespace WolfInv.com.SecurityLib
         public string sum_tail_ds;
     }
 
+    public class Web52CP_KL11_DataClass : JsonableClass<Web52CP_KL11_DataClass>
+    {
+        public int status = 0;
+        public List<Web52CP_Lotty_KL11_DataClass> result;
+    }
+    [Serializable]
+    public class Web52CP_Lotty_KL11_DataClass : Web52CP_Lotty_KL12_DataClass
+    {
+
+    }
 
 }
 

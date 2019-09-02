@@ -114,6 +114,11 @@ namespace WolfInv.com.SecurityLib
                         ret = new NLKL12_HtmlDataClass(dtp);
                         break;
                     }
+                case "GDKL11":
+                    {
+                        ret = new GDKL11_HtmlDataClass(dtp);
+                        break;
+                    }
                 case "PK10":
                 default:
                     {

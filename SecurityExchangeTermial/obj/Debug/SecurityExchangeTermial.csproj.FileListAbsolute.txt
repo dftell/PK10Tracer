@@ -2,6 +2,7 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityExchangeTermial\bin\Debug
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityExchangeTermial\bin\Debug\SecurityExchangeTermial.pdb
 C:\Users\zhouys\Source\project\SecET\SecurityExchangeTermial.exe
 C:\Users\zhouys\Source\project\SecET\SecurityExchangeTermial.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityExchangeTermial\obj\Debug\SecurityExchangeTermial.csprojAssemblyReference.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityExchangeTermial\obj\Debug\SecurityExchangeTermial.frm_Main.resources
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityExchangeTermial\obj\Debug\SecurityExchangeTermial.csproj.GenerateResource.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityExchangeTermial\obj\Debug\SecurityExchangeTermial.csproj.CoreCompileInputs.cache

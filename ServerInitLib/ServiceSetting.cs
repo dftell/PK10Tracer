@@ -192,7 +192,7 @@ namespace WolfInv.com.ServerInitLib
         {
             //Log("初始化服务器设置","分组准备运行计划列表");
             Dictionary<string,CalcStragGroupClass<T>> outret = null;
-            this.AllRunningPlanGrps = InitServerClass.InitCalcStrags(ref outret, this.AllStrags, this.AllRunPlannings, this.AllAssetUnits, true, IsBackTest);
+            this.AllRunningPlanGrps = InitServerClass.InitCalcStrags(UseDataPoint,ref outret, this.AllStrags, this.AllRunPlannings, this.AllAssetUnits, true, IsBackTest);
         }
 
         public bool SetPlanStatus(string PGUID, bool Running)

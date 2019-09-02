@@ -11,6 +11,7 @@ using WolfInv.com.BaseObjectsLib;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
 using WolfInv.com.ProbMathLib;
+using WolfInv.com.Strags.KLXxY;
 namespace WolfInv.com.Strags
 {
     public interface IFindChance
@@ -36,6 +37,7 @@ namespace WolfInv.com.Strags
     [XmlInclude(typeof(strag_CommJumpClass))]
     [XmlInclude(typeof(Strag_SingleBayesClass))]
     [XmlInclude(typeof(Strag_SimpleMaxEntryClass))]
+    [XmlInclude(typeof(Strag_KLXxY_Combin_All8_All3))]
     public abstract class StragClass : BaseStragClass<TimeSerialData>, iDbFile,IFindChance, ITraceChance, WolfInv.com.BaseObjectsLib.ISpecAmount
     {
         public StragClass():base()

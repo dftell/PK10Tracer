@@ -199,6 +199,15 @@ namespace WolfInv.com.BaseObjectsLib
                 ExpectData<T> ed = new ExpectData<T>();
                 ed.Expect = dt.Rows[i]["Expect"].ToString();
                 ed.OpenCode = dt.Rows[i]["OpenCode"].ToString();
+                string[] arr = ed.OpenCode.Split(',');
+                if(arr.Length>1)
+                {
+                    for(int r=0;r<arr.Length;r++)
+                    {
+                        arr[r] = arr[r].PadLeft(2, '0');
+                    }
+                    ed.OpenCode = string.Join(",",arr);
+                }
                 ed.OpenTime = DateTime.Parse(dt.Rows[i]["OpenTime"].ToString());
                 if (dt.Columns.Contains("EId"))
                 {

@@ -60,4 +60,19 @@
         }
     }
 
+    //全国快乐11彩种
+    public class KL11_ExpectReader: CommExpectReader
+    {
+
+    }
+
+    public class GDKL11_ExpectReader : KL11_ExpectReader
+    {
+        public GDKL11_ExpectReader()
+        {
+            strDataType = "GDKL11";
+            InitTables();
+        }
+    }
+
 }

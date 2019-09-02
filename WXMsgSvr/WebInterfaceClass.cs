@@ -36,7 +36,7 @@ namespace WolfInv.com.WXMsgCom
  ComSourceInterfaces(typeof(WebInterface))]
     public class WebInterfaceClass :RemoteServerClass, WebInterface
     {
-        static bool IPCCreated;
+        public static bool IPCCreated;
         public static bool ClientValid = false;
         public  bool Valid { get { return ClientValid; } }
         private static Client client;
@@ -52,8 +52,15 @@ namespace WolfInv.com.WXMsgCom
         {
             if(!IPCCreated)
             {
-                this.CreateChannel("wxmsg");
-                IPCCreated = true;
+                try
+                {
+                    this.CreateChannel("wxmsg");
+                    IPCCreated = true;
+                }
+                catch(Exception ce)
+                {
+                    IPCCreated = false;
+                }
             }
             
         }

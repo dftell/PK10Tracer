@@ -26,6 +26,7 @@ namespace WolfInv.com.WXMsgCom
             client = ccc;
             this.AllUsers = new Dictionary<string, Contact>();
             InitializeComponent();
+            
             //////Program.wxobj = new WXUtils(refreshQRCode,(a,b,c)=> {
             //////    this.tss_Status.Text = a;
             //////    this.tss_Msg.Text = string.Format("{0}:{1}", b,c);

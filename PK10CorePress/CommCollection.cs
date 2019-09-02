@@ -477,7 +477,60 @@ namespace WolfInv.com.PK10CorePress
     
         
     
-    } 
+    }
+
+    public class CommCollection_KLXxY : PK10CorePress.BaseCollection
+    {
+        public override DataTable Table => throw new NotImplementedException();
+
+        public override DataTableEx CarDistributionTable => throw new NotImplementedException();
+
+        public override DataTableEx CarTable => throw new NotImplementedException();
+
+        public override DataTableEx SerialDistributionTable => throw new NotImplementedException();
+
+        public override bool isByNo { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public override int FindLastDataExistCount(int StartPos, int lng, string StrKey, string val)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int FindLastDataExistCount(int lng, string StrPos, string key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string FindSpecColumnValue(int id, string strKey)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<double> getAllDistrStdDev(int n, int c)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Dictionary<string, double> getAllShiftCnt(int ReviewCnt, int TrainCnt)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Dictionary<string, Matrix> getC_K_NStep(int reviewCnt, int StepCnt)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<double> getEntropyList(int reviewCnt)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override DataTableEx getSubTable(int cnt, int n)
+        {
+            throw new NotImplementedException();
+        }
+    }
 
     /// <summary>
     /// 按车号集合，和按名次集合命名搞反了

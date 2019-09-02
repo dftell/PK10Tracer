@@ -91,7 +91,7 @@ namespace WolfInv.com.ServerInitLib
         /// <summary>
         /// 初始化计划，将数据类型和运算类型相同的计划分组
         /// </summary>
-        public static Dictionary<string, CalcStragGroupClass<T>> InitCalcStrags<T>(ref Dictionary<string, CalcStragGroupClass<T>> AllStatusStrags,Dictionary<string, BaseStragClass<T>> AllStrags, Dictionary<string, StragRunPlanClass<T>> list,Dictionary<string,AssetUnitClass> AssetUnits, bool StartTheAuto,bool IsBackTest) where T:TimeSerialData
+        public static Dictionary<string, CalcStragGroupClass<T>> InitCalcStrags<T>(DataTypePoint dpt, ref Dictionary<string, CalcStragGroupClass<T>> AllStatusStrags,Dictionary<string, BaseStragClass<T>> AllStrags, Dictionary<string, StragRunPlanClass<T>> list,Dictionary<string,AssetUnitClass> AssetUnits, bool StartTheAuto,bool IsBackTest) where T:TimeSerialData
         {
             if(AllStatusStrags == null)
                 AllStatusStrags = new Dictionary<string, CalcStragGroupClass<T>>();
@@ -136,6 +136,12 @@ namespace WolfInv.com.ServerInitLib
                 {
                     continue;
                 }
+                if(spc.StragLotteryName!= dpt.DataType)
+                {
+                    ToLog("计划不属于使用的数据源", strKey);
+                    continue;
+                }
+
                 
                 CalcStragGroupClass<T> csg = null;
                 if (!AllStatusStrags.ContainsKey(strKey))

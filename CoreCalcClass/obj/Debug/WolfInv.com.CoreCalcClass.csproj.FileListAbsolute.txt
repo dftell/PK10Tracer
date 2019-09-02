@@ -1,7 +1,7 @@
-C:\Users\zhouys\Source\project\PK10Tracer\CoreCalcClass.dll
-C:\Users\zhouys\Source\project\PK10Tracer\CoreCalcClass.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\obj\Debug\WolfInv.com.CoreCalcClass.csprojAssemblyReference.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\obj\Debug\WolfInv.com.CoreCalcClass.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\Source\project\PK10Tracer\CoreCalcClass.dll
+C:\Users\zhouys\Source\project\PK10Tracer\CoreCalcClass.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\obj\Debug\WolfInv.com.CoreCalcClass.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\obj\Debug\CoreCalcClass.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\CoreCalcClass\obj\Debug\CoreCalcClass.pdb

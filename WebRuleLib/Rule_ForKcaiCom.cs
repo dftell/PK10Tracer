@@ -15,6 +15,9 @@ namespace WolfInv.com.WebRuleLib
             : base(setting)
         {
         }
+        string g01_00 = "8010101";//猜冠军
+        string g0102_00 = "8020101";//猜冠亚军
+        string g0102_01 = "8020201";//猜冠亚军单式
         String cRuleId_S = "8140101";// '前5位定胆
         String cRuleId_B = "8140102";// '后5位定胆
         public override string IntsToJsonString(String ccs, int unit)

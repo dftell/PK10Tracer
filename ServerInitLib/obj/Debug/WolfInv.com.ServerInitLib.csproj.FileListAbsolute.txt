@@ -1,7 +1,7 @@
-C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.ServerInitLib.dll
-C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.ServerInitLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\obj\Debug\WolfInv.com.ServerInitLib.csprojAssemblyReference.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\obj\Debug\WolfInv.com.ServerInitLib.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.ServerInitLib.dll
+C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.ServerInitLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\obj\Debug\WolfInv.com.ServerInitLib.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\obj\Debug\WolfInv.com.ServerInitLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\obj\Debug\WolfInv.com.ServerInitLib.pdb

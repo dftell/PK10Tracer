@@ -19,6 +19,11 @@ namespace MsgSvr
             WebInterfaceClass wif = new WebInterfaceClass();
             try
             {
+                if(!WebInterfaceClass.IPCCreated)
+                {
+                    MessageBox.Show("端口未正常建立！无法运行！");
+                    return;
+                }
                 wif.SetDisplayMethod(true);
                 wif.Init();
                 wif.Start();

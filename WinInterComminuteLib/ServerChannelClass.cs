@@ -134,7 +134,9 @@ namespace WolfInv.com.WinInterComminuteLib
             {
                 ClassName = specName;
             }
-            string ChannelName = "WolfIPC_Channel";
+            string ChannelName = string.Format("WolfIPC_Channel_{0}",ClassName);
+            //if (ClassName != null)
+            //    ChannelName = ClassName;
             try
             {
                 ToLog("IPC服务端日志", "检查是否是管理员", WinComminuteClass.IsRoot().ToString());
@@ -159,7 +161,7 @@ namespace WolfInv.com.WinInterComminuteLib
             }
             catch (Exception e)
             {
-                ToLog(string.Format("IPC服务端日志", "初始化通道[{0}]失败", FullName), e.Message);
+                ToLog("IPC服务端日志", string.Format("初始化通道[{0}]失败", FullName), e.Message);
                 return false;
             }
             return true;
