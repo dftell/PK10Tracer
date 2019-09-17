@@ -7,7 +7,7 @@ namespace WolfInv.com.BaseObjectsLib
 {
     public delegate bool EventCheckNeedEndTheChance<T>(ChanceClass<T> CheckCc, bool LastExpectMatched) where T : TimeSerialData;
 
-    public class ChanceClass<T> : BaseChance<T>,IConvertible where T:TimeSerialData
+    public class ChanceClass<T> : BaseChance<T>,IConvertible where T:TimeSerialData //只支持PK10定胆
     {
         public ChanceClass():base()
         {
@@ -76,13 +76,13 @@ namespace WolfInv.com.BaseObjectsLib
 
         
         //以下为trace属性
-        public bool Matched(ExpectData<T> data)
+        public virtual bool Matched(ExpectData<T> data)
         {
             int tmp = 0;
             return Matched(data, out tmp);
         }
 
-        public bool Matched(ExpectData<T> data, out int MatchCnt,bool getRev)
+        public virtual bool Matched(ExpectData<T> data, out int MatchCnt,bool getRev)
         {
             //MatchCnt = 0;
             ExpectList<T> el = new ExpectList<T>();
@@ -90,7 +90,7 @@ namespace WolfInv.com.BaseObjectsLib
             return Matched(el, out MatchCnt, getRev);
         }
 
-        public bool Matched(ExpectData<T> data, out int MatchCnt)
+        public virtual bool Matched(ExpectData<T> data, out int MatchCnt)
         {
             //MatchCnt = 0;
             ExpectList<T> el = new ExpectList<T>();
@@ -98,13 +98,13 @@ namespace WolfInv.com.BaseObjectsLib
             return Matched(el, out MatchCnt,false);
         }
 
-        public bool Matched(ExpectList<T> data, out int MatchCnt)
+        public virtual bool Matched(ExpectList<T> data, out int MatchCnt)
         {
             MatchCnt = 0;
             return Matched(data, out MatchCnt, false);
         }
 
-        public bool Matched(ExpectList<T> el, out int MatchCnt, bool getRev) 
+        public virtual bool Matched(ExpectList<T> el, out int MatchCnt, bool getRev) 
         {
             //ExpectData data = el.LastData;
             string[] strArr = ChanceCode.Split('+');
@@ -200,7 +200,12 @@ namespace WolfInv.com.BaseObjectsLib
             }
             return true;
         }
-
+        
+        public virtual double getRealOdds()
+        {
+            return Odds*MatchChips;
+        }
+        
         public static string getRevChance(string code)
         {
             if (!IsPureCode(code)) return code;
@@ -519,6 +524,12 @@ namespace WolfInv.com.BaseObjectsLib
         public ulong ToUInt64(IFormatProvider provider)
         {
             throw new NotImplementedException();
+        }
+
+        public virtual void CalcProfit(double matchcnt)
+        {
+            this.Gained = matchcnt * this.Odds * this.UnitCost;
+            this.Profit = this.Gained - this.Cost;
         }
     }
 

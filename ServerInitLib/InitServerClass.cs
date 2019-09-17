@@ -102,7 +102,8 @@ namespace WolfInv.com.ServerInitLib
                     continue;
                 if (!AllStrags.ContainsKey(spc.PlanStrag.GUID))
                 {
-                    ToLog("计划非法", "计划所对应策略已注销");
+                    ToLog(string.Format("计划{0}非法",spc.PlanStrag.StragScript), "计划所对应策略已注销");
+                    
                     continue;
                 }
                 BaseStragClass<T> sc = AllStrags[spc.PlanStrag.GUID];

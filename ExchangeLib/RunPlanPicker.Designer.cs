@@ -34,6 +34,7 @@
             // 
             // textBox1
             // 
+            this.textBox1.Dock = System.Windows.Forms.DockStyle.Left;
             this.textBox1.Location = new System.Drawing.Point(0, 0);
             this.textBox1.Margin = new System.Windows.Forms.Padding(6);
             this.textBox1.Name = "textBox1";
@@ -43,8 +44,9 @@
             // 
             // btn_select
             // 
-            this.btn_select.Location = new System.Drawing.Point(152, 0);
-            this.btn_select.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.btn_select.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btn_select.Location = new System.Drawing.Point(159, 0);
+            this.btn_select.Margin = new System.Windows.Forms.Padding(6);
             this.btn_select.MaximumSize = new System.Drawing.Size(60, 35);
             this.btn_select.MinimumSize = new System.Drawing.Size(60, 35);
             this.btn_select.Name = "btn_select";
@@ -60,9 +62,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.btn_select);
             this.Controls.Add(this.textBox1);
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "RunPlanPicker";
-            this.Size = new System.Drawing.Size(211, 35);
+            this.Size = new System.Drawing.Size(219, 39);
             this.ResumeLayout(false);
             this.PerformLayout();
 

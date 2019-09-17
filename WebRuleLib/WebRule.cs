@@ -5,17 +5,167 @@ using System.Text;
 using WolfInv.com.WebCommunicateClass;
 using WolfInv.com.BaseObjectsLib;
 using System.Windows.Forms;
+using XmlProcess;
+using System.Xml;
+using System.Xml.Linq;
+using System.Drawing;
 namespace WolfInv.com.WebRuleLib
 {
+    public class WebConfig
+    {
+        public float WebWholeOdds = 0;
 
-    public abstract class WebRule
+        public LotteryTypes lotteryTypes;
+
+        public BetUnits Units;
+
+        public WebConfig()
+        {
+            lotteryTypes = new LotteryTypes();
+            Units = new BetUnits();
+        }
+
+        public void LoadXml(XmlNode doc)
+        {
+            WebWholeOdds = float.Parse(XmlUtil.GetSubNodeText(doc,"config/@Odds"));
+            lotteryTypes.LoadXml(doc.SelectSingleNode("config/Lotteries"));
+            Units.LoadXml(doc.SelectSingleNode("config/Units"));
+        }
+    }
+
+    public class LotteryTypes:List<LotteryBetRuleClass>
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+
+        Dictionary<string, LotteryBetRuleClass> t_AllRules;
+        public Dictionary<string,LotteryBetRuleClass> AllRules
+        {
+            get
+            {
+                if(t_AllRules!= null)
+                {
+                    return t_AllRules;
+                }
+                t_AllRules = this.ToDictionary(a => a.BetRule, b=>b);
+                return t_AllRules;
+            }
+        }
+
+        public void LoadXml(XmlNode node)
+        {
+            Id = XmlUtil.GetSubNodeText(node, "@id");
+            Name = XmlUtil.GetSubNodeText(node, "@name");
+            XmlNodeList nodes = node.SelectNodes("BetTypes/BetType");
+            foreach(XmlNode sn in nodes)
+            {
+                LotteryBetRuleClass lbr = new LotteryBetRuleClass();
+                lbr.LoadXml(sn);
+                this.Add(lbr);
+            }
+        }
+    }
+
+    public class LotteryBetRuleClass
+    {
+        public string BetRule { get; set; }
+        public string BetType { get; set; }
+        public string BetRuleName { get; set; }
+        
+        public void LoadXml(XmlNode node)
+        {
+            //<BetType bettype="801" betrule="8010101">猜冠军</BetType>
+            BetRule = XmlUtil.GetSubNodeText(node, "@betrule");
+            BetType = XmlUtil.GetSubNodeText(node, "@bettype");
+            BetRuleName = XmlUtil.GetSubNodeText(node, ".");
+        }
+    }
+
+    public class BetUnits:List<BetUnit>
+    {
+        public BetUnit DefaultUnit
+        {
+            get
+            {
+                if (this.Count > 0)
+                    return this[0];
+                return null;
+            }
+        }
+
+        public void LoadXml(XmlNode node)
+        {
+            int cnt = int.Parse(XmlUtil.GetSubNodeText(node, "@basecnt"));
+            float level = float.Parse(XmlUtil.GetSubNodeText(node, "@baselevel"));
+            XmlNodeList nodes = node.SelectNodes("Node");
+            foreach(XmlNode sn in nodes)
+            {
+                BetUnit bu = new BetUnit();
+                bu.baseCnt = cnt;
+                bu.baseLevel = level;
+                bu.LoadXml(sn);
+                this.Add(bu);
+            }
+        }
+    }
+    public class BetUnit
+    {
+        protected double baseval = 0.1;
+        public string id { get; set; }
+        public string Name { get; set; }
+        public int Power { get; set; } //0.1的次方，分为2
+        public int baseCnt { get; set; }//基本数
+        public Single baseLevel { get; set; }
+        public BetUnit() //默认0.02
+        {
+            id = "cent";
+            Name = "分";
+            Power = 2;
+            baseCnt = 2;
+            baseLevel = 0.1F;
+        }
+
+        public double getOneUnitValue()
+        {
+            return baseCnt * Math.Pow(baseLevel , Power);
+        }
+        public void LoadXml(XmlNode node)
+        {
+            id = XmlUtil.GetSubNodeText(node, "@id");
+            Name = XmlUtil.GetSubNodeText(node, "@name");
+            Power = int.Parse(XmlUtil.GetSubNodeText(node, "@power"));
+        }
+    }
+
+    public abstract class WebRule : ILotteryRule
     {
         public abstract string IntsListToJsonString(List<InstClass> Insts);
         public abstract string IntsToJsonString(String ccs, int unit);
         public GlobalClass GobalSetting;
+        public WebConfig config;
         protected WebRule(GlobalClass setting)
         {
             GobalSetting = setting;
+        }
+        public abstract bool IsLoadCompleted(HtmlDocument indoc);
+        public void Load(string filename,string foldername)
+        {
+            config = new WebConfig();
+            string xmltext = GlobalClass.LoadTextFile(filename, foldername);
+            if (xmltext != null)
+            {
+                XmlDocument xmldoc = new XmlDocument();
+                try
+                {
+                    xmldoc.LoadXml(xmltext);
+                    config.LoadXml(xmldoc);
+                }
+                catch (Exception ce)
+                {
+                    return;
+                }
+
+            }
         }
 
         public abstract bool IsVaildWeb(HtmlDocument doc);
@@ -68,7 +218,12 @@ namespace WolfInv.com.WebRuleLib
             return Chanles.Where(a => a.Value == val)?.First().Key;//返回等于最大网速值得那个通道编号
         }
 
+        public abstract object getVerCodeImage(HtmlDocument doc);
+
+        public abstract string getRealUrl(string html);
     }
+
+
 
     public class WebRuleBuilder
     {
@@ -84,5 +239,7 @@ namespace WolfInv.com.WebRuleLib
             ////}
             return null;
         }
+
+        
     }
 }

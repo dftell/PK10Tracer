@@ -27,8 +27,8 @@ namespace ExchangeTermial
         {
             VerNo = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             gc = new GlobalClass();
-            
-            
+            System.Drawing.Image img = null;
+            //string retver = VerPwdClass.getString(img);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             if(args != null && args.Length >= 2)
@@ -45,7 +45,7 @@ namespace ExchangeTermial
                 frm =  new Form1(strName, strPassword, AutoLogin);
                 string msg = wxl.Log(string.Format("{0}","客户端启动！"));
                 Application.Run(frm);
-                GC.SuppressFinalize(frm);
+                
                 wxl.Log(string.Format("{0}", "客户端退出！"));
 
             }
@@ -60,6 +60,10 @@ namespace ExchangeTermial
                 ////frm = null;
 
                 //goto ContinueRun;
+            }
+            finally
+            {
+                GC.SuppressFinalize(frm);
             }
             //Application.Exit();
         }

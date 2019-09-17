@@ -278,6 +278,40 @@ namespace WolfInv.com.BaseObjectsLib
                 return null;
             }
         }
+
+        public static string LoadTextFile(string filename,string folder="")
+        {
+            string filepath = string.Format("{2}\\{1}\\{0}",filename,folder,AppDomain.CurrentDomain.BaseDirectory);
+            if (!File.Exists(filepath))
+                return null;
+            string ret = null;
+            try
+            {
+                ret = File.OpenText(filepath).ReadToEnd();
+            }
+            catch(Exception e)
+            {
+                return ret;
+            }
+            return ret;
+        }
+
+        public bool NeedAutoReset
+        {
+            get
+            {
+                if (SysParams.ContainsKey("System"))
+                {
+                    if (SysParams["System"].ContainsKey("needAutoReset"))
+                    {
+                        return SysParams["System"]["needAutoReset"]=="1";
+                    }
+                    
+                }
+                return false;
+            }
+        }
+
         public static Int64 DefaultMaxLost;
         public Int64 DefMaxLost
         {
@@ -427,11 +461,24 @@ namespace WolfInv.com.BaseObjectsLib
             }
         }
 
-        public string LoginUrlModel{get{
-            if(SysParams.Count > 0)
-                return SysParams["System"]["LoginUrlModel"];
-            return "";
-        }}
+        public string LoginUrlModel
+        {
+            get
+            {
+                if (SysParams.Count > 0)
+                    return SysParams["System"]["LoginUrlModel"];
+                return "";
+            }
+        }
+        public string LoginValidPwdUrl
+        {
+            get
+            {
+                if (SysParams.Count > 0)
+                    return SysParams["System"]["LoginValidPwdUrl"];
+                return "";
+            }
+        }
 
         public string StatusUrlModel
         {
@@ -725,7 +772,8 @@ namespace WolfInv.com.BaseObjectsLib
                 if(SysParams.Count > 0)
                 {
                     string strItem = string.Format("MinTimesFor{0}",Times);
-                    return int.Parse(SysParams["Exchange"][strItem]);
+                    if(SysParams["Exchange"].ContainsKey(strItem))
+                        return int.Parse(SysParams["Exchange"][strItem]);
                 }
                 return 0;
         }

@@ -23,6 +23,10 @@ namespace WolfInv.com.BaseObjectsLib
 
         public void  Add(long? key, ChanceClass<T> value)
         {
+            if(key == null)
+            {
+                return;
+            }
             if (list.ContainsKey(key))
             {
                 LogableClass.ToLog("错误","插入机会错误","存在相同的Key");

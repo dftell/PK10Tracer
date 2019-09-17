@@ -266,6 +266,12 @@ namespace WolfInv.com.BackTestLib
                 teststragplans[0].AssetUnitInfo.Run(false);
              es = teststragplans[0].AssetUnitInfo.ExchangeServer;//设置资产单元的模拟交易器
             CalcService<T> cs = new CalcService<T>(true,sc,teststragplans.ToDictionary(t=>t.GUID,t=>t));
+            cs.DataPoint = dtp;
+            if (dtp.IsSecurityData==1)
+            {
+                cs.ReadDataTableName = dtp.NewestTable;
+                cs.Codes = null;
+            }
             cs.IsTestBack = true;
             
             long begNo = BegExpect;
@@ -342,7 +348,10 @@ namespace WolfInv.com.BackTestLib
                         {
                             if (AllData[(int)testIndex].ExpectIndex != testData.LastData.ExpectIndex + 1)
                             {
-                                throw new Exception(string.Format("{1}第{0}期后出现数据遗漏，请补充数据后继续测试！", testData.LastData.Expect, testData.LastData.OpenTime));
+                                if (dtp.DataType == "PK10")
+                                {
+                                    throw new Exception(string.Format("{1}第{0}期后出现数据遗漏，请补充数据后继续测试！", testData.LastData.Expect, testData.LastData.OpenTime));
+                                }
                             }
                         }
                         testData.RemoveAt(0);
@@ -351,17 +360,26 @@ namespace WolfInv.com.BackTestLib
                     //只是取数据的逻辑一样，以后均调用CalcService
                     //ToAdd:以下是内容
                     cs.CurrData = testData;
+                    cs.OnFinishedCalc += OnCalcFinished;
                     cs.Calc();
                     while (!cs.CalcFinished)
                     {
-                        Thread.Sleep(100);
+                        Thread.Sleep(1*100);
                     }
                     this.SystemStdDevs = cs.getSystemStdDevList();
+                    //testIndex++;
                     testIndex++;
                 }
             }
             FinishedProcess();
             return ret;
+        }
+
+        void OnCalcFinished()
+        {
+            //this.SystemStdDevs = cs.getSystemStdDevList();
+            //testIndex++;
+            //testIndex++;
         }
         
         public BackTestReturnClass<T> VirExchange_oldLogic(ExchangeService es, StragRunPlanClass<T>[] teststragplans)

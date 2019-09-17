@@ -8,6 +8,7 @@ using WolfInv.com.ServerInitLib;
 using WolfInv.com.ProbMathLib;
 using WolfInv.com.LogLib;
 using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.ProbMathLib;
 namespace PK10Server
 {
     //////static class Program
@@ -60,7 +61,7 @@ namespace PK10Server
         ////public static Dictionary<string, StragClass> AllStragList;
         ////public static Dictionary<string, StragRunPlanClass<T>> AllRunPlans;
         public static ServiceSetting<TimeSerialData> AllGlobalSetting;
-
+ 
         public static frm_StragMonitor<TimeSerialData> frm_Monitor;
         static WXLogClass wxlog;
         /// <summary>
@@ -75,12 +76,15 @@ namespace PK10Server
             ////return;
             try
             {
-                
+                GlobalClass gc = new GlobalClass();
+
                 LogableClass.ToLog("测试", "看看");
                 InitSystem();
+                AllGlobalSetting.wxlog.Log("初始化系统", "各种配置读取完毕并有效初始化！", string.Format(gc.WXLogUrl, gc.WXSVRHost));
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new MainForm());
+                AllGlobalSetting.wxlog.Log("关闭程序", "终止界面", string.Format(gc.WXLogUrl, gc.WXSVRHost));
             }
             catch(Exception ce)
             {

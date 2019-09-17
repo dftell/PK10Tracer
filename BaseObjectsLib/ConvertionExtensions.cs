@@ -8,6 +8,10 @@ namespace WolfInv.com.BaseObjectsLib
     {
         public static T ConvertTo<T>(this IConvertible convertibleValue)
         {
+            if(convertibleValue == null)
+            {
+                return default(T);
+            }
             if (string.IsNullOrEmpty(convertibleValue.ToString()))
             {
                 return default(T);
@@ -303,11 +307,15 @@ namespace WolfInv.com.BaseObjectsLib
             return obj;
         }
 
-        public static Dictionary<string, Type> GetAllProperties<T>()
+        public static Dictionary<string, Type> GetAllProperties<T>(bool includeParent = false)
         {
             Dictionary<string, Type> ret = new Dictionary<string, Type>();
             Type t = typeof(T);
-            PropertyInfo[] pis = t.GetProperties();
+            PropertyInfo[] pis = null;
+            if (includeParent)
+                pis = t.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy);
+            else
+                pis = t.GetProperties();
             foreach (PropertyInfo pi in pis)
             {
                 ret.Add(pi.Name, pi.PropertyType);
@@ -315,11 +323,16 @@ namespace WolfInv.com.BaseObjectsLib
             return ret;
         }
 
-        public static Dictionary<string, Type> GetAllProperties(Type T)
+        public static Dictionary<string, Type> GetAllProperties(Type T, bool includeParent = false)
         {
             Dictionary<string, Type> ret = new Dictionary<string, Type>();
             Type t = T;
-            PropertyInfo[] pis = t.GetProperties();
+            PropertyInfo[] pis = null;
+            if (includeParent)
+                pis = t.GetProperties(BindingFlags.Instance | BindingFlags.Public );
+            else
+                pis = t.GetProperties();
+            
             foreach (PropertyInfo pi in pis)
             {
                 if(!ret.ContainsKey(pi.Name))
@@ -336,7 +349,7 @@ namespace WolfInv.com.BaseObjectsLib
             }
             T ret = CreateInstance<T>();
             Type t = typeof(T);
-            PropertyInfo[] pis = t.GetProperties(BindingFlags.Instance| BindingFlags.Public|BindingFlags.SetProperty);
+            PropertyInfo[] pis = t.GetProperties(BindingFlags.Instance| BindingFlags.Public);
             foreach (PropertyInfo pi in pis)
             {
                 try
@@ -413,6 +426,40 @@ namespace WolfInv.com.BaseObjectsLib
                 }
             }
             return ret;
+        }
+
+        public static bool FillTo(object fromobj,ref object ret,bool includeParent=false)
+        {
+            if (fromobj == null || ret == null)
+                return false;
+            Type t = ret.GetType();
+            Type tCopy = fromobj.GetType();
+            //object ret = obj;
+            Dictionary<string, Type> retPips = GetAllProperties(t, includeParent);
+            Dictionary<string, Type> copyPips = GetAllProperties(tCopy, includeParent);
+            foreach (string key in retPips.Keys)
+            {
+                if (!copyPips.ContainsKey(key))
+                {
+                    continue;
+                }
+                if (!retPips[key].Equals(copyPips[key]))
+                {
+                    continue;
+                }
+                try
+                {
+                    object val = tCopy.GetProperty(key).GetValue(fromobj);
+                    t.GetProperty(key).SetValue(ret, val);
+                }
+                catch (Exception ce)
+                {
+                    //obj = ret;//有多少返回多少
+                    return false;
+                }
+            }
+            //obj = ret;
+            return true ;
         }
     }
 

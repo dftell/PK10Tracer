@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using WolfInv.com.BaseObjectsLib;
-using System.Windows.Forms;
 using System.Drawing.Design;
 using System.Timers;
-using System.Windows.Forms.Design;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Data;
@@ -256,109 +253,6 @@ namespace WolfInv.com.ExchangeLib
         }
         #endregion
 
-    }
-
-    public class TimePickerEditor : UITypeEditor
-    {
-	    IWindowsFormsEditorService editorService;
-	    DateTimePicker picker = new DateTimePicker();
-
-	    public TimePickerEditor()
-	    {
-	        picker.Format = DateTimePickerFormat.Custom;
-	        picker.CustomFormat = "HH:mm";
-	        picker.ShowUpDown = true;
-	    }
-
-	    public override UITypeEditorEditStyle GetEditStyle(System.ComponentModel.ITypeDescriptorContext context)
-	    {
-	        return UITypeEditorEditStyle.DropDown;//显示下拉按钮
-	    }
-
-	    public override object EditValue(System.ComponentModel.ITypeDescriptorContext context, IServiceProvider provider, object value)
-	    {
-	        string time;
-	        if (provider != null)
-	        {
-		    this.editorService = provider.GetService(typeof(IWindowsFormsEditorService)) as IWindowsFormsEditorService;
-	        }
-	        if (this.editorService != null)
-	        {
-		        if (value == null)
-		        {
-		            picker.Value = DateTime.Parse("00:00" as string);
-		        }
-		        else
-		        {
-		            time = value.ToString();
-		            //picker.Value = DateTime.Parse(time);
-		        }
-		        this.editorService.DropDownControl(picker);
-		        value = picker.Value.ToShortTimeString();
-	        }
-	        return value;
-	    }
-    }
-
-    public class StagPickerEditor : UITypeEditor
-    {
-        List<BaseStragClass<TimeSerialData>> AllList;
-        Dictionary<string,StragRunPlanClass<TimeSerialData>> AllPlans;
-        IWindowsFormsEditorService editorService;
-        StragPicker picker ;
-        public StagPickerEditor()
-        {
-            
-            //picker = new StragsPicker(list.ToList<StragClass>());
-        }
-
-       
-
-        public override object EditValue(System.ComponentModel.ITypeDescriptorContext context, IServiceProvider provider, object value)
-        {
-            if (provider != null)
-	        {
-		        this.editorService = provider.GetService(typeof(IWindowsFormsEditorService)) as IWindowsFormsEditorService;
-	        }
-            if (this.editorService != null)
-            {
-                AllList = BaseStragClass<TimeSerialData>.getObjectListByXml<BaseStragClass<TimeSerialData>>(GlobalClass.ReReadStragList());
-                AllPlans = StragRunPlanClass<TimeSerialData>.getObjectListByXml<StragRunPlanClass<TimeSerialData>>(GlobalClass.getStragRunningPlan(true)).ToDictionary(t => t.GUID, t => t);
-                List<BaseStragClass<TimeSerialData>> list = AllList.Where(t => AllPlans.ContainsKey(t.GUID) == false).ToList<BaseStragClass<TimeSerialData>>();
-                List<StragClass> list1 = new List<StragClass>();
-                list.ForEach(a=>list1.Add(ConvertionExtensions.ConvertTo<StragClass>(a as IConvertible)));
-                picker = new StragPicker(list1);//支持一组合对多相同策略
-                editorService.ShowDialog(picker);
-                if (picker.SelectedStrag == null)
-                {
-                    value = null;
-                }
-                else
-                {
-                    value = picker.SelectedStrag;
-                    //picker.Hide();
-                }
-                ////if (value == null)
-                ////{
-                ////    picker.Show();
-                ////    picker.Visible = true;
-                ////}
-                ////else
-                ////{
-                ////}
-            }
-            return value;
-        }
-
-        public override bool GetPaintValueSupported(ITypeDescriptorContext context)
-        {
-            return false;
-        }
-
-        public override UITypeEditorEditStyle GetEditStyle(System.ComponentModel.ITypeDescriptorContext context)
-        {
-            return UITypeEditorEditStyle.Modal;//显示下拉按钮
-        }
     }
 
   

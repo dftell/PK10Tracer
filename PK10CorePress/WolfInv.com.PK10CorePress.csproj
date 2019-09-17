@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AllInstances.cs" />
+    <Compile Include="ChanceClass_ForCombinXxY.cs" />
     <Compile Include="CommCollection.cs" />
     <Compile Include="ExchanceClass.cs" />
     <Compile Include="ExpectListProcess.cs" />

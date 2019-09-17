@@ -6,6 +6,9 @@ using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Drawing;
+using mshtml;
 //using WolfInv.com.SecurityLib;
 namespace WolfInv.com.WebRuleLib
 {
@@ -14,6 +17,8 @@ namespace WolfInv.com.WebRuleLib
         public Rule_ForKcaiCom(GlobalClass setting)
             : base(setting)
         {
+            Load("rule_kcai.xml", "Rules");
+
         }
         string g01_00 = "8010101";//猜冠军
         string g0102_00 = "8020101";//猜冠亚军
@@ -127,7 +132,7 @@ namespace WolfInv.com.WebRuleLib
             return String.Format("[{0}]", Array2String(strInsts));
         }
 
-        String toStdCarFmt(String cars)
+        static String toStdCarFmt(String cars)
         {
             cars = cars.Trim();
             String[] CarArr = new String[cars.Length];
@@ -144,27 +149,28 @@ namespace WolfInv.com.WebRuleLib
             //[{"jsOdds":"9.78","priceMode":2,"selNums":",01020710,01020710,,","betNum":8,"itemTimes":"0.01","ruleId":"8140101"}]
         }
 
-        String Array2String(string[] arr)
+        static String Array2String(string[] arr)
         {
             String ret = string.Join(",", arr);
             return ret;
             //return ret.substring(1, ret.Length - 1).Trim();//去掉中括号
         }
 
-        double getUnitValue(int unit)
+        static double getUnitValue(int unit)
         {
             return Math.Pow(0.1, unit);
         }
 
-        
+
         public override bool IsVaildWeb(HtmlDocument doc)
         {
-            return doc?.GetElementById("txt_username") != null;
+            return true;
+            return doc?.GetElementById("img-valcode") != null;
         }
 
         public override bool IsLogined(HtmlDocument doc)
         {
-           
+
             //HtmlElement ElPoint = doc?.GetElementById("userGamePointId");
             return doc?.GetElementById("userGamePointId") != null;
         }
@@ -180,12 +186,30 @@ namespace WolfInv.com.WebRuleLib
             return ret;
         }
 
+        public override string getRealUrl(string strHtml)
+        {
+            /*<html><head><title>Attention Required</title></head><body><script>
+             * window.location.href="https://www.kcai868.com/?jskey=CM6xfF0AAAAAa4ePQGlTB96zPMQSfuw5+GpeO7+PLkMjP3w8srs=";</script>
+             * </body></html>
+            */
+            Regex regTr = new Regex(@"window.location.href=""(.*?)""");
+            MatchCollection mcs = regTr.Matches(strHtml);
+            string ret = null;
+            if (mcs.Count == 1)
+            {
+                ret = mcs[0].Value.Replace("\"", "");
+                ret = ret.Replace("window.location.href=", "");
+            }
+
+            return ret;
+        }
+
         protected override Dictionary<string, int> GetChanlesInfo(string NavUrl)
         {
             Dictionary<string, int> ret = new Dictionary<string, int>();
             AccessWebServerClass wcc = new AccessWebServerClass();
             string strHtml = AccessWebServerClass.GetData(NavUrl);
-            if(strHtml == null)
+            if (strHtml == null)
             {
                 return ret;
             }
@@ -194,9 +218,9 @@ namespace WolfInv.com.WebRuleLib
             List<string> list = new List<string>();
             string urlModel = "https://www.kcai{0}.com";
             Task[] tasks = new Task[mcs.Count];
-            for(int i=0;i<mcs.Count;i++)
+            for (int i = 0; i < mcs.Count; i++)
             {
-                string name = mcs[i].Value.Replace("www.kcai","").Replace(".com","");
+                string name = mcs[i].Value.Replace("www.kcai", "").Replace(".com", "");
                 DateTime begT = DateTime.Now;
                 string url = string.Format(urlModel, name);
                 ConnectClass cls = new ConnectClass(ret, name, url);
@@ -221,7 +245,7 @@ namespace WolfInv.com.WebRuleLib
             string name;
             Dictionary<string, int> ret;
             string ConnUrl;
-            public ConnectClass(Dictionary<string, int> _ret,string _name,string _url)
+            public ConnectClass(Dictionary<string, int> _ret, string _name, string _url)
             {
                 ret = _ret;
                 ConnUrl = _url;
@@ -238,7 +262,7 @@ namespace WolfInv.com.WebRuleLib
                     return;
                 }
                 int rate = 0;
-                if (reqdata.IndexOf("K彩在线娱乐")>0)
+                if (reqdata.IndexOf("K彩在线娱乐") > 0 || reqdata.IndexOf("www.kcai") > 0)
                 {
                     rate = (int)(reqdata.Length / endT.Subtract(begT).TotalSeconds);
                 }
@@ -246,6 +270,162 @@ namespace WolfInv.com.WebRuleLib
             }
         }
 
+        public class PK10 : ILotteryRule
+        {
+            WebRule wr;
+            public LotteryTypes rules;
+            LotteryBetRuleClass cRuleId_S;
+            LotteryBetRuleClass cRuleId_B;
+            public PK10(WebRule we, LotteryTypes rs)
+            {
+                rules = rs;
+                wr = we;
+
+                cRuleId_S = rules.AllRules["8140101"];
+                cRuleId_B = rules.AllRules["8140102"];
+            }
+
+            public string IntsToJsonString(String ccs, int unit)
+            {
+                //unit为单位 0，元；1，角；2，分，3，其他
+                ccs = ccs.Trim();
+                ccs = ccs.Replace("  ", "");
+                ccs = ccs.Replace("+", " ");
+                ccs = ccs.Trim();
+                if (ccs.Length == 0) return "";
+                String[] ccsarr = ccs.Split(' ');
+                List<InstClass> InsArr = new List<InstClass>();
+                double unitVal = 0;
+                unitVal = getUnitValue(unit);
+                //int ArrCnt = 0;
+                for (int i = 0; i < ccsarr.Length; i++)
+                {
+                    String cc;
+                    String ccNos;// As String,
+                    String ccCars;//As String,
+                    Int64 ccUnitCost;// As Long,
+                    String[] ccArr;
+                    cc = ccsarr[i].Trim();
+                    if (cc.Length == 0) continue;
+                    ccArr = cc.Split('/');
+                    if (ccArr.Length < 3) continue;
+                    ccNos = ccArr[0].Trim();
+                    String ccOrgCars = ccArr[1].Trim();
+                    ccCars = toStdCarFmt(ccOrgCars).Trim();//车号组合标准格式
+                    ccUnitCost = Int64.Parse(ccArr[2]);
+                    if (ccUnitCost == 0)
+                        continue;
+                    String[] sArr = new String[5];
+                    String[] bArr = new String[5];
+                    for (int j = 0; j < 5; j++)
+                    {
+                        sArr[j] = "";
+                        bArr[j] = "";
+                    }
+                    int sArrCnt, bArrCnt;
+                    sArrCnt = 0;
+                    bArrCnt = 0;
+                    for (int j = 0; j < ccNos.Length; j++)
+                    {
+                        String strsNo;//As String
+                        int iNo;// As Integer
+                        strsNo = ccNos.Substring(j, 1);// Mid(ccNos, j, 1)
+                        if (strsNo.Equals("0"))
+                        {
+                            strsNo = "10";
+                        }
+                        iNo = int.Parse(strsNo);
+                        if (iNo <= 5)
+                        {
+                            sArr[iNo - 1] = ccCars.Trim();
+                            sArrCnt++;
+                        }
+                        else
+                        {
+                            bArr[iNo - 5 - 1] = ccCars.Trim();
+                            bArrCnt++;
+                        }
+                    }
+                    if (sArrCnt > 0)
+                    {
+                        InstClass ic = new InstClass();
+                        ic.ruleId = cRuleId_S.BetRule;
+                        ic.betNum = String.Format("{0}", ccOrgCars.Length * sArrCnt);
+                        ic.itemTimes = String.Format("{0:N2}", unitVal * ccUnitCost);
+                        ic.selNums = Array2String(sArr).Replace(", ", ",");
+                        ic.jsOdds = String.Format("{0:N2}", wr.config.WebWholeOdds);
+                        ic.priceMode = unit;
+                        InsArr.Add(ic);
+                    }
+                    if (bArrCnt > 0)
+                    {
+                        InstClass ic = new InstClass();
+                        ic.ruleId = cRuleId_B.BetRule;
+                        ic.betNum = String.Format("{0}", ccOrgCars.Length * bArrCnt);
+                        ic.itemTimes = String.Format("{0:N2}", unitVal * ccUnitCost);
+                        ic.selNums = Array2String(bArr).Replace(", ", ",");
+                        ic.jsOdds = String.Format("{0:N2}", wr.config.WebWholeOdds);
+                        ic.priceMode = unit;
+                        InsArr.Add(ic);
+                    }
+
+                }
+                if (InsArr.Count > 0)
+                {
+                    return this.IntsListToJsonString(InsArr);
+                }
+                else
+                {
+                    return "";
+                }
+            }
+
+            public string IntsListToJsonString(List<InstClass> Insts)
+            {
+
+                String[] strInsts = new String[Insts.Count];
+                for (int i = 0; i < Insts.Count; i++)
+                {
+                    InstClass ic = Insts[i];
+                    strInsts[i] = ic.GetJson();
+                }
+                return String.Format("[{0}]", Array2String(strInsts));
+            }
+
+        }
+
+        public override object getVerCodeImage(HtmlDocument indoc)
+        {
+            HTMLDocument doc = (HTMLDocument)indoc.DomDocument;
+            if (doc == null)
+                return doc;
+            //Image img = null;
+            HtmlElement ImgeTag = indoc.GetElementById("img-valcode");
+
+            //mshtml.IHTMLElementCollection
+            HTMLBody body = (HTMLBody)doc.body;
+            IHTMLControlRange rang = (IHTMLControlRange)body.createControlRange();
+            IHTMLControlElement Img = (IHTMLControlElement)ImgeTag.DomElement; //图片地址     
+            object oldobj = Clipboard.GetDataObject(); //备份粘贴版数据    
+            rang.add(Img);
+            rang.execCommand("Copy", false, null);  //拷贝到内存      
+            Image numImage = Clipboard.GetImage();
+            rang = null;
+            return numImage;
+        }
+
+        public override bool IsLoadCompleted(HtmlDocument indoc)
+        {
+            string strNotice = "网站重要通知！！！";
+            HTMLDocument hdoc = indoc.DomDocument as HTMLDocument;
+            if (hdoc.body.outerHTML.IndexOf(strNotice) > 0)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 
+   
+    
 }

@@ -41,11 +41,12 @@
             this.mnuRefreshWebToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reLoadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_knockTheEgg = new System.Windows.Forms.ToolStripMenuItem();
+            this.switchChanleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_Setting = new System.Windows.Forms.ToolStripMenuItem();
             this.mnu_SetAssetUnitCnt = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btn_TestJscript = new System.Windows.Forms.Button();
             this.btn_AddHedge = new System.Windows.Forms.Button();
@@ -61,6 +62,7 @@
             this.txt_ExpectNo = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -69,6 +71,7 @@
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.timer_RequestInst)).BeginInit();
@@ -123,7 +126,8 @@
             this.tsmi_Operate.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuRefreshWebToolStripMenuItem,
             this.reLoadToolStripMenuItem,
-            this.tsmi_knockTheEgg});
+            this.tsmi_knockTheEgg,
+            this.switchChanleToolStripMenuItem});
             this.tsmi_Operate.Name = "tsmi_Operate";
             this.tsmi_Operate.Size = new System.Drawing.Size(74, 35);
             this.tsmi_Operate.Text = "操作";
@@ -131,23 +135,30 @@
             // mnuRefreshWebToolStripMenuItem
             // 
             this.mnuRefreshWebToolStripMenuItem.Name = "mnuRefreshWebToolStripMenuItem";
-            this.mnuRefreshWebToolStripMenuItem.Size = new System.Drawing.Size(160, 38);
+            this.mnuRefreshWebToolStripMenuItem.Size = new System.Drawing.Size(208, 38);
             this.mnuRefreshWebToolStripMenuItem.Text = "睡觉";
             this.mnuRefreshWebToolStripMenuItem.Click += new System.EventHandler(this.mnuRefreshWebToolStripMenuItem_Click);
             // 
             // reLoadToolStripMenuItem
             // 
             this.reLoadToolStripMenuItem.Name = "reLoadToolStripMenuItem";
-            this.reLoadToolStripMenuItem.Size = new System.Drawing.Size(160, 38);
+            this.reLoadToolStripMenuItem.Size = new System.Drawing.Size(208, 38);
             this.reLoadToolStripMenuItem.Text = "醒来";
             this.reLoadToolStripMenuItem.Click += new System.EventHandler(this.reLoadToolStripMenuItem_Click);
             // 
             // tsmi_knockTheEgg
             // 
             this.tsmi_knockTheEgg.Name = "tsmi_knockTheEgg";
-            this.tsmi_knockTheEgg.Size = new System.Drawing.Size(160, 38);
+            this.tsmi_knockTheEgg.Size = new System.Drawing.Size(208, 38);
             this.tsmi_knockTheEgg.Text = "砸蛋";
             this.tsmi_knockTheEgg.Click += new System.EventHandler(this.tsmi_knockTheEgg_Click);
+            // 
+            // switchChanleToolStripMenuItem
+            // 
+            this.switchChanleToolStripMenuItem.Name = "switchChanleToolStripMenuItem";
+            this.switchChanleToolStripMenuItem.Size = new System.Drawing.Size(208, 38);
+            this.switchChanleToolStripMenuItem.Text = "切换通道";
+            this.switchChanleToolStripMenuItem.Click += new System.EventHandler(this.switchChanleToolStripMenuItem_Click);
             // 
             // tsmi_Setting
             // 
@@ -180,6 +191,7 @@
             // 
             this.tabPage1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.tabPage1.Controls.Add(this.webBrowser1);
+            this.tabPage1.Controls.Add(this.pictureBox1);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Location = new System.Drawing.Point(8, 39);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(6);
@@ -189,10 +201,17 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "概要";
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(1183, 578);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(233, 83);
+            this.pictureBox1.TabIndex = 2;
+            this.pictureBox1.TabStop = false;
             // webBrowser1
             // 
-            this.webBrowser1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.webBrowser1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.webBrowser1.Location = new System.Drawing.Point(6, 258);
             this.webBrowser1.Margin = new System.Windows.Forms.Padding(6);
@@ -200,7 +219,8 @@
             this.webBrowser1.Name = "webBrowser1";
             this.webBrowser1.Size = new System.Drawing.Size(1672, 782);
             this.webBrowser1.TabIndex = 0;
-            this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser1_DocumentCompleted);
+            this.webBrowser1.DocumentCompleted += this.webBrowser1_DocumentCompleted;
+
             // 
             // groupBox1
             // 
@@ -250,6 +270,7 @@
             this.btn_AddHedge.TabIndex = 11;
             this.btn_AddHedge.Text = "加对冲";
             this.btn_AddHedge.UseVisualStyleBackColor = true;
+            this.btn_AddHedge.Click += new System.EventHandler(this.btn_AddHedge_Click);
             // 
             // btn_SelfAddCombo
             // 
@@ -261,6 +282,7 @@
             this.btn_SelfAddCombo.TabIndex = 10;
             this.btn_SelfAddCombo.Text = "加组合";
             this.btn_SelfAddCombo.UseVisualStyleBackColor = true;
+            this.btn_SelfAddCombo.Click += new System.EventHandler(this.btn_SelfAddCombo_Click);
             // 
             // label4
             // 
@@ -390,12 +412,12 @@
             this.toolStripStatusLabel1.AutoSize = false;
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(400, 33);
-            this.toolStripStatusLabel1.Text = "Money";
+            this.toolStripStatusLabel1.Text = "    ";
             this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // toolStripStatusLabel2
-            // 
-            this.toolStripStatusLabel2.AutoSize = false;
+            // s
+            this.toolStripStatusLabel2.AutoSize = true;
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
             this.toolStripStatusLabel2.Size = new System.Drawing.Size(300, 33);
             this.toolStripStatusLabel2.Text = "Status";
@@ -411,6 +433,8 @@
             this.timer_RequestInst.Enabled = true;
             this.timer_RequestInst.SynchronizingObject = this;
             this.timer_RequestInst.Elapsed += new System.Timers.ElapsedEventHandler(this.timer_RequestInst_Tick);
+
+            this.pictureBox1.BringToFront();
             // 
             // MainWindow
             // 
@@ -430,6 +454,7 @@
             this.menuStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -451,7 +476,7 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.WebBrowser webBrowser1;
+        System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox txt_ExpectNo;
         private System.Windows.Forms.Label label1;
@@ -476,5 +501,7 @@
         private System.Windows.Forms.ToolStripMenuItem TSMI_sendStatusInfor;
         private System.Windows.Forms.Button btn_TestJscript;
         private System.Windows.Forms.ToolStripMenuItem tsmi_knockTheEgg;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.ToolStripMenuItem switchChanleToolStripMenuItem;
     }
 }

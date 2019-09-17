@@ -308,6 +308,8 @@ namespace WolfInv.com.BaseObjectsLib
                 }
                 if (i == this.Count)
                     shiftid = Math.Max(shiftid / 2, 0);
+                else
+                    shiftid = Math.Max(shiftid / 2, 0);
 
             }
             return -1;

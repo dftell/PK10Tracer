@@ -135,9 +135,10 @@ namespace WolfInv.com.ExchangeLib
             //判断是否错过了期数，如果错过期数，将所有追踪策略归零，不再追号,也不再执行选号程序，
             //是否要连续停几期？执行完后，在接收策略里面发现前10期有不连续的情况，直接跳过，只接收数据不执行选号。
             bool MissExpects = false;
-            if (el.MissExpectCount() > 1)//期号不连续
+            if ( el.MissExpectCount() > 1)//期号不连续
             {
-                MissExpects = true;
+                if(dtp.DataType == "PK10" )
+                    MissExpects = true;
             }
             DbChanceList<T> OldDbList = new DbChanceList<T>();
             Dictionary<string, ChanceClass<T>> OldList = new Dictionary<string, ChanceClass<T>>();
@@ -388,10 +389,13 @@ namespace WolfInv.com.ExchangeLib
             
             if (!IsBackTest)//额外保存
             {
-                int savecnt = new PK10ExpectReader().SaveChances(OldDbList.Values.ToList<ChanceClass<T>>(), null);// OldDbList.Save(null);
+                DataReader rd = DataReaderBuild.CreateReader(this.dtp.DataType, null, null);
+                int savecnt = rd.SaveChances(OldDbList.Values.ToList<ChanceClass<T>>(), null);
+                //int savecnt = new PK10ExpectReader().SaveChances(OldDbList.Values.ToList<ChanceClass<T>>(), null);// OldDbList.Save(null);
                 if (OldList.Count > 0)
                     Log("计算服务", "保存已有机会", string.Format("条数：{0};实际条数:{1}", OldList.Count, savecnt));
-                savecnt = new PK10ExpectReader().SaveChances(NewList, null);
+                //savecnt = new PK10ExpectReader().SaveChances(NewList, null);
+                savecnt = rd.SaveChances(NewList, null);
                 if (NewList.Count > 0)
                     Log("计算服务", "保存新增机会", string.Format("条数：{0};实际条数:{1}", NewList.Count, savecnt));
             }

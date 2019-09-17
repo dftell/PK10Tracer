@@ -263,10 +263,12 @@ namespace WolfInv.com.ExchangeLib
             if (!IsBackTest)//额外保存
             {
                 //int savecnt = OldDbList.Save(null);
-                int savecnt = new PK10ExpectReader().SaveChances<T>(OldDbList.Values.ToList<ChanceClass<T>>(), null);
+                DataReader dr = DataReaderBuild.CreateReader(GlobalClass.DataTypes.First().Key, null, null);
+                //int savecnt = new PK10ExpectReader().SaveChances<T>(OldDbList.Values.ToList<ChanceClass<T>>(), null);
+                int savecnt = dr.SaveChances<T>(OldDbList.Values.ToList<ChanceClass<T>>(), null);
                 if (OldList.Count > 0)
                     Log("计算服务", "保存已有机会", string.Format("条数：{0};实际条数:{1}", OldList.Count, savecnt));
-                savecnt = new PK10ExpectReader().SaveChances<T>(NewList, null);
+                savecnt = dr.SaveChances<T>(NewList, null);
                 if (NewList.Count > 0)
                     Log("计算服务", "保存新增机会", string.Format("条数：{0};实际条数:{1}", NewList.Count, savecnt));
             }

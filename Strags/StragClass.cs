@@ -209,7 +209,10 @@ namespace WolfInv.com.Strags
             {
                 List<ChanceClass> ret = getChances(inBc, inData);
                 List<ChanceClass<TimeSerialData>> retval = new List<ChanceClass<TimeSerialData>>();
-                ret.ForEach(a => retval.Add(a.CopyTo<ChanceClass<TimeSerialData>>()));
+                ret.ForEach(a => {
+                    ChanceClass<TimeSerialData> cc = a;
+                    retval.Add(cc);
+                });
                 return retval;
             }
             catch(Exception ce)

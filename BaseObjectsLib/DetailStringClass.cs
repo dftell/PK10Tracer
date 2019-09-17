@@ -155,6 +155,11 @@ namespace WolfInv.com.BaseObjectsLib
         {
             return ConvertionExtensions.CopyTo<T>(this);
         }
+
+        public bool FillTo(ref object obj,bool includeParent=false)
+        {
+            return ConvertionExtensions.FillTo(this, ref obj,includeParent);
+        }
     }
 
     

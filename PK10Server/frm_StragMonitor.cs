@@ -23,12 +23,14 @@ namespace PK10Server
 {
     delegate void SetDataGridCallback(string id,DataTable dt,string sort=null);
     delegate void SetSpecDataGridCallback(DataTable dt);
+    
     public partial class frm_StragMonitor <T>: Form where T:TimeSerialData
     {
         string logname = "监控日志";
         System.Timers.Timer PK10DataTimer = new System.Timers.Timer();
         System.Timers.Timer LogTimer = new System.Timers.Timer();
-        PK10ExpectReader exread = new PK10ExpectReader();
+        //PK10ExpectReader exread = new PK10ExpectReader();
+        DataReader exread = DataReaderBuild.CreateReader(GlobalClass.DataTypes.First().Key, null, null);
         GlobalClass glb = new GlobalClass();
         SetDataGridCallback DgInvokeEvent;
         ServiceSetting<T> _UseSetting = null;//供后面调用一切服务内容用
@@ -163,7 +165,8 @@ namespace PK10Server
 
         void RefreshPK10NoClosedChances()
         {
-            DbChanceList<T> dc = new PK10ExpectReader().getNoCloseChances<T>(null);
+            //DbChanceList<T> dc = new PK10ExpectReader().getNoCloseChances<T>(null);
+            DbChanceList<T> dc = exread.getNoCloseChances<T>(null);
             if (dc == null) return;
             DataTable dt = dc.Table;
             SetDataGridDataTable(dg_NoCloseChances, dt);
@@ -801,7 +804,8 @@ namespace PK10Server
                 }
                 else if (dg.Equals(this.dg_NoCloseChances))
                 {
-                    DbChanceList<T> dc = new PK10ExpectReader().getNoCloseChances<T>(null);
+                    //DbChanceList<T> dc = new PK10ExpectReader().getNoCloseChances<T>(null);
+                    DbChanceList<T> dc = exread.getNoCloseChances<T>(null);
                     if (dc == null) return;
                     dt = dc.Table;
                 }
@@ -842,7 +846,7 @@ namespace PK10Server
                 if (dg == null) return;
                 
                 DataTable dt = null;
-                PK10ExpectReader pkreader = new PK10ExpectReader();
+                //PK10ExpectReader pkreader = new PK10ExpectReader();
                 if(MessageBox.Show("删除确定","确定删除此记录！",MessageBoxButtons.YesNo) == DialogResult.No)
                 {
                     return;
@@ -850,11 +854,11 @@ namespace PK10Server
                 int res = -1;
                 if (dg.Equals(this.dg_NoCloseChances))
                 {
-                    res = pkreader.DeleteChanceByIndex((obj as ChanceClass).ChanceIndex.Value);
+                    res = exread.DeleteChanceByIndex((obj as ChanceClass).ChanceIndex.Value);
                 }
                 else if (dg.Equals(this.dg_baseData))
                 {
-                    res = pkreader.DeleteExpectData((obj as ExpectData).Expect);
+                    res = exread.DeleteExpectData((obj as ExpectData).Expect);
                 }
                 if(res >0 )
                 {

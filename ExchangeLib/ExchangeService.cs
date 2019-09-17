@@ -70,8 +70,8 @@ namespace WolfInv.com.ExchangeLib
             }
                 
             DataRow dr = drs[0];
-            double CurrOdds = double.Parse(dr["Odds"].ToString());
-            double dGained = CurrOdds * ec.ExchangeAmount * ec.MatchChips;
+            double CurrOdds = ec.OwnerChance.getRealOdds(); //double.Parse(dr["Odds"].ToString());
+            double dGained = CurrOdds * ec.ExchangeAmount;
             double dCost = (double)ec.Cost;
             Gained = 0;
             if (ec.MatchChips > 0)

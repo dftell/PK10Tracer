@@ -108,6 +108,12 @@
     </Compile>
     <Compile Include="CurrInfo.cs" />
     <Compile Include="ExchangeFactory.cs" />
+    <Compile Include="frm_MoniteStrag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_MoniteStrag.Designer.cs">
+      <DependentUpon>frm_MoniteStrag.cs</DependentUpon>
+    </Compile>
     <Compile Include="frm_NewStrag.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -148,6 +154,9 @@
     </Compile>
     <EmbeddedResource Include="BaseTForm.resx">
       <DependentUpon>BaseTForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_MoniteStrag.resx">
+      <DependentUpon>frm_MoniteStrag.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frm_NewStrag.resx">
       <DependentUpon>frm_NewStrag.cs</DependentUpon>

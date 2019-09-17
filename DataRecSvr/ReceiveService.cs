@@ -87,7 +87,7 @@ namespace DataRecSvr
             string key = tm.Name;
             try
             {
-                ReceiveData(key, tm, null, null, false);
+                ReceiveData(key, tm, null, null, true);
             }
             catch(Exception ce)
             {
@@ -542,6 +542,7 @@ namespace DataRecSvr
             try
             {
                 //this.CalcProcess.Calc();
+                CalcObj.OnFinishedCalc += onFinished;
                 CalcObj.Calc();
             }
             catch(Exception e)
@@ -552,6 +553,10 @@ namespace DataRecSvr
             return true;
         }
 
+        void onFinished()
+        {
+            Log("计算完成", "提醒");
+        }
         
     }
 

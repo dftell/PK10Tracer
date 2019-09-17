@@ -18,6 +18,7 @@ using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.SecurityLib;
 namespace DataRecSvr
 {
+    public delegate void EventFinishedCalc();
     public partial class CalcService<T> : SelfDefBaseService<T> where T :TimeSerialData
     {
         public DataTypePoint DataPoint { get; set; }
@@ -27,6 +28,7 @@ namespace DataRecSvr
         int FinishedThreads = 0;
         int RunThreads = 0;
         List<Thread> ThreadPools;
+        public EventFinishedCalc OnFinishedCalc;
         public bool IsTestBack { get; set; }
         /// <summary>
         /// 提供给回测用
@@ -204,13 +206,18 @@ namespace DataRecSvr
                 csc.IsBackTest = IsTestBack;
                 ThreadPool.QueueUserWorkItem(new WaitCallback(csc.Run), el);
             }
+            
         }
         
         void FillNoClosedChances(Dictionary<string, ChanceClass<T>> list)
         {
             lock (Program.AllServiceConfig.AllNoClosedChanceList)
             {
-                list.Values.ToList<ChanceClass<T>>().ForEach(p => Program.AllServiceConfig.AllNoClosedChanceList.Add(p.GUID, (p as ChanceClass<TimeSerialData>) ));
+                list.Values.ToList<ChanceClass<T>>().ForEach(p =>
+                {
+                    ChanceClass<TimeSerialData> cc = p as ChanceClass<TimeSerialData>;
+                    Program.AllServiceConfig.AllNoClosedChanceList.Add(p.GUID, cc);
+                });
             }
         }
 
@@ -227,7 +234,7 @@ namespace DataRecSvr
         bool CheckFinished()
         {
             
-            string path =  @"c:\inetpub\wwwroot\PK10\InstData\";
+            string path =  @"c:\inetpub\wwwroot\PK10\InstData\"+ DataPoint.DataType;
             string strExpectNo = "expectNo";
             string strResult = "record";
             string strForApp = "expertNoForApp";
@@ -238,8 +245,10 @@ namespace DataRecSvr
             
             if (FinishedThreads == RunThreads)
             {
+                OnFinishedCalc();
                 ThreadPools = new List<Thread>();
-                if (IsTestBack) return true; //如果是回测，不做处理
+                if (IsTestBack)
+                    return true; //如果是回测，不做处理
                 Log("写入标志文件", "供web程序读取！");
                 string NewNo = string.Format("{0}|{1}", long.Parse(Program.AllServiceConfig.LastDataSector.LastData.Expect) + 1, Program.AllServiceConfig.LastDataSector.LastData.OpenTime);
                 new LogInfo().WriteFile(NewNo, path, strExpectNo, strtype, true, true);
@@ -248,6 +257,7 @@ namespace DataRecSvr
                 GlobalClass.SaveStragList(BaseStragClass<TimeSerialData>.getXmlByObjectList<BaseStragClass<TimeSerialData>>(Program.AllServiceConfig.AllStrags.Values.ToList<BaseStragClass<TimeSerialData>>()));
                 Log("保存策略清单", "保存成功");
             }
+            
             return true;
         }
 
@@ -297,7 +307,25 @@ namespace DataRecSvr
             {
                 //DbChanceList<T> dcl = new PK10ExpectReader().getNoCloseChances<T>(null);
                 DbChanceList<T> dcl = DataReaderBuild.CreateReader(DataPoint.DataType, ReadDataTableName, Codes).getNoCloseChances<T>(null);
-                cl = dcl.Values.ToList();
+                //必须强制按数据库中存储的策略id,获取到策略的机会类型
+                foreach (var dc in dcl.Values)
+                {
+                    if(!Program.AllServiceConfig.AllStrags.ContainsKey(dc.StragId))//策略未找到数据库中存储的机会所产生的策略
+                    {
+                        continue;
+                    }
+                    BaseStragClass<TimeSerialData> sc = Program.AllServiceConfig.AllStrags[dc.StragId];
+                    Type ct = sc.getTheChanceType();
+                    
+                    object tmp = Activator.CreateInstance(ct);
+                    Log("转换前机会类型", string.Format("{0}", tmp.GetType()));
+                    dc.FillTo(ref tmp,true);//获取所有属性
+                    ChanceClass<T> cc = tmp as ChanceClass<T>;
+                    Log("转换后机会类型", string.Format("{0}:{1}:{2}", cc.GetType(), cc.StragId,cc.ChanceCode));// cc.ToDetailString()));
+                    
+                    cl.Add(cc);
+                    //cl = dcl.Values.ToList();
+                }
             }
 
             Dictionary<string, ChanceClass<T>> rl = new Dictionary<string, ChanceClass<T>>();
@@ -323,7 +351,7 @@ namespace DataRecSvr
             for (int i = 0; i < cl.Count;i++)
             {
                 string sGUId = cl[i].StragId;
-                if (!Program.AllServiceConfig.AllStrags.ContainsKey(sGUId))//如果策略已注销，立即关闭机会
+                if (sGUId == null || !Program.AllServiceConfig.AllStrags.ContainsKey(sGUId))//如果策略已注销，立即关闭机会
                 {
                     if (cl[i].Tracerable)//如果是自我跟踪机会，不理会，让它自己去跟踪
                     {
@@ -413,7 +441,13 @@ namespace DataRecSvr
             if (!IsTestBack) //如果非回测，保存交易记录
             {
                 DbChanceList<T> dbsavelist = new DbChanceList<T>();
-                CloseList.Values.ToList<ChanceClass<T>>().ForEach(p => dbsavelist.Add(p.ChanceIndex, p));
+                CloseList.Values.ToList<ChanceClass<T>>().ForEach(p =>
+                {
+                    if (p != null)
+                    {
+                        dbsavelist.Add(p.ChanceIndex, p);
+                    }
+                });
                 CloseChanceInDBAndExchangeService(dbsavelist);
             }
             return rl;
@@ -433,8 +467,9 @@ namespace DataRecSvr
                 {
                     NeedClose[id].MatchChips = 0;
                 }
-                NeedClose[id].Gained = NeedClose[id].MatchChips * NeedClose[id].Odds * NeedClose[id].UnitCost;
-                NeedClose[id].Profit = NeedClose[id].Gained - NeedClose[id].Cost;
+                ////NeedClose[id].Gained = NeedClose[id].MatchChips * NeedClose[id].Odds * NeedClose[id].UnitCost;
+                ////NeedClose[id].Profit = NeedClose[id].Gained - NeedClose[id].Cost;
+                NeedClose[id].CalcProfit(NeedClose[id].MatchChips);
                 NeedClose[id].UpdateTime = DateTime.Now;
                 
             }

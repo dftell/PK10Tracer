@@ -123,7 +123,7 @@ namespace WolfInv.com.PK10CorePress
     
 
 
-        public string[] ValueList
+        public virtual string[] ValueList
         {
             get
             {
@@ -180,5 +180,17 @@ namespace WolfInv.com.PK10CorePress
         }
 
         
+    }
+
+    public class Combin_ExpectData: ExpectData
+    {
+        public override string[] ValueList
+        {
+            get
+            {
+                string[] ret = OpenCode.Trim().Split(',');
+                return ret;
+            }
+        }
     }
 }

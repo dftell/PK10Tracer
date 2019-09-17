@@ -57,10 +57,12 @@ namespace ExchangeTermial
             }
         }
         System.Timers.Timer SendStatusTimer = new System.Timers.Timer();
+        //System.Windows.Forms.WebBrowser webBrowser1;
         public MainWindow()
         {
             InitializeComponent();
             wr = WebRuleBuilder.Create(Program.gc);
+            //webBrowser1 = this.webBrowser1;
             this.Text = string.Format("{0}[{2}][v:{1}]", this.Text, Program.VerNo, Program.gc.ClientUserName);
             Program.Title = this.Text;
         }
@@ -97,7 +99,8 @@ namespace ExchangeTermial
             DateTime now = DateTime.Now;
             if (dicExistInst != null && dicExistInst.Count > 0)
             {
-                SwitchChanle();
+                if (Program.gc.NeedAutoReset)//允许自动切换
+                    SwitchChanle();
             }
             string ip = MyIpInfo;
             string id = Program.gc.ClientUserName;
@@ -211,6 +214,7 @@ namespace ExchangeTermial
         {
             AssetUnitList = getAssetLists();
             dicExistInst = new Dictionary<long, string>();
+            //webBrowser1 = this.webBrowser1;
             LoadUrl();
             this.timer_RequestInst.Enabled = true;
             Set_SendTime(true);
@@ -225,14 +229,30 @@ namespace ExchangeTermial
             string url = string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost);
             try
             {
+                
                 lock (webBrowser1)
                 {
-
+                    //webBrowser1.ReadyState;
                     //this.webBrowser1 = null;
                     //this.webBrowser1 = new WebBrowser();
-                    this.webBrowser1.DocumentCompleted += webBrowser1_DocumentCompleted;
+                    //this.webBrowser1.DocumentCompleted += webBrowser1_DocumentCompleted;
                     //this.webBrowser1.Url = new Uri(url);
+
+
+
+                    //this.webBrowser1.Url = new Uri(url);
+                    ////this.webBrowser1.Navigating += webBrowser1_Navigating;
                     this.webBrowser1.Navigate(url);
+                    this.toolStripStatusLabel2.Text = "打开网页"+url;
+                    this.toolStripStatusLabel1.Text = "等待加载内容";
+
+                    //if(!Navigate(this.webBrowser1, url))
+                    //{
+                    //    Program.wxl.Log("错误", "加载网页错误","错误原因:外部组建产生异常");
+                    //    return;
+                    //}
+
+                    //this.webBrowser1.Url = new Uri(url);
                     this.webBrowser1.ScriptErrorsSuppressed = true;
                     Application.DoEvents();
                     Thread.Sleep(3 * 1000);
@@ -253,8 +273,10 @@ namespace ExchangeTermial
             }
             catch(Exception ce)
             {
+                //MessageBox.Show(string.Format("载入网页{0}错误:{1}，{2}", url, ce.Message,ce.StackTrace));
                 LogableClass.ToLog("错误", ce.Message, ce.StackTrace);
                 Program.wxl.Log("错误","起床困难户。",string.Format("{0}:{1}", ce.Message, ce.StackTrace));
+                return;
             }
             Application.DoEvents();
             //Thread.Sleep(10 * 1000);
@@ -264,6 +286,10 @@ namespace ExchangeTermial
             //Set_SendTime(true);
         }
 
+        
+        
+
+       
         void AddScript()
         {
             HtmlElementCollection elHeads =  webBrowser1.Document.GetElementsByTagName("head");
@@ -289,123 +315,175 @@ namespace ExchangeTermial
 
         private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-
-            HtmlDocument doc = webBrowser1.Document;
-            //CurrVal = wr.GetCurrMoney(doc);
-            if (webBrowser1.ReadyState == WebBrowserReadyState.Complete)
+            try
             {
-                
-                if (ReadySleep)
+                this.toolStripStatusLabel1.Text = "载入";
+                HtmlDocument doc = webBrowser1.Document;
+                //CurrVal = wr.GetCurrMoney(doc);
+                if (webBrowser1.ReadyState == WebBrowserReadyState.Complete)
                 {
-                    LogableClass.ToLog(webBrowser1.Url.Host,"进入睡眠！");
-                    ReadySleep = false;
-                    return;
-                }
-                LogableClass.ToLog(webBrowser1.Url.Host, "唤醒！");
-                bool IsVaildWeb = wr.IsVaildWeb(doc);
-                bool IsLogined = wr.IsLogined(doc);
-                if (IsVaildWeb||IsLogined)//是登录页面或者内容页面
-                {
-                    if (IsVaildWeb)
+                    
+                    //return;
+                    this.toolStripStatusLabel1.Text = "已载入";
+                    if (ReadySleep)
                     {
-                        if (!WebBrowserLoad)//第一次载入
+                        LogableClass.ToLog(webBrowser1.Url.Host, "进入睡眠！");
+                        ReadySleep = false;
+                        return;
+                    }
+                    LogableClass.ToLog(webBrowser1.Url.Host, "唤醒！");
+                    bool IsVaildWeb = wr.IsVaildWeb(doc);
+                    bool IsLogined = wr.IsLogined(doc);
+                    bool IsLoadCompleted = wr.IsLoadCompleted(doc);
+                    if(!IsLoadCompleted)
+                    {
+                        return;
+                    }
+                    if (IsVaildWeb || IsLogined)//是登录页面或者内容页面
+                    {
+                        Application.DoEvents();
+                        Thread.Sleep(3 * 1000);//等完全解释完
+                        this.toolStripStatusLabel1.Text = "是登录界面";
+                        if (IsVaildWeb)
                         {
-
-                            LogableClass.ToLog(webBrowser1.Url.Host, "首次进入，加载文件！");
-                            //if(!ScriptLoaded)
-                            AddScript(); //执行js代码,未来修改为网络载入
-                            webBrowser1.Document.InvokeScript("Login", new string[] { Program.gc.ClientUserName, Program.gc.ClientPassword });
-                            WebBrowserLoad = true;
-
-                        }
-                        else//加载文件后事件
-                        {
-                            bool TryLogin = wr.IsLogined(doc);
-                            //加载自定义脚本后的处理
-                            ////while (!TryLogin)
-                            ////{
-                            ////    if (wr.IsLogined(doc))
-                            ////        break;
-                            ////    Thread.Sleep(10 * 1000);
-                            ////}
-                            if(TryLogin == false)
+                            this.toolStripStatusLabel1.Text = "需要验证密码登录";
+                            if (!WebBrowserLoad)//第一次载入
                             {
-                                LogableClass.ToLog(webBrowser1.Url.Host, "还没完全加载！");
-                                return;
+
+                                LogableClass.ToLog(webBrowser1.Url.Host, "首次进入，加载文件！");
+                                //if(!ScriptLoaded)
+                                AddScript(); //执行js代码,未来修改为网络载入
+                                             //string baseurl = string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost);
+                                             //string imgurl = string.Format("{0}{1}", baseurl,Program.gc.LoginValidPwdUrl);
+                                             ////////Stream str = AccessWebServerClass.GetStream(imgurl);
+                                             ////////if (str == null)
+                                             ////////    return;
+                                             ////////Image img = Image.FromStream(str);
+                                             ////////if (img == null)
+                                             ////////    return;
+                                             ////////this.pictureBox1.Image = img;
+                                             //Image img = this.pictureBox1.Image;
+                                             //webBrowser1.ObjectForScripting = null;
+                                Image img = wr.getVerCodeImage(doc) as Image;
+                                string valpwd = null;
+                                this.toolStripStatusLabel2.Text = string.Format("验证码{0}！", img == null ? "为空" : "非空");
+                                if (img != null)
+                                {
+                                    
+                                    pictureBox1.Image = img;
+                                    string strPath = Path.GetTempFileName();
+                                    img.Save(strPath);
+                                    valpwd = VerPwdClass.getImgString(strPath);
+                                    this.toolStripStatusLabel3.Text = "验证密码：" + valpwd ?? "";
+                                    //MessageBox.Show(valpwd);
+                                    if (valpwd != null)
+                                    {
+
+                                        webBrowser1.Document.InvokeScript("Login", new string[] { Program.gc.ClientUserName, Program.gc.ClientPassword, valpwd });
+                                        WebBrowserLoad = true;
+                                    }
+                                    else
+                                    {
+                                        webBrowser1.Document.InvokeScript("Login", new string[] { Program.gc.ClientUserName, Program.gc.ClientPassword, valpwd });
+                                        WebBrowserLoad = true;
+                                    }
+                                }
+                                
+
                             }
-                            //CurrVal = wr.GetCurrMoney(doc);
-                            Logined = true;
-                            //this.timer_RequestInst_Tick(null, null);
-                            if (!IsLogined)
+                            else//加载文件后事件
                             {
-                                LogableClass.ToLog(webBrowser1.Url.Host, "密码错误！");
+                                bool TryLogin = wr.IsLogined(doc);
+                                //加载自定义脚本后的处理
+                                ////while (!TryLogin)
+                                ////{
+                                ////    if (wr.IsLogined(doc))
+                                ////        break;
+                                ////    Thread.Sleep(10 * 1000);
+                                ////}
+                                if (TryLogin == false)
+                                {
+                                    LogableClass.ToLog(webBrowser1.Url.Host, "还没完全加载！");
+                                    return;
+                                }
+                                //CurrVal = wr.GetCurrMoney(doc);
+                                Logined = true;
+                                //this.timer_RequestInst_Tick(null, null);
+                                if (!IsLogined)
+                                {
+                                    LogableClass.ToLog(webBrowser1.Url.Host, "密码错误！");
+                                    return;
+                                }
+                                else
+                                {
+                                    LogableClass.ToLog(webBrowser1.Url.Host, "登堂入室！");
+                                    return;
+                                }
+
+                            }
+                        }
+                        else//已经登录了
+                        {
+                            //不是登录网页就一定是已经登录了
+                            LogableClass.ToLog(webBrowser1.Url.Host, "网页载入后但未出现预期内容！");
+                            return;
+                        }
+                    }
+                    else //其他内容
+                    {
+                        if (WebBrowserLoad)//已经登入
+                        {
+                            if (Logined)//建议更换主机地址
+                            {
+                                LogableClass.ToLog(webBrowser1.Url.Host, "无法访问主机，建议启动服务选择合适的备用服务！");
+                                reLoadWebBrowser();
                                 return;
                             }
                             else
                             {
-                                LogableClass.ToLog(webBrowser1.Url.Host, "登堂入室！");
+                                reLoadWebBrowser();
+                                LogableClass.ToLog(webBrowser1.Url.Host, "登录后无法访问主机，建议更换主机重新登录！");
                                 return;
                             }
-
-                        }
-                    }
-                    else//已经登录了
-                    {
-                        //不是登录网页就一定是已经登录了
-                        LogableClass.ToLog(webBrowser1.Url.Host, "网页载入后但未出现预期内容！");
-                        return;
-                    }
-                }
-                else //其他内容
-                {
-                    if (WebBrowserLoad)//已经登入
-                    {
-                        if (Logined)//建议更换主机地址
-                        {
-                            LogableClass.ToLog(webBrowser1.Url.Host, "无法访问主机，建议启动服务选择合适的备用服务！");
-                            reLoadWebBrowser();
-                            return;
                         }
                         else
                         {
-                            reLoadWebBrowser();
-                            LogableClass.ToLog(webBrowser1.Url.Host, "登录后无法访问主机，建议更换主机重新登录！");
+                            //其他网页
+                            LogableClass.ToLog(webBrowser1.Url.Host, "睡眠综合症！");
                             return;
                         }
                     }
-                    else
+
+                }
+                else
+                {
+                    if (!WebBrowserLoad)//中间状态，不理睬
                     {
-                        //其他网页
-                        LogableClass.ToLog(webBrowser1.Url.Host, "睡眠综合症！");
                         return;
                     }
-                }
-                
-            }
-            else
-            {
-                if (!WebBrowserLoad)//中间状态，不理睬
-                {
-                    return;
-                }
-                
-                //////加载自定义脚本后的处理
-                ////while(true)
-                ////{
-                ////    if(wr.IsLogined(doc))
-                ////        break;
-                ////    Thread.Sleep(60 * 1000);
-                ////}
-                ////Logined = true;
-                ////this.timer_RequestInst_Tick(null, null);
-            }
-            //if (Logined)
-            //{
-            //    //网页中间刷新
-                
 
-            //}
-            ////}
+                    //////加载自定义脚本后的处理
+                    ////while(true)
+                    ////{
+                    ////    if(wr.IsLogined(doc))
+                    ////        break;
+                    ////    Thread.Sleep(60 * 1000);
+                    ////}
+                    ////Logined = true;
+                    ////this.timer_RequestInst_Tick(null, null);
+                }
+                //if (Logined)
+                //{
+                //    //网页中间刷新
+
+
+                //}
+                ////}
+            }
+            catch(Exception ce)
+            {
+                this.toolStripStatusLabel3.Text = string.Format("{0}:{1}", ce.Message, ce.StackTrace);
+            }
         }
 
         string getScriptText(string scriptName)
@@ -450,7 +528,7 @@ namespace ExchangeTermial
             CommResult cr = wc.getRequestAssetList(GlobalClass.strAssetInfoURL);
             if (!cr.Succ)
             {
-                this.statusStrip1.Items[0].Text = cr.Message;
+                this.toolStripStatusLabel3.Text = cr.Message;
                 return ret;
             }
             mAssetUnitList ic = cr.Result[0] as mAssetUnitList;
@@ -483,26 +561,26 @@ namespace ExchangeTermial
                 CommResult cr = wc.getRequestInsts(GlobalClass.strRequestInstsURL);
                 if (!cr.Succ)
                 {
-                    this.statusStrip1.Items[0].Text = cr.Message;
+                    this.toolStripStatusLabel3.Text = cr.Message;
                     return;
                 }
                 if (cr.Cnt != 1)
                 {
-                    this.statusStrip1.Items[0].Text = "无指令！";
+                    this.toolStripStatusLabel3.Text = "无指令！";
                     Program.wxl.Log("无指令！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
                     return;
                 }
                 RequestClass ic = cr.Result[0] as RequestClass;
                 if (ic == null)
                 {
-                    this.statusStrip1.Items[0].Text = "指令内容错误！";
+                    this.toolStripStatusLabel3.Text = "指令内容错误！";
                     Program.wxl.Log("指令内容错误！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
                     return;
                 }
                 Int64 CurrExpectNo = Int64.Parse(ic.Expect);
                 //if (this.statusStrip1.Items.Count >= 2)
                 //{
-                this.toolStripStatusLabel2.Text = DateTime.Now.ToLongTimeString();
+                //this.toolStripStatusLabel2.Text = DateTime.Now.ToLongTimeString();
                 //}
                 if (CurrExpectNo > this.NewExpect || (RefreshTimes == 0 )) //获取到最新指令
                 {
@@ -547,7 +625,8 @@ namespace ExchangeTermial
                             if (AllSum == 0)
                             {
                                 Program.wxl.Log(string.Format("第{0}期", this.txt_ExpectNo.Text), "当期指令为空信号，或者金额为0", string.Format("{0}:[{1}]", "指令", this.txt_Insts.Text), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
-                                SwitchChanle();//赶着空指令切换线路
+                                if(Program.gc.NeedAutoReset)//允许自动切换
+                                    SwitchChanle();//赶着空指令切换线路
                                 return;
                             }
                             this.btn_Send_Click(null, null);
@@ -607,6 +686,11 @@ namespace ExchangeTermial
 
         private void btn_Send_Click(object sender, EventArgs e)
         {
+            if(sender!=null)
+            {
+                this.toolStripStatusLabel1.Text = "手动下注";
+                this.Cursor = Cursors.WaitCursor;
+            }
             if (this.txt_Insts.Text.Trim().Length == 0) return;
             
             Rule_ForKcaiCom rule = new Rule_ForKcaiCom(Program.gc);
@@ -626,12 +710,13 @@ namespace ExchangeTermial
                 
                 Program.wxl.Log("警告",string.Format("第{0}次浏览器加载未完成",sendCnt),string.Format("请检查线路{0}是否正常！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost)));
                 //LoadUrl();
-                SwitchChanle();
+                if (Program.gc.NeedAutoReset)//允许自动切换
+                    SwitchChanle();
                 //Reboot();
                 this.NewExpect--;//允许下次再接收数据发送
                 RefreshTimes = 1;//让第一次发生错误后下次刷新指令会自动发送
                 return;
-                Application.DoEvents();
+                //Application.DoEvents();
 
                 Thread.Sleep(sleepsec * 1000);
                 if (sendCnt> maxCnt)
@@ -646,6 +731,8 @@ namespace ExchangeTermial
             {
                 dicExistInst.Add(this.NewExpect, this.txt_Insts.Text);
             }
+            this.toolStripStatusLabel1.Text = "已发送";
+            this.Cursor = Cursors.Default;
             //Application.DoEvents();
             //Thread.Sleep(5 * 1000);
             //webBrowser1.Refresh();
@@ -727,9 +814,9 @@ namespace ExchangeTermial
 
         void RefreshStatus()
         {
-            this.toolStripStatusLabel1.Text = string.Format("已加载页面:{0};已登录:{1};睡眠状态:{2}",WebBrowserLoad,Logined,InSleep);
-            this.toolStripStatusLabel2.Text = string.Format("当前余额：{0}",CurrVal);
-            this.toolStripStatusLabel3.Text = string.Format("{0}秒后见", this.timer_RequestInst.Interval / 1000);
+            ////this.toolStripStatusLabel1.Text = string.Format("已加载页面:{0};已登录:{1};睡眠状态:{2}",WebBrowserLoad,Logined,InSleep);
+            ////this.toolStripStatusLabel2.Text = string.Format("当前余额：{0}",CurrVal);
+            ////this.toolStripStatusLabel3.Text = string.Format("{0}秒后见", this.timer_RequestInst.Interval / 1000);
             //SendStatusTimer_Elapsed(null, null);
         }
 
@@ -738,6 +825,7 @@ namespace ExchangeTermial
             toolStripStatusLabel3.Text = msg;
             toolStripStatusLabel3.Enabled = true;
             toolStripStatusLabel3.Visible = true;
+            //this.statusStrip1
         }
 
         private void TSMI_sendStatusInfor_Click(object sender, EventArgs e)
@@ -778,6 +866,22 @@ namespace ExchangeTermial
         private void tsmi_knockTheEgg_Click(object sender, EventArgs e)
         {
             KnockEgg();
+        }
+
+        private void switchChanleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SwitchChanle();
+        }
+
+        private void btn_AddHedge_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void btn_SelfAddCombo_Click(object sender, EventArgs e)
+        {
+            Program.gc.LoginDefaultHost = this.txt_NewInsts.Text;
+            LoadUrl();
         }
     }
 }

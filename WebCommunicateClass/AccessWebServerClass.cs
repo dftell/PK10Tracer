@@ -61,5 +61,27 @@ namespace WolfInv.com.WebCommunicateClass
             }
             return ret;
         }
+
+        public static Stream GetStream(string url)
+        {
+            Stream ret = null;
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
+            req.Method = "Get";
+            try
+            {
+                using (WebResponse wr = req.GetResponse())
+                {
+                    ret = wr.GetResponseStream();
+                    wr.Close();
+                }
+            }
+            catch (Exception ce)
+            {
+                return null;
+
+                //throw ce;
+            }
+            return ret;
+        }
     }
 }

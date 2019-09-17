@@ -242,14 +242,14 @@ namespace WolfInv.com.Strags
                     int CurrChipCount = ChanceClass.getChipsByCode(cc.ChanceCode);
                     if(CurrChipCount >= 2)//大于等于3的，超过了一定期数以后可以跟号。4码5次，3码7次,2码11次。6-n+(6-n+1)^2 
                     {
-                        shift = (this.InputMinTimes+1 - CurrChipCount) + (this.InputMinTimes +1- CurrChipCount+1) ^ 2;
+                        shift = (this.InputMinTimes+1 - CurrChipCount) +  (int)(Math.Pow((this.InputMinTimes +1- CurrChipCount+1) , 2));
                         //shift = (6 - CurrChipCount) + (6 - CurrChipCount + 1) ^ 2;
                     }
                     else
                     {
                         shift = 50;
                     }
-                    Log(string.Format("组合信息:{0};组合长度:{1};指定最小长度:{2}",cc.ChanceCode, cc.ChipCount,this.InputMinTimes),string.Format("当前次数:{0};最小入场次数:{1}",cc.HoldTimeCnt,shift));
+                    Log(string.Format("组合信息:{0};组合长度:{1};指定最小长度:{2}",cc.ChanceCode, CurrChipCount, this.InputMinTimes),string.Format("当前次数:{0};最小入场次数:{1}",cc.HoldTimeCnt,shift));
                     if(cc.HoldTimeCnt<shift)
                         return 0;
                 }

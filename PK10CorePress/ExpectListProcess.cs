@@ -391,6 +391,9 @@ namespace WolfInv.com.PK10CorePress
         public int SelectNums { get; set; }
         public string AllNumModel { get; set; }
         public string SelectNumModel { get; set; }
+        public string strAllTypeOdds { get; set; }
+        public string strCombinTypeOdds { get; set; }
+        public string strPermutTypeOdds { get; set; }
         public string splitor { get; set; }
         protected ExpectList data;
 
@@ -430,7 +433,7 @@ namespace WolfInv.com.PK10CorePress
         }
 
         /// <summary>
-        /// 所有数字视图
+        /// Y视图
         /// </summary>
         /// <param name="reviewCnt"></param>
         /// <returns></returns>
@@ -440,17 +443,20 @@ namespace WolfInv.com.PK10CorePress
 
             List<Dictionary<int, string>> ret = new List<Dictionary<int, string>>();
             int lastId = data.Count - 1;
-            string RestModel = this.SelectNumModel;// "01，02，03，04，05，06，07，08，09，10，11，12，。。。。。。";
+            string RestModel = this.AllNumModel;// "01，02，03，04，05，06，07，08，09，10，11，12，。。。。。。";
             for (int i = 0; i < Math.Min(reviewCnt, data.Count); i++)
             {
-                ExpectData currExpect = data[lastId - i];//  data[lastId - i].CopyTo<ExpectData>();
+                Combin_ExpectData currExpect = new Combin_ExpectData();
+                currExpect.Expect =  data[lastId - i].Expect;//  data[lastId - i].CopyTo<ExpectData>();
+                currExpect.OpenCode = data[lastId - i].OpenCode;
+                currExpect.OpenTime = data[lastId - i].OpenTime;
                 Dictionary<int, string> lastData = null;
                 Dictionary<int, string> newData = new Dictionary<int, string>();
                 if (i > 0)
                 {
                     lastData = ret[i - 1];
                 }
-                for (int j = 0; j < AllNums; j++) //从选择的数字中寻找出现的数字
+                for (int j = 0; j < SelectNums; j++) //从选择的数字中寻找出现的数字
                 {
                     string LastString = RestModel;
                     if (lastData != null)
@@ -461,40 +467,42 @@ namespace WolfInv.com.PK10CorePress
                     {
 
                     }
-                    string intmatch = (j + 1).ToString();//要匹配的数字
-                    if(intmatch == "10")
-                    {
-                        intmatch = "0";
-                    }
-                    string currval = null;
+                    //string intmatch = (j + 1).ToString().PadLeft(2,'0');//要匹配的数字
+                    ////if(intmatch == "10")
+                    ////{
+                    ////    intmatch = "0";
+                    ////}
+                    string currval = currExpect.ValueList[j].PadLeft(2, '0');
                     //LastString = LastString.Replace(currExpect.ValueList[j], "");//总数字大于10的必须以符号分割，否则 101112，这种会出现错误，替换01时会影响到10，11.
-                    for(int c=0;c<currExpect.ValueList.Length;c++)
-                    {
-                        if(currExpect.ValueList[c] == intmatch)
-                        {
-                            currval = (c + 1).ToString().PadLeft(2, '0');
-                            break;
-                        }
-                    }
+                    //////for(int c=0;c<currExpect.ValueList.Length;c++)
+                    //////{
+                    //////    if(currExpect.ValueList[c].PadLeft(2,'0') == intmatch)
+                    //////    {
+                    //////        currval = currExpect.ValueList[c].PadLeft(2, '0');
+                    //////        break;
+                    //////    }
+                    //////}
                     if (currval != null)//匹配到才替换
                     {
                         //01,02,03,04,05....10,11,12,第一个替换01， 后面的替换 ,12
-                        string replacestr = string.Format("{0}{1}", int.Parse(currval) == 1 ? currval : splitor, int.Parse(currval) == 1 ? splitor : currval);
-                        if (LastString.Split(splitor.ToCharArray()).Length > 1)
+                        string replacestr = currval;
+                        LastString = LastString.Replace(replacestr, "");
+                        if(LastString.StartsWith(","))
                         {
-                            LastString = LastString.Replace(replacestr, "");
+                            LastString = LastString.Substring(1);
                         }
-                        else
+                        if(LastString.EndsWith(","))
                         {
-                            LastString = LastString.Replace(currval, "");
+                            LastString = LastString.Substring(0, LastString.Length - 1);
                         }
+                        LastString = LastString.Replace(splitor+splitor, splitor);
                     }
                     newData.Add(j, LastString);
                 }
                 ret.Add(newData);
             }
             List<Dictionary<int, string>> reSortRet = new List<Dictionary<int, string>>();
-            for (int i = 0; i < AllNums; i++)
+            for (int i = 0; i < SelectNums; i++)
             {
                 Dictionary<int, string> tmp = new Dictionary<int, string>();
                 for (int j = 0; j < ret.Count; j++)
@@ -510,23 +518,29 @@ namespace WolfInv.com.PK10CorePress
 
         public override BaseCollection<TimeSerialData> getSerialData(int reviewCnt, bool ByNo = true)
         {
-            PK10CorePress.CommCollection ret = null;
+            CommCollection_KLXxY ret = null;
             if (ByNo)
             {
-                ret = new SerialCollection();
+                ret = new CommCollection_KLXxY();
                 ret.Data = getNoDispCars(reviewCnt);
             }
             else
             {
-                ret = new CarCollection();
+                ret = new CommCollection_KLXxY();
                 ret.Data = getNoDispNums(reviewCnt);
             }
+            ret.isByNo = ByNo;
+            ret.AllNums = this.AllNums;
+            ret.SelNums = this.SelectNums;
+            ret.strAllTypeOdds = this.strAllTypeOdds;
+            ret.strCombinTypeOdds = this.strCombinTypeOdds;
+            ret.strPermutTypeOdds = this.strPermutTypeOdds;
             //LogableClass.ToLog("获取视图集合时赋值原始数据", string.Format("到底做什么用的真忘记了{0}", reviewCnt));
             ret.orgData = this.data.LastDatas(Math.Min(reviewCnt, data.Count), false);//as ExpectList<TimeSerialData>;// new ExpectList(this.data.LastDatas(Math.Min(reviewCnt, data.Count)).Table);//？为什么要指定长度？因为回测时输入的原始数据太长？
             return ret;
         }
 
-        //选出数字视图
+        //X视图
         public override List<Dictionary<int, string>> getNoDispNums(int reviewCnt)
         {
             InitBase();
@@ -535,24 +549,30 @@ namespace WolfInv.com.PK10CorePress
             string RestModel = this.SelectNumModel;// "1234567890";
             for (int i = 0; i < Math.Min(reviewCnt, data.Count); i++)
             {
-                ExpectData currExpect = data[lastId - i].CopyTo<ExpectData>();
+                Combin_ExpectData currExpect = new Combin_ExpectData();
+                currExpect.OpenCode = data[lastId - i].OpenCode;
                 Dictionary<int, string> lastData = null;
                 Dictionary<int, string> newData = new Dictionary<int, string>();
                 if (i > 0)
                 {
                     lastData = ret[i - 1];
                 }
-                for (int j = 0; j < SelectNums; j++)//选出的号
+                for (int j = 0; j < AllNums; j++)//选出的号
                 {
-                    string carNo = currExpect.ValueList[j];
-                    int carId = int.Parse(carNo);
+ 
                     string LastString = RestModel;
                     if (lastData != null)
                     {
-                        LastString = lastData[carId];//取得最后一次的字符串
+                        LastString = lastData[j];//取得最后一次的字符串
                     }
-                    string strNo = string.Format("{0}", (j + 1) % SelectNums).PadLeft(2,'0');
-
+                    string currval = null;
+                    for (int c=0;c< currExpect.ValueList.Length;c++)
+                    {
+                        if(int.Parse(currExpect.ValueList[c]) == j+1)
+                        {
+                            currval = (c + 1).ToString().PadLeft(2, '0');
+                        }
+                    }
                     ////string intmatch = (j + 1).ToString();//要匹配的数字
                     ////if (intmatch == "10")
                     ////{
@@ -564,14 +584,22 @@ namespace WolfInv.com.PK10CorePress
                     ////{
                     ////    currval = (j + 1).ToString().PadLeft(2, '0');
                     ////}
-                    string currval = strNo;
+                   
                     if (currval != null)//匹配到才替换
                     {
                         //01,02,03,04,05....10,11,12,第一个替换01， 后面的替换 ,12
-                        string replacestr = string.Format("{0}{1}", int.Parse(currval) == 1 ? currval : splitor, int.Parse(currval) == 1 ? splitor : currval);
-                        LastString = LastString.Replace(replacestr, "");
+                        LastString = LastString.Replace(currval, "");
+                        if (LastString.StartsWith(","))
+                        {
+                            LastString = LastString.Substring(1);
+                        }
+                        if (LastString.EndsWith(","))
+                        {
+                            LastString = LastString.Substring(0, LastString.Length - 1);
+                        }
+                        LastString = LastString.Replace(splitor + splitor, splitor);
                     }
-                    newData.Add(carId, LastString);
+                    newData.Add(j, LastString);
                 }
                 ret.Add(newData);
             }

@@ -645,6 +645,7 @@ namespace BackTestSys
             SCList.ForEach(p => p.AssetUnitInfo = auc);
             SCList.ForEach(p => p.Running = true);
             SCList.ForEach(p => p.AutoRunning = true);
+            SCList.ForEach(p => p.PlanStrag.ReviewExpectCnt = int.Parse(this.txt_reviewExpCnt.Text));
             //if (SCList.Count == 1)
             //{
             //    //SCList[0].PlanStrag = sc;
@@ -796,18 +797,18 @@ namespace BackTestSys
 
         void RunVirtual()
         {
-            //try
-            //{
-            Dictionary<string, CalcStragGroupClass<TimeSerialData>> rest = null;
-            Program.AllSettings.AllRunningPlanGrps = InitServerClass.InitCalcStrags<TimeSerialData>(GlobalClass.TypeDataPoints[this.ddl_DataSource.SelectedValue.ToString()],ref rest, Program.AllSettings.AllStrags, SCList.ToDictionary(p => p.GUID, p => p as StragRunPlanClass<TimeSerialData>), Program.AllSettings.AllAssetUnits, true,true);//注入plans
-            btc.FinishedProcess = new SuccEvent(Finished);
-            ret = btc.VirExchange(Program.AllSettings as ServiceSetting<T> , ref es, SCList.ToArray());
-            //}
-            //catch (Exception ce)
-            //{
-            //    MessageBox.Show(ce.Message);
-            //}
-            
+            try
+            {
+                Dictionary<string, CalcStragGroupClass<TimeSerialData>> rest = null;
+                Program.AllSettings.AllRunningPlanGrps = InitServerClass.InitCalcStrags<TimeSerialData>(GlobalClass.TypeDataPoints[this.ddl_DataSource.SelectedValue.ToString()], ref rest, Program.AllSettings.AllStrags, SCList.ToDictionary(p => p.GUID, p => p as StragRunPlanClass<TimeSerialData>), Program.AllSettings.AllAssetUnits, true, true);//注入plans
+                btc.FinishedProcess = new SuccEvent(Finished);
+                ret = btc.VirExchange(Program.AllSettings as ServiceSetting<T>, ref es, SCList.ToArray());
+            }
+            catch (Exception ce)
+            {
+                MessageBox.Show(ce.Message);
+            }
+
             //MessageBox.Show(es.summary.ToString());
             //DataView moneyLines = new DataView(es.MoneyIncreamLine);
             //this.chart1.Series[0].Points.DataBindXY(moneyLines, "id", moneyLines, "val");

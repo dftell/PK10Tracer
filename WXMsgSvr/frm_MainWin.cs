@@ -21,10 +21,12 @@ namespace WolfInv.com.WXMsgCom
         Client client;
         Dictionary<string, Contact> AllUsers;
         string ToUser;
+        Dictionary<string, bool> AllRespUser;
         public frm_MainWin(Client ccc)
         {
             client = ccc;
             this.AllUsers = new Dictionary<string, Contact>();
+            AllRespUser = new Dictionary<string, bool>();
             InitializeComponent();
             
             //////Program.wxobj = new WXUtils(refreshQRCode,(a,b,c)=> {
@@ -36,6 +38,7 @@ namespace WolfInv.com.WXMsgCom
 
         }
 
+        
 
         public void RefreshMsg(object sender,TEventArgs<List<AddMsg>> tmsg)
         {

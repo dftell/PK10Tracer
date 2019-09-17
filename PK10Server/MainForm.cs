@@ -58,7 +58,7 @@ namespace PK10Server
             ////RefreshGrid();
             RefreshNewestData();
             this.wb_DSMonitor.ScriptErrorsSuppressed = true;
-            this.wb_DSMonitor.Url = new Uri(GlobalClass.TypeDataPoints[GlobalClass.TypeDataPoints.First().Key].RuntimeInfo.DefaultDataUrl);
+            //this.wb_DSMonitor.Url = new Uri(GlobalClass.TypeDataPoints[GlobalClass.TypeDataPoints.First().Key].RuntimeInfo.DefaultDataUrl);
             
         }
 
@@ -99,7 +99,7 @@ namespace PK10Server
         public void RefreshGrid()
         {
             RefreshSerialData(this.listView_forSerial, true,this.gobj.MutliColMinTimes);
-            //RefreshSerialData(this.listView_ForCar, false, this.gobj.MutliColMinTimes);
+            RefreshSerialData(this.listView_ForCar, false, this.gobj.MutliColMinTimes);
         }
 
 
@@ -117,19 +117,28 @@ namespace PK10Server
                 lvi.Text = (i-minRow+1+1).ToString();
                 if (byNo)
                 {
-                    for (int j = 0; j < 10; j++)
+                    for (int j = 0; j < sc.Table.Columns.Count; j++)
                     {
                         lvi.SubItems.Add(sc.Table.Rows[i][j].ToString());
                     }
                 }
                 else
                 {
-                    for (int j = 0; j < 10; j++)
+                    for (int j = 0; j < sc.Table.Columns.Count; j++)
                     {
-                        lvi.SubItems.Add(sc.Table.Rows[i][string.Format("{0}",(j+1)%10)].ToString());
+                        string colname = (j + 1).ToString().PadLeft(2, '0');
+                        if (sc.Table.Columns.Contains(colname))
+                        {
+                            lvi.SubItems.Add(sc.Table.Rows[i][colname].ToString());
+                        }
+                        else
+                        {
+                            lvi.SubItems.Add(sc.Table.Rows[i]["0"].ToString());
+                        }
+                        
                     }
                 }
-                for (int j = 1; j < 9; j++)
+                for (int j = 1; j < sc.Table.Columns.Count; j++)
                 {
                     if (i + 1 == this.gobj.MinTimeForChance(j))
                     {
@@ -146,7 +155,7 @@ namespace PK10Server
         {
             lv.Columns.Clear();
             lv.Columns.Add("次数");
-            for (int i = 1; i < 10; i++)
+            for (int i = 1; i < 20; i++)
             {
                 lv.Columns.Add(string.Format("{0}{1}", i, strHeaderFlag),100);
             }
@@ -200,7 +209,7 @@ namespace PK10Server
         private void timer_For_NewestData_Tick(object sender, EventArgs e)
         {
             DateTime CurrTime = DateTime.Now;
-            ViewDataList = er.ReadNewestData<TimeSerialData>(DateTime.Now.AddDays(-1* GlobalClass.TypeDataPoints.First().Value.CheckNewestDataDays));
+            ExpectList<TimeSerialData> ViewDataList = er.ReadNewestData<TimeSerialData>(DateTime.Now.AddDays(-1* GlobalClass.TypeDataPoints.First().Value.CheckNewestDataDays));
             if(ViewDataList== null ||ViewDataList.LastData == null)
             {
 
@@ -485,6 +494,12 @@ namespace PK10Server
             ////    er.SaveHistoryData(er.getNewestData(tmpList, currEl));
             ////}
 
+        }
+
+        private void ToolStripMenuItem_SingleStragMonitor_Click(object sender, EventArgs e)
+        {
+            frm_MoniteStrag frm = new frm_MoniteStrag();
+            frm.ShowDialog();
         }
     }
 

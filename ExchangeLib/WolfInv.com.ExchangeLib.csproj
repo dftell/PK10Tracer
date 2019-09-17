@@ -34,7 +34,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DocumentFormat.OpenXml, Version=2.0.5022.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -73,7 +73,9 @@
     <Compile Include="RunPlanPicker.Designer.cs">
       <DependentUpon>RunPlanPicker.cs</DependentUpon>
     </Compile>
+    <Compile Include="StagPickerEditor.cs" />
     <Compile Include="StragRunPlanClass.cs" />
+    <Compile Include="TimePickerEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BaseObjectsLib\WolfInv.com.BaseObjectsLib.csproj">

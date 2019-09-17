@@ -13,7 +13,7 @@ namespace WolfInv.com.ServerInitLib
 
     public class ServiceSetting<T> :RemoteServerClass where T:TimeSerialData
     {
-        public DataTypePoint UseDataPoint;
+        public DataTypePoint UseDataPoint { get { return GlobalClass.TypeDataPoints.First().Value; } }
         public static ServiceSetting<T> lastInst;
         public WXLogClass wxlog;
         public ServiceSetting()

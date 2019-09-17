@@ -35,6 +35,7 @@ namespace WolfInv.com.ExchangeLib
                             ret = new CombinLottery_ExpectListProcess(new ExpectList(data.Table)) as CommExpectListProcess<T>;
                             (ret as CombinLottery_ExpectListProcess).AllNums = 12;
                             (ret as CombinLottery_ExpectListProcess).SelectNums = 5;
+                            
                             break;
                         }
                     case "GDKL11":
@@ -42,6 +43,9 @@ namespace WolfInv.com.ExchangeLib
                             ret = new CombinLottery_ExpectListProcess(new ExpectList(data.Table)) as CommExpectListProcess<T>;
                             (ret as CombinLottery_ExpectListProcess).AllNums = 11;
                             (ret as CombinLottery_ExpectListProcess).SelectNums = 5;
+                            (ret as CombinLottery_ExpectListProcess).strAllTypeOdds = "2,6,24,168,28,8,3";
+                            (ret as CombinLottery_ExpectListProcess).strCombinTypeOdds = "20,60";
+                            (ret as CombinLottery_ExpectListProcess).strPermutTypeOdds = "4,40,360";
                             break;
                         }
                     default:
