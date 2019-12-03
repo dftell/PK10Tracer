@@ -30,7 +30,7 @@ namespace MsgSvr
             }
             catch(Exception ce)
             {
-
+                MessageBox.Show(string.Format("{0}:{1}", ce.Message,ce.StackTrace));
             }
             
             //Application.Run();

@@ -264,7 +264,7 @@ namespace WolfInv.com.BackTestLib
             //调用计算服务进行计算
             if (!teststragplans[0].AssetUnitInfo.Running) //如果资产单元没有启动，启动资产单元
                 teststragplans[0].AssetUnitInfo.Run(false);
-             es = teststragplans[0].AssetUnitInfo.ExchangeServer;//设置资产单元的模拟交易器
+             es = teststragplans[0].AssetUnitInfo.getCurrExchangeServer();//设置资产单元的模拟交易器
             CalcService<T> cs = new CalcService<T>(true,sc,teststragplans.ToDictionary(t=>t.GUID,t=>t));
             cs.DataPoint = dtp;
             if (dtp.IsSecurityData==1)

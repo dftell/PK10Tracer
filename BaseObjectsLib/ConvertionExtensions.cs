@@ -455,7 +455,7 @@ namespace WolfInv.com.BaseObjectsLib
                 catch (Exception ce)
                 {
                     //obj = ret;//有多少返回多少
-                    return false;
+                    //return false;
                 }
             }
             //obj = ret;

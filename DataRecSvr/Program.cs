@@ -21,10 +21,10 @@ namespace DataRecSvr
         /// </summary>
         static void Main()
         {
-            GlobalClass gc = new GlobalClass();
+            GlobalClass gc =null;
             try
             {
-                
+                gc = new GlobalClass();
                 string url = gc.WXLogUrl;
                 url = gc.WXLogNoticeUser;
                 ServiceBase[] ServicesToRun;
@@ -62,7 +62,7 @@ namespace DataRecSvr
             AllServiceConfig = new ServiceSetting<TimeSerialData>();
             AllServiceConfig.Init(null);
             AllServiceConfig.GrpThePlan(false);
-            AllServiceConfig.CreateChannel(GlobalClass.DataTypes.First().Key);//根据不同的数据建立不同的端口
+            AllServiceConfig.CreateChannel(GlobalClass.TypeDataPoints.First().Key);//根据不同的数据建立不同的端口
 
             AllServiceConfig.AllAssetUnits.Values.ToList<AssetUnitClass>().ForEach(p => p.Run());//打开各开关
             //RemoteCommClass<ServiceSetting>.SetRemoteInst(AllServiceConfig);

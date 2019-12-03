@@ -16,6 +16,8 @@ using WolfInv.com.ExchangeLib;
 using WolfInv.com.GuideLib;
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.SecurityLib;
+using WolfInv.com.PK10CorePress;
+
 namespace DataRecSvr
 {
     public delegate void EventFinishedCalc();
@@ -299,6 +301,7 @@ namespace DataRecSvr
             List<ChanceClass<T>> cl = new List<ChanceClass<T>>();
             DateTime currTime = DateTime.Now;
             Dictionary<string, ChanceClass<T>> CloseList = new Dictionary<string, ChanceClass<T>>();
+            
             if (IsTestBack)//如果回测，使用内存数据
             {
                 cl = Program.AllServiceConfig.AllNoClosedChanceList.Values.Select(a => a).ToList() as List<ChanceClass<T>>;
@@ -314,16 +317,30 @@ namespace DataRecSvr
                     {
                         continue;
                     }
-                    BaseStragClass<TimeSerialData> sc = Program.AllServiceConfig.AllStrags[dc.StragId];
-                    Type ct = sc.getTheChanceType();
-                    
-                    object tmp = Activator.CreateInstance(ct);
-                    Log("转换前机会类型", string.Format("{0}", tmp.GetType()));
-                    dc.FillTo(ref tmp,true);//获取所有属性
-                    ChanceClass<T> cc = tmp as ChanceClass<T>;
-                    Log("转换后机会类型", string.Format("{0}:{1}:{2}", cc.GetType(), cc.StragId,cc.ChanceCode));// cc.ToDetailString()));
-                    
-                    cl.Add(cc);
+                    if (DataPoint.DataType == "PK10")
+                    {
+                        cl.Add(dc);
+                    }
+                    else
+                    {
+                        BaseStragClass<TimeSerialData> sc = Program.AllServiceConfig.AllStrags[dc.StragId];
+                        Type ct = sc.getTheChanceType();
+                        
+                        object tmp = Activator.CreateInstance(ct);
+                        if (DataPoint.IsXxY == 1)
+                        {
+                            (tmp as iXxYClass).AllNums = DataPoint.AllNums;
+                            (tmp as iXxYClass).SelectNums = DataPoint.SelectNums;
+                            (tmp as iXxYClass).strAllTypeBaseOdds = DataPoint.strAllTypeOdds;
+                            (tmp as iXxYClass).strCombinTypeBaseOdds = DataPoint.strCombinTypeOdds;
+                            (tmp as iXxYClass).strPermutTypeBaseOdds = DataPoint.strPermutTypeOdds;
+                        }
+                        Log("转换前机会类型", string.Format("{0}", tmp.GetType()));
+                        dc.FillTo(ref tmp, true);//获取所有属性
+                        ChanceClass<T> cc = tmp as ChanceClass<T>;
+                        Log("转换后机会类型", string.Format("{0}:{1}:{2}", cc.GetType(), cc.StragId, cc.ChanceCode));// cc.ToDetailString()));
+                        cl.Add(cc);
+                    }
                     //cl = dcl.Values.ToList();
                 }
             }
@@ -336,14 +353,16 @@ namespace DataRecSvr
             //为避免出现这种情况
             //判断是否错过了期数，如果错过期数，将所有追踪策略归零，不再追号,也不再执行选号程序，
             //是否要连续停几期？执行完后，在接收策略里面发现前10期有不连续的情况，直接跳过，只接收数据不执行选号。
+            this.CurrData.UseType = this.DataPoint;
             if (this.CurrData.MissExpectCount() > 1)
             {
                 if (!IsTestBack) //如果非回测，保存交易记录
                 {
                     DbChanceList<T> dbsavelist = new DbChanceList<T>();
                     cl.ForEach(p => dbsavelist.Add(p.ChanceIndex, p));
-                    CloseChanceInDBAndExchangeService(dbsavelist,true);//强制关闭，就算命中也不算其盈利
+                    CloseChanceInDBAndExchangeService(dbsavelist, true);//强制关闭，就算命中也不算其盈利
                 }
+               
                 return rl;
             }
 

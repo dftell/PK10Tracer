@@ -59,7 +59,7 @@ namespace WolfInv.com.ExchangeLib
         /// <summary>
         /// 交易服务
         /// </summary>
-        public ExchangeService ExchangeServer { get; set; }
+        ExchangeService ExchangeServer;
         /// <summary>
         /// 运行计划清单 不能有计划，循环了
         /// </summary>
@@ -68,6 +68,11 @@ namespace WolfInv.com.ExchangeLib
 
         public AssetUnitClass()
         {
+        }
+
+        public ExchangeService getCurrExchangeServer()
+        {
+            return ExchangeServer;
         }
 
         public bool Running;
@@ -92,6 +97,7 @@ namespace WolfInv.com.ExchangeLib
         public void Run(bool LoadTheData) //add by zhouys 2019/1/5 
         {
             ExchangeServer = new ExchangeService(TotalAsset,Odds);
+            ExchangeServer.setCurrAsset(this);
             if (LoadTheData)
             {
                 LogLib.LogableClass.ToLog("资产单元", string.Format("{0}:{1}", uid, UnitName));
@@ -102,7 +108,9 @@ namespace WolfInv.com.ExchangeLib
 
         public DataTable SummaryLine()
         {
-            return ExchangeServer.MoneyIncreamLine;
+            DataTable dt = ExchangeServer.MoneyIncreamLine;
+            //ToLog("资产单元", ExchangeServer.getCurrAsset()?.UnitName,string.Format("SummaryLine()获取总资产！{0}条！",dt.Rows.Count));
+            return dt;
         }
 
         public double Summary()

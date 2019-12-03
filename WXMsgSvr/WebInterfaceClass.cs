@@ -27,10 +27,12 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using WolfInv.com.LogLib;
 using WolfInv.com.WinInterComminuteLib;
+using WolfInv.com.WXMessageLib;
+using System.Text.RegularExpressions;
 
 namespace WolfInv.com.WXMsgCom
 {
-
+    public delegate void MessageProcessedEvent(object sender,List<wxMessageClass> msgs);
     [Guid("9E69FAA3-1780-4E1C-9D4B-100BE7CED23B"),
  ClassInterface(ClassInterfaceType.None),
  ComSourceInterfaces(typeof(WebInterface))]
@@ -40,6 +42,87 @@ namespace WolfInv.com.WXMsgCom
         public static bool ClientValid = false;
         public  bool Valid { get { return ClientValid; } }
         private static Client client;
+        public MessageProcessedEvent MsgProcessCompleted;
+        #region 专供外部连接,buffs当有连接后临时存储消息，当断开连接后30分钟后清空
+        static bool Connected = false;
+        static DateTime LastConnectTime;
+        static List<wxMessageClass> MessageBuffs;
+        int MaxDisconnectMinutes = 30;
+        public string UnionId
+        {
+            get
+            {
+                return client?.user?.Uin;
+            }
+        }
+
+        public string UserName
+        {
+            get
+            {
+                return client?.user?.UserName;
+            }
+        }
+
+        public string UserNike
+        {
+            get
+            {
+                return client?.user?.NickName;
+            }
+        }
+
+        void InjectBuffs(List<wxMessageClass> msgs)
+        {
+            lock (MessageBuffs)
+            {
+                if (IsConnected())
+                {
+                    MessageBuffs.AddRange(msgs);
+                }
+                else
+                {
+                    Connected = false;//主动置否
+                    if (MessageBuffs.Count > 0)
+                        MessageBuffs.Clear();
+                }
+            }
+        }
+
+        bool IsConnected()
+        {
+            if (!Connected)
+                return false;
+            if(DateTime.Now.Subtract(LastConnectTime).TotalMinutes>MaxDisconnectMinutes)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public List<wxMessageClass> getNewestMsg()
+        {
+            List<wxMessageClass> ret = new List<wxMessageClass>();
+            lock(MessageBuffs)
+            {
+                if (MessageBuffs.Count > 0)
+                {
+                    ret.AddRange(MessageBuffs);
+                    MessageBuffs.Clear();
+                }
+            }
+            return ret;
+        }
+        #endregion
+       
+
+        
+
+        public void HeartCheck()
+        {
+            Connected = true;
+            LastConnectTime = DateTime.Now;
+        }
 
         public static Dictionary<string, Contact> contactDict = new Dictionary<string, Contact>();
 
@@ -50,11 +133,12 @@ namespace WolfInv.com.WXMsgCom
         static bool DisplayByFrm;
         public WebInterfaceClass()
         {
+            MessageBuffs = new List<wxMessageClass>();
             if(!IPCCreated)
             {
                 try
                 {
-                    this.CreateChannel("wxmsg");
+                    this.CreateChannel("wxmsg",true);
                     IPCCreated = true;
                 }
                 catch(Exception ce)
@@ -157,14 +241,16 @@ namespace WolfInv.com.WXMsgCom
                 client.ModContactListComplete += Client_ModContactListComplete;
 
                 client.GetContactComplete += Client_GetContactComplete; ;
-                client.BatchGetContactComplete += Client_GetContactComplete;
+                client.BatchGetContactComplete += Client_BatchGetContactComplete; ;
                 client.MPSubscribeMsgListComplete += Client_MPSubscribeMsgListComplete; ;
 
                 client.LogoutComplete += Client_LogoutComplete; ;
                 if (DisplayByFrm)
                 {
                     frm = new frm_MainWin(client);
-                    client.ReceiveMsg += frm.RefreshMsg;
+                    client.ReceiveMsg += RefreshMsg;
+                    this.MsgProcessCompleted += frm.RefreshMsg;
+                    
                 }
                 else
                 {
@@ -199,6 +285,8 @@ namespace WolfInv.com.WXMsgCom
             }
 
         }
+
+        
 
         public string Start()
         {
@@ -245,18 +333,21 @@ namespace WolfInv.com.WXMsgCom
         private static void Client_ModContactListComplete(object sender, TEventArgs<List<Contact>> e)
 
         {
-
-            Console.WriteLine("接收修改联系人信息");
-
-            foreach (var item in e.Result)
-
+            try
             {
 
-                contactDict[item.UserName] = item;
+                Console.WriteLine("接收修改联系人信息");
+
+                foreach (var item in e.Result)
+
+                {
+                    contactDict[item.UserName] = item;
+                }
+            }
+            catch(Exception ce)
+            {
 
             }
-
-
         }
 
 
@@ -389,7 +480,9 @@ namespace WolfInv.com.WXMsgCom
                             break;
 
                         case MsgType.MM_DATA_APPMSG:
+                            {
 
+                            }
                             break;
 
                         case MsgType.MM_DATA_VOIPMSG:
@@ -490,6 +583,167 @@ namespace WolfInv.com.WXMsgCom
 
         }
 
+        public void RefreshMsg(object sender, TEventArgs<List<AddMsg>> e)
+        {
+            try
+            {
+                List<AddMsg> msg = e.Result;
+                string dicitems = "FromUserName,FromUserNikeName,FromMemberName,FromMemerNikeName,ToUserName,ToUserNikeName,AtNikeNames,Message,MsgTime";
+                string[] itemArr = dicitems.Split(',');
+                List<wxMessageClass> messages = new List<wxMessageClass>();
+                Dictionary<string, Contact> AllUsers = contactDict;
+                //List<string> msgs = tbox.Lines.ToList();
+                //List<ListViewItem> msgs = new List<ListViewItem>();
+                for (int i = 0; i < msg.Count; i++)
+                {
+
+                    AddMsg wxmsg = msg[i];
+                    if ( wxmsg.MsgType != MsgType.MM_DATA_TEXT )
+                    {
+                        continue;
+                    }                    
+                    string fromName = wxmsg.FromUserName;
+                    string NickName = fromName;
+                    if (AllUsers.ContainsKey(fromName))//联系人发来的
+                    {
+                        ////if(fromName.StartsWith("@@"))
+                        ////{
+                        ////    client.GetBatchGetContactAsync(string.Join(",",AllUsers[fromName].MemberDict.Keys.ToArray()),fromName);
+                        ////}
+                        NickName = AllUsers[fromName].NickName;
+                        if (AllUsers[fromName].MemberList.Count > 0)//是群
+                        {
+
+                            if (!AllUsers[fromName].DisplayNikeName)//所有的群都显示昵称
+                            {
+                                client.GetBatchGetContactAsync(string.Join(",", AllUsers[fromName].MemberList.Select(a => a.UserName)), fromName);
+                                AllUsers[fromName].DisplayNikeName = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+
+                        client.GetBatchGetContactAsync(fromName);
+                        continue;
+                    }
+                    string ToName = wxmsg.ToUserName;
+                    string ToNameNike = null;
+                    if (AllUsers.ContainsKey(ToName))
+                    {
+                        ToNameNike = AllUsers[ToName].NickName;
+                    }
+
+                    //string[] strMsg = new string[5];
+                    wxMessageClass wmsg = new wxMessageClass();
+
+                    if (wxmsg.MsgType == MsgType.MM_DATA_IMG)
+                    {
+                        string strImg = wxmsg.Content;
+
+                    }
+
+                    if (fromName.StartsWith("@@"))
+                    {
+                        
+                        string[] content = wxmsg.Content.Split(new string[] { ":<br/>" }, StringSplitOptions.RemoveEmptyEntries);
+                        content[1] = content[1].Replace("<br/>", "\r\n");
+                        string memName = "";
+                        if (1 == 2 && AllUsers.ContainsKey(content[0]))
+                        {
+                            memName = AllUsers[content[0]].DisplayName;
+                            if (string.IsNullOrEmpty(memName))
+                            {
+                                memName = AllUsers[content[0]].NickName;
+                            }
+                        }
+                        else
+                        {
+                            if (AllUsers[fromName].MemberDict.ContainsKey(content[0]))
+                                memName = AllUsers[fromName].MemberDict[content[0]].DisplayName;
+                            if (string.IsNullOrEmpty(memName))
+                            {
+                                memName = AllUsers[fromName].MemberDict[content[0]].NickName;
+                            }
+                        }
+
+                        //strMsg = string.Format("[{0}]{1}:{2}", NickName, memName, string.Join("",content.Skip(1).ToArray()));
+                        //strMsg = new string[] { DateTime.Now.ToShortTimeString(), NickName, memName, "", string.Join("", content.Skip(1).ToArray()) };
+                        wmsg.FromUserNam = fromName;
+                        wmsg.FromNikeName = NickName;
+                        wmsg.FromMemberUserName = content[0];
+                        wmsg.FromMemberNikeName = memName;
+                        wmsg.CreateTime = wxmsg.CreateTime;
+                        wmsg.Msg = content[1];
+                        wmsg.OrgMsg = wxmsg.Content;
+                        Regex regTr = new Regex(@"@(.*?) ");
+                        List<string> atlist = new List<string>();
+                        MatchCollection mcs = regTr.Matches(wmsg.Msg);
+                        for (int mi = 0; mi < mcs.Count; mi++)
+                        {
+                            atlist.Add(mcs[mi].Value.Trim().Replace("@", ""));
+                        }
+                        wmsg.AtMemberNikeName = atlist.ToArray();
+                        if (wmsg.AtMemberNikeName != null && wmsg.AtMemberNikeName.Length == 1)
+                        {
+                            var matchnicks = AllUsers[fromName].MemberDict.Where(a => a.Value.DisplayName == wmsg.AtMemberNikeName[0] || a.Value.NickName == wmsg.AtMemberNikeName[0]);
+                            foreach (var mem in matchnicks)
+                            {
+                                if (mem.Value.UserName == client.user.UserName)
+                                {
+                                    wmsg.IsAtToMe = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        wmsg.FromUserNam = fromName;
+                        wmsg.FromNikeName = NickName;
+                        wmsg.FromMemberUserName = null;
+                        wmsg.FromMemberNikeName = null;
+                        wmsg.ToUserName = ToName;
+                        wmsg.ToNikeName = ToNameNike;
+                        wmsg.CreateTime = wxmsg.CreateTime;
+                        wmsg.Msg = wxmsg.Content.Replace("<br/>", "\r\t");
+                        wmsg.OrgMsg = wxmsg.Content;
+                    }
+                    messages.Add(wmsg);
+                    //msgs.Add(new ListViewItem(strMsg));
+                }
+                if (messages.Count > 0)
+                {
+                     
+                    Task.Run(() => {
+                        MsgProcessCompleted?.Invoke(this, messages);
+                    });
+                    Task.Run(() => {
+                        InjectBuffs(messages);
+                    });
+                    //?.Invoke(this, messages);
+                    ////if(MsgProcessCompleted_ForExtralInterfaceInvoke!=null)
+                    ////{
+                    ////    MsgProcessCompleted_ForExtralInterfaceInvoke.ForEach(
+                    ////        a => {
+                    ////            a.Invoke(this, messages);
+                    ////        }
+                    ////        );
+                    ////}
+                }
+            }
+            catch(Exception ce)
+            {
+                MessageBox.Show(ce.Message);
+            }
+            //tbox.Lines = msgs.ToArray(); 
+            //tbox.Focus();
+            //tbox.Select(tbox.Text.Length, 0);
+            //tbox.ScrollToCaret();
+            
+          
+        }
+
 
 
         private static void Client_LogoutComplete(object sender, TEventArgs<User> e)
@@ -516,95 +770,240 @@ namespace WolfInv.com.WXMsgCom
         private static void Client_GetContactComplete(object sender, TEventArgs<List<Contact>> e)
 
         {
-            LogableClass.ToLog("获取联系人列表（包括公众号，联系人）", "总数：" + e.Result.Count);
-            Console.WriteLine("获取联系人列表（包括公众号，联系人），总数：" + e.Result.Count);
-
-            foreach (var item in e.Result)
-
+            try
             {
+                LogableClass.ToLog("获取联系人列表（包括公众号，联系人）", "总数：" + e.Result.Count);
+                Console.WriteLine("获取联系人列表（包括公众号，联系人），总数：" + e.Result.Count);
 
-                if (!contactDict.Keys.Contains(item.UserName))
-
+                foreach (var item in e.Result)
                 {
+                    if (!contactDict.Keys.Contains(item.UserName))
+                    {
 
-                    contactDict.Add(item.UserName, item);
+                        if (item.UserName.StartsWith("@@"))
+                        {
+                            if (item.MemberList.Count == 0)
+                            {
+
+                                string msg = string.Format("{0}获取到的群成员数竟然是0", item.NickName);
+                                client.GetBatchGetContactAsync(item.UserName);//如果成员数是0，重新获取
+                                continue;
+                            }
+                            client.GetBatchGetContactAsync(string.Join(",", item.MemberList.Select(a => a.UserName)), item.UserName);
+
+                        }
+                        contactDict.Add(item.UserName, item);
+
+                    }
+
+
+
+
+                    //联系人列表中包含联系人，公众号，可以通过参数做区分
+
+                    if (item.VerifyFlag != 0)
+
+                    {
+
+                        //个人号
+
+                    }
+
+                    else
+
+                    {
+
+                        //公众号
+
+                    }
 
                 }
 
+                //如果获取完成
 
-
-                //联系人列表中包含联系人，公众号，可以通过参数做区分
-
-                if (item.VerifyFlag != 0)
-
+                if (client.IsFinishGetContactList)
                 {
 
-                    //个人号
+
 
                 }
-
-                else
-
-                {
-
-                    //公众号
-
-                }
-
+                if (DisplayByFrm)
+                    frm.RefreshContact(sender, e);
             }
-
-            //如果获取完成
-
-            if (client.IsFinishGetContactList)
-
+            catch(Exception ce)
             {
-
-
-
+                MessageBox.Show(ce.Message);
             }
-            if(DisplayByFrm)
-                frm.RefreshContact(sender, e);
-
         }
 
-
+        
 
         private static void Client_BatchGetContactComplete(object sender, TEventArgs<List<Contact>> e)
-
         {
-
-            Console.WriteLine("拉取联系人信息，总数：" + e.Result.Count);
-
-            foreach (var item in e.Result)
-
+            try
             {
-
-                if (!contactDict.Keys.Contains(item.UserName))
-
+                Console.WriteLine("拉取联系人信息，总数：" + e.Result.Count);
+                bool IsRoomId = false;
+                string roomid = null;
+                if (e.Result.Count == 0)
+                    return;
+                string msg = null;
+                Contact item = e.Result.First();
+                if (e.Result.Count == 1 && item.UserName.StartsWith("@@"))
                 {
-
-                    contactDict.Add(item.UserName, item);
-
+                    msg = string.Format("{0}是老群！", item.NickName);
+                    client.GetBatchGetContactAsync(string.Join(",", item.MemberList.Select(a => a.UserName)), item.UserName);
+                    if (!contactDict.Keys.Contains(item.UserName))
+                    {
+                        if (item.MemberCount > 0)
+                        {
+                            contactDict.Add(item.UserName, item);
+                        }
+                    }
+                    return;
                 }
+                if (e.Result.Count > 0 && string.IsNullOrEmpty(e.Result.First().EncryChatRoomId) == false)
+                {
+                    IsRoomId = true;
+                    roomid = getRooId(e.Result, contactDict);
 
+                    if (roomid == null && item.UserName.StartsWith("@@"))//可能是群，漏过了
+                    {
+
+                        client.GetBatchGetContactAsync(string.Join(",", item.MemberList.Select(a => a.UserName)), item.UserName);
+                        return;
+                    }
+                    else if (roomid == null && !item.UserName.StartsWith("@@"))
+                    {
+                        msg = string.Format("{0}有群聊id并且是用户类型但是却找不到对应的群！", item.NickName);
+                        return;
+                    }
+                }
+                foreach (var vi in e.Result)
+                {
+                    item = vi;
+                    if (IsRoomId && !string.IsNullOrEmpty(roomid))//回传的群成员
+                    {
+                        //var items = contactDict.Where(a => a.Value.MemberDict.ContainsKey(item.UserName));
+                        if (!contactDict.ContainsKey(roomid))
+                        {
+                            break;
+                        }
+                        Contact ct = contactDict[roomid];
+                        if (!ct.MemberDict.ContainsKey(item.UserName))
+                        {
+                            continue;
+                        }
+                        ct.MemberDict[item.UserName].NickName = item.NickName;
+                        ct.MemberDict[item.UserName].DisplayName = item.DisplayName;
+                        ct.DisplayNikeName = true;
+                    }
+                    else//第一次回传的
+                    {
+                        if (!contactDict.Keys.Contains(item.UserName))
+                        {
+                            contactDict.Add(item.UserName, item);
+                            if (item.UserName.StartsWith("@@"))//如果是群，并且
+                            {
+
+                                if (item.MemberList.Count == 0)
+                                {
+                                    msg = string.Format("群{0}成员数竟然是0！", item.NickName);
+                                    client.GetBatchGetContactAsync(string.Join(",", item.MemberList.Select(a => a.UserName)), item.UserName);
+                                    continue;
+                                }
+                                //item.DisplayNikeName = true;
+                                client.GetBatchGetContactAsync(string.Join(",", item.MemberList.Select(a => a.UserName)), item.UserName);
+                            }
+                        }
+                        else//群内传回来的不处理
+                        {
+                            ////bool disname = contactDict[item.UserName].DisplayNikeName;
+                            ////item.DisplayNikeName = disname;
+                            ////contactDict[item.UserName] = item;
+                        }
+                    }
+                }
+            }
+            catch(Exception ce)
+            {
+                MessageBox.Show(ce.Message);
             }
 
         }
 
+        static string getRooId(List<Contact> list,Dictionary<string,Contact> currlist)
+        {
+            string ret = null;
+            try
+            {
+                lock (currlist)
+                {
+                    
+                    int cnt = list.Count;
+                    Dictionary<string, Contact> flt = new Dictionary<string, Contact>();
+                    currlist.Values.ToList().ForEach(a =>
+                    {
+                        if (!a.UserName.StartsWith("@@"))
+                        {
+
+                            return;
+                        }
+                        if (a.MemberList.Count == 0)
+                            return;
+                        if (a.MemberList.Count >= cnt)
+                        {
+                            if (!flt.ContainsKey(a.UserName))
+                            {
+                                flt.Add(a.UserName, a);
+                            }
+                            return;
+                        }
+
+                    }
+                    );
+                    //Dictionary<string, int> fltcnt = flt.ToDictionary(a => a.Key, a => a.Value.MemberCount);
+                    if (flt.Count() == 1)
+                    {
+                        return flt.First().Value.UserName;
+                    }
+                    foreach (var a in flt)
+                    {
+                        int matchcnt = 0;
+                        list.ForEach(b =>
+                        {
+                            if (a.Value.MemberDict.ContainsKey(b.UserName))
+                            {
+                                matchcnt++;
+                            }
+                        });
+                        if (matchcnt == cnt)
+                            return a.Value.UserName;
+                    }
+                    return ret;
+                }
+            }
+            catch(Exception ce)
+            {
+
+            }
+            return null;
+        }
 
 
         private static void Client_LoginComplete(object sender, TEventArgs<User> e)
         {
-            string cookie = client.GetLastCookie();
-            Console.WriteLine("登陆成功：" + e.Result.NickName);
-            Console.WriteLine("========已记录cookie，下次登陆将推送提醒至手机，取代扫码========");
-            LogableClass.ToLog("登陆成功：" + e.Result.NickName,"========已记录cookie，下次登陆将推送提醒至手机，取代扫码========");
-            using (StreamWriter sw = new StreamWriter(cookiePath, false))
-            {
-                sw.WriteLine(cookie);
-            }
             try
             {
+                string cookie = client.GetLastCookie();
+                Console.WriteLine("登陆成功：" + e.Result.NickName);
+                Console.WriteLine("========已记录cookie，下次登陆将推送提醒至手机，取代扫码========");
+                LogableClass.ToLog("登陆成功：" + e.Result.NickName, "========已记录cookie，下次登陆将推送提醒至手机，取代扫码========");
+                using (StreamWriter sw = new StreamWriter(cookiePath, false))
+                {
+                    sw.WriteLine(cookie);
+                }
+
                 qrForm.Invoke(new Action(() =>
                 {
                     if (DisplayByFrm)
@@ -675,6 +1074,7 @@ namespace WolfInv.com.WXMsgCom
 
 
             Console.WriteLine("异常：" + e.Result.ToString());
+            ToLog("异常：" + e.Result.ToString());
 
         }
 
@@ -706,6 +1106,66 @@ namespace WolfInv.com.WXMsgCom
             }
         }
 
+        public FileInfo GetImageFromBase64(string base64string)
+        {
+            string img = base64string;
+            var strhead = "data:image/png;base64,";
+            if(img.StartsWith(strhead))
+            {
+                img = base64string.Substring(strhead.Length);
+            }
+            try
+            {
+                byte[] b = Convert.FromBase64String(img);
+                
+
+                //MemoryStream ms = new MemoryStream(b);
+                string ret = Path.GetTempFileName() + ".jpg";
+                
+                File.WriteAllBytes(ret,b);
+
+                FileInfo fi = new FileInfo(ret);
+                return fi;
+            }
+            catch(Exception ce)
+            {
+
+            }
+            return null;
+        }
+
+        public string SendImgMsg(string strBase64, string ToUser)
+        {
+            if (Valid)
+            {
+                string RToUser = ToUser;
+                if (!contactDict.ContainsKey(ToUser))
+                {
+
+                    List<Contact> res = getContactListByName(ToUser);
+                    if (res.Count == 0)
+                    {
+                        return "不存在该用户！";
+                    }
+                    if (res.Count > 1)
+                    {
+                        return "存在多个用户！";
+                    }
+                    RToUser = res[0].UserName;
+                }
+                FileInfo strFileName = GetImageFromBase64(strBase64);
+                if (strFileName != null)
+                    return client.SendMsg(strFileName, RToUser).ToJson();
+                else
+                    return "无法保存图片";
+            }
+            else
+            {
+
+                return "服务未启动，开始启动服务！123";
+            }
+        }
+
         public void SetDisplayMethod(bool bDisplayByFrm)
         {
             DisplayByFrm = bDisplayByFrm;
@@ -724,6 +1184,5 @@ namespace WolfInv.com.WXMsgCom
         
     }
 
-    
-
+   
 }

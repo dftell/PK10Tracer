@@ -128,7 +128,7 @@ namespace WolfInv.com.ExchangeLib
                             {
                                 useUnit.Run();
                             }
-                            restAmt = (long)useUnit.ExchangeServer.summary;
+                            restAmt = (long)useUnit.getCurrExchangeServer().summary;
                         }
                         else
                             continue;

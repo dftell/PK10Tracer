@@ -47,6 +47,7 @@ namespace Test_Win
             ////gb.w = new WindAPI();
             ////gb.w.start();
             ReceiveService<TimeSerialData> rc = new ReceiveService<TimeSerialData>();
+            rc.CalcProcess = new CalcService<TimeSerialData>();
             rc.Start();
             Form2 frm = new Form2(gb);
             Application.Run(frm);
@@ -138,10 +139,10 @@ namespace Test_Win
             //ReceiveService<T> rs = new ReceiveService<T>();
             //SubscriptData sd = new SubscriptData();
             //rs.CalcProcess = cs;
-            AllServiceConfig = new ServiceSetting<T>() as ServiceSetting<TimeSerialData>;
+            AllServiceConfig = new ServiceSetting<TimeSerialData>();
             AllServiceConfig.Init(null);
             AllServiceConfig.GrpThePlan(false);
-            AllServiceConfig.CreateChannel(null);
+            AllServiceConfig.CreateChannel(GlobalClass.TypeDataPoints.First().Key);
 
             AllServiceConfig.AllAssetUnits.Values.ToList<AssetUnitClass>().ForEach(p => p.Run());//打开各开关
             //RemoteCommClass<ServiceSetting>.SetRemoteInst(AllServiceConfig);
@@ -149,10 +150,12 @@ namespace Test_Win
             DataRecSvr.Program.AllServiceConfig = AllServiceConfig;
             //rs.Start();
         }
-
+        [STAThread]
         static void Main()
         {
-            
+
+            Application.Run(new frm_ImageTextRead());
+            return;
             //////////测试读取数据
             //////////GlobalObj gb = new GlobalObj();
             ////////GlobalClass gc = new GlobalClass();

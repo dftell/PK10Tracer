@@ -11,6 +11,7 @@ using WolfInv.com.LogLib;
 using System.Reflection;
 using System.Data;
 using WolfInv.com.RemoteObjectsLib;
+using System.Security.AccessControl;
 
 namespace WolfInv.com.WinInterComminuteLib
 {
@@ -125,16 +126,16 @@ namespace WolfInv.com.WinInterComminuteLib
         protected Dictionary<string, IpcServerChannel> channels = new Dictionary<string, IpcServerChannel>();
         public bool Success;
         public string Message;
-        public bool CreateChannel(string specName)
+        public bool CreateChannel(string specName,bool useSingleton = false)
         {
-            string FullName = this.GetType().FullName;
-            string[] NameArr = FullName.Split('.');
-            string ClassName = NameArr[NameArr.Length - 1];
-            if (specName != null)
-            {
-                ClassName = specName;
-            }
-            string ChannelName = string.Format("WolfIPC_Channel_{0}",ClassName);
+            string FullName = this.GetType().Name;
+            string ClassName = FullName.Split('\'')[0];
+            //if (specName != null)
+            //{
+            //    ClassName = specName;
+            //}
+            string ChannelName = string.Format("IPC_{0}", specName);
+            string cname = string.Format("{0}_{1}", specName, ClassName);
             //if (ClassName != null)
             //    ChannelName = ClassName;
             try
@@ -148,20 +149,34 @@ namespace WolfInv.com.WinInterComminuteLib
                     ht["portName"] = ChannelName;
                     ht["name"] = "ipc";
                     ht["authorizedGroup"] = "everyone";
-                    IpcServerChannel channel = new IpcServerChannel(ht, null);
+
+                    BinaryServerFormatterSinkProvider serverProv = new BinaryServerFormatterSinkProvider();
+                    serverProv.TypeFilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Full;
+                    BinaryClientFormatterSinkProvider clientProv = new BinaryClientFormatterSinkProvider();
+                    //IDictionary props = new Hashtable();
+                    //props["port"] = Convert.ToInt32(txtClientPort.Text);
+                    //HttpChannel chan = new HttpChannel(props, clientProv, serverProv);
+                    //CommonSecurityDescriptor csd = new CommonSecurityDescriptor();
+                    IpcServerChannel channel = new IpcServerChannel(ht, serverProv);
+                    //IpcServerChannel channel = new IpcServerChannel(ChannelName);
                     ChannelServices.RegisterChannel(channel, false);
+                    //ToLog("IPC服务端日志", "正在注册通道绑定数据类型", ClassName);
+                    ToLog("IPC服务端日志", "注册通道完毕", channel.ChannelName);
                     channels.Add(ChannelName, channel);
+                    WellKnownObjectMode mode = useSingleton ? WellKnownObjectMode.Singleton : WellKnownObjectMode.SingleCall;
+                    RemotingConfiguration.RegisterWellKnownServiceType(this.GetType(), ClassName, mode);
+                    ToLog("IPC服务端日志", "绑定数据类型完毕", ClassName);
                 }
-                ToLog("IPC服务端日志", "正在注册通道绑定数据类型", ClassName);
+                
+                ToLog("IPC服务端日志", string.Format("初始化通道成功"), WinComminuteClass.getAllChannelsInfo());
                 //IpcServerChannel channel = new IpcServerChannel(string.Format("WolfIPC_Channel"));
-                RemotingConfiguration.RegisterWellKnownServiceType(this.GetType(), ClassName, WellKnownObjectMode.SingleCall);
                 //RemoteCommClass<T> obj = new RemoteCommClass<T>();
-                ToLog("IPC服务端日志", "绑定数据类型完毕", ClassName);
+
 
             }
             catch (Exception e)
             {
-                ToLog("IPC服务端日志", string.Format("初始化通道[{0}]失败", FullName), e.Message);
+                ToLog("IPC服务端日志", string.Format("初始化通道[{0},{1}]失败",specName, FullName), e.Message);
                 return false;
             }
             return true;

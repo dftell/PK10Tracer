@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <lotteryType>
+    <item value="1" text="全国性彩票"/>
+    <item value="2" text="地方性彩票"/>
+  </lotteryType>
+  <lottery type="1">
+    <item value="01" text="全国福利彩票"/>
+    <item value="02" text="全国体育彩票"/>
+  </lottery>
+  <lottery type="01">
+    <item value="001" text="双色球"/>
+    <item value="002" text="福彩3D"/>
+    <item value="003" text="排列3"/>
+  </lottery>
+  <lottery type="02">
+    <item value="001" text="足彩1"/>
+    <item value="002" text="足彩2"/>
+    <item value="003" text="足彩3"/>
+  </lottery>
+  <lottery type="2">
+    <item value="11" text="北京"/>
+    <item value="12" text="上海"/>
+    <item value="13" text="天津"/>
+    <item value="14" text="重庆"/>
+    <item value="15" text="广东"/>
+    <item value="16" text="浙江"/>
+    <item value="17" text="山东"/>
+    <item value="18" text="四川"/>
+    <item value="19" text="辽宁"/>
+    <item value="20" text="湖北"/>
+    <item value="21" text="江西"/>
+    <item value="22" text="湖南"/>
+    <item value="23" text="河北"/>
+    <item value="24" text="河南"/>
+  </lottery>
+  <lottery type="11">
+    <item value="001" text="北京赛车"/>
+  </lottery>
+  <lottery type="18">
+    <item value="001" text="快乐12选5"/>
+    
+  </lottery>
+  <lottery type="15">
+    <item value="001" text="快乐11选5"/>
+
+  </lottery>
+  <lottery type="20">
+    <item value="001" text="快乐11选5"/>
+
+  </lottery>
+</root>

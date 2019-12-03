@@ -49,6 +49,12 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.ChanceCodeSetString">
             <summary>设置 BaseChance`1.set_ChanceCode(String value) 的 填充码</summary>
         </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.ChanceIndexGet">
+            <summary>设置 BaseChance`1.get_ChanceIndex() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.ChanceIndexSetNullableOfInt64">
+            <summary>设置 BaseChance`1.set_ChanceIndex(Nullable`1&lt;Int64&gt; value) 的 填充码</summary>
+        </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.AllInstances.ChanceTypeGet">
             <summary>设置 BaseChance`1.get_ChanceType() 的 填充码</summary>
         </member>
@@ -183,6 +189,12 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.ChanceCodeSetString">
             <summary>设置 BaseChance`1.set_ChanceCode(String value) 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.ChanceIndexGet">
+            <summary>设置 BaseChance`1.get_ChanceIndex() 的 填充码</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.ChanceIndexSetNullableOfInt64">
+            <summary>设置 BaseChance`1.set_ChanceIndex(Nullable`1&lt;Int64&gt; value) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimBaseChance`1.ChanceTypeGet">
             <summary>设置 BaseChance`1.get_ChanceType() 的 填充码</summary>
@@ -2269,8 +2281,8 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.TableGet">
             <summary>设置 ExpectList`1.get_Table() 的 填充码</summary>
         </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances._ctorb__19_0T0">
-            <summary>设置 ExpectList`1.&lt;.ctor&gt;b__19_0(!0 a) 的 填充码</summary>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances._ctorb__20_0T0">
+            <summary>设置 ExpectList`1.&lt;.ctor&gt;b__20_0(!0 a) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.AllInstances.getSubArrayInt32Int32">
             <summary>设置 ExpectList`1.getSubArray(Int32 FromIndex, Int32 len) 的 填充码</summary>
@@ -2395,8 +2407,8 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.TableGet">
             <summary>设置 ExpectList`1.get_Table() 的 填充码</summary>
         </member>
-        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1._ctorb__19_0T0">
-            <summary>设置 ExpectList`1.&lt;.ctor&gt;b__19_0(!0 a) 的 填充码</summary>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1._ctorb__20_0T0">
+            <summary>设置 ExpectList`1.&lt;.ctor&gt;b__20_0(!0 a) 的 填充码</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimExpectList`1.getSubArrayInt32Int32">
             <summary>设置 ExpectList`1.getSubArray(Int32 FromIndex, Int32 len) 的 填充码</summary>
@@ -3048,6 +3060,30 @@
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimJsonableClass`1.ToJson">
             <summary>设置 JsonableClass`1.ToJson() 的 填充码</summary>
+        </member>
+        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimLotteryPropertyClass">
+            <summary>WolfInv.com.BaseObjectsLib.LotteryPropertyClass 的填充码类型</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimLotteryPropertyClass.#ctor">
+            <summary>初始化新的填充码实例</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimLotteryPropertyClass.#ctor(WolfInv.com.BaseObjectsLib.LotteryPropertyClass)">
+            <summary>初始化给定实例的新填充码</summary>
+        </member>
+        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimLotteryPropertyClass.AllInstances">
+            <summary>为所有实例成员定义填充码</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimLotteryPropertyClass.BehaveAsCurrent">
+            <summary>为已填充的类型的所有方法分配“Current”行为</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimLotteryPropertyClass.BehaveAsNotImplemented">
+            <summary>为已填充的类型的所有方法分配“NotImplemented”行为</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimLotteryPropertyClass.Behavior">
+            <summary>为已填充的类型的所有方法分配行为</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimLotteryPropertyClass.Constructor">
+            <summary>设置 LotteryPropertyClass.LotteryPropertyClass() 的 填充码</summary>
         </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimLottyData">
             <summary>WolfInv.com.BaseObjectsLib.LottyData 的填充码类型</summary>
@@ -5842,6 +5878,30 @@
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimXmlHelper.Behavior">
             <summary>为已填充的类型的所有方法分配行为</summary>
         </member>
+        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimXxYProperty">
+            <summary>WolfInv.com.BaseObjectsLib.XxYProperty 的填充码类型</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimXxYProperty.#ctor">
+            <summary>初始化新的填充码实例</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimXxYProperty.#ctor(WolfInv.com.BaseObjectsLib.XxYProperty)">
+            <summary>初始化给定实例的新填充码</summary>
+        </member>
+        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.ShimXxYProperty.AllInstances">
+            <summary>为所有实例成员定义填充码</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimXxYProperty.BehaveAsCurrent">
+            <summary>为已填充的类型的所有方法分配“Current”行为</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.ShimXxYProperty.BehaveAsNotImplemented">
+            <summary>为已填充的类型的所有方法分配“NotImplemented”行为</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimXxYProperty.Behavior">
+            <summary>为已填充的类型的所有方法分配行为</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.ShimXxYProperty.Constructor">
+            <summary>设置 XxYProperty.XxYProperty() 的 填充码</summary>
+        </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubBaseChance`1">
             <summary>WolfInv.com.BaseObjectsLib.BaseChance`1 的存根类型</summary>
         </member>
@@ -7301,6 +7361,24 @@
             <summary>获取或设置实例行为。</summary>
         </member>
         <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubJsonableClass`1.InstanceObserver">
+            <summary>获取或设置实例观察者。</summary>
+        </member>
+        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubLotteryPropertyClass">
+            <summary>WolfInv.com.BaseObjectsLib.LotteryPropertyClass 的存根类型</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubLotteryPropertyClass.#ctor">
+            <summary>初始化新实例</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubLotteryPropertyClass.CallBase">
+            <summary>获取或设置一个值，该值指示是否应调用基方法而不调用回退行为</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubLotteryPropertyClass.InitializeStub">
+            <summary>初始化 type StubLotteryPropertyClass 的新实例</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubLotteryPropertyClass.InstanceBehavior">
+            <summary>获取或设置实例行为。</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubLotteryPropertyClass.InstanceObserver">
             <summary>获取或设置实例观察者。</summary>
         </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubLottyData">
@@ -9432,6 +9510,24 @@
         </member>
         <member name="F:WolfInv.com.BaseObjectsLib.Fakes.StubXDXRData.ToString01">
             <summary>设置 DetailStringClass.ToString() 的 stub</summary>
+        </member>
+        <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubXxYProperty">
+            <summary>WolfInv.com.BaseObjectsLib.XxYProperty 的存根类型</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubXxYProperty.#ctor">
+            <summary>初始化新实例</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubXxYProperty.CallBase">
+            <summary>获取或设置一个值，该值指示是否应调用基方法而不调用回退行为</summary>
+        </member>
+        <member name="M:WolfInv.com.BaseObjectsLib.Fakes.StubXxYProperty.InitializeStub">
+            <summary>初始化 type StubXxYProperty 的新实例</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubXxYProperty.InstanceBehavior">
+            <summary>获取或设置实例行为。</summary>
+        </member>
+        <member name="P:WolfInv.com.BaseObjectsLib.Fakes.StubXxYProperty.InstanceObserver">
+            <summary>获取或设置实例观察者。</summary>
         </member>
         <member name="T:WolfInv.com.BaseObjectsLib.Fakes.StubiDbFile">
             <summary>WolfInv.com.BaseObjectsLib.iDbFile 的存根类型</summary>

@@ -167,6 +167,23 @@ namespace WolfInv.com.SecurityLib
             return ret;
         }
 
+        public override DbChanceList<T> getClosedChances<T>(string strDataOwner, int PassedDays)
+        {
+            DbChanceList<T> ret = new DbChanceList<T>();
+            DbClass db = GlobalClass.getCurrDb(strDataType);
+            DateTime dt = DateTime.Today.AddDays(-1*PassedDays);
+            string sql = null;
+            if (strDataOwner == null || strDataOwner.Trim().Length == 0)
+                sql = string.Format("Select * from {0} where IsEnd=1 and execdate>='{1}'", strChanceTable,dt.ToString("yyyy-MM-dd"));
+            else
+                sql = string.Format("Select * from {0} where IsEnd=1 and UserId='{1}' and execdate>='{2}'", strChanceTable, strDataOwner, dt.ToLongDateString());
+            DataSet ds = db.Query(new ConditionSql(sql));
+            if (ds == null) return null;
+            //ToLog("数据库结果",string.Format("未关闭机会数量为{0}",ds.Tables[0].Rows.Count));
+            ret = new DbChanceList<T>(ds.Tables[0]);
+            return ret;
+        }
+
         public override int SaveChances<T>(List<ChanceClass<T>> list,string strDataOwner=null)
         {
             if (list.Count == 0)

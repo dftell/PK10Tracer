@@ -255,7 +255,7 @@ namespace WolfInv.com.ExchangeLib
                             {
                                 useUnit.Run();
                             }
-                            restAmt = (long)useUnit.ExchangeServer.summary;
+                            restAmt = (long)useUnit.getCurrExchangeServer().summary;
                         }
                         else
                             continue;
@@ -431,11 +431,11 @@ namespace WolfInv.com.ExchangeLib
                 if (cc.UnitCost == 0)//无交易金额，不处理
                     continue;
                 AssetUnitClass uu = UseAssetUnits[sc.AssetUnitId];
-                ExchangeChance<T> ec = new ExchangeChance<T>(uu.ExchangeServer,sc,cc.ExpectCode, lastExpectNo, cc);
+                ExchangeChance<T> ec = new ExchangeChance<T>(uu.getCurrExchangeServer(), sc,cc.ExpectCode, lastExpectNo, cc);
                 
                 ec.ExchangeAmount = cc.UnitCost;
-                ec.ExchangeRate = cc.UnitCost / uu.ExchangeServer.summary;
-                if (uu.ExchangeServer.Push(ref ec))
+                ec.ExchangeRate = cc.UnitCost / uu.getCurrExchangeServer().summary;
+                if (uu.getCurrExchangeServer().Push(ref ec))
                 {
                     AllExchance.Add(ec);
                 }
@@ -452,6 +452,7 @@ namespace WolfInv.com.ExchangeLib
                 int MatchCnt = 0;
                 ec.OwnerChance.Matched(el.LastData, out MatchCnt);
                 ec.MatchChips = MatchCnt;
+                ec.OwnerChance.MatchChips = MatchCnt;
                 ec.Server.Update(ec);
             }
             AllExchance = new List<ExchangeChance<T>>();//全部清空

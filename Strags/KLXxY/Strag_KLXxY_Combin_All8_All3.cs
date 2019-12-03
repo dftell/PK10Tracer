@@ -105,112 +105,120 @@ namespace WolfInv.com.Strags.KLXxY
         public override List<ChanceClass> getChances(BaseCollection bsc, ExpectData ed)
         {
             List<ChanceClass> ret = new List<ChanceClass>();
-            CommCollection_KLXxY sc = bsc as CommCollection_KLXxY;
-            if (sc == null)
+            try
             {
-                throw new Exception("数据收集类！");
-            }
-            //this.ChipCount;//12选5和11选5都是5
-            //this.InputMaxTimes; //12选5选为8，1选5选为7
-            //this.InputMinTimes;//12选5和11选5都是4
-            string[] AllArr = CombinClass.CreateNumArr(sc.AllNums);
-            //CombinClass allcmb = CombinClass.CireateNumCombin(sc,iAllNums, 3);//获得所有的3组合
-            CombinClass allbigcmb = CombinClass.CreateNumCombin(sc.AllNums, this.InputMaxTimes);//获得所有的8/7个组合
-            Dictionary<string, MatchItem> allItems = new Dictionary<string, MatchItem>();
-            allbigcmb.ForEach(a => {
-                
-                MatchItem mi = new MatchItem(AllArr,a,this.ChipCount,this.InputMinTimes);
-                mi.LongItem = a;
-                mi.ShortItem = string.Join(",", mi);
-                allItems.Add(a, mi);
-            });
-
-            /*
-             列出所有11/7或者12/8码的组合，列出这些组合在回览期内的下列数据
-             1，全部命中次数
-             2，错过1个的次数
-             3，错过2个的次数n
-             3，错过3个次数
-             4，错过4个的次数)
-             */
-
-            int lastid = sc.orgData.Count - 1;
-            for (int i=0;i<this.ReviewExpectCnt;i++)
-            {
-                int index = lastid -i;
-                if(index<0)
+                CommCollection_KLXxY sc = bsc as CommCollection_KLXxY;
+                if (sc == null)
                 {
-                    break;
+                    throw new Exception("数据收集类！");
                 }
-                string opencode = sc.orgData[index].OpenCode;
-                opencode = CombinGenerator.ResortNumString(opencode,",");
-                foreach (MatchItem mi in allItems.Values)
+                //this.ChipCount;//12选5和11选5都是5
+                //this.InputMaxTimes; //12选5选为8，1选5选为7
+                //this.InputMinTimes;//12选5和11选5都是4
+                string[] AllArr = CombinClass.CreateNumArr(sc.AllNums);
+                //CombinClass allcmb = CombinClass.CireateNumCombin(sc,iAllNums, 3);//获得所有的3组合
+                CombinClass allbigcmb = CombinClass.CreateNumCombin(sc.AllNums, this.InputMaxTimes);//获得所有的8/7个组合
+                Dictionary<string, MatchItem> allItems = new Dictionary<string, MatchItem>();
+                allbigcmb.ForEach(a =>
                 {
-                    for(int c=0;c<this.InputMinTimes;c++)
+
+                    MatchItem mi = new MatchItem(AllArr, a, this.ChipCount, this.InputMinTimes);
+                    mi.LongItem = a;
+                    mi.ShortItem = string.Join(",", mi);
+                    allItems.Add(a, mi);
+                });
+
+                /*
+                 列出所有11/7或者12/8码的组合，列出这些组合在回览期内的下列数据
+                 1，全部命中次数
+                 2，错过1个的次数
+                 3，错过2个的次数n
+                 3，错过3个次数
+                 4，错过4个的次数)
+                 */
+
+                int lastid = sc.orgData.Count - 1;
+                for (int i = 0; i < this.ReviewExpectCnt; i++)
+                {
+                    int index = lastid - i;
+                    if (index < 0)
                     {
-                        int MatchCnt = this.ChipCount - c;
-                        CombinClass occ = new CombinClass(opencode, MatchCnt);
-                        int mcnt = 0;
-                        foreach(string si in occ)//如果开奖号中5-c命中，停止，计数器加1
+                        break;
+                    }
+                    string opencode = sc.orgData[index].OpenCode;
+                    opencode = CombinGenerator.ResortNumString(opencode, ",");
+                    foreach (MatchItem mi in allItems.Values)
+                    {
+                        for (int c = 0; c < this.InputMinTimes; c++)
                         {
-                            if(mi.SubItems[MatchCnt].Contains(si))
+                            int MatchCnt = this.ChipCount - c;
+                            CombinClass occ = new CombinClass(opencode, MatchCnt);
+                            int mcnt = 0;
+                            foreach (string si in occ)//如果开奖号中5-c命中，停止，计数器加1
                             {
-                                mcnt++;
-                                
+                                if (mi.SubItems[MatchCnt].Contains(si))
+                                {
+                                    mcnt++;
+
+                                }
+                            }
+                            mi.SubItemMatchCnt[MatchCnt] += mcnt;
+                            if (mcnt > 0)
+                            {
+                                break;
                             }
                         }
-                        mi.SubItemMatchCnt[MatchCnt]+=mcnt;
-                        if(mcnt >0)
-                        {
-                            break;
-                        }
                     }
+
+
+
                 }
-                
-                
-                
-            }
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Id");
-            for (int i = 0; i < this.InputMinTimes;i++ )
-            {
-                dt.Columns.Add(string.Format("MCnt_{0}",this.ChipCount - i),typeof(int));
-            }
-            foreach(MatchItem mi in allItems.Values)
-            {
-                DataRow dr = dt.NewRow();
-                dr["Id"] = mi.LongItem;
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Id");
                 for (int i = 0; i < this.InputMinTimes; i++)
                 {
-                    dr[string.Format("MCnt_{0}", this.ChipCount - i)] = mi.SubItemMatchCnt[this.ChipCount - i];
+                    dt.Columns.Add(string.Format("MCnt_{0}", this.ChipCount - i), typeof(int));
                 }
-                dt.Rows.Add(dr);
-            }
-            double cnt4avg = allItems.Values.Select(a => a.SubItemMatchCnt[4]).Average();
-            double cnt3avg = allItems.Values.Select(a => a.SubItemMatchCnt[3]).Average();
-            double cnt2avg = allItems.Values.Select(a => a.SubItemMatchCnt[2]).Average();
-            double cnt5avg = allItems.Values.Select(a => a.SubItemMatchCnt[5]).Average();
-            double cnt4std = ProbMath.CalculateStdDev(allItems.Values.Select(a => a.SubItemMatchCnt[4]));
-            double cnt3std = ProbMath.CalculateStdDev(allItems.Values.Select(a => a.SubItemMatchCnt[3]));
-            double cnt2std = ProbMath.CalculateStdDev(allItems.Values.Select(a => a.SubItemMatchCnt[2]));
-            double cnt5std = ProbMath.CalculateStdDev(allItems.Values.Select(a => a.SubItemMatchCnt[5]));
-            DataTable sdt = dt.Clone();
-            DataView dv = new DataView(dt);
-            double stdcnt = 2;
-            //
-            string sql = string.Format("MCnt_5<={0} and MCnt_4>{1} and MCnt_3<={2} and MCnt_2<={3}", Math.Max(cnt5avg - stdcnt * cnt5std, 0), cnt4avg + stdcnt * cnt4std, Math.Max(0, cnt3avg - 0 * cnt3std), Math.Max(0, cnt2avg - 0 * cnt2std));
+                foreach (MatchItem mi in allItems.Values)
+                {
+                    DataRow dr = dt.NewRow();
+                    dr["Id"] = mi.LongItem;
+                    for (int i = 0; i < this.InputMinTimes; i++)
+                    {
+                        dr[string.Format("MCnt_{0}", this.ChipCount - i)] = mi.SubItemMatchCnt[this.ChipCount - i];
+                    }
+                    dt.Rows.Add(dr);
+                }
+                double cnt4avg = allItems.Values.Select(a => a.SubItemMatchCnt[4]).Average();
+                double cnt3avg = allItems.Values.Select(a => a.SubItemMatchCnt[3]).Average();
+                double cnt2avg = allItems.Values.Select(a => a.SubItemMatchCnt[2]).Average();
+                double cnt5avg = allItems.Values.Select(a => a.SubItemMatchCnt[5]).Average();
+                double cnt4std = ProbMath.CalculateStdDev(allItems.Values.Select(a => a.SubItemMatchCnt[4]));
+                double cnt3std = ProbMath.CalculateStdDev(allItems.Values.Select(a => a.SubItemMatchCnt[3]));
+                double cnt2std = ProbMath.CalculateStdDev(allItems.Values.Select(a => a.SubItemMatchCnt[2]));
+                double cnt5std = ProbMath.CalculateStdDev(allItems.Values.Select(a => a.SubItemMatchCnt[5]));
+                DataTable sdt = dt.Clone();
+                DataView dv = new DataView(dt);
+                double stdcnt = 2;
+                //
+                string sql = string.Format("MCnt_5<={0} and MCnt_4>{1} and MCnt_3<={2} and MCnt_2<={3}", Math.Max(cnt5avg - stdcnt * cnt5std, 0), cnt4avg + stdcnt * cnt4std, Math.Max(0, cnt3avg - 0 * cnt3std), Math.Max(0, cnt2avg - 0 * cnt2std));
 
-            //string sql = string.Format("MCnt_5<={0} and MCnt_4>{1} and MCnt_3<={2}", Math.Max(cnt5avg - stdcnt * cnt5std, 0), cnt4avg + stdcnt * cnt4std, Math.Max(0, cnt3avg - 0 * cnt3std));
-            dt.Select(sql).ToList().ForEach(a => sdt.Rows.Add(a.ItemArray));
-            dv = new DataView(sdt);
-         
-            //4个匹配要求最低。
-            CombinClass cc = new CombinClass();
-            for(int i=0;i<Math.Min(dv.Count,100);i++)
-            {
-                cc.Add(dv[i].Row[0].ToString());
+                //string sql = string.Format("MCnt_5<={0} and MCnt_4>{1} and MCnt_3<={2}", Math.Max(cnt5avg - stdcnt * cnt5std, 0), cnt4avg + stdcnt * cnt4std, Math.Max(0, cnt3avg - 0 * cnt3std));
+                dt.Select(sql).ToList().ForEach(a => sdt.Rows.Add(a.ItemArray));
+                dv = new DataView(sdt);
+
+                //4个匹配要求最低。
+                CombinClass cc = new CombinClass();
+                for (int i = 0; i < Math.Min(dv.Count, 100); i++)
+                {
+                    cc.Add(dv[i].Row[0].ToString());
+                }
+                ret = getChances(sc, cc, AllArr, ed);
             }
-            ret = getChances(sc, cc, AllArr, ed);
+            catch(Exception ce)
+            {
+                Log(ce.Message, ce.StackTrace);
+            }
             return ret;
         }
 

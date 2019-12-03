@@ -71,7 +71,6 @@ namespace BackTestSys
             this.btn_export = new System.Windows.Forms.Button();
             this.btn_startTest = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.runPlanPicker1 = new WolfInv.com.ExchangeLib.RunPlanPicker();
             this.txt_LearnCnt = new System.Windows.Forms.TextBox();
             this.label31 = new System.Windows.Forms.Label();
             this.txt_AllowMaxHoldTimeCnt = new System.Windows.Forms.TextBox();
@@ -172,6 +171,7 @@ namespace BackTestSys
             this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.timer_Tip = new System.Windows.Forms.Timer(this.components);
+            this.runPlanPicker1 = new WolfInv.com.ExchangeLib.RunPlanPicker();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -440,15 +440,6 @@ namespace BackTestSys
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "回测策略设置";
-            // 
-            // runPlanPicker1
-            // 
-            this.runPlanPicker1.Location = new System.Drawing.Point(256, 28);
-            this.runPlanPicker1.Margin = new System.Windows.Forms.Padding(6);
-            this.runPlanPicker1.Name = "runPlanPicker1";
-            this.runPlanPicker1.Plans = null;
-            this.runPlanPicker1.Size = new System.Drawing.Size(220, 42);
-            this.runPlanPicker1.TabIndex = 31;
             // 
             // txt_LearnCnt
             // 
@@ -807,7 +798,7 @@ namespace BackTestSys
             this.txt_Timer_Interval.Name = "txt_Timer_Interval";
             this.txt_Timer_Interval.Size = new System.Drawing.Size(66, 35);
             this.txt_Timer_Interval.TabIndex = 38;
-            this.txt_Timer_Interval.Text = "1";
+            this.txt_Timer_Interval.Text = "5";
             // 
             // label30
             // 
@@ -1566,6 +1557,15 @@ namespace BackTestSys
             // 
             this.timer_Tip.Interval = 1000;
             this.timer_Tip.Tick += new System.EventHandler(this.timer_Tip_Tick);
+            // 
+            // runPlanPicker1
+            // 
+            this.runPlanPicker1.Location = new System.Drawing.Point(256, 28);
+            this.runPlanPicker1.Margin = new System.Windows.Forms.Padding(6);
+            this.runPlanPicker1.Name = "runPlanPicker1";
+            this.runPlanPicker1.Plans = null;
+            this.runPlanPicker1.Size = new System.Drawing.Size(220, 42);
+            this.runPlanPicker1.TabIndex = 31;
             // 
             // BackTestFrm
             // 

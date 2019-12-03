@@ -35,7 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mshtml">
-      <HintPath>..\..\..\..\project\PK10TracerClient\mshtml.dll</HintPath>
+      <HintPath>..\..\..\..\..\projects\PK10TracerClient\mshtml.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
@@ -48,7 +48,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="XmlProcess">
-      <HintPath>..\..\..\..\..\..\..\cfzqzhouys\thinkpad\WorkSpace\技术资料\CommPlatform\ITMSVR\bin\XmlProcess.dll</HintPath>
+      <HintPath>..\..\..\..\..\projects\PK10Tracer\XmlProcess.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

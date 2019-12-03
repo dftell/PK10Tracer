@@ -9,19 +9,31 @@ using WolfInv.com.LogLib;
 using WolfInv.com.BaseObjectsLib;
 using System.Timers;
 using System.ComponentModel;
+using System.Runtime.Serialization;
+
 namespace WolfInv.com.ExchangeLib
 {
      [Serializable]
      public class ExchangeDataTable : DataTable
-     {
+    {
         Int64 Eindex = 0;
         double Odds = 0;
-        public ExchangeDataTable():base()
+        public ExchangeDataTable()//纯粹为支持反序列化而建，从不调用
         {
-            Odds = 9.75;
-            InitColumns();
+
+            //Odds = 9.75;
+            //InitColumns();
         }
-        
+        protected ExchangeDataTable(SerializationInfo info, StreamingContext context):base(info,context)
+        {
+            
+            ////Odds = 9.75;
+            ////InitColumns();
+            ////DataTable dt = info.GetValue("this",typeof(DataTable)) as DataTable;
+            ////this.Rows.Add(dt.Select());
+            //base.GetObjectData(info, context);
+            //Value = info.GetBoolean("Test_Value");
+        }
         public ExchangeDataTable(double odds):base()
         {
             Odds = odds;
@@ -70,6 +82,7 @@ namespace WolfInv.com.ExchangeLib
             }
                 
             DataRow dr = drs[0];
+            ec.OwnerChance.Odds = double.Parse(dr["Odds"].ToString());
             double CurrOdds = ec.OwnerChance.getRealOdds(); //double.Parse(dr["Odds"].ToString());
             double dGained = CurrOdds * ec.ExchangeAmount;
             double dCost = (double)ec.Cost;

@@ -5,3 +5,10 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\StrategyLibForWD\obj\Debug\WolfIn
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\StrategyLibForWD\obj\Debug\WolfInv.com.StrategyLibForWD.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\StrategyLibForWD\obj\Debug\WolfInv.com.StrategyLibForWD.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\StrategyLibForWD\obj\Debug\WolfInv.com.StrategyLibForWD.pdb
+E:\github\project\PK10Tracer\WolfInv.com.StrategyLibForWD.dll
+E:\github\project\PK10Tracer\WolfInv.com.StrategyLibForWD.pdb
+E:\github\source\dftell\PK10Tracer\StrategyLibForWD\obj\Debug\WolfInv.com.StrategyLibForWD.csprojAssemblyReference.cache
+E:\github\source\dftell\PK10Tracer\StrategyLibForWD\obj\Debug\WolfInv.com.StrategyLibForWD.csproj.CoreCompileInputs.cache
+E:\github\source\dftell\PK10Tracer\StrategyLibForWD\obj\Debug\WolfInv.com.StrategyLibForWD.csproj.CopyComplete
+E:\github\source\dftell\PK10Tracer\StrategyLibForWD\obj\Debug\WolfInv.com.StrategyLibForWD.dll
+E:\github\source\dftell\PK10Tracer\StrategyLibForWD\obj\Debug\WolfInv.com.StrategyLibForWD.pdb

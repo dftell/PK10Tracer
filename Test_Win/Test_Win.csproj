@@ -40,6 +40,13 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AipSdk">
+      <HintPath>..\..\..\..\..\projects\TestWin\AipSdk.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\projects\TestWin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceProcess" />
@@ -68,6 +75,12 @@
     <Compile Include="frm_HYMonitor.Designer.cs">
       <DependentUpon>frm_HYMonitor.cs</DependentUpon>
     </Compile>
+    <Compile Include="frm_ImageTextRead.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_ImageTextRead.Designer.cs">
+      <DependentUpon>frm_ImageTextRead.cs</DependentUpon>
+    </Compile>
     <Compile Include="frm_Query.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +99,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="frm_Socket.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frm_Socket.Designer.cs">
+      <DependentUpon>frm_Socket.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form2.resx">
@@ -93,6 +112,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frm_HYMonitor.resx">
       <DependentUpon>frm_HYMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_ImageTextRead.resx">
+      <DependentUpon>frm_ImageTextRead.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frm_Query.resx">
       <DependentUpon>frm_Query.cs</DependentUpon>
@@ -102,6 +124,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_Socket.resx">
+      <DependentUpon>frm_Socket.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -149,6 +174,10 @@
       <Project>{1b418905-1d78-4758-9b21-cf9bfc054f88}</Project>
       <Name>WolfInv.com.PK10CorePress</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PK10Server\PK10Server.csproj">
+      <Project>{0ad8131f-5c2d-4e18-8677-3c6782fddbd4}</Project>
+      <Name>PK10Server</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SecurityLib\WolfInv.com.SecurityLib.csproj">
       <Project>{aa6cd329-d212-4998-be10-2a4728175f53}</Project>
       <Name>WolfInv.com.SecurityLib</Name>
@@ -160,6 +189,10 @@
     <ProjectReference Include="..\CFZQ_LHProcess\WolfInv.com.CFZQ_LHProcess.csproj">
       <Project>{70baebe6-dfd2-4aa3-a8a9-04f88ea61551}</Project>
       <Name>WolfInv.com.CFZQ_LHProcess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SocketLib\SocketLib.csproj">
+      <Project>{4b8ae9e2-721d-46ea-a21d-b8b56ad88e9c}</Project>
+      <Name>SocketLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\StrategyLibForWD\WolfInv.com.StrategyLibForWD.csproj">
       <Project>{ad1632c3-203d-4b8f-91b1-3474dddc1a49}</Project>

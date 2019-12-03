@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <action type="ApplyCreate">
+    <item>新建(.*?)合买</item>
+  </action>
+  <action type="SubmitNewInfo">
+    <item>新建合买信息(.*?)请帮我登记</item>
+  </action>
+  <action type="CancelCurr">
+    <item>取消(.*?)合买</item>
+  </action>
+  <action type="SubcribeShares">
+    <item>来(.*?)份</item>
+    <item>来(.*?)股</item>
+    <item>买(.*?)份</item>
+    <item>买(.*?)股</item>
+  </action>
+  <action type="ModifyPlan">
+    <item>修改(.*?)合买</item>
+  </action>
+  <action type="AppendShares">
+    <item>加(.*?)股</item>
+    <item>加(.*?)份</item>
+  </action>
+  <action type="ShowPlan">
+    <item>看看(.*?)合买</item>
+    <item>看看(.*?)情况</item>
+    <item>给我(.*?)看看</item>
+  </action>
+  <action type="EndTheSubscribe">
+    <item>停止(.*?)认买</item>
+    <item>停止(.*?)买</item>
+    <item>结束(.*?)买</item>
+  </action>
+  <action type="DeclareResult">
+    <item>这次(.*?)结果</item>
+  </action>
+  <action type="ClosePlan">
+    <item>结束(.*?)合买</item>
+  </action>
+  <action type="ValidateInfo">
+    <item>/d</item>
+  </action>
+
+</root>

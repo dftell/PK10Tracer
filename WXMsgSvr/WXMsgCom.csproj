@@ -37,10 +37,11 @@
     <StartupObject />
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>wxmsgcom.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -80,7 +81,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="wxmsgcom.snk" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="frm_MainWin.resx">
@@ -91,17 +91,21 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\WebWeChatAPI.Net\Leestar54.WeChat.WebAPI.csproj">
-      <Project>{d9ab2649-cf1f-4916-87ec-8214534de9c8}</Project>
-      <Name>Leestar54.WeChat.WebAPI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LogLib\WolfInv.com.LogLib.csproj">
       <Project>{182084e4-c48b-4585-9221-4a54caf7448f}</Project>
       <Name>WolfInv.com.LogLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WebWeChatAPI.Net\Leestar54.WeChat.WebAPI.csproj">
+      <Project>{d9ab2649-cf1f-4916-87ec-8214534de9c8}</Project>
+      <Name>Leestar54.WeChat.WebAPI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WinInterComminuteLib\WolfInv.com.WinInterComminuteLib.csproj">
       <Project>{7859d79d-edd5-4b79-b3da-072432bc8fcc}</Project>
       <Name>WolfInv.com.WinInterComminuteLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WolfInv.com.WXMessageLib\WolfInv.com.WXMessageLib.csproj">
+      <Project>{5b8ad71f-4605-4874-b43d-8f96aed19969}</Project>
+      <Name>WolfInv.com.WXMessageLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

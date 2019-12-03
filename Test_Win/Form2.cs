@@ -13,6 +13,7 @@ using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.SecurityLib;
 using WolfInv.com.ServerInitLib;
 using WolfInv.com.GuideLib.LinkGuid;
+using PK10Server;
 namespace Test_Win
 {
     public partial class Form2 : Form
@@ -200,6 +201,12 @@ namespace Test_Win
             {
 
             }
+        }
+
+        private void btn_svrmgr_Click(object sender, EventArgs e)
+        {
+            frm_StragMonitor<TimeSerialData> frm = new frm_StragMonitor<TimeSerialData>();
+            frm.Show();
         }
     }
 }

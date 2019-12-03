@@ -635,7 +635,7 @@ namespace BackTestSys
                 
             }
             auc.TotalAsset = double.Parse(this.txt_InitCash.Text);
-            es = auc.ExchangeServer;
+            es = auc.getCurrExchangeServer();
             if (es != null)
             {
                 es.Reset();
@@ -885,6 +885,7 @@ namespace BackTestSys
                 lock (es.ExchangeDetail)
                 {
                     DataView vExchangeDetail = new DataView(es.ExchangeDetail);
+                    vExchangeDetail.Sort = "Id desc";
                     this.dataGridView_ExchangeDetail.DataSource = vExchangeDetail;
                     this.dataGridView_ExchangeDetail.Refresh();
                     if (SCList.Count > 0)

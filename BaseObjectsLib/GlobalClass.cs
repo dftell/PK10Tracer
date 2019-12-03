@@ -461,6 +461,11 @@ namespace WolfInv.com.BaseObjectsLib
             }
         }
 
+        public string ClientAliasName
+        {
+            get;set;
+        }
+
         public string LoginUrlModel
         {
             get
@@ -501,6 +506,20 @@ namespace WolfInv.com.BaseObjectsLib
             set
             {
                 SysParams["System"]["LoginDefaultHost"] = value;
+            }
+        }
+
+        public string NavHost
+        {
+            get
+            {
+                if (SysParams.Count > 0)
+                    return SysParams["System"]["NavHost"];
+                return "";
+            }
+            set
+            {
+                SysParams["System"]["NavHost"] = value;
             }
         }
 

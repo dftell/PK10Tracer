@@ -33,19 +33,22 @@ namespace WolfInv.com.ExchangeLib
                     case "NLKL12":
                         {
                             ret = new CombinLottery_ExpectListProcess(new ExpectList(data.Table)) as CommExpectListProcess<T>;
-                            (ret as CombinLottery_ExpectListProcess).AllNums = 12;
-                            (ret as CombinLottery_ExpectListProcess).SelectNums = 5;
-                            
+                            (ret as CombinLottery_ExpectListProcess).AllNums = dtp.AllNums;
+                            (ret as CombinLottery_ExpectListProcess).SelectNums = dtp.SelectNums;
+                            (ret as CombinLottery_ExpectListProcess).strAllTypeOdds = dtp.strAllTypeOdds;
+                            (ret as CombinLottery_ExpectListProcess).strCombinTypeOdds = dtp.strCombinTypeOdds;
+                            (ret as CombinLottery_ExpectListProcess).strPermutTypeOdds = dtp.strPermutTypeOdds;
+
                             break;
                         }
                     case "GDKL11":
                         {
                             ret = new CombinLottery_ExpectListProcess(new ExpectList(data.Table)) as CommExpectListProcess<T>;
-                            (ret as CombinLottery_ExpectListProcess).AllNums = 11;
-                            (ret as CombinLottery_ExpectListProcess).SelectNums = 5;
-                            (ret as CombinLottery_ExpectListProcess).strAllTypeOdds = "2,6,24,168,28,8,3";
-                            (ret as CombinLottery_ExpectListProcess).strCombinTypeOdds = "20,60";
-                            (ret as CombinLottery_ExpectListProcess).strPermutTypeOdds = "4,40,360";
+                            (ret as CombinLottery_ExpectListProcess).AllNums = dtp.AllNums;
+                            (ret as CombinLottery_ExpectListProcess).SelectNums = dtp.SelectNums;
+                            (ret as CombinLottery_ExpectListProcess).strAllTypeOdds = dtp.strAllTypeOdds;
+                            (ret as CombinLottery_ExpectListProcess).strCombinTypeOdds = dtp.strCombinTypeOdds;
+                            (ret as CombinLottery_ExpectListProcess).strPermutTypeOdds = dtp.strPermutTypeOdds;
                             break;
                         }
                     default:

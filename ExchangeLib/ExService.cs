@@ -10,15 +10,24 @@ using WolfInv.com.LogLib;
 using System.ComponentModel;
 using System.Reflection;
 using WolfInv.com.BaseObjectsLib;
+using System.Runtime.Serialization;
 namespace WolfInv.com.ExchangeLib
 {
     [Serializable]
-    public class ExchangeService
+    public class ExchangeService: DisplayAsTableClass,ISerializable
     {
         public ExchangeService()
         {
+            //ed = null;
         }
+        //实现了ISerializable接口的类必须包含有序列化构造函数，否则会出错。        
+        protected ExchangeService(SerializationInfo info, StreamingContext context)
+        {
+            //Value = info.GetBoolean("Test_Value");
+        }
+
         //Dictionary<DateTime, ExchangeChance> EQ;
+        AssetUnitClass CurrUnit;
         Timer time_ForExec = new Timer();
         double _InitCash = 0;
         double CurrMoney = 0;
@@ -33,6 +42,17 @@ namespace WolfInv.com.ExchangeLib
             {
                 return _ExpectCnt;
             }
+        }
+
+
+        public AssetUnitClass getCurrAsset()
+        {
+            return CurrUnit;
+        }
+
+        public void setCurrAsset(AssetUnitClass unit)
+        {
+            CurrUnit = unit;
         }
 
         public void UpdateExpectCnt(int val)
@@ -168,6 +188,11 @@ namespace WolfInv.com.ExchangeLib
             }
         }
 
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            
+        }
+
         /// <summary>
         /// 当前余额
         /// </summary>
@@ -188,6 +213,7 @@ namespace WolfInv.com.ExchangeLib
         {
             get
             {
+                //ToLog("资产单元", this.CurrUnit.UnitName, string.Format("记录条数:{0};", ed.Rows.Count));
                 return ed;
             }
         }

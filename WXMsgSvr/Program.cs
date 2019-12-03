@@ -28,7 +28,7 @@ namespace WolfInv.com.WXMsgCom
 
 
 
-
+    /*
     class Program
 
     {
@@ -665,6 +665,6 @@ namespace WolfInv.com.WXMsgCom
         }
 
     }
-
+    */
 }
 

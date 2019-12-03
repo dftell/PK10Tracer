@@ -238,7 +238,7 @@ namespace WolfInv.com.WebRuleLib
                 ////ret.Add(name, rate);
             }
             Task.WaitAll(tasks);
-            return ret;
+             return ret;
         }
         class ConnectClass
         {
@@ -270,22 +270,34 @@ namespace WolfInv.com.WebRuleLib
             }
         }
 
-        public class PK10 : ILotteryRule
+        public abstract class LotterClass : ILotteryRule
         {
-            WebRule wr;
+            protected WebRule wr;
             public LotteryTypes rules;
-            LotteryBetRuleClass cRuleId_S;
-            LotteryBetRuleClass cRuleId_B;
-            public PK10(WebRule we, LotteryTypes rs)
+            protected LotterClass(WebRule we, LotteryTypes rs)
             {
                 rules = rs;
                 wr = we;
+            }
+            public abstract string IntsListToJsonString(List<InstClass> Insts);
+
+            public abstract string IntsToJsonString(string ccs, int unit);
+        }
+
+        public class PK10 : LotterClass
+        {
+            
+            LotteryBetRuleClass cRuleId_S;
+            LotteryBetRuleClass cRuleId_B;
+            public PK10(WebRule we, LotteryTypes rs):base(we,rs)
+            {
+                
 
                 cRuleId_S = rules.AllRules["8140101"];
                 cRuleId_B = rules.AllRules["8140102"];
             }
 
-            public string IntsToJsonString(String ccs, int unit)
+            public override string IntsToJsonString(String ccs, int unit)
             {
                 //unit为单位 0，元；1，角；2，分，3，其他
                 ccs = ccs.Trim();
@@ -380,7 +392,7 @@ namespace WolfInv.com.WebRuleLib
                 }
             }
 
-            public string IntsListToJsonString(List<InstClass> Insts)
+            public override string IntsListToJsonString(List<InstClass> Insts)
             {
 
                 String[] strInsts = new String[Insts.Count];
@@ -392,6 +404,30 @@ namespace WolfInv.com.WebRuleLib
                 return String.Format("[{0}]", Array2String(strInsts));
             }
 
+        }
+
+        public class A11C5:LotterClass
+        {
+
+
+            public A11C5(WebRule we, LotteryTypes rs):base(we,rs)
+            {
+                rules = rs;
+                wr = we;
+
+                //cRuleId_S = rules.AllRules["8140101"];
+                //cRuleId_B = rules.AllRules["8140102"];
+            }
+
+            public override string IntsListToJsonString(List<InstClass> Insts)
+            {
+                throw new NotImplementedException();
+            }
+
+            public override string IntsToJsonString(string ccs, int unit)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public override object getVerCodeImage(HtmlDocument indoc)
@@ -413,7 +449,20 @@ namespace WolfInv.com.WebRuleLib
             rang = null;
             return numImage;
         }
-
+        public override string getChargeQCode(HtmlDocument indoc)
+        {
+            HTMLDocument doc = (HTMLDocument)indoc.DomDocument;
+            if (doc == null)
+                return null;
+            IHTMLElementCollection hcols = doc.getElementsByTagName("canvas");
+            if(hcols.length==0)
+            {
+                return null;
+            }
+            var canvas = hcols.item(null,0);
+            var imagedata = canvas.toDataURL();
+            return imagedata;
+        }
         public override bool IsLoadCompleted(HtmlDocument indoc)
         {
             string strNotice = "网站重要通知！！！";
@@ -423,6 +472,48 @@ namespace WolfInv.com.WebRuleLib
                 return true;
             }
             return false;
+        }
+
+        public override string getChargeNum(HtmlDocument indoc)
+        {
+            if (indoc == null)
+                return null;
+            HTMLDocument doc = indoc.DomDocument as HTMLDocument;
+            IHTMLElementCollection hcols = doc.getElementsByClassName("order-number");
+            if (hcols.length == 0)
+            {
+                return null;
+            }
+            var item = hcols.item(null, 0);
+            return item.innerText;
+        }
+
+        public override string getChargeAmt(HtmlDocument indoc)
+        {
+            if (indoc == null)
+                return null;
+            HTMLDocument doc = indoc.DomDocument as HTMLDocument;
+            IHTMLElementCollection hcols = doc.getElementsByClassName("order-amount");
+            if (hcols.length == 0)
+            {
+                return null;
+            }
+            var item = hcols.item(null, 0);
+            return item.innerText;
+        }
+
+        public override string getErr_Msg(HtmlDocument indoc)
+        {
+            if (indoc == null)
+                return null;
+            HTMLDocument doc = indoc.DomDocument as HTMLDocument;
+            IHTMLElementCollection hcols = doc.getElementsByClassName("err_msg");
+            if (hcols.length == 0)
+            {
+                return null;
+            }
+            var item = hcols.item(null, 0);
+            return item.innerText;
         }
     }
 

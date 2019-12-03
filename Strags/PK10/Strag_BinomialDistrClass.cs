@@ -249,6 +249,7 @@ namespace WolfInv.com.Strags
                     {
                         shift = 50;
                     }
+                    //                [组合信息:1/0+6/7;组合长度:2;指定最小长度:6:Log]当前次数:10;最小入场次数:9
                     Log(string.Format("组合信息:{0};组合长度:{1};指定最小长度:{2}",cc.ChanceCode, CurrChipCount, this.InputMinTimes),string.Format("当前次数:{0};最小入场次数:{1}",cc.HoldTimeCnt,shift));
                     if(cc.HoldTimeCnt<shift)
                         return 0;
@@ -258,6 +259,8 @@ namespace WolfInv.com.Strags
                     return cc.FixAmt.Value;
                 }
                 int hcnt = cc.HoldTimeCnt - shift;
+                if (hcnt < 0)
+                    return 0;
                 int chips = cc.ChipCount - 1;
                 int maxcnt = amts.MaxHoldCnts[chips];
                 int bShift = 0;

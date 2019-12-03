@@ -29,7 +29,14 @@ namespace WolfInv.com.SecurityLib
 
         public abstract ExpectList<T> GetMissedData<T>(bool IsHistoryData, string strBegT) where T : TimeSerialData;
         public abstract ExpectList<T> getNewestData<T>(ExpectList<T> NewestData, ExpectList<T> ExistData) where T : TimeSerialData;
-        public abstract DbChanceList<T> getNoCloseChances<T>(string strDataOwner) where T : TimeSerialData;
+        public virtual DbChanceList<T> getNoCloseChances<T>(string strDataOwner) where T : TimeSerialData
+        {
+            return null;
+        }
+        public virtual DbChanceList<T> getClosedChances<T>(string strDataOwner,int PassedDays) where T : TimeSerialData
+        {
+            return null;
+        }
         public abstract ExpectList<T> ReadHistory<T>() where T : TimeSerialData;
         public abstract ExpectList<T> ReadHistory<T>(long buffs) where T : TimeSerialData;
         public abstract ExpectList<T> ReadHistory<T>(long From, long buffs) where T : TimeSerialData;

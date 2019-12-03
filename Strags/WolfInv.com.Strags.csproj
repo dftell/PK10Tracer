@@ -124,9 +124,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="CommSelectOjectDialog.resx">
       <DependentUpon>CommSelectOjectDialog.cs</DependentUpon>
     </EmbeddedResource>

@@ -11,11 +11,13 @@ using System.IO;
 using Leestar54.WeChat.WebAPI.Modal;
 using Leestar54.WeChat.WebAPI;
 using Leestar54.WeChat.WebAPI.Modal.Response;
-
+using WolfInv.com.WinInterComminuteLib;
+using WolfInv.com.WXMessageLib;
 namespace WolfInv.com.WXMsgCom
 {
     delegate void SetContactViewList(ListView lv,List<Contact> contacts);
-    delegate void SetMsgViewList(RichTextBox lv, List<AddMsg>  msgs);
+    delegate void SetMsgViewList(ListView lv, List<AddMsg>  msgs);
+    delegate void SetMsgListView(ListView lv, List<wxMessageClass> msgs);
     public partial class frm_MainWin : Form
     {
         Client client;
@@ -38,19 +40,48 @@ namespace WolfInv.com.WXMsgCom
 
         }
 
-        
+        public void RefreshMsg(object sender,List<wxMessageClass> msgs)
+        {
+            WebInterfaceClass.ClientValid = true;
+            listView_msg.Invoke(new SetMsgListView(RefreshMsg), new object[] { this.listView_msg, msgs });
+        }
 
         public void RefreshMsg(object sender,TEventArgs<List<AddMsg>> tmsg)
         {
             WebInterfaceClass.ClientValid = true;
             List<AddMsg> msg = tmsg.Result;
-            txt_MsgList.Invoke(new SetMsgViewList(RefreshMsg), new object[] { this.txt_MsgList, msg });
+            listView_msg.Invoke(new SetMsgViewList(RefreshMsg), new object[] { this.listView_msg, msg });
         }
 
-        public void RefreshMsg(RichTextBox tbox, List<AddMsg> msg)
+        public void RefreshMsg(ListView msglist, List<wxMessageClass> msg)
         {
-            
-            List<string> msgs = tbox.Lines.ToList();
+            try
+            {
+                for (int i = 0; i < msg.Count; i++)
+                {
+                    wxMessageClass wxmsg = msg[i];
+                    ListViewItem lvi = new ListViewItem();
+                    lvi.Text = wxmsg.CreateTime.ToString();
+                    string tousers = (wxmsg.AtMemberNikeName == null || wxmsg.AtMemberNikeName.Length == 0) ? "" : string.Join(";", wxmsg.AtMemberNikeName);
+                    lvi.SubItems.AddRange(new string[] { wxmsg.FromNikeName ?? "", wxmsg.FromMemberNikeName ?? "", (wxmsg.IsAtToMe ? ">>" : "") + tousers, wxmsg.Msg });
+                    msglist.Items.Add(lvi);
+                }
+                int cnt = msglist.Items.Count;
+                if (cnt == 0)
+                    return;
+                msglist.Items[cnt - 1].EnsureVisible();
+            }
+            catch(Exception ce)
+            {
+                MessageBox.Show(ce.Message);
+            }
+        }
+
+        public void RefreshMsg(ListView msglist, List<AddMsg> msg)
+        {
+
+            //List<string> msgs = tbox.Lines.ToList();
+            List<ListViewItem> msgs = new List<ListViewItem>();
             for (int i = 0; i < msg.Count; i++)
             {
                 AddMsg wxmsg = msg[i];
@@ -60,49 +91,93 @@ namespace WolfInv.com.WXMsgCom
                 }
                 string fromName = wxmsg.FromUserName;
                 string NickName = fromName;
-                if (this.AllUsers.ContainsKey(fromName))
+                if (this.AllUsers.ContainsKey(fromName))//联系人发来的
                 {
                     ////if(fromName.StartsWith("@@"))
                     ////{
                     ////    client.GetBatchGetContactAsync(string.Join(",",this.AllUsers[fromName].MemberDict.Keys.ToArray()),fromName);
                     ////}
                     NickName = this.AllUsers[fromName].NickName;
+                    if(this.AllUsers[fromName].MemberList.Count>0)//是群
+                    {
+                        
+                        if(!this.AllUsers[fromName].DisplayNikeName)//所有的群都显示昵称
+                        {
+                            client.GetBatchGetContactAsync(string.Join(",",AllUsers[fromName].MemberList.Select(a=>a.UserName)), fromName);
+                            this.AllUsers[fromName].DisplayNikeName = true;
+                        }
+                    }
                 }
                 else
                 {
+                    
                     client.GetBatchGetContactAsync(fromName);
                     continue;
                 }
                 string ToName = wxmsg.ToUserName;
+                string ToNameNike = null;
                 if(this.AllUsers.ContainsKey(ToName))
                 {
-                    ToName = this.AllUsers[ToName].NickName;
+                    ToNameNike = this.AllUsers[ToName].NickName;
                 }
-                
-                string strMsg = "";
+
+                string[] strMsg = new string[5];
                 if(fromName.StartsWith("@@"))
                 {
 
                     string[] content = wxmsg.Content.Split(new string[] { ":<br/>" }, StringSplitOptions.RemoveEmptyEntries);
+                    content[1] = content[1].Replace("<br/>", "\r\n");
                     string memName = "";
-                    if (this.AllUsers.ContainsKey(content[0]))
+                    if (1==2 && this.AllUsers.ContainsKey(content[0]))
                     {
-                        memName = this.AllUsers[content[0]].NickName;
+                        memName = this.AllUsers[content[0]].DisplayName;
+                        if (string.IsNullOrEmpty(memName))
+                        {
+                            memName = this.AllUsers[content[0]].NickName;
+                        }
                     }
-                    
-                    strMsg = string.Format("[{0}]{1}:{2}", NickName, memName, string.Join("",content.Skip(1).ToArray()));
+                    else
+                    {
+                        if (this.AllUsers[fromName].MemberDict.ContainsKey(content[0]))
+                            memName =  this.AllUsers[fromName].MemberDict[content[0]].DisplayName;
+                        if(string.IsNullOrEmpty(memName))
+                        {
+                            memName = this.AllUsers[fromName].MemberDict[content[0]].NickName;
+                        }
+                    }
+
+                    //strMsg = string.Format("[{0}]{1}:{2}", NickName, memName, string.Join("",content.Skip(1).ToArray()));
+                    strMsg = new string[] { DateTime.Now.ToShortTimeString(), NickName, memName, "",string.Join("", content.Skip(1).ToArray()) };
                 }
                 else
                 {
-                    strMsg = string.Format("{0}:{1}", NickName,  wxmsg.Content);
+                    if (ToName.StartsWith("@@"))
+                    {
+                        //strMsg = string.Format("{0}<{1}>:{2}", ToNameNike, NickName, wxmsg.Content.Replace("<br/>", "\r\t"));
+                        strMsg = new string[] { DateTime.Now.ToShortTimeString(), ToNameNike, NickName,"", wxmsg.Content.Replace("<br/>", "\r\t") };
+                    }
+                    else
+                    {
+                        //strMsg = string.Format("{0}:{1}", NickName, wxmsg.Content.Replace("<br/>", "\r\t"));
+                        strMsg = new string[] { DateTime.Now.ToShortTimeString(), NickName,"", "", wxmsg.Content.Replace("<br/>", "\r\t") };
+                    }
                 }
                 
-                msgs.Add(strMsg);
+                msgs.Add(new ListViewItem(strMsg));
             }
-            tbox.Lines = msgs.ToArray(); 
-            tbox.Focus();
-            tbox.Select(tbox.Text.Length, 0);
-            tbox.ScrollToCaret();
+            //tbox.Lines = msgs.ToArray(); 
+            //tbox.Focus();
+            //tbox.Select(tbox.Text.Length, 0);
+            //tbox.ScrollToCaret();
+            
+            listView_msg.Items.AddRange(msgs.ToArray());
+            //listView_msg.sel
+            int cnt = listView_msg.Items.Count;
+            listView_msg.MultiSelect = false;
+            //listView_msg.Items[cnt - 1].Selected = true;
+            //listView_msg.Items[cnt - 1].Focused = true;
+            if(cnt>0)
+                listView_msg.Items[cnt - 1].EnsureVisible() ;
         }
 
 
@@ -111,33 +186,53 @@ namespace WolfInv.com.WXMsgCom
             //InitLoginTimer(true);
 
         }
-        
+
         public void RefreshContact(object sender, TEventArgs<List<Contact>> tcontacts)
         {
-            this.AllUsers = WebInterfaceClass.contactDict;
-            List<Contact> contacts = this.AllUsers.Values.ToList();
-            listView1.Invoke(new SetContactViewList(RefreshContact),new object[] { listView1, contacts });
+            try
+            {
+                this.AllUsers = WebInterfaceClass.contactDict;
+                List<Contact> contacts = this.AllUsers.Values.ToList();
+                listView1.Invoke(new SetContactViewList(RefreshContact), new object[] { listView1, contacts });
+
+            }
+            catch (Exception ce)
+            {
+                MessageBox.Show(ce.Message);
+            }
         }
  
         
 
         void RefreshContact(ListView lv, List<Contact> contacts)
         {
-            lock (AllUsers)
+            try
             {
-                lv.Items.Clear();
-                for (int i = 0; i < contacts.Count; i++)
+                lock (AllUsers)
                 {
-
-                    ListViewItem lvi = new ListViewItem(i.ToString());//
-                    // new string[] { contacts[i].NickName, contacts[i].UserName, contacts[i].UserName.Substring(0, 2) == "@@" ? "群" : "好友" });
-                    lvi.SubItems.Add(contacts[i].NickName);
-                    lvi.SubItems.Add(contacts[i].RemarkName);
-                    lvi.SubItems.Add(contacts[i].UserName);
-                    lvi.SubItems.Add(contacts[i].UserName.Substring(0, 2) == "@@" ? "群" : "好友");
-                    lv.Items.Add(lvi);
+                    lv.Items.Clear();
+                    for (int i = 0; i < contacts.Count; i++)
+                    {
+                        if(!contacts[i].UserName.StartsWith("@@"))
+                        {
+                            continue;
+                        }
+                        ListViewItem lvi = new ListViewItem(i.ToString());
+                        lvi.Tag = contacts[i];
+                        //
+                                                                          // new string[] { contacts[i].NickName, contacts[i].UserName, contacts[i].UserName.Substring(0, 2) == "@@" ? "群" : "好友" });
+                        lvi.SubItems.Add(contacts[i].NickName);
+                        lvi.SubItems.Add(contacts[i].RemarkName);
+                        lvi.SubItems.Add(contacts[i].UserName);
+                        lvi.SubItems.Add(contacts[i].UserName.Substring(0, 2) == "@@" ? "群" : "好友");
+                        lv.Items.Add(lvi);
+                    }
+                    lv.Tag = contacts;
                 }
-                lv.Tag = contacts;
+            }
+            catch(Exception ce)
+            {
+                MessageBox.Show(ce.Message);
             }
         }
 
@@ -187,7 +282,8 @@ namespace WolfInv.com.WXMsgCom
                 this.tss_Msg.Text = "联系人列表为空！";
                 return;
             }
-            this.ToUser = contacts[this.listView1.SelectedIndices[0]].UserName;
+            Contact ct = this.listView1.SelectedItems[0].Tag as Contact;
+            this.ToUser = ct.UserName;
             this.ddl_ToUser.Text = this.ToUser;
             ddl_ToUser_KeyUp(null, null);
             ddl_ToUser.SelectedIndex = 0;

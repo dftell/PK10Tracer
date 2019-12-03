@@ -41,3 +41,10 @@ C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.SecurityStragLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityStragLib\obj\Debug\WolfInv.com.SecurityStragLib.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityStragLib\obj\Debug\WolfInv.com.SecurityStragLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityStragLib\obj\Debug\WolfInv.com.SecurityStragLib.pdb
+E:\github\project\PK10Tracer\WolfInv.com.SecurityStragLib.dll
+E:\github\project\PK10Tracer\WolfInv.com.SecurityStragLib.pdb
+E:\github\source\dftell\PK10Tracer\SecurityStragLib\obj\Debug\WolfInv.com.SecurityStragLib.csprojAssemblyReference.cache
+E:\github\source\dftell\PK10Tracer\SecurityStragLib\obj\Debug\WolfInv.com.SecurityStragLib.csproj.CoreCompileInputs.cache
+E:\github\source\dftell\PK10Tracer\SecurityStragLib\obj\Debug\WolfInv.com.SecurityStragLib.csproj.CopyComplete
+E:\github\source\dftell\PK10Tracer\SecurityStragLib\obj\Debug\WolfInv.com.SecurityStragLib.dll
+E:\github\source\dftell\PK10Tracer\SecurityStragLib\obj\Debug\WolfInv.com.SecurityStragLib.pdb

@@ -6,8 +6,26 @@ using System;
 
 namespace WolfInv.com.PK10CorePress
 {
-    public class ChanceClass_ForCombinXxY:ChanceClass
+
+    public interface iXxYClass
     {
+         int AllNums { get; set; }
+         int SelectNums { get; set; }
+
+         string strAllTypeBaseOdds { get; set; }
+
+         string strCombinTypeBaseOdds { get; set; }
+
+         string strPermutTypeBaseOdds { get; set; }
+    }
+
+
+    public class ChanceClass_ForCombinXxY:ChanceClass, iXxYClass
+    {
+        public ChanceClass_ForCombinXxY()
+        {
+
+        }
         public int AllNums { get; set; }
         public int SelectNums { get; set; }
 
@@ -152,11 +170,12 @@ namespace WolfInv.com.PK10CorePress
             }
             //////ExpectData inputEd = el[begid];
             //////Log("计算服务", "获取到期号信息", string.Format("expect:{0};openCode:{1}",inputEd.Expect,inputEd.OpenCode));
-            for (int ei = begid + 1; ei < el.Count; ei++)
+            if (el.Count>begid+2)//只匹配一期
             {
+                int ei = begid + 1;
                 ExpectData<TimeSerialData> data = el[ei];
+                string[] strOrgArr = data.OpenCode.Split(',');
                 string strRes =  CombinGenerator.ResortNumString(data.OpenCode,",");
-
                 foreach (ChanceItem ci in this.SubItems)
                 {
                     CombinClass container = null;
@@ -164,17 +183,18 @@ namespace WolfInv.com.PK10CorePress
                     if(ci.betChipCnt<=SelectNums)
                     {
                         strCiArr = new string[ci.betChipCnt];
-                        Array.Copy(strRes.Split(','), strCiArr, ci.betChipCnt);
+                        Array.Copy(strOrgArr, strCiArr, ci.betChipCnt);
                     }
                     switch (ci.betType)
                     {
                         case CombinBetType.Permut:
                             {
-                                if(string.Join(",", strCiArr) == ci.betCode)
+                                if(string.Join(",", strCiArr) == ci.betCode)//未排序的数组和投注串完全相等
                                 {
-                                    if (this.PermutTypebaseodds.ContainsKey(ci.betChipCnt))
+                                    if (this.PermutTypebaseodds.ContainsKey(ci.betChipCnt-1))
                                     {
-                                        MatchCnt += PermutTypebaseodds[ci.betChipCnt];
+                                        MatchCnt += PermutTypebaseodds[ci.betChipCnt-1];
+                                        //break;
                                     }
                                     else//找不到，返回基本倍数
                                     {
@@ -186,12 +206,13 @@ namespace WolfInv.com.PK10CorePress
                             }
                         case CombinBetType.Combin:
                             {
-                                container = new CombinClass(strCiArr, ci.betChipCnt);
-                                if (container.Contains(ci.betCode))
+                                string[] strSArr = CombinGenerator.ResortNumString(strCiArr);// 获取前N位排序好的中奖号码
+                                if (string.Join(",", strSArr) == CombinGenerator.ResortNumString(ci.betCode,",")) //如果排序好的前N位中奖串等于重排后的投注串，命中
                                 {
-                                    if (this.CombinTypebaseodds.ContainsKey(ci.betChipCnt))
+                                    if (this.CombinTypebaseodds.ContainsKey(ci.betChipCnt-1))
                                     {
-                                        MatchCnt += CombinTypebaseodds[ci.betChipCnt];
+                                        MatchCnt += CombinTypebaseodds[ci.betChipCnt-1];
+                                        //break;
                                     }
                                     else//找不到，返回基本倍数
                                     {
@@ -209,9 +230,10 @@ namespace WolfInv.com.PK10CorePress
                                     container = new CombinClass(ci.betCode, SelectNums);//找出N码选出数目的所有组合
                                     if(container.Contains(strRes))//命中
                                     {
-                                        if (this.AllTypeChipsBaseOdds.ContainsKey(ci.betChipCnt))
+                                        if (this.AllTypeChipsBaseOdds.ContainsKey(ci.betChipCnt-1))
                                         {
-                                            MatchCnt +=AllTypeChipsBaseOdds[ci.betChipCnt];
+                                            MatchCnt +=AllTypeChipsBaseOdds[ci.betChipCnt-1];
+                                            //break;
                                         }
                                         else//找不到，返回基本倍数
                                         {
@@ -221,12 +243,13 @@ namespace WolfInv.com.PK10CorePress
                                 }
                                 else
                                 {
-                                    container = new CombinClass(strRes, ci.betChipCnt);
+                                    container = new CombinClass(strRes, ci.betChipCnt);//中奖结果的C(S,N)组合
                                     if(container.Contains(ci.betCode))
                                     {
-                                        if (this.AllTypeChipsBaseOdds.ContainsKey(ci.betChipCnt))
+                                        if (this.AllTypeChipsBaseOdds.ContainsKey(ci.betChipCnt-1))
                                         {
-                                            MatchCnt +=AllTypeChipsBaseOdds[ci.betChipCnt];
+                                            MatchCnt +=AllTypeChipsBaseOdds[ci.betChipCnt-1];
+                                            //break;
                                         }
                                         else//找不到，返回基本倍数
                                         {
@@ -237,9 +260,12 @@ namespace WolfInv.com.PK10CorePress
                                 break;
                             }
                     }
+                    if(ci.betChipCnt>= SelectNums && MatchCnt>0)//只要有一个子长机会命中，就不再检查其他子机会
+                    {
+                        break;
+                    }
                 }
-                if (MatchCnt > 0)//任何一期命中都需要关闭
-                    break;
+                
             }
             if (MatchCnt > 0)
                 return true;

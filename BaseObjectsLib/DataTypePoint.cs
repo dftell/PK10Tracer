@@ -45,6 +45,17 @@ namespace WolfInv.com.BaseObjectsLib
         public long SaveInterVal=0;//存储间隔（毫秒）随机存储
         public int SubScriptGrpCnt = -1;//默认全部分组
 
+        #region X选Y
+        public int IsXxY = 0;
+
+        public int AllNums;
+        public int SelectNums;
+        public string strAllTypeOdds;
+        public string strCombinTypeOdds;
+        public string strPermutTypeOdds;
+        #endregion
+
+
         public int NeedLoadAllCodes = 0;
         public int NeedLoadAllXDXR = 0;
         public string DateIndex = "000001";
@@ -123,5 +134,25 @@ namespace WolfInv.com.BaseObjectsLib
         public string DefaultUseDataType;//HTML,XML,JSON,TXT
         public string DefaultDataDecode;
         
+    }
+
+    public class LotteryPropertyClass
+    {
+
+    }
+    public class XxYProperty: LotteryPropertyClass
+    {
+        /*
+              (ret as CombinLottery_ExpectListProcess).AllNums = 11;
+                            (ret as CombinLottery_ExpectListProcess).SelectNums = 5;
+                            (ret as CombinLottery_ExpectListProcess).strAllTypeOdds = "2,6,24,168,28,8,3";
+                            (ret as CombinLottery_ExpectListProcess).strCombinTypeOdds = "20,60";
+                            (ret as CombinLottery_ExpectListProcess).strPermutTypeOdds = "4,40,360";
+             */
+        public int AllNums;
+        public int SelectNums;
+        public string strAllTypeOdds;
+        public string strCombinTypeOdds;
+        public string strPermutTypeOdds;
     }
 }

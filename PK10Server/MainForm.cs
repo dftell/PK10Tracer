@@ -15,6 +15,7 @@ namespace PK10Server
     
     public partial class MainForm:BaseForm_DESIGN
     {
+        DataTypePoint dtp = null;
         ExpectList<TimeSerialData> _ViewDataList ;
         ExpectList<TimeSerialData> ViewDataList
         {
@@ -22,7 +23,7 @@ namespace PK10Server
             set { _ViewDataList = value; }
         }
         //PK10ExpectReader er = new PK10ExpectReader();
-        DataReader er = DataReaderBuild.CreateReader(GlobalClass.TypeDataPoints.First().Key, null, null);
+        DataReader er = null;
         int NewestExpectNo = 0;
         public int InputExpect;
         GlobalClass gobj;
@@ -32,7 +33,8 @@ namespace PK10Server
                 InitializeComponent();
             
             gobj = new GlobalClass();
-            
+            dtp = GlobalClass.TypeDataPoints.First().Value;
+            er = DataReaderBuild.CreateReader(dtp.DataType, null, null);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -43,7 +45,7 @@ namespace PK10Server
             InitListView(listView_TXFFCData);
             InitListView(listView_PK10Data);
             
-            this.timer_For_NewestData.Interval = 5000;
+            this.timer_For_NewestData.Interval = 5*1000;
             //this.timer_For_NewestData_Tick(null, null);
 
             this.timer_For_CurrTime.Enabled = true;
@@ -71,7 +73,7 @@ namespace PK10Server
             }
             else
             {
-                ViewDataList = er.ReadNewestData<TimeSerialData>(DateTime.Today.AddDays(-1* GlobalClass.TypeDataPoints.First().Value.CheckNewestDataDays));
+                ViewDataList = er.ReadNewestData<TimeSerialData>(DateTime.Today.AddDays(-1* dtp.CheckNewestDataDays));
             }
         }
 
@@ -107,7 +109,7 @@ namespace PK10Server
         {
             ExpectList<TimeSerialData> el = ViewDataList; ;
             
-            ExpectListProcessBuilder<TimeSerialData> elp = new ExpectListProcessBuilder<TimeSerialData>(GlobalClass.TypeDataPoints.First().Value,el);
+            ExpectListProcessBuilder<TimeSerialData> elp = new ExpectListProcessBuilder<TimeSerialData>(dtp,el);
             BaseCollection<TimeSerialData> sc = elp.getProcess().getSerialData(180, byNo);
             sc.isByNo = byNo;
             lv.Items.Clear();
@@ -126,16 +128,22 @@ namespace PK10Server
                 {
                     for (int j = 0; j < sc.Table.Columns.Count; j++)
                     {
-                        string colname = (j + 1).ToString().PadLeft(2, '0');
-                        if (sc.Table.Columns.Contains(colname))
+                        if (dtp.DataType == "PK10")
                         {
-                            lvi.SubItems.Add(sc.Table.Rows[i][colname].ToString());
+                            lvi.SubItems.Add(sc.Table.Rows[i][string.Format("{0}", (j + 1) % 10)].ToString());
                         }
                         else
                         {
-                            lvi.SubItems.Add(sc.Table.Rows[i]["0"].ToString());
+                            string colname = (j + 1).ToString().PadLeft(2, '0');
+                            if (sc.Table.Columns.Contains(colname))
+                            {
+                                lvi.SubItems.Add(sc.Table.Rows[i][colname].ToString());
+                            }
+                            else
+                            {
+                                lvi.SubItems.Add(sc.Table.Rows[i]["0"].ToString());
+                            }
                         }
-                        
                     }
                 }
                 for (int j = 1; j < sc.Table.Columns.Count; j++)
@@ -182,7 +190,8 @@ namespace PK10Server
 
         void RefreshNewestData()
         {
-            if (ViewDataList == null || ViewDataList.LastData == null) return;
+            if (ViewDataList == null || ViewDataList.LastData == null)
+                return;
             this.txt_NewestExpect.Text = ViewDataList.LastData.Expect;
             this.txt_NewestOpenCode.Text = ViewDataList.LastData.OpenCode;
             this.txt_NewestOpenTime.Text = ViewDataList.LastData.OpenTime.ToString();
@@ -208,24 +217,26 @@ namespace PK10Server
 
         private void timer_For_NewestData_Tick(object sender, EventArgs e)
         {
+            timer_For_NewestData.Enabled = true;
             DateTime CurrTime = DateTime.Now;
-            ExpectList<TimeSerialData> ViewDataList = er.ReadNewestData<TimeSerialData>(DateTime.Now.AddDays(-1* GlobalClass.TypeDataPoints.First().Value.CheckNewestDataDays));
+            ViewDataList = er.ReadNewestData<TimeSerialData>(DateTime.Now.AddDays(-1* dtp.CheckNewestDataDays));
             if(ViewDataList== null ||ViewDataList.LastData == null)
             {
-
+                return;
             }
             int CurrExpectNo = int.Parse(ViewDataList.LastData.Expect);
             if (CurrExpectNo > this.NewestExpectNo)
             {
-                this.timer_For_NewestData.Interval = 290000;//5分钟以后见
+                this.timer_For_NewestData.Interval = 5*60*1000;//5分钟以后见
                 RefreshGrid();
-                RefreshNewestData();
+                
                 this.NewestExpectNo = CurrExpectNo;
             }
             else
             {
-                this.timer_For_NewestData.Interval = 10000;//10秒后见
+                this.timer_For_NewestData.Interval = 60*1000;//10秒后见
             }
+            RefreshNewestData();
         }
 
         private void timer_For_CurrTime_Tick(object sender, EventArgs e)

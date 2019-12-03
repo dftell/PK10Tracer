@@ -243,6 +243,7 @@ namespace DataRecSvr
                         //为避免出现这种情况
                         //判断是否错过了期数，如果错过期数，将所有追踪策略归零，不再追号,也不再执行选号程序，
                         //是否要连续停几期？执行完后，在接收策略里面发现前10期有不连续的情况，直接跳过，只接收数据不执行选号。
+                        CurrDataList.UseType = GlobalClass.TypeDataPoints["PK10"];
                         if (CurrDataList.MissExpectCount() > 1 || MissExpectEventPassCnt > 0)//如果出现错期
                         {
                             Log("接收到错期数据", string.Format("接收到数据！{0}", el.LastData.ToString()), true);
@@ -263,6 +264,7 @@ namespace DataRecSvr
                             bool res = AfterReceiveProcess(CalcProcess);
                             if (res == false)
                                 this.Tm_ForPK10.Interval = RepeatSeconds / 20 * 1000;
+                            CurrDataList.UseType = dtp;
                             if (CurrDataList.MissExpectCount() > 1)//执行完计算(关闭所有记录)后再标记为已错期
                             {
                                 MissExpectEventPassCnt = 1;
@@ -451,6 +453,7 @@ namespace DataRecSvr
                             //为避免出现这种情况
                             //判断是否错过了期数，如果错过期数，将所有追踪策略归零，不再追号,也不再执行选号程序，
                             //是否要连续停几期？执行完后，在接收策略里面发现前10期有不连续的情况，直接跳过，只接收数据不执行选号。
+                            CurrDataList.UseType = dtp;
                             if (CurrDataList.MissExpectCount() > 1|| MissExpectEventPassCnt>0)//如果出现错期
                             {
                                 Log("接收到错期数据", string.Format("接收到数据！{0}", el.LastData.ToString()), glb.ExceptNoticeFlag);
@@ -468,6 +471,8 @@ namespace DataRecSvr
                                 bool res = false;
                                 if (NeedCalc)
                                 {
+                                    if (CalcProcess == null)
+                                        CalcProcess = new CalcService<T>();
                                     CalcProcess.DataPoint = dtp;
                                     CalcProcess.ReadDataTableName = strReadTableName;
                                     CalcProcess.Codes = codes;

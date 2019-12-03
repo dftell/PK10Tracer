@@ -47,6 +47,7 @@
             this.txt_begT = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txt_endT = new System.Windows.Forms.TextBox();
+            this.btn_svrmgr = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -229,11 +230,22 @@
             this.txt_endT.TabIndex = 16;
             this.txt_endT.Text = "2019-4-7";
             // 
+            // btn_svrmgr
+            // 
+            this.btn_svrmgr.Location = new System.Drawing.Point(643, 420);
+            this.btn_svrmgr.Name = "btn_svrmgr";
+            this.btn_svrmgr.Size = new System.Drawing.Size(227, 39);
+            this.btn_svrmgr.TabIndex = 18;
+            this.btn_svrmgr.Text = " 服务器管理";
+            this.btn_svrmgr.UseVisualStyleBackColor = true;
+            this.btn_svrmgr.Click += new System.EventHandler(this.btn_svrmgr_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1052, 762);
+            this.Controls.Add(this.btn_svrmgr);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.txt_endT);
             this.Controls.Add(this.label5);
@@ -282,5 +294,6 @@
         private System.Windows.Forms.TextBox txt_begT;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txt_endT;
+        private System.Windows.Forms.Button btn_svrmgr;
     }
 }

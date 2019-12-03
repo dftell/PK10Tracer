@@ -65,10 +65,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ExchangeTermial\ExchangeTermial.csproj">
-      <Project>{aad478bf-3736-466d-9275-0e4a16e27006}</Project>
-      <Name>ExchangeTermial</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LogLib\WolfInv.com.LogLib.csproj">
       <Project>{182084e4-c48b-4585-9221-4a54caf7448f}</Project>
       <Name>WolfInv.com.LogLib</Name>

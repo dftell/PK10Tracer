@@ -51,7 +51,7 @@ namespace WolfInv.com.BaseObjectsLib
             }
         }
 
-        //public DataTypePoint UseType;
+        public DataTypePoint UseType;
         public Cycle Cyc = Cycle.Expect;
         List<ExpectData<T>> _MyData= new List<ExpectData<T>>();
         
@@ -108,17 +108,21 @@ namespace WolfInv.com.BaseObjectsLib
                 return MyData.Select(a => long.Parse(a.Expect)).Min();
             }
         }
-        
 
+        /// <summary>
+        /// 获取连续两期的错期数 此函数必须要提前设置UseType
+        /// </summary>
+        /// <returns></returns>
         public long MissExpectCount()
         {
             if (this.Count <= 1)
                 return 1;
+            long ret = 0;
             int cnt = this.Count;
             long lastid = long.Parse(this[cnt - 1].Expect);
             long preid = long.Parse(this[cnt - 2].Expect);
             if(this[cnt-1].ExpectSerialByType==1)//如果是连续期号，直接计算差
-                return lastid - preid;
+                ret = lastid - preid;
             if(this[cnt - 1].ExpectSerialByType == 2)//如果是按日期
             {
                 string e1 =  this[cnt - 1].Expect.Trim();
@@ -131,15 +135,19 @@ namespace WolfInv.com.BaseObjectsLib
                 int s2 = int.Parse(e2.Substring(dL, sL));//倒数第二个序号
                 if (e1.Substring(0,dL).Equals(e2.Substring(0,dL)))//如果日期相等
                 {
-                    return s1 - s2;
+                    ret= s1 - s2;
                 }
                 else
                 {
-                    return s2;//默认前面一个的值是正常的。？？？？？
+                    ret = s2;//默认前面一个的值是正常的。？？？？？
                 }
 
             }
-            return 1;
+            if(UseType.DataType == "PK10")
+            {
+                return ret;
+            }
+            return 1;//目前其他类型不检查
         }
         
         public ExpectList(Dictionary<string, MongoReturnDataList<T>> _data,bool NeedReTime)

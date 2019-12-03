@@ -31,7 +31,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage_msg = new System.Windows.Forms.TabPage();
-            this.txt_MsgList = new System.Windows.Forms.RichTextBox();
             this.tabPage_contact = new System.Windows.Forms.TabPage();
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -49,6 +48,12 @@
             this.tss_Status = new System.Windows.Forms.ToolStripStatusLabel();
             this.tss_Msg = new System.Windows.Forms.ToolStripStatusLabel();
             this.tss_Counter = new System.Windows.Forms.ToolStripStatusLabel();
+            this.listView_msg = new System.Windows.Forms.ListView();
+            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -96,32 +101,22 @@
             // 
             // tabPage_msg
             // 
-            this.tabPage_msg.Controls.Add(this.txt_MsgList);
+            this.tabPage_msg.Controls.Add(this.listView_msg);
             this.tabPage_msg.Location = new System.Drawing.Point(8, 39);
             this.tabPage_msg.Name = "tabPage_msg";
-            this.tabPage_msg.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage_msg.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage_msg.Size = new System.Drawing.Size(1203, 515);
             this.tabPage_msg.TabIndex = 0;
             this.tabPage_msg.Text = "消息";
             this.tabPage_msg.UseVisualStyleBackColor = true;
-            // 
-            // txt_MsgList
-            // 
-            this.txt_MsgList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txt_MsgList.Location = new System.Drawing.Point(3, 3);
-            this.txt_MsgList.Name = "txt_MsgList";
-            this.txt_MsgList.ReadOnly = true;
-            this.txt_MsgList.Size = new System.Drawing.Size(1197, 509);
-            this.txt_MsgList.TabIndex = 0;
-            this.txt_MsgList.Text = "";
             // 
             // tabPage_contact
             // 
             this.tabPage_contact.Controls.Add(this.listView1);
             this.tabPage_contact.Location = new System.Drawing.Point(8, 39);
             this.tabPage_contact.Name = "tabPage_contact";
-            this.tabPage_contact.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage_contact.Size = new System.Drawing.Size(1203, 516);
+            this.tabPage_contact.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_contact.Size = new System.Drawing.Size(1203, 515);
             this.tabPage_contact.TabIndex = 1;
             this.tabPage_contact.Text = "联系人";
             this.tabPage_contact.UseVisualStyleBackColor = true;
@@ -137,10 +132,11 @@
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
+            this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(3, 3);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(1197, 510);
+            this.listView1.Size = new System.Drawing.Size(1197, 509);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -273,6 +269,48 @@
             this.tss_Counter.Text = "计数器";
             this.tss_Counter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // listView_msg
+            // 
+            this.listView_msg.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader10,
+            this.columnHeader6,
+            this.columnHeader7,
+            this.columnHeader8,
+            this.columnHeader9});
+            this.listView_msg.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView_msg.HideSelection = false;
+            this.listView_msg.Location = new System.Drawing.Point(3, 3);
+            this.listView_msg.Name = "listView_msg";
+            this.listView_msg.Size = new System.Drawing.Size(1197, 509);
+            this.listView_msg.TabIndex = 0;
+            this.listView_msg.UseCompatibleStateImageBehavior = false;
+            this.listView_msg.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "从群/联系人";
+            this.columnHeader6.Width = 190;
+            // 
+            // columnHeader7
+            // 
+            this.columnHeader7.Text = "成员";
+            this.columnHeader7.Width = 131;
+            // 
+            // columnHeader8
+            // 
+            this.columnHeader8.Text = "给成员";
+            this.columnHeader8.Width = 126;
+            // 
+            // columnHeader9
+            // 
+            this.columnHeader9.Text = "消息";
+            this.columnHeader9.Width = 569;
+            // 
+            // columnHeader10
+            // 
+            this.columnHeader10.Text = "时间";
+            this.columnHeader10.Width = 114;
+            // 
             // frm_MainWin
             // 
             this.AcceptButton = this.btn_Send;
@@ -313,7 +351,6 @@
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btn_Send;
-        private System.Windows.Forms.RichTextBox txt_MsgList;
         private System.Windows.Forms.TextBox txt_msg;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ColumnHeader columnHeader1;
@@ -323,5 +360,11 @@
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox ddl_ToUser;
+        private System.Windows.Forms.ListView listView_msg;
+        private System.Windows.Forms.ColumnHeader columnHeader10;
+        private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.ColumnHeader columnHeader7;
+        private System.Windows.Forms.ColumnHeader columnHeader8;
+        private System.Windows.Forms.ColumnHeader columnHeader9;
     }
 }

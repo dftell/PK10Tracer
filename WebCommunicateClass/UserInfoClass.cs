@@ -62,5 +62,6 @@ namespace WolfInv.com.WebCommunicateClass
         public bool IsAdmin;
         public string WXToUser;
         public string AssetConfig;
+        public string AliasName;
     }
 }

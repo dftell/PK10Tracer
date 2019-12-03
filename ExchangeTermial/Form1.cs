@@ -62,6 +62,8 @@ namespace ExchangeTermial
             Program.gc.ClientPassword = ret.BaseInfo.Password;
             Program.gc.Odds = ret.BaseInfo.Odds;
             Program.gc.WXLogNoticeUser = ret.BaseInfo.WXToUser;
+
+            Program.gc.ClientAliasName =  string.IsNullOrEmpty(ret.BaseInfo.AliasName)?ret.BaseInfo.UserCode:ret.BaseInfo.AliasName;
             XmlDocument xmldoc = new XmlDocument();
             try
             {
@@ -98,6 +100,8 @@ namespace ExchangeTermial
                     {
                         Program.gc.WXSVRHost = scc.WXSvrHost;
                     }
+                    if (scc.DefaultNavHost != null)
+                        Program.gc.NavHost = scc.DefaultNavHost;
                 }
             }
             //Program.gc.LoginDefaultHost = WebRuleBuilder.Create(Program.gc).GetChanle(Program.gc.WebNavUrl, Program.gc.LoginDefaultHost); ;
@@ -105,7 +109,7 @@ namespace ExchangeTermial
             this.Hide();
             this.Cursor = Cursors.Default;
             //必须重新指定登录用户
-            Program.wxl = new WolfInv.com.LogLib.WXLogClass(Program.gc.ClientUserName, Program.gc.WXLogNoticeUser, Program.gc.WXLogUrl);
+            Program.wxl = new WolfInv.com.LogLib.WXLogClass(Program.gc.ClientAliasName, Program.gc.WXLogNoticeUser, Program.gc.WXLogUrl);
             MainWindow mw = new MainWindow();
             DialogResult res = mw.ShowDialog();
 
@@ -127,6 +131,7 @@ namespace ExchangeTermial
         {
             public string WXSvrHost { get; set; }
             public string DefaultExchangeHost { get; set; }
+            public string DefaultNavHost { get; set; }
 
             public SvrConfigClass getObjectByJsonString(string str)
             {

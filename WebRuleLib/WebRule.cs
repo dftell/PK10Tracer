@@ -65,7 +65,42 @@ namespace WolfInv.com.WebRuleLib
             }
         }
     }
-
+    /*
+         "cqc": 1,
+    "tjc": 2,
+    "jlk3": 3,
+    "jsk3": 4,
+    "pl3": 5,
+    "fc3d": 6,
+    "klpk": 7,
+    "pk10": 8,
+    "wfc": 9,
+    "sd11x5": 10,
+    "ggc": 11,
+    "kck3": 12,
+    "kcjs3d": 13,
+    "xjssc": 14,
+    "gxk3": 15,
+    "ahk3": 16,
+    "hubk3": 17,
+    "hebk3": 18,
+    "shk3": 19,
+    "yfc": 20,
+    "gd11x5": 21,
+    "jx11x5": 22,
+    "sh11x5": 23,
+    "hlj11x5": 24,
+    "bjk3": 27,
+    "js11x5": 28,
+    "hgffc": 29,
+    "heb11x5": 30,
+    "yfcnew": 31,
+    "yfk3": 32,
+    "txffc": 33,
+    "xyft": 34,
+    "paoma": 35,
+    "btbffc": 36
+         */
     public class LotteryBetRuleClass
     {
         public string BetRule { get; set; }
@@ -221,6 +256,13 @@ namespace WolfInv.com.WebRuleLib
         public abstract object getVerCodeImage(HtmlDocument doc);
 
         public abstract string getRealUrl(string html);
+
+        public abstract string getChargeQCode(HtmlDocument doc);
+
+        public abstract string getChargeNum(HtmlDocument doc);
+        public abstract string getChargeAmt(HtmlDocument doc);
+
+        public abstract string getErr_Msg(HtmlDocument doc);
     }
 
 
