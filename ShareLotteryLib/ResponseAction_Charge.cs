@@ -103,6 +103,7 @@ namespace WolfInv.com.ShareLotteryLib
                         WebClientTo wc = new WebClientTo(3 * 60 * 1000);
                         wc.Encoding = System.Text.Encoding.UTF8;
                         string res = wc.DownloadString(url);
+
                         JavaScriptClass jsc = new JavaScriptClass();
                         ChargeResult cr = new ChargeResult();
 

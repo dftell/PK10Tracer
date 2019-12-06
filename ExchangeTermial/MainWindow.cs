@@ -109,7 +109,7 @@ namespace ExchangeTermial
         Dictionary<string, int> AllReq = new Dictionary<string, int>();
         string UseReqId = null;
         int UseAmt = 0;
-
+        string reqChargeAmt = "";
         void Request(string wxId,string wxName,string reqId,string chargeAmt)
         {
             //chargeMoneyToolStripMenuItem_Click(null, null);
@@ -118,6 +118,7 @@ namespace ExchangeTermial
             string fullurl = string.Format("{0}/Recharge/ThirdRecharge?amount={1}&t={2}&rnd={3}", url, chargeAmt, 139,rnd);
             Program.wxl.Log(string.Format("[收到充值请求]微信编号:{0};微信昵称:{1};请求Id:{2};请求金额:{3}！", wxId,wxName,reqId,chargeAmt ), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
             chgOpt.strAmt = chargeAmt.Trim();
+            reqChargeAmt = chargeAmt.Trim();
             chgOpt.responsed = false;
             chgOpt.reqId = Guid.NewGuid().ToString();
             UseReqId = chgOpt.reqId;
@@ -184,7 +185,6 @@ namespace ExchangeTermial
                     SwitchChanle();
                 }
                 bool isDebug = false;
-                
                 string myinfo = MyIpInfo;
                 string useip = myinfo.Split(':')[1];
                 UseIp = useip;
@@ -412,12 +412,14 @@ namespace ExchangeTermial
 
         private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-
+      try
+            {
             HtmlDocument doc = webBrowser1.Document;
             //CurrVal = wr.GetCurrMoney(doc);
             if (webBrowser1.ReadyState == WebBrowserReadyState.Complete)
             {
 
+                    this.toolStripStatusLabel1.Text = "已载入";
                 if (ReadySleep)
                 {
                     LogableClass.ToLog(webBrowser1.Url.Host, "进入睡眠！");
@@ -427,6 +429,11 @@ namespace ExchangeTermial
                 LogableClass.ToLog(webBrowser1.Url.Host, "唤醒！");
                 bool IsVaildWeb = wr.IsVaildWeb(doc);
                 bool IsLogined = wr.IsLogined(doc);
+                    bool IsLoadCompleted = wr.IsLoadCompleted(doc);
+                    if(!IsLoadCompleted)
+                    {
+                        return;
+                    }
                 if (IsVaildWeb || IsLogined)//是登录页面或者内容页面
                 {
                     if (IsVaildWeb)
@@ -522,8 +529,13 @@ namespace ExchangeTermial
             //    //网页中间刷新
 
 
-            //}
-            ////}
+                //}
+                ////}
+            }
+            catch(Exception ce)
+            {
+                this.toolStripStatusLabel3.Text = string.Format("{0}:{1}", ce.Message, ce.StackTrace);
+            }
         }
 
         string getScriptText(string scriptName)
@@ -725,6 +737,11 @@ namespace ExchangeTermial
 
         private void btn_Send_Click(object sender, EventArgs e)
         {
+            if(sender!=null)
+            {
+                this.toolStripStatusLabel1.Text = "手动下注";
+                this.Cursor = Cursors.WaitCursor;
+            }
             if (this.txt_Insts.Text.Trim().Length == 0) return;
 
             Rule_ForKcaiCom rule = new Rule_ForKcaiCom(Program.gc);
@@ -744,7 +761,8 @@ namespace ExchangeTermial
 
                 Program.wxl.Log("警告", string.Format("[{1}]第{0}次浏览器加载未完成", sendCnt,Program.gc.ClientAliasName), string.Format("请检查线路{0}是否正常！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost)));
                 //LoadUrl();
-                SwitchChanle();
+                if (Program.gc.NeedAutoReset)//允许自动切换
+                    SwitchChanle();
                 //Reboot();
                 this.NewExpect--;//允许下次再接收数据发送
                 RefreshTimes = 1;//让第一次发生错误后下次刷新指令会自动发送
@@ -772,6 +790,8 @@ namespace ExchangeTermial
             {
                 dicExistInst.Add(this.NewExpect, this.txt_Insts.Text);
             }
+            this.toolStripStatusLabel1.Text = "已发送";
+            this.Cursor = Cursors.Default;
             //Application.DoEvents();
             //Thread.Sleep(5 * 1000);
             //webBrowser1.Refresh();
@@ -920,7 +940,8 @@ namespace ExchangeTermial
         private void chargeMoneyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string url = string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost);
-            string fullurl = string.Format("{0}//Recharge/ThirdRecharge?amount={1}&t={2}",url,4499,139);
+            reqChargeAmt = "4499";
+            string fullurl = string.Format("{0}//Recharge/ThirdRecharge?amount={1}&t={2}",url, reqChargeAmt, 139);
             webBrowser_charge.DocumentCompleted += WebBrowser_charge_DocumentCompleted;
             chargeData = null;
             Task.Run(() => {
@@ -1059,13 +1080,26 @@ namespace ExchangeTermial
             string chargeId = null;
             string chargeAmt = null;
             string err_msg = null;
+            
             if (webBrowser_charge.ReadyState == WebBrowserReadyState.Complete)
             {
-                
+                if (string.IsNullOrEmpty(chgOpt.strAmt))
+                    chgOpt.strAmt = reqChargeAmt;
+                Program.wxl.Log("充值页面加载完成！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
                 HtmlDocument doc = webBrowser_charge.Document;
                 try
                 {
                     strUrl = wr.getChargeQCode(doc);
+                    if(strUrl == null)
+                    {
+                        Program.wxl.Log(string.Format("充值网页文档为空！"), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                        return;
+                    }
+                    if(string.IsNullOrEmpty(strUrl))
+                    {
+                        Program.wxl.Log(string.Format("无法找到充值网页的二维码画板！"), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                        return;
+                    }
                     string strOrderNum = wr.getChargeNum(doc);
                     string strChargeAmt = wr.getChargeAmt(doc);
                     chargeId = strOrderNum?.Split('：')[1];
@@ -1077,7 +1111,7 @@ namespace ExchangeTermial
                     int inputAmtInt = 0;
                     bool isInt = double.TryParse(chargeAmt??"0.0",out chargeAmtInt);
                     bool inIsInt = int.TryParse(chgOpt.strAmt, out inputAmtInt);
-                    if (!isInt ||!inIsInt || (int)chargeAmtInt != inputAmtInt )//不是对应的这个金额，跳过！
+                    if (!isInt ||!inIsInt || ((int)chargeAmtInt) != inputAmtInt )//不是对应的这个金额，跳过！
                     {
                         if(chargeAmt == null)
                         {

@@ -1,0 +1,1929 @@
+{
+  "jd_union_open_goods_jingfen_query_response": {
+    "result": {
+      "code": 200,
+      "data": [
+        
+        {
+          "brandCode": "27776",
+          "brandName": "三只松鼠（Three Squirrels）",
+          "categoryInfo": {
+            "cid1": 1320,
+            "cid1Name": "食品饮料",
+            "cid2": 1583,
+            "cid2Name": "休闲食品",
+            "cid3": 1591,
+            "cid3Name": "坚果炒货"
+          },
+          "comments": 329605,
+          "commissionInfo": {
+            "commission": 39.8,
+            "commissionShare": 20.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 1,
+                "discount": 146.0,
+                "getEndTime": 1575820799000,
+                "getStartTime": 1575388800000,
+                "isBest": 1,
+                "link": "https://coupon.m.jd.com/coupons/show.action?key=a01a52e9b62f4777ad40f1915c2325d0&roleId=26014833&to=https://item.m.jd.com/product/100006776632.html",
+                "platformType": 0,
+                "quota": 199.0,
+                "useEndTime": 1575820799000,
+                "useStartTime": 1575388800000
+              },
+              {
+                "bindType": 1,
+                "discount": 30.0,
+                "getEndTime": 1575907199000,
+                "getStartTime": 1575276731000,
+                "isBest": 0,
+                "link": "https://coupon.jd.com/ilink/couponActiveFront/front_index.action?key=7344c343d7ad49488e6bcfad4d498efb&roleId=25997086&to=https://pro.jd.com/mall/active/h4SHKAxrfWmLqgsczBAQWUPmgSp/index.html",
+                "platformType": 0,
+                "quota": 169.0,
+                "useEndTime": 1575907199000,
+                "useStartTime": 1575216000000
+              }
+            ]
+          },
+          "goodCommentsShare": 96.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/86187/15/4900/276388/5de9c749E4f98f5db/03b831e1fb2455ed.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/91798/6/2145/210622/5dcbba12Ed94ed1b6/b76fa47f647dd3e0.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/74711/15/17208/176704/5de4e2d7E76b4f3f1/4730293316d624d1.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/81102/12/11213/83645/5d8b0960E39d21249/4a8fe2583538c3d8.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/102371/7/2098/210578/5dcbb9eeEdaf5bc45/035f659c0470da04.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/94853/17/2279/213758/5dcbb9eeE6fdf34e3/2ecd1edfd44c6b96.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 96185,
+          "inOrderCount30DaysSku": 96185,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/100006776632.html",
+          "owner": "g",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 199.0 },
+          "resourceInfo": {
+            "eliteId": 22,
+            "eliteName": "精品库"
+          },
+          "shopInfo": {
+            "shopId": 1000015268,
+            "shopName": "三只松鼠京东自营旗舰店"
+          },
+          "skuId": 100006776632,
+          "skuName": "三只松鼠坚果大礼包8袋 每日坚果网红零食干果礼盒夏威夷果碧根果节日送礼1419g",
+          "spuid": 100006776632
+        },
+        {
+          "brandCode": "240360",
+          "brandName": "卡慕",
+          "categoryInfo": {
+            "cid1": 1320,
+            "cid1Name": "食品饮料",
+            "cid2": 1583,
+            "cid2Name": "休闲食品",
+            "cid3": 1595,
+            "cid3Name": "饼干蛋糕"
+          },
+          "comments": 30362,
+          "commissionInfo": {
+            "commission": 2.54,
+            "commissionShare": 20.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1577807880000,
+                "getStartTime": 1574215140000,
+                "isBest": 1,
+                "link": "//coupon.jd.com/ilink/couponActiveFront/front_index.action?key=0335184239da4dd1a2a78e4957d18ffc&roleId=25518448&to=item.jd.com/60311659160.html",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1577807999000,
+                "useStartTime": 1574179200000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1577807880000,
+                "getStartTime": 1574738760000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=bb5cff944cbb4768bcf076d7fc235809&roleId=25715276&to=item.jd.com/60311659160.html",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1577807999000,
+                "useStartTime": 1574697600000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1577721540000,
+                "getStartTime": 1575275700000,
+                "isBest": 0,
+                "link": "https://coupon.m.jd.com/coupons/show.action?key=b2e0446cabd6437e86b90fda71f6acec&roleId=25963013&to=item.jd.com/60311659160.html&time=1575278363435",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1577721599000,
+                "useStartTime": 1575216000000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1575993540000,
+                "getStartTime": 1575006480000,
+                "isBest": 0,
+                "link": "https://coupon.m.jd.com/coupons/show.action?key=637813aae37646f0abf7be06ab0a0e6f&roleId=25829137",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1575993599000,
+                "useStartTime": 1574956800000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1576425540000,
+                "getStartTime": 1575105900000,
+                "isBest": 0,
+                "link": "https://coupon.m.jd.com/coupons/show.action?key=1197c87084e040c0ad42e507b212083f&roleId=25883716&to=item.jd.com",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1576425599000,
+                "useStartTime": 1575043200000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1576425540000,
+                "getStartTime": 1575178800000,
+                "isBest": 0,
+                "link": "https://coupon.m.jd.com/coupons/show.action?key=674f621cea1d4c3ba71b010ef699fe0b&roleId=25911486&to=item.jd.com/60311659160.html&time=1575427489461",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1576425599000,
+                "useStartTime": 1575129600000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1576338600000,
+                "getStartTime": 1575438540000,
+                "isBest": 0,
+                "link": "https://coupon.m.jd.com/coupons/show.action?key=2d641931448444618d2b782138a6a4e8&roleId=26039578&to=item.jd.com/60311659160.html",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1576339199000,
+                "useStartTime": 1575388800000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1576857540000,
+                "getStartTime": 1575018000000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=3e50e10c2cdb466a9f44d6a7176acaf2&roleId=25843956&to=item.jd.com/60311659160.html",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1576857599000,
+                "useStartTime": 1574956800000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1576425480000,
+                "getStartTime": 1574993700000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=79561bb6f07743bc9391fba502baaa95&roleId=25817963&to=item.jd.com/60311659160.html",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1576425599000,
+                "useStartTime": 1574956800000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1575993540000,
+                "getStartTime": 1575533580000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=edee4e5b58ca4704a164b71fb860282d&roleId=26091482&to=item.jd.com/60311659160.html",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1575993599000,
+                "useStartTime": 1575475200000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1576234680000,
+                "getStartTime": 1575370620000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=f521d0653ced49868759989d2122cca5&roleId=26015993&to=item.jd.com/60311659160.html",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1576252799000,
+                "useStartTime": 1575302400000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1577030280000,
+                "getStartTime": 1575426540000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=730f54ab05ca46269f15accc9854a2f0&roleId=26029369",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1577030399000,
+                "useStartTime": 1575388800000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1576857540000,
+                "getStartTime": 1575017820000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=52d534f285ea40f2993361744ac6bbd5&roleId=25843804&to=item.jd.com/60311659160.html",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1576857599000,
+                "useStartTime": 1574956800000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1576425540000,
+                "getStartTime": 1575547320000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=0706a373f9a5484595929c2285e499bd&roleId=26101141",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1576425599000,
+                "useStartTime": 1575475200000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1577807880000,
+                "getStartTime": 1573886100000,
+                "isBest": 0,
+                "link": "https://coupon.m.jd.com/coupons/show.action?key=794992db108245b6a85c62ae0146c179&roleId=25404140&to=item.jd.com/60311659160.html",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1577807999000,
+                "useStartTime": 1573833600000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1577773860000,
+                "getStartTime": 1574663400000,
+                "isBest": 0,
+                "link": "https://coupon.jd.com/ilink/couponActiveFront/front_index.action?key=edbc8a4b1535434faf054fc521c28724&roleId=25686815&to=item.jd.com/59885214120.html",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1580486399000,
+                "useStartTime": 1574611200000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1575993540000,
+                "getStartTime": 1574921040000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=cec995ba2839486fb024b2f5ef459aec&roleId=25791895",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1575993599000,
+                "useStartTime": 1574870400000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1575907080000,
+                "getStartTime": 1575363420000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=00a45abe2e664fa9a44a0593383b1c83&roleId=26009934",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1575907199000,
+                "useStartTime": 1575302400000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1576425540000,
+                "getStartTime": 1575537660000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=4d48debca0474d1b8c2c5fbdbc996df7&roleId=26095641&to=item.jd.com/60311659160.html",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1576425599000,
+                "useStartTime": 1575475200000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1577807940000,
+                "getStartTime": 1575249360000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=a8c35d2c5abd4a6baefa4fd4200cf90d&roleId=25930045&to=item.jd.com/60311659160.html",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1577807999000,
+                "useStartTime": 1575216000000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1576425480000,
+                "getStartTime": 1574672820000,
+                "isBest": 0,
+                "link": "https://coupon.m.jd.com/coupons/show.action?key=223bef497e15439c8057e71a71deb7b2&roleId=25696203",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1576425599000,
+                "useStartTime": 1574611200000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1576857540000,
+                "getStartTime": 1575534540000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=a3f37837e9ad48e79cee0c9d2ef1dd5e&roleId=26092446",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1576857599000,
+                "useStartTime": 1575475200000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1576339140000,
+                "getStartTime": 1575550260000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=9cdfb81ce73b4244903369c100a95886&roleId=26102128",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1576339199000,
+                "useStartTime": 1575475200000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1576252740000,
+                "getStartTime": 1575598740000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=b9d66110baed4617b463daef1c982b90&roleId=26112182",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1576252799000,
+                "useStartTime": 1575561600000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1576336440000,
+                "getStartTime": 1575551580000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=787753f20a1844df8a13551f94a9b7f9&roleId=26102486",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1576339199000,
+                "useStartTime": 1575475200000
+              }
+            ]
+          },
+          "goodCommentsShare": 97.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/102072/37/2866/207362/5dd74fe2Ed95b0412/fa8d85676dac94a8.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/59032/33/16231/195855/5dd751cfE8a1f3d07/24d127a5dc89b6ee.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/73104/5/13876/169234/5db3fe61E630b05e2/57cb241939bd77c9.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/101408/21/790/139018/5db3fe61Eb68713f9/2eceeccbd1ad1dbf.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/50760/8/16429/214727/5dd75031Ee9037870/91acbcc23f95c40c.png" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/100973/3/1754/184042/5dc53065E41ac933e/ffc13acb13e10f6f.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 64971,
+          "inOrderCount30DaysSku": 64971,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/60311659160.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 12.7 },
+          "resourceInfo": {
+            "eliteId": 22,
+            "eliteName": "精品库"
+          },
+          "shopInfo": {
+            "shopId": 10247058,
+            "shopName": "卡慕旗舰店"
+          },
+          "skuId": 60311659160,
+          "skuName": "【拍4件15.8】卡慕网红日式小圆饼干100g早餐休闲食品儿童零食小吃礼包日本海盐代餐苏打小饼干糕点 奶盐味",
+          "spuid": 60311659160
+        },
+        {
+          "brandCode": "435048",
+          "brandName": "yitingq",
+          "categoryInfo": {
+            "cid1": 1315,
+            "cid1Name": "服饰内衣",
+            "cid2": 1345,
+            "cid2Name": "内衣",
+            "cid3": 12010,
+            "cid3Name": "休闲棉袜"
+          },
+          "comments": 0,
+          "commissionInfo": {
+            "commission": 5.98,
+            "commissionShare": 20.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 17.0,
+                "getEndTime": 1576166398000,
+                "getStartTime": 1575520380000,
+                "isBest": 1,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=6ca6e6ee29234a10b133450af75ce6c9&roleId=26079394&to=mall.jd.com/index-968322.html",
+                "platformType": 0,
+                "quota": 29.0,
+                "useEndTime": 1576166399000,
+                "useStartTime": 1575475200000
+              }
+            ]
+          },
+          "goodCommentsShare": 100.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/102962/37/3351/134466/5ddf859cE9c82b845/17da3b385e4460a7.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/100344/13/3180/154624/5ddf859eE37d78aa0/886b9b7b6820c713.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/99500/21/3362/130867/5ddf859dE1e46ecf0/7eb1eed4df923de2.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/94482/32/3364/97708/5ddf859cE9f1a6d52/e569b4a4a7dbb382.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/64880/32/16400/115061/5ddf859dE9e6e9682/596e8211daea4800.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/106256/39/3358/87788/5ddf859dE82d41ed9/c4bf85fc5991d24c.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/100492/36/3371/93572/5ddf859eE4521b80f/29b9b96832973075.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 20,
+          "inOrderCount30DaysSku": 15,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/62789784590.html",
+          "owner": "p",
+          "pinGouInfo": {
+            "pingouEndTime": 2133999048000,
+            "pingouPrice": 29.9,
+            "pingouStartTime": 1574929922000,
+            "pingouTmCount": 2,
+            "pingouUrl": "https://wq.jd.com/pingou_api/GetAutoTuan?sku_id=62789784590&from=cps"
+          },
+          "priceInfo": { "price": 39.0 },
+          "resourceInfo": {
+            "eliteId": 22,
+            "eliteName": "精品库"
+          },
+          "shopInfo": {
+            "shopId": 10123794,
+            "shopName": "yitingq服饰拼购旗舰店"
+          },
+          "skuId": 62789784590,
+          "skuName": "【5双装】40克秋冬女士雪地袜 保暖加厚加绒男女通用地板袜 直板雪地靴袜子 【5双装】混色",
+          "spuid": 62789784590
+        },
+        {
+          "brandCode": "108984",
+          "brandName": "乡乡嘴",
+          "categoryInfo": {
+            "cid1": 1320,
+            "cid1Name": "食品饮料",
+            "cid2": 1583,
+            "cid2Name": "休闲食品",
+            "cid3": 1590,
+            "cid3Name": "休闲零食"
+          },
+          "comments": 654,
+          "commissionInfo": {
+            "commission": 19.98,
+            "commissionShare": 20.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 70.0,
+                "getEndTime": 1576252740000,
+                "getStartTime": 1575431580000,
+                "isBest": 1,
+                "link": "//coupon.jd.com/ilink/couponActiveFront/front_index.action?key=a4b73e9bc69b48b99bef5fc916f210a4&roleId=26035781&to=item.jd.com/55223242075.html",
+                "platformType": 0,
+                "quota": 99.0,
+                "useEndTime": 1576252799000,
+                "useStartTime": 1575388800000
+              }
+            ]
+          },
+          "goodCommentsShare": 98.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/74750/18/605/1007317/5cece606E0c8cbfd3/147f065b3c93ecbe.png" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t29347/155/1551063013/92272/8195783e/5ce37581N953a71d9.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/49669/4/1092/140594/5cece50eE789d6837/e602b169d53c9d02.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/59372/39/570/84023/5cece16fE00635c29/d871beb75b6ffafa.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/76976/25/541/130468/5cece16eE8c64e43a/c37516bb7705544d.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/56194/16/1051/181433/5cece16eEcff4029e/4aaa242b579e1e6f.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 290,
+          "inOrderCount30DaysSku": 219,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/55223242075.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 99.9 },
+          "resourceInfo": {
+            "eliteId": 22,
+            "eliteName": "精品库"
+          },
+          "shopInfo": {
+            "shopId": 126215,
+            "shopName": "乡乡嘴旗舰店"
+          },
+          "skuId": 55223242075,
+          "skuName": "乡乡嘴素牛排 湖南特产手撕豆干 办公室休闲零食即食卤味豆干豆板筋 混合味 60包684g",
+          "spuid": 55223242075
+        },
+        {
+          "brandCode": "145499",
+          "brandName": "欧佩（ou pei）",
+          "categoryInfo": {
+            "cid1": 1316,
+            "cid1Name": "美妆护肤",
+            "cid2": 1381,
+            "cid2Name": "面部护肤",
+            "cid3": 1396,
+            "cid3Name": "套装/礼盒"
+          },
+          "comments": 12550,
+          "commissionInfo": {
+            "commission": 549.5,
+            "commissionShare": 50.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 800.0,
+                "getEndTime": 1575907140000,
+                "getStartTime": 1575261360000,
+                "isBest": 1,
+                "link": "//coupon.jd.com/ilink/couponActiveFront/front_index.action?key=45ff02460148402aae694b284419ec77&roleId=25946727&to=oupei.jd.com",
+                "platformType": 0,
+                "quota": 1000.0,
+                "useEndTime": 1575907199000,
+                "useStartTime": 1575216000000
+              },
+              {
+                "bindType": 3,
+                "discount": 800.0,
+                "getEndTime": 1576425540000,
+                "getStartTime": 1575080280000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=50ac8d3653fe420f9b22ac795c061b4f&roleId=25861597&to=oupei.jd.com",
+                "platformType": 0,
+                "quota": 1000.0,
+                "useEndTime": 1576425599000,
+                "useStartTime": 1575043200000
+              },
+              {
+                "bindType": 3,
+                "discount": 800.0,
+                "getEndTime": 1576425540000,
+                "getStartTime": 1575092880000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=6c0afef0a2e740e99e46f5e79f0a3b54&roleId=25871282&to=oupei.jd.com",
+                "platformType": 0,
+                "quota": 1000.0,
+                "useEndTime": 1576425599000,
+                "useStartTime": 1575043200000
+              },
+              {
+                "bindType": 3,
+                "discount": 800.0,
+                "getEndTime": 1575993540000,
+                "getStartTime": 1574834160000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=7cb1e04eb0b14d21b41e0c0c9db332df&roleId=25755857",
+                "platformType": 0,
+                "quota": 1000.0,
+                "useEndTime": 1575993599000,
+                "useStartTime": 1574784000000
+              },
+              {
+                "bindType": 3,
+                "discount": 800.0,
+                "getEndTime": 1575820740000,
+                "getStartTime": 1575430500000,
+                "isBest": 0,
+                "link": "https://coupon.m.jd.com/coupons/show.action?key=4dbc8fb909874454aff4a69fd4be85eb&roleId=26034531&to=oupei.jd.com",
+                "platformType": 0,
+                "quota": 1000.0,
+                "useEndTime": 1575820799000,
+                "useStartTime": 1575388800000
+              },
+              {
+                "bindType": 3,
+                "discount": 800.0,
+                "getEndTime": 1575993540000,
+                "getStartTime": 1574924520000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=45c742e9021540c8b9c192277d62890d&roleId=25795721&to=oupei.jd.com",
+                "platformType": 0,
+                "quota": 1000.0,
+                "useEndTime": 1575993599000,
+                "useStartTime": 1574870400000
+              },
+              {
+                "bindType": 3,
+                "discount": 800.0,
+                "getEndTime": 1575993540000,
+                "getStartTime": 1575208200000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=f1290245de9a4672b7d2b98469acf953&roleId=25924868&to=oupei.jd.com",
+                "platformType": 0,
+                "quota": 1000.0,
+                "useEndTime": 1575993599000,
+                "useStartTime": 1575129600000
+              },
+              {
+                "bindType": 3,
+                "discount": 800.0,
+                "getEndTime": 1575993540000,
+                "getStartTime": 1574649000000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=352a340527664eba82a98af54e7b8479&roleId=25675421&to=oupei.jd.com",
+                "platformType": 0,
+                "quota": 1000.0,
+                "useEndTime": 1575993599000,
+                "useStartTime": 1574611200000
+              },
+              {
+                "bindType": 3,
+                "discount": 800.0,
+                "getEndTime": 1576511940000,
+                "getStartTime": 1575339660000,
+                "isBest": 0,
+                "link": "http://coupon.jd.com/ilink/couponActiveFront/front_index.action?key=60207d7afb02434993c173fdd903b120&roleId=25984381&to=oupei.jd.com",
+                "platformType": 0,
+                "quota": 1000.0,
+                "useEndTime": 1576511999000,
+                "useStartTime": 1575302400000
+              }
+            ]
+          },
+          "goodCommentsShare": 98.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/97927/2/82/130972/5da6c4bfE23321edd/1d4db3a9e5ca201c.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/77934/1/13114/95376/5da43ec7Eaafdfde6/4447ef87943e58ce.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/58560/15/13576/110772/5da43ed0Ea6ebed87/0519923d344e6c2e.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/46254/26/13477/89057/5da43ee0Ebe582d89/8da412a72ad0395a.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/46796/1/13602/78287/5da43ee9Ebe48aea8/7fcc6f131da4fa08.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/44610/38/14020/86163/5da43ecbE761bab1e/60914fa1226ba0bd.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 44090,
+          "inOrderCount30DaysSku": 44090,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/58925012690.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 1099.0 },
+          "resourceInfo": {
+            "eliteId": 22,
+            "eliteName": "精品库"
+          },
+          "shopInfo": {
+            "shopId": 174843,
+            "shopName": "欧佩旗舰店"
+          },
+          "skuId": 58925012690,
+          "skuName": "欧佩二裂酵母润养修护套盒 超值6件套",
+          "spuid": 58925012690
+        },
+        {
+          "brandCode": "19410",
+          "brandName": "依风（YIFENG）",
+          "categoryInfo": {
+            "cid1": 1316,
+            "cid1Name": "美妆护肤",
+            "cid2": 1381,
+            "cid2Name": "面部护肤",
+            "cid3": 1391,
+            "cid3Name": "乳液/面霜"
+          },
+          "comments": 0,
+          "commissionInfo": {
+            "commission": 9.98,
+            "commissionShare": 25.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 24.0,
+                "getEndTime": 1576079940000,
+                "getStartTime": 1575456360000,
+                "isBest": 1,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=b1bb3deccd2947eebd64b86590f6c995&roleId=26058507&to=yimeifang.jd.com",
+                "platformType": 0,
+                "quota": 39.0,
+                "useEndTime": 1576079999000,
+                "useStartTime": 1575388800000
+              }
+            ]
+          },
+          "goodCommentsShare": 100.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/104776/14/4520/129754/5de78d11E396c5922/eb8a220f19ad5763.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/93506/33/4566/74595/5de78df9Efa4385a2/102dc844b7169634.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/5224/15/6658/77093/5ba35aceE4b955a9e/e8da40883fd6b64f.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/5462/1/5974/115912/5ba0e633Ee93cd547/fc7486a4015ad76d.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/3315/17/6588/102013/5ba35acfEbca073a2/0c1d4f6d595825d4.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/93102/35/3349/100455/5ddf6318E43381cc1/0d2332a94abbf0c5.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/74504/38/16492/113235/5ddf6319E46175fb3/94f034eaa52b4d3a.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/3361/9/6472/97224/5ba35acfEc4ea69d8/17103202fe2fc636.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/70577/17/2557/136064/5d0c8868E6b56a651/3556a1deca1925ff.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/28356/21/3469/75328/5c275f85Ea95a8676/2e9ca69283b7dafa.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 576,
+          "inOrderCount30DaysSku": 13,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/63218422234.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 39.9 },
+          "resourceInfo": {
+            "eliteId": 22,
+            "eliteName": "精品库"
+          },
+          "shopInfo": {
+            "shopId": 21999,
+            "shopName": "一美坊"
+          },
+          "skuId": 63218422234,
+          "skuName": "维生素e乳液100ml ve乳身体乳霜（止痒润肤 补水保湿全身适用）润肤乳 护手霜 ve乳100ml+凡士林润肤霜100g",
+          "spuid": 30208672476
+        },
+        {
+          "brandCode": "397919",
+          "brandName": "云依禾农庄",
+          "categoryInfo": {
+            "cid1": 12218,
+            "cid1Name": "生鲜",
+            "cid2": 13586,
+            "cid2Name": "禽肉蛋品",
+            "cid3": 13587,
+            "cid3Name": "鸡肉"
+          },
+          "comments": 64,
+          "commissionInfo": {
+            "commission": 25.6,
+            "commissionShare": 20.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 50.0,
+                "getEndTime": 1576140180000,
+                "getStartTime": 1575448980000,
+                "isBest": 1,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=d3ceab02aa16495a8d9b2d1140a72894&roleId=26051300&to=mall.jd.com/index-897367.html",
+                "platformType": 0,
+                "quota": 128.0,
+                "useEndTime": 1576166399000,
+                "useStartTime": 1575388800000
+              }
+            ]
+          },
+          "goodCommentsShare": 95.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/54312/36/8880/61142/5d63aea7E061ab2c2/20d3c49638a228a2.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/59592/21/8283/195695/5d63adcbEe6bb2432/e2bfee18bd1aae94.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/74780/1/8122/131272/5d63adcbEb162da2f/55fb3bf440260316.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/81646/28/8355/205301/5d63adcbE02e1e82a/18d851e912b5b0ac.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/38649/35/15481/185571/5d63adcbE453bb35d/84ffbe25f3039d3b.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/72874/20/8430/241913/5d63adccEdf2fc961/94d2435a40998fdc.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/70742/24/8232/86128/5d63adccEbd392c57/99e57687f2259e3e.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 334,
+          "inOrderCount30DaysSku": 334,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/55539255555.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 128.0 },
+          "resourceInfo": {
+            "eliteId": 22,
+            "eliteName": "精品库"
+          },
+          "shopInfo": {
+            "shopId": 10058071,
+            "shopName": "中国特产·濮阳扶贫馆"
+          },
+          "skuId": 55539255555,
+          "skuName": "买1只送1只 散养三黄鸡整只土鸡肉生鲜农村童子鸡白切鸡食材约1000g/只",
+          "spuid": 55539255555
+        },
+        {
+          "brandCode": "97937",
+          "brandName": "林家铺子",
+          "categoryInfo": {
+            "cid1": 1320,
+            "cid1Name": "食品饮料",
+            "cid2": 1584,
+            "cid2Name": "粮油调味",
+            "cid3": 2679,
+            "cid3Name": "方便食品"
+          },
+          "comments": 10282,
+          "commissionInfo": {
+            "commission": 7.18,
+            "commissionShare": 20.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 16.0,
+                "getEndTime": 1575907161000,
+                "getStartTime": 1575278520000,
+                "isBest": 1,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=a767a66f82e342b8ae099dbbb7525f09&roleId=25966280&to=mall.jd.com/index-10128641.html",
+                "platformType": 0,
+                "quota": 35.0,
+                "useEndTime": 1575907199000,
+                "useStartTime": 1575216000000
+              }
+            ]
+          },
+          "goodCommentsShare": 98.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/97110/16/1309/117878/5dbd19cbE3c4c68da/f36da91e3f661a73.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/57644/11/14687/941458/5dbaafc3Ebffd19ca/5122c19fca42930f.png" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/105002/31/1131/152792/5dbaafc3E0c020289/2d7110d790895b3c.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/84771/32/1165/99166/5dbaafc2Ed68174f5/09e9620ad84056c6.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/70295/25/14189/121427/5dbaafc2E64cb51f4/c28734dcd268eb81.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/86921/38/1162/144291/5dbaafc3E4be16c16/98c07040c7164f06.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 13318,
+          "inOrderCount30DaysSku": 13318,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/60603318286.html",
+          "owner": "p",
+          "pinGouInfo": {
+            "pingouEndTime": 2133999048000,
+            "pingouPrice": 35.9,
+            "pingouStartTime": 1572516156000,
+            "pingouTmCount": 2,
+            "pingouUrl": "https://wq.jd.com/pingou_api/GetAutoTuan?sku_id=60603318286&from=cps"
+          },
+          "priceInfo": { "price": 39.9 },
+          "resourceInfo": {
+            "eliteId": 22,
+            "eliteName": "精品库"
+          },
+          "shopInfo": {
+            "shopId": 10265014,
+            "shopName": "林家铺子拼购旗舰店"
+          },
+          "skuId": 60603318286,
+          "skuName": "林家铺子午餐肉罐头200g*3罐三明治火锅即食肉类方便下饭菜 200g*3罐午餐肉",
+          "spuid": 60603318286
+        },
+        {
+          "brandCode": "186378",
+          "brandName": "肖三婆",
+          "categoryInfo": {
+            "cid1": 12218,
+            "cid1Name": "生鲜",
+            "cid2": 12222,
+            "cid2Name": "海鲜水产",
+            "cid3": 12242,
+            "cid3Name": "虾类"
+          },
+          "comments": 2678,
+          "commissionInfo": {
+            "commission": 14.97,
+            "commissionShare": 30.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 20.0,
+                "getEndTime": 1576511940000,
+                "getStartTime": 1575475200000,
+                "isBest": 1,
+                "link": "//coupon.jd.com/ilink/couponActiveFront/front_index.action?key=ada4db0eba08450f9c50187335f05574&roleId=25984513&to=xiaosanpo.jd.com",
+                "platformType": 0,
+                "quota": 47.0,
+                "useEndTime": 1576511999000,
+                "useStartTime": 1575475200000
+              },
+              {
+                "bindType": 3,
+                "discount": 20.0,
+                "getEndTime": 1575907140000,
+                "getStartTime": 1575337020000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=f261429d8bc24752be9dec1819e5f514&roleId=25980626&to=xiaosanpo.jd.com",
+                "platformType": 0,
+                "quota": 49.0,
+                "useEndTime": 1575907199000,
+                "useStartTime": 1575302400000
+              },
+              {
+                "bindType": 3,
+                "discount": 20.0,
+                "getEndTime": 1576511940000,
+                "getStartTime": 1575422700000,
+                "isBest": 0,
+                "link": "https://coupon.m.jd.com/coupons/show.action?key=c3e5360bd7fd4bbc953931e16fd8c26f&roleId=26024568&to=xiaosanpo.jd.com",
+                "platformType": 0,
+                "quota": 47.0,
+                "useEndTime": 1576511999000,
+                "useStartTime": 1575388800000
+              }
+            ]
+          },
+          "goodCommentsShare": 96.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t19273/340/2629653400/445527/db4550f6/5b0288b8N56102d94.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/62234/31/13356/471277/5da838e4Eec0ac388/bd89904a6dc7c863.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/51697/31/3771/216485/5d181554Ef8be9795/bd04c44401044102.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/52990/25/3638/229509/5d18155aEdae44145/eb98fe01353f0c32.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/74802/4/3274/154021/5d18155dE13b5a6a4/e67467aa4c9fe84f.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 718,
+          "inOrderCount30DaysSku": 718,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/28893891718.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 49.9 },
+          "resourceInfo": {
+            "eliteId": 22,
+            "eliteName": "精品库"
+          },
+          "shopInfo": {
+            "shopId": 222366,
+            "shopName": "肖三婆旗舰店"
+          },
+          "skuId": 28893891718,
+          "skuName": "肖三婆麻辣小龙虾尾熟食海鲜虾球零食125g*2袋麻辣味 麻辣味*2袋",
+          "spuid": 28893891718
+        },
+        {
+          "brandCode": "431656",
+          "brandName": "DayDayCook",
+          "categoryInfo": {
+            "cid1": 1320,
+            "cid1Name": "食品饮料",
+            "cid2": 1583,
+            "cid2Name": "休闲食品",
+            "cid3": 1591,
+            "cid3Name": "坚果炒货"
+          },
+          "comments": 41283,
+          "commissionInfo": {
+            "commission": 7.98,
+            "commissionShare": 20.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 20.0,
+                "getEndTime": 1576079220000,
+                "getStartTime": 1575542820000,
+                "isBest": 1,
+                "link": "//coupon.jd.com/ilink/couponSendFront/send_index.action?key=bdd9f059eb7a4707b11b71503cc80c87&roleId=26099632&to=daydaycook.jd.com",
+                "platformType": 0,
+                "quota": 39.0,
+                "useEndTime": 1576079999000,
+                "useStartTime": 1575475200000
+              },
+              {
+                "bindType": 3,
+                "discount": 20.0,
+                "getEndTime": 1576319940000,
+                "getStartTime": 1575455940000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=d4918a2744c94589b220a12b06622f57&roleId=26058288&to=daydaycook.jd.com",
+                "platformType": 0,
+                "quota": 39.0,
+                "useEndTime": 1576339199000,
+                "useStartTime": 1575388800000
+              },
+              {
+                "bindType": 3,
+                "discount": 20.0,
+                "getEndTime": 1576480440000,
+                "getStartTime": 1575357240000,
+                "isBest": 0,
+                "link": "//coupon.jd.com/ilink/couponSendFront/send_index.action?key=dda4156b51134de08f265c41275b1379&roleId=26002796&to=daydaycook.jd.com",
+                "platformType": 0,
+                "quota": 39.0,
+                "useEndTime": 1576511999000,
+                "useStartTime": 1575302400000
+              },
+              {
+                "bindType": 3,
+                "discount": 20.0,
+                "getEndTime": 1576252680000,
+                "getStartTime": 1574651520000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=13a0897a33b4437f9bfd82a98305adc3&roleId=25678658",
+                "platformType": 0,
+                "quota": 39.0,
+                "useEndTime": 1576252799000,
+                "useStartTime": 1574611200000
+              },
+              {
+                "bindType": 3,
+                "discount": 20.0,
+                "getEndTime": 1576425540000,
+                "getStartTime": 1575544200000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=086caf1dbf6d455cbfcaac300f5d52b5&roleId=26100070",
+                "platformType": 0,
+                "quota": 39.0,
+                "useEndTime": 1576425599000,
+                "useStartTime": 1575475200000
+              }
+            ]
+          },
+          "goodCommentsShare": 99.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/86771/9/4146/168731/5de5d4fcE00b5bbdb/f007a511c5dcbc9d.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/96282/31/4235/194499/5de5d4fbE22f9f565/6abee672d3f18a4e.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/45458/31/16986/290577/5de5d4fbE5e9d83c9/90297a057a239f89.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/101556/28/3605/223044/5de5d4fcE18b3261b/3e4e151810774535.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/94026/31/4256/201973/5de5d4fcE82c54b43/997086647b05f1aa.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/94524/16/4273/159261/5de5d4fdEd70e1d2e/3015bbdbdcc24bc3.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 52224,
+          "inOrderCount30DaysSku": 52224,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/57085110413.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 39.9 },
+          "resourceInfo": {
+            "eliteId": 22,
+            "eliteName": "精品库"
+          },
+          "shopInfo": {
+            "shopId": 10136574,
+            "shopName": "DayDayCook旗舰店"
+          },
+          "skuId": 57085110413,
+          "skuName": "日日煮daydaycook南瓜子炒米芝麻夹心海苔脆片40g*4罐",
+          "spuid": 57085110413
+        },
+        {
+          "brandCode": "25952",
+          "brandName": "神丹",
+          "categoryInfo": {
+            "cid1": 12218,
+            "cid1Name": "生鲜",
+            "cid2": 13586,
+            "cid2Name": "禽肉蛋品",
+            "cid3": 12250,
+            "cid3Name": "蛋类"
+          },
+          "comments": 1055,
+          "commissionInfo": {
+            "commission": 7.98,
+            "commissionShare": 20.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 10.0,
+                "getEndTime": 1575734340000,
+                "getStartTime": 1575078120000,
+                "isBest": 1,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=cf67ef7530f448adbbeed0ab7a025704&roleId=25859460&to=mall.jd.com/index-101019.html",
+                "platformType": 0,
+                "quota": 30.0,
+                "useEndTime": 1575734399000,
+                "useStartTime": 1575043200000
+              },
+              {
+                "bindType": 3,
+                "discount": 10.0,
+                "getEndTime": 1575734340000,
+                "getStartTime": 1575129600000,
+                "isBest": 0,
+                "link": "https://coupon.m.jd.com/coupons/show.action?key=518c97a477ec4b1790ad467a63bd9ba5&roleId=25884166&to=mall.jd.com/index-101019.html",
+                "platformType": 0,
+                "quota": 30.0,
+                "useEndTime": 1575734399000,
+                "useStartTime": 1575129600000
+              },
+              {
+                "bindType": 3,
+                "discount": 10.0,
+                "getEndTime": 1575648000000,
+                "getStartTime": 1575129600000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=162dd3794ec5477d8a04209f62c42525&roleId=25863106&to=mall.jd.com/index-101019.html",
+                "platformType": 0,
+                "quota": 30.0,
+                "useEndTime": 1575734399000,
+                "useStartTime": 1575129600000
+              },
+              {
+                "bindType": 3,
+                "discount": 10.0,
+                "getEndTime": 1575820740000,
+                "getStartTime": 1575251040000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=d1e2490a808a4bd9912778bd4488d02b&roleId=25932594&to=mall.jd.com/index-101019.html",
+                "platformType": 0,
+                "quota": 30.0,
+                "useEndTime": 1575820799000,
+                "useStartTime": 1575216000000
+              },
+              {
+                "bindType": 3,
+                "discount": 10.0,
+                "getEndTime": 1575820740000,
+                "getStartTime": 1575252960000,
+                "isBest": 0,
+                "link": "https://coupon.m.jd.com/coupons/show.action?key=e30e207812a54263b58e757a11547df8&roleId=25935853&to=mall.jd.com",
+                "platformType": 0,
+                "quota": 30.0,
+                "useEndTime": 1575820799000,
+                "useStartTime": 1575216000000
+              },
+              {
+                "bindType": 3,
+                "discount": 10.0,
+                "getEndTime": 1575734340000,
+                "getStartTime": 1575129600000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=2652d8df4e444bb5a98848ead8672cd2&roleId=25860899",
+                "platformType": 0,
+                "quota": 30.0,
+                "useEndTime": 1575734399000,
+                "useStartTime": 1575129600000
+              },
+              {
+                "bindType": 3,
+                "discount": 10.0,
+                "getEndTime": 1575734340000,
+                "getStartTime": 1575129600000,
+                "isBest": 0,
+                "link": "http://coupon.jd.com/ilink/couponActiveFront/front_index.action?key=c5dbaa7bbc4b4d9bb6712f4010628294&roleId=25884315&to=mall.jd.com/index-101019.html",
+                "platformType": 0,
+                "quota": 30.0,
+                "useEndTime": 1575734399000,
+                "useStartTime": 1575129600000
+              },
+              {
+                "bindType": 3,
+                "discount": 10.0,
+                "getEndTime": 1575734340000,
+                "getStartTime": 1575248820000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=ec09b62dcf9749c4b53d949f4fa967f7&roleId=25929364",
+                "platformType": 0,
+                "quota": 30.0,
+                "useEndTime": 1575734399000,
+                "useStartTime": 1575216000000
+              }
+            ]
+          },
+          "goodCommentsShare": 96.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/79310/5/14156/114345/5db80270E74c31411/72d9400d1b33d6f9.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/93305/13/3360/137595/5ddf420aE4658c9f8/e6b6ea2d9dc77629.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t29707/216/205917642/134886/9103de9b/5beb854aN961c537a.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t6622/244/584170759/727942/f487d5c5/5941de80Nad2801f2.png" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t17827/111/1896307607/472559/8832dd7b/5adaa7b3Nbdaa1998.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t18616/267/136855278/154631/da06f9ea/5a5f2de9Ne8ed1b55.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t18082/9/1846974494/291063/48229c42/5adaa82bNcb89b7ea.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 10230,
+          "inOrderCount30DaysSku": 10230,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/10092994313.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 39.9 },
+          "resourceInfo": {
+            "eliteId": 22,
+            "eliteName": "精品库"
+          },
+          "shopInfo": {
+            "shopId": 102883,
+            "shopName": "神丹官方旗舰店"
+          },
+          "skuId": 10092994313,
+          "skuName": "神丹 油黄咸鸭蛋  熟咸蛋真空包装约60g/枚 20枚",
+          "spuid": 10092994313
+        },
+        {
+          "brandCode": "11540",
+          "brandName": "良品铺子",
+          "categoryInfo": {
+            "cid1": 1320,
+            "cid1Name": "食品饮料",
+            "cid2": 1583,
+            "cid2Name": "休闲食品",
+            "cid3": 1591,
+            "cid3Name": "坚果炒货"
+          },
+          "comments": 201272,
+          "commissionInfo": {
+            "commission": 16.35,
+            "commissionShare": 15.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 20.0,
+                "getEndTime": 1575647700000,
+                "getStartTime": 1575475200000,
+                "isBest": 1,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=6fee9617eb524d7aac36cd127f182d93&roleId=26056670",
+                "platformType": 0,
+                "quota": 79.0,
+                "useEndTime": 1575647999000,
+                "useStartTime": 1575475200000
+              },
+              {
+                "bindType": 3,
+                "discount": 20.0,
+                "getEndTime": 1575647700000,
+                "getStartTime": 1575475200000,
+                "isBest": 0,
+                "link": "https://coupon.m.jd.com/coupons/show.action?key=ae708724a23d4ad09a760d661772a477&roleId=26056725",
+                "platformType": 0,
+                "quota": 79.0,
+                "useEndTime": 1575647999000,
+                "useStartTime": 1575475200000
+              }
+            ]
+          },
+          "goodCommentsShare": 99.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/104732/7/4745/217882/5de8caaaEe36e9dcf/08b716ef96a88c75.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/103250/36/4647/187632/5de8caffE1ec9bc14/2704f177e0135ea3.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/91432/19/4691/167390/5de8cc02Ec5f78ae8/b75da5a6cfb14a58.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/86794/29/4795/226220/5de8cbf9E99ea9922/e03a7c53804a80d7.png" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/90182/25/2938/187283/5dd7549aE9f74794b/f1c695bae246a4c4.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/101023/37/3511/107405/5de0f31eE93e1e063/136f5733164587a3.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/95595/39/2875/147060/5dd7549aEbe71b351/f9c3dd00d44598fd.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/106442/4/2902/178512/5dd757b8E7d9d98f5/c8cb5a9d8a3715dd.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/52185/21/15452/150489/5dc50309Ed5a33255/f2989b350b211f2a.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 60504,
+          "inOrderCount30DaysSku": 60504,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/40428639716.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 109.0 },
+          "resourceInfo": {
+            "eliteId": 22,
+            "eliteName": "精品库"
+          },
+          "shopInfo": {
+            "shopId": 26426,
+            "shopName": "良品铺子官方旗舰店"
+          },
+          "skuId": 40428639716,
+          "skuName": "良品铺子 坚果零食大礼包送女友一整箱1310g 坚果礼包礼盒内含夏威夷果核桃腰果休闲零食 1310g 食食有爱（新老包装随机发货）",
+          "spuid": 40428639716
+        },
+        {
+          "brandCode": "501932",
+          "brandName": "老果农",
+          "categoryInfo": {
+            "cid1": 12218,
+            "cid1Name": "生鲜",
+            "cid2": 12221,
+            "cid2Name": "水果",
+            "cid3": 13555,
+            "cid3Name": "橙子"
+          },
+          "comments": 474,
+          "commissionInfo": {
+            "commission": 7.98,
+            "commissionShare": 20.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 20.0,
+                "getEndTime": 1575734398000,
+                "getStartTime": 1574846220000,
+                "isBest": 1,
+                "link": "//coupon.jd.com/ilink/couponActiveFront/front_index.action?key=3c8c38a6540f4589952824f7656e1a27&roleId=25767252&to=laoguonong.jd.com",
+                "platformType": 0,
+                "quota": 39.0,
+                "useEndTime": 1575734399000,
+                "useStartTime": 1574784000000
+              }
+            ]
+          },
+          "goodCommentsShare": 99.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/92967/20/2215/559238/5dcce83cE63474811/50399f9fb44ab051.png" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/95953/10/982/311207/5db7b005E8400d89e/4f00cfd03cd0ff5d.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/86436/24/998/332501/5db7b020E599f4514/b5e9b3d4dd761678.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/77035/3/14874/316514/5dc65b1dE14c39c43/1e5dc1af33548e48.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/55446/34/15357/365925/5dc65b1dE555f4d43/a67786dfd360df06.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/102726/35/1770/279957/5dc65b1eEc2999724/6f01455db345090f.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 1779,
+          "inOrderCount30DaysSku": 1422,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/60399738029.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 39.9 },
+          "resourceInfo": {
+            "eliteId": 22,
+            "eliteName": "精品库"
+          },
+          "shopInfo": {
+            "shopId": 10263242,
+            "shopName": "老果农旗舰店"
+          },
+          "skuId": 60399738029,
+          "skuName": "【老果农】江西橙子赣南脐橙 赣州产地直发新鲜多汁当季甜橙 迷你手剥橙5斤装",
+          "spuid": 60399738029
+        },
+        {
+          "brandCode": "148730",
+          "brandName": "漠贝贝",
+          "categoryInfo": {
+            "cid1": 1320,
+            "cid1Name": "食品饮料",
+            "cid2": 1583,
+            "cid2Name": "休闲食品",
+            "cid3": 1591,
+            "cid3Name": "坚果炒货"
+          },
+          "comments": 16813,
+          "commissionInfo": {
+            "commission": 11.38,
+            "commissionShare": 20.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 25.0,
+                "getEndTime": 1576339020000,
+                "getStartTime": 1575460740000,
+                "isBest": 1,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=a50fbaa4805c4683bb11aea0748f723e&roleId=26060101&to=mall.jd.com/index-172418.html",
+                "platformType": 0,
+                "quota": 49.0,
+                "useEndTime": 1576339199000,
+                "useStartTime": 1575388800000
+              },
+              {
+                "bindType": 3,
+                "discount": 25.0,
+                "getEndTime": 1575906300000,
+                "getStartTime": 1575423720000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=f5b7e96ed8884825b51c29f270a22506&roleId=26025942&to=mall.jd.com/index-172418.html",
+                "platformType": 0,
+                "quota": 49.0,
+                "useEndTime": 1575907199000,
+                "useStartTime": 1575388800000
+              },
+              {
+                "bindType": 3,
+                "discount": 25.0,
+                "getEndTime": 1575820320000,
+                "getStartTime": 1575180900000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=537a7723cc714a079a900417785693ce&roleId=25912854&to=mall.jd.com/index-172418.html",
+                "platformType": 0,
+                "quota": 49.0,
+                "useEndTime": 1575820799000,
+                "useStartTime": 1575129600000
+              },
+              {
+                "bindType": 3,
+                "discount": 25.0,
+                "getEndTime": 1575819900000,
+                "getStartTime": 1574945100000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=16d65a62f4214622a799b26237ce1f8b&roleId=25809414&to=mall.jd.com/index-172418.html",
+                "platformType": 0,
+                "quota": 49.0,
+                "useEndTime": 1575820799000,
+                "useStartTime": 1574870400000
+              },
+              {
+                "bindType": 3,
+                "discount": 25.0,
+                "getEndTime": 1575733800000,
+                "getStartTime": 1574820420000,
+                "isBest": 0,
+                "link": "https://coupon.m.jd.com/coupons/show.action?key=74f61a6faab14efb937af0ff5be7ec43&roleId=25745170&to=mall.jd.com/index-172418.html",
+                "platformType": 0,
+                "quota": 49.0,
+                "useEndTime": 1575734399000,
+                "useStartTime": 1574784000000
+              },
+              {
+                "bindType": 3,
+                "discount": 25.0,
+                "getEndTime": 1575733980000,
+                "getStartTime": 1574828280000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=f617d306ff3d405183a6a09da4a892d0&roleId=25752773&yiqifa_skuid=28134341909",
+                "platformType": 0,
+                "quota": 49.0,
+                "useEndTime": 1575734399000,
+                "useStartTime": 1574784000000
+              },
+              {
+                "bindType": 3,
+                "discount": 25.0,
+                "getEndTime": 1575733800000,
+                "getStartTime": 1575256860000,
+                "isBest": 0,
+                "link": "https://coupon.m.jd.com/coupons/show.action?key=4450eb08390e488b8dad8fa7b2ed1a26&roleId=25942419&to=mall.jd.com/index-172418.html",
+                "platformType": 0,
+                "quota": 49.0,
+                "useEndTime": 1575734399000,
+                "useStartTime": 1575216000000
+              }
+            ]
+          },
+          "goodCommentsShare": 99.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/6196/15/15698/960498/5c6ea448E3a31169c/637fee1866d55d59.png" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t4480/322/1612944064/650342/f33ec942/58e226aeN690d23cc.png" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/18455/35/7946/98895/5c6ea477Ea2d3de98/2a507c2ae7f3f0bc.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 11365,
+          "inOrderCount30DaysSku": 11365,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/28134341909.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 56.9 },
+          "resourceInfo": {
+            "eliteId": 22,
+            "eliteName": "精品库"
+          },
+          "shopInfo": {
+            "shopId": 178404,
+            "shopName": "漠贝贝食品专营店"
+          },
+          "skuId": 28134341909,
+          "skuName": "漠贝贝 原味瓜子450克X4袋量贩装休闲零食坚果炒货零食瓜子葵瓜子",
+          "spuid": 28134341909
+        },
+        {
+          "brandCode": "72312",
+          "brandName": "丹吉娅（danjiya）",
+          "categoryInfo": {
+            "cid1": 1315,
+            "cid1Name": "服饰内衣",
+            "cid2": 1345,
+            "cid2Name": "内衣",
+            "cid3": 12010,
+            "cid3Name": "休闲棉袜"
+          },
+          "comments": 624,
+          "commissionInfo": {
+            "commission": 1.58,
+            "commissionShare": 20.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 2.0,
+                "getEndTime": 1576162800000,
+                "getStartTime": 1575302400000,
+                "isBest": 1,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=2923853a24934186a38d625e85314016&roleId=25967378&to=mall.jd.com/index-981418.html",
+                "platformType": 0,
+                "quota": 5.0,
+                "useEndTime": 1576166399000,
+                "useStartTime": 1575302400000
+              }
+            ]
+          },
+          "goodCommentsShare": 94.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/95638/32/4074/186324/5de49dbaE37ae40f2/53c6cfcf19789c09.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/50631/10/16379/113615/5dd8d44dE0ad8166e/ae2e2b6c3816789f.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/71489/34/16636/158515/5de1c72aEdcf860a1/38e6c26ec757d67b.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/76044/26/12651/171648/5d9fd962E2bcc001e/3473494be74832b5.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/68292/11/12632/125245/5d9fd962E6651ac51/41eef1d6e121ba90.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/46518/5/13224/140726/5d9fd94fE5003a15d/6a32abda2d565347.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 1512,
+          "inOrderCount30DaysSku": 1512,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/49895914587.html",
+          "owner": "p",
+          "pinGouInfo": {
+            "pingouEndTime": 2133999048000,
+            "pingouPrice": 7.9,
+            "pingouStartTime": 1560306890000,
+            "pingouTmCount": 2,
+            "pingouUrl": "https://wq.jd.com/pingou_api/GetAutoTuan?sku_id=49895914587&from=cps"
+          },
+          "priceInfo": { "price": 29.9 },
+          "resourceInfo": {
+            "eliteId": 22,
+            "eliteName": "精品库"
+          },
+          "shopInfo": {
+            "shopId": 10136095,
+            "shopName": "丹吉娅拼购旗舰店"
+          },
+          "skuId": 49895914587,
+          "skuName": "丹吉娅袜子男5双装秋款纯色优质经典商务中筒男袜吸汗透气运动休闲袜 混色5双装 均码",
+          "spuid": 49895914587
+        },
+        {
+          "brandCode": "52894",
+          "brandName": "大希地（HITOMORROW）",
+          "categoryInfo": {
+            "cid1": 12218,
+            "cid1Name": "生鲜",
+            "cid2": 12222,
+            "cid2Name": "海鲜水产",
+            "cid3": 12241,
+            "cid3Name": "鱼类"
+          },
+          "comments": 4709,
+          "commissionInfo": {
+            "commission": 19.8,
+            "commissionShare": 20.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 20.0,
+                "getEndTime": 1575907140000,
+                "getStartTime": 1575538020000,
+                "isBest": 1,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=b9a820bb79c246fb8503574a56a4e545&roleId=26095951",
+                "platformType": 0,
+                "quota": 90.0,
+                "useEndTime": 1575907199000,
+                "useStartTime": 1575475200000
+              },
+              {
+                "bindType": 3,
+                "discount": 20.0,
+                "getEndTime": 1575907140000,
+                "getStartTime": 1575537720000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=f24d3670fe4d49908da6df4023f6e66a&roleId=26095678&to=mall.jd.com",
+                "platformType": 0,
+                "quota": 90.0,
+                "useEndTime": 1575907199000,
+                "useStartTime": 1575475200000
+              }
+            ]
+          },
+          "goodCommentsShare": 98.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/84839/17/1760/135284/5dc3ed0bEd08eccb6/4f83c43279ec2e45.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/45440/1/15339/184886/5dc3ed0bE8f1c6272/061707e7d9587758.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/51563/35/15394/97807/5dc3ed0bE57e23d8b/c3fd702fdbcb0442.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/75420/14/14361/242701/5dc3ed0bEcd005323/b94bd8221153e00d.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/63911/31/15740/166376/5dc3ed0bEf4a217cb/38d3ab8a1d54cddc.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/104338/19/1655/146117/5dc3ed0bEb938ad4f/9995ac64e74db469.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 1901,
+          "inOrderCount30DaysSku": 1901,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/54533336505.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 99.0 },
+          "resourceInfo": {
+            "eliteId": 22,
+            "eliteName": "精品库"
+          },
+          "shopInfo": {
+            "shopId": 62000,
+            "shopName": "大希地旗舰店"
+          },
+          "skuId": 54533336505,
+          "skuName": "大希地 巴沙鱼 非龙利鱼越南进口新鲜去刺鱼片鱼柳鱼肉 去骨 2500g",
+          "spuid": 54533336505
+        },
+        {
+          "brandCode": "75503",
+          "brandName": "清风",
+          "categoryInfo": {
+            "cid1": 15901,
+            "cid1Name": "家庭清洁/纸品",
+            "cid2": 15902,
+            "cid2Name": "清洁纸品",
+            "cid3": 15910,
+            "cid3Name": "手帕纸"
+          },
+          "comments": 36691,
+          "commissionInfo": {
+            "commission": 3.18,
+            "commissionShare": 20.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 5.0,
+                "getEndTime": 1575993540000,
+                "getStartTime": 1575533580000,
+                "isBest": 1,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=688fdf394e3d419382eaed1a9532d31b&roleId=26091534&to=mall.jd.com/index-151199.html",
+                "platformType": 0,
+                "quota": 15.0,
+                "useEndTime": 1575993599000,
+                "useStartTime": 1575475200000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1577807940000,
+                "getStartTime": 1573787340000,
+                "isBest": 0,
+                "link": "https://coupon.m.jd.com/coupons/show.action?key=57abfcb5f15948d58b1ee0dfc1c8d932&roleId=25358913&to=mall.jd.com/index-151199.html",
+                "platformType": 0,
+                "quota": 15.0,
+                "useEndTime": 1577807999000,
+                "useStartTime": 1573747200000
+              }
+            ]
+          },
+          "goodCommentsShare": 98.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/72387/11/15125/192840/5dca4fdfE69040395/5886447203e4bf41.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/86478/9/1851/581188/5dc681f4E41d01e05/7aecf9f54f4ae527.png" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/63655/20/12671/79954/5da0336fEf841527b/09b17512fc3547b1.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/82996/30/12242/84381/5da0336fE432b4553/a2dabd7081052fff.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/53114/36/13151/119089/5da03370Eff3f6fe8/d23d9f0e49d90985.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/68855/39/12550/77890/5da03370Eb0355bd2/6ea83da4242ec3d7.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 25445,
+          "inOrderCount30DaysSku": 25445,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/26424500150.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 15.9 },
+          "resourceInfo": {
+            "eliteId": 22,
+            "eliteName": "精品库"
+          },
+          "shopInfo": {
+            "shopId": 156184,
+            "shopName": "秋硕家居专营店"
+          },
+          "skuId": 26424500150,
+          "skuName": "清风 原木纯品手帕纸3层*8张*30包小包面巾纸餐巾纸卫生纸纸巾 多省包邮",
+          "spuid": 26424500150
+        },
+        {
+          "brandCode": "291223",
+          "brandName": "SKT",
+          "categoryInfo": {
+            "cid1": 16750,
+            "cid1Name": "个人护理",
+            "cid2": 16753,
+            "cid2Name": "身体护理",
+            "cid3": 16778,
+            "cid3Name": "润肤"
+          },
+          "comments": 4086,
+          "commissionInfo": {
+            "commission": 5.98,
+            "commissionShare": 20.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 20.0,
+                "getEndTime": 1576113720000,
+                "getStartTime": 1575422520000,
+                "isBest": 1,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=a9aa1b58d8684d4db112b1ca33beb937&roleId=26024470&to=item.jd.com/35687181433.html",
+                "platformType": 0,
+                "quota": 29.0,
+                "useEndTime": 1576166399000,
+                "useStartTime": 1575388800000
+              },
+              {
+                "bindType": 3,
+                "discount": 20.0,
+                "getEndTime": 1575958740000,
+                "getStartTime": 1575440340000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=5be7f496ee06419093556ba5488404a0&roleId=26041384&to=item.jd.com/35687181433.html",
+                "platformType": 0,
+                "quota": 29.0,
+                "useEndTime": 1575993599000,
+                "useStartTime": 1575388800000
+              },
+              {
+                "bindType": 3,
+                "discount": 20.0,
+                "getEndTime": 1576203600000,
+                "getStartTime": 1575426000000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=8410427709254ce9b2d44d66b9b8ce74&roleId=26028681&to=item.jd.com/35687181433.html",
+                "platformType": 0,
+                "quota": 29.0,
+                "useEndTime": 1576252799000,
+                "useStartTime": 1575388800000
+              },
+              {
+                "bindType": 3,
+                "discount": 20.0,
+                "getEndTime": 1576200240000,
+                "getStartTime": 1575422640000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=d294fe33e925438d980baffbd8df5a94&roleId=26024603",
+                "platformType": 0,
+                "quota": 29.0,
+                "useEndTime": 1576252799000,
+                "useStartTime": 1575388800000
+              }
+            ]
+          },
+          "goodCommentsShare": 99.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/5888/30/13935/64185/5bd9797dE27f71bdb/11bc7168be5c2dad.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/123/33/14693/169355/5bdc1360Eaaaaebac/2182f10f88f773fa.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/10692/13/875/142625/5bdc1360E198a31be/d47e06e5bc652dd9.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/4149/8/14672/153694/5bdc1360Ee4c10310/910b85ab6b59079d.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/10778/12/142/64057/5bd9797dEdbac99c5/bf749101498d3093.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 347,
+          "inOrderCount30DaysSku": 311,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/35687181433.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 29.9 },
+          "resourceInfo": {
+            "eliteId": 22,
+            "eliteName": "精品库"
+          },
+          "shopInfo": {
+            "shopId": 704906,
+            "shopName": "SKT美妆官方旗舰店"
+          },
+          "skuId": 35687181433,
+          "skuName": "SKT橄榄香氛身体乳保湿补水润肤乳露浴后滋润男女香体乳沐浴露 套装350g 橄榄身体乳350g",
+          "spuid": 35687181433
+        },
+        {
+          "brandCode": "435048",
+          "brandName": "yitingq",
+          "categoryInfo": {
+            "cid1": 1315,
+            "cid1Name": "服饰内衣",
+            "cid2": 1346,
+            "cid2Name": "服饰配件",
+            "cid3": 1376,
+            "cid3Name": "围巾/手套/帽子套装"
+          },
+          "comments": 42778,
+          "commissionInfo": {
+            "commission": 11.98,
+            "commissionShare": 20.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 10.0,
+                "getEndTime": 1577758680000,
+                "getStartTime": 1575339480000,
+                "isBest": 0,
+                "link": "//coupon.jd.com/ilink/couponSendFront/send_index.action?key=e57622ed6ad54da99061120b7e65e1a4&roleId=25984152&to=mall.jd.com/index-968322.html",
+                "platformType": 0,
+                "quota": 29.0,
+                "useEndTime": 1577807999000,
+                "useStartTime": 1575302400000
+              },
+              {
+                "bindType": 3,
+                "discount": 40.0,
+                "getEndTime": 1576166398000,
+                "getStartTime": 1575531120000,
+                "isBest": 1,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=d0e1ce36d7514acc8013397533e1c837&roleId=26089206&to=mall.jd.com/index-968322.html",
+                "platformType": 0,
+                "quota": 59.0,
+                "useEndTime": 1576166399000,
+                "useStartTime": 1575475200000
+              }
+            ]
+          },
+          "goodCommentsShare": 98.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/58435/14/15642/168349/5dca4f9cE3cf2926b/65ff11e88186e0f9.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/81260/39/13218/158909/5da86fc7Ed3eef521/73b0f2a23c86bade.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/50666/38/13665/157300/5da84a74Ebb33b1c4/33baeb93ff0eacce.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/77124/20/13381/156452/5da84c24E31a8cf58/9a2bda486c97b990.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/92517/27/176/146672/5da84c3bEf9af41bb/11a5a18240e2d6b7.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/105403/7/193/118699/5da86fc7E66d839c5/aaee6bf6e65a46c9.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 21071,
+          "inOrderCount30DaysSku": 17529,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/57669514193.html",
+          "owner": "p",
+          "pinGouInfo": {
+            "pingouEndTime": 2133999048000,
+            "pingouPrice": 59.9,
+            "pingouStartTime": 1569388880000,
+            "pingouTmCount": 2,
+            "pingouUrl": "https://wq.jd.com/pingou_api/GetAutoTuan?sku_id=57669514193&from=cps"
+          },
+          "priceInfo": { "price": 89.9 },
+          "resourceInfo": {
+            "eliteId": 22,
+            "eliteName": "精品库"
+          },
+          "shopInfo": {
+            "shopId": 10123794,
+            "shopName": "yitingq服饰拼购旗舰店"
+          },
+          "skuId": 57669514193,
+          "skuName": "冬季男女保暖手套帽子围脖精品PU皮手套针织毛线帽围脖加绒加厚骑行套装 酒红帽子围脖+女款手套",
+          "spuid": 57669514193
+        }
+      ],
+      "message": "success",
+      "requestId": "21922_0abb6953_k3u3yo8s_67768011",
+      "totalCount": 9764
+    }",
+    "code": "0"
+  }
+}

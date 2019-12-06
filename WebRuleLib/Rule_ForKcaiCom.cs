@@ -453,11 +453,11 @@ namespace WolfInv.com.WebRuleLib
         {
             HTMLDocument doc = (HTMLDocument)indoc.DomDocument;
             if (doc == null)
-                return null;
+                return null;//网页文档对象为空
             IHTMLElementCollection hcols = doc.getElementsByTagName("canvas");
             if(hcols.length==0)
             {
-                return null;
+                return "";//图片对象为空
             }
             var canvas = hcols.item(null,0);
             var imagedata = canvas.toDataURL();
@@ -477,7 +477,7 @@ namespace WolfInv.com.WebRuleLib
         public override string getChargeNum(HtmlDocument indoc)
         {
             if (indoc == null)
-                return null;
+                return null;//网页文档对象为空
             HTMLDocument doc = indoc.DomDocument as HTMLDocument;
             IHTMLElementCollection hcols = doc.getElementsByClassName("order-number");
             if (hcols.length == 0)

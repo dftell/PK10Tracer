@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\..\projects\PK10TracerClient\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="ChargeOperator.cs" />
     <Compile Include="ChargeRemoteClass.cs" />
+    <Compile Include="ClientOperator.cs" />
     <Compile Include="Optclass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

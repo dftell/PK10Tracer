@@ -12,3 +12,8 @@ C:\Users\zhouys\source\repos\dftell\PK10Tracer\DbAccessLib\obj\Release\WolfInv.c
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\DbAccessLib\obj\Release\WolfInv.com.DbAccessLib.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\DbAccessLib\obj\Release\WolfInv.com.DbAccessLib.csproj.CopyComplete
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\DbAccessLib\obj\Release\WolfInv.com.DbAccessLib.dll
+E:\github\project\PK10Tracer\WolfInv.com.DbAccessLib.dll
+E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Release\WolfInv.com.DbAccessLib.csprojAssemblyReference.cache
+E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Release\WolfInv.com.DbAccessLib.csproj.CoreCompileInputs.cache
+E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Release\WolfInv.com.DbAccessLib.csproj.CopyComplete
+E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Release\WolfInv.com.DbAccessLib.dll

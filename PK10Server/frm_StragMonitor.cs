@@ -564,6 +564,7 @@ namespace PK10Server
                             //saveAssetLines(id, dt);//保存
                         }
                         vals[ai].SaveDataToFile();
+                        
                     }
                     //if (!Changed)//没有任何改变，不刷新
                     //    return;
@@ -604,7 +605,14 @@ namespace PK10Server
                         i++;
                     }
                     this.chart_ForGuide = chrt;
-                    this.chart_ForGuide.Show();
+                    try
+                    {
+                        this.chart_ForGuide.Show();
+                    }
+                    catch(Exception ce)
+                    {
+                        MessageBox.Show(ce.Message);
+                    }
                 }
                 //this.chart_ForSystemStdDev.DataSource = dv_stddev;
 
@@ -619,6 +627,14 @@ namespace PK10Server
             {
                 LogableClass.ToLog("监控", e.Message, e.StackTrace);
             }
+            SaveChart();
+        }
+
+        void SaveChart()
+        {
+            string GR_Path = string.Format("{0}\\imgs\\chart.png", AppDomain.CurrentDomain.BaseDirectory);
+            string fullFileName = GR_Path;// GR_Path + "\\" + fileName + ".png";
+            this.chart_ForGuide.SaveImage(fullFileName, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
         }
              
 
@@ -1003,9 +1019,21 @@ namespace PK10Server
             }
         }
 
+
         #endregion
 
-        
+        private void chart_ForGuide_Paint(object sender, PaintEventArgs e)
+        {
+            try
+            {
+                base.OnPaint(e);
+            }
+            catch(Exception ce)
+            {
+                MessageBox.Show(ce.Message);
+            }
+        }
+    
     }
 
 

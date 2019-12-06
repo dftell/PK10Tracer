@@ -2,3 +2,7 @@ C:\Users\zhouys\source\project\PK10Tracer\WolfInv.com.LogLib.dll
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\LogLib\obj\Release\WolfInv.com.LogLib.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\LogLib\obj\Release\WolfInv.com.LogLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\LogLib\obj\Release\WolfInv.com.LogLib.csprojAssemblyReference.cache
+E:\github\project\PK10Tracer\WolfInv.com.LogLib.dll
+E:\github\source\dftell\PK10Tracer\LogLib\obj\Release\WolfInv.com.LogLib.csprojAssemblyReference.cache
+E:\github\source\dftell\PK10Tracer\LogLib\obj\Release\WolfInv.com.LogLib.csproj.CoreCompileInputs.cache
+E:\github\source\dftell\PK10Tracer\LogLib\obj\Release\WolfInv.com.LogLib.dll

@@ -1,0 +1,1372 @@
+{
+  "jd_union_open_goods_jingfen_query_response": {
+    "result": {
+      "code": 200,
+      "data": [
+        {
+          "brandCode": "373217",
+          "brandName": "飘丫（piaoya）",
+          "categoryInfo": {
+            "cid1": 1316,
+            "cid1Name": "美妆护肤",
+            "cid2": 1381,
+            "cid2Name": "面部护肤",
+            "cid3": 1389,
+            "cid3Name": "洁面"
+          },
+          "comments": 1673,
+          "commissionInfo": {
+            "commission": 21.95,
+            "commissionShare": 55.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 20.0,
+                "getEndTime": 1580486340000,
+                "getStartTime": 1575335520000,
+                "isBest": 1,
+                "link": "//coupon.jd.com/ilink/couponActiveFront/front_index.action?key=bc314074249845ed96eb35163883eb4d&roleId=25978789&to=item.jd.com/23793041668.html",
+                "platformType": 0,
+                "quota": 39.0,
+                "useEndTime": 1580486399000,
+                "useStartTime": 1575302400000
+              }
+            ]
+          },
+          "goodCommentsShare": 98.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/43256/23/9109/94414/5d29548cE30b74892/62d04aa798fa4f63.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/45099/29/4963/89497/5d29548cE954c3ee2/c44d2d2e5373f02c.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/46097/34/4783/114932/5d29548cEd3542567/a4b6bdc43d8d4aad.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/63947/14/4408/87984/5d29548dEc38bc1d4/76505a1d522f2739.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/70850/11/4480/104195/5d29548dE43fb9ebf/db8c9ce71f73da13.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/83490/12/10928/56047/5d85e457E25b3d9e2/9cd083878c738ad2.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 0,
+          "inOrderCount30DaysSku": 0,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/23793041668.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 39.9 },
+          "resourceInfo": {
+            "eliteId": 1,
+            "eliteName": "好券商品"
+          },
+          "shopInfo": {
+            "shopId": 155793,
+            "shopName": "飘丫美妆旗舰店"
+          },
+          "skuId": 23793041668,
+          "skuName": "飘丫氨基酸洗面奶120g 温和洁面乳清爽控油收缩毛孔提亮肤色补水保湿 洗面奶120g",
+          "spuid": 23793041668
+        },
+        {
+          "brandCode": "145499",
+          "brandName": "欧佩（ou pei）",
+          "categoryInfo": {
+            "cid1": 1316,
+            "cid1Name": "美妆护肤",
+            "cid2": 1381,
+            "cid2Name": "面部护肤",
+            "cid3": 1396,
+            "cid3Name": "套装/礼盒"
+          },
+          "comments": 12550,
+          "commissionInfo": {
+            "commission": 549.5,
+            "commissionShare": 50.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 800.0,
+                "getEndTime": 1575907140000,
+                "getStartTime": 1575261360000,
+                "isBest": 1,
+                "link": "//coupon.jd.com/ilink/couponActiveFront/front_index.action?key=45ff02460148402aae694b284419ec77&roleId=25946727&to=oupei.jd.com",
+                "platformType": 0,
+                "quota": 1000.0,
+                "useEndTime": 1575907199000,
+                "useStartTime": 1575216000000
+              },
+              {
+                "bindType": 3,
+                "discount": 800.0,
+                "getEndTime": 1576425540000,
+                "getStartTime": 1575080280000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=50ac8d3653fe420f9b22ac795c061b4f&roleId=25861597&to=oupei.jd.com",
+                "platformType": 0,
+                "quota": 1000.0,
+                "useEndTime": 1576425599000,
+                "useStartTime": 1575043200000
+              },
+              {
+                "bindType": 3,
+                "discount": 800.0,
+                "getEndTime": 1576425540000,
+                "getStartTime": 1575092880000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=6c0afef0a2e740e99e46f5e79f0a3b54&roleId=25871282&to=oupei.jd.com",
+                "platformType": 0,
+                "quota": 1000.0,
+                "useEndTime": 1576425599000,
+                "useStartTime": 1575043200000
+              },
+              {
+                "bindType": 3,
+                "discount": 800.0,
+                "getEndTime": 1575993540000,
+                "getStartTime": 1574834160000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=7cb1e04eb0b14d21b41e0c0c9db332df&roleId=25755857",
+                "platformType": 0,
+                "quota": 1000.0,
+                "useEndTime": 1575993599000,
+                "useStartTime": 1574784000000
+              },
+              {
+                "bindType": 3,
+                "discount": 800.0,
+                "getEndTime": 1575820740000,
+                "getStartTime": 1575430500000,
+                "isBest": 0,
+                "link": "https://coupon.m.jd.com/coupons/show.action?key=4dbc8fb909874454aff4a69fd4be85eb&roleId=26034531&to=oupei.jd.com",
+                "platformType": 0,
+                "quota": 1000.0,
+                "useEndTime": 1575820799000,
+                "useStartTime": 1575388800000
+              },
+              {
+                "bindType": 3,
+                "discount": 800.0,
+                "getEndTime": 1575993540000,
+                "getStartTime": 1574924520000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=45c742e9021540c8b9c192277d62890d&roleId=25795721&to=oupei.jd.com",
+                "platformType": 0,
+                "quota": 1000.0,
+                "useEndTime": 1575993599000,
+                "useStartTime": 1574870400000
+              },
+              {
+                "bindType": 3,
+                "discount": 800.0,
+                "getEndTime": 1575993540000,
+                "getStartTime": 1575208200000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=f1290245de9a4672b7d2b98469acf953&roleId=25924868&to=oupei.jd.com",
+                "platformType": 0,
+                "quota": 1000.0,
+                "useEndTime": 1575993599000,
+                "useStartTime": 1575129600000
+              },
+              {
+                "bindType": 3,
+                "discount": 800.0,
+                "getEndTime": 1575993540000,
+                "getStartTime": 1574649000000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=352a340527664eba82a98af54e7b8479&roleId=25675421&to=oupei.jd.com",
+                "platformType": 0,
+                "quota": 1000.0,
+                "useEndTime": 1575993599000,
+                "useStartTime": 1574611200000
+              },
+              {
+                "bindType": 3,
+                "discount": 800.0,
+                "getEndTime": 1576511940000,
+                "getStartTime": 1575339660000,
+                "isBest": 0,
+                "link": "http://coupon.jd.com/ilink/couponActiveFront/front_index.action?key=60207d7afb02434993c173fdd903b120&roleId=25984381&to=oupei.jd.com",
+                "platformType": 0,
+                "quota": 1000.0,
+                "useEndTime": 1576511999000,
+                "useStartTime": 1575302400000
+              }
+            ]
+          },
+          "goodCommentsShare": 98.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/97927/2/82/130972/5da6c4bfE23321edd/1d4db3a9e5ca201c.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/77934/1/13114/95376/5da43ec7Eaafdfde6/4447ef87943e58ce.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/58560/15/13576/110772/5da43ed0Ea6ebed87/0519923d344e6c2e.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/46254/26/13477/89057/5da43ee0Ebe582d89/8da412a72ad0395a.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/46796/1/13602/78287/5da43ee9Ebe48aea8/7fcc6f131da4fa08.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/44610/38/14020/86163/5da43ecbE761bab1e/60914fa1226ba0bd.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 44090,
+          "inOrderCount30DaysSku": 44090,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/58925012690.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 1099.0 },
+          "resourceInfo": {
+            "eliteId": 1,
+            "eliteName": "好券商品"
+          },
+          "shopInfo": {
+            "shopId": 174843,
+            "shopName": "欧佩旗舰店"
+          },
+          "skuId": 58925012690,
+          "skuName": "欧佩二裂酵母润养修护套盒 超值6件套",
+          "spuid": 58925012690
+        },
+        {
+          "brandCode": "341511",
+          "brandName": "丹迪兰（DANDLAND）",
+          "categoryInfo": {
+            "cid1": 1316,
+            "cid1Name": "美妆护肤",
+            "cid2": 1381,
+            "cid2Name": "面部护肤",
+            "cid3": 1392,
+            "cid3Name": "面膜"
+          },
+          "comments": 15381,
+          "commissionInfo": {
+            "commission": 34.95,
+            "commissionShare": 50.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 30.0,
+                "getEndTime": 1576512000000,
+                "getStartTime": 1575475200000,
+                "isBest": 1,
+                "link": "//coupon.jd.com/ilink/couponSendFront/send_index.action?key=daf1175db91146459793cec5f81c2c1d&roleId=25986484&to=mall.jd.com/index-605886.html",
+                "platformType": 0,
+                "quota": 69.0,
+                "useEndTime": 1579276799000,
+                "useStartTime": 1575475200000
+              },
+              {
+                "bindType": 3,
+                "discount": 30.0,
+                "getEndTime": 1577759820000,
+                "getStartTime": 1574130960000,
+                "isBest": 0,
+                "link": "http://coupon.jd.com/ilink/couponSendFront/send_index.action?key=d6546e944c574428943611b0ac6ce8a3&roleId=25484465&to=mall.jd.com/index-605886.html",
+                "platformType": 0,
+                "quota": 69.0,
+                "useEndTime": 1577807999000,
+                "useStartTime": 1574092800000
+              }
+            ]
+          },
+          "goodCommentsShare": 99.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/58352/33/2149/102165/5d00a05eEe283b878/af3956a3c93bf93b.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/38543/40/8706/99659/5d00a05eEedd6342b/31e60784b69a8bb9.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/55249/33/2106/84464/5d00a05eE98ad82cb/b9e4bcc694d07dad.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/49456/24/2201/91769/5d00a05fE0bb19944/a7e10de225098cec.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/78852/2/1714/88354/5d00a05fEb3a3e9e2/4764731ffd23e910.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/70532/8/1726/106317/5d00a05fE1874bd8f/ba60816603ef8a80.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/62792/38/1747/126471/5d00a05fEab46e981/c5411d49cad1b7f3.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/79601/15/1722/66193/5d00a0faEb43defb1/053ffac9757b42c8.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 29,
+          "inOrderCount30DaysSku": 28,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/10695693968.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 69.9 },
+          "resourceInfo": {
+            "eliteId": 1,
+            "eliteName": "好券商品"
+          },
+          "shopInfo": {
+            "shopId": 613253,
+            "shopName": "美啦美妆专营店"
+          },
+          "skuId": 10695693968,
+          "skuName": "丹迪兰（DANDLAND）小安瓶多肽精华玻尿酸蚕丝面膜(补水修护 男女士适用) 水素温感冷热面膜（精华液+面膜）*5/盒",
+          "spuid": 10695693968
+        },
+        {
+          "brandCode": "307220",
+          "brandName": "天帕（TENPA）",
+          "categoryInfo": {
+            "cid1": 12259,
+            "cid1Name": "酒类",
+            "cid2": 14714,
+            "cid2Name": "葡萄酒",
+            "cid3": 15601,
+            "cid3Name": "葡萄酒"
+          },
+          "comments": 1010,
+          "commissionInfo": {
+            "commission": 519.2,
+            "commissionShare": 40.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 1000.0,
+                "getEndTime": 1578810780000,
+                "getStartTime": 1571121180000,
+                "isBest": 0,
+                "link": "//coupon.jd.com/ilink/couponActiveFront/front_index.action?key=e35f34e4d7ff4454af31db2c1684cb91&roleId=23985240&to=meijia9.jd.com",
+                "platformType": 0,
+                "quota": 1298.0,
+                "useEndTime": 1578844799000,
+                "useStartTime": 1571068800000
+              },
+              {
+                "bindType": 3,
+                "discount": 1000.0,
+                "getEndTime": 1576829820000,
+                "getStartTime": 1575533820000,
+                "isBest": 1,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=bf90b467fdd542e0b901c03e4f42394f&roleId=26092601&to=meijia9.jd.com",
+                "platformType": 0,
+                "quota": 1298.0,
+                "useEndTime": 1576857599000,
+                "useStartTime": 1575475200000
+              },
+              {
+                "bindType": 3,
+                "discount": 1000.0,
+                "getEndTime": 1576646820000,
+                "getStartTime": 1575264420000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=8098a31b9ea94f6cb4ded8353d14477c&roleId=25948619&to=meijia9.jd.com",
+                "platformType": 0,
+                "quota": 1298.0,
+                "useEndTime": 1576684799000,
+                "useStartTime": 1575216000000
+              },
+              {
+                "bindType": 3,
+                "discount": 1000.0,
+                "getEndTime": 1575871380000,
+                "getStartTime": 1574748180000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=ffe250cd4afa49a69b081dfc0d5adc02&roleId=25720902&to=meijia9.jd.com",
+                "platformType": 0,
+                "quota": 1298.0,
+                "useEndTime": 1575907199000,
+                "useStartTime": 1574697600000
+              },
+              {
+                "bindType": 3,
+                "discount": 1000.0,
+                "getEndTime": 1577253660000,
+                "getStartTime": 1570255260000,
+                "isBest": 0,
+                "link": "http://coupon.jd.com/ilink/couponActiveFront/front_index.action?key=d1fbd92532ed4c1ea427fa68ef2f42b7&roleId=23681809&to=meijia9.jd.com",
+                "platformType": 0,
+                "quota": 1298.0,
+                "useEndTime": 1577289599000,
+                "useStartTime": 1570204800000
+              },
+              {
+                "bindType": 3,
+                "discount": 1000.0,
+                "getEndTime": 1576638000000,
+                "getStartTime": 1575342000000,
+                "isBest": 0,
+                "link": "https://coupon.m.jd.com/coupons/show.action?key=c2d98fd8fdb945739f809ce206cfa53f&roleId=25988261&to=meijia9.jd.com",
+                "platformType": 0,
+                "quota": 1298.0,
+                "useEndTime": 1576684799000,
+                "useStartTime": 1575302400000
+              },
+              {
+                "bindType": 3,
+                "discount": 1000.0,
+                "getEndTime": 1578277380000,
+                "getStartTime": 1575339780000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=a620480127cb4e9396e485bee2f27112&roleId=25984682&to=meijia9.jd.com",
+                "platformType": 0,
+                "quota": 1298.0,
+                "useEndTime": 1578326399000,
+                "useStartTime": 1575302400000
+              },
+              {
+                "bindType": 3,
+                "discount": 1000.0,
+                "getEndTime": 1576803300000,
+                "getStartTime": 1575507300000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=c5014f34fc0d4acb82ca5b11eb73a764&roleId=26065433&to=meijia9.jd.com",
+                "platformType": 0,
+                "quota": 1298.0,
+                "useEndTime": 1576857599000,
+                "useStartTime": 1575475200000
+              },
+              {
+                "bindType": 3,
+                "discount": 1000.0,
+                "getEndTime": 1576811760000,
+                "getStartTime": 1575515760000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=c5136a225c45437e8f65439357b18a6e&roleId=26075718&to=meijia9.jd.com",
+                "platformType": 0,
+                "quota": 1298.0,
+                "useEndTime": 1576857599000,
+                "useStartTime": 1575475200000
+              }
+            ]
+          },
+          "goodCommentsShare": 98.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/10645/9/9466/106284/5c46783dE15328bd5/903397c78817042e.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/2433/21/4479/194696/5b9c73c7E8f68b542/83bd9a7cb710934f.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/61757/23/16204/147357/5ddb787bE2f6e9d4d/257a1d47d86df705.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/73238/15/9506/114096/5d75a41aEbae46786/dd167b4c5da88999.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/30673/32/1127/96474/5c46783dEb0d08ad8/0b8a76ba8abc9e63.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/12246/22/6085/146999/5c46783dE12acf8ce/880a5c65db5e750d.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/50204/38/10188/70753/5d75a424E6036ade1/16f101face0f5810.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 757,
+          "inOrderCount30DaysSku": 757,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/32971706481.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 1298.0 },
+          "resourceInfo": {
+            "eliteId": 1,
+            "eliteName": "好券商品"
+          },
+          "shopInfo": {
+            "shopId": 745220,
+            "shopName": "玫嘉官方旗舰店"
+          },
+          "skuId": 32971706481,
+          "skuName": "智利中央山谷 原装原瓶进口 天帕干红葡萄酒 红酒包邮 婚庆送礼佳品750ml*6瓶整箱送酒杯正品",
+          "spuid": 32971706481
+        },
+        {
+          "brandCode": "0",
+          "brandName": "未知",
+          "categoryInfo": {
+            "cid1": 6728,
+            "cid1Name": "汽车用品",
+            "cid2": 6745,
+            "cid2Name": "汽车装饰",
+            "cid3": 13984,
+            "cid3Name": "车载支架"
+          },
+          "comments": 0,
+          "commissionInfo": {
+            "commission": 14.95,
+            "commissionShare": 50.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 20.0,
+                "getEndTime": 1577775540000,
+                "getStartTime": 1574060340000,
+                "isBest": 1,
+                "link": "//coupon.jd.com/ilink/couponActiveFront/front_index.action?key=02c414a99e8841228f08895eace92da6&roleId=25459062&to=item.jd.com/62029632020.html",
+                "platformType": 0,
+                "quota": 29.0,
+                "useEndTime": 1577807999000,
+                "useStartTime": 1574006400000
+              }
+            ]
+          },
+          "goodCommentsShare": 100.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/54113/14/15432/118436/5dc28a72E62f1b6a2/5fb4a278da1663ec.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/61752/37/14735/102395/5dc28a72E53371653/23a1bb96ce2508c4.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/99238/25/1601/82724/5dc28a72E9525bcbd/d171721efe63c4b3.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/76527/25/14800/90631/5dc28a72Efc3d1c82/279dc2c14c4e54ed.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/46767/6/14253/496649/5dc28a72E94ddc6a8/9bfd80595d9d6299.png" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/89221/4/1630/95667/5dc28a72Eaeb0a9cb/be4610aaab89cca2.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/44810/28/15319/95464/5dc28a72E608f162a/836139630d8342f3.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 41,
+          "inOrderCount30DaysSku": 9,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/62029632020.html",
+          "owner": "p",
+          "pinGouInfo": {
+            "pingouEndTime": 2133999048000,
+            "pingouPrice": 29.9,
+            "pingouStartTime": 1574058646000,
+            "pingouTmCount": 2,
+            "pingouUrl": "https://wq.jd.com/pingou_api/GetAutoTuan?sku_id=62029632020&from=cps"
+          },
+          "priceInfo": { "price": 49.0 },
+          "resourceInfo": {
+            "eliteId": 1,
+            "eliteName": "好券商品"
+          },
+          "shopInfo": {
+            "shopId": 10077214,
+            "shopName": "joyart拼购店"
+          },
+          "skuId": 62029632020,
+          "skuName": "强力随手贴纳米黑科技车载厨房卧室客厅学生儿童随手贴充电绕线办公家居日用纳米贴清洗方便多功能便利贴 纳米贴-方款",
+          "spuid": 62029632020
+        },
+        {
+          "brandCode": "157811",
+          "brandName": "贝维诗（leiws）",
+          "categoryInfo": {
+            "cid1": 1316,
+            "cid1Name": "美妆护肤",
+            "cid2": 1381,
+            "cid2Name": "面部护肤",
+            "cid3": 1389,
+            "cid3Name": "洁面"
+          },
+          "comments": 0,
+          "commissionInfo": {
+            "commission": 19.5,
+            "commissionShare": 50.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 20.0,
+                "getEndTime": 1575993540000,
+                "getStartTime": 1575356220000,
+                "isBest": 1,
+                "link": "//coupon.jd.com/ilink/couponActiveFront/front_index.action?key=b4289b3ce14a4369861effeed03523f5&roleId=26001579&to=mall.jd.com/index-700530.html",
+                "platformType": 0,
+                "quota": 39.0,
+                "useEndTime": 1575993599000,
+                "useStartTime": 1575302400000
+              }
+            ]
+          },
+          "goodCommentsShare": 100.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/63408/5/11650/339548/5d91c39cEac05a5f6/3151f2275892778e.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/78945/4/11722/165521/5d91c030Ebf3a94e2/b0ec531cd6c3385d.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/63535/8/11704/255343/5d91c02fE19d7f4f7/f13036607ae20bd3.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/63506/30/11661/297304/5d91c031E32a3a92d/631e5cb1f0c54ba0.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/62581/36/11711/84080/5d91c030Ef77fdb72/a0f0fd2eca1fe3ae.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 0,
+          "inOrderCount30DaysSku": 0,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/58066436877.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 39.0 },
+          "resourceInfo": {
+            "eliteId": 1,
+            "eliteName": "好券商品"
+          },
+          "shopInfo": {
+            "shopId": 704875,
+            "shopName": "凯姿蓝个护专营店"
+          },
+          "skuId": 58066436877,
+          "skuName": "贝维诗（leiws）竹炭控油洁面乳深层清洁控油保湿男士洗面奶包邮 竹炭洗面奶 120g",
+          "spuid": 58066436877
+        },
+        {
+          "brandCode": "448035",
+          "brandName": "COLOUR CC",
+          "categoryInfo": {
+            "cid1": 1316,
+            "cid1Name": "美妆护肤",
+            "cid2": 1387,
+            "cid2Name": "香水彩妆",
+            "cid3": 1425,
+            "cid3Name": "口红"
+          },
+          "comments": 27,
+          "commissionInfo": {
+            "commission": 39.6,
+            "commissionShare": 40.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 40.0,
+                "getEndTime": 1576511940000,
+                "getStartTime": 1575475140000,
+                "isBest": 1,
+                "link": "//coupon.jd.com/ilink/couponSendFront/send_index.action?key=32d77d3d26744fab8ba1c6f5c1a139fc&roleId=26004164&to=mall.jd.com/index-10063371.html",
+                "platformType": 0,
+                "quota": 99.0,
+                "useEndTime": 1576511999000,
+                "useStartTime": 1575475200000
+              }
+            ]
+          },
+          "goodCommentsShare": 100.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/76607/21/10318/62977/5d7f038fEd2fa9390/7be607484759cc2c.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/56133/32/10986/89019/5d7f0380Eb4a09b08/2a08f197f8fec5fe.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/80858/29/10289/45438/5d7f0380E97f81b5e/941e1f180fb696d9.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/53727/15/10888/113347/5d7f0380E23ff1344/b06021480c7dea2b.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/74214/25/10546/118631/5d7f0380E91c14059/05090df05d68918b.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/84253/23/10437/38876/5d7f0380Efc9627e8/fa9ccfba57eb7f44.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 8,
+          "inOrderCount30DaysSku": 0,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/56965087494.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 99.0 },
+          "resourceInfo": {
+            "eliteId": 1,
+            "eliteName": "好券商品"
+          },
+          "shopInfo": {
+            "shopId": 10199093,
+            "shopName": "COLOUR CC美妆官方旗舰店"
+          },
+          "skuId": 56965087494,
+          "skuName": "卡露茜茜（Colour CC）金三角质感口红玫瑰豆沙4.5g易上色持久防水不脱色不沾杯提升气色 01#玫瑰豆沙 4.5g",
+          "spuid": 56965087494
+        },
+        {
+          "brandCode": "266281",
+          "brandName": "源途（yuantuer）",
+          "categoryInfo": {
+            "cid1": 11729,
+            "cid1Name": "鞋靴",
+            "cid2": 11730,
+            "cid2Name": "流行男鞋",
+            "cid3": 6913,
+            "cid3Name": "鞋配件"
+          },
+          "comments": 200,
+          "commissionInfo": {
+            "commission": 12.26,
+            "commissionShare": 56.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 1.0,
+                "getEndTime": 1583078340000,
+                "getStartTime": 1575385800000,
+                "isBest": 1,
+                "link": "//coupon.jd.com/ilink/couponSendFront/send_index.action?key=03eb4e962c1f4565a53c6c886c6c6838&roleId=26020760&to=yuantuer.jd.com",
+                "platformType": 0,
+                "quota": 10.0,
+                "useEndTime": 1583078399000,
+                "useStartTime": 1575302400000
+              },
+              {
+                "bindType": 3,
+                "discount": 1.0,
+                "getEndTime": 1578412740000,
+                "getStartTime": 1570764120000,
+                "isBest": 0,
+                "link": "//coupon.jd.com/ilink/couponSendFront/send_index.action?key=845e067b18404d79b577c95e68c73a5e&roleId=23857692&to=yuantuer.jd.com",
+                "platformType": 0,
+                "quota": 15.0,
+                "useEndTime": 1578499199000,
+                "useStartTime": 1570723200000
+              }
+            ]
+          },
+          "goodCommentsShare": 100.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/70024/20/12626/96870/5d9f421eE3873bbf1/563bdc1fc3ff2838.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/92009/1/4364/150898/5de67306E5783dc5b/136679383a51d077.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/84346/1/12445/122034/5d9dddbfE6dedf26a/9c4f9113f5abf6f4.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/76218/38/12462/67699/5d9dddc0Ea1f94926/a2993dc6b9d1ff19.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/81465/10/12404/76029/5d9dddc1Ee85a3548/e63b8318efd66666.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/68140/21/12677/579648/5d9f3db1Ec86a9243/f7d5366f67fa2d66.png" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/82407/11/12496/96358/5d9dddc0E8085bdf9/bd64f67c4e0606d0.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/49441/7/12996/151663/5d9dddbfE821e7283/1911c5a19b28b383.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/52993/39/13006/161013/5d9dddc0Ef06d6e7f/761369fb7393529f.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/50505/28/13244/71788/5d9f3ebdEfedf6c57/a35a817233b31443.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 266,
+          "inOrderCount30DaysSku": 0,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/58712846321.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 21.9 },
+          "resourceInfo": {
+            "eliteId": 1,
+            "eliteName": "好券商品"
+          },
+          "shopInfo": {
+            "shopId": 693361,
+            "shopName": "鑫阳恒诺鞋靴专营店"
+          },
+          "skuId": 58712846321,
+          "skuName": "源途运动鞋垫男吸汗减震透气女运动鞋篮球鞋跑步防臭鞋垫加厚 【3双】高弹夹层款 混色装 35",
+          "spuid": 58704227924
+        },
+        {
+          "brandCode": "445173",
+          "brandName": "韩纪（Hankey）",
+          "categoryInfo": {
+            "cid1": 1316,
+            "cid1Name": "美妆护肤",
+            "cid2": 1381,
+            "cid2Name": "面部护肤",
+            "cid3": 1392,
+            "cid3Name": "面膜"
+          },
+          "comments": 101,
+          "commissionInfo": {
+            "commission": 6.45,
+            "commissionShare": 50.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1576252798000,
+                "getStartTime": 1575440940000,
+                "isBest": 1,
+                "link": "//coupon.jd.com/ilink/couponSendFront/send_index.action?key=b7170d10dfa74d87833d9a2c3386180c&roleId=26042348&to=mall.jd.com/index-972208.html",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1576252799000,
+                "useStartTime": 1575388800000
+              }
+            ]
+          },
+          "goodCommentsShare": 100.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/56416/22/12049/47367/5d90022dE5381a62b/6f18e7379f1a6c4a.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/74017/13/11595/81259/5d90022dE9248d19c/0c1e13be067e7faa.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/55243/1/12005/115564/5d90022dE17d300cd/a37c2baf040f44ca.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/68021/15/11604/82306/5d90022dE24ddef6b/d0009a19a4de1939.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/53049/4/12039/98534/5d90022dE2a0275c8/0772a20aaf21b613.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 107,
+          "inOrderCount30DaysSku": 107,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/57949902706.html",
+          "owner": "p",
+          "pinGouInfo": {
+            "pingouEndTime": 2133999048000,
+            "pingouPrice": 12.9,
+            "pingouStartTime": 1569718948000,
+            "pingouTmCount": 2,
+            "pingouUrl": "https://wq.jd.com/pingou_api/GetAutoTuan?sku_id=57949902706&from=cps"
+          },
+          "priceInfo": { "price": 49.0 },
+          "resourceInfo": {
+            "eliteId": 1,
+            "eliteName": "好券商品"
+          },
+          "shopInfo": {
+            "shopId": 10127628,
+            "shopName": "龙搜美妆护肤拼购专营店"
+          },
+          "skuId": 57949902706,
+          "skuName": "韩纪玉容撕拉面膜女去黑头粉刺白头闭口神器清洁毛孔深层清洁无痛撕拉式鼻贴鼻膜男女通用 一支装",
+          "spuid": 57949902706
+        },
+        {
+          "brandCode": "441921",
+          "brandName": "艾妮拉（AINILA）",
+          "categoryInfo": {
+            "cid1": 6144,
+            "cid1Name": "珠宝首饰",
+            "cid2": 6182,
+            "cid2Name": "时尚饰品",
+            "cid3": 6191,
+            "cid3Name": "耳饰"
+          },
+          "comments": 8,
+          "commissionInfo": {
+            "commission": 19.95,
+            "commissionShare": 50.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 10.0,
+                "getEndTime": 1577007000000,
+                "getStartTime": 1569317400000,
+                "isBest": 1,
+                "link": "//coupon.jd.com/ilink/couponSendFront/send_index.action?key=5f675b9748d74be195d265bb7903c152&roleId=23397885&to=mall.jd.com/index-992533.html",
+                "platformType": 0,
+                "quota": 25.0,
+                "useEndTime": 1577030399000,
+                "useStartTime": 1569254400000
+              }
+            ]
+          },
+          "goodCommentsShare": 100.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/68429/13/11135/87866/5d89e182E36acc08a/4e60ce134a20f0fe.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/54416/32/11597/50737/5d89e182Efd84577a/810c1d9428054102.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/70520/19/11303/116330/5d89e182E4b32ce6b/49b4de56c0d0c5bb.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/68354/23/11254/71000/5d89e182E64eae9fd/60681ed1d6ed61c3.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/57651/32/11704/61633/5d89e182Ec3449034/50953db92855eb70.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/69505/15/11215/136017/5d89e182Ed2a309b4/3d28090600583439.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/41041/29/15817/93360/5d89e183Ed18c011a/550b0c72a2f00520.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/76853/21/11309/139320/5d89e183Eec2e3a0e/e9d9bb33bb8f991e.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/64980/16/11178/85964/5d89e183E80115705/a2be700b48f74a60.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/49834/8/11789/83025/5d89e183Eea8b8b53/0e51739248fa2b4f.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 21,
+          "inOrderCount30DaysSku": 21,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/57621365405.html",
+          "owner": "p",
+          "pinGouInfo": {
+            "pingouEndTime": 2133999048000,
+            "pingouPrice": 39.9,
+            "pingouStartTime": 1569317380000,
+            "pingouTmCount": 2,
+            "pingouUrl": "https://wq.jd.com/pingou_api/GetAutoTuan?sku_id=57621365405&from=cps"
+          },
+          "priceInfo": { "price": 48.0 },
+          "resourceInfo": {
+            "eliteId": 1,
+            "eliteName": "好券商品"
+          },
+          "shopInfo": {
+            "shopId": 10147042,
+            "shopName": "艾妮拉拼购旗舰店"
+          },
+          "skuId": 57621365405,
+          "skuName": "S925纯银耳环女韩版时尚炫彩水晶渐变心形耳环坠气质个性淑女耳扣圈饰品女 炫彩水晶心形耳环",
+          "spuid": 57621365405
+        },
+        {
+          "brandCode": "153225",
+          "brandName": "途尊（kingtrip）",
+          "categoryInfo": {
+            "cid1": 1315,
+            "cid1Name": "服饰内衣",
+            "cid2": 1346,
+            "cid2Name": "服饰配件",
+            "cid3": 12030,
+            "cid3Name": "非皮质腰带"
+          },
+          "comments": 1418,
+          "commissionInfo": {
+            "commission": 13.0,
+            "commissionShare": 50.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1576511999000,
+                "getStartTime": 1575343080000,
+                "isBest": 1,
+                "link": "//coupon.jd.com/ilink/couponSendFront/send_index.action?key=f6dfc18185db49be961ec6c21405b6db&roleId=25989921&to=item.jd.com/30323359491.html#crumb-wrap",
+                "platformType": 0,
+                "quota": 25.0,
+                "useEndTime": 1576598399000,
+                "useStartTime": 1575388800000
+              }
+            ]
+          },
+          "goodCommentsShare": 93.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/65587/19/10827/371413/5d858ab9E228f8fef/7c285ce37211ab7f.png" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t23638/300/943252869/289355/1ef094b3/5b49b083Nbc6a0cfc.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t21586/161/2187024571/191286/1c44d958/5b49b087N822b252a.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t22918/271/959781718/168458/266dc0e0/5b49b088N89872cc0.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/39798/29/2280/284746/5cc014b4E7d9ad32a/bba14fbc70c5ea66.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t21541/301/2160977594/243824/384011c2/5b49b08bNdcd11296.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t24415/319/956403640/192368/587fbc5b/5b49b08dNd411602c.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/62895/23/7783/234975/5d5c99b1E15c9e0f9/4885dd351203a422.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/71259/6/7862/159349/5d5c99b1Eddae24a4/7b8e018eef9ae80a.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/68710/26/7756/135879/5d5c99b1Ed47a3e0b/2d4b230b616bc27b.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 96,
+          "inOrderCount30DaysSku": 71,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/30323359491.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 26.0 },
+          "resourceInfo": {
+            "eliteId": 1,
+            "eliteName": "好券商品"
+          },
+          "shopInfo": {
+            "shopId": 607156,
+            "shopName": "捷奔箱包专营店"
+          },
+          "skuId": 30323359491,
+          "skuName": "途尊帆布腰带学生ins风潮个性男女青年韩版时尚牛仔裤裤带细自动扣皮带 黑色 112cm",
+          "spuid": 30323359491
+        },
+        {
+          "brandCode": "452148",
+          "brandName": "友家铺子",
+          "categoryInfo": {
+            "cid1": 15901,
+            "cid1Name": "家庭清洁/纸品",
+            "cid2": 15903,
+            "cid2Name": "清洁用具",
+            "cid3": 15921,
+            "cid3Name": "清洁刷具"
+          },
+          "comments": 377,
+          "commissionInfo": {
+            "commission": 5.16,
+            "commissionShare": 40.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 2.0,
+                "getEndTime": 1575961980000,
+                "getStartTime": 1574320380000,
+                "isBest": 1,
+                "link": "//coupon.jd.com/ilink/couponActiveFront/front_index.action?key=15303364ba784701a27e919d94c145a1&roleId=25572303&to=item.jd.com/54270637805.html#crumb-wrap",
+                "platformType": 0,
+                "quota": 12.0,
+                "useEndTime": 1575993599000,
+                "useStartTime": 1574265600000
+              }
+            ]
+          },
+          "goodCommentsShare": 96.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/67869/26/6451/310568/5d4bbdb6Ef2b07c6f/59ae66fd7bb72be1.png" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/48283/14/6970/170357/5d4bbdb7Ee026274b/e4a6ebda2066f57e.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/53498/33/7173/97590/5d4bbdb7E5f47278f/03b20fbe78d583c2.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/51162/14/7053/107386/5d4bbdb7E4512c16c/0572da3d41d58e6e.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/69861/21/6610/79562/5d4bbdb6E109b30e5/4b6947feee8de0e2.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/38476/2/13750/39429/5d4bbdb6E0505078a/3b85e78152793b89.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/91990/4/282/25041/5daa63efE247f3fbd/5452a1923f267113.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 232,
+          "inOrderCount30DaysSku": 20,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/54270637805.html",
+          "owner": "p",
+          "pinGouInfo": {
+            "pingouEndTime": 2133999048000,
+            "pingouPrice": 12.9,
+            "pingouStartTime": 1565245058000,
+            "pingouTmCount": 2,
+            "pingouUrl": "https://wq.jd.com/pingou_api/GetAutoTuan?sku_id=54270637805&from=cps"
+          },
+          "priceInfo": { "price": 15.9 },
+          "resourceInfo": {
+            "eliteId": 1,
+            "eliteName": "好券商品"
+          },
+          "shopInfo": {
+            "shopId": 10138949,
+            "shopName": "惠益家居拼购专营店"
+          },
+          "skuId": 54270637805,
+          "skuName": "格瑞泽 可撕式滚筒粘毛器粘头发粘尘纸衣服滚刷黏贴毛神器沾毛刷去除毛器 1手柄+3卷纸+防尘盖",
+          "spuid": 54270637805
+        },
+        {
+          "brandCode": "321186",
+          "brandName": "夜劲",
+          "categoryInfo": {
+            "cid1": 9192,
+            "cid1Name": "医药保健",
+            "cid2": 9196,
+            "cid2Name": "计生情趣",
+            "cid3": 12609,
+            "cid3Name": "男用延时"
+          },
+          "comments": 55,
+          "commissionInfo": {
+            "commission": 89.5,
+            "commissionShare": 50.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 50.0,
+                "getEndTime": 1576511998000,
+                "getStartTime": 1575475200000,
+                "isBest": 1,
+                "link": "//coupon.jd.com/ilink/couponActiveFront/front_index.action?key=1498f3311b21497e8d93d9ab15b942f2&roleId=26033487&to=yanwenyaofang.jd.com",
+                "platformType": 0,
+                "quota": 68.0,
+                "useEndTime": 1576511999000,
+                "useStartTime": 1575475200000
+              }
+            ]
+          },
+          "goodCommentsShare": 100.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/59507/37/1223/54606/5cf7a543E3cee69b3/d7da6707f86b36d1.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/41808/20/6023/82692/5cf77a74E3d405efc/fcdb7f76de7a72e2.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/44490/34/2278/72139/5cf77a75Ecf6ad8db/990c2278a9606483.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/50005/24/1765/61567/5cf77a75E426a2e9d/aab1cd4d61284fbb.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/70328/11/1244/59945/5cf77a76Efb8e5d2a/ffebea8a66255f5e.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/42433/14/5953/63132/5cf77a77E876e4587/7437074bc3d8a5f5.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 0,
+          "inOrderCount30DaysSku": 0,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/49404162989.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 179.0 },
+          "resourceInfo": {
+            "eliteId": 1,
+            "eliteName": "好券商品"
+          },
+          "shopInfo": {
+            "shopId": 689305,
+            "shopName": "言闻大药房官方旗舰店"
+          },
+          "skuId": 49404162989,
+          "skuName": "夜劲男用延时喷剂2代印度神油成人延时喷雾不麻木可口延迟因此喷剂廷时暂时喷剂男用金枪不倒持久延时喷剂 2代加强版(保密发货)",
+          "spuid": 49404162989
+        },
+        {
+          "brandCode": "506331",
+          "brandName": "绿曼娜（lvmanna）",
+          "categoryInfo": {
+            "cid1": 1315,
+            "cid1Name": "服饰内衣",
+            "cid2": 1345,
+            "cid2Name": "内衣",
+            "cid3": 9743,
+            "cid3Name": "女式内裤"
+          },
+          "comments": 0,
+          "commissionInfo": {
+            "commission": 29.95,
+            "commissionShare": 50.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 20.0,
+                "getEndTime": 1577776860000,
+                "getStartTime": 1574839260000,
+                "isBest": 1,
+                "link": "//coupon.jd.com/ilink/couponSendFront/send_index.action?key=1376ec44b7fb401ba15ea8b35d413851&roleId=25760661&to=mall.jd.com/index-10134807.html",
+                "platformType": 0,
+                "quota": 59.0,
+                "useEndTime": 1577807999000,
+                "useStartTime": 1574784000000
+              }
+            ]
+          },
+          "goodCommentsShare": 100.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/61829/1/16322/178136/5dde235bEd80a02ae/bed5cc4f447b5721.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/85026/1/3265/122965/5dde2300Eae68f343/02b941b4d36dc26d.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/93819/22/3265/251507/5dde231dE940376b2/557c1d5fab640ec4.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/66910/28/16266/285137/5dde2305E0c49e362/fbfecf1b430dadde.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/60043/15/16409/84791/5dde2309Eb69022f9/5cd92d0db2ca120d.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/98435/38/3162/101266/5dde2310E8e3b0af1/d4f59ee5931e1689.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/51723/40/17030/185387/5dde2315E9737782f/65dc8965643f7e64.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 13,
+          "inOrderCount30DaysSku": 0,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/62705707937.html",
+          "owner": "p",
+          "pinGouInfo": {
+            "pingouEndTime": 2133999048000,
+            "pingouPrice": 59.9,
+            "pingouStartTime": 1574839297000,
+            "pingouTmCount": 2,
+            "pingouUrl": "https://wq.jd.com/pingou_api/GetAutoTuan?sku_id=62705707937&from=cps"
+          },
+          "priceInfo": { "price": 69.9 },
+          "resourceInfo": {
+            "eliteId": 1,
+            "eliteName": "好券商品"
+          },
+          "shopInfo": {
+            "shopId": 10270118,
+            "shopName": "泰盛内衣拼购专营店"
+          },
+          "skuId": 62705707937,
+          "skuName": "【绿曼娜】正品 4条装 纯棉女内裤中腰蕾丝边全棉质面料舒适透气三角裤女士提臀底裤头 8800#灰色 杏色 紫色 蓝色 L",
+          "spuid": 62705707937
+        },
+        {
+          "brandCode": "4952",
+          "brandName": "缤肌（Pinkypinky）",
+          "categoryInfo": {
+            "cid1": 1316,
+            "cid1Name": "美妆护肤",
+            "cid2": 1381,
+            "cid2Name": "面部护肤",
+            "cid3": 1392,
+            "cid3Name": "面膜"
+          },
+          "comments": 0,
+          "commissionInfo": {
+            "commission": 35.96,
+            "commissionShare": 40.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 70.0,
+                "getEndTime": 1575820800000,
+                "getStartTime": 1575092940000,
+                "isBest": 1,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=7150b6083be845e6a1bdf4ba0026db06&roleId=25871358&to=mall.jd.com/index-10022616.html",
+                "platformType": 0,
+                "quota": 89.0,
+                "useEndTime": 1575907199000,
+                "useStartTime": 1575043200000
+              },
+              {
+                "bindType": 3,
+                "discount": 70.0,
+                "getEndTime": 1575993540000,
+                "getStartTime": 1575094200000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=4724b87c26b84ff7bbfeded621a31646&roleId=25872469&to=mall.jd.com/index-10022616.html",
+                "platformType": 0,
+                "quota": 89.0,
+                "useEndTime": 1575993599000,
+                "useStartTime": 1575043200000
+              }
+            ]
+          },
+          "goodCommentsShare": 100.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/98511/32/2236/322188/5dcd2a22Ed0a0db9e/e4e87e9967f9a1e1.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/99470/19/2236/278496/5dcd2a22Ef220d3ee/dcc80a6770ddebaf.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/75750/40/15370/87060/5dcd2a21Ef81b82cf/8a8445307a304f28.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/98769/25/2356/239740/5dcd2a22E4c1c6532/a7f90b2a918f0215.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/96373/14/2227/383799/5dcd2a22E71be4a14/6d8d78fabae02163.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/66211/24/15460/338139/5dcd2a22Ef7defc14/4de20eeef0e5cd23.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 144,
+          "inOrderCount30DaysSku": 138,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/61406742101.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 89.9 },
+          "resourceInfo": {
+            "eliteId": 1,
+            "eliteName": "好券商品"
+          },
+          "shopInfo": {
+            "shopId": 10157090,
+            "shopName": "缤肌奢缇专卖店"
+          },
+          "skuId": 61406742101,
+          "skuName": "缤肌（Pinkypinky）玻尿酸睡眠面膜/神经酰胺精华补水保湿夜间修护面部护理套装 玻尿酸睡眠面膜2g*10片",
+          "spuid": 61406742101
+        },
+        {
+          "brandCode": "130634",
+          "brandName": "婉荷",
+          "categoryInfo": {
+            "cid1": 1315,
+            "cid1Name": "服饰内衣",
+            "cid2": 1343,
+            "cid2Name": "女装",
+            "cid3": 9721,
+            "cid3Name": "中老年女装"
+          },
+          "comments": 87,
+          "commissionInfo": {
+            "commission": 35.2,
+            "commissionShare": 40.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 20.0,
+                "getEndTime": 1576216620000,
+                "getStartTime": 1575561540000,
+                "isBest": 1,
+                "link": "//coupon.jd.com/ilink/couponSendFront/send_index.action?key=4f72afb6f0804f629ee7d3136c0ad2fb&roleId=26040088&to=wanhe.jd.com",
+                "platformType": 0,
+                "quota": 88.0,
+                "useEndTime": 1576252799000,
+                "useStartTime": 1575475200000
+              },
+              {
+                "bindType": 3,
+                "discount": 3.0,
+                "getEndTime": 1576462440000,
+                "getStartTime": 1575558840000,
+                "isBest": 0,
+                "link": "//coupon.jd.com/ilink/couponSendFront/send_index.action?key=a414d5d9e71648bd81d2a7e607a01d38&roleId=25983765&to=wanhe.jd.com",
+                "platformType": 0,
+                "quota": 88.0,
+                "useEndTime": 1576511999000,
+                "useStartTime": 1575475200000
+              }
+            ]
+          },
+          "goodCommentsShare": 100.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/74476/33/12407/172707/5d9d3cb2Eb70d7da4/a8d11dd6e0cbac08.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/60362/26/12435/183136/5d9d3cb2E78051559/f8ef0f72756c77d3.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/84546/4/12450/160769/5d9d3cb2Ef70f7f2b/a808511741e8c7f8.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/69181/6/12474/48378/5d9d3b9bEed0414d5/f146349f087b4667.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/54082/5/12890/60280/5d9d3b9bEc6f9ef8b/c9d9e3ac28fae333.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/83890/12/12436/280345/5d9d3baeE06f7bacc/a5423c7a944c2595.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/57635/35/12986/285297/5d9d3baeE28e67b93/1ac9919e2e35e987.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/75183/4/12294/316253/5d9d3baeE62dbbbdf/b58a22eed98ea545.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 10,
+          "inOrderCount30DaysSku": 2,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/58637559414.html",
+          "owner": "p",
+          "pinGouInfo": {},
+          "priceInfo": { "price": 88.0 },
+          "resourceInfo": {
+            "eliteId": 1,
+            "eliteName": "好券商品"
+          },
+          "shopInfo": {
+            "shopId": 154980,
+            "shopName": "婉荷旗舰店"
+          },
+          "skuId": 58637559414,
+          "skuName": "婉荷2019秋冬新款中老年女装妈妈中长款圆领T恤秋冬宽松大码假两件上衣中年女加绒加厚打底衫针织打底裙 灰色-加绒 5XL(建议140-150斤)",
+          "spuid": 41891167670
+        },
+        {
+          "brandCode": "386532",
+          "brandName": "捣蛋博士（daodanboshi）",
+          "categoryInfo": {
+            "cid1": 6233,
+            "cid1Name": "玩具乐器",
+            "cid2": 6271,
+            "cid2Name": "益智玩具",
+            "cid3": 6277,
+            "cid3Name": "早教启智"
+          },
+          "comments": 152,
+          "commissionInfo": {
+            "commission": 11.8,
+            "commissionShare": 40.0
+          },
+          "couponInfo": {
+            "couponList": [
+              {
+                "bindType": 3,
+                "discount": 14.0,
+                "getEndTime": 1576465920000,
+                "getStartTime": 1575475200000,
+                "isBest": 1,
+                "link": "//coupon.jd.com/ilink/couponActiveFront/front_index.action?key=3cb047376d1f4453ba7befe7688e5d20&roleId=25989442&to=mall.jd.com/index-875543.html",
+                "platformType": 0,
+                "quota": 29.0,
+                "useEndTime": 1576511999000,
+                "useStartTime": 1575475200000
+              },
+              {
+                "bindType": 3,
+                "discount": 14.0,
+                "getEndTime": 1575875160000,
+                "getStartTime": 1574492760000,
+                "isBest": 0,
+                "link": "http://coupon.m.jd.com/coupons/show.action?key=68ee507f254241e987cbf5ed46f6ced0&roleId=25639695&to=mall.jd.com/index-875543.html",
+                "platformType": 0,
+                "quota": 29.0,
+                "useEndTime": 1575907199000,
+                "useStartTime": 1574438400000
+              }
+            ]
+          },
+          "goodCommentsShare": 88.0,
+          "imageInfo": {
+            "imageList": [
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/34864/22/7409/211904/5d527523Ec4ceda54/d2762a5750f24bed.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/62406/38/7210/167914/5d527524Edd8c7efe/7d42d160e4828dc8.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/39137/19/13922/202424/5d527523E966ce427/3049f883a7597d86.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/63605/11/7088/155841/5d527523E0b9226f5/db6cd737ace35251.jpg" },
+              { "url": "http://img14.360buyimg.com/ads/jfs/t1/49686/23/7556/158563/5d527516E81535868/f2970770703977c0.jpg" }
+            ]
+          },
+          "inOrderCount30Days": 42,
+          "inOrderCount30DaysSku": 38,
+          "isHot": 1,
+          "materialUrl": "item.jd.com/54619238375.html",
+          "owner": "p",
+          "pinGouInfo": {
+            "pingouEndTime": 2133999048000,
+            "pingouPrice": 29.5,
+            "pingouStartTime": 1565685498000,
+            "pingouTmCount": 2,
+            "pingouUrl": "https://wq.jd.com/pingou_api/GetAutoTuan?sku_id=54619238375&from=cps"
+          },
+          "priceInfo": { "price": 39.0 },
+          "resourceInfo": {
+            "eliteId": 1,
+            "eliteName": "好券商品"
+          },
+          "shopInfo": {
+            "shopId": 10037486,
+            "shopName": "捣蛋博士拼购店"
+          },
+          "skuId": 54619238375,
+          "skuName": "婴儿撕不烂识字卡片不怕撕宝宝书启蒙早教0-3岁益智图书看图学习 撕不烂卡片 随机5本",
+          "spuid": 54619238373
+        }
+      ],
+      "message": "success",
+      "requestId": "21922_0aaf2ee8_k3tytaq7_67283679",
+      "totalCount": 163
+    },
+    "code": "0"
+  }
+}

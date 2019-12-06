@@ -9,7 +9,6 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityExchangeTermial\obj\Debug
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityExchangeTermial\obj\Debug\SecurityExchangeTermial.pdb
 E:\github\project\SecET\SecurityExchangeTermial.exe
 E:\github\project\SecET\SecurityExchangeTermial.pdb
-E:\github\source\dftell\PK10Tracer\SecurityExchangeTermial\obj\Debug\SecurityExchangeTermial.csprojAssemblyReference.cache
 E:\github\source\dftell\PK10Tracer\SecurityExchangeTermial\obj\Debug\SecurityExchangeTermial.frm_Main.resources
 E:\github\source\dftell\PK10Tracer\SecurityExchangeTermial\obj\Debug\SecurityExchangeTermial.csproj.GenerateResource.cache
 E:\github\source\dftell\PK10Tracer\SecurityExchangeTermial\obj\Debug\SecurityExchangeTermial.csproj.CoreCompileInputs.cache

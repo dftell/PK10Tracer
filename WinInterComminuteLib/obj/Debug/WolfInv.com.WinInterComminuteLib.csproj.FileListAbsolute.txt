@@ -14,3 +14,5 @@ E:\github\source\dftell\PK10Tracer\WinInterComminuteLib\obj\Debug\WolfInv.com.Wi
 E:\github\source\dftell\PK10Tracer\WinInterComminuteLib\obj\Debug\WolfInv.com.WinInterComminuteLib.csproj.CopyComplete
 E:\github\source\dftell\PK10Tracer\WinInterComminuteLib\obj\Debug\WolfInv.com.WinInterComminuteLib.dll
 E:\github\source\dftell\PK10Tracer\WinInterComminuteLib\obj\Debug\WolfInv.com.WinInterComminuteLib.pdb
+E:\projects\PK10TracerClient\WolfInv.com.WinInterComminuteLib.dll
+E:\projects\PK10TracerClient\WolfInv.com.WinInterComminuteLib.pdb

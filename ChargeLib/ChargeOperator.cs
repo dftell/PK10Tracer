@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WolfInv.com.WinInterComminuteLib;
 using System.Linq;
 using WolfInv.com.DbAccessLib;
-
+using System.Reflection;
 namespace WolfInv.com.ChargeLib
 {
 
@@ -42,9 +42,21 @@ namespace WolfInv.com.ChargeLib
             
             dic["respTime"] = DateTime.Now.ToLongTimeString();
             //dic["chargeAccount"] = 
+            Type t = this.GetType();
+            
+            FieldInfo[] mebs = t.GetFields();
+          
+            Dictionary<string, FieldInfo> dicMemb =  mebs.ToDictionary(c => c.Name, c => c);
             foreach (string key in dic.Keys)
             {
                 jsonlist.Add(string.Format("\"{0}\":\"{1}\"", key, dic[key]));
+            }
+            foreach(string key in dicMemb.Keys)
+            {
+                if(!dic.ContainsKey(key))
+                {
+                    jsonlist.Add(string.Format("\"{0}\":\"{1}\"", key, dicMemb[key].GetValue(this)));
+                }
             }
             ret = "{{0}}".Replace("{0}", string.Join(",", jsonlist));
             //page.Response.Write(ret);
