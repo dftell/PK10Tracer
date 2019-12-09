@@ -4,7 +4,14 @@ using System.Threading.Tasks;
 
 namespace WolfInv.com.JdUnionLib
 {
-    public class AccessTokenClass : JdyRequestClass
+    public class Jd_360Buy_Sign:JdUnion_RequestClass
+    {
+        public Jd_360Buy_Sign()
+        {
+
+        }
+    }
+    public class AccessTokenClass : JdUnion_RequestClass
     {
         //JDY_ModuleClass module;
         ////public void SetModule(JDY_ModuleClass mod)
@@ -32,8 +39,5 @@ namespace WolfInv.com.JdUnionLib
 
   }
     
-    public class SCM_Product_Add_Class
-    {
-
-    }
+    
 }

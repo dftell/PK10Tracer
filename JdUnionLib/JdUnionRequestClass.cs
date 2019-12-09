@@ -7,48 +7,35 @@ using WolfInv.Com.JsLib;
 
 namespace WolfInv.com.JdUnionLib
 {
-    public abstract class JdyModuleProcessClass : JdyJsonClass
-    {
-        public JDY_ModuleClass Module { get; set; }
-
-        public bool InitClass(JDY_ModuleClass module)
-        {
-            if (module == null)
-                return false;
-            Module = module;
-            return true;
-            string json = this.getJsonContent(this.strJsonName);
-            if (json == null)
-                return false;
-            Module = module;
-            return true;
-        }
-    }
     public interface iReturnMsg
     {
         string code { get; set; }
         string msg { get; set; }
     }
-    public class JdyReturnClass : iReturnMsg
+    public class JdUnion_ReturnClass : iReturnMsg
     {
         public string code { get; set; }
         public string msg { get; set; }
     }
 
-    public class JdyReturnItemsClass : JdyReturnClass
+    public class JdUnion_ReturnItemsClass : JdUnion_ReturnClass
     {
         public string totalsize{get;set;} 
     }
     
 
+    
 
-    public abstract class JdyRequestClass: JdyModuleProcessClass,iReturnMsg
+    public abstract class JdUnion_RequestClass: JdUnion_ModuleProcessClass,iReturnMsg
     {
+
+        
         public string code { get; set; }
         public string msg { get; set; }
         public AccessTokenClass data;
-        public string access_token { get; set; }
-        public JdyRequestClass()
+        
+        
+        public JdUnion_RequestClass()
         {
             awsobj = new AccessWebServerClass();
         }
@@ -122,62 +109,10 @@ namespace WolfInv.com.JdUnionLib
         }
     }
 
-    public abstract class JdyJsonClass:JsonableClass<JdyJsonClass>
+    
+    public class JdUnion_SystemClass: JdUnion_ModuleProcessClass
     {
-        public string strJsonName;
-        
-        public string getJsonPath(string name)
-        {
-            string strPath = string.Format("{0}Json\\{1}.json", AppDomain.CurrentDomain.BaseDirectory, name.Replace("/", "\\"));
-            if (File.Exists(strPath))
-            {
-                return strPath;
-            }
-            return null;
-        }
-
-        public string getFilePath(string name,string folder="",string type="")
-        {
-            if (name == null)
-                return null;
-            string strPath = string.Format("{0}{2}\\{1}{3}", AppDomain.CurrentDomain.BaseDirectory, name.Replace("/","\\"),folder,type);
-            if (File.Exists(strPath))
-            {
-                return strPath;
-            }
-            return null;
-        }
-
-        public string getJsonContent(string name)
-        {
-            string strPath = getJsonPath(name);
-            if (strPath == null)
-                return null;
-            using (TextReader tr = File.OpenText(strPath))
-            {
-                return tr.ReadToEnd();
-            }
-            //return null;
-        }
-
-        public bool saveJsonContent(string path,string str)
-        {
-            try
-            {
-                StringWriter tw = new StringWriter();
-                tw.Write(str);
-            }
-            catch(Exception ce)
-            {
-
-            }
-            return true;
-        }
-    }
-
-    public class JdySystemClass: JdyModuleProcessClass
-    {
-        public JdySystemClass()
+        public JdUnion_SystemClass()
         {
             this.strJsonName = "System.config.modules";
 
@@ -190,12 +125,12 @@ namespace WolfInv.com.JdUnionLib
 
     }
 
-    public class JDY_Modules: JsonableClass<JDY_Modules>
+    public class JdUnion_Modules: JsonableClass<JdUnion_Modules>
     {
-        public List<JDY_ModuleClass> Modules { get; set; }
-        public JDY_Modules()
+        public List<JdUnion_ModuleClass> Modules { get; set; }
+        public JdUnion_Modules()
         {
-            Modules = new List<JDY_ModuleClass>();
+            Modules = new List<JdUnion_ModuleClass>();
         }
     }
 }

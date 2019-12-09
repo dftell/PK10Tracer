@@ -2,47 +2,44 @@
 using WolfInv.Com.JsLib;
 namespace WolfInv.com.JdUnionLib
 {
-    public class JDYSCM_SaleOrder_Update_Class: JDYSCM_SaleOrder_Add_Class
-    {
 
+    public class JdUnion_Service_List_Class : JdUnion_Class
+    {
+        public new List<JdUnion_Service_List_Item_Class> items { get; set; }
+        public class JdUnion_Service_List_Item_Class : JdUnion_Class.JdUnion_Item_Class
+        {
+            public string dbId { get; set; }
+            public bool isFree { get; set; }
+            public string name { get; set; }
+            public string endDate { get; set; }
+            public string beginDate { get; set; }
+            //// "dbId": 7950938951,
+            ////"isFree": false,
+            ////"name": "在线进销存3.0（标准版）",
+            ////"endDate": "2022-02-24",
+            ////"beginDate": "2017-02-24"
+
+        }
+
+        public bool InitRequestJson()
+        {
+            base.InitRequestJson();
+            ReqJson = string.Format("access_token={0}", JdUnion_GlbObject.Access_token);
+
+            return true;
+
+        }
     }
 
-    public class JDYSCM_SaleOrder_Delete_Class : JDYSCM_Bussiness_Class
+    public class JdUnion_Goods_List_Class : JdUnion_Bussiness_List_Class
     {
-
+        
     }
 
-    public class JDYSCM_SaleOrder_Lock_Class : JDYSCM_SaleOrder_Delete_Class
-    {
-
-    }
-
-    public class JDYSCM_SaleOrder_List_Class : JDYSCM_Bussiness_List_Class
-    {
-
-    }
-
-    public class JDYSCM_SaleDelivery_List_Class : JDYSCM_Bussiness_List_Class
-    {
-
-    }
-
-    public class JDYSCM_SaleDelivery_Add_Class : JDYSCM_Bussiness_List_Class
-    {
-
-    }
-
-    public class JDYSCM_SaleDelivery_Update_Class : JDYSCM_Bussiness_List_Class
-    {
-
-    }
-
-    public class JDYSCM_SaleDelivery_Delete_Class : JDYSCM_Bussiness_List_Class
-    {
-
-    }
-
-    public class JDYSCM_SaleOrder_Add_Class : JDYSCM_Bussiness_List_Class
+    /// <summary>
+    /// 示例
+    /// </summary>
+    public class JDYSCM_SaleOrder_Add_Class : JdUnion_Bussiness_List_Class
     {
         public List<JDYSCM_SaleOrder_List_Item_Class> items { get; set; }
         public class JDYSCM_SaleOrder_List_Item_Class:JsonableClass<JDYSCM_SaleOrder_List_Item_Class>

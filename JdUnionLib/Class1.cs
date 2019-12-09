@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using XmlProcess;
 
 namespace WolfInv.com.JdUnionLib
 {
@@ -34,5 +36,4 @@ namespace WolfInv.com.JdUnionLib
         public string eliteId { get; set; }
     }
 
-   
 }
