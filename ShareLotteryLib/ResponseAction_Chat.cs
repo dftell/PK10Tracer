@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace WolfInv.com.ShareLotteryLib
 {
     /// <summary>
-    /// 充值类型，目前不属于彩票流程
+    /// 私聊类型，目前不属于彩票流程
     /// </summary>
     public class ResponseAction_Chat:ResponseActionClass
     {

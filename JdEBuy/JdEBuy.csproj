@@ -44,6 +44,28 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WolfInv.Com.AccessDataBase">
+      <HintPath>..\..\..\..\..\projects\WCS\WolfInv.Com.AccessDataBase.dll</HintPath>
+    </Reference>
+    <Reference Include="WolfInv.Com.DataAccessCenter">
+      <HintPath>..\..\..\..\..\projects\WCS\WolfInv.Com.DataAccessCenter.dll</HintPath>
+    </Reference>
+    <Reference Include="WolfInv.com.DbAccessLib">
+      <HintPath>..\..\..\..\..\projects\WCS\WolfInv.com.DbAccessLib.dll</HintPath>
+    </Reference>
+    <Reference Include="WolfInv.Com.HtmlExp">
+      <HintPath>..\..\..\..\..\projects\WCS\WolfInv.Com.HtmlExp.dll</HintPath>
+    </Reference>
+    <Reference Include="WolfInv.Com.MetaDataCenter">
+      <HintPath>..\..\..\..\..\projects\WCS\WolfInv.Com.MetaDataCenter.dll</HintPath>
+    </Reference>
+    <Reference Include="WolfInv.Com.WCS_Process">
+      <HintPath>..\..\..\..\..\projects\WCS\WolfInv.Com.WCS_Process.dll</HintPath>
+    </Reference>
+    <Reference Include="XmlProcess, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\projects\PK10Tracer\XmlProcess.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Form1.cs">
@@ -78,6 +100,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\WCS\WCS\JsLib\JsLib.csproj">
+      <Project>{6FD3AFA7-69ED-468F-972A-E58FEADABA12}</Project>
+      <Name>JsLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JdUnionLib\JdUnionLib.csproj">
+      <Project>{dcae1a60-ccac-41b8-a0c2-602389161009}</Project>
+      <Name>JdUnionLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -20,6 +20,7 @@ namespace WolfInv.com.ShareLotteryLib
         public string ActionName;
         public TheAskWaitingUserAnswer lastAsk;
         public List<object> Buffs = new List<object>();
+        public ActionDefine actionDefine;
         /*Ready,//筹备中
         Subscribing,//正在认购中
         Paying,//认购完成，正在缴款中
@@ -88,6 +89,11 @@ namespace WolfInv.com.ShareLotteryLib
                 case ActionType.AppendShares:
                     {
                         ret = new ResponseAction_ModifyStatus(wxprs, msg, SharePlanStatus.Paied);
+                        break;
+                    }
+                case ActionType.JdUnion:
+                    {
+                        ret = new ResponseAction_JdUnion(wxprs, msg);
                         break;
                     }
                 case ActionType.ShowPlan:

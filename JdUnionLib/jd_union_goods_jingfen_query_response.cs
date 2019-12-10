@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 namespace WolfInv.com.JdUnionLib
 {
+    //jd.union.open.goods.jingfen.query
     public class jd_union_goods_jingfen_query_response
     {
         public jd_union_open_goods_jingfen_query_response jd_union_open_goods_jingfen_query_response { get; set; }

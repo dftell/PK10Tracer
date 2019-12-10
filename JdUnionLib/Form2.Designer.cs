@@ -41,6 +41,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.chkbox_Post = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txt_timestamp = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.txt_app_secret = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txt_app_key = new System.Windows.Forms.TextBox();
@@ -48,16 +50,14 @@
             this.txt_access_token = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.txt_params_1_key = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.txt_params_1_val = new System.Windows.Forms.TextBox();
-            this.txt_params_2_val = new System.Windows.Forms.TextBox();
-            this.txt_params_2_key = new System.Windows.Forms.TextBox();
             this.txt_params_3_val = new System.Windows.Forms.TextBox();
             this.txt_params_3_key = new System.Windows.Forms.TextBox();
-            this.txt_timestamp = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
+            this.txt_params_2_val = new System.Windows.Forms.TextBox();
+            this.txt_params_2_key = new System.Windows.Forms.TextBox();
+            this.txt_params_1_val = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txt_params_1_key = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -180,8 +180,6 @@
             // chkbox_Post
             // 
             this.chkbox_Post.AutoSize = true;
-            this.chkbox_Post.Checked = true;
-            this.chkbox_Post.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkbox_Post.Location = new System.Drawing.Point(667, -3);
             this.chkbox_Post.Name = "chkbox_Post";
             this.chkbox_Post.Size = new System.Drawing.Size(48, 16);
@@ -205,6 +203,25 @@
             this.groupBox1.TabIndex = 18;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "系统参数";
+            // 
+            // txt_timestamp
+            // 
+            this.txt_timestamp.Location = new System.Drawing.Point(88, 93);
+            this.txt_timestamp.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_timestamp.Name = "txt_timestamp";
+            this.txt_timestamp.Size = new System.Drawing.Size(181, 21);
+            this.txt_timestamp.TabIndex = 25;
+            this.txt_timestamp.Text = "2018-10-18 11:13:12";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(7, 96);
+            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(59, 12);
+            this.label10.TabIndex = 24;
+            this.label10.Text = "timestamp";
             // 
             // txt_app_secret
             // 
@@ -279,42 +296,22 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "业务参数";
             // 
-            // txt_params_1_key
+            // txt_params_3_val
             // 
-            this.txt_params_1_key.Location = new System.Drawing.Point(15, 37);
-            this.txt_params_1_key.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_params_1_key.Name = "txt_params_1_key";
-            this.txt_params_1_key.Size = new System.Drawing.Size(126, 21);
-            this.txt_params_1_key.TabIndex = 20;
-            this.txt_params_1_key.Text = "goodsReq";
+            this.txt_params_3_val.Location = new System.Drawing.Point(163, 87);
+            this.txt_params_3_val.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_params_3_val.Name = "txt_params_3_val";
+            this.txt_params_3_val.Size = new System.Drawing.Size(123, 21);
+            this.txt_params_3_val.TabIndex = 27;
             // 
-            // label8
+            // txt_params_3_key
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(63, 19);
-            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(53, 12);
-            this.label8.TabIndex = 21;
-            this.label8.Text = "参数名称";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(197, 17);
-            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(41, 12);
-            this.label9.TabIndex = 22;
-            this.label9.Text = "参数值";
-            // 
-            // txt_params_1_val
-            // 
-            this.txt_params_1_val.Location = new System.Drawing.Point(163, 37);
-            this.txt_params_1_val.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_params_1_val.Name = "txt_params_1_val";
-            this.txt_params_1_val.Size = new System.Drawing.Size(123, 21);
-            this.txt_params_1_val.TabIndex = 23;
+            this.txt_params_3_key.Location = new System.Drawing.Point(15, 87);
+            this.txt_params_3_key.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_params_3_key.Name = "txt_params_3_key";
+            this.txt_params_3_key.Size = new System.Drawing.Size(126, 21);
+            this.txt_params_3_key.TabIndex = 26;
+            this.txt_params_3_key.Text = "siteId";
             // 
             // txt_params_2_val
             // 
@@ -333,41 +330,42 @@
             this.txt_params_2_key.TabIndex = 24;
             this.txt_params_2_key.Text = "skuIds";
             // 
-            // txt_params_3_val
+            // txt_params_1_val
             // 
-            this.txt_params_3_val.Location = new System.Drawing.Point(163, 87);
-            this.txt_params_3_val.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_params_3_val.Name = "txt_params_3_val";
-            this.txt_params_3_val.Size = new System.Drawing.Size(123, 21);
-            this.txt_params_3_val.TabIndex = 27;
+            this.txt_params_1_val.Location = new System.Drawing.Point(163, 37);
+            this.txt_params_1_val.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_params_1_val.Name = "txt_params_1_val";
+            this.txt_params_1_val.Size = new System.Drawing.Size(123, 21);
+            this.txt_params_1_val.TabIndex = 23;
             // 
-            // txt_params_3_key
+            // label9
             // 
-            this.txt_params_3_key.Location = new System.Drawing.Point(15, 87);
-            this.txt_params_3_key.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_params_3_key.Name = "txt_params_3_key";
-            this.txt_params_3_key.Size = new System.Drawing.Size(126, 21);
-            this.txt_params_3_key.TabIndex = 26;
-            this.txt_params_3_key.Text = "siteId";
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(197, 17);
+            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(41, 12);
+            this.label9.TabIndex = 22;
+            this.label9.Text = "参数值";
             // 
-            // txt_timestamp
+            // label8
             // 
-            this.txt_timestamp.Location = new System.Drawing.Point(88, 93);
-            this.txt_timestamp.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_timestamp.Name = "txt_timestamp";
-            this.txt_timestamp.Size = new System.Drawing.Size(181, 21);
-            this.txt_timestamp.TabIndex = 25;
-            this.txt_timestamp.Text = "2018-10-18 11:13:12";
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(63, 19);
+            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(53, 12);
+            this.label8.TabIndex = 21;
+            this.label8.Text = "参数名称";
             // 
-            // label10
+            // txt_params_1_key
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(7, 96);
-            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(59, 12);
-            this.label10.TabIndex = 24;
-            this.label10.Text = "timestamp";
+            this.txt_params_1_key.Location = new System.Drawing.Point(15, 37);
+            this.txt_params_1_key.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_params_1_key.Name = "txt_params_1_key";
+            this.txt_params_1_key.Size = new System.Drawing.Size(126, 21);
+            this.txt_params_1_key.TabIndex = 20;
+            this.txt_params_1_key.Text = "goodsReq";
             // 
             // Form2
             // 

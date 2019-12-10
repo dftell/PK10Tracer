@@ -2,30 +2,53 @@
 <root>
   <action type="ApplyCreate">
     <item>新建(.*?)合买</item>
+    <item>开(.*?)合买</item>
+    <item>合买(.*?)期</item>
+    <item>(.*?)期合买</item>
+    <item>共享(.*?)</item>
+    <item>我爱你</item>
+    <item>滚</item>
+  </action>
+  <action type="LotteryRunningTimeInfoQuery">
+    <item>获取运行信息(.*?)</item>
+    <response>
+      <case condition="[波图|收益曲线]" type="image" isUrl="1" msg="http://www.wolfinv.com/chartImgs/chart.png" params=""/>
+      <case condition="[概率表]" type="function" isUrl="0" msg="getProsibleChart" params=""/>
+      
+    </response>
+  </action>
+  <action type="JdUnion">
+    <item>有没有(\s\S*?)的券</item>
+    <item>有(\s\S*?)吗?</item>
   </action>
   <action type="SubmitNewInfo">
-    <item>新建合买信息(.*?)请帮我登记</item>
+    <item>合买信息\[[\s\S]*?]</item>
   </action>
   <action type="CancelCurr">
     <item>取消(.*?)合买</item>
+    <item>停止(.*?)合买</item>
   </action>
   <action type="SubcribeShares">
     <item>来(.*?)份</item>
     <item>来(.*?)股</item>
     <item>买(.*?)份</item>
     <item>买(.*?)股</item>
+    <item>我(.*?)份</item>
+    <item>我(.*?)股</item>
+    <item>我[买|来|要](.*?)[|股|份]</item>
   </action>
   <action type="ModifyPlan">
     <item>修改(.*?)合买</item>
   </action>
   <action type="AppendShares">
-    <item>加(.*?)股</item>
+    <item>[缴款|支付](.*?)[完毕|结束]</item>
     <item>加(.*?)份</item>
   </action>
   <action type="ShowPlan">
     <item>看看(.*?)合买</item>
     <item>看看(.*?)情况</item>
     <item>给我(.*?)看看</item>
+    <item>[|合买](.*?)情况</item>
   </action>
   <action type="EndTheSubscribe">
     <item>停止(.*?)认买</item>
@@ -33,13 +56,27 @@
     <item>结束(.*?)买</item>
   </action>
   <action type="DeclareResult">
-    <item>这次(.*?)结果</item>
+    <item>开奖(.*?)[号码|结果](.*?)中[|奖]</item>
   </action>
   <action type="ClosePlan">
     <item>结束(.*?)合买</item>
   </action>
-  <action type="ValidateInfo">
-    <item>/d</item>
+  <action type="Charge">
+    <item>[冲|充|刷|扫](\d+)[|$|元|块]</item>
+    <item>[冲|充|刷|扫](\d+)$</item>
   </action>
 
+  <action type="ResetSystem">
+    <item>[重置|重启][|系统]</item>
+  </action>
+  <action type="AskLottery">
+    <item>推荐</item>
+    <item>开什么</item>
+  </action>
+  <action type="ManualInstructs">
+    <item>[手动|手工|人工]下注</item>
+  </action>
+  <action type="ValidateInfo">
+    <item>\d+</item>
+  </action>
 </root>

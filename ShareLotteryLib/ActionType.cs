@@ -2,6 +2,9 @@
 {
     public enum ActionType
     {
+        ManualInstructs,//手工补充下注指令,属于彩票平台指令系统
+        JdUnion,//京东联盟系统
+        LotteryRunningTimeInfoQuery,//彩票运行时信息查询,属于彩票平台查询系统
         ApplyCreate,
         SubmitNewInfo,
         CancelCurr,
@@ -15,7 +18,6 @@
         ClosePlan,
         Charge,//充值指令
         ResetSystem,
-        ManualInstructs,//手工补充下注指令
         ValidateInfo,
         Undefined
     }

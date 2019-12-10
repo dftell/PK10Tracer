@@ -29,6 +29,7 @@ using WolfInv.com.LogLib;
 using WolfInv.com.WinInterComminuteLib;
 using WolfInv.com.WXMessageLib;
 using System.Text.RegularExpressions;
+using System.Drawing;
 
 namespace WolfInv.com.WXMsgCom
 {
@@ -1164,6 +1165,50 @@ namespace WolfInv.com.WXMsgCom
 
                 return "服务未启动，开始启动服务！123";
             }
+        }
+
+        public string SendUrlImgMsg(string url,string ToUser)
+        {
+            HttpClient hc = new HttpClient();
+            try
+            {
+                Image img = hc.GetImage(url);
+                string ret = Path.GetTempFileName() + ".jpg";
+                img.Save(ret);
+                FileInfo strFileName = new FileInfo(ret);
+                if (Valid)
+                {
+                    string RToUser = ToUser;
+                    if (!contactDict.ContainsKey(ToUser))
+                    {
+
+                        List<Contact> res = getContactListByName(ToUser);
+                        if (res.Count == 0)
+                        {
+                            return "不存在该用户！";
+                        }
+                        if (res.Count > 1)
+                        {
+                            return "存在多个用户！";
+                        }
+                        RToUser = res[0].UserName;
+                    }
+                    if (strFileName != null)
+                        return client.SendMsg(strFileName, RToUser).ToJson();
+                    else
+                        return "无法保存图片";
+                }
+                else
+                {
+
+                    return "服务未启动，开始启动服务！123";
+                }
+            }
+            catch(Exception ce)
+            {
+                return ce.Message;
+            }
+            
         }
 
         public void SetDisplayMethod(bool bDisplayByFrm)

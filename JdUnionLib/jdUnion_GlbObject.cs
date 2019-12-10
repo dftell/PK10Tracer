@@ -12,8 +12,8 @@ using System.IO;
 namespace WolfInv.com.JdUnionLib
 {
 
-    
-    public class JdUnion_GlbObject:JdUnion_BaseClass
+
+    public class JdUnion_GlbObject : JdUnion_BaseClass
     {
         static long leftSecs;
         static DateTime lastLoginTime;
@@ -29,7 +29,7 @@ namespace WolfInv.com.JdUnionLib
             }
         }
 
-
+        
 
 
         public static string getJsonText(string filepath)
@@ -170,7 +170,16 @@ namespace WolfInv.com.JdUnionLib
             });
             //string strtest = Access_token;
         }
-            
+        
+        public static JdUnion_Bussiness_Class CreateBusinessClass(Type t)
+        {
+            Type cls = JdUnion_GlbObject.AllModuleClass[t.Name];
+            object obj = Activator.CreateInstance(cls);// as
+            JdUnion_Bussiness_Class jdy = obj as JdUnion_Bussiness_Class;// as
+            jdy.InitClass(mlist[t.Name]);
+            return jdy;
+        }
+        
         static List<Type> getAllSubClass(Type pt)
         {
             List<Type> ret = new List<Type>();
@@ -216,6 +225,18 @@ namespace WolfInv.com.JdUnionLib
                 return false;
             }
             return true;
+        }
+
+        public static List<int> getElites()
+        {
+            Type t = typeof(goodsElite);
+            Array arr = Enum.GetValues(t);
+            List<int> ret = new List<int>();
+            foreach(int i in arr)
+            {
+                ret.Add(i);
+            }
+            return ret;
         }
     }
 

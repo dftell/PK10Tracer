@@ -1,0 +1,30 @@
+{
+  "isObject": 1,
+  "Params": [
+    {
+      "name": "goodsReq",
+      "allowNull": 0,
+      "isObject": 1,
+      "Params": [
+        {
+          "name": "eliteId",
+          "allowNull": 0,
+          "value": "",
+          "defaultValue": ""
+        },
+        {
+          "name": "pageSize",
+          "allowNull": 1,
+          "value": "",
+          "defaultValue": "20"
+        },
+        {
+          "name": "pageIndex",
+          "allowNull": 1,
+          "value": "",
+          "defaultValue": "1"
+        }
+      ]
+    }
+  ]
+}

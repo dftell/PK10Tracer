@@ -20,7 +20,7 @@ namespace WolfInv.com.ShareLotteryLib
         public Dictionary<string, Dictionary<string, TheAskWaitingUserAnswer>> waitingAsk { get; set; }//所有群等待回复的问题
         public Dictionary<string, Dictionary<string, TheAskWaitingUserAnswer>> historyAsk { get; set; }//所有群历史回复的问题
 
-        public static Dictionary<string, List<string>> ActionDic;
+        public static Dictionary<string, ActionDefine> ActionDic;
         #endregion
 
         public string RobotUnionId { get; set; }
@@ -133,7 +133,8 @@ namespace WolfInv.com.ShareLotteryLib
 
         bool ProcessOneMsg(wxMessageClass wxmsg,ref ShareLotteryPlanClass optPlan)
         {
-            ActionType curraction = checkTheAction(wxmsg);
+            ActionDefine define = null;
+            ActionType curraction = checkTheAction(wxmsg,ref define);
             if(waitingAsk!= null)
             {
                 if(waitingAsk.ContainsKey(wxmsg.FromUserNam) && waitingAsk[wxmsg.FromUserNam].ContainsKey(wxmsg.FromMemberUserName))
@@ -152,6 +153,7 @@ namespace WolfInv.com.ShareLotteryLib
 
             
             ResponseActionClass rac = ResponseActionClass.CreateAction(curraction, this, wxmsg);
+            rac.actionDefine = define;
             if(rac == null)
             {
                 optPlan = null;
@@ -176,10 +178,10 @@ namespace WolfInv.com.ShareLotteryLib
             return true;
         }
 
-        public ActionType checkTheAction(wxMessageClass wxmsg)
+        public ActionType checkTheAction(wxMessageClass wxmsg,ref ActionDefine define)
         {
-            
-            
+
+            define = new ActionDefine();
             string myname = string.Format("@{0}", wxmsg.AtMemberNikeName[0]);
             string msg = wxmsg.Msg.Replace(myname, "").Trim().Replace(" ", "");
             ////string strtest = @"\[[\s\S]*?]";
@@ -200,14 +202,14 @@ namespace WolfInv.com.ShareLotteryLib
                 {
                     continue;
                 }
-                List<string> dic = ActionDic[strName];
+                ActionDefine dic = ActionDic[strName];
                 if(dic == null)
                 {
                     continue;
                 }
-                for (int i = 0; i < dic.Count; i++)
+                for (int i = 0; i < dic.regConditions.Count; i++)
                 {
-                    Regex regTr = new Regex(dic[i]);
+                    Regex regTr = new Regex(dic.regConditions[i]);
                     MatchCollection mcs = regTr.Matches(msg);
                     if (mcs.Count > 0)
                     {
@@ -218,9 +220,9 @@ namespace WolfInv.com.ShareLotteryLib
             return ActionType.Undefined;
         }
 
-        Dictionary<string,List<string>> getActionDictionary()
+        Dictionary<string,ActionDefine> getActionDictionary()
         {
-            Dictionary<string, List<string>> ret = new Dictionary<string, List<string>>();
+            Dictionary<string, ActionDefine> ret = new Dictionary<string, ActionDefine>();
             string xml = TextFileComm.getFileText("MsgActionDic.xml","xml");
             if(xml == null)
                 return ret;
@@ -232,16 +234,34 @@ namespace WolfInv.com.ShareLotteryLib
                 XmlNodeList nlist = root.SelectNodes("action");
                 foreach(XmlNode node in nlist)
                 {
+                    ActionDefine ad = new ActionDefine();
+                    
                     string type = XmlUtil.GetSubNodeText(node, "@type");
+                    ad.actionName = type;
                     List<string> slist = new List<string>();
                     XmlNodeList snodes = node.SelectNodes("item");
                     foreach(XmlNode snode in snodes)
                     {
                         slist.Add(XmlUtil.GetSubNodeText(snode, "."));
                     }
+                    ad.regConditions = slist;
+                    snodes = node.SelectNodes("response/case");
+                    foreach(XmlNode snode in snodes)
+                    {
+                        ResponseProcessItem rpi = new ResponseProcessItem();
+                        rpi.condition = XmlUtil.GetSubNodeText(snode, "condition");
+                        rpi.isUrl = XmlUtil.GetSubNodeText(snode, "isUrl");
+                        rpi.type = XmlUtil.GetSubNodeText(snode, "type");
+                        rpi.msg = XmlUtil.GetSubNodeText(snode, "msg");
+                        rpi.paramList = XmlUtil.GetSubNodeText(snode, "paramList");
+                        if(!ad.responseGroup.ContainsKey(rpi.condition))
+                        {
+                            ad.responseGroup.Add(rpi.condition, rpi);
+                        }
+                    }
                     if(!ret.ContainsKey(type))
                     {
-                        ret.Add(type, slist);
+                        ret.Add(type, ad);
                     }
                 }
             }
@@ -407,6 +427,26 @@ namespace WolfInv.com.ShareLotteryLib
     }
 
     
+    public class ActionDefine
+    {
+        public string actionName { get; set; }
+        public List<string> regConditions { get; set; }
+        public Dictionary<string,ResponseProcessItem> responseGroup { get; set; }
+        public ActionDefine()
+        {
+            regConditions = new List<string>();
+            responseGroup = new Dictionary<string, ResponseProcessItem>();
+        }
+    }
 
+    public class ResponseProcessItem
+    {
+        public string condition { get; set; }
+        public string type { get; set; }
+        public string isUrl { get; set; }
+        public string msg { get; set; }
+        public string paramList { get; set; }
+
+    }
     
 }

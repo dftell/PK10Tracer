@@ -11,7 +11,7 @@ using System.Web;
 namespace WolfInv.com.ShareLotteryLib
 {
     /// <summary>
-    /// 充值类型，目前不属于彩票流程
+    /// 彩票指令类型，目前不属于彩票合买流程
     /// </summary>
     public class ResponseAction_ManualIntructs : ResponseActionClass
     {

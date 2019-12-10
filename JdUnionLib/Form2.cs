@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
+using WolfInv.Com.JsLib;
 
 namespace WolfInv.com.JdUnionLib
 {
@@ -15,6 +17,7 @@ namespace WolfInv.com.JdUnionLib
         public Form2()
         {
             InitializeComponent();
+            bool inited = JdUnion_BaseClass.Inited;
         }
 
         private void btn_request_Click(object sender, EventArgs e)
@@ -26,7 +29,7 @@ namespace WolfInv.com.JdUnionLib
             ////this.txt_req_name.Text = ret;
             ////this.txt_bdId.Text = jdy_GlbObject.bdId.ToString();
 
-            JdUnion_Bussiness_Class jdy = ddl_className.Tag as JdUnion_Bussiness_Class;
+            JdUnion_Bussiness_List_Class jdy = ddl_className.Tag as JdUnion_Bussiness_List_Class;
             if(jdy == null)
             {
                 return;
@@ -38,23 +41,26 @@ namespace WolfInv.com.JdUnionLib
             if (jdy == null)
                 return;
             jdy.InitClass(JdUnion_GlbObject.mlist[ddl_className.Text]);
-            jdy.app_key = this.txt_app_key.Text.Trim();
-            jdy.app_secret = this.txt_app_secret.Text.Trim();
-            jdy.access_token = this.txt_access_token.Text.Trim();
+            this.txt_app_key.Text =jdy.app_key ;
+            this.txt_app_secret.Text = jdy.app_secret;
+            this.txt_access_token.Text = jdy.access_token;
             //jdy.timestamp = this.txt_timestamp.Text.Trim();
             jdy.params_360buy.Clear();
             jdy.sign = null;//必须要置空
             if (this.txt_params_1_val.Text.Trim().Length > 0)
             {
-                jdy.params_360buy.Add(this.txt_params_1_key.Text.Trim(), this.txt_params_1_val.Text.Trim());
+                if(jdy.params_360buy.ContainsKey(this.txt_params_1_key.Text.Trim()))
+                    jdy.params_360buy[this.txt_params_1_key.Text.Trim()]=this.txt_params_1_val.Text.Trim();
             }
             if (this.txt_params_2_val.Text.Trim().Length > 0)
             {
-                jdy.params_360buy.Add(this.txt_params_2_key.Text.Trim(), this.txt_params_2_val.Text.Trim());
+                if (jdy.params_360buy.ContainsKey(this.txt_params_2_key.Text.Trim()))
+                    jdy.params_360buy[this.txt_params_2_key.Text.Trim()] = this.txt_params_2_val.Text.Trim();
             }
             if (this.txt_params_3_val.Text.Trim().Length > 0)
             {
-                jdy.params_360buy.Add(this.txt_params_3_key.Text.Trim(), this.txt_params_3_val.Text.Trim());
+                if (jdy.params_360buy.ContainsKey(this.txt_params_3_key.Text.Trim()))
+                    jdy.params_360buy[this.txt_params_3_key.Text.Trim()] = this.txt_params_3_val.Text.Trim();
             }
             if(txt_PostData.Text.Trim().Length>0)
             {
@@ -63,7 +69,13 @@ namespace WolfInv.com.JdUnionLib
                     jdy.params_360buy.Add(this.txt_params_1_key.Text, this.txt_PostData.Text);
                 }
             }
-            jdy.InitRequestJson();
+
+
+            jdy.pager = new JdUnion_Bussiness_List_Class.JdUnion_Bussiness_Filter_Class();
+            jdy.pager.pageIndex = int.Parse(txt_PageNo.Text);
+            jdy.pager.pageSize = int.Parse(txt_PageSize.Text); 
+            //this.txt_PostData.Text  = 
+            //jdy.InitRequestJson();
             ////if (jdy is JdUnion_Bussiness_List_Class)
             ////{
             ////    (jdy as JdUnion_Bussiness_List_Class).filter = new JdUnion_Bussiness_List_Class.JdUnion_Bussiness_Filter_Class();
@@ -71,19 +83,26 @@ namespace WolfInv.com.JdUnionLib
             ////    (jdy as JdUnion_Bussiness_List_Class).filter.page = int.Parse(txt_PageNo.Text);
             ////    jdy.Req_PostData = "{\"filter\":" + (jdy as JdUnion_Bussiness_List_Class).filter.ToJson().Replace("null", "\"\"") + "}";
             ////}
-            this.txt_url.Text = jdy.getUrl();
+            //this.txt_url.Text = jdy.getUrl();
             //this.txt_PostData.Text = jdy.Req_PostData;
-            
+
             //jdy.Req_PostData = this.txt_PostData.Text;
             this.txt_url.Text = jdy.getUrl();
-            this.txt_result.Text = this.chkbox_Post.Checked?jdy.PostRequest():jdy.GetRequest();
-            
+            //this.txt_result.Text = this.chkbox_Post.Checked?jdy.PostRequest():jdy.GetRequest();
+            string msg = null;
+            XmlDocument xmldoc = null;
+            XmlDocument schema = null;
+            bool succ = jdy.getXmlData(ref xmldoc,ref schema, ref msg);
+            if (xmldoc != null)
+                this.txt_result.Text = xmldoc.OuterXml;
+
         }
 
         private void Form2_Load(object sender, EventArgs e)
         {
             string ret = JdUnion_GlbObject.Access_token;
             this.txt_access_token.Text = ret;
+            
             //this.txt_bdId.Text = JdUnion_GlbObject.dbId;
             DataTable dt = new DataTable();
             dt.Columns.Add("text");
@@ -118,9 +137,9 @@ namespace WolfInv.com.JdUnionLib
             this.ddl_className.Tag = jdy;
             return;
             jdy.InitClass(JdUnion_GlbObject.mlist[ddl_className.Text]);
-            jdy.app_key = this.txt_app_key.Text.Trim();
-            jdy.app_secret = this.txt_app_secret.Text.Trim();
-            jdy.access_token = this.txt_access_token.Text.Trim();
+            ////jdy.app_key = this.txt_app_key.Text.Trim();
+            ////jdy.app_secret = this.txt_app_secret.Text.Trim();
+            ////jdy.access_token = this.txt_access_token.Text.Trim();
             if(this.txt_params_1_val.Text.Trim().Length>0)
             {
                 jdy.params_360buy.Add(this.txt_params_1_key.Text.Trim(), this.txt_params_1_val.Text.Trim());
@@ -136,10 +155,10 @@ namespace WolfInv.com.JdUnionLib
             jdy.InitRequestJson();
             if (jdy is JdUnion_Bussiness_List_Class)
             {
-                (jdy as JdUnion_Bussiness_List_Class).filter = new JdUnion_Bussiness_List_Class.JdUnion_Bussiness_Filter_Class();
-                (jdy as JdUnion_Bussiness_List_Class).filter.pageSize = int.Parse(txt_PageSize.Text);
-                (jdy as JdUnion_Bussiness_List_Class).filter.page = int.Parse(txt_PageNo.Text);
-                jdy.Req_PostData = "{\"filter\":" + (jdy as JdUnion_Bussiness_List_Class).filter.ToJson().Replace("null", "\"\"") + "}";
+                ////(jdy as JdUnion_Bussiness_List_Class).filter = new JdUnion_Bussiness_List_Class.JdUnion_Bussiness_Filter_Class();
+                ////(jdy as JdUnion_Bussiness_List_Class).filter.pageSize = int.Parse(txt_PageSize.Text);
+                ////(jdy as JdUnion_Bussiness_List_Class).filter.pageIndex = int.Parse(txt_PageNo.Text);
+                ////jdy.Req_PostData = "{\"filter\":" + (jdy as JdUnion_Bussiness_List_Class).filter.ToJson().Replace("null", "\"\"") + "}";
             }
             this.txt_url.Text = jdy.getUrl();
             this.txt_PostData.Text = jdy.Req_PostData;

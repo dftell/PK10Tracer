@@ -63,6 +63,8 @@
     <Compile Include="ResponseAction_AskLotteryBetInfo.cs" />
     <Compile Include="ResponseAction_ApplyCreate.cs" />
     <Compile Include="ResponseAction_CancelCurr.cs" />
+    <Compile Include="ResponseAction_JdUnion.cs" />
+    <Compile Include="ResponseAction_LotteryRunningTimeInfoQuery.cs" />
     <Compile Include="ResponseAction_ManualIntructs.cs" />
     <Compile Include="ResponseAction_Chat.cs" />
     <Compile Include="ResponseAction_Charge.cs" />
@@ -83,6 +85,10 @@
     <ProjectReference Include="..\..\WCS\WCS\JsLib\JsLib.csproj">
       <Project>{6fd3afa7-69ed-468f-972a-e58feadaba12}</Project>
       <Name>JsLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JdUnionLib\JdUnionLib.csproj">
+      <Project>{dcae1a60-ccac-41b8-a0c2-602389161009}</Project>
+      <Name>JdUnionLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\LogLib\WolfInv.com.LogLib.csproj">
       <Project>{182084e4-c48b-4585-9221-4a54caf7448f}</Project>

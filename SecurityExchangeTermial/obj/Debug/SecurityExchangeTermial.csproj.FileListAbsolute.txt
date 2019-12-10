@@ -14,3 +14,4 @@ E:\github\source\dftell\PK10Tracer\SecurityExchangeTermial\obj\Debug\SecurityExc
 E:\github\source\dftell\PK10Tracer\SecurityExchangeTermial\obj\Debug\SecurityExchangeTermial.csproj.CoreCompileInputs.cache
 E:\github\source\dftell\PK10Tracer\SecurityExchangeTermial\obj\Debug\SecurityExchangeTermial.exe
 E:\github\source\dftell\PK10Tracer\SecurityExchangeTermial\obj\Debug\SecurityExchangeTermial.pdb
+E:\github\source\dftell\PK10Tracer\SecurityExchangeTermial\obj\Debug\SecurityExchangeTermial.csprojAssemblyReference.cache
