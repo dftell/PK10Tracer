@@ -52,6 +52,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WolfInv.Com.MetaDataCenter">
+      <HintPath>..\..\..\..\..\projects\WCS\WolfInv.Com.MetaDataCenter.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Form1.cs">
@@ -103,6 +106,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\WCS\WCS\WCS_Process\WCS_Process.csproj">
+      <Project>{6faecb53-c67a-402c-a7ed-e243c3d114b2}</Project>
+      <Name>WCS_Process</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JdUnionLib\JdUnionLib.csproj">
+      <Project>{dcae1a60-ccac-41b8-a0c2-602389161009}</Project>
+      <Name>JdUnionLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LogLib\WolfInv.com.LogLib.csproj">
       <Project>{182084e4-c48b-4585-9221-4a54caf7448f}</Project>
       <Name>WolfInv.com.LogLib</Name>

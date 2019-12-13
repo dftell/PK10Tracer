@@ -11,7 +11,7 @@ namespace WolfInv.com.JdUnionLib
 {
     public abstract class JdUnion_Bussiness_Class: JdUnion_Class
     {
-
+        Dictionary<string, TableGuider> dictabs = new Dictionary<string, TableGuider>();
         public bool InitRequestJson()
         {
             base.InitRequestJson();
@@ -21,6 +21,7 @@ namespace WolfInv.com.JdUnionLib
 
         }
 
+        
         public string getUrl()
         {
             string url = string.Format("{0}{1}", ReqUrl, ReqJson);
@@ -127,7 +128,7 @@ namespace WolfInv.com.JdUnionLib
         }
     }
 
-
+    
     public class XmlUtilEx:XmlUtil
     {
         public static XmlNode CreateNode(XmlNode TopNode, string xPath)

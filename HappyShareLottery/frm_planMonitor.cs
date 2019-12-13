@@ -7,8 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WolfInv.com.JdUnionLib;
 using WolfInv.com.ShareLotteryLib;
 using WolfInv.com.WXMessageLib;
+using WolfInv.Com.WCS_Process;
+
 namespace HappyShareLottery
 {
 
@@ -29,6 +32,59 @@ namespace HappyShareLottery
         {
             this.tabControl1.TabPages.Clear();
             this.txt_ToMeMsgs.Lines = new string[] { };
+            JdGoodsQueryClass.LoadAllcommissionGoods = loadAllData;
+            new Task(initWords).Start();
+        }
+
+        void initWords()
+        {
+            setControl(this.txt_ToMeMsgs, this.txt_ToMeMsgs.Name, "正在初始化字典。。。");
+            loadAllData();
+            setControl(this.txt_ToMeMsgs, this.txt_ToMeMsgs.Name, "初始化字典完成");
+        }
+        delegate void SetControlCallback(string ctrlid,string val);
+        void setControl(Control ctrl, string id,string txt)
+        {
+            ctrl.Invoke(new SetControlCallback(SetTextControlById), new object[] {id, txt });
+        }
+
+        void SetTextControlById(string id, string txt)
+        {
+            Control[] ctrls = this.Controls.Find(id, true);
+            if (ctrls.Length != 1)
+            {
+                return;
+            }
+            ctrls[0].Text  = txt;
+        }
+        void loadAllData()
+        {
+            string datasourceName = "JdUnion_Goods";
+            string msg = null;
+            DataSet ds = DataSource.InitDataSource(datasourceName, new string[] { }, new string[] { }, out msg, true);
+            if (msg != null)
+            {
+                MessageBox.Show(msg);
+                return;
+            }
+            JdGoodsQueryClass.AllcommissionGoods = new Dictionary<string, JdGoodSummayInfoItemClass>();
+            JdGoodsQueryClass.AllKeys = new Dictionary<string, List<string>>();
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                DataRow dr = ds.Tables[0].Rows[i];
+                JdGoodSummayInfoItemClass jsiic = new JdGoodSummayInfoItemClass();
+                jsiic.skuId = dr["JGD02"].ToString();
+                jsiic.skuName = dr["JGD03"].ToString();
+                jsiic.couponLink = dr["JGD07"].ToString();
+                jsiic.imgageUrl = dr["JGD08"].ToString();
+                jsiic.materialUrl = dr["JGD09"].ToString();
+                jsiic.price = dr["JGD11"].ToString();
+                jsiic.discount = dr["JGD06"].ToString();
+                JdGoodsQueryClass.AllcommissionGoods.Add(jsiic.skuId, jsiic);
+                List<string> keys = JdGoodsQueryClass.splitTheWords(jsiic.skuName, true);
+                JdGoodsQueryClass.AllKeys.Add(jsiic.skuId, keys);
+            }
+            JdGoodsQueryClass.Inited = true;
         }
 
         void SetDataGridDataTable(Control ctrl,string key, object data)

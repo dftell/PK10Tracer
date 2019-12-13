@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using WolfInv.Com.AccessWebLib;
@@ -107,9 +106,11 @@ namespace WolfInv.com.JdUnionLib
             string url = ReqUrl+"?" + ReqJson;
             return AccessWebServerClass.GetData(url, Encoding.UTF8);
         }
+
+        
     }
 
-    
+
     public class JdUnion_SystemClass: JdUnion_ModuleProcessClass
     {
         public JdUnion_SystemClass()
@@ -117,10 +118,6 @@ namespace WolfInv.com.JdUnionLib
             this.strJsonName = "System.config.modules";
 
         }
-
-        
-
-        
 
 
     }
@@ -133,4 +130,6 @@ namespace WolfInv.com.JdUnionLib
             Modules = new List<JdUnion_ModuleClass>();
         }
     }
+
+
 }

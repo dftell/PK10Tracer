@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{DCAE1A60-CCAC-41B8-A0C2-602389161009}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WolfInv.com.JdUnionLib</RootNamespace>
     <AssemblyName>WolfInv.com.JdUnionLib</AssemblyName>
@@ -37,9 +37,13 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ShootSeg 1.0">
+      <HintPath>..\..\..\..\..\projects\JdUnion\shootSeg\ShootSeg 1.0.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -70,6 +74,7 @@
     <Compile Include="Form3.Designer.cs">
       <DependentUpon>Form3.cs</DependentUpon>
     </Compile>
+    <Compile Include="JdGoodsQueryClass.cs" />
     <Compile Include="JDUnionClassLibs.cs" />
     <Compile Include="JdUnionRequestClass.cs" />
     <Compile Include="JdUnion_BaseClass.cs" />
@@ -79,9 +84,11 @@
     <Compile Include="jdUnion_GlbObject.cs" />
     <Compile Include="JdUnion_ModuleProcessClass.cs" />
     <Compile Include="jd_union_goods_jingfen_query_response.cs" />
+    <Compile Include="Json2XmlClass.cs" />
     <Compile Include="OutDataClass.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XmlSchemaClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\WCS\WCS\AccessWebLib\AccessWebLib.csproj">

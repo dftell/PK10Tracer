@@ -12,6 +12,7 @@ namespace JdEBuy
 {
     static class Program
     {
+        public static string UserId = "测试账户";
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
@@ -36,7 +37,7 @@ namespace JdEBuy
 
         static void ForceLogin()//强制登录！
         {
-            string LoginName = "测试账户";
+            string LoginName = UserId;
             CITMSUser user = new CITMSUser();
             user.LoginName = LoginName;
             UserGlobalShare userinfo = new UserGlobalShare(user.LoginName);
@@ -56,7 +57,7 @@ namespace JdEBuy
             if (!GlobalShare.UserAppInfos.ContainsKey(LoginName))
                 GlobalShare.UserAppInfos.Add(LoginName, userinfo);
             UserPerm uperm = new UserPerm(GlobalShare.SystemAppInfo.PermUserPoint, user.LoginName, userinfo);
-            uperm.ToXml();
+            //uperm.ToXml();
             //GlobalShare.DataChoices = ; userinfo.InitDataChoices(
 
             //

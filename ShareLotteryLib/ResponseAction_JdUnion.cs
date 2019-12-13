@@ -8,6 +8,8 @@ using System;
 using System.Threading.Tasks;
 using System.Web;
 using WolfInv.com.JdUnionLib;
+using System.Linq;
+
 namespace WolfInv.com.ShareLotteryLib
 {
     /// <summary>
@@ -29,7 +31,7 @@ namespace WolfInv.com.ShareLotteryLib
 
         protected override string getMsg()
         {
-            string ret = "请确认手动指令，决定是否继续！";
+            string ret = "很抱歉，无法找到您要查找的券！请尝试修改下其他条件查找！";
             return ret;
         }
 
@@ -60,7 +62,7 @@ namespace WolfInv.com.ShareLotteryLib
             MutliLevelData noselect = ask.askData.AddSub("0", "否", new MutliLevelData());
             noselect.AddSub("0", "停止查询商品", null);
             noselect.AddSub("1", "重新提交其他条件", null);
-            ask.askMsg = string.Format(@"确定查找{0}的券?", lotteryName, ask.AskText);
+            ask.askMsg = string.Format(@"确定查找{0}的券?{1}", lotteryName, ask.AskText);
             wxprocess.InjectAsk(ask);
             answerMsg(ask.askMsg);
             return false;
@@ -130,7 +132,21 @@ namespace WolfInv.com.ShareLotteryLib
         void submitData(string lname,string content)
         {
             //jd_union_goods_jingfen_query_response 
-            
+            if(JdGoodsQueryClass.Inited == false)//一定要检查是否完全初始化，才能查询
+            {
+                answerMsg("很抱歉，尚未完成初始化！请稍候再提交请求！");
+                return;
+            }
+            Dictionary<string, JdGoodSummayInfoItemClass> ret = JdGoodsQueryClass.Query(lname);
+            string strRet = string.Join("\r\n", ret.Select(a => a.Value.getFullContent()));
+            if(string.IsNullOrEmpty(strRet))
+            {
+                answerMsg("很抱歉，无法找到您要查找的券！请尝试修改下其他条件查找！");
+                return;
+            }
+            answerMsg(string.Format(@"{0}
+
+更多优惠请{2}或移步到武府乐购网站{1}获取！", strRet,JdGoodsQueryClass.NavigateUrl,JdGoodsQueryClass.MyPublic));
         }
     }
 

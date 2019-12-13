@@ -235,7 +235,7 @@ namespace WolfInv.com.WXMsgCom
 
                 client.CheckScanComplete += Client_CheckScanComplete; ;
 
-                client.LoginComplete += Client_LoginComplete; ;
+                client.LoginComplete += Client_LoginComplete;
 
                 client.DelContactListComplete += Client_DelContactListComplete; ;
 
