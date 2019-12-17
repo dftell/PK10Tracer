@@ -69,7 +69,13 @@ namespace WolfInv.com.JdUnionLib
                     XmlDocument xmlschema = null;
                     bool succ = jgl.getXmlData(ref xmldoc, ref xmlschema, ref msg, false);
                     if (succ == false)
-                        return false;
+                    {
+                        if(msg != null)
+                        {
+                            
+                        }
+                        continue;
+                    }
                     if(schema == null)
                     {
                         schema = new XmlSchemaClass(xmlschema);

@@ -23,6 +23,10 @@ namespace WolfInv.com.JdUnionLib
             {
                 _access_token = keys[2];
             }
+            if(keys.Length>3)
+            {
+                _siteId = keys[3];
+            }
             Inited = true;
             
         }
@@ -30,12 +34,14 @@ namespace WolfInv.com.JdUnionLib
         static string _app_key;
         static string _app_secret;
         static string _access_token;
-            
+        static string _siteId;
 
         public string method { get { return strJsonName; } }
         public string app_key { get { return _app_key; } }
         public string app_secret { get { return _app_secret; } }
         public string access_token { get { return _access_token; } }
+
+        public string siteId { get { return _siteId; } }
 
         string _format = "json";
         public string format

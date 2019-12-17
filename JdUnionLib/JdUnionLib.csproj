@@ -75,6 +75,7 @@
       <DependentUpon>Form3.cs</DependentUpon>
     </Compile>
     <Compile Include="JdGoodsQueryClass.cs" />
+    <Compile Include="JdGoodSummayInfoItemClass.cs" />
     <Compile Include="JDUnionClassLibs.cs" />
     <Compile Include="JdUnionRequestClass.cs" />
     <Compile Include="JdUnion_BaseClass.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="JdUnion_Bussiness_List_Class.cs" />
     <Compile Include="JDUnion_Class.cs" />
     <Compile Include="jdUnion_GlbObject.cs" />
+    <Compile Include="JdUnion_Goods_List_Class.cs" />
     <Compile Include="JdUnion_ModuleProcessClass.cs" />
     <Compile Include="jd_union_goods_jingfen_query_response.cs" />
     <Compile Include="Json2XmlClass.cs" />

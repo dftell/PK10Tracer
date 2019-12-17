@@ -47,9 +47,6 @@
     <Reference Include="WolfInv.Com.AccessDataBase">
       <HintPath>..\..\..\..\..\projects\WCS\WolfInv.Com.AccessDataBase.dll</HintPath>
     </Reference>
-    <Reference Include="WolfInv.Com.DataAccessCenter">
-      <HintPath>..\..\..\..\..\projects\WCS\WolfInv.Com.DataAccessCenter.dll</HintPath>
-    </Reference>
     <Reference Include="WolfInv.com.DbAccessLib">
       <HintPath>..\..\..\..\..\projects\WCS\WolfInv.com.DbAccessLib.dll</HintPath>
     </Reference>
@@ -99,6 +96,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\WCS\WCS\DataAccessCenter\DataAccessCenter.csproj">
+      <Project>{5a8ded8e-b55a-469e-a1eb-dd9d91a04f38}</Project>
+      <Name>DataAccessCenter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\WCS\WCS\JsLib\JsLib.csproj">
       <Project>{6FD3AFA7-69ED-468F-972A-E58FEADABA12}</Project>
       <Name>JsLib</Name>

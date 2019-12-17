@@ -77,7 +77,7 @@ namespace WolfInv.com.JdUnionLib
             Module = module;
             return true;
         }
-
+        public string defaultRequestJson = null;
         void LoadParams()
         {
             JdUnion_ParamModel jp = new JdUnion_ParamModel();
@@ -91,11 +91,13 @@ namespace WolfInv.com.JdUnionLib
             {
                 throw new Exception(string.Format("加载{0}模板错误！",jp.name));
             }
+            
             this.params_360buy.Clear();
             ret.Params.ForEach(a => {
                 string txt = a.ToJson();
                 this.params_360buy.Add(a.name,txt);
             });
+            defaultRequestJson = this.Buy360String(this.params_360buy);
         }
         
     }

@@ -132,7 +132,7 @@
             this.txt_PageSize.Name = "txt_PageSize";
             this.txt_PageSize.Size = new System.Drawing.Size(61, 21);
             this.txt_PageSize.TabIndex = 10;
-            this.txt_PageSize.Text = "1000";
+            this.txt_PageSize.Text = "50";
             // 
             // txt_PageNo
             // 

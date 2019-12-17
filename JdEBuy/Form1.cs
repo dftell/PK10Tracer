@@ -18,22 +18,30 @@ namespace JdEBuy
 {
     public partial class Form1 : Form
     {
-        
+        Timer downloadTimer ;
         public Form1()
         {
             InitializeComponent();
             bool inited = JdUnion_GlbObject.Inited;
             JdGoodsQueryClass.LoadAllcommissionGoods = loadAllData;
+            downloadTimer = new Timer();
+            downloadTimer.Interval = 6 * 60 * 60 * 1000;//6小时
+            downloadTimer.Tick += DownloadTimer_Tick;
+        }
+
+        private void DownloadTimer_Tick(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         void loadAllData()
         {
-            string datasourceName = "JdUnion_Goods";
+            string datasourceName = "JdUnion_Client_Goods_Coupon_NoXml";
             string msg = null;
             DataSet ds = DataSource.InitDataSource(datasourceName, new string[] { },new string[] { },out msg,true);
             if(msg != null)
             {
-                MessageBox.Show(msg);
+                UpdateText(msg);
                 return;
             }
             JdGoodsQueryClass.AllcommissionGoods = new Dictionary<string, JdGoodSummayInfoItemClass>();
@@ -53,58 +61,158 @@ namespace JdEBuy
                 List<string> keys = JdGoodsQueryClass.splitTheWords(jsiic.skuName,true);
                 JdGoodsQueryClass.AllKeys.Add(jsiic.skuId, keys);
             }
+            JdGoodsQueryClass.Inited = true;
         }
 
-
+        HashSet<string> loadAllKeys()
+        {
+            HashSet<string> ret = new HashSet<string>();
+            string datasourceName = "JdUnion_Goods_Keys";
+            string msg = null;
+            DataSet ds = DataSource.InitDataSource(datasourceName, new string[] { }, new string[] { }, out msg, true);
+            if (msg != null)
+            {
+                UpdateText(msg);
+                return null;
+            }
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                DataRow dr = ds.Tables[0].Rows[i];
+                
+                string key = dr["JGD02"].ToString();
+                if (!ret.Contains(key))
+                    ret.Add(key);
+            }
+            return ret;
+        }
         private void btn_recieveData_Click(object sender, EventArgs e)
         {
-            List<int> list = JdUnion_GlbObject.getElites();
-            Dictionary<string, string> cols = null;
-            string datasourceName = "JdUnion_Goods";
+            downloadData();
+        }
+        void downloadData()
+        {
+            UpdateText(string.Format("-------------开始下载 {0}------------",DateTime.Now));
+            this.Cursor = Cursors.WaitCursor;
+            //List<int> list = JdUnion_GlbObject.getElites();
+            //Dictionary<string, string> cols = null;
+            HashSet<string> allExistKeys = loadAllKeys();
+            if (allExistKeys == null)
+                return;
+            UpdateText(string.Format("当前数据库存在记录数{0}条！", allExistKeys.Count));
+            Dictionary<string, int> dic = new Dictionary<string, int>();
             int ErrCnt = 0;
+            int SaveCnt = 0;
             try
             {
                 string msg = null;
                 bool isExtra = false;
-                DataSet ds =  DataSource.InitDataSource(datasourceName, new List<DataCondition>(), Program.UserId, out msg, ref isExtra);
-                List<UpdateData> ups = DataSource.DataSet2UpdateData(ds, datasourceName, Program.UserId);
-                
+                DataSet ds =  DataSource.InitDataSource("JdUnion_Goods", new List<DataCondition>(), Program.UserId, out msg, ref isExtra);
+                List<UpdateData> ups = DataSource.DataSet2UpdateData(ds, "jdUnion_BatchLoad", Program.UserId);
+                UpdateText(string.Format("总共接收到{0}条记录", ups.Count));
+                UpdateData batchData = new UpdateData();
+                //batchData.Items.Add("JGD01", null);
+                int batchCnt = 1000;
                 for(int i=0;i<ups.Count;i++)
                 {
-                    bool succ = SaveClientData(datasourceName, ups[i], DataRequestType.Add);
-                    if(!succ)
+                    string key = ups[i].Items["JGD02"].value;
+                    if(allExistKeys.Contains(key))
+                    {
+                        continue;
+                    }
+                    if (dic.ContainsKey(key))
+                    {
+                        dic[key] = dic[key] + 1;
+                        continue;
+                    }
+                    else
+                    {
+                        dic.Add(key, 1);
+                    }
+                    ups[i].keydpt = new DataPoint("JGD02");
+                    ups[i].keyvalue = key;
+                    ups[i].ReqType = DataRequestType.Add;
+                    batchData.SubItems.Add(ups[i]);
+                    if(i==ups.Count-1 ||batchData.SubItems.Count == batchCnt)
+                     {
+                        bool succ = SaveClientData("jdUnion_BatchLoad", batchData, DataRequestType.Add);
+                        if (!succ)
+                        {
+                            //MessageBox.Show(string.Format("商品{0}保存错误！", ups[i].keyvalue));
+                            ErrCnt++;
+                        }
+                        else
+                        {
+                            SaveCnt += batchData.SubItems.Count;
+                        }
+                        if ((SaveCnt % 100) == 0 && SaveCnt > 0)
+                        {
+                            UpdateText(string.Format("\r\n已经处理了{0}条数据，其中不重复记录数{1}条,成功保存了{2}条！", i, dic.Count, SaveCnt));
+                            Application.DoEvents();
+                        }
+                        batchData = new UpdateData();
+                    }
+
+
+                }
+                if(batchData.SubItems.Count>0)//最后的不能错过。
+                {
+                    bool succ = SaveClientData("jdUnion_BatchLoad", batchData, DataRequestType.Add);
+                    if (!succ)
                     {
                         //MessageBox.Show(string.Format("商品{0}保存错误！", ups[i].keyvalue));
                         ErrCnt++;
                     }
                     else
                     {
-                        
+                        SaveCnt += batchData.SubItems.Count;
                     }
+                }
+                if (dic.Count > 0)
+                {
+                    UpdateText(string.Format("共计条数为{0}条，实际保存条数为{1}条！", ups.Count, dic.Count));
+                }
+                if(ErrCnt >0 )
+                {
+                    UpdateText(string.Format("错误条数为{0}条！", ErrCnt));
                 }
             }
             catch (Exception ce)
             {
-
+                UpdateText(string.Format("错误条数为{0}条！", ErrCnt));
+                
             }
-            if(ErrCnt>0)
+            finally
             {
-                MessageBox.Show(string.Format("错误条数为{0}条！",ErrCnt));
+                this.Cursor = Cursors.Default;
             }
+            
+        }
+
+        void UpdateText(string msg)
+        {
+            List<string> txtlist = this.txt_answer.Lines.ToList();
+            txtlist.Add(msg);            
+            this.txt_answer.Lines = txtlist.ToArray();
+            
+            this.txt_answer.Focus();//获取焦点
+            this.txt_answer.Select(this.txt_answer.TextLength, 0);//光标定位到文本最后
+            this.txt_answer.ScrollToCaret();//滚动到光标处
+            this.txt_answer.Refresh();
         }
 
         public virtual bool SaveClientData(string DetailSource, UpdateData updata, DataRequestType type = DataRequestType.Update)
         {
-            string GridSource = "";
+            string GridSource = "JdUnion_Client_Goods_Full";
             string strRowId = "";
             string strKey = "JGD02";
             updata.keydpt = new DataPoint(strKey);
             //if (!updata.Updated) return true;
             DataSource ds = GlobalShare.mapDataSource[DetailSource];
+            //ds.SourceName = DetailSource;
             List<DataCondition> conds = new List<DataCondition>();
             DataCondition dcond = new DataCondition();
             dcond.Datapoint = new DataPoint(strKey);
-            dcond.value = strRowId;
+            //dcond.value = strRowId;
             conds.Add(dcond);
             //DataRequestType type = DataRequestType.Update;
             if (strRowId == null || strRowId == "")
@@ -128,10 +236,24 @@ namespace JdEBuy
 
         private void button1_Click(object sender, EventArgs e)
         {
-             Dictionary<string,JdGoodSummayInfoItemClass> ret = JdGoodsQueryClass.Query(this.txt_ask.Text);
-            string strRet = string.Join("/r/n",ret.Select(a=>a.Value.getFullContent()));
+            this.Cursor = Cursors.WaitCursor;
+             Dictionary<string,JdGoodSummayInfoItemClass> ret = JdGoodsQueryClass.Query(this.txt_ask.Text,10);
+            List<string> retStrs = ret.Select(a => {
+                a.Value.commissionUrl = a.Value.getMyUrl(null);
+                if (a.Value.commissionUrl == null)
+                    return null;
+                return a.Value.getFullContent(!string.IsNullOrEmpty(a.Value.commissionUrl));
+            }).ToList();
+            string strRet = string.Join("/r/n",retStrs.Where(a=>string.IsNullOrEmpty(a)==false));
             this.txt_answer.Text  = strRet;
+            this.Cursor = Cursors.Default;
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            WolfInv.com.JdUnionLib.Form2 frm = new Form2();
+            frm.Show();
         }
     }
 }

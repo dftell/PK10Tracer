@@ -29,7 +29,7 @@ namespace WolfInv.com.JdUnionLib
             ////this.txt_req_name.Text = ret;
             ////this.txt_bdId.Text = jdy_GlbObject.bdId.ToString();
 
-            JdUnion_Bussiness_List_Class jdy = ddl_className.Tag as JdUnion_Bussiness_List_Class;
+            JdUnion_Bussiness_Class jdy = ddl_className.Tag as JdUnion_Bussiness_Class;
             if(jdy == null)
             {
                 return;
@@ -45,35 +45,37 @@ namespace WolfInv.com.JdUnionLib
             this.txt_app_secret.Text = jdy.app_secret;
             this.txt_access_token.Text = jdy.access_token;
             //jdy.timestamp = this.txt_timestamp.Text.Trim();
-            jdy.params_360buy.Clear();
+            //jdy.params_360buy.Clear();
             jdy.sign = null;//必须要置空
+            
             if (this.txt_params_1_val.Text.Trim().Length > 0)
             {
-                if(jdy.params_360buy.ContainsKey(this.txt_params_1_key.Text.Trim()))
-                    jdy.params_360buy[this.txt_params_1_key.Text.Trim()]=this.txt_params_1_val.Text.Trim();
+                jdy.setBussiessItems(this.txt_params_1_key.Text, this.txt_params_1_val.Text);
             }
             if (this.txt_params_2_val.Text.Trim().Length > 0)
             {
-                if (jdy.params_360buy.ContainsKey(this.txt_params_2_key.Text.Trim()))
-                    jdy.params_360buy[this.txt_params_2_key.Text.Trim()] = this.txt_params_2_val.Text.Trim();
+                jdy.setBussiessItems(this.txt_params_1_key.Text, this.txt_params_1_val.Text);
             }
             if (this.txt_params_3_val.Text.Trim().Length > 0)
             {
-                if (jdy.params_360buy.ContainsKey(this.txt_params_3_key.Text.Trim()))
-                    jdy.params_360buy[this.txt_params_3_key.Text.Trim()] = this.txt_params_3_val.Text.Trim();
+                jdy.setBussiessItems(this.txt_params_1_key.Text, this.txt_params_1_val.Text);
             }
-            if(txt_PostData.Text.Trim().Length>0)
+            if (txt_PostData.Text.Trim().Length > 0)
             {
-                if(jdy.params_360buy.Count == 0)
+                if (jdy.params_360buy.Count == 0)
                 {
                     jdy.params_360buy.Add(this.txt_params_1_key.Text, this.txt_PostData.Text);
                 }
             }
+            if (jdy is JdUnion_Bussiness_List_Class)
+            {
+                (jdy as JdUnion_Bussiness_List_Class).pager = new JdUnion_Bussiness_List_Class.JdUnion_Bussiness_Filter_Class();
+                (jdy as JdUnion_Bussiness_List_Class).pager.pageIndex = int.Parse(txt_PageNo.Text);
+                (jdy as JdUnion_Bussiness_List_Class).pager.pageSize = int.Parse(txt_PageSize.Text);
+            }
 
 
-            jdy.pager = new JdUnion_Bussiness_List_Class.JdUnion_Bussiness_Filter_Class();
-            jdy.pager.pageIndex = int.Parse(txt_PageNo.Text);
-            jdy.pager.pageSize = int.Parse(txt_PageSize.Text); 
+            
             //this.txt_PostData.Text  = 
             //jdy.InitRequestJson();
             ////if (jdy is JdUnion_Bussiness_List_Class)
@@ -92,7 +94,7 @@ namespace WolfInv.com.JdUnionLib
             string msg = null;
             XmlDocument xmldoc = null;
             XmlDocument schema = null;
-            bool succ = jdy.getXmlData(ref xmldoc,ref schema, ref msg);
+            bool succ = jdy.getXmlData(ref xmldoc,ref schema, ref msg,false,false);
             if (xmldoc != null)
                 this.txt_result.Text = xmldoc.OuterXml;
 
@@ -134,6 +136,16 @@ namespace WolfInv.com.JdUnionLib
             //JDYSCM_Class jdy = jdy_GlbObject.AllModuleClass[ddl_className.SelectedValue.ToString()];
             if (jdy == null)
                 return;
+            JdUnion_ModuleClass jm = JdUnion_GlbObject.modules.Modules.FindLast(a => a.ClassName == ddl_className.Text);
+            if(jm == null)
+            {
+                return;
+            }
+            jdy.InitClass(jm);
+            if(jdy.defaultRequestJson!=null)
+            {
+                this.txt_PostData.Text = jdy.defaultRequestJson;
+            }
             this.ddl_className.Tag = jdy;
             return;
             jdy.InitClass(JdUnion_GlbObject.mlist[ddl_className.Text]);

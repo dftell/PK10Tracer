@@ -147,20 +147,26 @@ namespace WolfInv.com.ShareLotteryLib
             return ret;
         }
 
-        public virtual void answerMsg(string msg = null,string toUser=null,string toNikeName=null,bool isImg=false)
+        public virtual void answerMsg(string msg = null,string toUser=null,string toNikeName=null,bool isImg=false,bool isUrl=false)
         {
             try
             {
                 if (string.IsNullOrEmpty(msg))
                     msg = getMsg();
                 if (!isImg)
-                    wxprocess.SendMsg?.Invoke(string.Format("@{0} {1}", toNikeName ?? wxmsg.FromMemberNikeName, msg), toUser ?? wxmsg.FromUserNam);
+                {
+                    
+                        wxprocess.SendMsg?.Invoke(string.Format("@{0} {1}", toNikeName ?? wxmsg.FromMemberNikeName, msg), toUser ?? wxmsg.FromUserNam);
+                }
                 else
-                    wxprocess.SendImgMsg?.Invoke(msg,toUser??wxmsg.FromUserNam);
+                    if (isUrl)
+                        wxprocess.SendUrlImgMsg?.Invoke(msg, toUser ?? wxmsg.FromUserNam);
+                    else
+                        wxprocess.SendImgMsg?.Invoke(msg, toUser ?? wxmsg.FromUserNam);
             }
             catch (Exception ce)
             {
-
+                wxprocess.SendMsg?.Invoke(string.Format("@{0} {1}", toNikeName ?? wxmsg.FromMemberNikeName, ce.Message), toUser ?? wxmsg.FromUserNam);
             }
         }
 

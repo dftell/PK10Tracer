@@ -32,6 +32,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.txt_ask = new System.Windows.Forms.TextBox();
             this.txt_answer = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btn_recieveData
@@ -46,11 +47,11 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(699, 87);
+            this.button1.Location = new System.Drawing.Point(699, 75);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(81, 24);
             this.button1.TabIndex = 1;
-            this.button1.Text = "测试";
+            this.button1.Text = "问答测试";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -67,14 +68,26 @@
             this.txt_answer.Location = new System.Drawing.Point(86, 125);
             this.txt_answer.Multiline = true;
             this.txt_answer.Name = "txt_answer";
+            this.txt_answer.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txt_answer.Size = new System.Drawing.Size(437, 239);
             this.txt_answer.TabIndex = 3;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(699, 105);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(81, 24);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "数据检查";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(807, 504);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.txt_answer);
             this.Controls.Add(this.txt_ask);
             this.Controls.Add(this.button1);
@@ -92,6 +105,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox txt_ask;
         private System.Windows.Forms.TextBox txt_answer;
+        private System.Windows.Forms.Button button2;
     }
 }
 

@@ -138,15 +138,20 @@ namespace WolfInv.com.ShareLotteryLib
                 return;
             }
             Dictionary<string, JdGoodSummayInfoItemClass> ret = JdGoodsQueryClass.Query(lname);
-            string strRet = string.Join("\r\n", ret.Select(a => a.Value.getFullContent()));
-            if(string.IsNullOrEmpty(strRet))
+            //string strRet = string.Join("\r\n", ret.Select(a => a.Value.getFullContent()));
+            if(ret == null || ret.Count==0)
             {
                 answerMsg("很抱歉，无法找到您要查找的券！请尝试修改下其他条件查找！");
                 return;
             }
+            foreach(JdGoodSummayInfoItemClass ji in ret.Values)
+            {
+                answerMsg(ji.imgageUrl, null, null, true, true);
+                answerMsg(ji.getFullContent());
+            }
             answerMsg(string.Format(@"{0}
 
-更多优惠请{2}或移步到武府乐购网站{1}获取！", strRet,JdGoodsQueryClass.NavigateUrl,JdGoodsQueryClass.MyPublic));
+更多优惠请{2}或移步到武府乐购网站{1}获取！","", JdGoodsQueryClass.NavigateUrl,JdGoodsQueryClass.MyPublic));
         }
     }
 
