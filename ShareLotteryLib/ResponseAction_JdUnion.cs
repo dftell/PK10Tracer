@@ -146,8 +146,9 @@ namespace WolfInv.com.ShareLotteryLib
             }
             foreach(JdGoodSummayInfoItemClass ji in ret.Values)
             {
+                ji.commissionUrl = ji.getShortLink();
                 answerMsg(ji.imgageUrl, null, null, true, true);
-                answerMsg(ji.getFullContent());
+                answerMsg(ji.getFullContent(true));
             }
             answerMsg(string.Format(@"{0}
 

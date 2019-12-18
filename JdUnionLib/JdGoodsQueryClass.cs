@@ -10,6 +10,9 @@ namespace WolfInv.com.JdUnionLib
 {
     public class JdGoodsQueryClass
     {
+        public static Dictionary<string, Dictionary<string, string>> glbUrls = new Dictionary<string, Dictionary<string, string>>();
+        public static Dictionary<string, Dictionary<string, string>> shortLinks = new Dictionary<string, Dictionary<string, string>>();
+
         public static string NavigateUrl = "http://share.wolfinv.com";
         public static string MyPublic = "关注公众号【武府投资】乐享智购模块查询";
         public static Dictionary<string, JdGoodSummayInfoItemClass> AllcommissionGoods;

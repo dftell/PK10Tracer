@@ -104,6 +104,11 @@ namespace WolfInv.com.JdUnionLib
                 }
             }
             string url = ReqUrl+ (ReqUrl.EndsWith("?")?"":"?") + ReqJson;
+            if(url.Length>=1024)
+            {
+                return PostRequest();
+               
+            }
             return AccessWebServerClass.GetData(url, Encoding.UTF8);
         }
 

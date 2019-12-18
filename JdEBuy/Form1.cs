@@ -239,12 +239,12 @@ namespace JdEBuy
             this.Cursor = Cursors.WaitCursor;
              Dictionary<string,JdGoodSummayInfoItemClass> ret = JdGoodsQueryClass.Query(this.txt_ask.Text,10);
             List<string> retStrs = ret.Select(a => {
-                a.Value.commissionUrl = a.Value.getMyUrl(null);
+                //a.Value.commissionUrl = a.Value.getMyUrl(null);
                 if (a.Value.commissionUrl == null)
                     return null;
                 return a.Value.getFullContent(!string.IsNullOrEmpty(a.Value.commissionUrl));
             }).ToList();
-            string strRet = string.Join("/r/n",retStrs.Where(a=>string.IsNullOrEmpty(a)==false));
+            string strRet = string.Join("\r\n",retStrs.Where(a=>string.IsNullOrEmpty(a)==false));
             this.txt_answer.Text  = strRet;
             this.Cursor = Cursors.Default;
 

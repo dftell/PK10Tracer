@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
+using System.Web;
 
 namespace WolfInv.com.JdUnionLib
 {
@@ -148,11 +149,12 @@ namespace WolfInv.com.JdUnionLib
                 List<string> ret = new List<string>();
                 sortArr.ForEach(a => {
                     if (a != "param_json")
-                        ret.Add(string.Format("{0}{2}{1}", a, Params[a], toSign ? "" : "="));
+                        ret.Add(string.Format("{0}{2}{1}", a, (toSign? Params[a]: HttpUtility.UrlEncode(Params[a]?.ToString(), Encoding.UTF8)), toSign ? "" : "="));
                     else
                     {
                         Dictionary<string, object> param = Params[a] as Dictionary<string, object>;
-                        ret.Add(string.Format("{0}{2}{1}", a, Buy360String( param ), toSign ? "" : "="));
+                        string b360str = Buy360String(param);
+                        ret.Add(string.Format("{0}{2}{1}",a,(toSign? b360str:HttpUtility.UrlEncode(b360str,Encoding.UTF8)), toSign ? "" : "="));
                     }
                 });
                 
