@@ -88,6 +88,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessWebLib", "..\WCS\WCS\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCS_Process", "..\WCS\WCS\WCS_Process\WCS_Process.csproj", "{6FAECB53-C67A-402C-A7ED-E243C3D114B2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessCenter", "..\WCS\WCS\DataAccessCenter\DataAccessCenter.csproj", "{5A8DED8E-B55A-469E-A1EB-DD9D91A04F38}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -552,6 +554,18 @@ Global
 		{6FAECB53-C67A-402C-A7ED-E243C3D114B2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{6FAECB53-C67A-402C-A7ED-E243C3D114B2}.Release|x86.ActiveCfg = Release|Any CPU
 		{6FAECB53-C67A-402C-A7ED-E243C3D114B2}.Release|x86.Build.0 = Release|Any CPU
+		{5A8DED8E-B55A-469E-A1EB-DD9D91A04F38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A8DED8E-B55A-469E-A1EB-DD9D91A04F38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A8DED8E-B55A-469E-A1EB-DD9D91A04F38}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5A8DED8E-B55A-469E-A1EB-DD9D91A04F38}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5A8DED8E-B55A-469E-A1EB-DD9D91A04F38}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5A8DED8E-B55A-469E-A1EB-DD9D91A04F38}.Debug|x86.Build.0 = Debug|Any CPU
+		{5A8DED8E-B55A-469E-A1EB-DD9D91A04F38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A8DED8E-B55A-469E-A1EB-DD9D91A04F38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A8DED8E-B55A-469E-A1EB-DD9D91A04F38}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5A8DED8E-B55A-469E-A1EB-DD9D91A04F38}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5A8DED8E-B55A-469E-A1EB-DD9D91A04F38}.Release|x86.ActiveCfg = Release|Any CPU
+		{5A8DED8E-B55A-469E-A1EB-DD9D91A04F38}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

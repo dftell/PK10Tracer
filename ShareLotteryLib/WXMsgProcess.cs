@@ -33,6 +33,7 @@ namespace WolfInv.com.ShareLotteryLib
 
         public Func<string, string, string> SendMsg;
         public Func<string, string, string> SendImgMsg;
+        public Func<string, string, string> SendUrlImgMsg;
         public ShareLotteryPlanCollection AllPlan { get; set; }
         
         public string ProcessName { get; set; }

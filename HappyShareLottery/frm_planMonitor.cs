@@ -38,14 +38,14 @@ namespace HappyShareLottery
 
         void initWords()
         {
-            setControl(this.txt_ToMeMsgs, this.txt_ToMeMsgs.Name, "正在初始化字典。。。");
+            setControl(this.txt_ToMeMsgs,  "正在初始化字典。。。");
             loadAllData();
-            setControl(this.txt_ToMeMsgs, this.txt_ToMeMsgs.Name, "初始化字典完成");
+            setControl(this.txt_ToMeMsgs,  "初始化字典完成");
         }
         delegate void SetControlCallback(string ctrlid,string val);
-        void setControl(Control ctrl, string id,string txt)
+        void setControl(Control ctrl,string txt)
         {
-            ctrl.Invoke(new SetControlCallback(SetTextControlById), new object[] {id, txt });
+            ctrl.Invoke(new SetControlCallback(SetTextControlById), new object[] {ctrl.Name, txt });
         }
 
         void SetTextControlById(string id, string txt)
@@ -55,18 +55,29 @@ namespace HappyShareLottery
             {
                 return;
             }
-            ctrls[0].Text  = txt;
+            if (ctrls[0] is TextBox && (ctrls[0] as TextBox).Multiline==true)
+            {
+                TextBox tb = ctrls[0] as TextBox;
+                List<string> txts = txt_ToMeMsgs.Lines.ToList();
+                txts.Add(txt);
+                tb.Lines = txts.ToArray();
+                tb.Refresh();
+            }
+            else
+                ctrls[0].Text  = txt;
         }
         void loadAllData()
         {
-            string datasourceName = "JdUnion_Goods";
+            string datasourceName = "JdUnion_Client_Goods_Coupon_NoXml";
             string msg = null;
             DataSet ds = DataSource.InitDataSource(datasourceName, new string[] { }, new string[] { }, out msg, true);
             if (msg != null)
             {
-                MessageBox.Show(msg);
+                //MessageBox.Show(msg);
+                setControl(txt_ToMeMsgs, msg);
                 return;
             }
+            setControl(txt_ToMeMsgs, string.Format("共计{0}条！",ds.Tables[0].Rows.Count));
             JdGoodsQueryClass.AllcommissionGoods = new Dictionary<string, JdGoodSummayInfoItemClass>();
             JdGoodsQueryClass.AllKeys = new Dictionary<string, List<string>>();
             for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
@@ -80,9 +91,17 @@ namespace HappyShareLottery
                 jsiic.materialUrl = dr["JGD09"].ToString();
                 jsiic.price = dr["JGD11"].ToString();
                 jsiic.discount = dr["JGD06"].ToString();
+                if(JdGoodsQueryClass.AllcommissionGoods.ContainsKey(jsiic.skuId))
+                {
+                    continue;
+                }
                 JdGoodsQueryClass.AllcommissionGoods.Add(jsiic.skuId, jsiic);
                 List<string> keys = JdGoodsQueryClass.splitTheWords(jsiic.skuName, true);
                 JdGoodsQueryClass.AllKeys.Add(jsiic.skuId, keys);
+                if (i>0&&(i % 5000) == 0)
+                {
+                    setControl(txt_ToMeMsgs, string.Format("完成第{0}条！", i + 1));
+                }
             }
             JdGoodsQueryClass.Inited = true;
         }

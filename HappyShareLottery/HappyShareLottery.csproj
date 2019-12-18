@@ -55,8 +55,18 @@
     <Reference Include="WolfInv.Com.MetaDataCenter">
       <HintPath>..\..\..\..\..\projects\WCS\WolfInv.Com.MetaDataCenter.dll</HintPath>
     </Reference>
+    <Reference Include="XmlProcess, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\projects\PK10Tracer\XmlProcess.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChartPushService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ChartPushService.Designer.cs">
+      <DependentUpon>ChartPushService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

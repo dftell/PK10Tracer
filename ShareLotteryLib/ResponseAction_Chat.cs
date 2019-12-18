@@ -36,8 +36,12 @@ namespace WolfInv.com.ShareLotteryLib
         {
             get
             {
-                string msg = wxmsg.Msg.Replace(string.Format("{0}", wxmsg.ToNikeName), "").Trim().Replace(" ", "");
-                return msg;
+                if (!string.IsNullOrEmpty(wxmsg.Msg))
+                {
+                    string msg = wxmsg.Msg.Replace(string.Format("{0}", wxmsg.ToNikeName), "")?.Trim()?.Replace(" ", "");
+                    return msg;
+                }
+                return wxmsg.Msg;
             }
         }
 

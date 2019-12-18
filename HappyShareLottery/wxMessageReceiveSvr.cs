@@ -34,6 +34,7 @@ namespace HappyShareLottery
             {
                 Program.plancolls.MsgProcess.SendMsg += wif.SendMsg;
                 Program.plancolls.MsgProcess.SendImgMsg += wif.SendImgMsg;
+                Program.plancolls.MsgProcess.SendUrlImgMsg += wif.SendUrlImgMsg;
                 Program.plancolls.MsgProcess.SharePlanChanged += Monitor.refreshTab;
                 Program.plancolls.MsgProcess.RobotUnionId = wif.UnionId;
                 Program.plancolls.MsgProcess.RobotNikeName = wif.UserNike;

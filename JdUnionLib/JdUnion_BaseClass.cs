@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
+using System.Web;
 
 namespace WolfInv.com.JdUnionLib
 {
@@ -23,6 +24,10 @@ namespace WolfInv.com.JdUnionLib
             {
                 _access_token = keys[2];
             }
+            if(keys.Length>3)
+            {
+                _siteId = keys[3];
+            }
             Inited = true;
             
         }
@@ -30,12 +35,14 @@ namespace WolfInv.com.JdUnionLib
         static string _app_key;
         static string _app_secret;
         static string _access_token;
-            
+        static string _siteId;
 
         public string method { get { return strJsonName; } }
         public string app_key { get { return _app_key; } }
         public string app_secret { get { return _app_secret; } }
         public string access_token { get { return _access_token; } }
+
+        public string siteId { get { return _siteId; } }
 
         string _format = "json";
         public string format
@@ -142,11 +149,12 @@ namespace WolfInv.com.JdUnionLib
                 List<string> ret = new List<string>();
                 sortArr.ForEach(a => {
                     if (a != "param_json")
-                        ret.Add(string.Format("{0}{2}{1}", a, Params[a], toSign ? "" : "="));
+                        ret.Add(string.Format("{0}{2}{1}", a, (toSign? Params[a]: HttpUtility.UrlEncode(Params[a]?.ToString(), Encoding.UTF8)), toSign ? "" : "="));
                     else
                     {
                         Dictionary<string, object> param = Params[a] as Dictionary<string, object>;
-                        ret.Add(string.Format("{0}{2}{1}", a, Buy360String( param ), toSign ? "" : "="));
+                        string b360str = Buy360String(param);
+                        ret.Add(string.Format("{0}{2}{1}",a,(toSign? b360str:HttpUtility.UrlEncode(b360str,Encoding.UTF8)), toSign ? "" : "="));
                     }
                 });
                 
