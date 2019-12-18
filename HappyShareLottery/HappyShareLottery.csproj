@@ -120,6 +120,10 @@
       <Project>{6faecb53-c67a-402c-a7ed-e243c3d114b2}</Project>
       <Name>WCS_Process</Name>
     </ProjectReference>
+    <ProjectReference Include="..\JdEBuy\JdEBuy.csproj">
+      <Project>{96705301-264a-41ad-ac1a-35d31d3d9383}</Project>
+      <Name>JdEBuy</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JdUnionLib\JdUnionLib.csproj">
       <Project>{dcae1a60-ccac-41b8-a0c2-602389161009}</Project>
       <Name>JdUnionLib</Name>

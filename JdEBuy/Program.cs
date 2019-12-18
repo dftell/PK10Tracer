@@ -32,7 +32,7 @@ namespace JdEBuy
             {
                 return;
             }
-            Application.Run(new Form1());
+            Application.Run(new Form1(null));
         }
 
         static void ForceLogin()//强制登录！

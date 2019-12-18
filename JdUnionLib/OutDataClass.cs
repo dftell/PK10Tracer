@@ -31,7 +31,7 @@ namespace WolfInv.com.JdUnionLib
             return null;
         }
 
-        public bool getXmlData(XmlNode config, ref XmlDocument doc,ref XmlDocument xmlschemaDoc,ref string msg)
+        public bool getXmlData(XmlNode config, ref XmlDocument doc,ref XmlDocument xmlschemaDoc,ref string msg,XmlNode condition=null)
         {
             string strDefaultName = "DataTable1";
             string strRootName = "NewDataSet";
@@ -51,98 +51,17 @@ namespace WolfInv.com.JdUnionLib
                     msg = "无法识别的外部访问类";
                     return false;
                 }
-                XmlSchemaClass schema = null;
-                XmlNode rootNode = null;
-                foreach (int elite in list)
-                {
-                    JdUnion_Goods_List_Class jgl = JdUnion_GlbObject.CreateBusinessClass(typeof(JdUnion_Goods_List_Class)) as JdUnion_Goods_List_Class;
-                    if (cols == null)
-                    {
-                        cols = new Dictionary<string, string>();
 
-                    }
-                    //jgl.InitClass(jgl.Module);//必须初始化，获取到json设置才能用。
-                    XmlDocument xmldoc = null;
-                    string strElite = string.Format("goodsReq/eliteId");
-                    jgl.setBussiessItems(strElite, elite.ToString());
-                    jgl.sign = null;
-                    XmlDocument xmlschema = null;
-                    bool succ = jgl.getXmlData(ref xmldoc, ref xmlschema, ref msg, false);
-                    if (succ == false)
-                    {
-                        if(msg != null)
-                        {
-                            
-                        }
-                        continue;
-                    }
-                    if(schema == null)
-                    {
-                        schema = new XmlSchemaClass(xmlschema);
-                        xmlschemaDoc = xmlschema;
-                    }
-                    if (doc == null)
-                    {
-                        doc = xmldoc;
-                        rootNode = doc.SelectSingleNode(strRootName);
-                    }
-                    else //把新的节点全部复制过去
-                    {
-                        foreach (string key in schema.TableList.Keys)
-                        {
-                            string xpath = string.Format("{0}/{1}", strRootName, key);
-                            foreach (XmlNode node in xmldoc.SelectNodes(xpath))
-                            {
-                                rootNode.AppendChild(doc.ImportNode(node, true));
-                            }
-                        }
-                    }
-                }
-                return true;
-
-                /*
-                jdyreq.InitClass(JdUnion_GlbObject.mlist[t.Name]);
-                jdyreq.InitRequestJson();
-                jdyreq.RequestSizeAndPage(20, 1,xmlreq);
-                if(JdUnion_GlbObject.mlist[t.Name].RequestMethodUseGET)
+                JdUnion_Goods_List_Class jgl = JdUnion_GlbObject.CreateBusinessClass(t) as JdUnion_Goods_List_Class;
+                JdUnion_ModuleClass jm = JdUnion_GlbObject.modules.Modules.FindLast(a => a.ClassName == strName);
+                if(jm == null)
                 {
-                    ret = jdyreq.GetRequest();
-                }
-                else
-                    ret = jdyreq.PostRequest();
-                string strXml = XML_JSON.Json2XML(ret);
-                XmlDocument schemadoc = jdyreq.getRequestSchema();
-                XmlDocument tmp = new XmlDocument();
-                tmp.LoadXml(strXml);
-                Json2XmlClass j2x = new Json2XmlClass(schemadoc);
-                if(!j2x.getDataSetXml(ret, ref doc, ref msg))
-                {
+                    msg = "未配置正确的模块信息！";
                     return false;
                 }
-                int totalPage = int.Parse(XmlUtil.GetSubNodeText(tmp, "root/totalPages"));
-                int totalsize = int.Parse(XmlUtil.GetSubNodeText(tmp, "root/totalsize"));
-                if (totalPage>1)//如果不止一页
-                {
-                    for(int i=2;i<=totalPage;i++)
-                    {
-                        jdyreq.RequestSizeAndPage(totalsize, i,xmlreq);
-                        if (JdUnion_GlbObject.mlist[t.Name].RequestMethodUseGET)
-                        {
-                            ret = jdyreq.GetRequest();
-                        }
-                        else
-                            ret = jdyreq.PostRequest();
-                        strXml = XML_JSON.Json2XML("{\"root\":{0}}".Replace("{0}", ret));
-                        tmp = new XmlDocument();
-                        tmp.LoadXml(strXml);
-                        if(!j2x.getDataSetXml(ret,ref doc,ref msg))
-                        {
-                            return false;
-                        }
-                    }
-                }
-                */
-
+                jgl.InitClass(jm);
+                bool succ = jgl.getBusynessXmlData(condition,ref doc, ref xmlschemaDoc, ref msg);
+                return succ;
             }
             catch(Exception e)
             {
@@ -221,13 +140,13 @@ namespace WolfInv.com.JdUnionLib
             return null;
         }
 
-        public bool getJsonData(XmlNode config, ref string strJson, ref string msg)
+        public bool getJsonData(XmlNode config, ref string strJson, ref string msg, XmlNode condition = null)
         {
             msg = "方法未实现！";
             return false;
         }
 
-        public bool getDataSet(XmlNode config, ref DataSet ds, ref string msg)
+        public bool getDataSet(XmlNode config, ref DataSet ds, ref string msg, XmlNode condition = null)
         {
             msg = "方法未实现！";
             return false;

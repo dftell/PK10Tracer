@@ -192,6 +192,102 @@ namespace WolfInv.com.JdUnionLib
             return true;
         }
 
+
+        public virtual bool getBusynessXmlData(XmlNode condition, ref XmlDocument retdoc, ref XmlDocument xmlschemaDoc, ref string msg, bool onlyFirstPage = true, bool onlyOrgData = false)
+        {
+            if (condition == null)
+                return getXmlData(ref retdoc,ref xmlschemaDoc,ref msg,onlyFirstPage,onlyOrgData);
+            try
+            {
+                XmlNodeList nodes = condition.SelectNodes("condition/c[@o<>'in']");
+                XmlNodeList inNodes = condition.SelectNodes("condtion/c[@o='in']");
+                if(inNodes.Count>1)
+                {
+                    msg = "不支持多个内含条件！";
+                    return false;
+                }
+                string forName =  XmlUtil.GetSubNodeText(inNodes[0], "@i");
+                string vals = XmlUtil.GetSubNodeText(inNodes[0], "@v");
+                string sp = XmlUtil.GetSubNodeText(inNodes[0], "@s");
+                if(string.IsNullOrEmpty(sp))//默认用，分割
+                {
+                    sp = ",";
+                }
+                if (string.IsNullOrEmpty(forName) || string.IsNullOrEmpty(vals))
+                {
+                    msg = "内含条件名称和值不能为空！";
+                    return false;
+                }
+                XmlSchemaClass schema = null;
+                XmlNode rootNode = null;
+                string strRootName = "NewDataSet";
+                string[] arr = vals.Split(sp.ToCharArray());
+                for (int i = 0; i < arr.Length; i++)
+                {
+                    setBussiessItems(forName, arr[i]);
+                    foreach (XmlNode node in nodes)
+                    {
+                        string pointName = XmlUtil.GetSubNodeText(node, "@i");
+                        string opt = XmlUtil.GetSubNodeText(node, "@o");
+                        string val = XmlUtil.GetSubNodeText(node, "@v");
+                        if (string.IsNullOrEmpty(pointName) || string.IsNullOrEmpty(val))
+                        {
+                            continue;
+                        }
+                        if (string.IsNullOrEmpty(opt))
+                        {
+                            opt = "=";
+                        }
+                        if (opt == "=")
+                        {
+                            setBussiessItems(pointName, val);
+                        }
+                        
+                    }
+                    XmlDocument xmldoc = null;
+                    XmlDocument xmlschema = null;
+                    bool succ = getXmlData(ref xmldoc, ref xmlschema, ref msg, false);
+                    if (succ == false)
+                    {
+                        if (msg != null)
+                        {
+
+                        }
+                        continue;
+                    }
+                    if (schema == null)
+                    {
+                        schema = new XmlSchemaClass(xmlschema);
+                        xmlschemaDoc = xmlschema;
+                    }
+                    if (retdoc == null)
+                    {
+                        retdoc = xmldoc;
+                        rootNode = retdoc.SelectSingleNode(strRootName);
+                    }
+                    else //把新的节点全部复制过去
+                    {
+                        foreach (string key in schema.TableList.Keys)
+                        {
+                            string xpath = string.Format("{0}/{1}", strRootName, key);
+                            foreach (XmlNode node in xmldoc.SelectNodes(xpath))
+                            {
+                                rootNode.AppendChild(retdoc.ImportNode(node, true));
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                msg = e.Message;
+                return false;
+            }
+
+            return false;
+        }
+
+
         public bool getXmlData(ref XmlDocument retdoc, ref XmlDocument xmlschemaDoc, ref string msg, bool onlyFirstPage = true, bool onlyOrgData = false)
         {
             JdUnion_Bussiness_Class jdyreq = this;

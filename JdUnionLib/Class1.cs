@@ -51,4 +51,5 @@ namespace WolfInv.com.JdUnionLib
         //public string eliteId { get; set; }
     }
 
+    
 }

@@ -11,6 +11,8 @@ using WolfInv.com.JdUnionLib;
 using WolfInv.com.ShareLotteryLib;
 using WolfInv.com.WXMessageLib;
 using WolfInv.Com.WCS_Process;
+using JdEBuy;
+using WolfInv.Com.MetaDataCenter;
 
 namespace HappyShareLottery
 {
@@ -33,7 +35,11 @@ namespace HappyShareLottery
             this.tabControl1.TabPages.Clear();
             this.txt_ToMeMsgs.Lines = new string[] { };
             JdGoodsQueryClass.LoadAllcommissionGoods = loadAllData;
-            new Task(initWords).Start();
+            new Task(initWords).Start();//载入初始数据
+            JdUnion_GoodsDataLoadClass dlc = new JdUnion_GoodsDataLoadClass();
+            dlc.UpdateText = UpdateMsg;
+            JdEBuy.Form1 frm = new JdEBuy.Form1(dlc);
+
         }
 
         void initWords()
@@ -42,6 +48,13 @@ namespace HappyShareLottery
             loadAllData();
             setControl(this.txt_ToMeMsgs,  "初始化字典完成");
         }
+
+        void UpdateMsg(string txt)
+        {
+            setControl(this.txt_ToMeMsgs, txt);
+            Application.DoEvents();
+        }
+
         delegate void SetControlCallback(string ctrlid,string val);
         void setControl(Control ctrl,string txt)
         {
@@ -70,7 +83,8 @@ namespace HappyShareLottery
         {
             string datasourceName = "JdUnion_Client_Goods_Coupon_NoXml";
             string msg = null;
-            DataSet ds = DataSource.InitDataSource(datasourceName, new string[] { }, new string[] { }, out msg, true);
+
+            DataSet ds = DataSource.InitDataSource(GlobalShare.UserAppInfos.First().Value.mapDataSource[datasourceName], new List<DataCondition>(), out msg);
             if (msg != null)
             {
                 //MessageBox.Show(msg);

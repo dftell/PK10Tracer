@@ -52,9 +52,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="WolfInv.Com.WCSExtraDataInterface">
-      <HintPath>..\..\..\..\..\projects\WCS\WolfInv.Com.WCSExtraDataInterface.dll</HintPath>
-    </Reference>
     <Reference Include="XmlProcess">
       <HintPath>..\..\..\..\..\projects\PK10Tracer\XmlProcess.dll</HintPath>
     </Reference>
@@ -100,6 +97,10 @@
     <ProjectReference Include="..\..\WCS\WCS\JsLib\JsLib.csproj">
       <Project>{6fd3afa7-69ed-468f-972a-e58feadaba12}</Project>
       <Name>JsLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WCS\WCS\WCSExtraDataInterface\WCSExtraDataInterface.csproj">
+      <Project>{effe4a0a-8392-499e-bc08-1fda7f2a390b}</Project>
+      <Name>WCSExtraDataInterface</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
