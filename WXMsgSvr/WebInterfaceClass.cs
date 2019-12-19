@@ -39,6 +39,7 @@ namespace WolfInv.com.WXMsgCom
  ComSourceInterfaces(typeof(WebInterface))]
     public class WebInterfaceClass :RemoteServerClass, WebInterface
     {
+        public static Dictionary<string, Contact> contactDict = new Dictionary<string, Contact>();
         public static bool IPCCreated;
         public static bool ClientValid = false;
         public  bool Valid { get { return ClientValid; } }
@@ -125,7 +126,14 @@ namespace WolfInv.com.WXMsgCom
             LastConnectTime = DateTime.Now;
         }
 
-        public static Dictionary<string, Contact> contactDict = new Dictionary<string, Contact>();
+        public Dictionary<string,string> getNewestContacts()
+        {
+            lock (contactDict)
+            {
+                return contactDict.ToDictionary(a=>a.Key,a=>((string.IsNullOrEmpty(a.Value.DisplayName) ==true)?a.Value.NickName:a.Value.DisplayName));
+            }
+        }
+        
 
         private static QrCodeForm qrForm;
         static frm_MainWin frm;

@@ -10,19 +10,19 @@ namespace WolfInv.com.JdUnionLib
     {
 
 
-        public Func<string,string> shortLinkFunc;
+        public Func<string, string> shortLinkFunc;
         public string getShortLink(string suid = null)
         {
-            
+
             string strSuid = suid;
-            if(strSuid == null)
+            if (strSuid == null)
             {
                 strSuid = "";
             }
             Dictionary<string, string> iddic = new Dictionary<string, string>();
-            lock(JdGoodsQueryClass.shortLinks)
+            lock (JdGoodsQueryClass.shortLinks)
             {
-                if(JdGoodsQueryClass.shortLinks.ContainsKey(this.skuId))
+                if (JdGoodsQueryClass.shortLinks.ContainsKey(this.skuId))
                 {
                     iddic = JdGoodsQueryClass.shortLinks[skuId];
                 }
@@ -32,14 +32,14 @@ namespace WolfInv.com.JdUnionLib
                 string ret = shortLinkFunc?.Invoke(link);
                 if (ret == null)
                     ret = link;
-                if(!iddic.ContainsKey(strSuid))
+                if (!iddic.ContainsKey(strSuid))
                 {
                     iddic.Add(strSuid, ret);
                     JdGoodsQueryClass.shortLinks[skuId] = iddic;
                 }
                 return ret;
             }
-           
+
         }
         public string skuId { get; set; }
         public string skuName { get; set; }
@@ -52,6 +52,10 @@ namespace WolfInv.com.JdUnionLib
         public string brandName { get; set; }
         public string commissionUrl { get; set; }
         public string couponLink { get; set; }
+        public long batchId { get; set; }
+        public int isHot { get; set; }
+        public int elitId{get;set;}
+        public int inOrderCount30Days { get; set; }
 
         public string getMyUrl(string subid = null)
         {

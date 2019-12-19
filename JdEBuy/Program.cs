@@ -13,6 +13,8 @@ namespace JdEBuy
     static class Program
     {
         public static string UserId = "测试账户";
+        public static bool WCS_Inited;
+        
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
@@ -27,6 +29,7 @@ namespace JdEBuy
                 GlobalShare.AppDllPath = Application.StartupPath;
                 GlobalShare.Init(Application.StartupPath);
                 ForceLogin();
+                WCS_Inited = true;
             }
             catch(Exception ce)
             {
@@ -35,7 +38,7 @@ namespace JdEBuy
             Application.Run(new Form1(null));
         }
 
-        static void ForceLogin()//强制登录！
+        public static void ForceLogin()//强制登录！
         {
             string LoginName = UserId;
             CITMSUser user = new CITMSUser();

@@ -21,24 +21,28 @@ namespace HappyShareLottery
     public partial class frm_planMonitor : Form
     {
         Dictionary<string, TabControls> AllTabControls;
-        
+        ChartPushService cps;
+        JdUnion_GoodsDataLoadClass dlc;
         public frm_planMonitor()
         {
             InitializeComponent();
            
             
             AllTabControls = new Dictionary<string, TabControls>();
+            
         }
 
         private void frm_planMonitor_Load(object sender, EventArgs e)
         {
+            
             this.tabControl1.TabPages.Clear();
             this.txt_ToMeMsgs.Lines = new string[] { };
-            JdGoodsQueryClass.LoadAllcommissionGoods = loadAllData;
-            new Task(initWords).Start();//载入初始数据
-            JdUnion_GoodsDataLoadClass dlc = new JdUnion_GoodsDataLoadClass();
+            //JdGoodsQueryClass.LoadAllcommissionGoods = loadAllData;
+            //new Task(initWords).Start();//载入初始数据
+            dlc = new JdUnion_GoodsDataLoadClass();
             dlc.UpdateText = UpdateMsg;
-            JdEBuy.Form1 frm = new JdEBuy.Form1(dlc);
+            
+            
 
         }
 
@@ -201,6 +205,33 @@ namespace HappyShareLottery
         {
             public ListView Lvi;
             public PropertyGrid propGrid;
+        }
+
+        private void startPushMsgToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(Program.allContacts == null || Program.allContacts.Count == 0)
+            {
+                Program.Heart_Timer_Tick(null, null);
+            }
+            if(Program.allContacts == null)
+            {
+                MessageBox.Show("等待接收到心跳包！");
+
+                return;
+            }
+            cps = new ChartPushService();
+            cps.Start();
+        }
+
+        private void endPushMsgToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            cps.Stop();
+        }
+
+        private void startRecieveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            JdEBuy.Form1 frm = new JdEBuy.Form1(dlc);
+            frm.Show();
         }
     }
 }

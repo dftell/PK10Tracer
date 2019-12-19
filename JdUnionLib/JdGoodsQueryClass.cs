@@ -19,7 +19,20 @@ namespace WolfInv.com.JdUnionLib
         public static Dictionary<string, List<string>> AllKeys;
         public static Action LoadAllcommissionGoods;
         public static bool Inited;
+        public static Dictionary<int, EliteDataClass> AllElitesData;
         static Segment seg = null;
+
+
+        static JdGoodsQueryClass()
+        {
+            AllElitesData = new Dictionary<int, EliteDataClass>();
+            List<int> list = JdUnion_GlbObject.getElites();
+            foreach(int elite in list)
+            {
+                AllElitesData.Add(elite, new EliteDataClass(elite));
+            }
+        }
+
         public static Dictionary<string,JdGoodSummayInfoItemClass> Query(string name,int defaultReturnCnt = 3)
         {
             Dictionary<string, JdGoodSummayInfoItemClass> ret = new Dictionary<string, JdGoodSummayInfoItemClass>();
@@ -125,6 +138,34 @@ namespace WolfInv.com.JdUnionLib
                 }
             }
             return ret;
+        }
+
+        public static void updateElites(int eliteId,EliteDataClass elData)
+        {
+            lock(AllElitesData)
+            {
+                if (AllElitesData.ContainsKey(eliteId))
+                {
+                    AllElitesData[eliteId] = elData;
+                }
+                else
+                    AllElitesData.Add(eliteId, elData);
+            }
+        }
+    }
+    public class eliteData
+    {
+        public int eliteId;
+        public DataSet data;
+    }
+    public class EliteDataClass
+    {
+        public int eliteId { get; set; }
+        public Dictionary<string,JdGoodSummayInfoItemClass> Data = new Dictionary<string,JdGoodSummayInfoItemClass>();
+        public DateTime lastUpdateTime = DateTime.MinValue;
+        public EliteDataClass(int e)
+        {
+            eliteId = e;
         }
 
     }

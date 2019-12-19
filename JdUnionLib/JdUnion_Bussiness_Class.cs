@@ -197,10 +197,11 @@ namespace WolfInv.com.JdUnionLib
         {
             if (condition == null)
                 return getXmlData(ref retdoc,ref xmlschemaDoc,ref msg,onlyFirstPage,onlyOrgData);
+            //c[@i @f @r @v @o @s]
             try
             {
-                XmlNodeList nodes = condition.SelectNodes("condition/c[@o<>'in']");
-                XmlNodeList inNodes = condition.SelectNodes("condtion/c[@o='in']");
+                XmlNodeList nodes = condition.SelectNodes("req/c[@o<>'in']");
+                XmlNodeList inNodes = condition.SelectNodes("req/c[@o='in']");
                 if(inNodes.Count>1)
                 {
                     msg = "不支持多个内含条件！";

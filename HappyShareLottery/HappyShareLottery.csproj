@@ -81,6 +81,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="wxChartPushClass.cs" />
     <Compile Include="wxMessageReceiveSvr.cs">
       <SubType>Component</SubType>
     </Compile>

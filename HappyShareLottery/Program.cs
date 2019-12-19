@@ -21,6 +21,7 @@ namespace HappyShareLottery
         public static Timer Heart_Timer;
         static int Heart_minutes = 5;
         public static string UserId = "testUser";
+        public static Dictionary<string, string> allContacts = new Dictionary<string, string>();
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
@@ -49,17 +50,7 @@ namespace HappyShareLottery
                 //svr.Monitor = new frm_planMonitor();
                 //svr.wif = wif;
                 svr.Start();
-                try
-                {
-                    GlobalShare.MainAssem = Assembly.GetExecutingAssembly();
-                    GlobalShare.AppDllPath = Application.StartupPath;
-                    GlobalShare.Init(Application.StartupPath);
-                    ForceLogin();
-                }
-                catch (Exception ce)
-                {
-                    return;
-                }
+                
                 
 
 
@@ -77,11 +68,16 @@ namespace HappyShareLottery
             }
         }
 
-        private static void Heart_Timer_Tick(object sender, EventArgs e)
+        public static void Heart_Timer_Tick(object sender, EventArgs e)
         {
             try
             {
                 wif.HeartCheck();
+                lock(allContacts)
+                {
+                    allContacts = wif.getNewestContacts();
+                }
+                
             }
             catch
             {

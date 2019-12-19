@@ -38,11 +38,13 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.交互功能ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.主动推送ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startTalkFuncToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.endTalkFuncToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.主动推送ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startPushMsgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.endPushMsgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.京东数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startRecieveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -122,7 +124,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage2.Size = new System.Drawing.Size(564, 474);
+            this.tabPage2.Size = new System.Drawing.Size(564, 449);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -147,7 +149,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.交互功能ToolStripMenuItem,
-            this.主动推送ToolStripMenuItem});
+            this.主动推送ToolStripMenuItem,
+            this.京东数据ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(860, 25);
@@ -163,6 +166,18 @@
             this.交互功能ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
             this.交互功能ToolStripMenuItem.Text = "交互功能";
             // 
+            // startTalkFuncToolStripMenuItem
+            // 
+            this.startTalkFuncToolStripMenuItem.Name = "startTalkFuncToolStripMenuItem";
+            this.startTalkFuncToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.startTalkFuncToolStripMenuItem.Text = "startTalkFunc";
+            // 
+            // endTalkFuncToolStripMenuItem
+            // 
+            this.endTalkFuncToolStripMenuItem.Name = "endTalkFuncToolStripMenuItem";
+            this.endTalkFuncToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.endTalkFuncToolStripMenuItem.Text = "endTalkFunc";
+            // 
             // 主动推送ToolStripMenuItem
             // 
             this.主动推送ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -172,29 +187,34 @@
             this.主动推送ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
             this.主动推送ToolStripMenuItem.Text = "主动推送";
             // 
-            // startTalkFuncToolStripMenuItem
-            // 
-            this.startTalkFuncToolStripMenuItem.Name = "startTalkFuncToolStripMenuItem";
-            this.startTalkFuncToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.startTalkFuncToolStripMenuItem.Text = "startTalkFunc";
-            // 
-            // endTalkFuncToolStripMenuItem
-            // 
-            this.endTalkFuncToolStripMenuItem.Name = "endTalkFuncToolStripMenuItem";
-            this.endTalkFuncToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.endTalkFuncToolStripMenuItem.Text = "endTalkFunc";
-            // 
             // startPushMsgToolStripMenuItem
             // 
             this.startPushMsgToolStripMenuItem.Name = "startPushMsgToolStripMenuItem";
             this.startPushMsgToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.startPushMsgToolStripMenuItem.Text = "startPushMsg";
+            this.startPushMsgToolStripMenuItem.Click += new System.EventHandler(this.startPushMsgToolStripMenuItem_Click);
             // 
             // endPushMsgToolStripMenuItem
             // 
             this.endPushMsgToolStripMenuItem.Name = "endPushMsgToolStripMenuItem";
             this.endPushMsgToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.endPushMsgToolStripMenuItem.Text = "endPushMsg";
+            this.endPushMsgToolStripMenuItem.Click += new System.EventHandler(this.endPushMsgToolStripMenuItem_Click);
+            // 
+            // 京东数据ToolStripMenuItem
+            // 
+            this.京东数据ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.startRecieveToolStripMenuItem});
+            this.京东数据ToolStripMenuItem.Name = "京东数据ToolStripMenuItem";
+            this.京东数据ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
+            this.京东数据ToolStripMenuItem.Text = "京东数据";
+            // 
+            // startRecieveToolStripMenuItem
+            // 
+            this.startRecieveToolStripMenuItem.Name = "startRecieveToolStripMenuItem";
+            this.startRecieveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.startRecieveToolStripMenuItem.Text = "startRecieve";
+            this.startRecieveToolStripMenuItem.Click += new System.EventHandler(this.startRecieveToolStripMenuItem_Click);
             // 
             // frm_planMonitor
             // 
@@ -242,5 +262,7 @@
         private System.Windows.Forms.ToolStripMenuItem 主动推送ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem startPushMsgToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem endPushMsgToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 京东数据ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem startRecieveToolStripMenuItem;
     }
 }
