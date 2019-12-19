@@ -90,20 +90,6 @@
     <Compile Include="XmlSchemaClass.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\WCS\WCS\AccessWebLib\AccessWebLib.csproj">
-      <Project>{45457e13-75a5-420c-b761-3b485be4c527}</Project>
-      <Name>AccessWebLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WCS\WCS\JsLib\JsLib.csproj">
-      <Project>{6fd3afa7-69ed-468f-972a-e58feadaba12}</Project>
-      <Name>JsLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WCS\WCS\WCSExtraDataInterface\WCSExtraDataInterface.csproj">
-      <Project>{effe4a0a-8392-499e-bc08-1fda7f2a390b}</Project>
-      <Name>WCSExtraDataInterface</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Form2.resx">
       <DependentUpon>Form2.cs</DependentUpon>
     </EmbeddedResource>
@@ -116,6 +102,20 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="XMLFile1.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WCS\AccessWebLib\AccessWebLib.csproj">
+      <Project>{45457e13-75a5-420c-b761-3b485be4c527}</Project>
+      <Name>AccessWebLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WCS\JsLib\JsLib.csproj">
+      <Project>{6fd3afa7-69ed-468f-972a-e58feadaba12}</Project>
+      <Name>JsLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WCS\WCSExtraDataInterface\WCSExtraDataInterface.csproj">
+      <Project>{effe4a0a-8392-499e-bc08-1fda7f2a390b}</Project>
+      <Name>WCSExtraDataInterface</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

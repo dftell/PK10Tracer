@@ -116,10 +116,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\WCS\WCS\WCS_Process\WCS_Process.csproj">
-      <Project>{6faecb53-c67a-402c-a7ed-e243c3d114b2}</Project>
-      <Name>WCS_Process</Name>
-    </ProjectReference>
     <ProjectReference Include="..\JdEBuy\JdEBuy.csproj">
       <Project>{96705301-264a-41ad-ac1a-35d31d3d9383}</Project>
       <Name>JdEBuy</Name>
@@ -135,6 +131,14 @@
     <ProjectReference Include="..\ShareLotteryLib\WolfInv.com.ShareLotteryLib.csproj">
       <Project>{7e7f3d64-00b9-4aa6-9ee8-dd97713c6347}</Project>
       <Name>WolfInv.com.ShareLotteryLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WCS\JsLib\JsLib.csproj">
+      <Project>{6fd3afa7-69ed-468f-972a-e58feadaba12}</Project>
+      <Name>JsLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WCS\WCS_Process\WCS_Process.csproj">
+      <Project>{6faecb53-c67a-402c-a7ed-e243c3d114b2}</Project>
+      <Name>WCS_Process</Name>
     </ProjectReference>
     <ProjectReference Include="..\WinInterComminuteLib\WolfInv.com.WinInterComminuteLib.csproj">
       <Project>{7859d79d-edd5-4b79-b3da-072432bc8fcc}</Project>

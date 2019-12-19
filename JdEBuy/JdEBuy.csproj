@@ -97,21 +97,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\WCS\WCS\DataAccessCenter\DataAccessCenter.csproj">
-      <Project>{5a8ded8e-b55a-469e-a1eb-dd9d91a04f38}</Project>
-      <Name>DataAccessCenter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WCS\WCS\JsLib\JsLib.csproj">
-      <Project>{6FD3AFA7-69ED-468F-972A-E58FEADABA12}</Project>
-      <Name>JsLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WCS\WCS\WCS_Process\WCS_Process.csproj">
-      <Project>{6faecb53-c67a-402c-a7ed-e243c3d114b2}</Project>
-      <Name>WCS_Process</Name>
-    </ProjectReference>
     <ProjectReference Include="..\JdUnionLib\JdUnionLib.csproj">
       <Project>{dcae1a60-ccac-41b8-a0c2-602389161009}</Project>
       <Name>JdUnionLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WCS\JsLib\JsLib.csproj">
+      <Project>{6fd3afa7-69ed-468f-972a-e58feadaba12}</Project>
+      <Name>JsLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WCS\WCS_Process\WCS_Process.csproj">
+      <Project>{6faecb53-c67a-402c-a7ed-e243c3d114b2}</Project>
+      <Name>WCS_Process</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
