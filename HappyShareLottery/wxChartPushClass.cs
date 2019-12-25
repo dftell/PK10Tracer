@@ -8,17 +8,20 @@ namespace HappyShareLottery
 {
     public class wxChartPushClass
     {
+        public Action<string> MessageTo;
         public string chartUid { get; set; }
         public string chartName { get; set; }
         public static Dictionary<string, string> sysDefaultCommSetting;
         public Dictionary<string, string> MySetting;
         public static Dictionary<string, string> EliteDic;
+        public string subUnionId { get; set; }
         DateTime startTime;
         DateTime endTime;
         int CurrTimes = 0;
         int defaultInterMinutes = 30;//默认间隔为30分钟
         bool needPushNews = true;
         bool needPushKnowedge = true;
+        float maxPrice = float.MaxValue;
         public int interMinutes { get; set; }
         bool needPushGeeting = true;
         int picsOnce = 1;
@@ -27,6 +30,8 @@ namespace HappyShareLottery
         public Dictionary<string, JdGoodSummayInfoItemClass> CurrDayNeedPushGoods;
         public List<int> pushElites;
         public bool disabled { get; set; }
+        public HashSet<string> pushedGoods = new HashSet<string>();
+        public Func<string, string> shortUrlFunc;
         public wxChartPushClass()
         {
             startTime = DateTime.MinValue;
@@ -55,6 +60,11 @@ namespace HappyShareLottery
             {
                 chartName = MySetting["name"];
             }
+            subUnionId = "1969838238";
+            if (MySetting.ContainsKey("subUnionId"))
+            {
+                subUnionId = MySetting["subUnionId"];
+            }
             if (MySetting.ContainsKey("pushType"))
             {
                 string strElites = MySetting["pushType"];
@@ -75,6 +85,15 @@ namespace HappyShareLottery
                 if (succ)
                     defaultInterMinutes = mins;
                 interMinutes = defaultInterMinutes;
+            }
+            if(MySetting.ContainsKey("maxPrice"))
+            {
+                float maxprice = 0;
+                bool succ = float.TryParse(MySetting["maxPrice"], out maxprice);
+                if (succ)
+                    maxPrice = maxprice;
+                if (maxPrice == 0)
+                    maxPrice = float.MaxValue;
             }
             if (MySetting.ContainsKey("picsOneTime"))//一次发送条数
             {
@@ -165,7 +184,7 @@ namespace HappyShareLottery
         {
             if (inPushTime() == false)
                 return false;
-            if (endTime.AddMinutes(defaultInterMinutes) > endTime)
+            if (DateTime.Now.AddMinutes(defaultInterMinutes) > endTime)
                 return true;
             return false;
         }
@@ -198,7 +217,7 @@ namespace HappyShareLottery
         public void InitChatGoods()
         {
             CurrDayNeedPushGoods = new Dictionary<string, JdGoodSummayInfoItemClass>();
-            int pushTimes = (int)(endTime.Subtract(startTime).TotalMinutes / picsOnce);//总分钟数/每次个数+1
+            int pushTimes = (int)(endTime.Subtract(startTime).TotalMinutes/interMinutes / picsOnce);//总分钟数/每次个数+1
             CurrDayNeedPushGoods = FilterGoods().Take(pushTimes).ToDictionary(a => a.Key, a => a.Value);
         }
 
@@ -217,8 +236,11 @@ namespace HappyShareLottery
                     a => a.Data.Values.ToList().ForEach(
                         b =>
                         {
-                            if (!ret.ContainsKey(b.skuId))
-                                ret.Add(b.skuId, b);
+                            if (!string.IsNullOrEmpty(b.discount))
+                            {
+                                if (!ret.ContainsKey(b.skuId))
+                                    ret.Add(b.skuId, b);
+                            }
                         }
                     )
                     );
@@ -263,13 +285,31 @@ namespace HappyShareLottery
                 return;
             }
             int index = (times - 1) * ps;
-            for (int i = index; i<Math.Min(CurrDayNeedPushGoods.Count, index+ps);i++)
+            int pushcnt = 0;
+            var currGoods = CurrDayNeedPushGoods.OrderByDescending(a => a.Value.inOrderCount30Days);
+            foreach(var key in currGoods)
             {
-                
-                JdGoodSummayInfoItemClass jdi = CurrDayNeedPushGoods.OrderByDescending(a=>a.Value.inOrderCount30Days).Select(a=>a.Value).ToList()[i];
+                if (pushcnt == picsOnce)//达到次数
+                {
+                    break;
+                }
+                JdGoodSummayInfoItemClass jdi = key.Value;
+                jdi.shortLinkFunc = getShortLink;
+                if (pushedGoods.Contains(jdi.skuId))
+                    continue;
+                if ((float.Parse(jdi.price)-float.Parse(jdi.discount)) > this.maxPrice)//折后价超出最大价格，跳过
+                    continue;
                 Program.plancolls.MsgProcess.SendUrlImgMsg(jdi.imgageUrl,chartUid);
-                Program.plancolls.MsgProcess.SendMsg(jdi.getFullContent(true),chartUid);
+                string fullMsg = string.Format("{0}{1}", jdi.getFullContent(true), jdi.getShortLink(subUnionId));
+                Program.plancolls.MsgProcess.SendMsg(fullMsg,chartUid);
+                pushcnt++;
+                pushedGoods.Add(jdi.skuId);
             }
+        }
+
+        string getShortLink(string strUrl)
+        {
+            return shortUrlFunc?.Invoke(strUrl);
         }
     }
 }

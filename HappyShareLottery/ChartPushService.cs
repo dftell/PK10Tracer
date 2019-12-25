@@ -12,6 +12,10 @@ using System.Reflection;
 using WolfInv.com.ShareLotteryLib;
 using XmlProcess;
 using System.Linq;
+using System.Web;
+using System.Net.Http;
+using System.Net;
+
 namespace HappyShareLottery
 {
     /// <summary>
@@ -21,32 +25,60 @@ namespace HappyShareLottery
     {
         List<Timer> AllTimers = new List<Timer>();
         XmlNode defaultSetting = null;
+        public Action<string> MessageTo;
         public ChartPushService()
         {
             InitializeComponent();
+            
+        }
+
+        string getShortLink(string url)
+        {
+            string strUrl = "http://sina-t.cn/api?link=";
+            WebClient wc = new WebClient();
+            string strFull = string.Format("{0}{1}", strUrl, HttpUtility.UrlEncode(url));
+            try
+            {
+                wc.Encoding = Encoding.UTF8;
+                return wc.DownloadString(strFull);
+            }
+            catch(Exception ce)
+            {
+
+            }
+            return "";
+        }
+
+        public void Init()
+        {
             Dictionary<string, XmlNode> allPlans = getPlanXmlDictionary();
             AllTimers = new List<Timer>();
-            foreach(string key in allPlans.Keys)
+            foreach (string key in allPlans.Keys)
             {
                 XmlNode node = allPlans[key];
                 wxChartPushClass wxp = new wxChartPushClass();
+                wxp.MessageTo = msgTo;
+                wxp.shortUrlFunc = getShortLink;
                 wxp.Init(node);
+                
                 if (wxp.disabled)
                     continue;
-                if(string.IsNullOrEmpty(wxp.chartName))
+                if (string.IsNullOrEmpty(wxp.chartName))
                 {
                     continue;
                 }
-                if(Program.allContacts == null)
+                if (Program.allContacts == null)
                 {
                     continue;
                 }
                 var contact = Program.allContacts.Where(a => a.Key.StartsWith("@@") == true);
-                contact = contact.Where(a =>  a.Value.Equals(wxp.chartName));
-                if(contact.Count()==0)
+                contact = contact.Where(a => a.Value.Equals(wxp.chartName));
+                if (contact.Count() == 0)
                 {
                     continue;
                 }
+
+                wxp.MessageTo?.Invoke(string.Format("群名[{0}]数据已经加载!", wxp.chartName));
                 wxp.chartUid = contact.First().Key;
                 Timer tm = new Timer();
                 tm.Interval = wxp.interMinutes * 60 * 1000;
@@ -55,6 +87,11 @@ namespace HappyShareLottery
                 tm.Enabled = false;
                 AllTimers.Add(tm);
             }
+        }
+
+        void msgTo(string msg)
+        {
+            MessageTo?.Invoke(msg);
         }
 
 
@@ -119,7 +156,7 @@ namespace HappyShareLottery
             for(int i=0;i< AllTimers.Count;i++)
             {
                 AllTimers[i].Enabled = true;
-                sendTo(AllTimers[0], null);
+                sendTo(AllTimers[i], null);
             }
 
         }

@@ -12,12 +12,12 @@ using XmlProcess;
 using WolfInv.Com.MetaDataCenter;
 using WolfInv.Com.WCS_Process;
 using System.Reflection;
-
+using System.Threading.Tasks;
 namespace JdEBuy
 {
     public partial class Form1 : Form
     {
-        Timer downloadTimer ;
+        System.Windows.Forms.Timer downloadTimer ;
         JdUnion_GoodsDataLoadClass currJdc = null;
         public Form1(JdUnion_GoodsDataLoadClass jdc)
         {
@@ -39,8 +39,8 @@ namespace JdEBuy
             currJdc = jdc;
             bool inited = JdUnion_GlbObject.Inited;
             //JdGoodsQueryClass.LoadAllcommissionGoods = loadAllData;
-            downloadTimer = new Timer();
-            downloadTimer.Interval = 2 * 60 * 60 * 1000;//6小时
+            downloadTimer = new System.Windows.Forms.Timer();
+            downloadTimer.Interval = 4 * 60 * 60 * 1000;//4小时
             downloadTimer.Tick += DownloadTimer_Tick;
             downloadTimer.Enabled = false;
         }
@@ -49,17 +49,17 @@ namespace JdEBuy
 
         private void DownloadTimer_Tick(object sender, EventArgs e)
         {
-            currJdc.downloadData();
+            new Task(currJdc.downloadData).Start();
         }
 
         void loadEliteData(eliteData el)
         {
             
-            DataSet ds = el.data;
+            List<DataRow> ds = el.data;
             EliteDataClass edc = new EliteDataClass(el.eliteId);
-            for(int i=0;i<ds.Tables[0].Rows.Count;i++)
+            for(int i=0;i<ds.Count;i++)
             {
-                DataRow dr = ds.Tables[0].Rows[i];
+                DataRow dr = ds[i];
                 JdGoodSummayInfoItemClass jsiic = new JdGoodSummayInfoItemClass();
                 jsiic.skuId = dr["JGD02"].ToString();
                 jsiic.skuName = dr["JGD03"].ToString();
@@ -70,13 +70,13 @@ namespace JdEBuy
                 jsiic.discount = dr["JGD06"].ToString();
                 if (dr["JGD15"] != null)
                     jsiic.elitId = int.Parse(dr["JGD15"].ToString());
-                if (dr["JGD14"] != null)
-                    jsiic.batchId = int.Parse(dr["JGD14"].ToString());
+                
                 if (dr["JGD16"] != null)
                     jsiic.isHot = int.Parse(dr["JGD16"].ToString());
                 if (dr["JGD17"] != null)
                     jsiic.inOrderCount30Days = int.Parse(dr["JGD17"].ToString());
-                edc.Data.Add(jsiic.skuId,jsiic);
+                if(!edc.Data.ContainsKey(jsiic.skuId))
+                    edc.Data.Add(jsiic.skuId,jsiic);
             }
             edc.lastUpdateTime = DateTime.Now;
             JdGoodsQueryClass.updateElites(el.eliteId, edc);
@@ -87,8 +87,9 @@ namespace JdEBuy
             if (currJdc == null)
                 currJdc = new JdUnion_GoodsDataLoadClass();
             this.downloadTimer.Enabled = true;
-            
-            currJdc.SaveClientData = SaveClientData;
+            currJdc.onReceiveData = loadEliteData;
+            currJdc.SaveClientData = SaveClientData;//保存单批数据
+            currJdc.onSavedData = updateGlobalQueryData;//保存完数据处理，更新globalqueryobject
             this.DownloadTimer_Tick(null, null);
         }
         
@@ -159,6 +160,37 @@ namespace JdEBuy
         {
             WolfInv.com.JdUnionLib.Form2 frm = new Form2();
             frm.Show();
+        }
+
+        void updateGlobalQueryData(Dictionary<string,UpdateData> data)
+        {
+            Dictionary<string, JdGoodSummayInfoItemClass> updateData = new Dictionary<string, JdGoodSummayInfoItemClass>();
+            foreach (string key  in data.Keys)
+            {
+                if(updateData.ContainsKey(key))
+                {
+                    continue;
+                }
+                UpdateData dr = data[key];
+                JdGoodSummayInfoItemClass jsiic = new JdGoodSummayInfoItemClass();
+                jsiic.skuId = dr.Items["JGD02"].value;
+                jsiic.skuName = dr.Items["JGD03"].value;
+                jsiic.couponLink = dr.Items["JGD07"].value;
+                jsiic.imgageUrl = dr.Items["JGD08"].value;
+                jsiic.materialUrl = dr.Items["JGD09"].value;
+                jsiic.price = dr.Items["JGD11"].value;
+                jsiic.discount = dr.Items["JGD06"].value;
+                if (dr.Items["JGD15"] != null)
+                    jsiic.elitId = int.Parse(dr.Items["JGD15"].value);
+                if (dr.Items["JGD14"] != null)
+                    jsiic.batchId = int.Parse(dr.Items["JGD14"].value);
+                if (dr.Items["JGD16"] != null)
+                    jsiic.isHot = int.Parse(dr.Items["JGD16"].value);
+                if (dr.Items["JGD17"] != null)
+                    jsiic.inOrderCount30Days = int.Parse(dr.Items["JGD17"].value);
+                updateData.Add(key, jsiic);
+            }
+            JdGoodsQueryClass.updateAllData(updateData);
         }
     }
 

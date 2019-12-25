@@ -13,7 +13,7 @@ namespace WolfInv.com.JdUnionLib
         public Func<string, string> shortLinkFunc;
         public string getShortLink(string suid = null)
         {
-
+            string orgUrl = "http://www.wolfinv.com/ebuy/navigateTo.asp?";
             string strSuid = suid;
             if (strSuid == null)
             {
@@ -29,6 +29,9 @@ namespace WolfInv.com.JdUnionLib
                 if (iddic.ContainsKey(suid))
                     return iddic[suid];
                 string link = getMyUrl(suid);
+                if (string.IsNullOrEmpty(link))
+                    return link;
+                link = orgUrl + link;
                 string ret = shortLinkFunc?.Invoke(link);
                 if (ret == null)
                     ret = link;
@@ -88,6 +91,7 @@ namespace WolfInv.com.JdUnionLib
                 string strPath_MaterialId = string.Format("promotionCodeReq/materialId");
                 string strPath_CouponUrl = string.Format("promotionCodeReq/couponUrl");
                 string strPath_PositionId = string.Format("promotionCodeReq/positionId");
+                string strChainType = "promotionCodeReq/chainType";
                 jgl.setBussiessItems(strPath_SiteId, jgl.siteId);
                 jgl.setBussiessItems(strPath_MaterialId, url);
 
@@ -100,6 +104,7 @@ namespace WolfInv.com.JdUnionLib
                 {
                     jgl.setBussiessItems(strPath_PositionId, subid);
                 }
+                jgl.setBussiessItems(strChainType, "1");
                 jgl.sign = null;
                 XmlDocument xmlschema = null;
                 string msg = null;
@@ -123,14 +128,17 @@ namespace WolfInv.com.JdUnionLib
         }
         public string getFullContent(bool commissionUrl=false,string messageModule = null)
         {
-
+            if(WxFaceImage.Inited== false)
+            {
+                
+            }
             string ret = null;
             if (commissionUrl)
             {
                 ret = messageModule;
                 if (string.IsNullOrEmpty(ret))
                 {
-                    ret = @"[3]{0}
+                    ret = @"{3}{0}
 ————————
 京东价：￥{1:2f}
 内购价：￥{2:2f}
@@ -166,12 +174,25 @@ namespace WolfInv.com.JdUnionLib
 
     public class WxFaceImage
     {
-        public const string goodFaces = "/:heart,/:cake,/:sun,/:gift,/:footb,/:moon,/:hug,/:li";
+        static Random rd;
+        static string goodFaces = "/:heart,/:cake,/:sun,/:gift,/:footb,/:moon,/:hug,/:li";
+        static string[] arr;
+        public static bool Inited;
         public static string getAFace(int index=0)
         {
-            string[] arr = goodFaces.Split(',');
-            Random rd = new Random(arr.Length-1);
-            return arr[rd.Next()];
+            if (rd == null)
+                rd = new Random();
+            int ind = (rd.Next() % arr.Length) ;
+            return arr[Math.Min(ind,arr.Length-1)];
         }
+
+        static WxFaceImage()
+        {
+            arr = goodFaces.Split(',');
+            rd = new Random(arr.Length - 1);
+            Inited = true;
+        }
+            
+
     }
 }

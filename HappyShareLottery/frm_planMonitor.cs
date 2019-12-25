@@ -67,21 +67,28 @@ namespace HappyShareLottery
 
         void SetTextControlById(string id, string txt)
         {
-            Control[] ctrls = this.Controls.Find(id, true);
-            if (ctrls.Length != 1)
+            try
             {
-                return;
+                Control[] ctrls = this.Controls.Find(id, true);
+                if (ctrls.Length != 1)
+                {
+                    return;
+                }
+                if (ctrls[0] is TextBox && (ctrls[0] as TextBox).Multiline == true)
+                {
+                    TextBox tb = ctrls[0] as TextBox;
+                    List<string> txts = txt_ToMeMsgs.Lines.ToList();
+                    txts.Add(txt);
+                    tb.Lines = txts.ToArray();
+                    tb.Refresh();
+                }
+                else
+                    ctrls[0].Text = txt;
             }
-            if (ctrls[0] is TextBox && (ctrls[0] as TextBox).Multiline==true)
+            catch(Exception ce)
             {
-                TextBox tb = ctrls[0] as TextBox;
-                List<string> txts = txt_ToMeMsgs.Lines.ToList();
-                txts.Add(txt);
-                tb.Lines = txts.ToArray();
-                tb.Refresh();
+
             }
-            else
-                ctrls[0].Text  = txt;
         }
         void loadAllData()
         {
@@ -220,6 +227,8 @@ namespace HappyShareLottery
                 return;
             }
             cps = new ChartPushService();
+            cps.MessageTo = UpdateMsg;
+            cps.Init();
             cps.Start();
         }
 

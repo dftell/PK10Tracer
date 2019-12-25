@@ -10,3 +10,4 @@ E:\github\project\PK10Tracer\WolfInv.com.LogLib.pdb
 E:\github\source\dftell\PK10Tracer\LogLib\obj\Debug\WolfInv.com.LogLib.csproj.CoreCompileInputs.cache
 E:\github\source\dftell\PK10Tracer\LogLib\obj\Debug\WolfInv.com.LogLib.dll
 E:\github\source\dftell\PK10Tracer\LogLib\obj\Debug\WolfInv.com.LogLib.pdb
+E:\github\source\dftell\PK10Tracer\LogLib\obj\Debug\WolfInv.com.LogLib.csprojAssemblyReference.cache

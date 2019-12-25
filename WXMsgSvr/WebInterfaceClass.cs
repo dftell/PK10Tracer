@@ -352,6 +352,7 @@ namespace WolfInv.com.WXMsgCom
                 {
                     contactDict[item.UserName] = item;
                 }
+                Client_GetContactComplete(null, new TEventArgs<List<Contact>>(contactDict.Values.ToList()));
             }
             catch(Exception ce)
             {

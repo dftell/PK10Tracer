@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using ShootSeg;
 
 namespace WolfInv.com.JdUnionLib
@@ -22,7 +23,7 @@ namespace WolfInv.com.JdUnionLib
         public static Dictionary<int, EliteDataClass> AllElitesData;
         static Segment seg = null;
 
-
+        
         static JdGoodsQueryClass()
         {
             AllElitesData = new Dictionary<int, EliteDataClass>();
@@ -152,11 +153,29 @@ namespace WolfInv.com.JdUnionLib
                     AllElitesData.Add(eliteId, elData);
             }
         }
+
+        public static void updateAllData(Dictionary<string,JdGoodSummayInfoItemClass> data)
+        {
+            if(AllcommissionGoods == null)
+            {
+                AllcommissionGoods = data;
+                Inited = true;
+                return;
+            }
+            lock(AllcommissionGoods)
+            {
+                data.Values.ToList().ForEach(a => {
+                    if (!AllcommissionGoods.ContainsKey(a.skuId))
+                        AllcommissionGoods.Add(a.skuId, a);
+                });
+                Inited = true;
+            }
+        }
     }
     public class eliteData
     {
         public int eliteId;
-        public DataSet data;
+        public List<DataRow> data;
     }
     public class EliteDataClass
     {

@@ -200,7 +200,7 @@ namespace WolfInv.com.JdUnionLib
             //c[@i @f @r @v @o @s]
             try
             {
-                XmlNodeList nodes = condition.SelectNodes("req/c[@o<>'in']");
+                XmlNodeList nodes = condition.SelectNodes("c[@o!='in']");
                 XmlNodeList inNodes = condition.SelectNodes("req/c[@o='in']");
                 if(inNodes.Count>1)
                 {
@@ -214,7 +214,7 @@ namespace WolfInv.com.JdUnionLib
                 {
                     sp = ",";
                 }
-                if (string.IsNullOrEmpty(forName) || string.IsNullOrEmpty(vals))
+                if (inNodes.Count>0 &&(string.IsNullOrEmpty(forName) || string.IsNullOrEmpty(vals)))
                 {
                     msg = "内含条件名称和值不能为空！";
                     return false;
@@ -225,7 +225,10 @@ namespace WolfInv.com.JdUnionLib
                 string[] arr = vals.Split(sp.ToCharArray());
                 for (int i = 0; i < arr.Length; i++)
                 {
-                    setBussiessItems(forName, arr[i]);
+                    if (string.IsNullOrEmpty(forName) == false)
+                    {
+                        setBussiessItems(forName, arr[i]);
+                    }
                     foreach (XmlNode node in nodes)
                     {
                         string pointName = XmlUtil.GetSubNodeText(node, "@i");
@@ -285,7 +288,7 @@ namespace WolfInv.com.JdUnionLib
                 return false;
             }
 
-            return false;
+            return true;
         }
 
 
