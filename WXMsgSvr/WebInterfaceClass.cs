@@ -350,7 +350,10 @@ namespace WolfInv.com.WXMsgCom
                 foreach (var item in e.Result)
 
                 {
-                    contactDict[item.UserName] = item;
+                    if (contactDict.ContainsKey(item.UserName))
+                        contactDict[item.UserName] = item;
+                    else
+                        contactDict.Add(item.UserName, item);
                 }
                 Client_GetContactComplete(null, new TEventArgs<List<Contact>>(contactDict.Values.ToList()));
             }
@@ -805,8 +808,11 @@ namespace WolfInv.com.WXMsgCom
                         contactDict.Add(item.UserName, item);
 
                     }
-
-
+                    else
+                    {
+                        contactDict[item.UserName] = item;
+                    }
+                    
 
 
                     //联系人列表中包含联系人，公众号，可以通过参数做区分

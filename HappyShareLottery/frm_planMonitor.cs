@@ -41,7 +41,7 @@ namespace HappyShareLottery
             //new Task(initWords).Start();//载入初始数据
             dlc = new JdUnion_GoodsDataLoadClass();
             dlc.UpdateText = UpdateMsg;
-            
+            UpdateMsg("加载完成！");
             
 
         }
@@ -239,8 +239,15 @@ namespace HappyShareLottery
 
         private void startRecieveToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            UpdateMsg("启动京东数据接受模块！");
             JdEBuy.Form1 frm = new JdEBuy.Form1(dlc);
             frm.Show();
+        }
+
+        private void testUrlToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frm_Test frm = new frm_Test();
+            frm.ShowDialog();
         }
     }
 }

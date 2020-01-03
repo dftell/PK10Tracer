@@ -34,15 +34,17 @@ namespace JdEBuy
             }
             catch (Exception ce)
             {
+                jdc.UpdateText(ce.Message);
                 return;
             }
             currJdc = jdc;
             bool inited = JdUnion_GlbObject.Inited;
             //JdGoodsQueryClass.LoadAllcommissionGoods = loadAllData;
             downloadTimer = new System.Windows.Forms.Timer();
-            downloadTimer.Interval = 4 * 60 * 60 * 1000;//4小时
+            downloadTimer.Interval = 6 * 60 * 60 * 1000;//6小时
             downloadTimer.Tick += DownloadTimer_Tick;
             downloadTimer.Enabled = false;
+            jdc.UpdateText("京东数据接受模块界面加载成功！");
         }
 
        
@@ -71,9 +73,9 @@ namespace JdEBuy
                 if (dr["JGD15"] != null)
                     jsiic.elitId = int.Parse(dr["JGD15"].ToString());
                 
-                if (dr["JGD16"] != null)
+                if (dr["JGD16"]!= null && !string.IsNullOrEmpty(dr["JGD16"].ToString()))
                     jsiic.isHot = int.Parse(dr["JGD16"].ToString());
-                if (dr["JGD17"] != null)
+                if (dr["JGD17"] != null && !string.IsNullOrEmpty(dr["JGD17"].ToString()))
                     jsiic.inOrderCount30Days = int.Parse(dr["JGD17"].ToString());
                 if(!edc.Data.ContainsKey(jsiic.skuId))
                     edc.Data.Add(jsiic.skuId,jsiic);
@@ -84,13 +86,20 @@ namespace JdEBuy
 
        private void btn_recieveData_Click(object sender, EventArgs e)
         {
-            if (currJdc == null)
-                currJdc = new JdUnion_GoodsDataLoadClass();
-            this.downloadTimer.Enabled = true;
-            currJdc.onReceiveData = loadEliteData;
-            currJdc.SaveClientData = SaveClientData;//保存单批数据
-            currJdc.onSavedData = updateGlobalQueryData;//保存完数据处理，更新globalqueryobject
-            this.DownloadTimer_Tick(null, null);
+            try
+            {
+                if (currJdc == null)
+                    currJdc = new JdUnion_GoodsDataLoadClass();
+                this.downloadTimer.Enabled = true;
+                currJdc.onReceiveData = loadEliteData;
+                currJdc.SaveClientData = SaveClientData;//保存单批数据
+                currJdc.onSavedData = updateGlobalQueryData;//保存完数据处理，更新globalqueryobject
+                this.DownloadTimer_Tick(null, null);
+            }
+            catch(Exception ce)
+            {
+                currJdc.UpdateText(string.Format("接收数据出现未知错误：{0}",ce.Message));
+            }
         }
         
         void UpdateText(string msg)
@@ -165,32 +174,42 @@ namespace JdEBuy
         void updateGlobalQueryData(Dictionary<string,UpdateData> data)
         {
             Dictionary<string, JdGoodSummayInfoItemClass> updateData = new Dictionary<string, JdGoodSummayInfoItemClass>();
-            foreach (string key  in data.Keys)
+            try
             {
-                if(updateData.ContainsKey(key))
+                foreach (string key in data.Keys)
                 {
-                    continue;
+                    if (updateData.ContainsKey(key))
+                    {
+                        continue;
+                    }
+                    UpdateData dr = data[key];
+                    JdGoodSummayInfoItemClass jsiic = new JdGoodSummayInfoItemClass();
+                    jsiic.skuId = dr.Items["JGD02"].value;
+                    jsiic.skuName = dr.Items["JGD03"].value;
+                    jsiic.couponLink = dr.Items["JGD07"].value;
+                    jsiic.imgageUrl = dr.Items["JGD08"].value;
+                    jsiic.materialUrl = dr.Items["JGD09"].value;
+                    jsiic.price = dr.Items["JGD11"].value;
+                    jsiic.discount = dr.Items["JGD06"].value;
+                    if (dr.Dataset.Tables[0].Columns.Contains("JGD15") && dr.Items["JGD15"] != null)
+                        jsiic.elitId = int.Parse(dr.Items["JGD15"].value);
+                    if (dr.Dataset.Tables[0].Columns.Contains("JGD14") && dr.Items["JGD14"] != null)
+                        jsiic.batchId = int.Parse(dr.Items["JGD14"].value);
+                    if (dr.Dataset.Tables[0].Columns.Contains("JGD16") &&dr.Items["JGD16"] != null)
+                        jsiic.isHot = int.Parse(dr.Items["JGD16"].value);
+                    if (dr.Dataset.Tables[0].Columns.Contains("JGD17") && dr.Items["JGD17"] != null)
+                        jsiic.inOrderCount30Days = int.Parse(dr.Items["JGD17"].value);
+                    updateData.Add(key, jsiic);
                 }
-                UpdateData dr = data[key];
-                JdGoodSummayInfoItemClass jsiic = new JdGoodSummayInfoItemClass();
-                jsiic.skuId = dr.Items["JGD02"].value;
-                jsiic.skuName = dr.Items["JGD03"].value;
-                jsiic.couponLink = dr.Items["JGD07"].value;
-                jsiic.imgageUrl = dr.Items["JGD08"].value;
-                jsiic.materialUrl = dr.Items["JGD09"].value;
-                jsiic.price = dr.Items["JGD11"].value;
-                jsiic.discount = dr.Items["JGD06"].value;
-                if (dr.Items["JGD15"] != null)
-                    jsiic.elitId = int.Parse(dr.Items["JGD15"].value);
-                if (dr.Items["JGD14"] != null)
-                    jsiic.batchId = int.Parse(dr.Items["JGD14"].value);
-                if (dr.Items["JGD16"] != null)
-                    jsiic.isHot = int.Parse(dr.Items["JGD16"].value);
-                if (dr.Items["JGD17"] != null)
-                    jsiic.inOrderCount30Days = int.Parse(dr.Items["JGD17"].value);
-                updateData.Add(key, jsiic);
             }
-            JdGoodsQueryClass.updateAllData(updateData);
+            catch (Exception ce)
+            {
+                currJdc.UpdateText(string.Format("更新全局数据错误:{0}[{1}]",ce.Message,ce.StackTrace));
+            }
+            finally
+            {
+                JdGoodsQueryClass.updateAllData(updateData);
+            }
         }
     }
 

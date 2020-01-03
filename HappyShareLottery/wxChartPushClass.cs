@@ -36,7 +36,8 @@ namespace HappyShareLottery
         {
             startTime = DateTime.MinValue;
             endTime = DateTime.MinValue;
-            MySetting = sysDefaultCommSetting;
+            MySetting = new Dictionary<string, string>();
+            MySetting = sysDefaultCommSetting.ToDictionary(a=>a.Key,a=>a.Value);
         }
 
 
@@ -302,6 +303,7 @@ namespace HappyShareLottery
                 Program.plancolls.MsgProcess.SendUrlImgMsg(jdi.imgageUrl,chartUid);
                 string fullMsg = string.Format("{0}{1}", jdi.getFullContent(true), jdi.getShortLink(subUnionId));
                 Program.plancolls.MsgProcess.SendMsg(fullMsg,chartUid);
+                MessageTo(string.Format("{0}[{1}] 发送商品{2}消息。",DateTime.Now.ToLongDateString(),this.chartName,jdi.skuName));
                 pushcnt++;
                 pushedGoods.Add(jdi.skuId);
             }

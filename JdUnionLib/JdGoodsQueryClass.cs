@@ -39,7 +39,7 @@ namespace WolfInv.com.JdUnionLib
             Dictionary<string, JdGoodSummayInfoItemClass> ret = new Dictionary<string, JdGoodSummayInfoItemClass>();
             if(!Inited)//先判断有没有初始化完成
             {
-                LoadAllcommissionGoods();
+                LoadAllcommissionGoods?.Invoke();
             }
             if(AllcommissionGoods == null)
             {

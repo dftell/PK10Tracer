@@ -45,6 +45,7 @@
             this.endPushMsgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.京东数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startRecieveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testUrlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -190,21 +191,22 @@
             // startPushMsgToolStripMenuItem
             // 
             this.startPushMsgToolStripMenuItem.Name = "startPushMsgToolStripMenuItem";
-            this.startPushMsgToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.startPushMsgToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.startPushMsgToolStripMenuItem.Text = "startPushMsg";
             this.startPushMsgToolStripMenuItem.Click += new System.EventHandler(this.startPushMsgToolStripMenuItem_Click);
             // 
             // endPushMsgToolStripMenuItem
             // 
             this.endPushMsgToolStripMenuItem.Name = "endPushMsgToolStripMenuItem";
-            this.endPushMsgToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.endPushMsgToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.endPushMsgToolStripMenuItem.Text = "endPushMsg";
             this.endPushMsgToolStripMenuItem.Click += new System.EventHandler(this.endPushMsgToolStripMenuItem_Click);
             // 
             // 京东数据ToolStripMenuItem
             // 
             this.京东数据ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.startRecieveToolStripMenuItem});
+            this.startRecieveToolStripMenuItem,
+            this.testUrlToolStripMenuItem});
             this.京东数据ToolStripMenuItem.Name = "京东数据ToolStripMenuItem";
             this.京东数据ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
             this.京东数据ToolStripMenuItem.Text = "京东数据";
@@ -215,6 +217,13 @@
             this.startRecieveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.startRecieveToolStripMenuItem.Text = "startRecieve";
             this.startRecieveToolStripMenuItem.Click += new System.EventHandler(this.startRecieveToolStripMenuItem_Click);
+            // 
+            // testUrlToolStripMenuItem
+            // 
+            this.testUrlToolStripMenuItem.Name = "testUrlToolStripMenuItem";
+            this.testUrlToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.testUrlToolStripMenuItem.Text = "testUrl";
+            this.testUrlToolStripMenuItem.Click += new System.EventHandler(this.testUrlToolStripMenuItem_Click);
             // 
             // frm_planMonitor
             // 
@@ -264,5 +273,6 @@
         private System.Windows.Forms.ToolStripMenuItem endPushMsgToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 京东数据ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem startRecieveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem testUrlToolStripMenuItem;
     }
 }
