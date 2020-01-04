@@ -44,6 +44,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -112,9 +113,17 @@
       <Project>{6fd3afa7-69ed-468f-972a-e58feadaba12}</Project>
       <Name>JsLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WCS\MetaDataCenter\MetaDataCenter.csproj">
+      <Project>{19F4307A-B863-4529-BFFA-C6C95BEBDFB8}</Project>
+      <Name>MetaDataCenter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WCS\WCSExtraDataInterface\WCSExtraDataInterface.csproj">
       <Project>{effe4a0a-8392-499e-bc08-1fda7f2a390b}</Project>
       <Name>WCSExtraDataInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WCS\WCS_Process\WCS_Process.csproj">
+      <Project>{6faecb53-c67a-402c-a7ed-e243c3d114b2}</Project>
+      <Name>WCS_Process</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

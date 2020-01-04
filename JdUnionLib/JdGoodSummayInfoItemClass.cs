@@ -26,9 +26,9 @@ namespace WolfInv.com.JdUnionLib
                 {
                     iddic = JdGoodsQueryClass.shortLinks[skuId];
                 }
-                if (iddic.ContainsKey(suid))
-                    return iddic[suid];
-                string link = getMyUrl(suid);
+                if (iddic.ContainsKey(strSuid))
+                    return iddic[strSuid];
+                string link = getMyUrl(strSuid);
                 if (string.IsNullOrEmpty(link))
                     return link;
                 link = orgUrl + link;
@@ -147,7 +147,14 @@ namespace WolfInv.com.JdUnionLib
 
 ";
                 }
-                
+                if (string.IsNullOrEmpty(discount))
+                {
+                    discount = "0";
+                }
+                if (string.IsNullOrEmpty(couponLink))
+                {
+                    couponLink = "";
+                }
                 float realprice = float.Parse(price) - float.Parse(discount);
                 ret = string.Format(ret, skuName, price, realprice.ToString(),WxFaceImage.getAFace(),WxFaceImage.getAFace());
             }
@@ -164,8 +171,16 @@ namespace WolfInv.com.JdUnionLib
 商品:{4}
 
 ";
+                if(string.IsNullOrEmpty(discount))
+                {
+                    discount = "0";
+                }
+                if(string.IsNullOrEmpty(couponLink))
+                {
+                    couponLink = "";
+                }
                 float realprice = float.Parse(price) - float.Parse(discount);
-                ret = string.Format(ret, skuName, price, realprice.ToString(), couponLink.StartsWith("http:")?"":"http://"+ couponLink, materialUrl.StartsWith("http:") ? "" : "http://" + materialUrl);
+                ret = string.Format(ret, skuName, price, realprice.ToString(), couponLink.StartsWith("http:")?"":"http://"+ couponLink, getShortLink(null));
             }
             
             return ret.Replace("http:////","http://").Replace("http://http","http");

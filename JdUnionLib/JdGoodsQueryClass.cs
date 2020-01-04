@@ -4,8 +4,12 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 using System.Xml;
 using ShootSeg;
+using WolfInv.Com.AccessWebLib;
+using WolfInv.Com.MetaDataCenter;
+using WolfInv.Com.WCS_Process;
 
 namespace WolfInv.com.JdUnionLib
 {
@@ -22,8 +26,9 @@ namespace WolfInv.com.JdUnionLib
         public static bool Inited;
         public static Dictionary<int, EliteDataClass> AllElitesData;
         static Segment seg = null;
+        public static Func<List<string>,List<JdGoodSummayInfoItemClass>> LoadPromotionGoodsinfo;
 
-        
+
         static JdGoodsQueryClass()
         {
             AllElitesData = new Dictionary<int, EliteDataClass>();
@@ -170,6 +175,135 @@ namespace WolfInv.com.JdUnionLib
                 });
                 Inited = true;
             }
+        }
+
+        public static Dictionary<string,JdGoodSummayInfoItemClass> QueryWeb(string keyWord,int defaultReturnCnt=10)
+        {
+            //AccessWebServerClass awc = new AccessWebServerClass();
+            Dictionary<string, JdGoodSummayInfoItemClass> ret = new Dictionary<string, JdGoodSummayInfoItemClass>();
+            try
+            {
+                string url = "https://union.jd.com/api/goods/search";
+                
+                string strJson = JdUnion_GlbObject.getJsonText("jd.union.search.model");
+                if (string.IsNullOrEmpty(strJson))
+                {
+                    return ret;
+                }
+                string strPostData = strJson.Replace("{0}", keyWord);
+                string retJson = AccessWebServerClass.PostData(url, strPostData, Encoding.UTF8);
+                JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+                searchReturnData returnResult = javaScriptSerializer.Deserialize<searchReturnData>(retJson);
+                if (returnResult.code != 200)
+                {
+                    return ret;
+                }
+                List<string> noMatchedList = new List<string>();
+                for(int i=0;i<returnResult.data.unionGoods.Count;i++)
+                {
+                    string id = returnResult.data.unionGoods[i][0].skuId;
+                    JdGoodSummayInfoItemClass ji = new JdGoodSummayInfoItemClass();
+                    if (AllcommissionGoods == null)
+                        AllcommissionGoods = new Dictionary<string, JdGoodSummayInfoItemClass>();
+                    if (AllcommissionGoods.ContainsKey(id))
+                    {
+                        ji = AllcommissionGoods[id];
+                        ret.Add(id, ji);
+                    }
+                    else
+                    {
+                        if(noMatchedList.Count< defaultReturnCnt)
+                            noMatchedList.Add(id);
+                    }
+                    
+                }
+                List<JdGoodSummayInfoItemClass> res = null;
+                if (LoadPromotionGoodsinfo != null)
+                {
+                    res = LoadPromotionGoodsinfo(noMatchedList);
+                    
+                }
+                else
+                {
+                    res = getInfoBySukIds(noMatchedList);
+                }
+                res.ForEach(a =>
+                {
+                    if (!ret.ContainsKey(a.skuId))
+                    {
+                        ret.Add(a.skuId, a);
+                    }
+                });
+                return ret;
+            }
+            catch(Exception ce)
+            {
+                
+            }
+            return ret;
+        }
+
+        static List<JdGoodSummayInfoItemClass> getInfoBySukIds(List<string> skids)
+        {
+            //JdUnion_Goods_PromotionGoodsinfo_Class
+            string dsName = "JDUnion_PromotionGoodsinfo";
+            List<JdGoodSummayInfoItemClass> ret = new List<JdGoodSummayInfoItemClass>();
+            if (skids.Count == 0)
+            {
+                return ret;
+            }
+            List<DataCondition> dcs = new List<DataCondition>();
+            DataCondition dc = new DataCondition();
+            dc.Datapoint = new DataPoint("skuIds");
+            dc.value = string.Join(",", skids);
+            dcs.Add(dc);
+            string msg = null;
+            bool isExtra = false;
+            DataSet ds = DataSource.InitDataSource(dsName, dcs, GlobalShare.UserAppInfos.First().Key, out msg, ref isExtra, false);
+            if (msg != null)
+            {
+                return ret;
+            }
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                DataRow dr = ds.Tables[0].Rows[i];
+                JdGoodSummayInfoItemClass jsiic = new JdGoodSummayInfoItemClass();
+                jsiic.skuId = dr["JGD02"].ToString();
+                jsiic.skuName = dr["JGD03"].ToString();
+                jsiic.imgageUrl = dr["JGD08"].ToString();
+                jsiic.materialUrl = dr["JGD09"].ToString();
+                jsiic.price = dr["JGD11"].ToString();
+                jsiic.discount = "";
+                jsiic.couponLink = "";
+                ret.Add(jsiic);
+            }
+            return ret;
+        }
+
+
+
+        class searchReturnData
+        {
+            public int code;
+            public string message;
+            public searchReturnGoodsList data;
+        }
+
+        class searchReturnGoodsList
+        {
+             public List<List<JdSearchGoods>> unionGoods;
+        }
+
+        class JdSearchGoodsList:List<JdSearchGoods>
+        {
+
+        }
+
+        class JdSearchGoods
+        {
+            public string skuId;
+            public string skuName;
+            public string materialUrl;
         }
     }
     public class eliteData

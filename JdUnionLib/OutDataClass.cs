@@ -40,6 +40,13 @@ namespace WolfInv.com.JdUnionLib
             string strReqJson = null;
 
             XmlNode xmlreq = config.SelectSingleNode("req");
+            if(condition == null)
+            {
+                if(xmlreq != null)
+                {
+                    condition = xmlreq;
+                }
+            }
             Assembly assem = Assembly.GetExecutingAssembly();
             try
             {
@@ -52,7 +59,7 @@ namespace WolfInv.com.JdUnionLib
                     return false;
                 }
 
-                JdUnion_Goods_List_Class jgl = JdUnion_GlbObject.CreateBusinessClass(t) as JdUnion_Goods_List_Class;
+                JdUnion_Bussiness_Class jgl = JdUnion_GlbObject.CreateBusinessClass(t) as JdUnion_Bussiness_Class;
                 JdUnion_ModuleClass jm = JdUnion_GlbObject.modules.Modules.FindLast(a => a.ClassName == strName);
                 if(jm == null)
                 {

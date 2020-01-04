@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using System.Web;
 using WolfInv.com.JdUnionLib;
 using System.Linq;
+using System.Text;
+using System.IO;
+using System.Web.Script.Serialization;
 
 namespace WolfInv.com.ShareLotteryLib
 {
@@ -17,6 +20,8 @@ namespace WolfInv.com.ShareLotteryLib
     /// </summary>
     public class ResponseAction_JdUnion : ResponseActionClass
     {
+
+
         //public ResponseAction_Charge()
         //{
 
@@ -129,15 +134,68 @@ namespace WolfInv.com.ShareLotteryLib
             return false;
         }
 
+        public static string getShortLink(string url)
+        {
+            string createUrl = "https://dwz.cn/admin/v2/create";
+            String SIGN = "7d2772ad2792943aa67ae1213f9288d9";
+            string content_type = "application/json";
+            string strUrl = "{\"Url\":\"{0}\"}";
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(createUrl);
+            string ret = null;
+            try
+            {
+                req.Method = "Post";
+                //req.Headers.Add("Content-Type", content_type);
+                req.ContentType = content_type;
+                req.Headers.Add("Token", SIGN);
+
+
+                string Data = strUrl.Replace("{0}", url);
+                byte[] byteArray = Encoding.UTF8.GetBytes(Data);
+                Stream newStream = req.GetRequestStream();//创建一个Stream,赋值是写入HttpWebRequest对象提供的一个stream里面
+                newStream.Write(byteArray, 0, byteArray.Length);
+                newStream.Close();
+                using (WebResponse wr = req.GetResponse())
+                {
+                    wr.GetResponseStream();
+                    ret = new StreamReader(wr.GetResponseStream(), Encoding.UTF8).ReadToEnd();
+                    wr.Close();
+                }
+                if (!string.IsNullOrEmpty(ret))
+                {
+                    JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+                    shortLinkReturnResult returnResult = javaScriptSerializer.Deserialize<shortLinkReturnResult>(ret);
+                    if (returnResult.Code != 0)
+                    {
+                        return null;
+                    }
+                    return returnResult.ShortUrl;
+                }
+                return null;
+            }
+            catch (Exception ce)
+            {
+
+            }
+            return "";
+        }
+        class shortLinkReturnResult
+        {
+            public int Code;
+            public string ShortUrl;
+            public string LongUrl;
+            public string ErrMsg;
+        }
+
         void submitData(string lname,string content)
         {
             //jd_union_goods_jingfen_query_response 
-            if(JdGoodsQueryClass.Inited == false)//一定要检查是否完全初始化，才能查询
-            {
-                answerMsg("很抱歉，尚未完成初始化！请稍候再提交请求！");
-                return;
-            }
-            Dictionary<string, JdGoodSummayInfoItemClass> ret = JdGoodsQueryClass.Query(lname);
+            ////if(JdGoodsQueryClass.Inited == false)//一定要检查是否完全初始化，才能查询
+            ////{
+            ////    answerMsg("很抱歉，尚未完成初始化！请稍候再提交请求！");
+            ////    return;
+            ////}
+            Dictionary<string, JdGoodSummayInfoItemClass> ret = JdGoodsQueryClass.QueryWeb(lname,5);
             //string strRet = string.Join("\r\n", ret.Select(a => a.Value.getFullContent()));
             if(ret == null || ret.Count==0)
             {
@@ -146,9 +204,10 @@ namespace WolfInv.com.ShareLotteryLib
             }
             foreach(JdGoodSummayInfoItemClass ji in ret.Values)
             {
+                ji.shortLinkFunc = getShortLink;
                 ji.commissionUrl = ji.getShortLink();
                 answerMsg(ji.imgageUrl, null, null, true, true);
-                answerMsg(ji.getFullContent(true));
+                answerMsg(ji.getFullContent(ji.discount!="0")+ji.commissionUrl);
             }
             answerMsg(string.Format(@"{0}
 

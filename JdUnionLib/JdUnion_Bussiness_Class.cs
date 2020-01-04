@@ -17,8 +17,18 @@ namespace WolfInv.com.JdUnionLib
         {
             this.sign = null;
             base.InitRequestJson();
-            ReqJson = FullRequestString;
 
+            ReqJson = FullRequestString;
+            //////string str360 = HttpUtility.UrlEncode(get360String(),Encoding.UTF8);
+            //////string test = string.Format("{0}&{1}",ReqJson, str360); 
+            //////if (test.Length<1024)
+            //////{
+            //////    ReqJson = test;
+            //////}
+            //////else
+            //////{
+            //////    Req_PostData = get360String();
+            //////}
             return true;
 
         }
@@ -83,7 +93,7 @@ namespace WolfInv.com.JdUnionLib
             string message = XmlUtil.GetSubNodeText(root, tg.msgItemName);
             if(!string.IsNullOrEmpty(message))
             {
-                if (message.Trim() != "success")
+                if (message.Trim() != "success" && message.Trim() != "接口成功")
                 {
                     msg = message;
                     return false;
@@ -550,9 +560,15 @@ namespace WolfInv.com.JdUnionLib
                 string strCheckPath = string.Join("/", paths, 0, i+1);
                 NewNode = currNode.SelectSingleNode(strCheckPath);
                 string NewName = paths[i].Trim();
+                if (string.IsNullOrEmpty(NewName))//如果为空，下一个
+                    continue;
                 if(NewNode == null)
                 {
-                    string ParentXPath = string.Join("/", paths, 0, i);
+                    string ParentXPath = string.Join("/", paths, 0, Math.Max(i,1));
+                    if(string.IsNullOrEmpty(ParentXPath))
+                    {
+                        continue;
+                    }
                     XmlNode parentNode = TopNode.SelectSingleNode(ParentXPath);
                     if(NewName.IndexOf("[")<0 && NewName.EndsWith("]") == false)//未包含[],纯节点或者属性
                     {
@@ -564,7 +580,10 @@ namespace WolfInv.com.JdUnionLib
                         {
                             NewNode = TopNode.OwnerDocument.CreateElement(NewName);
                         }
-                        parentNode.AppendChild(NewNode);
+                        if (parentNode != null)
+                            parentNode.AppendChild(NewNode);
+                        else
+                            TopNode.AppendChild(NewNode);
                     }
                     else //支持一层[], 且值不能包含=号//内可能是@，节点=val形式
                     {

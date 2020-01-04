@@ -24,6 +24,10 @@ namespace JdEBuy
             InitializeComponent();
             try
             {
+                if(jdc == null)
+                {
+                    jdc = new JdUnion_GoodsDataLoadClass();
+                }
                 if (!Program.WCS_Inited)
                 {
                     GlobalShare.MainAssem = Assembly.GetExecutingAssembly();
@@ -44,7 +48,7 @@ namespace JdEBuy
             downloadTimer.Interval = 6 * 60 * 60 * 1000;//6小时
             downloadTimer.Tick += DownloadTimer_Tick;
             downloadTimer.Enabled = false;
-            jdc.UpdateText("京东数据接受模块界面加载成功！");
+            jdc.UpdateText?.Invoke("京东数据接受模块界面加载成功！");
         }
 
        
@@ -152,7 +156,8 @@ namespace JdEBuy
         private void button1_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
-             Dictionary<string,JdGoodSummayInfoItemClass> ret = JdGoodsQueryClass.Query(this.txt_ask.Text,10);
+            JdGoodsQueryClass.LoadPromotionGoodsinfo = this.getInfoBySukIds;
+             Dictionary<string,JdGoodSummayInfoItemClass> ret = JdGoodsQueryClass.QueryWeb(this.txt_ask.Text,10);
             List<string> retStrs = ret.Select(a => {
                 //a.Value.commissionUrl = a.Value.getMyUrl(null);
                 if (a.Value.commissionUrl == null)
@@ -163,6 +168,42 @@ namespace JdEBuy
             this.txt_answer.Text  = strRet;
             this.Cursor = Cursors.Default;
 
+        }
+
+        List<JdGoodSummayInfoItemClass> getInfoBySukIds(List<string> skids)
+        {
+            //JdUnion_Goods_PromotionGoodsinfo_Class
+            string dsName = "JDUnion_PromotionGoodsinfo";
+            List<JdGoodSummayInfoItemClass> ret = new List<JdGoodSummayInfoItemClass>();
+            if(skids.Count==0)
+            {
+                return ret;
+            }
+            List<DataCondition> dcs = new List<DataCondition>();
+            DataCondition dc = new DataCondition();
+            dc.Datapoint = new DataPoint("skuIds");
+            dc.value = string.Join(",", skids);
+            dcs.Add(dc);
+            string msg = null;
+            bool isExtra = false;
+            DataSet ds = DataSource.InitDataSource(dsName, dcs, GlobalShare.UserAppInfos.First().Key, out msg, ref isExtra,false);
+            if(msg != null)
+            {
+                return ret;
+            }
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                DataRow dr = ds.Tables[0].Rows[i];
+                JdGoodSummayInfoItemClass jsiic = new JdGoodSummayInfoItemClass();
+                jsiic.skuId = dr["JGD02"].ToString();
+                jsiic.skuName = dr["JGD03"].ToString();
+                jsiic.imgageUrl = dr["JGD08"].ToString();
+                jsiic.materialUrl = dr["JGD09"].ToString();
+                jsiic.price = dr["JGD11"].ToString();
+
+                ret.Add(jsiic);
+            }
+            return ret;
         }
 
         private void button2_Click(object sender, EventArgs e)

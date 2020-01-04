@@ -90,7 +90,7 @@ namespace WolfInv.com.JdUnionLib
                     //return null;
                 }
             }
-            string url = string.Format("{0}{2}{1}",ReqUrl,ReqJson, (ReqUrl.EndsWith("?") ? "" : "?")); 
+            string url = string.Format("{0}",ReqUrl); 
             return AccessWebServerClass.PostData(url, this.Req_PostData, Encoding.UTF8);
         }
 
@@ -106,6 +106,7 @@ namespace WolfInv.com.JdUnionLib
             string url = ReqUrl+ (ReqUrl.EndsWith("?")?"":"?") + ReqJson;
             if(url.Length>=1024)
             {
+                //this.Req_PostData = ReqJson;
                 return PostRequest();
                
             }

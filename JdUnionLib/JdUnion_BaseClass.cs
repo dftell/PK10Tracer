@@ -141,7 +141,7 @@ namespace WolfInv.com.JdUnionLib
             return t_sysParams;
         }
 
-        public string SystemString(Dictionary<string, object> Params, bool toSign = false)
+        public string SystemString(Dictionary<string, object> Params, bool toSign = false,bool exclude360b = false)
         {
             
                 List<string> arr = Params.Keys.ToList();
@@ -152,6 +152,10 @@ namespace WolfInv.com.JdUnionLib
                         ret.Add(string.Format("{0}{2}{1}", a, (toSign? Params[a]: HttpUtility.UrlEncode(Params[a]?.ToString(), Encoding.UTF8)), toSign ? "" : "="));
                     else
                     {
+                        if(exclude360b && toSign == false)//只有非信号才能跳过
+                        {
+                            return;
+                        }
                         Dictionary<string, object> param = Params[a] as Dictionary<string, object>;
                         string b360str = Buy360String(param);
                         ret.Add(string.Format("{0}{2}{1}",a,(toSign? b360str:HttpUtility.UrlEncode(b360str,Encoding.UTF8)), toSign ? "" : "="));
@@ -160,6 +164,13 @@ namespace WolfInv.com.JdUnionLib
                 
                 return string.Join(toSign?"":"&",ret);
             
+        }
+
+        public string get360String()
+        {
+
+            string key = "param_json";
+            return string.Format("{0}={1}",key, this.Buy360String(this.params_360buy));
         }
 
 
@@ -207,7 +218,7 @@ namespace WolfInv.com.JdUnionLib
         {
             get
             {
-                return SystemString(params_System(true));
+                return SystemString(params_System(true),false,false);//先排除b360
             }
         }
 
