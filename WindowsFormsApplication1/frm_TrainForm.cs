@@ -27,36 +27,38 @@ namespace BackTestSystem
             this.ddl_MLFunc.DataSource = dt;
             this.ddl_MLFunc.DisplayMember = "text";
             this.ddl_MLFunc.ValueMember = "value";
+
+            DataTable dt_categery = ClassOperateTool.getAllSubClass(typeof(MLDataFactory), "", "");
             
         }
         
         Type MLType;
+        Type DataCategroyType;
         Thread RunningThread = null;
         List<MachineLearnClass<int, int>> SelectFuncs = new List<MachineLearnClass<int, int>>();
         int ThreadCnt = 0;
         int FinishedCnt = 0;
         private void btn_Train_Click(object sender, EventArgs e)
         {
-            return;//暂时不支持训练集回测
+            //return;//暂时不支持训练集回测
             long len = long.Parse(this.txt_DataLength.Text);
             int deep = int.Parse(this.txt_LearnDeep.Text);
-            ExpectList<T> el = new ExpectReader().ReadHistory<T>(long.Parse(this.txt_BegExpect.Text), len+deep+1);
-            //MLDataFactory mldf = new MLDataFactory(el);
+            ExpectList<TimeSerialData> el = new ExpectReader().ReadHistory<TimeSerialData>(long.Parse(this.txt_BegExpect.Text), len+deep+1);
+            //MLDataFactory mldf = new MLDataFactory(ExpectList.getExpectList(el));
+            DataCategroyType = (Type)this.ddl_categryFunc.SelectedValue;
+            MLType = (Type)this.ddl_MLFunc.SelectedValue;
+            MLDataCategoryFactoryClass mldf = (MLDataCategoryFactoryClass)ClassOperateTool.getInstanceByType(DataCategroyType);
             for (int i = 0; i < 10; i++)
             {
                 //MLInstances<int, int> TrainSet = mldf.getAllSpecColRoundLabelAndFeatures(i,deep, chkb_AllUseShift.Checked ? 1 : 0);
-                MachineLearnClass<int, int> SelectFunc;
-                MLType = (Type)this.ddl_MLFunc.SelectedValue;
-                SelectFunc = (MachineLearnClass<int, int>)ClassOperateTool.getInstanceByType(MLType);
-
+                MLInstances<int, int> TrainSet = mldf.getCategoryData(i, deep, chkb_AllUseShift.Checked ? 1 : 0);
+                MachineLearnClass<int, int> SelectFunc = (MachineLearnClass<int, int>)ClassOperateTool.getInstanceByType(MLType);//获取机器学习类型
                 SelectFunc.OnTrainFinished += OnTrainFinished;
                 SelectFunc.OnPeriodEvent += OnPeriodEvent;
-
                 SelectFunc.OnSaveEvent += SaveData;
                 SelectFunc.GroupId = i;
-                //SelectFunc.FillTrainData(TrainSet);
+                SelectFunc.FillTrainData(TrainSet);
                 SelectFunc.InitTrain();
-                
                 SelectFunc.TrainIterorCnt = int.Parse(txt_IteratCnt.Text);
                 SelectFuncs.Add(SelectFunc);
                 this.txt_begT.Text = DateTime.Now.ToLongTimeString();

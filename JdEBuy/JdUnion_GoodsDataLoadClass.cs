@@ -76,6 +76,10 @@ namespace JdEBuy
                     UpdateText?.Invoke(string.Format("无法获取到批次号！"));
                     return;
                 }
+                if(batchId ==null)
+                {
+                    batchId = 100 * (DateTime.Now.Year * 10000 + DateTime.Now.Month * 100 + DateTime.Now.Day) + 1;
+                }
                 UpdateText?.Invoke(string.Format("当前批次号:{0}", batchId));
                 List<DataCondition> currDayConditions = new List<DataCondition>();
                 DataCondition dcc = new DataCondition();
@@ -86,22 +90,32 @@ namespace JdEBuy
                 string msg = null;
                 DataSource dss = GlobalShare.UserAppInfos.First().Value.mapDataSource["JdUnion_Client_Goods_NoXml"];
                 DataSet currDayData = DataSource.InitDataSource(dss, currDayConditions, out msg);
-                for (int i = 0; i < currDayData.Tables[0].Rows.Count; i++)
+                if(currDayData == null)
                 {
-                    eliteData tmp = new eliteData();
-                    DataRow dr = currDayData.Tables[0].Rows[i];
-                    string eli = dr["JGD15"].ToString();
-                    tmp.eliteId = int.Parse(eli);
+                    UpdateText?.Invoke(string.Format("获取当日数据失败！"));
+                    return;
+                }
+                if (currDayData != null)
+                {
+                    for (int i = 0; i < currDayData.Tables[0].Rows.Count; i++)
+                    {
+                        eliteData tmp = new eliteData();
+                        DataRow dr = currDayData.Tables[0].Rows[i];
+                        string eli = dr["JGD15"].ToString();
+                        tmp.eliteId = int.Parse(eli);
 
-                    tmp.data = new List<DataRow>();
-                    tmp.data.Add(dr);
-                    new Task(receiveData, tmp).Start();
+                        tmp.data = new List<DataRow>();
+                        tmp.data.Add(dr);
+                        new Task(receiveData, tmp).Start();
+                    }
                 }
                 //List<int> list = JdUnion_GlbObject.getElites();
                 //Dictionary<string, string> cols = null;
                 HashSet<string> allExistKeys = loadAllKeys();
-                if (allExistKeys == null)
-                    return;
+                if(allExistKeys == null)
+                {
+                    allExistKeys = new HashSet<string>();
+                }
                 List<int> list = JdUnion_GlbObject.getElites();
                 UpdateText?.Invoke(string.Format("当前数据库存在记录数{0}条！", allExistKeys.Count));
                 

@@ -66,140 +66,148 @@ namespace WolfInv.com.JdUnionLib
             {
                 return false;
             }
-
-            if (tablist.Count == 0)
+            try
             {
-                msg = "未指定指引配置！";
-                return false;
-            }
-            TableGuider tg = tablist.First().Value;
-            if (tg == null)
-            {
-                msg = "未配置表结构！";
-                return false;
-            }
-            List<TableGuider> subtabs = tablist.Values.Skip(1).ToList();
-            string mainname = tg.TableName;
-            XmlNode rootnode = retDoc.SelectSingleNode("NewDataSet");
-            if (string.IsNullOrEmpty(mainname))
-            {
-                msg = "指定指引中主表名未配置！";
-                return false;
-            }
-            XmlNamespaceManager xmlm = new XmlNamespaceManager(xmldoc.NameTable);
-            xmlm.AddNamespace("json", "http://james.newtonking.com/projects/json");//添加命名空间
-            XmlNode root = xmldoc.SelectSingleNode(tg.rootNodePath);
-            XmlNodeList itemnodes = root.SelectNodes(tg.dataItemName);
-            string message = XmlUtil.GetSubNodeText(root, tg.msgItemName);
-            if(!string.IsNullOrEmpty(message))
-            {
-                if (message.Trim() != "success" && message.Trim() != "接口成功")
+                if (tablist.Count == 0)
                 {
-                    msg = message;
+                    msg = "未指定指引配置！";
                     return false;
                 }
-            }
-            foreach (XmlNode dataNode in itemnodes)
-            {
-                string submsg = null;
-                if (XmlUtil.GetSubNodeText(itemnodes[0], tg.msgItemName) != "" && XmlUtil.GetSubNodeText(dataNode, tg.msgItemName) != "0")
+                TableGuider tg = tablist.First().Value;
+                if (tg == null)
                 {
-                    submsg = XmlUtil.GetSubNodeText(dataNode, tg.msgItemName);
-                    msg = submsg;
+                    msg = "未配置表结构！";
                     return false;
                 }
-
-                //XmlNode NewRow = xmldoc.CreateElement(mainname, xmlm.LookupNamespace("json"));
-                XmlNode NewRow = retDoc.CreateElement(mainname);
-                //XmlAttribute att = xmldoc.CreateAttribute("json:Array", xmlm.LookupNamespace("json"));
-                //att.Value = "true";
-                //NewRow.Attributes.Append(att);
-                string tableKey = tg.Key;
-                string keyValue = null;
-                if (tg.Columns.Count > 0)
+                List<TableGuider> subtabs = tablist.Values.Skip(1).ToList();
+                string mainname = tg.TableName;
+                XmlNode rootnode = retDoc.SelectSingleNode("NewDataSet");
+                if (string.IsNullOrEmpty(mainname))
                 {
-                    foreach (string key in tg.Columns.Keys)
+                    msg = "指定指引中主表名未配置！";
+                    return false;
+                }
+                XmlNamespaceManager xmlm = new XmlNamespaceManager(xmldoc.NameTable);
+                xmlm.AddNamespace("json", "http://james.newtonking.com/projects/json");//添加命名空间
+                XmlNode root = xmldoc.SelectSingleNode(tg.rootNodePath);
+                XmlNodeList itemnodes = root.SelectNodes(tg.dataItemName);
+                string message = XmlUtil.GetSubNodeText(root, tg.msgItemName);
+                if (!string.IsNullOrEmpty(message))
+                {
+                    if (message.Trim() != "success" && message.Trim() != "接口成功")
                     {
-                        ResponseDataColumn rdc = tg.Columns[key];
-                        XmlNode cellNode = retDoc.CreateElement(key);
-                        if (!rdc.outXml)
-                            cellNode.InnerText = XmlUtil.GetSubNodeText(dataNode, rdc.xPath);
-                        else
-                        {
-                            //System.Web.HttpUtility.UrlEncode
-                            string strOutXml = HttpUtility.HtmlEncode(dataNode.SelectSingleNode(rdc.xPath)?.OuterXml);
-                            cellNode.InnerXml = strOutXml;
-                        }
-                        if (key == tableKey)
-                        {
-                            keyValue = cellNode.InnerText;
-                        }
-                        NewRow.AppendChild(cellNode);
+                        msg = message;
+                        return false;
                     }
                 }
-
-                rootnode.AppendChild(NewRow);
-                for (int i = 0; i < subtabs.Count; i++)
+                foreach (XmlNode dataNode in itemnodes)
                 {
-                    TableGuider stg = subtabs[i];
-                    string sItemPath = string.Format("{0}/{1}", stg.rootNodePath, stg.dataItemName);
-                    XmlNodeList sDataNodes = dataNode.SelectNodes(sItemPath);
-                    if (sDataNodes.Count == 0)
+                    string submsg = null;
+                    if (XmlUtil.GetSubNodeText(itemnodes[0], tg.msgItemName) != "" && XmlUtil.GetSubNodeText(dataNode, tg.msgItemName) != "0")
                     {
-                        continue;
+                        submsg = XmlUtil.GetSubNodeText(dataNode, tg.msgItemName);
+                        msg = submsg;
+                        return false;
                     }
-                    XmlNode subTableRow = retDoc.CreateElement(stg.TableName);
-                    foreach (XmlNode sitem in sDataNodes)
+
+                    //XmlNode NewRow = xmldoc.CreateElement(mainname, xmlm.LookupNamespace("json"));
+                    XmlNode NewRow = retDoc.CreateElement(mainname);
+                    //XmlAttribute att = xmldoc.CreateAttribute("json:Array", xmlm.LookupNamespace("json"));
+                    //att.Value = "true";
+                    //NewRow.Attributes.Append(att);
+                    string tableKey = tg.Key;
+                    string keyValue = null;
+                    if (tg.Columns.Count > 0)
                     {
-
-                        if (stg.Columns.Count > 0)
+                        foreach (string key in tg.Columns.Keys)
                         {
-                            bool ExistKey = false;
-                            bool ExistKeyItem = false;
-                            foreach (string key in stg.Columns.Keys)
+                            ResponseDataColumn rdc = tg.Columns[key];
+                            XmlNode cellNode = retDoc.CreateElement(key);
+                            if (!rdc.outXml)
+                                cellNode.InnerText = XmlUtil.GetSubNodeText(dataNode, rdc.xPath);
+                            else
                             {
-                                ResponseDataColumn rdc = stg.Columns[key];
-                                XmlNode cellNode = retDoc.CreateElement(key);
-                                if (!rdc.outXml)
-                                    cellNode.InnerText = XmlUtil.GetSubNodeText(dataNode, rdc.xPath);
-                                else
-                                    cellNode.InnerXml = XmlUtil.GetSubNodeXml(dataNode, rdc.xPath);
-                                subTableRow.AppendChild(cellNode);
-                                if (key == tableKey)
-                                {
-                                    ExistKeyItem = true;
-                                    if (cellNode.InnerText == keyValue)
-                                        ExistKey = true;
-                                }
+                                //System.Web.HttpUtility.UrlEncode
+                                string strOutXml = HttpUtility.HtmlEncode(dataNode.SelectSingleNode(rdc.xPath)?.OuterXml);
+                                cellNode.InnerXml = strOutXml;
                             }
-                            XmlNode keyNode = null;
-                            if (ExistKeyItem)//存在键项
+                            if (key == tableKey)
                             {
-                                if (!ExistKey)//存在同名键，另外新建一个表名_健名，如果虚拟键恰巧存在就通过修改表名避免
-                                {
-                                    string parentKey = string.Format("{0}_{1}", tg.TableName, tableKey);
-                                    XmlNode virtualKeyNode = retDoc.CreateElement(parentKey);
-                                    virtualKeyNode.InnerText = keyValue;
-                                    subTableRow.AppendChild(virtualKeyNode);
-
-                                }
-
+                                keyValue = cellNode.InnerText;
                             }
-                            else //没有存在键相，直接插入一个
-                            {
-                                keyNode = retDoc.CreateElement(tableKey);
-                                keyNode.InnerText = keyValue;
-                                subTableRow.AppendChild(keyNode);
-                            }
-
-
+                            NewRow.AppendChild(cellNode);
                         }
                     }
-                    rootnode.AppendChild(subTableRow);
 
+                    rootnode.AppendChild(NewRow);
+                    for (int i = 0; i < subtabs.Count; i++)
+                    {
+                        TableGuider stg = subtabs[i];
+                        string sItemPath = string.Format("{0}/{1}", stg.rootNodePath, stg.dataItemName);
+                        XmlNodeList sDataNodes = dataNode.SelectNodes(sItemPath);
+                        if (sDataNodes.Count == 0)
+                        {
+                            continue;
+                        }
+                        XmlNode subTableRow = retDoc.CreateElement(stg.TableName);
+                        foreach (XmlNode sitem in sDataNodes)
+                        {
+
+                            if (stg.Columns.Count > 0)
+                            {
+                                bool ExistKey = false;
+                                bool ExistKeyItem = false;
+                                foreach (string key in stg.Columns.Keys)
+                                {
+                                    ResponseDataColumn rdc = stg.Columns[key];
+                                    XmlNode cellNode = retDoc.CreateElement(key);
+                                    if (!rdc.outXml)
+                                        cellNode.InnerText = XmlUtil.GetSubNodeText(dataNode, rdc.xPath);
+                                    else
+                                        cellNode.InnerXml = XmlUtil.GetSubNodeXml(dataNode, rdc.xPath);
+                                    subTableRow.AppendChild(cellNode);
+                                    if (key == tableKey)
+                                    {
+                                        ExistKeyItem = true;
+                                        if (cellNode.InnerText == keyValue)
+                                            ExistKey = true;
+                                    }
+                                }
+                                XmlNode keyNode = null;
+                                if (ExistKeyItem)//存在键项
+                                {
+                                    if (!ExistKey)//存在同名键，另外新建一个表名_健名，如果虚拟键恰巧存在就通过修改表名避免
+                                    {
+                                        string parentKey = string.Format("{0}_{1}", tg.TableName, tableKey);
+                                        XmlNode virtualKeyNode = retDoc.CreateElement(parentKey);
+                                        virtualKeyNode.InnerText = keyValue;
+                                        subTableRow.AppendChild(virtualKeyNode);
+
+                                    }
+
+                                }
+                                else //没有存在键相，直接插入一个
+                                {
+                                    keyNode = retDoc.CreateElement(tableKey);
+                                    keyNode.InnerText = keyValue;
+                                    subTableRow.AppendChild(keyNode);
+                                }
+
+
+                            }
+                        }
+                        rootnode.AppendChild(subTableRow);
+
+                    }
                 }
+                return true;
             }
-            return true;
+            catch(Exception ce)
+            {
+                msg = string.Format("{0}[{1}]", ce.Message,ce.StackTrace);
+                return false;
+            }
+            
         }
 
 

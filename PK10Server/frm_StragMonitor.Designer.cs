@@ -322,7 +322,7 @@
             this.txt_AssetTimeLength.Name = "txt_AssetTimeLength";
             this.txt_AssetTimeLength.Size = new System.Drawing.Size(54, 21);
             this.txt_AssetTimeLength.TabIndex = 0;
-            this.txt_AssetTimeLength.Text = "1000";
+            this.txt_AssetTimeLength.Text = "500";
             // 
             // chart_ForGuide
             // 

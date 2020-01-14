@@ -21,6 +21,13 @@ namespace WolfInv.com.PK10CorePress
         {
         }
 
+        public static ExpectList getExpectList(ExpectList<TimeSerialData> el)
+        {
+            ExpectList ret = new ExpectList();
+            for (int i = 0; i < el.Count; i++)
+                ret.Add(el[i]);
+            return ret;
+        }
         
 
         public new ExpectData this[int i]

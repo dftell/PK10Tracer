@@ -138,7 +138,7 @@ namespace WolfInv.com.Strags
     
     }
 
-    public class PKDataListSetFactory
+    public class PKDataListSetFactory:MLDataFactory
     {
         ExpectList Data;
         public PKDataListSetFactory(ExpectList el)

@@ -23,6 +23,7 @@ namespace PK10Server
 {
     delegate void SetDataGridCallback(string id,DataTable dt,string sort=null);
     delegate void SetSpecDataGridCallback(DataTable dt);
+    delegate void setChartCallback(Chart cht);
     
     public partial class frm_StragMonitor <T>: Form where T:TimeSerialData
     {
@@ -100,6 +101,8 @@ namespace PK10Server
             dg_baseData.Refresh();
         }
 
+        
+
         void SetDgTableById(string id, DataTable dt,string sort)
         {
             Control[] ctrls = this.Controls.Find(id, true);
@@ -169,6 +172,8 @@ namespace PK10Server
             dg_baseData.Invoke(new SetSpecDataGridCallback(Setdg_baseData), new object[] { dt });
             //SetDataGridDataTable(dg_baseData, dt);
         }
+
+
 
         void RefreshPK10NoClosedChances()
         {
@@ -604,14 +609,16 @@ namespace PK10Server
                         chrt.Series[i].Points.DataBindY(dv, "val");
                         i++;
                     }
-                    this.chart_ForGuide = chrt;
+                    
                     try
                     {
-                        this.chart_ForGuide.Show();
+                        //this.chart_ForGuide = chrt;
+                        //this.chart_ForGuide.Show();
+                        this.chart_ForGuide.Invoke(new setChartCallback(setChart), chrt);
                     }
                     catch(Exception ce)
                     {
-                        MessageBox.Show(ce.Message);
+                        //MessageBox.Show(ce.Message);
                     }
                 }
                 //this.chart_ForSystemStdDev.DataSource = dv_stddev;
@@ -630,11 +637,22 @@ namespace PK10Server
             SaveChart();
         }
 
+        
+
+
+
         void SaveChart()
         {
             string GR_Path = string.Format("{0}\\imgs\\chart.png", AppDomain.CurrentDomain.BaseDirectory);
             string fullFileName = GR_Path;// GR_Path + "\\" + fileName + ".png";
-            this.chart_ForGuide.SaveImage(fullFileName, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
+            try
+            {
+                this.chart_ForGuide.SaveImage(fullFileName, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
+            }
+            catch(Exception ce)
+            {
+
+            }
         }
              
 
@@ -642,7 +660,11 @@ namespace PK10Server
         {
             refresh_AssetChart();
         }
-
+        void setChart(Chart cht)
+        {
+            chart_ForGuide = cht;
+            chart_ForGuide.Show();
+        }
         private void btn_clearNet_Click(object sender, EventArgs e)
         {
             

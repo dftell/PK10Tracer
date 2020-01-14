@@ -7,13 +7,34 @@ using WolfInv.com.MachineLearnLib;
 using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.Strags
 {
-
-    public class MLDataFactory 
+    //机器数据分类工厂基类
+    public abstract class MLDataCategoryFactoryClass
     {
-        ExpectList Data;
-        public MLDataFactory(ExpectList el)
+        protected ExpectList Data;
+        public abstract MLInstances<int, int> getCategoryData(int col, int Deep, int AllowUseShift);
+
+
+        public void Init(ExpectList el)
         {
             Data = el;
+        }
+    }
+    /// <summary>
+    /// 环绕立体分类
+    /// </summary>
+    public class MLDataFactory: MLDataCategoryFactoryClass
+    {
+        
+        public MLDataFactory()
+        {
+            
+        }        
+
+        public override MLInstances<int, int> getCategoryData(int col, int Deep, int AllowUseShift)
+        {
+            if (Data == null)
+                return null;
+            return getAllSpecColRoundLabelAndFeatures(col, Deep, AllowUseShift);
         }
 
         BayesDicClass OccurrDir(int col, int shiftCol, int TestLength, int LastTimes, bool LastisSerial)//add by zhouys 2019/1/15
@@ -206,6 +227,25 @@ namespace WolfInv.com.Strags
                 ret.Add(getAllSpecColRoundLabelAndFeatures(i, Deep, AllowUseShift));
             }
             return ret;
+        }
+    }
+
+    public class SpecLengthMatchTimesCategoryFactoryClass: MLDataCategoryFactoryClass
+    {
+        public SpecLengthMatchTimesCategoryFactoryClass()
+        {
+
+        }
+
+        public override MLInstances<int, int> getCategoryData(int col, int Deep, int AllowUseShift)
+        {
+            return null;
+        }
+
+        MLInstance<int,int> getSpecLengthMatchTimesProb(int col, int Deep, int AllowUseShift)
+        {
+            MLInstance<int, int> ret = new MLInstance<int, int>();
+            return ret;     
         }
     }
 }

@@ -144,7 +144,7 @@ namespace WolfInv.com.Strags
 
 
 
-        public ExpectList LastUseData()
+        public ExpectList LastUseData() 
         {
             return new ExpectList(_LastUseData.Table);
         }

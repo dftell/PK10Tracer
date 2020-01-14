@@ -96,6 +96,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessWebLib", "WCS\AccessW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessDataBase", "WCS\AccessDataBase\AccessDataBase.csproj", "{A8FF39F8-4D1F-46D9-98F3-71AA8E171A94}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfInv.com.MaxEntClass", "MaxEntClass\WolfInv.com.MaxEntClass.csproj", "{BBCFBDAD-D11A-4622-9463-284004F8520E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -608,6 +610,18 @@ Global
 		{A8FF39F8-4D1F-46D9-98F3-71AA8E171A94}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A8FF39F8-4D1F-46D9-98F3-71AA8E171A94}.Release|x86.ActiveCfg = Release|Any CPU
 		{A8FF39F8-4D1F-46D9-98F3-71AA8E171A94}.Release|x86.Build.0 = Release|Any CPU
+		{BBCFBDAD-D11A-4622-9463-284004F8520E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBCFBDAD-D11A-4622-9463-284004F8520E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBCFBDAD-D11A-4622-9463-284004F8520E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BBCFBDAD-D11A-4622-9463-284004F8520E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BBCFBDAD-D11A-4622-9463-284004F8520E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BBCFBDAD-D11A-4622-9463-284004F8520E}.Debug|x86.Build.0 = Debug|Any CPU
+		{BBCFBDAD-D11A-4622-9463-284004F8520E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBCFBDAD-D11A-4622-9463-284004F8520E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBCFBDAD-D11A-4622-9463-284004F8520E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BBCFBDAD-D11A-4622-9463-284004F8520E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BBCFBDAD-D11A-4622-9463-284004F8520E}.Release|x86.ActiveCfg = Release|Any CPU
+		{BBCFBDAD-D11A-4622-9463-284004F8520E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
