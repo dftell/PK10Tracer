@@ -56,7 +56,7 @@ namespace WolfInv.com.ExchangeLib
             Eindex++;
             ec.Id = Eindex;
             dr["Id"] = Eindex;
-            dr["ExpectNo"] = int.Parse(ec.ExpectNo) ;
+            dr["ExpectNo"] = long.Parse(ec.ExpectNo) ;
             dr["ExExpectNo"] = ec.ExExpectNo;
             dr["ChanceCode"] = ec.OwnerChance.ChanceCode;
             dr["Chips"] = ec.OwnerChance.ChipCount;

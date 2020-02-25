@@ -25,6 +25,8 @@ namespace WolfInv.com.ExchangeLib
                 switch (dtp.DataType)
                 {
                     case "PK10":
+                    case "XYFT":
+                    
                         {
                             ret = new ExpectListProcess(new ExpectList(data.Table)) as CommExpectListProcess<T>;// ConvertionExtensions.CopyTo<CommExpectListProcess<T>>(new ExpectListProcess(new ExpectList(data.Table)));
                             break;
@@ -101,6 +103,11 @@ namespace WolfInv.com.ExchangeLib
                     case "GDKL11":
                         {
                             ret = new GDKL11_ExpectReader();
+                            break;
+                        }
+                    case "XYFT":
+                        {
+                            ret = new XYFT_ExpectReader();
                             break;
                         }
                     default:

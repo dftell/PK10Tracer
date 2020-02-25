@@ -107,12 +107,12 @@ namespace WolfInv.com.SecurityLib
             throw new NotImplementedException();
         }
 
-        public override ExpectList<T> ReadNewestData<T>(int ExpectNo, int Cnt)
+        public override ExpectList<T> ReadNewestData<T>(long ExpectNo, int Cnt)
         {
             throw new NotImplementedException();
         }
 
-        public override ExpectList<T> ReadNewestData<T>(int ExpectNo, int Cnt, bool FromHistoryTable)
+        public override ExpectList<T> ReadNewestData<T>(long ExpectNo, int Cnt, bool FromHistoryTable)
         {
             throw new NotImplementedException();
         }

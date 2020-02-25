@@ -155,7 +155,7 @@ namespace WolfInv.com.ServerInitLib
                 }
                 if(!AllStatusStrags.ContainsKey(strKey))
                 {
-                    ToLog("计划不属于使用的数据源", strKey);
+                    ToLog("计划不属于使用的数据", strKey);
                     continue;
                 }
                 csg = AllStatusStrags[strKey];
@@ -191,10 +191,13 @@ namespace WolfInv.com.ServerInitLib
         /// <returns></returns></T>
         public static bool JudgeInRunTime<T>(DateTime CurrTime, StragRunPlanClass<T> spc) where T:TimeSerialData
         {
-            string strToday = CurrTime.ToShortDateString();
+            
+            int diffHours = GlobalClass.TypeDataPoints.First().Value.DiffHours;
+            DateTime cprTime = CurrTime.AddHours(diffHours);
+            string strToday = CurrTime.AddHours(diffHours).ToShortDateString();
             DateTime setBegTime = DateTime.Parse(string.Format("{0} {1}", strToday, spc.DailyStartTime));
             DateTime setEndTime = DateTime.Parse(string.Format("{0} {1}", strToday, spc.DailyEndTime));
-            if (CurrTime < setBegTime || CurrTime > setEndTime)
+            if (cprTime < setBegTime || cprTime > setEndTime)
             {
                 //ToLog("策略超出执行时间", spc.ToString());
                 return false;

@@ -40,4 +40,14 @@ namespace WolfInv.com.SecurityLib
         }
 
     }
+
+    public class XYFT_HtmlDataClass : KL11_HtmlDataClass
+    {
+        public XYFT_HtmlDataClass(DataTypePoint dp) : base(dp)
+        {
+            //dataUrl = GlobalClass.TXFFC_url;
+            //this.dataUrl = dtp.RuntimeInfo.DefaultDataUrl;
+        }
+
+    }
 }

@@ -48,6 +48,7 @@ namespace BackTestSystem
             DataCategroyType = (Type)this.ddl_categryFunc.SelectedValue;
             MLType = (Type)this.ddl_MLFunc.SelectedValue;
             MLDataCategoryFactoryClass mldf = (MLDataCategoryFactoryClass)ClassOperateTool.getInstanceByType(DataCategroyType);
+            mldf.Init(ExpectList.getExpectList(el));
             for (int i = 0; i < 10; i++)
             {
                 //MLInstances<int, int> TrainSet = mldf.getAllSpecColRoundLabelAndFeatures(i,deep, chkb_AllUseShift.Checked ? 1 : 0);

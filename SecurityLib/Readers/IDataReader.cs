@@ -17,8 +17,8 @@ namespace WolfInv.com.SecurityLib
         ExpectList<T> ReadHistory<T>(string begt, string endt) where T : TimeSerialData;
         ExpectList<T> ReadNewestData<T>(DateTime fromdate) where T : TimeSerialData;
         ExpectList<T> ReadNewestData<T>(int LastLng) where T : TimeSerialData;
-        ExpectList<T> ReadNewestData<T>(int ExpectNo, int Cnt) where T : TimeSerialData;
-        ExpectList<T> ReadNewestData<T>(int ExpectNo, int Cnt, bool FromHistoryTable) where T : TimeSerialData;
+        ExpectList<T> ReadNewestData<T>(long ExpectNo, int Cnt) where T : TimeSerialData;
+        ExpectList<T> ReadNewestData<T>(long ExpectNo, int Cnt, bool FromHistoryTable) where T : TimeSerialData;
         int SaveChances<T>(List<ChanceClass<T>> list, string strDataOwner) where T : TimeSerialData;
         int SaveHistoryData<T>(ExpectList<T> InData) where T : TimeSerialData;
         int SaveNewestData<T>(ExpectList<T> InData) where T : TimeSerialData;

@@ -75,4 +75,14 @@
         }
     }
 
+    public class XYFT_ExpectReader: CommExpectReader
+    {
+        public XYFT_ExpectReader()
+        {
+            strDataType = "XYFT";
+            InitTables();
+        }
+            
+    }
+
 }

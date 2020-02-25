@@ -375,7 +375,12 @@ namespace DataRecSvr
                 HtmlDataClass hdc = null;
                 DataTypePoint dtp = GlobalClass.TypeDataPoints[DataType];
                 Log("接收数据", "准备接收数据");
-                DateTime CurrTime = DateTime.Now;
+                int DiffHours = 0;
+                if (dtp.DiffHours != 0)
+                {
+                    DiffHours = dtp.DiffHours;
+                }
+                DateTime CurrTime = DateTime.Now.AddHours(DiffHours);
                 long RepeatMinutes = dtp.ReceiveSeconds / 60;
                 long RepeatSeconds = dtp.ReceiveSeconds;
                 hdc = HtmlDataClass.CreateInstance(dtp);
@@ -397,7 +402,7 @@ namespace DataRecSvr
                     Log("尝试接收数据", "未接收到数据,转换数据源错误！", glb.ExceptNoticeFlag);
                     return;
                 }
-
+                
                 DateTime StartTime = CurrTime.Date.Add(dtp.ReceiveStartTime.TimeOfDay);
                 //Log("当日开始时间", StartTime.ToLongTimeString());
                 int PassCnt = (int)Math.Floor(CurrTime.Subtract(StartTime).TotalMinutes / RepeatMinutes);
@@ -415,7 +420,10 @@ namespace DataRecSvr
                     //ExpectList currEl = rd.ReadNewestData(DateTime.Today.AddDays(-1*glb.CheckNewestDataDays));//改为10天，防止春节连续多天不更新数据
                     //ExpectList<T> currEl = rd.ReadNewestData<T>(DateTime.Today.AddDays(-1 * dtp.CheckNewestDataDays)); ;//改从PK10配置中获取
                     //Log("接收第一期数据", el.FirstData.Expect, true);
-                    ExpectList<T> currEl = rd.ReadNewestData<T>(100);
+                    //ExpectList<T> currEl = rd.ReadNewestData<T>(dtp.NewRecCount);
+                    ExpectList<T> currEl = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1 * dtp.CheckNewestDataDays));
+
+
                     if ((currEl == null || currEl.Count == 0) || (el.Count > 0 && currEl.Count > 0 && el.LastData.ExpectIndex > currEl.LastData.ExpectIndex))//获取到新数据
                     {
                         if(currEl.Count>0)
@@ -487,7 +495,7 @@ namespace DataRecSvr
 
                             }
                         }
-                        else
+                        else//保存失败
                         {
                             Log("待保存数据！", string.Format("总共{0}期数据:[{1}]", NewList.Count, string.Join(";", expects)), glb.ExceptNoticeFlag);
 
@@ -503,10 +511,12 @@ namespace DataRecSvr
                             //下一个时间点是9：07 //9:30
                             DateTime TargetTime = DateTime.Today.AddHours(StartTime.Hour).AddMinutes(StartTime.Minute);
                             useTimer.Interval = TargetTime.Subtract(CurrTime).TotalMilliseconds;
+                            DateTime realTime = DateTime.Now.Add(TargetTime.Subtract(CurrTime));
+                            Log("休息时间，下一个大周期时间", realTime.ToString());
                         }
                         else
                         {
-                            Log(string.Format("接收到{0}数据", DataType), "未接收到数据！");
+                            Log(string.Format("接收到{0}数据", DataType), string.Format("未接收到数据！{0}",CurrTime.ToString()));
                             //if (NormalRecievedTime > CurrTime)
                             //{
                             //    useTimer.Interval =  NormalRecievedTime.AddMinutes(1).Subtract(CurrTime).TotalMilliseconds;

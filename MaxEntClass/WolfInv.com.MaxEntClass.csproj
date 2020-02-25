@@ -59,5 +59,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MachineLearnLib\WolfInv.com.MachineLearnLib.csproj">
+      <Project>{263d0261-f282-47f3-a3e8-324b703e1599}</Project>
+      <Name>WolfInv.com.MachineLearnLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

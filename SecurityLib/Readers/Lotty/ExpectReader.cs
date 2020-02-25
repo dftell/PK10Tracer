@@ -72,6 +72,11 @@ namespace WolfInv.com.SecurityLib
                         ret = new GDKL11_ExpectReader();
                         break;
                     }
+                case "XYFT":
+                    {
+                        ret = new XYFT_ExpectReader();
+                        break;
+                    }
                 case "PK10":
                 default:
                     {

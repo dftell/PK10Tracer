@@ -121,6 +121,7 @@ namespace JdEBuy
 
         public virtual bool SaveClientData(string DetailSource, UpdateData updata, DataRequestType type = DataRequestType.Update)
         {
+            return true;
             string GridSource = "JdUnion_Client_Goods_Full";
             string strRowId = "";
             string strKey = "JGD02";

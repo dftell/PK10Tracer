@@ -300,6 +300,8 @@ namespace HappyShareLottery
                     continue;
                 if ((float.Parse(jdi.price)-float.Parse(jdi.discount)) > this.maxPrice)//折后价超出最大价格，跳过
                     continue;
+                if (2*(float.Parse(jdi.price) - float.Parse(jdi.discount)) > float.Parse(jdi.price))//折后价超出最大价格，跳过
+                    continue;
                 Program.plancolls.MsgProcess.SendUrlImgMsg(jdi.imgageUrl,chartUid);
                 string fullMsg = string.Format("{0}{1}", jdi.getFullContent(true), jdi.getShortLink(subUnionId));
                 Program.plancolls.MsgProcess.SendMsg(fullMsg,chartUid);

@@ -30,6 +30,7 @@ namespace WolfInv.com.Strags
             
         }        
 
+
         public override MLInstances<int, int> getCategoryData(int col, int Deep, int AllowUseShift)
         {
             if (Data == null)

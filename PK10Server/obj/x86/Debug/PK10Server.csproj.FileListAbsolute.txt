@@ -72,3 +72,6 @@ E:\github\source\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.pdb
 E:\projects\PK10Tracer\PK10Server.exe.config
 E:\projects\PK10Tracer\PK10Server.exe
 E:\projects\PK10Tracer\PK10Server.pdb
+C:\Users\zhouys\projects\PK10Tracer\PK10Server.exe.config
+C:\Users\zhouys\projects\PK10Tracer\PK10Server.exe
+C:\Users\zhouys\projects\PK10Tracer\PK10Server.pdb

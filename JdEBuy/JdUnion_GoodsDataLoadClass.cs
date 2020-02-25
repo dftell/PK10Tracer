@@ -69,7 +69,7 @@ namespace JdEBuy
             Dictionary<string, UpdateData> newAddRec = new Dictionary<string, UpdateData>();
             try
             {
-                UpdateText.Invoke(string.Format("-------------开始下载 {0}------------", DateTime.Now));
+                UpdateText?.Invoke(string.Format("-------------开始下载 {0}------------", DateTime.Now));
                 long? batchId = getCurrBatchNo();
                 if (batchId == null)
                 {
@@ -133,6 +133,7 @@ namespace JdEBuy
                         dc.value = elit.ToString();
                         dics.Add(dc);
                         DataSet ds = DataSource.InitDataSource("JdUnion_Goods", dics, Program.UserId, out msg, ref isExtra);
+                        //DataSet ds = new DataSet();
                         if (msg != null)
                         {
                             UpdateText?.Invoke(string.Format("获取分类数据{0}时出现错误，内容为{1}", elit, msg));
@@ -234,7 +235,7 @@ namespace JdEBuy
                 }
                 catch (Exception ce)
                 {
-                    UpdateText?.Invoke(string.Format("错误条数为{0}条！", ErrCnt));
+                    UpdateText?.Invoke(string.Format("错误条数为{0}条！{1}[{2}]", ErrCnt,ce.Message,ce.StackTrace));
 
                 }
                 finally

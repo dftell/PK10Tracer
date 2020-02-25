@@ -71,12 +71,12 @@ namespace WolfInv.com.SecurityLib
             return new ExpectList<T>(ds.Tables[0]);
         }
 
-        public override ExpectList<T> ReadNewestData<T>(int ExpectNo, int Cnt)
+        public override ExpectList<T> ReadNewestData<T>(long ExpectNo, int Cnt)
         {
             return ReadNewestData<T>(ExpectNo, Cnt, false);
         }
 
-        public override ExpectList<T> ReadNewestData<T>(int ExpectNo, int Cnt,bool FromHistoryTable)
+        public override ExpectList<T> ReadNewestData<T>(long ExpectNo, int Cnt,bool FromHistoryTable)
         {
             DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select * from {2} where Expect<='{0}' and Expect>({0}-{1}) order by expect", ExpectNo, Cnt, FromHistoryTable?strHistoryTable:strNewestTable);

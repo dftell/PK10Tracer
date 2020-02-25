@@ -269,7 +269,15 @@ namespace WolfInv.com.SecurityLib
                     data.OpenCode = obj.num;
                     if(string.IsNullOrEmpty(obj.num))
                     {
-                        data.OpenCode = string.Format("{0},{1},{2},{3},{4}",obj.num1,obj.num2,obj.num3,obj.num4,obj.num5);
+
+                        if (string.IsNullOrEmpty(obj.num10))
+                        {
+                            data.OpenCode = string.Format("{0},{1},{2},{3},{4}", obj.num1, obj.num2, obj.num3, obj.num4, obj.num5);
+                        }
+                        else
+                        {
+                            data.OpenCode = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}", obj.num1, obj.num2, obj.num3, obj.num4, obj.num5,obj.num6,obj.num7,obj.num8,obj.num9,obj.num10);
+                        }
                     }
                     data.OpenTime = new DateTime(1970,1,1).ToLocalTime().AddSeconds(obj.opentime);
                     data.ExpectSerialByType = 2;
@@ -329,6 +337,11 @@ namespace WolfInv.com.SecurityLib
         public string num3;
         public string num4;
         public string num5;
+        public string num6;
+        public string num7;
+        public string num8;
+        public string num9;
+        public string num10;
         public string sum_tail_dx;
         public string sum_tail_ds;
     }

@@ -119,7 +119,13 @@ namespace WolfInv.com.SecurityLib
                         ret = new GDKL11_HtmlDataClass(dtp);
                         break;
                     }
+                case "XYFT":
+                    {
+                        ret = new XYFT_HtmlDataClass(dtp);
+                        break;
+                    }
                 case "PK10":
+                
                 default:
                     {
                         ret = new PK10_HtmlDataClass(dtp);

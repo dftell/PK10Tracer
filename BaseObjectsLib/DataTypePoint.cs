@@ -36,6 +36,8 @@ namespace WolfInv.com.BaseObjectsLib
         public long ReceiveSeconds; //刷新间隔秒数
         public DateTime ReceiveStartTime;//数据接收开始时间
         public DateTime ReceiveEndTime; //数据接收停止时间
+        public int DiffHours;//时差数
+        public int NewRecCount = 20;
         public int SubScriptModel = 0;//使用订阅模式
         public string SubScriptSrc = "";//订阅板块
         public string SubScriptSector;//订阅板块

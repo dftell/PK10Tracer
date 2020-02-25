@@ -115,3 +115,6 @@ E:\github\source\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.pdb
 E:\projects\PK10Tracer\DataRecSvr.exe.config
 E:\projects\PK10Tracer\DataRecSvr.exe
 E:\projects\PK10Tracer\DataRecSvr.pdb
+C:\Users\zhouys\projects\PK10Tracer\DataRecSvr.exe.config
+C:\Users\zhouys\projects\PK10Tracer\DataRecSvr.exe
+C:\Users\zhouys\projects\PK10Tracer\DataRecSvr.pdb

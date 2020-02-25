@@ -24,7 +24,7 @@ namespace PK10Server
         }
         //PK10ExpectReader er = new PK10ExpectReader();
         DataReader er = null;
-        int NewestExpectNo = 0;
+        long NewestExpectNo = 0;
         public int InputExpect;
         GlobalClass gobj;
         public MainForm():base()
@@ -128,7 +128,7 @@ namespace PK10Server
                 {
                     for (int j = 0; j < sc.Table.Columns.Count; j++)
                     {
-                        if (dtp.DataType == "PK10")
+                        if (dtp.DataType == "PK10" || dtp.DataType == "XYFT")
                         {
                             lvi.SubItems.Add(sc.Table.Rows[i][string.Format("{0}", (j + 1) % 10)].ToString());
                         }
@@ -180,7 +180,7 @@ namespace PK10Server
         private void btn_AddExpectNo_Click(object sender, EventArgs e)
         {
             this.timer_For_NewestData.Enabled = false;
-            int NextNo = int.Parse(this.txt_NewestExpect.Text.Trim());
+            long NextNo = long.Parse(this.txt_NewestExpect.Text.Trim());
             ViewDataList = er.ReadNewestData<TimeSerialData>(NextNo+1,180,true);
             if (ViewDataList == null || ViewDataList.Count == 0)
                 return;
@@ -195,7 +195,7 @@ namespace PK10Server
             this.txt_NewestExpect.Text = ViewDataList.LastData.Expect;
             this.txt_NewestOpenCode.Text = ViewDataList.LastData.OpenCode;
             this.txt_NewestOpenTime.Text = ViewDataList.LastData.OpenTime.ToString();
-            this.txt_NextExpectNo.Text = string.Format("{0}", int.Parse(ViewDataList.LastData.Expect) + 1);
+            this.txt_NextExpectNo.Text = string.Format("{0}", long.Parse(ViewDataList.LastData.Expect) + 1);
             FillOrgData(listView_PK10Data, ViewDataList);
         }
 
@@ -209,7 +209,7 @@ namespace PK10Server
         private void btn_Subtract_Click(object sender, EventArgs e)
         {
             this.timer_For_NewestData.Enabled = false;
-            int NextNo = int.Parse(this.txt_NewestExpect.Text.Trim());
+            long NextNo = long.Parse(this.txt_NewestExpect.Text.Trim());
             ViewDataList = er.ReadNewestData<TimeSerialData>(NextNo - 1, 180,true);
             RefreshGrid();
             RefreshNewestData();
@@ -224,7 +224,7 @@ namespace PK10Server
             {
                 return;
             }
-            int CurrExpectNo = int.Parse(ViewDataList.LastData.Expect);
+            long CurrExpectNo = long.Parse(ViewDataList.LastData.Expect);
             if (CurrExpectNo > this.NewestExpectNo)
             {
                 this.timer_For_NewestData.Interval = 5*60*1000;//5分钟以后见
