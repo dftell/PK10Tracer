@@ -263,7 +263,7 @@ namespace WolfInv.com.WebRuleLib
             WebConfig wc = this.config;
             LotteryTypes lt = null;
             if (!wc.lotteryTypes.ContainsKey(lotteryName))
-                return null;
+                return ccs;
             lt = wc.lotteryTypes[lotteryName];
             switch (lotteryName)
             {
