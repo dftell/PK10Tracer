@@ -674,7 +674,7 @@ namespace WolfInv.com.WXMsgCom
                         {
                             if (AllUsers[fromName].MemberDict.ContainsKey(content[0]))
                                 memName = AllUsers[fromName].MemberDict[content[0]].DisplayName;
-                            if (string.IsNullOrEmpty(memName))
+                            if (string.IsNullOrEmpty(memName) && AllUsers.ContainsKey(fromName) && AllUsers[fromName].MemberDict.ContainsKey(content[0]))
                             {
                                 memName = AllUsers[fromName].MemberDict[content[0]].NickName;
                             }
@@ -747,7 +747,7 @@ namespace WolfInv.com.WXMsgCom
             }
             catch(Exception ce)
             {
-                MessageBox.Show(ce.Message);
+                MessageBox.Show(string.Format("{0}:{1}", ce.Message, ce.StackTrace));
             }
             //tbox.Lines = msgs.ToArray(); 
             //tbox.Focus();
@@ -848,7 +848,7 @@ namespace WolfInv.com.WXMsgCom
             }
             catch(Exception ce)
             {
-                MessageBox.Show(ce.Message);
+                MessageBox.Show(string.Format("{0}:{1}", ce.Message, ce.StackTrace));
             }
         }
 
@@ -943,7 +943,7 @@ namespace WolfInv.com.WXMsgCom
             }
             catch(Exception ce)
             {
-                MessageBox.Show(ce.Message);
+                MessageBox.Show(string.Format("{0}:{1}", ce.Message, ce.StackTrace));
             }
 
         }

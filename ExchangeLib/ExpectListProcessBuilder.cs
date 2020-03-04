@@ -28,7 +28,7 @@ namespace WolfInv.com.ExchangeLib
                     case "XYFT":
                     
                         {
-                            ret = new ExpectListProcess(new ExpectList(data.Table)) as CommExpectListProcess<T>;// ConvertionExtensions.CopyTo<CommExpectListProcess<T>>(new ExpectListProcess(new ExpectList(data.Table)));
+                            ret = new ExpectListProcess(new ExpectList(data.Table.Copy())) as CommExpectListProcess<T>;// ConvertionExtensions.CopyTo<CommExpectListProcess<T>>(new ExpectListProcess(new ExpectList(data.Table)));
                             break;
                         }
                     case "SCKL12":

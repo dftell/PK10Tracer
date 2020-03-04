@@ -173,6 +173,11 @@ namespace WolfInv.com.SecurityLib
         {
             throw new NotImplementedException();
         }
+
+        public override void updateExpectInfo(string dataType, string nextExpect, string currExpect)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

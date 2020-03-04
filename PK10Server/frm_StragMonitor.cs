@@ -23,8 +23,8 @@ namespace PK10Server
 {
     delegate void SetDataGridCallback(string id,DataTable dt,string sort=null);
     delegate void SetSpecDataGridCallback(DataTable dt);
-    delegate void setChartCallback(Chart cht);
-    
+    delegate void setChartCallback_del(Chart cht);
+    delegate void setChartWithLenCallback(int len);
     public partial class frm_StragMonitor <T>: Form where T:TimeSerialData
     {
         string logname = "监控日志";
@@ -66,6 +66,7 @@ namespace PK10Server
         public frm_StragMonitor()
         {
             InitializeComponent();
+            //chart_ForGuide_Paint
             dtp = GlobalClass.TypeDataPoints.First().Value;
             exread = DataReaderBuild.CreateReader(dtp.DataType, null, null);
             PK10DataTimer.Interval = 5 * 60 * 1000;
@@ -248,8 +249,13 @@ namespace PK10Server
                 {
                     SetDataGridDataTable(dg_ExchangeList, dt_exchange,"createtime desc");
                 }
-                refresh_AssetChart();
-                
+                if (UseSetting.AllAssetUnits != null)
+                {
+                    lock (UseSetting.AllAssetUnits)
+                    {
+                        refresh_AssetChart();
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -532,11 +538,25 @@ namespace PK10Server
             {
                 Len = DefaultDisplayLength;
             }
+            //this.chart_ForGuide.Invoke(new setChartCallback(setChart),chart);
+            this.chart_ForGuide.Invoke(new setChartWithLenCallback(rePaintChart),Len);
+            //rePaintChart(Len);
+            SaveChart();
+        }
+
+        
+        void rePaintChart(int Len)
+        {
             try
             {
-                
+
 
                 Chart chrt = this.chart_ForGuide;
+                ////chrt.Parent = this.chart_ForGuide.Parent;
+                ////chrt.Left = this.chart_ForGuide.Left;
+                ////chrt.Top = this.chart_ForGuide.Top;
+                ////chrt.Dock = this.chart_ForGuide.Dock;
+
                 Dictionary<string, AssetUnitClass> assetUnits = UseSetting.AllAssetUnits;
                 //System.Threading.Thread.Sleep(10 * 1000);
                 lock (assetUnits)
@@ -565,11 +585,11 @@ namespace PK10Server
                             }
                             this.AssetTimeSummary[id] = dt.Rows.Count;
                             Changed = true;
-                            
+
                             //saveAssetLines(id, dt);//保存
                         }
                         vals[ai].SaveDataToFile();
-                        
+
                     }
                     //if (!Changed)//没有任何改变，不刷新
                     //    return;
@@ -579,7 +599,7 @@ namespace PK10Server
                     {
                         chrt.Series.Clear();
 
-                       // foreach (string strName in assetUnits.Keys)
+                        // foreach (string strName in assetUnits.Keys)
                         for (int ai = 0; ai < keys.Count; ai++)
                         {
                             string strName = keys[ai];
@@ -592,34 +612,37 @@ namespace PK10Server
                     }
                     i = 0;
                     //foreach (string strName in assetUnits.Keys)
-                    
-                    for(int ai=0;ai<keys.Count;ai++)
+
+                    for (int ai = 0; ai < keys.Count; ai++)
                     {
                         //System.Threading.Thread.Sleep(5 * 1000);
                         string strName = keys[ai];
                         DataTable dt = vals[ai].SummaryLine();
-                        var drs = dt.Select("id>0", "id desc").Take<DataRow>(Len);
+                        List<DataRow> drs = dt.Select("id>0", "id desc").Take<DataRow>(Len).ToList();
                         DataTable DispDt = dt.Clone();
-                        foreach (DataRow dr in drs)
+                        for (int di = 0; di < drs.Count; di++)                               
                         {
-                            DispDt.Rows.Add(dr.ItemArray);
+                            DispDt.Rows.Add(drs[di].ItemArray);
                         }
                         DataView dv = new DataView(DispDt);
                         dv.Sort = "id asc";
                         chrt.Series[i].Points.DataBindY(dv, "val");
                         i++;
                     }
-                    
-                    try
-                    {
-                        //this.chart_ForGuide = chrt;
-                        //this.chart_ForGuide.Show();
-                        this.chart_ForGuide.Invoke(new setChartCallback(setChart), chrt);
-                    }
-                    catch(Exception ce)
-                    {
-                        //MessageBox.Show(ce.Message);
-                    }
+                    chrt.Show();
+                    //try
+                    //{
+                    //this.chart_ForGuide = chrt;
+                    //this.chart_ForGuide.Show();
+                    ////if (vals != null)
+                    ////{
+                    ////    this.chart_ForGuide.Invoke(new setChartCallback(setChart), chrt);
+                    ////}
+                    //}
+                    //catch(Exception ce)
+                    //{
+                    //MessageBox.Show(ce.Message);
+                    //}
                 }
                 //this.chart_ForSystemStdDev.DataSource = dv_stddev;
 
@@ -634,11 +657,8 @@ namespace PK10Server
             {
                 LogableClass.ToLog("监控", e.Message, e.StackTrace);
             }
-            SaveChart();
+
         }
-
-        
-
 
 
         void SaveChart()
@@ -662,8 +682,24 @@ namespace PK10Server
         }
         void setChart(Chart cht)
         {
-            chart_ForGuide = cht;
-            chart_ForGuide.Show();
+            try
+            {
+                if(UseSetting.AllAssetUnits != null)
+                {
+                    lock(UseSetting.AllAssetUnits)
+                    {
+                        chart_ForGuide = cht;
+                        chart_ForGuide.Show();
+                    }
+                }
+                
+            }
+            catch(Exception ce)
+            {
+                MessageBox.Show(string.Format("", ce.Message, ce.Source));
+            }
+            //chart_ForGuide_Paint
+            //chart_ForGuide.Show();
         }
         private void btn_clearNet_Click(object sender, EventArgs e)
         {

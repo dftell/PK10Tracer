@@ -143,7 +143,8 @@ namespace WolfInv.com.Strags
                         bKey = _key;
                     }
                     string CombKey = string.Format(ComKeyModel, sKey, bKey);
-                    if (CombDic.ContainsKey(CombKey)) continue;//防止实质相同但是顺序相反组合重复进入
+                    if (CombDic.ContainsKey(CombKey))
+                        continue;//防止实质相同但是顺序相反组合重复进入
                     int Time1, Time2,SameNoCnt;
                     Time1 = MatchTimes[_key];
                     Time2 = MatchTimes[_key1];
@@ -209,7 +210,8 @@ namespace WolfInv.com.Strags
                             Matched = true;
                         }
                     }
-                    if (!Matched) continue;
+                    if (!Matched)
+                        continue;
                     CombDic.Add(CombKey, strCode);
                     NolimitTraceChance cc = new NolimitTraceChance();
                     cc.ChipCount = this.ChipCount * 2;

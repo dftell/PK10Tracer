@@ -38,13 +38,13 @@ namespace ExchangeTermial
 
         internal static extern IntPtr GetCurrentProcess();
 
-        Int64 NewExpect = 0;
+        Dictionary<string, Int64> NewExpects = new Dictionary<string, long>();
         bool WebBrowserLoad = false;
         Dictionary<int, RequestClass> CurrDic = new Dictionary<int, RequestClass>();
         DateTime LastInstsTime = DateTime.MaxValue;
         Dictionary<string, string> AssetUnitList;
         long RefreshTimes = 0;
-        Dictionary<long, string> dicExistInst;
+        Dictionary<string,Dictionary<long, string>> dicExistInsts;
         bool InSleep = false;
         bool Logined = false;
         WebRule wr = null;
@@ -56,9 +56,11 @@ namespace ExchangeTermial
         public bool ForceReboot { get; set; }
         int ChanleUseTimes = -1;
         string const_ResponseModel = "reqId={0}&chargeAmt={1}&errcode={2}&msg={3}&imgData={4}&orderNum={5}&chargeAccount={6}";
-
         WebData chargeData;
-
+        Dictionary<string, int> AllReq = new Dictionary<string, int>();
+        string UseReqId = null;
+        int UseAmt = 0;
+        string reqChargeAmt = "";
         double CurrVal
         {
             get
@@ -75,7 +77,8 @@ namespace ExchangeTermial
                 return wr.GetCurrMoney(doc);
             }
         }
-        System.Timers.Timer SendStatusTimer = new System.Timers.Timer();
+        System.Windows.Forms.Timer SendStatusTimer = new System.Windows.Forms.Timer() ;
+        List<System.Windows.Forms.Timer> timers_RequestInst = new List<System.Windows.Forms.Timer>();
         //TcpServiceSocketAsync svr;
         int const_maxbuffsize = 1024 * 1024 * 2;
         ChargeRemoteClass chgRmt = null;
@@ -106,10 +109,7 @@ namespace ExchangeTermial
             e.Handled = true;
         }
 
-        Dictionary<string, int> AllReq = new Dictionary<string, int>();
-        string UseReqId = null;
-        int UseAmt = 0;
-        string reqChargeAmt = "";
+        
         void Request(string wxId,string wxName,string reqId,string chargeAmt)
         {
             //chargeMoneyToolStripMenuItem_Click(null, null);
@@ -136,27 +136,70 @@ namespace ExchangeTermial
         private void MainWindow_Load(object sender, EventArgs e)
         {
             AssetUnitList = getAssetLists();
-            dicExistInst = new Dictionary<long, string>();
+            dicExistInsts = new Dictionary<string,Dictionary<long, string>>();
             LoadUrl();
-            this.timer_RequestInst.Enabled = true;
-            this.timer_RequestInst.AutoReset = true;
-            timer_RequestInst_Tick(null, null);
+            //this.timer_RequestInst.Enabled = true;
+            //this.timer_RequestInst.AutoReset = true;
+            //timer_RequestInst_Tick(null, null);
+            InitTimers();
+            Set_RequestTime(true);
             Set_SendTime(true);
             SendStatusTimer_Elapsed(null, null);
             
         }
 
-        void Set_SendTime(bool Running, long InterVal = 20 * 60 * 1000)
+        Dictionary<string, DataTypePoint> dtps = new Dictionary<string, DataTypePoint>();
+        void InitTimers()
         {
+            dtps = GlobalClass.TypeDataPoints;
+            foreach (string key in dtps.Keys)
+            {
+                System.Windows.Forms.Timer tm = new System.Windows.Forms.Timer();
+                tm.Tag = dtps[key];
+                tm.Tick += timer_RequestInst_Tick;
+                tm.Enabled = true;
+                tm.Start();
+                timers_RequestInst.Add(tm);
+                NewExpects.Add(key, 0);
+                dicExistInsts.Add(key, new Dictionary<long, string>());
+            }
+        }
 
+        void Set_SendTime(bool Running, int InterVal = 20 * 60 * 1000)
+        {
             SendStatusTimer.Interval = InterVal;
-            SendStatusTimer.Elapsed += SendStatusTimer_Elapsed;
+            SendStatusTimer.Tick += SendStatusTimer_Elapsed;
             SendStatusTimer.Enabled = Running;
+            
             ////if(Running)
             ////{
             ////    SendStatusTimer_Elapsed(null, null);
             ////}
         }
+
+        void Set_RequestTime(bool Running, int InterVal = 20 * 60 * 1000)
+        {
+            timers_RequestInst.ForEach(a =>
+            {
+                DataTypePoint dtp = a.Tag as DataTypePoint;
+
+                a.Interval = InterVal;
+                if (dtp.ReceiveSeconds > 0)
+                {
+                    a.Interval = (int)dtp.ReceiveSeconds * 1000;
+                }
+                a.Tick += timer_RequestInst_Tick;
+                a.Enabled = Running;
+                a.Start();
+            }
+            );
+            ////if(Running)
+            ////{
+            ////    SendStatusTimer_Elapsed(null, null);
+            ////}
+        }
+
+
 
         private void CloseFrm()
         {
@@ -174,13 +217,15 @@ namespace ExchangeTermial
                 this.Close();
             }
         }
+        
 
-        private void SendStatusTimer_Elapsed(object sender, ElapsedEventArgs e)
+        private void SendStatusTimer_Elapsed(object sender, EventArgs e)
         {
             try
             {
+                
                 DateTime now = DateTime.Now;
-                if (dicExistInst != null && dicExistInst.Count > 0)
+                if (dicExistInsts != null && dicExistInsts.Count > 0)
                 {
                     SwitchChanle();
                 }
@@ -365,13 +410,13 @@ namespace ExchangeTermial
                 Logined = false;
                 LogableClass.ToLog("错误", ce.Message, ce.StackTrace);
                 Program.wxl.Log("错误", string.Format("[{0}]起床困难户。",Program.gc.ClientAliasName), string.Format("{0}:{1}", ce.Message, ce.StackTrace));
-                this.timer_RequestInst.Interval = 1 * 1000;
+                timers_RequestInst.ForEach(a=> { a.Interval = 1 * 1000; });
                 return;
             }
             Application.DoEvents();
             //Thread.Sleep(10 * 1000);
 
-            this.timer_RequestInst.Interval = 60 * 1000;
+            timers_RequestInst.ForEach(a => { a.Interval = 60 * 1000; });
             //this.timer_RequestInst.Enabled = true;
             //Set_SendTime(true);
         }
@@ -591,12 +636,22 @@ namespace ExchangeTermial
             return ret;
         }
 
-        private void timer_RequestInst_Tick(object sender, ElapsedEventArgs e)
+        private void timer_RequestInst_Tick(object sender, EventArgs e)
         {
             try
             {
+                
+                System.Windows.Forms.Timer tm = sender as System.Windows.Forms.Timer;
+                if (tm == null)
+                    tm = timers_RequestInst.First();
+                DataTypePoint dtp = tm.Tag as DataTypePoint;
+                if (dtp == null)
+                    return;
+
+                string dtpName = dtp.DataType;
                 Random rd = new Random();
-                int rndtime = rd.Next(1000, 60 * 1000);//增加随机数，防止单机多客户端并行同时下注
+                int buffSec = (int)dtp.ReceiveSeconds / 60;
+                int rndtime = rd.Next(1000, buffSec * 1000);//增加随机数，防止单机多客户端并行同时下注
                 if (InSleep)//还在睡觉,唤醒
                 {
                     LoadUrl();
@@ -605,12 +660,12 @@ namespace ExchangeTermial
                     ////    System.Threading.Thread.Sleep(30*1000);
                     ////}
                     InSleep = false;
-                    this.timer_RequestInst.Interval = 30 * 1000 + rndtime;//等待唤醒以后再访问
+                    tm.Interval = buffSec*2 * 1000 + rndtime;//等待唤醒以后再访问
                     return;
                 }
-                DateTime CurrTime = DateTime.Now;
+                
                 CommunicateToServer wc = new CommunicateToServer();
-                CommResult cr = wc.getRequestInsts(GlobalClass.strRequestInstsURL);
+                CommResult cr = wc.getRequestInsts(string.Format("{0}/{1}{2}",dtp.InstHost,"pk10/app/requestInsts.asp?Dtp=",dtp.DataType));
                 if (!cr.Succ)
                 {
                     this.statusStrip1.Items[0].Text = cr.Message;
@@ -634,9 +689,10 @@ namespace ExchangeTermial
                 //{
                 this.toolStripStatusLabel2.Text = DateTime.Now.ToLongTimeString();
                 //}
-                if (CurrExpectNo > this.NewExpect || (RefreshTimes == 0)) //获取到最新指令
+                DateTime CurrTime = DateTime.Now.AddHours(dtp.DiffHours).AddMinutes(dtp.DiffMinutes);//调整后的时间
+                if ((CurrExpectNo > this.NewExpects[dtp.DataType] && this.NewExpects[dtp.DataType]>0) || (RefreshTimes == 0)) //获取到最新指令
                 {
-                    LastInstsTime = DateTime.Now;
+                    LastInstsTime = DateTime.Now.AddHours(dtp.DiffHours).AddMinutes(dtp.DiffMinutes);
                     int CurrMin = DateTime.Now.Minute % 5;
 
                     ////if (CurrMin % 5 < 2)
@@ -647,15 +703,15 @@ namespace ExchangeTermial
                     ////{
                     ////    this.timer_RequestInst.Interval = (5-CurrMin)*6000;//5分钟以后见
                     ////}
-                    this.timer_RequestInst.Interval = 2 * 60 * 1000 + rndtime;//5分钟以后见,减掉1秒不*断收敛时间，防止延迟接收
+                    tm.Interval = (int)dtp.ReceiveSeconds *1000/6 + rndtime ;//  2 * 60 * 1000 + rndtime;//5分钟以后见,减掉1秒不*断收敛时间，防止延迟接收
                                                                               //ToAdd:填充各内容
                     this.txt_ExpectNo.Text = ic.Expect;
                     this.txt_OpenTime.Text = ic.LastTime;
-                    this.txt_Insts.Text = ic.getUserInsts(Program.gc);
-                    string[] insts = this.txt_Insts.Text.Trim().Replace("+", " ").Split(' ');
+                    string txt = ic.getUserInsts(Program.gc);
+                    string[] insts = txt.Trim().Replace("+", " ").Split(' ');
                     long AllSum = insts.Where(a => a.Trim().Length > 1).ToList().Select(a => long.Parse(a.Trim().Split('/')[2])).Sum();
-                    this.NewExpect = CurrExpectNo;
-
+                    this.NewExpects[dtpName] = CurrExpectNo;
+                    this.txt_Insts.Text = txt;
 
                     if (!Logined)
                     {
@@ -680,7 +736,7 @@ namespace ExchangeTermial
                                 SwitchChanle();//赶着空指令切换线路
                                 return;
                             }
-                            this.btn_Send_Click(null, null);
+                            this.Send_Data(dtp,txt);
                         }
                         RefreshTimes = 1;
                     }
@@ -694,26 +750,29 @@ namespace ExchangeTermial
                 }
                 else
                 {
-                    if (CurrTime.Hour < 9)//如果在9点前
+                    if (CurrTime.TimeOfDay < dtp.ReceiveStartTime.TimeOfDay)//如果在9点前
                     {
                         //下一个时间点是9：08
-                        DateTime TargetTime = DateTime.Today.AddHours(9).AddMinutes(30);
-                        this.timer_RequestInst.Interval = TargetTime.Subtract(CurrTime).TotalMilliseconds + rndtime;
+                        //DateTime ReceiveStartTime = dtp.ReceiveStartTime;
+                        DateTime TargetTime = DateTime.Today.AddHours(dtp.ReceiveStartTime.Hour).AddMinutes(dtp.ReceiveStartTime.Minute);
+                        tm.Interval = (int)TargetTime.Subtract(CurrTime).TotalMilliseconds + rndtime;
+                        DateTime nextTime = DateTime.Now.AddMilliseconds(tm.Interval);
                         KnockEgg();//敲蛋
                         Application.DoEvents();
                         Thread.Sleep(5000);//暂停，等发送消息
                         reLoadWebBrowser();//开百度网页，睡觉
+                        Program.wxl.Log(string.Format("下次启动时间！"), nextTime.ToString("yyyyMMdd HH:mm:ss"), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
                     }
                     else
                     {
 
-                        if (CurrTime.Subtract(LastInstsTime).Minutes > 7)//如果离上期时间超过7分钟，说明数据未接收到，那不要再频繁以10秒访问服务器
+                        if (CurrTime.Subtract(LastInstsTime).Minutes > (int)dtp.ReceiveSeconds/60*3/2)//如果离上期时间超过7分钟，说明数据未接收到，那不要再频繁以10秒访问服务器
                         {
-                            this.timer_RequestInst.Interval = 2 * 60 * 1000 + rndtime;
+                            tm.Interval = (int)dtp.ReceiveSeconds * 2*1000 / 5 + rndtime;
                         }
                         else //一般未接收到，2*60秒以后再试
                         {
-                            this.timer_RequestInst.Interval = 2 * 60 * 1000 + rndtime;
+                            tm.Interval = (int)dtp.ReceiveSeconds * 1*1000 / 5 + rndtime;
                         }
                     }
                 }
@@ -734,7 +793,80 @@ namespace ExchangeTermial
             string ret = null;
             return ret;
         }
+        Rule_ForKcaiCom rule = null;
+        private void Send_Data(DataTypePoint dtp,string strText)
+        {
+            string dtpName = dtp.DataType;
+            //if (this.txt_Insts.Text.Trim().Length == 0) return;
+            //string strText = dicExistInsts[dtpName].Last().Value;
+            if(rule == null)
+                rule = new Rule_ForKcaiCom(Program.gc);
+            //if (!ScriptLoaded)
+            AddScript();
+            string msg = rule.IntsToJsonString(dtpName, strText, Program.gc.ChipUnit);
+            double lastval = this.CurrVal;
+            //SendMsg
+            int maxCnt = 10;
+            int sendCnt = 0;
+            int sleepsec = 60;
+            //while (webBrowser1.ReadyState != WebBrowserReadyState.Complete)
+            //{
 
+
+            //    sendCnt++;
+
+            //    Program.wxl.Log("警告", string.Format("[{1}]第{0}次浏览器加载未完成", sendCnt, Program.gc.ClientAliasName), string.Format("请检查线路{0}是否正常！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost)));
+            //    //LoadUrl();
+            //    if (Program.gc.NeedAutoReset)//允许自动切换
+            //        SwitchChanle();
+            //    //Reboot();
+            //    NewExpects[dtpName]--;//允许下次再接收数据发送
+            //    RefreshTimes = 1;//让第一次发生错误后下次刷新指令会自动发送
+            //    return;
+            //    Application.DoEvents();
+
+            //    Thread.Sleep(sleepsec * 1000);
+            //    if (sendCnt > maxCnt)
+            //    {
+            //        LoadUrl();
+            //        Program.wxl.Log("错误", "发送指令失败！", string.Format("连续{0}次未发送出下注指令！", sendCnt));
+            //        return;
+            //    }
+            //}
+            webBrowser1.Document.InvokeScript("SendMsg", new object[] { this.NewExpects[dtpName], msg, Program.gc.ClientAliasName, Program.gc.WXLogNoticeUser, this.txt_Insts.Text, lastval, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost), rule.config.lotteryTypes[dtpName].ruleId });
+            //if (sender == null)
+            //{
+            //    this.statusStrip1.Text = "自动下注成功！";
+            //}
+            
+            if (!dicExistInsts[dtpName].ContainsKey(this.NewExpects[dtpName]))
+            {
+                dicExistInsts[dtpName].Add(this.NewExpects[dtpName], strText);
+            }
+            this.toolStripStatusLabel1.Text = "已发送";
+            this.Cursor = Cursors.Default;
+            //Application.DoEvents();
+            //Thread.Sleep(5 * 1000);
+            //webBrowser1.Refresh();
+            //Application.DoEvents();
+            //Thread.Sleep(3 * 1000);
+            ////string ValTip = "无";
+            ////if(CurrVal<=lastval)
+            ////{
+            ////    ValTip = "下注后金额无变化，您的下注可能在20秒内没被执行！请注意查看！";
+            ////}
+            //Program.wxl.Log(string.Format("[{0}]:{1};下注前金额:{2:f2};现可用余额:{3:f2}；提示:{4}",this.NewExpect, this.txt_Insts.Text, lastval,this.CurrVal,ValTip));
+            ////if (e != null)
+            ////{
+            ////    MessageBox.Show(msg);
+            ////}
+
+            //if (sender != null)
+            //{
+            //    Thread.Sleep(2 * 1000);
+            //    MessageBox.Show(string.Format("下注前金额:{0:f2};现可用余额:{1:f2}；提示:{2}", lastval, this.CurrVal, ValTip));
+            //}
+        }
         private void btn_Send_Click(object sender, EventArgs e)
         {
             if(sender!=null)
@@ -742,42 +874,63 @@ namespace ExchangeTermial
                 this.toolStripStatusLabel1.Text = "手动下注";
                 this.Cursor = Cursors.WaitCursor;
             }
+            string dtpName = this.NewExpects.First().Key;
             if (this.txt_Insts.Text.Trim().Length == 0) return;
-
-            Rule_ForKcaiCom rule = new Rule_ForKcaiCom(Program.gc);
+            if(rule==null)
+                rule = new Rule_ForKcaiCom(Program.gc);
             //if (!ScriptLoaded)
             AddScript();
-            string msg = rule.IntsToJsonString(this.txt_Insts.Text, Program.gc.ChipUnit);
+
+            string msg = null;
+            try
+            {
+                msg = rule.IntsToJsonString(dtpName, this.txt_Insts.Text, Program.gc.ChipUnit);
+            }
+            catch(Exception ce)
+            {
+                return;
+            }
             double lastval = this.CurrVal;
             //SendMsg
             int maxCnt = 10;
             int sendCnt = 0;
             int sleepsec = 60;
-            while (webBrowser1.ReadyState != WebBrowserReadyState.Complete)
-            {
+            ////while (webBrowser1.ReadyState != WebBrowserReadyState.Complete)
+            ////{
 
 
-                sendCnt++;
+            ////    sendCnt++;
 
-                Program.wxl.Log("警告", string.Format("[{1}]第{0}次浏览器加载未完成", sendCnt,Program.gc.ClientAliasName), string.Format("请检查线路{0}是否正常！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost)));
-                //LoadUrl();
-                if (Program.gc.NeedAutoReset)//允许自动切换
-                    SwitchChanle();
-                //Reboot();
-                this.NewExpect--;//允许下次再接收数据发送
-                RefreshTimes = 1;//让第一次发生错误后下次刷新指令会自动发送
-                return;
-                Application.DoEvents();
+            ////    Program.wxl.Log("警告", string.Format("[{1}]第{0}次浏览器加载未完成", sendCnt,Program.gc.ClientAliasName), string.Format("请检查线路{0}是否正常！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost)));
+            ////    //LoadUrl();
+            ////    if (Program.gc.NeedAutoReset)//允许自动切换
+            ////        SwitchChanle();
+            ////    //Reboot();
+            ////    NewExpects[NewExpects.First().Key] --;//允许下次再接收数据发送
+            ////    RefreshTimes = 1;//让第一次发生错误后下次刷新指令会自动发送
+            ////    return;
+            ////    Application.DoEvents();
 
-                Thread.Sleep(sleepsec * 1000);
-                if (sendCnt > maxCnt)
+            ////    Thread.Sleep(sleepsec * 1000);
+            ////    if (sendCnt > maxCnt)
+            ////    {
+            ////        LoadUrl();
+            ////        Program.wxl.Log("错误", "发送指令失败！", string.Format("连续{0}次未发送出下注指令！", sendCnt));
+            ////        return;
+            ////    }
+            ////}
+            webBrowser1.Document.InvokeScript("SendMsg", 
+                new object[] 
                 {
-                    LoadUrl();
-                    Program.wxl.Log("错误", "发送指令失败！", string.Format("连续{0}次未发送出下注指令！", sendCnt));
-                    return;
-                }
-            }
-            webBrowser1.Document.InvokeScript("SendMsg", new object[] { this.NewExpect.ToString(), msg, Program.gc.ClientAliasName, Program.gc.WXLogNoticeUser, this.txt_Insts.Text, lastval, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost) });
+                    this.NewExpects.First().Value.ToString(),
+                    msg,
+                    Program.gc.ClientAliasName,
+                    Program.gc.WXLogNoticeUser,
+                    this.txt_Insts.Text,
+                    lastval,
+                    string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost),
+                    int.Parse(rule.config.lotteryTypes[dtpName].ruleId )
+                    });
             if(sender == null)
             {
                 this.statusStrip1.Text = "自动下注成功！";
@@ -786,9 +939,9 @@ namespace ExchangeTermial
             {
                 MessageBox.Show("手动下注成功！");
             }
-            if (!dicExistInst.ContainsKey(this.NewExpect))
+            if (!dicExistInsts.First().Value.ContainsKey(this.NewExpects.First().Value))
             {
-                dicExistInst.Add(this.NewExpect, this.txt_Insts.Text);
+                dicExistInsts.First().Value.Add(this.NewExpects.First().Value, this.txt_Insts.Text);
             }
             this.toolStripStatusLabel1.Text = "已发送";
             this.Cursor = Cursors.Default;
@@ -875,7 +1028,7 @@ namespace ExchangeTermial
         {
             this.toolStripStatusLabel1.Text = string.Format("已加载页面:{0};已登录:{1};睡眠状态:{2}", WebBrowserLoad, Logined, InSleep);
             this.toolStripStatusLabel2.Text = string.Format("当前余额：{0}", CurrVal);
-            this.toolStripStatusLabel3.Text = string.Format("{0}秒后见", this.timer_RequestInst.Interval / 1000);
+            this.toolStripStatusLabel3.Text = string.Format("{0}秒后见", this.timers_RequestInst[0]?.Interval / 1000);
             //SendStatusTimer_Elapsed(null, null);
         }
 

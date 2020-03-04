@@ -8,13 +8,6 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityLib\bin\Debug\WolfInv.com
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityLib\bin\Debug\WolfInv.com.DbAccessLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityLib\bin\Debug\WolfInv.com.LogLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityLib\bin\Debug\WolfInv.com.ProbMathLib.pdb
-C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.SecurityLib.dll
-C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.SecurityLib.pdb
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityLib\obj\Debug\WolfInv.com.SecurityLib.csprojAssemblyReference.cache
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityLib\obj\Debug\WolfInv.com.SecurityLib.csproj.CoreCompileInputs.cache
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityLib\obj\Debug\WolfInv.com.SecurityLib.csproj.CopyComplete
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityLib\obj\Debug\WolfInv.com.SecurityLib.dll
-C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityLib\obj\Debug\WolfInv.com.SecurityLib.pdb
 E:\github\project\PK10Tracer\WolfInv.com.SecurityLib.dll
 E:\github\project\PK10Tracer\WolfInv.com.SecurityLib.pdb
 E:\github\source\dftell\PK10Tracer\SecurityLib\obj\Debug\WolfInv.com.SecurityLib.csprojAssemblyReference.cache
@@ -22,3 +15,10 @@ E:\github\source\dftell\PK10Tracer\SecurityLib\obj\Debug\WolfInv.com.SecurityLib
 E:\github\source\dftell\PK10Tracer\SecurityLib\obj\Debug\WolfInv.com.SecurityLib.csproj.CopyComplete
 E:\github\source\dftell\PK10Tracer\SecurityLib\obj\Debug\WolfInv.com.SecurityLib.dll
 E:\github\source\dftell\PK10Tracer\SecurityLib\obj\Debug\WolfInv.com.SecurityLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityLib\obj\Debug\WolfInv.com.SecurityLib.csprojAssemblyReference.cache
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityLib\obj\Debug\WolfInv.com.SecurityLib.csproj.CoreCompileInputs.cache
+C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.SecurityLib.dll
+C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.SecurityLib.pdb
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityLib\obj\Debug\WolfInv.com.SecurityLib.csproj.CopyComplete
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityLib\obj\Debug\WolfInv.com.SecurityLib.dll
+C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityLib\obj\Debug\WolfInv.com.SecurityLib.pdb

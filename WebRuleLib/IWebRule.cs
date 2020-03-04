@@ -5,7 +5,7 @@ namespace WolfInv.com.WebRuleLib
 {
     public interface ILotteryRule
     {
-        string IntsListToJsonString(List<InstClass> Insts);
-        string IntsToJsonString(string ccs, int unit);
+        //string IntsListToJsonString(List<InstClass> Insts);
+        string IntsToJsonString(string LotteryName,string ccs, int unit);
     }
 }

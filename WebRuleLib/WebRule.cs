@@ -15,20 +15,20 @@ namespace WolfInv.com.WebRuleLib
     {
         public float WebWholeOdds = 0;
 
-        public LotteryTypes lotteryTypes;
+        public Dictionary<string, LotteryTypes> lotteryTypes;
 
         public BetUnits Units;
 
         public WebConfig()
         {
-            lotteryTypes = new LotteryTypes();
+            lotteryTypes = new Dictionary<string, LotteryTypes>();
             Units = new BetUnits();
         }
 
         public void LoadXml(XmlNode doc)
         {
-            WebWholeOdds = float.Parse(XmlUtil.GetSubNodeText(doc,"config/@Odds"));
-            lotteryTypes.LoadXml(doc.SelectSingleNode("config/Lotteries"));
+            WebWholeOdds = float.Parse(XmlUtil.GetSubNodeText(doc,"config/@odds"));
+            lotteryTypes = LotteryTypes.getListFromXml(doc.SelectSingleNode("config/Lotteries"));
             Units.LoadXml(doc.SelectSingleNode("config/Units"));
         }
     }
@@ -36,6 +36,7 @@ namespace WolfInv.com.WebRuleLib
     public class LotteryTypes:List<LotteryBetRuleClass>
     {
         public string Id { get; set; }
+        public string ruleId { get; set; }
         public string Name { get; set; }
 
         Dictionary<string, LotteryBetRuleClass> t_AllRules;
@@ -52,12 +53,30 @@ namespace WolfInv.com.WebRuleLib
             }
         }
 
+        public static Dictionary<string, LotteryTypes> getListFromXml(XmlNode node)
+        {
+            Dictionary<string, LotteryTypes> ret = new Dictionary<string, LotteryTypes>();
+            
+ 
+            XmlNodeList nodes = node.SelectNodes("Lottery");
+            foreach(XmlNode sn in nodes)
+            {
+                LotteryTypes lt = new LotteryTypes();
+                string strKey = XmlUtil.GetSubNodeText(sn,"@id");
+                lt.LoadXml(sn);
+                ret.Add(strKey,lt);
+            }
+            return ret;
+        }
+
         public void LoadXml(XmlNode node)
         {
+            Dictionary<string, LotteryTypes> ret = new Dictionary<string, LotteryTypes>();
             Id = XmlUtil.GetSubNodeText(node, "@id");
+            ruleId = XmlUtil.GetSubNodeText(node, "@ruleId");
             Name = XmlUtil.GetSubNodeText(node, "@name");
             XmlNodeList nodes = node.SelectNodes("BetTypes/BetType");
-            foreach(XmlNode sn in nodes)
+            foreach (XmlNode sn in nodes)
             {
                 LotteryBetRuleClass lbr = new LotteryBetRuleClass();
                 lbr.LoadXml(sn);
@@ -174,8 +193,8 @@ namespace WolfInv.com.WebRuleLib
 
     public abstract class WebRule : ILotteryRule
     {
-        public abstract string IntsListToJsonString(List<InstClass> Insts);
-        public abstract string IntsToJsonString(String ccs, int unit);
+        //public abstract string IntsListToJsonString(List<InstClass> Insts);
+        public abstract string IntsToJsonString(string LotteryName,String ccs, int unit);
         public GlobalClass GobalSetting;
         public WebConfig config;
         protected WebRule(GlobalClass setting)

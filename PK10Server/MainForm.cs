@@ -15,6 +15,7 @@ namespace PK10Server
     
     public partial class MainForm:BaseForm_DESIGN
     {
+        
         DataTypePoint dtp = null;
         ExpectList<TimeSerialData> _ViewDataList ;
         ExpectList<TimeSerialData> ViewDataList

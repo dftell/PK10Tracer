@@ -277,7 +277,7 @@ namespace WolfInv.com.ExchangeLib
                         if (MoneyChangeTable==null)
                         {
                             MoneyChangeTable = new DataTable();
-                            MoneyChangeTable.Columns.Add("id");
+                            MoneyChangeTable.Columns.Add("id",typeof(long));
                             MoneyChangeTable.Columns.Add("val", typeof(double));
                         }
                         else
@@ -287,7 +287,7 @@ namespace WolfInv.com.ExchangeLib
                         foreach (string strkey in ExpectMoneyLine.Keys)
                         {
                             DataRow dr = MoneyChangeTable.NewRow();
-                            dr["id"] = strkey;
+                            dr["id"] = long.Parse(strkey);
                             dr["val"] = Math.Round(100 * (ExpectMoneyLine[strkey] - _InitCash) / _InitCash, 2);
                             MoneyChangeTable.Rows.Add(dr);
                         }

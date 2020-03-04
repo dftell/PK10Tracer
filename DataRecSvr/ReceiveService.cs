@@ -159,9 +159,11 @@ namespace DataRecSvr
             ////}
             foreach(self_Timer tm in RecTimers.Values)
             {
+                tm.Interval = 1000;
                 tm.Enabled = true;
+                
                 Log(string.Format("{0}开始服务", tm.Name), "开始接收数据",true);
-                Tm_Elapsed(tm, null);
+                //Tm_Elapsed(tm, null);
             }
             //tm.Enabled = true;
             //tm_Elapsed(null, null);
@@ -376,18 +378,22 @@ namespace DataRecSvr
                 DataTypePoint dtp = GlobalClass.TypeDataPoints[DataType];
                 Log("接收数据", "准备接收数据");
                 int DiffHours = 0;
+                int DiffMinutes = 0;
                 if (dtp.DiffHours != 0)
                 {
                     DiffHours = dtp.DiffHours;
+                    DiffMinutes = dtp.DiffMinutes;
                 }
-                DateTime CurrTime = DateTime.Now.AddHours(DiffHours);
+                DateTime CurrTime = DateTime.Now.AddHours(DiffHours).AddMinutes(DiffMinutes);
                 long RepeatMinutes = dtp.ReceiveSeconds / 60;
                 long RepeatSeconds = dtp.ReceiveSeconds;
                 hdc = HtmlDataClass.CreateInstance(dtp);
                 ExpectList<T> tmp = hdc.getExpectList<T>();
                 if (tmp == null || tmp.Count == 0)
                 {
+                    
                     useTimer.Interval = RepeatSeconds / 20 * 1000;
+
                     Log("尝试接收数据", "未接收到数据,数据源错误！", glb.ExceptNoticeFlag);
                     return;
                 }
@@ -422,8 +428,6 @@ namespace DataRecSvr
                     //Log("接收第一期数据", el.FirstData.Expect, true);
                     //ExpectList<T> currEl = rd.ReadNewestData<T>(dtp.NewRecCount);
                     ExpectList<T> currEl = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1 * dtp.CheckNewestDataDays));
-
-
                     if ((currEl == null || currEl.Count == 0) || (el.Count > 0 && currEl.Count > 0 && el.LastData.ExpectIndex > currEl.LastData.ExpectIndex))//获取到新数据
                     {
                         if(currEl.Count>0)
@@ -492,13 +496,11 @@ namespace DataRecSvr
                                         MissExpectEventPassCnt = 1;
                                     }
                                 }
-
                             }
                         }
                         else//保存失败
                         {
                             Log("待保存数据！", string.Format("总共{0}期数据:[{1}]", NewList.Count, string.Join(";", expects)), glb.ExceptNoticeFlag);
-
                             useTimer.Interval = RepeatSeconds / (savecnt == 0 ? 1 : 20) * 1000;//如果为0，只是没保存，不管它，只是提示，如果保存为负，继续获取。
                             //Log("保存数据错误", string.Format("保存数据数量为{0}，间隔时间为{1}秒！", savecnt, useTimer.Interval), glb.ExceptNoticeFlag);
                         }
@@ -557,7 +559,7 @@ namespace DataRecSvr
             try
             {
                 //this.CalcProcess.Calc();
-                CalcObj.OnFinishedCalc += onFinished;
+                CalcObj.OnFinishedCalc = onFinished;
                 CalcObj.Calc();
             }
             catch(Exception e)

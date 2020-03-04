@@ -249,7 +249,7 @@ namespace BackTestSystem
                 SelectFunc = (MachineLearnClass<int, int>)ClassOperateTool.getInstanceByType(MLType);
                 //暂时屏蔽机器学习功能
                 //TestSet = new MLDataFactory(el).getAllSpecColRoundLabelAndFeatures(i,deep, chkb_AllUseShift.Checked ? 1 : 0);
-                SelectFunc.OnLoadLocalFile += GetLocalFile;
+                SelectFunc.OnLoadLocalFile = GetLocalFile;
                 SelectFunc.LoadSummary();
                 SelectFunc.FillStructBySummary(i);
                 SelectFunc.SetTestInstances(TestSet);

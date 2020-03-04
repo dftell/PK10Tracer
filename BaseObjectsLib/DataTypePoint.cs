@@ -14,6 +14,10 @@ namespace WolfInv.com.BaseObjectsLib
         //public int SrcUseXml = 1;
         public int AutoSwitchHost = 0;//是否自动切换主机
 
+        public int ExpectCodeDateLong = 0;
+        public int ExpectCodeCounterMax = 180;
+        public string ExpectCodeDateFormate = "yyyyMMdd";
+
         public string DataDecode = "utf-8";
         public string DbHost;
         public string DbUser;
@@ -36,7 +40,9 @@ namespace WolfInv.com.BaseObjectsLib
         public long ReceiveSeconds; //刷新间隔秒数
         public DateTime ReceiveStartTime;//数据接收开始时间
         public DateTime ReceiveEndTime; //数据接收停止时间
+        
         public int DiffHours;//时差数
+        public int DiffMinutes;//时差分钟数
         public int NewRecCount = 20;
         public int SubScriptModel = 0;//使用订阅模式
         public string SubScriptSrc = "";//订阅板块
@@ -65,7 +71,11 @@ namespace WolfInv.com.BaseObjectsLib
         public int MaxThreadCnt = 50;
         public int ThreadUnitCnt = 20;
         public Dictionary<Cycle,List<string>> AllTypeTimes;//所有的期数/时间戳
+        /// <summary>
+        /// client use
+        /// </summary>
 
+        public string InstHost; 
 
         public DataPointBuff RuntimeInfo;
         public DataTypePoint(string name,Dictionary<string,string> list)

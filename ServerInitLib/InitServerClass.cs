@@ -133,11 +133,11 @@ namespace WolfInv.com.ServerInitLib
                 }
                 if(StartTheAuto)//如果第一次运行，将此标志设为真，将自动启动策略
                     spc.Running = spc.AutoRunning;
-                if (!spc.Running)
+                if (!spc.Running && !IsBackTest)
                 {
                     continue;
                 }
-                if(spc.StragLotteryName!= dpt.DataType)
+                if(spc.StragLotteryName!= dpt.DataType && !IsBackTest)
                 {
                     ToLog("计划不属于使用的数据源", strKey);
                     continue;
@@ -145,21 +145,24 @@ namespace WolfInv.com.ServerInitLib
 
                 
                 CalcStragGroupClass<T> csg = null;
-                if (!AllStatusStrags.ContainsKey(strKey))
+                if (!AllStatusStrags.ContainsKey(strKey) || IsBackTest)
                 {
-                    if (GlobalClass.TypeDataPoints.ContainsKey(spc.UseDataSource))//如果计划不属于数据源，不加载
+                    if (GlobalClass.TypeDataPoints.ContainsKey(spc.UseDataSource) || IsBackTest)//如果计划不属于数据源，不加载
                     {
                         csg = new CalcStragGroupClass<T>(GlobalClass.TypeDataPoints[spc.UseDataSource]);
-                        AllStatusStrags.Add(strKey, csg);
+                        if (!AllStatusStrags.ContainsKey(strKey))
+                        {
+                            AllStatusStrags.Add(strKey, csg);
+                        }
                     }
                 }
                 if(!AllStatusStrags.ContainsKey(strKey))
                 {
-                    ToLog("计划不属于使用的数据", strKey);
+                    ToLog("计划未登记！", strKey);
                     continue;
                 }
                 csg = AllStatusStrags[strKey];
-                if(spc.AssetUnitInfo != null)
+                if(spc.AssetUnitInfo != null )//必须加资产单元信息
                 {
                     string uid = spc.AssetUnitInfo.UnitId;
                     if (AssetUnits.ContainsKey(uid))
@@ -193,7 +196,8 @@ namespace WolfInv.com.ServerInitLib
         {
             
             int diffHours = GlobalClass.TypeDataPoints.First().Value.DiffHours;
-            DateTime cprTime = CurrTime.AddHours(diffHours);
+            int diffMinutes = GlobalClass.TypeDataPoints.First().Value.DiffMinutes;
+            DateTime cprTime = CurrTime.AddHours(diffHours).AddMinutes(diffMinutes);
             string strToday = CurrTime.AddHours(diffHours).ToShortDateString();
             DateTime setBegTime = DateTime.Parse(string.Format("{0} {1}", strToday, spc.DailyStartTime));
             DateTime setEndTime = DateTime.Parse(string.Format("{0} {1}", strToday, spc.DailyEndTime));

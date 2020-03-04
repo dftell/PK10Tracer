@@ -311,6 +311,8 @@ namespace WolfInv.com.SecurityLib
             throw new NotImplementedException();
         }
 
+        
+
         Func<StockMongoData, XDXRData> func = delegate (StockMongoData ac)
         {
             return ac.ExtentData as XDXRData;

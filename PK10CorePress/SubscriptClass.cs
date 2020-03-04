@@ -49,7 +49,7 @@ namespace WolfInv.com.PK10CorePress
                 grpcodes = new string[copycnt];
                 SubscriptCodes.CopyTo(i * grpInnerCnt, grpcodes, 0, copycnt);//复制到数组中去
                 ExecClass thrdobj = new ExecClass();
-                thrdobj.AfterUpdate += this.AfterUpdate;
+                thrdobj.AfterUpdate = this.AfterUpdate;
                 if (NeedRequestData)
                 {
                     Dictionary<string, ExpectList> initData = this.RequestData(grpcodes,Fields, options);

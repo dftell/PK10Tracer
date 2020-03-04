@@ -205,6 +205,8 @@ namespace DataRecSvr
             foreach (string key in Program.AllServiceConfig.AllRunningPlanGrps.Keys)//再次为计划组分配资源，保证策略和计划一直在内存。
             {
                 CalcStragGroupClass<T> csc = Program.AllServiceConfig.AllRunningPlanGrps[key] as CalcStragGroupClass<T>;
+                //if (!IsTestBack &&  !csc.Running)
+                //    continue;
                 csc.IsBackTest = IsTestBack;
                 ThreadPool.QueueUserWorkItem(new WaitCallback(csc.Run), el);
             }
@@ -252,7 +254,10 @@ namespace DataRecSvr
                 if (IsTestBack)
                     return true; //如果是回测，不做处理
                 Log("写入标志文件", "供web程序读取！");
-                string NewNo = string.Format("{0}|{1}", long.Parse(Program.AllServiceConfig.LastDataSector.LastData.Expect) + 1, Program.AllServiceConfig.LastDataSector.LastData.OpenTime);
+                DataReader rder = DataReaderBuild.CreateReader(DataPoint.DataType, ReadDataTableName, Codes);
+                string NewExpectNo = rder.getNextExpectNo(Program.AllServiceConfig.LastDataSector.LastData.Expect);
+                string NewNo = string.Format("{0}|{1}", NewExpectNo, Program.AllServiceConfig.LastDataSector.LastData.OpenTime);
+                rder.updateExpectInfo(DataPoint.DataType, NewExpectNo, Program.AllServiceConfig.LastDataSector.LastData.Expect);
                 new LogInfo().WriteFile(NewNo, path, strExpectNo, strtype, true, true);
 
                 //保存策略

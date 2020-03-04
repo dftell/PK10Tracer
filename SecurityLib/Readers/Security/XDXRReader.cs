@@ -40,6 +40,8 @@ namespace WolfInv.com.SecurityLib
             return DataListConverter<XDXRData>.ToDirectionary(list, "code");
         }
 
+        
+
         public Func<string, string, MongoReturnDataList<XDXRData>> getXDXRList = delegate (string DataType, string code)
         {
             DataTypePoint dtp = GlobalClass.TypeDataPoints[DataType];

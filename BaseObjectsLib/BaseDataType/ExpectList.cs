@@ -201,29 +201,41 @@ namespace WolfInv.com.BaseObjectsLib
         public ExpectList(DataTable dt)
         {
             _MyData = new List<ExpectData<T>>();
-            if (dt == null) return;
-            for (int i = 0; i < dt.Rows.Count; i++)
+            if (dt == null)
             {
-                ExpectData<T> ed = new ExpectData<T>();
-                ed.Expect = dt.Rows[i]["Expect"].ToString();
-                ed.OpenCode = dt.Rows[i]["OpenCode"].ToString();
-                string[] arr = ed.OpenCode.Split(',');
-                if(arr.Length>1)
+                return;
+            }
+            lock (dt)
+            {
+
+                for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    for(int r=0;r<arr.Length;r++)
+                    ExpectData<T> ed = new ExpectData<T>();
+                    ed.Expect = dt.Rows[i]["Expect"].ToString();
+                    ed.OpenCode = dt.Rows[i]["OpenCode"].ToString();
+                    string[] arr = ed.OpenCode.Split(',');
+                    if (arr.Length > 1)
                     {
-                        arr[r] = arr[r].PadLeft(2, '0');
+                        for (int r = 0; r < arr.Length; r++)
+                        {
+                            arr[r] = arr[r].PadLeft(2, '0');
+                        }
+                        ed.OpenCode = string.Join(",", arr);
                     }
-                    ed.OpenCode = string.Join(",",arr);
+                    DateTime dtmp;
+                    bool suc = DateTime.TryParse(dt.Rows[i]["OpenTime"].ToString(), out dtmp);
+                    if (suc == true)
+                    {
+                        ed.OpenTime = dtmp;
+                    }
+                    if (dt.Columns.Contains("EId"))
+                    {
+                        ed.EId = int.Parse(dt.Rows[i]["EId"].ToString());
+                        ed.MissedCnt = int.Parse(dt.Rows[i]["MissedCnt"].ToString());
+                        ed.LastExpect = dt.Rows[i]["LastExpect"].ToString();
+                    }
+                    MyData.Add(ed);
                 }
-                ed.OpenTime = DateTime.Parse(dt.Rows[i]["OpenTime"].ToString());
-                if (dt.Columns.Contains("EId"))
-                {
-                    ed.EId = int.Parse(dt.Rows[i]["EId"].ToString());
-                    ed.MissedCnt = int.Parse(dt.Rows[i]["MissedCnt"].ToString());
-                    ed.LastExpect = dt.Rows[i]["LastExpect"].ToString();
-                }
-                MyData.Add(ed);
             }
             Readed = false;
         }
@@ -246,22 +258,54 @@ namespace WolfInv.com.BaseObjectsLib
         {
             get
             {
+                bool needRewrite = false;
                 if (_table == null)
                 {
-                    _table = new DataTable();
-                    _table.Columns.Add("Expect", typeof(string));
-                    _table.Columns.Add("OpenCode", typeof(string));
-                    _table.Columns.Add("OpenTime", typeof(DateTime));
+                    //_table = new DataTable();
+                    //_table.Columns.Add("Expect", typeof(string));
+                    //_table.Columns.Add("OpenCode", typeof(string));
+                    //_table.Columns.Add("OpenTime", typeof(DateTime));
+                    needRewrite = true;
                 }
-                lock (_table)
+                else
                 {
-                    for (int i = 0; i < this.Count; i++)
+                    lock (_table)
                     {
-                        DataRow dr = _table.NewRow();
-                        dr[0] = this[i].Expect;
-                        dr[1] = this[i].OpenCode;
-                        dr[2] = this[i].OpenTime;
-                        _table.Rows.Add(dr);
+                        if (this.Count == _table.Rows.Count)
+                        {
+                            if(this[0].Expect == _table.Rows[0]["Expect"].ToString() && this[this.Count-1].Expect == _table.Rows[this.Count-1]["Expect"].ToString())
+                                return _table;
+                        }
+                        needRewrite = true;
+                    }
+                }
+                if (needRewrite)
+                {
+                    if (_table == null)
+                        _table = new DataTable();
+                    lock (_table)
+                    {
+                        if(_table.Columns.Count>0)
+                            _table = new DataTable();
+                        if(!_table.Columns.Contains("Expect"))
+                            _table.Columns.Add("Expect", typeof(string));
+                        if (!_table.Columns.Contains("OpenCode"))
+                            _table.Columns.Add("OpenCode", typeof(string));
+                        if (!_table.Columns.Contains("OpenTime"))
+                            _table.Columns.Add("OpenTime", typeof(DateTime));
+                        for (int i = 0; i < this.Count; i++)
+                        {
+                            //DataRow dr = _table.NewRow();
+                            //dr[0] = this[i].Expect;
+                            //dr[1] = this[i].OpenCode;
+                            //dr[2] = this[i].OpenTime;
+                            //_table.Rows.Add(dr);
+                            if(_table.Columns.Count<3)
+                            {
+                                continue;
+                            }
+                            _table.Rows.Add(new object[] { this[i].Expect,this[i].OpenCode,this[i].OpenTime });
+                        }
                     }
                 }
                 return _table;

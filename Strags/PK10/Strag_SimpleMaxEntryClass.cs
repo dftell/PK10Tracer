@@ -54,7 +54,7 @@ namespace WolfInv.com.Strags
                 MaxEnt me = new MaxEnt();
                 if (MaxEnt.FeatureSummary == null)
                 {
-                    me.OnLoadLocalFile += LoadLocalTrainData;
+                    me.OnLoadLocalFile = LoadLocalTrainData;
                     me.LoadSummary();
                 }
                 me.FillStructBySummary(i);

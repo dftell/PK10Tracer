@@ -71,7 +71,7 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.timer_RequestInst = new System.Timers.Timer();
+            //this.timer_RequestInst = new System.Timers.Timer();
             this.loadTheNavigateWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.userLoginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
@@ -81,7 +81,7 @@
             this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.timer_RequestInst)).BeginInit();
+            //((System.ComponentModel.ISupportInitialize)(this.timer_RequestInst)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -457,8 +457,8 @@
             // 
             // timer_RequestInst
             // 
-            this.timer_RequestInst.SynchronizingObject = this;
-            this.timer_RequestInst.Elapsed += new System.Timers.ElapsedEventHandler(this.timer_RequestInst_Tick);
+            //this.timer_RequestInst.SynchronizingObject = this;
+            //this.timer_RequestInst.Elapsed += new System.Timers.ElapsedEventHandler(this.timer_RequestInst_Tick);
             // 
             // loadTheNavigateWindowToolStripMenuItem
             // 
@@ -485,7 +485,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainWindow";
-            this.Text = "     c c dz , ";
+            this.Text = "";
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -497,7 +497,7 @@
             this.tabPage2.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.timer_RequestInst)).EndInit();
+            //((System.ComponentModel.ISupportInitialize)(this.timer_RequestInst)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -528,7 +528,7 @@
         private System.Windows.Forms.Button btn_SelfAddCombo;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txt_NewInsts;
-        private System.Timers.Timer timer_RequestInst;
+        
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripMenuItem mnu_SetAssetUnitCnt;

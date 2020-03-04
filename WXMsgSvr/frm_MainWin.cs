@@ -73,7 +73,7 @@ namespace WolfInv.com.WXMsgCom
             }
             catch(Exception ce)
             {
-                MessageBox.Show(ce.Message);
+                MessageBox.Show(string.Format("{0}:{1}",ce.Message,ce.StackTrace));
             }
         }
 
@@ -198,7 +198,7 @@ namespace WolfInv.com.WXMsgCom
             }
             catch (Exception ce)
             {
-                MessageBox.Show(ce.Message);
+                MessageBox.Show(string.Format("{0}:{1}", ce.Message, ce.StackTrace));
             }
         }
  
@@ -232,7 +232,7 @@ namespace WolfInv.com.WXMsgCom
             }
             catch(Exception ce)
             {
-                MessageBox.Show(ce.Message);
+                MessageBox.Show(string.Format("{0}:{1}", ce.Message, ce.StackTrace));
             }
         }
 

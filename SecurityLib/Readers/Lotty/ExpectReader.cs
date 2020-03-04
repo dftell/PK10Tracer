@@ -12,6 +12,8 @@ namespace WolfInv.com.SecurityLib
             this.strDataType = "PK10";
             InitTables();
         }
+
+        
     }
     
     public class ExpectReader : PK10ExpectReader

@@ -27,6 +27,8 @@ namespace WolfInv.com.SecurityLib
             strMissNewestTable = dtp.MissNewestTable;
         }
 
+        //public abstract string getNextExpectNo(string expect);
+
         public abstract ExpectList<T> GetMissedData<T>(bool IsHistoryData, string strBegT) where T : TimeSerialData;
         public abstract ExpectList<T> getNewestData<T>(ExpectList<T> NewestData, ExpectList<T> ExistData) where T : TimeSerialData;
         public virtual DbChanceList<T> getNoCloseChances<T>(string strDataOwner) where T : TimeSerialData
@@ -55,6 +57,39 @@ namespace WolfInv.com.SecurityLib
         public abstract int DeleteExpectData(string expectid);
 
         public abstract void ExecProduce(string Procs);
+        public  string getNextExpectNo(string expect)
+        {
+            int DateLong = GlobalClass.TypeDataPoints[this.strDataType].ExpectCodeDateLong;
+            int CounterMax = GlobalClass.TypeDataPoints[this.strDataType].ExpectCodeCounterMax;
+            string dateFmt = GlobalClass.TypeDataPoints[this.strDataType].ExpectCodeDateFormate;
+            //if(DateLong==0)
+            //    return string.Format("{0}", long.Parse(expect) + 1);
+            string strDate = expect.Substring(0, DateLong);
+            string strCounter = expect.Substring(DateLong);
+            int CounterLong = expect.Length - strDate.Length;
+            long counterValue = long.Parse(strCounter);
+            DateTime currDate;
+            if (!DateTime.TryParseExact(strDate, dateFmt,
+                System.Globalization.CultureInfo.InvariantCulture,
+                System.Globalization.DateTimeStyles.AdjustToUniversal,
+                out currDate))//不是日期，继续合上
+            {
+                return string.Format("{0}{1}", strDate, string.Format("{0}", counterValue + 1).PadLeft(CounterLong, '0'));
+            }
+            else
+            {
+                if (counterValue < CounterMax)
+                {
+                    return string.Format("{0}{1}", strDate, string.Format("{0}", counterValue + 1).PadLeft(CounterLong, '0'));
+                }
+                else
+                {
+                    return string.Format("{0}{1}", currDate.AddDays(1).ToString(dateFmt), "1".PadLeft(CounterLong, '0'));
+                }
+            }
+        }
+
+        public abstract void updateExpectInfo(string dataType, string nextExpect, string currExpect);
     }
 
 }

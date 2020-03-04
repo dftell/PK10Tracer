@@ -231,6 +231,22 @@ namespace WolfInv.com.SecurityLib
             sql = Procs;
             db.ExecSql(new ConditionSql(sql));
         }
+
+        public override void updateExpectInfo(string dataType, string nextExpect, string currExpect=null)
+        
+        {
+            DbClass db = GlobalClass.getCurrDb(strDataType);
+            string sql = null;
+            if (currExpect == null)
+            {
+                sql = string.Format("update dataExpectInfoTable set nextExpect='{0}' where dataType='{1}'", nextExpect,  dataType);
+            }
+            else
+            {
+                sql = string.Format("update dataExpectInfoTable set nextExpect='{0}',currExpect='{1}' where dataType='{2}'", nextExpect, currExpect, dataType);
+            }
+            db.ExecSql(new ConditionSql(sql));
+        }
     }
 
 }

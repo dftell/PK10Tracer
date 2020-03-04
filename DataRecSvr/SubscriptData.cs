@@ -197,7 +197,7 @@ namespace DataRecSvr
         {
             //SubObj = new WD_SubscriptTimeDataClass();
             SubObj.UpdateAll = dtp.SubScriptUpdateAll==1;
-            SubObj.AfterUpdate += UpdateData;
+            SubObj.AfterUpdate = UpdateData;
             bool bAllsec = SubObj.GetAllEquits(dtp.SubScriptSector);//获得指定板块下的所有品种清单
             if (!bAllsec)
                 return;

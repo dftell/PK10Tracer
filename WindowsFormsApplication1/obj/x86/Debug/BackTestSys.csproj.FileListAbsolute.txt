@@ -84,3 +84,6 @@ E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\PK10Ba
 E:\projects\BackTest\PK10BackTestSystem.exe.config
 E:\projects\BackTest\PK10BackTestSystem.exe
 E:\projects\BackTest\PK10BackTestSystem.pdb
+C:\Users\zhouys\projects\BackTest\PK10BackTestSystem.exe.config
+C:\Users\zhouys\projects\BackTest\PK10BackTestSystem.exe
+C:\Users\zhouys\projects\BackTest\PK10BackTestSystem.pdb

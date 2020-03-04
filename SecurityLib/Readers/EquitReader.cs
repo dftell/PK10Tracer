@@ -13,6 +13,8 @@ namespace WolfInv.com.SecurityLib
             this.strDataType = "EquitDay";
             InitTables();
         }
+
+        
     }
 
     public class EquitTimeExpectReader : CommExpectReader
@@ -23,5 +25,6 @@ namespace WolfInv.com.SecurityLib
             this.strDataType = "EquitTime";
             InitTables();
         }
+        
     }
 }
