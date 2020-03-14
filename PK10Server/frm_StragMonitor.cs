@@ -19,6 +19,7 @@ using WolfInv.com.BaseObjectsLib;
 using System.Windows.Forms.DataVisualization.Charting;
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.SecurityLib;
+using System.Drawing.Imaging;
 namespace PK10Server
 {
     delegate void SetDataGridCallback(string id,DataTable dt,string sort=null);
@@ -35,44 +36,27 @@ namespace PK10Server
         DataReader exread = null;
         GlobalClass glb = new GlobalClass();
         SetDataGridCallback DgInvokeEvent;
-        ServiceSetting<TimeSerialData> _UseSetting = null;//供后面调用一切服务内容用
+        
         Dictionary<string, long> AssetTimeSummary = new Dictionary<string, long>();
+
+        ServiceSetting<TimeSerialData> _UseSetting = null;//供后面调用一切服务内容用
         ServiceSetting<TimeSerialData> UseSetting
         {
             get
             {
-                if (_UseSetting == null)
-                {
-                    try
-                    {
-
-                        WinComminuteClass wc = new WinComminuteClass();
-                        string strclassname = typeof(ServiceSetting<TimeSerialData>).Name.Split('\'')[0];
-                        string url = string.Format("ipc://IPC_{0}/{1}", dtp.DataType, strclassname);
-                        LogableClass.ToLog("监控终端", "刷新数据", url);
-                        _UseSetting = wc.GetServerObject<ServiceSetting<TimeSerialData>>(url,false);
-
-                    }
-                    catch (Exception ce)
-                    {
-                        string msg = ce.Message;
-                        MessageBox.Show(string.Format("获取用户设置错误:{0}",ce.Message));
-                    }
-                }
-                return _UseSetting;
+                return Program.UseSetting;
             }
         }
-        
         public frm_StragMonitor()
         {
             InitializeComponent();
             //chart_ForGuide_Paint
             dtp = GlobalClass.TypeDataPoints.First().Value;
             exread = DataReaderBuild.CreateReader(dtp.DataType, null, null);
-            PK10DataTimer.Interval = 5 * 60 * 1000;
+            PK10DataTimer.Interval = GlobalClass.TypeDataPoints.First().Value.ReceiveSeconds * 1000;
             PK10DataTimer.AutoReset = true;
             PK10DataTimer.Elapsed += new ElapsedEventHandler(RefreshPK10Data);
-            PK10DataTimer.Enabled = true;
+            PK10DataTimer.Enabled = false;
             LogTimer.Interval = 3 * 60 * 1000;
             LogTimer.AutoReset = true;
             LogTimer.Elapsed += new ElapsedEventHandler(RefreshLogInfo);
@@ -84,6 +68,14 @@ namespace PK10Server
             dg_StragList.ContextMenuStrip = this.contextMenuStrip_OperatePlan;
             //dg_NoCloseChances.ContextMenuStrip = this.contextMenuStrip_OperatePlan;
             CheckForIllegalCrossThreadCalls = false;
+            Program.optFunc.RefreshMonitorWindow += refreshSvrData;
+        }
+
+        void refreshSvrData()
+        {
+            //Program.AllGlobalSetting.wxlog.Log("退出服务", "意外停止服务", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+            RefreshPK10Data(null,null);
+            //RefreshPK10NoClosedChances();
         }
 
         void Setdg_NoCloseChances(DataTable dt)
@@ -184,6 +176,8 @@ namespace PK10Server
             DataTable dt = dc.Table;
            
             SetDataGridDataTable(dg_NoCloseChances, dt);
+            string GR_Path = "chances.jpg";
+            imageLogClass.SaveImage(dg_NoCloseChances, GR_Path, ImageFormat.Jpeg);
         }
 
         void RefrshStragAndPlan(bool ForceRefresh = false)
@@ -541,7 +535,9 @@ namespace PK10Server
             //this.chart_ForGuide.Invoke(new setChartCallback(setChart),chart);
             this.chart_ForGuide.Invoke(new setChartWithLenCallback(rePaintChart),Len);
             //rePaintChart(Len);
-            SaveChart();
+            //SaveChart();
+            string GR_Path = "chart.png";
+            imageLogClass.SaveImage(this.chart_ForGuide, GR_Path,ImageFormat.Png);
         }
 
         
@@ -668,6 +664,7 @@ namespace PK10Server
             try
             {
                 this.chart_ForGuide.SaveImage(fullFileName, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
+                Program.wxlog.LogImageUrl(string.Format("{0}/chartImgs/chart.png",GlobalClass.TypeDataPoints.First().Value.InstHost), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
             }
             catch(Exception ce)
             {

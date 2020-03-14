@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Drawing;
 using mshtml;
+using Gecko;
 //using WolfInv.com.SecurityLib;
 namespace WolfInv.com.WebRuleLib
 {
@@ -295,29 +296,9 @@ namespace WolfInv.com.WebRuleLib
         
 
 
-        public override bool IsVaildWeb(HtmlDocument doc)
-        {
-            return true;
-            return doc?.GetElementById("img-valcode") != null;
-        }
+       
 
-        public override bool IsLogined(HtmlDocument doc)
-        {
 
-            //HtmlElement ElPoint = doc?.GetElementById("userGamePointId");
-            return doc?.GetElementById("userGamePointId") != null;
-        }
-
-        public override double GetCurrMoney(HtmlDocument doc)
-        {
-            HtmlElement ElPoint = doc?.GetElementById("userGamePointId");
-            double ret = 0;
-            if (ElPoint != null)
-            {
-                double.TryParse(ElPoint?.InnerText, out ret);
-            }
-            return ret;
-        }
 
         public override string getRealUrl(string strHtml)
         {
@@ -438,16 +419,7 @@ namespace WolfInv.com.WebRuleLib
             var imagedata = canvas.toDataURL();
             return imagedata;
         }
-        public override bool IsLoadCompleted(HtmlDocument indoc)
-        {
-            string strNotice = "网站重要通知！！！";
-            HTMLDocument hdoc = indoc.DomDocument as HTMLDocument;
-            if (hdoc.body.outerHTML.IndexOf(strNotice) > 0)
-            {
-                return true;
-            }
-            return false;
-        }
+        
 
         public override string getChargeNum(HtmlDocument indoc)
         {
@@ -490,6 +462,13 @@ namespace WolfInv.com.WebRuleLib
             var item = hcols.item(null, 0);
             return item.innerText;
         }
+
+        
+
+       
+
+        
+
     }
 
    

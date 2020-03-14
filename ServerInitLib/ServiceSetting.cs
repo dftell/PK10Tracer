@@ -10,17 +10,20 @@ using WolfInv.com.WinInterComminuteLib;
 using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.ServerInitLib
 {
-
+    
     public class ServiceSetting<T> :RemoteServerClass where T:TimeSerialData
     {
+
         public DataTypePoint UseDataPoint { get { return GlobalClass.TypeDataPoints.First().Value; } }
         public static ServiceSetting<T> lastInst;
         public WXLogClass wxlog;
+        
         public ServiceSetting()
         {
             lastInst = this;
         }
-                
+
+        static bool _isReceiveData = false;//供外部使用
         static GlobalClass _gc;//全局配置
         static ExchangeService _ES;
         static Dictionary<string, BaseStragClass<T>> _AllStrags;
@@ -32,10 +35,39 @@ namespace WolfInv.com.ServerInitLib
         static List<ExchangeChance<T>> _AllExchangeChances;
         static Dictionary<string, ChanceClass<T>> _AllNoClosedChances;
         static Dictionary<string, List<double>> _AllStdDevs = new Dictionary<string, List<double>>();
+
+        public bool haveReceiveData
+        {
+            get
+            {
+                if (_isReceiveData)
+                {
+                    _isReceiveData = false;
+                    return true;
+                }
+                
+                return false;
+            }
+            set
+            {
+                _isReceiveData = value;
+            }
+        }
+
+        
         public GlobalClass gc//全局配置
         {
             get { return _gc; }
             set { _gc = value; }
+        }
+
+        public void setGc(GlobalClass mygc)
+        {
+            gc = mygc;
+        }
+        public void setWXLog(WXLogClass mygc)
+        {
+            wxlog = mygc;
         }
         public ExchangeService ES
         {
@@ -127,7 +159,9 @@ namespace WolfInv.com.ServerInitLib
             if (gc == null)
                 gc = new GlobalClass();
             this.gc = gc;
+            
             wxlog = new WXLogClass("服务器管理员",gc.WXLogNoticeUser,string.Format(gc.WXLogUrl,gc.WXSVRHost));
+            
             LogableClass.ToLog("初始化服务器设置","初始化策略列表");
             wxlog.Log("初始化服务器设置", "初始化策略列表");
             this.AllStrags = InitServerClass.Init_StragList<T>();

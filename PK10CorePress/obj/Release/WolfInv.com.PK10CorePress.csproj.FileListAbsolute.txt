@@ -3,3 +3,8 @@ C:\Users\zhouys\source\repos\dftell\PK10Tracer\PK10CorePress\obj\Release\WolfInv
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\PK10CorePress\obj\Release\WolfInv.com.PK10CorePress.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\PK10CorePress\obj\Release\WolfInv.com.PK10CorePress.csproj.CopyComplete
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\PK10CorePress\obj\Release\WolfInv.com.PK10CorePress.dll
+E:\github\project\PK10Tracer\WolfInv.com.PK10CorePress.dll
+E:\github\source\dftell\PK10Tracer\PK10CorePress\obj\Release\WolfInv.com.PK10CorePress.csprojAssemblyReference.cache
+E:\github\source\dftell\PK10Tracer\PK10CorePress\obj\Release\WolfInv.com.PK10CorePress.csproj.CoreCompileInputs.cache
+E:\github\source\dftell\PK10Tracer\PK10CorePress\obj\Release\WolfInv.com.PK10CorePress.csproj.CopyComplete
+E:\github\source\dftell\PK10Tracer\PK10CorePress\obj\Release\WolfInv.com.PK10CorePress.dll

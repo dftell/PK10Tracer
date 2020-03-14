@@ -4,6 +4,9 @@ using System.Windows.Forms;
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.LogLib;
 using WolfInv.com.ServerInitLib;
+using WolfInv.com.WinInterComminuteLib;
+using System.Linq;
+
 namespace PK10Server
 {
     //////static class Program
@@ -58,7 +61,11 @@ namespace PK10Server
         public static ServiceSetting<TimeSerialData> AllGlobalSetting;
  
         public static frm_StragMonitor<TimeSerialData> frm_Monitor;
-        static WXLogClass wxlog;
+        public static WXLogClass wxlog;
+        public static GlobalClass gc;
+        public static operateClass optFunc;
+        static Timer tm_heart;
+        static MainForm frm;
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
@@ -71,11 +78,12 @@ namespace PK10Server
             ////return;
             try
             {
-                GlobalClass gc = new GlobalClass();
-
-                LogableClass.ToLog("测试", "看看");
+               gc  = new GlobalClass();
+                optFunc = new operateClass();
+                //LogableClass.ToLog("测试", "看看");
                 InitSystem();
                 AllGlobalSetting.wxlog.Log("初始化系统", "各种配置读取完毕并有效初始化！", string.Format(gc.WXLogUrl, gc.WXSVRHost));
+                
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
@@ -85,8 +93,15 @@ namespace PK10Server
                 Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
                 //处理非UI线程异常
                 AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-
-                Application.Run(new MainForm());
+                wxlog = new WXLogClass("客户端", gc.WXLogNoticeUser, string.Format(gc.WXLogUrl, gc.WXSVRHost));//指定默认登录用户，为捕捉第一次产生错误用。
+                
+                
+                frm = new MainForm();
+                tm_heart = new Timer();
+                tm_heart.Enabled = true;
+                tm_heart.Interval = 100;
+                tm_heart.Tick += Tm_heart_Tick;
+                Application.Run(frm);
                 AllGlobalSetting.wxlog.Log("关闭程序", "终止界面", string.Format(gc.WXLogUrl, gc.WXSVRHost));
             }
             catch(Exception ce)
@@ -94,6 +109,55 @@ namespace PK10Server
                 MessageBox.Show(string.Format("{0}:{1}", ce.Message, ce.StackTrace));
             }
         }
+
+        private static void Tm_heart_Tick(object sender, EventArgs e)
+        {
+            if (UseSetting != null)
+            {
+                bool haveRec = UseSetting.haveReceiveData;
+                if(haveRec)
+                {
+                    CalcFinishedEvent(DateTime.Now);
+                }
+            }
+            
+        }
+
+        static void CalcFinishedEvent(DateTime dt)
+        {
+            AllGlobalSetting.wxlog.Log("接收到服务计算完成消息", string.Format("服务器计算完成时间:{0}",dt), string.Format(gc.WXLogUrl, gc.WXSVRHost));
+            optFunc.RefreshData(frm);
+        }
+
+        static ServiceSetting<TimeSerialData> _UseSetting = null;//供后面调用一切服务内容用
+        public static ServiceSetting<TimeSerialData> UseSetting
+        {
+            get
+            {
+                if (_UseSetting == null)
+                {
+                    try
+                    {
+
+                        WinComminuteClass wc = new WinComminuteClass();
+                        string strclassname = typeof(ServiceSetting<TimeSerialData>).Name.Split('\'')[0];
+                        string url = string.Format("ipc://IPC_{0}/{1}", GlobalClass.TypeDataPoints.First().Key, strclassname);
+                        LogableClass.ToLog("监控终端", "刷新数据", url);
+                        _UseSetting = wc.GetServerObject<ServiceSetting<TimeSerialData>>(url, false);
+
+                    }
+                    catch (Exception ce)
+                    {
+                        string msg = ce.Message;
+                        MessageBox.Show(string.Format("获取用户设置错误:{0}", ce.Message));
+                    }
+                }
+                return _UseSetting;
+            }
+        }
+
+
+
 
         static void InitSystem()
         {
@@ -105,14 +169,14 @@ namespace PK10Server
         static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
             string str = GetExceptionMsg(e.Exception, e.ToString());
-            MessageBox.Show(str, "系统错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //MessageBox.Show(str, "系统错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             //LogManager.WriteLog(str);
         }
 
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             string str = GetExceptionMsg(e.ExceptionObject as Exception, e.ToString());
-            MessageBox.Show(str, "系统错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //MessageBox.Show(str, "系统错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             //LogManager.WriteLog(str);
         }
 
@@ -142,6 +206,39 @@ namespace PK10Server
         }
 
 
+    }
+
+    public class operateClass
+    {
+        public Action RefreshMainWindow;
+        public Action RefreshMonitorWindow;
+
+        public void RefreshData(MainForm frm)
+        {
+            System.Threading.Thread.Sleep(1000);
+            if (this.RefreshMainWindow == null)
+            {
+                Program.wxlog.Log("无法刷新","主数据窗口事件未初始化！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+            }
+            else
+            {
+
+                Program.wxlog.Log("刷新主数据", "主数据刷新！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                this.RefreshMainWindow();
+                
+            }
+            System.Threading.Thread.Sleep(1000);
+            if (this.RefreshMonitorWindow == null)
+            {
+                Program.wxlog.Log("无法刷新", "主监控窗口事件未初始化！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                frm.tsmi_RunMonitor_Click(null,null);
+            }
+            else
+            {
+                Program.wxlog.Log("刷新监控数据", "主监控窗口数据刷新！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                this.RefreshMonitorWindow();
+            }
+        }
     }
 
     class c1

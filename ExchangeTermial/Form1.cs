@@ -41,17 +41,23 @@ namespace ExchangeTermial
 
         private void btn_login_Click(object sender, EventArgs e)
         {
-            
+            this.btn_login.Enabled = false;
+            this.Cursor = Cursors.WaitCursor;
             CommunicateToServer cts =new CommunicateToServer();
             CommResult cr =  cts.Login( GlobalClass.strLoginUrlModel, this.txt_user.Text,this.txt_password.Text);
             if(cr == null)
             {
+                
+                this.Cursor = Cursors.Default;
                 MessageBox.Show("无法返回对象！");
+                this.btn_login.Enabled = true;
                 return ;
             }
             if(cr.Succ == false)
             {
+                this.Cursor = Cursors.Default;
                 MessageBox.Show(cr.Message);
+                this.btn_login.Enabled = true;
                 return ;
             }
             this.Cursor = Cursors.WaitCursor;
@@ -82,13 +88,13 @@ namespace ExchangeTermial
                 }
                 Program.gc.AssetUnits = assetconfig;
             }
-            catch
+            catch(Exception ce)
             {
-
+                //return;
             }
             if (Program.gc.SvrConfigUrl != null)//获取服务器默认配置
             {
-                string strConfig = AccessWebServerClass.GetData(Program.gc.SvrConfigUrl, Encoding.UTF8);
+                string strConfig = AccessWebServerClass.GetData(string.Format(Program.gc.SvrConfigUrl,Program.gc.InstHost), Encoding.UTF8);
                 if (strConfig != null && strConfig.Trim().Length > 0)
                 {
                     SvrConfigClass scc = new SvrConfigClass().getObjectByJsonString(strConfig);
@@ -104,27 +110,35 @@ namespace ExchangeTermial
                         Program.gc.NavHost = scc.DefaultNavHost;
                 }
             }
-            //Program.gc.LoginDefaultHost = WebRuleBuilder.Create(Program.gc).GetChanle(Program.gc.WebNavUrl, Program.gc.LoginDefaultHost); ;
-            GlobalClass.SetConfig();
-            this.Hide();
-            this.Cursor = Cursors.Default;
-            //必须重新指定登录用户
-            Program.wxl = new WolfInv.com.LogLib.WXLogClass(Program.gc.ClientAliasName, Program.gc.WXLogNoticeUser, Program.gc.WXLogUrl);
-            MainWindow mw = new MainWindow();
-            DialogResult res = mw.ShowDialog();
+            try
+            {
+                //Program.gc.LoginDefaultHost = WebRuleBuilder.Create(Program.gc).GetChanle(Program.gc.WebNavUrl, Program.gc.LoginDefaultHost); ;
+                GlobalClass.SetConfig();
+                this.Hide();
+                this.Cursor = Cursors.Default;
+                //必须重新指定登录用户
+                Program.wxl = new WolfInv.com.LogLib.WXLogClass(Program.gc.ClientAliasName, Program.gc.WXLogNoticeUser, Program.gc.WXLogUrl);
+                MainWindow mw = new MainWindow();
+                //testWeb mw = new testWeb();
+                DialogResult res = mw.ShowDialog();
 
-            //////while ( res == DialogResult.OK)//如果frm退出是因为要求重启
-            //////{
-            //////    if (mw.ForceReboot)
-            //////    {
-            //////        mw.ForceReboot = false;
-            //////        Program.Reboot = false;
-            //////        mw = new MainWindow();
-            //////        res = mw.ShowDialog();
-            //////    }
-            //////    //GC.SuppressFinalize(frm);
-            //////}
-            Application.Exit();
+                //////while ( res == DialogResult.OK)//如果frm退出是因为要求重启
+                //////{
+                //////    if (mw.ForceReboot)
+                //////    {
+                //////        mw.ForceReboot = false;
+                //////        Program.Reboot = false;
+                //////        mw = new MainWindow();
+                //////        res = mw.ShowDialog();
+                //////    }
+                //////    //GC.SuppressFinalize(frm);
+                //////}
+                Application.Exit();
+            }
+            catch(Exception ce1)
+            {
+                MessageBox.Show(string.Format("{0}:{1}",ce1.Message,ce1.StackTrace));
+            }
         }
 
         class SvrConfigClass:iSerialJsonClass<SvrConfigClass>

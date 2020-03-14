@@ -123,7 +123,7 @@ namespace WolfInv.com.BaseObjectsLib
         public static string Title = "快乐赛车";
         public static string strLoginUrlModel = "http://www.wolfinv.com/PK10/App/login.asp?User={0}&Password={1}";
         public static string strRequestInstsURL = "http://www.wolfinv.com/pk10/app/requestinsts.asp";
-        public static string strAssetInfoURL = "http://www.wolfinv.com/pk10/app/getAssetLists.asp";
+        public static string strAssetInfoURL = "{0}/pk10/app/getAssetLists.asp";
         public static string dbServer = "";// "www.wolfinv.com";//"47.95.222.142";//"www.wolfinv.com";
         public static string dbName = "";//"PK10db";
         public static string dbUser = "";//"sa";
@@ -470,8 +470,57 @@ namespace WolfInv.com.BaseObjectsLib
         {
             get
             {
-                if (SysParams.Count > 0)
+                if (SysParams.Count > 0 && SysParams["System"].ContainsKey("LoginUrlModel"))
                     return SysParams["System"]["LoginUrlModel"];
+                return "";
+            }
+        }
+
+        public string LoginPage
+        {
+            get
+            {
+                if (SysParams.Count > 0 && SysParams["System"].ContainsKey("LoginPage"))
+                    return SysParams["System"]["LoginPage"];
+                return "";
+            }
+        }
+
+        public string LoginPageUserNameId
+        {
+            get
+            {
+                if (SysParams.Count > 0 && SysParams["System"].ContainsKey("LoginPageUserNameId"))
+                    return SysParams["System"]["LoginPageUserNameId"];
+                return "";
+            }
+        }
+
+        public string LetteryPageUserKeyId
+        {
+            get
+            {
+                if (SysParams.Count > 0 && SysParams["System"].ContainsKey("LetteryPageUserKeyId"))
+                    return SysParams["System"]["LetteryPageUserKeyId"];
+                return "";
+            }
+        }
+        public string LetteryPageUserKeyValue
+        {
+            get
+            {
+                if (SysParams.Count > 0 && SysParams["System"].ContainsKey("LetteryPageUserKeyValue"))
+                    return SysParams["System"]["LetteryPageUserKeyValue"];
+                return "";
+            }
+        }
+        
+        public string LotteryPage
+        {
+            get
+            {
+                if (SysParams.Count > 0 && SysParams["System"].ContainsKey("LotteryPage"))
+                    return SysParams["System"]["LotteryPage"];
                 return "";
             }
         }
@@ -944,30 +993,31 @@ namespace WolfInv.com.BaseObjectsLib
             {
                 doc.Load(strXmlPath);
 
+
+                XmlDocument configDoc = doc;
+                XmlNodeList configs = configDoc.SelectNodes("root/configs/config");
+                for (int i = 0; i < configs.Count; i++)
+                {
+                    XmlNode node = configs[i];
+                    string TypeName = node.Attributes["type"].Value;
+                    Dictionary<string, string> configtypeDir = new Dictionary<string, string>();
+                    XmlNodeList configitems = node.SelectNodes("./item");
+                    for (int j = 0; j < configitems.Count; j++)
+                    {
+                        string name = configitems[j].Attributes["key"].Value;
+                        string val = configitems[j].Attributes["value"].Value;
+                        if (!configtypeDir.ContainsKey(name))
+                            configtypeDir.Add(name, val);
+                        else
+                            configtypeDir[name] = val;
+                    }
+                    sSysParams.Add(TypeName, configtypeDir);
+                }
             }
             catch (Exception ce)
             {
                 ToLog("读取配置文件错误", ce.Message);
                 return;
-            }
-            XmlDocument configDoc = doc;
-            XmlNodeList configs = configDoc.SelectNodes("root/configs/config");
-            for (int i = 0; i < configs.Count; i++)
-            {
-                XmlNode node = configs[i];
-                string TypeName = node.Attributes["type"].Value;
-                Dictionary<string, string> configtypeDir = new Dictionary<string, string>();
-                XmlNodeList configitems = node.SelectNodes("./item");
-                for (int j = 0; j < configitems.Count; j++)
-                {
-                    string name = configitems[j].Attributes["key"].Value;
-                    string val = configitems[j].Attributes["value"].Value;
-                    if (!configtypeDir.ContainsKey(name))
-                        configtypeDir.Add(name, val);
-                    else
-                        configtypeDir[name] = val;
-                }
-                sSysParams.Add(TypeName, configtypeDir);
             }
         }
 
@@ -1013,6 +1063,54 @@ namespace WolfInv.com.BaseObjectsLib
         {
             _strStragJsons = ReadFile("StragList.db");
             return _strStragJsons;
+        }
+
+        public string HostKey
+        {
+            get
+            {
+                if (SysParams.Count > 0 && SysParams["System"].ContainsKey("HostKey"))
+                {
+                    return SysParams["System"]["HostKey"];
+                }
+                return "";
+            }
+        }
+
+        public string UseBrowser
+        {
+            get
+            {
+                if (SysParams.Count > 0 && SysParams["System"].ContainsKey("UseBrowser"))
+                {
+                    return SysParams["System"]["UseBrowser"];
+                }
+                return "";
+            }
+        }
+
+        public string LoginedFlag
+        {
+            get
+            {
+                if (SysParams.Count > 0 && SysParams["System"].ContainsKey("LoginedFlag"))
+                {
+                    return SysParams["System"]["LoginedFlag"];
+                }
+                return "";
+            }
+        }
+
+        public string AmountId
+        {
+            get
+            {
+                if (SysParams.Count > 0 && SysParams["System"].ContainsKey("AmountId"))
+                {
+                    return SysParams["System"]["AmountId"];
+                }
+                return "";
+            }
         }
 
         public static bool SaveStragList(string str)
@@ -1114,6 +1212,9 @@ namespace WolfInv.com.BaseObjectsLib
         {
             return getOptSerials(odds, MaxValue, FirstAmt, false);
         }
+
+        
+
         /// <summary>
         /// 计算最优投注金额数组
         /// </summary>

@@ -15,13 +15,13 @@ namespace DataRecSvr
     public static class Program
     {
         public static ServiceSetting<TimeSerialData> AllServiceConfig;
-        
+        public static GlobalClass gc = null;
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
         static void Main()
         {
-            GlobalClass gc =null;
+            
             try
             {
                 gc = new GlobalClass();
@@ -45,7 +45,7 @@ namespace DataRecSvr
                 LogableClass.ToLog("启动通道", "开始");
                 new CommuniteClass().StartIPCServer();
                 ServiceBase.Run(ServicesToRun);
-                AllServiceConfig.wxlog.Log("退出服务", "意外停止服务", string.Format(gc.WXLogUrl, gc.WXSVRHost));
+                //AllServiceConfig.wxlog.Log("退出服务", "意外停止服务", string.Format(gc.WXLogUrl, gc.WXSVRHost));
             }
             catch (Exception e)
             {
@@ -62,7 +62,7 @@ namespace DataRecSvr
             AllServiceConfig = new ServiceSetting<TimeSerialData>();
             AllServiceConfig.Init(null);
             AllServiceConfig.GrpThePlan(false);
-            AllServiceConfig.CreateChannel(GlobalClass.TypeDataPoints.First().Key);//根据不同的数据建立不同的端口
+            AllServiceConfig.CreateChannel(GlobalClass.TypeDataPoints.First().Key,true);//根据不同的数据建立不同的端口 必须使用独占模式
 
             AllServiceConfig.AllAssetUnits.Values.ToList<AssetUnitClass>().ForEach(p => p.Run());//打开各开关
             //RemoteCommClass<ServiceSetting>.SetRemoteInst(AllServiceConfig);

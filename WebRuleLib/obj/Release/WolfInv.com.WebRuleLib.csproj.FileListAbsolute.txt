@@ -3,3 +3,8 @@ C:\Users\zhouys\source\repos\dftell\PK10Tracer\WebRuleLib\obj\Release\WolfInv.co
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\WebRuleLib\obj\Release\WolfInv.com.WebRuleLib.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\WebRuleLib\obj\Release\WolfInv.com.WebRuleLib.csproj.CopyComplete
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\WebRuleLib\obj\Release\WolfInv.com.WebRuleLib.dll
+E:\github\project\PK10Tracer\WolfInv.com.WebRuleLib.dll
+E:\github\source\dftell\PK10Tracer\WebRuleLib\obj\Release\WolfInv.com.WebRuleLib.csprojAssemblyReference.cache
+E:\github\source\dftell\PK10Tracer\WebRuleLib\obj\Release\WolfInv.com.WebRuleLib.csproj.CoreCompileInputs.cache
+E:\github\source\dftell\PK10Tracer\WebRuleLib\obj\Release\WolfInv.com.WebRuleLib.csproj.CopyComplete
+E:\github\source\dftell\PK10Tracer\WebRuleLib\obj\Release\WolfInv.com.WebRuleLib.dll

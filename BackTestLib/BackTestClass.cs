@@ -375,7 +375,7 @@ namespace WolfInv.com.BackTestLib
             return ret;
         }
 
-        void OnCalcFinished()
+        void OnCalcFinished(DataTypePoint dtp)
         {
             //this.SystemStdDevs = cs.getSystemStdDevList();
             //testIndex++;

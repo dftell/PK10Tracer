@@ -20,7 +20,7 @@ using WolfInv.com.PK10CorePress;
 
 namespace DataRecSvr
 {
-    public delegate void EventFinishedCalc();
+    public delegate void EventFinishedCalc(DataTypePoint dtp);
     public partial class CalcService<T> : SelfDefBaseService<T> where T :TimeSerialData
     {
         public DataTypePoint DataPoint { get; set; }
@@ -249,7 +249,7 @@ namespace DataRecSvr
             
             if (FinishedThreads == RunThreads)
             {
-                OnFinishedCalc();
+                OnFinishedCalc(DataPoint);
                 ThreadPools = new List<Thread>();
                 if (IsTestBack)
                     return true; //如果是回测，不做处理

@@ -3,3 +3,8 @@ C:\Users\zhouys\source\repos\dftell\PK10Tracer\WebCommunicateClass\obj\Release\W
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\WebCommunicateClass\obj\Release\WolfInv.com.WebCommunicateClass.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\WebCommunicateClass\obj\Release\WolfInv.com.WebCommunicateClass.csproj.CopyComplete
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\WebCommunicateClass\obj\Release\WolfInv.com.WebCommunicateClass.dll
+E:\github\project\PK10Tracer\WolfInv.com.WebCommunicateClass.dll
+E:\github\source\dftell\PK10Tracer\WebCommunicateClass\obj\Release\WolfInv.com.WebCommunicateClass.csprojAssemblyReference.cache
+E:\github\source\dftell\PK10Tracer\WebCommunicateClass\obj\Release\WolfInv.com.WebCommunicateClass.csproj.CoreCompileInputs.cache
+E:\github\source\dftell\PK10Tracer\WebCommunicateClass\obj\Release\WolfInv.com.WebCommunicateClass.csproj.CopyComplete
+E:\github\source\dftell\PK10Tracer\WebCommunicateClass\obj\Release\WolfInv.com.WebCommunicateClass.dll

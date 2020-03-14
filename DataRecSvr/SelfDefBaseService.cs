@@ -31,7 +31,7 @@ namespace DataRecSvr
         {
             LogableClass.ToLog(this.ServiceName, topic, msg);
             if(ToWXMsg)
-                Program.AllServiceConfig.wxlog.Log(this.ServiceName, topic, msg);
+                Program.AllServiceConfig.wxlog.Log(this.ServiceName, topic, msg, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
         }
     }
 }

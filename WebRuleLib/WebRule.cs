@@ -9,6 +9,8 @@ using XmlProcess;
 using System.Xml;
 using System.Xml.Linq;
 using System.Drawing;
+using Gecko;
+
 namespace WolfInv.com.WebRuleLib
 {
     public class WebConfig
@@ -194,14 +196,18 @@ namespace WolfInv.com.WebRuleLib
     public abstract class WebRule : ILotteryRule
     {
         //public abstract string IntsListToJsonString(List<InstClass> Insts);
-        public abstract string IntsToJsonString(string LotteryName,String ccs, int unit);
+        public virtual string IntsToJsonString(string LotteryName,String ccs, int unit)
+        {
+            return ccs;
+        }
         public GlobalClass GobalSetting;
         public WebConfig config;
         protected WebRule(GlobalClass setting)
         {
             GobalSetting = setting;
         }
-        public abstract bool IsLoadCompleted(HtmlDocument indoc);
+
+
         public void Load(string filename,string foldername)
         {
             config = new WebConfig();
@@ -222,11 +228,98 @@ namespace WolfInv.com.WebRuleLib
             }
         }
 
-        public abstract bool IsVaildWeb(HtmlDocument doc);
 
-        public abstract bool IsLogined(HtmlDocument doc);
 
-        public abstract double GetCurrMoney(HtmlDocument doc);
+
+
+
+
+
+
+
+        #region 获取或判断对象值
+        public  bool IsLoadCompleted(HtmlDocument indoc)
+        {
+            string strNotice = GobalSetting.HostKey;
+
+            return WebRule.existElement(indoc, GobalSetting.HostKey);
+
+        }
+
+        public  bool IsVaildWeb(GeckoDocument doc)
+        {
+            return true;
+        }
+
+        public bool IsLogined(GeckoDocument doc)
+        {
+            return WebRule.existElement(doc, GobalSetting.LoginedFlag);
+            return doc?.GetElementById(GobalSetting.LoginedFlag) != null;
+        }
+
+        public bool IsLoadCompleted(GeckoDocument indoc)
+        {
+            string strNotice = GobalSetting.HostKey;
+
+            return WebRule.existElement(indoc, GobalSetting.HostKey);
+
+
+            if (indoc.Head.OuterHtml.IndexOf(strNotice) > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool IsLogined(HtmlDocument doc)
+        {
+            return WebRule.existElement(doc, GobalSetting.LoginedFlag);
+            return true;
+        }
+
+        public double GetCurrMoney(HtmlDocument doc)
+        {
+            HtmlElement ElPoint = doc?.GetElementById(GobalSetting.AmountId);
+            double ret = 0;
+            if (ElPoint != null)
+            {
+                double.TryParse(ElPoint?.InnerText, out ret);
+            }
+            return ret;
+        }
+
+        public double GetCurrMoney(GeckoDocument doc)
+        {
+            string outval = "";
+            bool succ = WebRule.existElement(doc, GobalSetting.AmountId, out outval);
+            if (succ)
+            {
+                double outRes = 0.00;
+                if (double.TryParse(outval, out outRes))
+                {
+                    return outRes;
+                }
+                return 0;
+            }
+            return 0;
+            GeckoElement ElPoint = doc?.GetElementById(GobalSetting.AmountId);
+            double ret = 0;
+            if (ElPoint != null)
+            {
+                double.TryParse(ElPoint?.TextContent, out ret);
+            }
+            return ret;
+        }
+
+
+        public bool IsVaildWeb(HtmlDocument doc)
+        {
+            return true;
+        }
+
+        #endregion
+
+
 
         protected abstract Dictionary<string, int> GetChanlesInfo(string url);
 
@@ -282,6 +375,65 @@ namespace WolfInv.com.WebRuleLib
         public abstract string getChargeAmt(HtmlDocument doc);
 
         public abstract string getErr_Msg(HtmlDocument doc);
+
+        public static bool existElement(object doc, string tag)
+        {
+            string outval = null;
+            return existElement(doc, tag,out outval);
+        }
+
+        public static bool existElement(object doc,string tag,out string outVal)
+        {
+            bool isIE = doc is HtmlDocument;
+            string[] arr = tag.Split('|'); //p|class|lkjlfd 
+            string tagName = arr[0];//tag p ，a，table ，td，div
+            string tagKeyType = "";//class ,id,name
+            string tagKeyValue = "";//
+            if (arr.Length > 1)
+            {
+                tagKeyType = arr[1];
+            }
+            if (arr.Length > 2)
+            {
+                tagKeyValue = tag.Substring(tagName.Length + 1 + tagKeyType.Length + 1);//除去 tag 和 约束[id|name]的值
+            }
+            if (isIE)
+            {
+                HtmlElementCollection hec = (doc as HtmlDocument).GetElementsByTagName(tagName);
+                foreach (HtmlElement he in hec)
+                {
+                    string idval = null;
+                    idval = he.GetAttribute(tagKeyType.Trim());
+                    if (string.IsNullOrEmpty(idval)) //标签都没有
+                        continue;
+                    if (idval?.Trim() == tagKeyValue)//如果匹配上了
+                    {
+                        outVal = he.InnerText;
+                        return true;
+                    }
+                }
+                outVal = null;
+                return false;
+            }
+            else
+            {
+                GeckoElementCollection hec = (doc as GeckoDocument).GetElementsByTagName(tagName);
+                foreach (GeckoElement he in hec)
+                {
+                    string idval = null;
+                    idval = he.GetAttribute(tagKeyType.Trim());
+                    if (string.IsNullOrEmpty(idval)) //标签都没有
+                        continue;
+                    if (idval?.Trim() == tagKeyValue)//如果匹配上了
+                    {
+                        outVal = he.TextContent;
+                        return true;
+                    }
+                }
+                outVal = null;
+                return false;
+            }
+        }
     }
 
 
@@ -298,7 +450,7 @@ namespace WolfInv.com.WebRuleLib
             ////{
 
             ////}
-            return null;
+            return new JsProcessRuleClass(gc);
         }
 
         

@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 //using WolfInv.com.PK10CorePress;
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.LogLib;
+using Gecko;
 namespace ExchangeTermial
 {
     public static class Program
@@ -26,6 +29,9 @@ namespace ExchangeTermial
         static void Main(string[] args)
         {
             VerNo = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            System.IO.Directory.SetCurrentDirectory(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location));
+            
+            //Xpcom.Initialize("Firefox");
             gc = new GlobalClass();
             System.Drawing.Image img = null;
             //string retver = VerPwdClass.getString(img);
@@ -42,8 +48,13 @@ namespace ExchangeTermial
             //ContinueRun:
             try
             {
+                
+                //var programDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+                //Gecko.Xpcom.Initialize(Path.Combine(programDirectory, "xulrunner"));
+
                 frm =  new Form1(strName, strPassword, AutoLogin);
                 string msg = wxl.Log(string.Format("{0}","客户端启动！"));
+                Xpcom.Initialize("Firefox");
                 Application.Run(frm);
                 
                 wxl.Log(string.Format("{0}", "客户端退出！"));
@@ -63,7 +74,8 @@ namespace ExchangeTermial
             }
             finally
             {
-                GC.SuppressFinalize(frm);
+                if(frm != null)
+                   GC.SuppressFinalize(frm);
             }
             //Application.Exit();
         }

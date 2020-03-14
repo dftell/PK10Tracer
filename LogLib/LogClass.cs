@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Reflection;
+using System.Linq;
 namespace WolfInv.com.LogLib
 {
     public abstract class LogClass:MarshalByRefObject
@@ -96,7 +97,7 @@ namespace WolfInv.com.LogLib
                 deep--;
                 
             }
-            Write(string.Format("{0}:{1}", topic, st.GetFrame(deep).GetMethod().Name), msg, ServiceName);
+            Write(string.Format("{0}:{1}", topic, string.Join("<<", st.GetFrames().Skip(2).Take(5).Select(a=>a.GetMethod().Name))), msg, ServiceName);
         }
 
         protected void WriteToFile(string txt,string specPath, string filename, string filetype)

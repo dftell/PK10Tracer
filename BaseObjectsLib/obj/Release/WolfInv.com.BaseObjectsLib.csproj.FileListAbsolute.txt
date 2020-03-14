@@ -5,3 +5,10 @@ C:\Users\zhouys\source\repos\dftell\PK10Tracer\BaseObjectsLib\obj\Release\WolfIn
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\BaseObjectsLib\obj\Release\WolfInv.com.BaseObjectsLib.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\BaseObjectsLib\obj\Release\WolfInv.com.BaseObjectsLib.csproj.CopyComplete
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\BaseObjectsLib\obj\Release\WolfInv.com.BaseObjectsLib.dll
+E:\github\project\PK10Tracer\WolfInv.com.BaseObjectsLib.dll
+E:\github\source\dftell\PK10Tracer\BaseObjectsLib\obj\Release\WolfInv.com.BaseObjectsLib.csprojAssemblyReference.cache
+E:\github\source\dftell\PK10Tracer\BaseObjectsLib\obj\Release\WolfInv.com.BaseObjectsLib.SerialableObjectEditor.resources
+E:\github\source\dftell\PK10Tracer\BaseObjectsLib\obj\Release\WolfInv.com.BaseObjectsLib.csproj.GenerateResource.cache
+E:\github\source\dftell\PK10Tracer\BaseObjectsLib\obj\Release\WolfInv.com.BaseObjectsLib.csproj.CoreCompileInputs.cache
+E:\github\source\dftell\PK10Tracer\BaseObjectsLib\obj\Release\WolfInv.com.BaseObjectsLib.csproj.CopyComplete
+E:\github\source\dftell\PK10Tracer\BaseObjectsLib\obj\Release\WolfInv.com.BaseObjectsLib.dll

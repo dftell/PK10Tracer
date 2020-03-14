@@ -41,3 +41,10 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Release\Fakes\wibol\
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Release\Fakes\wibol\b\WolfInv.com.DbAccessLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Release\Fakes\wibol\b\WolfInv.com.LogLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Release\WolfInv.com.GuideLib.csprojAssemblyReference.cache
+E:\github\project\PK10Tracer\WolfInv.com.GuideLib.dll
+E:\github\project\PK10Tracer\WolfInv.com.GuideLib.pdb
+E:\github\source\dftell\PK10Tracer\GuideLib\obj\Release\WolfInv.com.GuideLib.csprojAssemblyReference.cache
+E:\github\source\dftell\PK10Tracer\GuideLib\obj\Release\WolfInv.com.GuideLib.csproj.CoreCompileInputs.cache
+E:\github\source\dftell\PK10Tracer\GuideLib\obj\Release\WolfInv.com.GuideLib.csproj.CopyComplete
+E:\github\source\dftell\PK10Tracer\GuideLib\obj\Release\WolfInv.com.GuideLib.dll
+E:\github\source\dftell\PK10Tracer\GuideLib\obj\Release\WolfInv.com.GuideLib.pdb

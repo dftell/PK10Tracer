@@ -10,6 +10,8 @@ using WolfInv.com.SecurityLib;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualBasic;
+using System.Drawing.Imaging;
+
 namespace PK10Server
 {
     
@@ -36,7 +38,16 @@ namespace PK10Server
             gobj = new GlobalClass();
             dtp = GlobalClass.TypeDataPoints.First().Value;
             er = DataReaderBuild.CreateReader(dtp.DataType, null, null);
+            Program.optFunc.RefreshMainWindow += refreshData;
         }
+
+
+        void refreshData()
+        {
+            //Program.AllGlobalSetting.wxlog.Log("退出服务", "意外停止服务", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+            timer_For_NewestData_Tick(null, null);
+        }
+
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -108,54 +119,74 @@ namespace PK10Server
 
         void RefreshSerialData(ListView lv,bool byNo,int minRow)
         {
-            ExpectList<TimeSerialData> el = ViewDataList; ;
-            
-            ExpectListProcessBuilder<TimeSerialData> elp = new ExpectListProcessBuilder<TimeSerialData>(dtp,el);
-            BaseCollection<TimeSerialData> sc = elp.getProcess().getSerialData(180, byNo);
-            sc.isByNo = byNo;
-            lv.Items.Clear();
-            for (int i = minRow-1; i < sc.Table.Rows.Count; i++)
+            try
             {
-                ListViewItem lvi = new ListViewItem();
-                lvi.Text = (i-minRow+1+1).ToString();
-                if (byNo)
+
+
+                ExpectList<TimeSerialData> el = ViewDataList; ;
+
+                ExpectListProcessBuilder<TimeSerialData> elp = new ExpectListProcessBuilder<TimeSerialData>(dtp, el);
+                BaseCollection<TimeSerialData> sc = elp.getProcess().getSerialData(180, byNo);
+                sc.isByNo = byNo;
+                lv.Items.Clear();
+                for (int i = minRow - 1; i < sc.Table.Rows.Count; i++)
                 {
-                    for (int j = 0; j < sc.Table.Columns.Count; j++)
+                    ListViewItem lvi = new ListViewItem();
+                    lvi.Text = (i - minRow + 1 + 1).ToString();
+                    if (byNo)
                     {
-                        lvi.SubItems.Add(sc.Table.Rows[i][j].ToString());
-                    }
-                }
-                else
-                {
-                    for (int j = 0; j < sc.Table.Columns.Count; j++)
-                    {
-                        if (dtp.DataType == "PK10" || dtp.DataType == "XYFT")
+                        for (int j = 0; j < sc.Table.Columns.Count; j++)
                         {
-                            lvi.SubItems.Add(sc.Table.Rows[i][string.Format("{0}", (j + 1) % 10)].ToString());
+                            lvi.SubItems.Add(sc.Table.Rows[i][j].ToString());
                         }
-                        else
+                    }
+                    else
+                    {
+                        for (int j = 0; j < sc.Table.Columns.Count; j++)
                         {
-                            string colname = (j + 1).ToString().PadLeft(2, '0');
-                            if (sc.Table.Columns.Contains(colname))
+                            if (dtp.DataType == "PK10" || dtp.DataType == "XYFT")
                             {
-                                lvi.SubItems.Add(sc.Table.Rows[i][colname].ToString());
+                                lvi.SubItems.Add(sc.Table.Rows[i][string.Format("{0}", (j + 1) % 10)].ToString());
                             }
                             else
                             {
-                                lvi.SubItems.Add(sc.Table.Rows[i]["0"].ToString());
+                                string colname = (j + 1).ToString().PadLeft(2, '0');
+                                if (sc.Table.Columns.Contains(colname))
+                                {
+                                    lvi.SubItems.Add(sc.Table.Rows[i][colname].ToString());
+                                }
+                                else
+                                {
+                                    lvi.SubItems.Add(sc.Table.Rows[i]["0"].ToString());
+                                }
                             }
                         }
                     }
-                }
-                for (int j = 1; j < sc.Table.Columns.Count; j++)
-                {
-                    if (i + 1 == this.gobj.MinTimeForChance(j))
+                    for (int j = 1; j < sc.Table.Columns.Count; j++)
                     {
-                        lvi.BackColor = Color.Yellow;
-                        break;
+                        if (i + 1 == this.gobj.MinTimeForChance(j))
+                        {
+                            lvi.BackColor = Color.Yellow;
+                            break;
+                        }
                     }
+                    lv.Items.Add(lvi);
                 }
-                lv.Items.Add(lvi);
+                string GR_Path = string.Format("lv_{0}.jpg", byNo ? 0 : 1);
+                imageLogClass.SaveImage(lv,GR_Path,ImageFormat.Jpeg);
+                /*
+                Bitmap image = new Bitmap(lv.Width, lv.Height);//初始化一个相同大小的窗口
+                lv.DrawToBitmap(image, new Rectangle(0, 0, lv.Width, lv.Height));
+                
+                string fullFileName = string.Format("{0}\\imgs\\{1}", AppDomain.CurrentDomain.BaseDirectory, GR_Path);// GR_Path + "\\" + fileName + ".png";
+                image.Save(fullFileName,System.Drawing.Imaging.ImageFormat.Jpeg);
+                    string filename = string.Format("chartImg");
+                Program.wxlog.LogImageUrl(string.Format("{0}/chartImgs/{1}", GlobalClass.TypeDataPoints.First().Value.InstHost,GR_Path), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                */
+            }
+            catch (Exception ce)
+            {
+
             }
             
         }
@@ -401,7 +432,7 @@ namespace PK10Server
             frm.ShowDialog();
         }
 
-        private void tsmi_RunMonitor_Click(object sender, EventArgs e)
+        public void tsmi_RunMonitor_Click(object sender, EventArgs e)
         {
             frm_StragMonitor<TimeSerialData> frm = new frm_StragMonitor<TimeSerialData>();
             frm.Show();
@@ -513,7 +544,32 @@ namespace PK10Server
             frm_MoniteStrag frm = new frm_MoniteStrag();
             frm.ShowDialog();
         }
+
+        private void refreshAllDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Program.optFunc.RefreshData(this);
+        }
     }
 
-    
+    public class imageLogClass                                       
+    {
+        public static void SaveImage(Control lv,string GR_Path, ImageFormat fmt)
+        {
+            try
+            {
+                Bitmap image = new Bitmap(lv.Width, lv.Height);//初始化一个相同大小的窗口
+                lv.DrawToBitmap(image, new Rectangle(0, 0, lv.Width, lv.Height));
+                string fullFileName = string.Format("{0}\\imgs\\{1}", AppDomain.CurrentDomain.BaseDirectory, GR_Path);// GR_Path + "\\" + fileName + ".png";
+                image.Save(fullFileName, fmt);
+                string filename = string.Format("chartImg");
+                Program.wxlog.LogImageUrl(string.Format("{0}/chartImgs/{1}", GlobalClass.TypeDataPoints.First().Value.InstHost, GR_Path), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+
+            }
+            catch(Exception ce)
+            {
+                Program.wxlog.Log(ce.Message,ce.StackTrace, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+            }
+        }
+    }
+        
 }

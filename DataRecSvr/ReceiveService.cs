@@ -14,8 +14,8 @@ namespace DataRecSvr
     {
         Dictionary<string, self_Timer> RecTimers;
         System.Timers.Timer Tm_ForPK10 = new System.Timers.Timer();
-        System.Timers.Timer Tm_ForTXFFC = new System.Timers.Timer();
-        System.Timers.Timer Tm_ForCAN28 = new Timer();
+        //System.Timers.Timer Tm_ForTXFFC = new System.Timers.Timer();
+        //System.Timers.Timer Tm_ForCAN28 = new Timer();
         DateTime PK10_LastSignTime=DateTime.MaxValue;
         //////////System.Timers.Timer tm = new System.Timers.Timer();
         Int64 lastFFCNo;
@@ -33,10 +33,10 @@ namespace DataRecSvr
                 this.ServiceName = "定时刷新接收数据服务";
                 foreach(string key in GlobalClass.TypeDataPoints.Keys)
                 {
-                    if(key.Equals("PK10"))//暂时跳过
-                    {
-                        continue;
-                    }
+                    //if(key.Equals("PK10"))//暂时跳过
+                    //{
+                    //    continue;
+                    //}
                     self_Timer tm = new self_Timer();
                     tm.Name = key;
                     tm.Enabled = false;
@@ -45,15 +45,15 @@ namespace DataRecSvr
                     tm.Elapsed += Tm_Elapsed;
                     RecTimers.Add(key, tm);
                 }
-                if (GlobalClass.DataTypes.ContainsKey("PK10"))
-                {
-                    Tm_ForPK10.Enabled = false;
-                    Tm_ForPK10.AutoReset = true;
+                //if (GlobalClass.DataTypes.ContainsKey("PK10"))
+                //{
+                //    Tm_ForPK10.Enabled = false;
+                //    Tm_ForPK10.AutoReset = true;
 
-                    Tm_ForPK10.Interval = GlobalClass.TypeDataPoints["PK10"].ReceiveSeconds * 1000;
-                    Tm_ForPK10.Elapsed += new ElapsedEventHandler(Tm_ForPK10_Elapsed);
+                //    Tm_ForPK10.Interval = GlobalClass.TypeDataPoints["PK10"].ReceiveSeconds * 1000;
+                //    Tm_ForPK10.Elapsed += new ElapsedEventHandler(Tm_ForPK10_Elapsed);
 
-                }
+                //}
                 //////if (GlobalClass.DataTypes.ContainsKey("TXFFC"))
                 //////{
 
@@ -95,41 +95,41 @@ namespace DataRecSvr
             }
         }
 
-        private void Tm_ForCAN28_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            try
-            {
-                ReceiveData("CAN28",Tm_ForCAN28,null,null,false);
-            }
-            catch (Exception ce)
-            {
-                Log("接收加拿大28错误", string.Format("{0}：{1}", ce.Message, ce.StackTrace), true);
-            }
-        }
+        //private void Tm_ForCAN28_Elapsed(object sender, ElapsedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        ReceiveData("CAN28",Tm_ForCAN28,null,null,false);
+        //    }
+        //    catch (Exception ce)
+        //    {
+        //        Log("接收加拿大28错误", string.Format("{0}：{1}", ce.Message, ce.StackTrace), true);
+        //    }
+        //}
 
-        void Tm_ForTXFFC_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            try
-            {
-                ReceiveTXFFCData();
-            }
-            catch(Exception ce)
-            {
-                Log("接收TXFFC错误", string.Format("{0}：{1}", ce.Message, ce.StackTrace),true);
-            }
-        }
+        //void Tm_ForTXFFC_Elapsed(object sender, ElapsedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        ReceiveTXFFCData();
+        //    }
+        //    catch(Exception ce)
+        //    {
+        //        Log("接收TXFFC错误", string.Format("{0}：{1}", ce.Message, ce.StackTrace),true);
+        //    }
+        //}
 
-        void Tm_ForPK10_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            try
-            {
-                ReceivePK10CData();
-            }
-            catch (Exception ce)
-            {
-                Log("接收PK10错误", string.Format("{0}：{1}", ce.Message, ce.StackTrace),true);
-            }
-        }
+        //void Tm_ForPK10_Elapsed(object sender, ElapsedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        ReceivePK10CData();
+        //    }
+        //    catch (Exception ce)
+        //    {
+        //        Log("接收PK10错误", string.Format("{0}：{1}", ce.Message, ce.StackTrace),true);
+        //    }
+        //}
 
         public void Start()
         {
@@ -139,12 +139,12 @@ namespace DataRecSvr
         protected override void OnStart(string[] args)
         {
             // TODO: 在此处添加代码以启动服务。
-            if (GlobalClass.DataTypes.ContainsKey("PK10"))
-            {
-                Tm_ForPK10.Enabled = true;
-                Log("开始服务", "开始接收数据！");
-                Tm_ForPK10_Elapsed(null, null);
-            }
+            //if (GlobalClass.DataTypes.ContainsKey("PK10"))
+            //{
+            //    Tm_ForPK10.Enabled = true;
+            //    Log("开始服务", "开始接收数据！");
+            //    Tm_ForPK10_Elapsed(null, null);
+            //}
             ////if (GlobalClass.DataTypes.ContainsKey("TXFFC"))
             ////{
             ////    Log("开始服务", "接收数据成功！");
@@ -173,11 +173,15 @@ namespace DataRecSvr
         protected override void OnStop()
         {
             // TODO: 在此处添加代码以执行停止服务所需的关闭操作。
-            Tm_ForPK10.Enabled = false;
-            Tm_ForTXFFC.Enabled = false;
-            Log("停止服务", "服务停止成功！");
+            //Tm_ForPK10.Enabled = false;
+            //Tm_ForTXFFC.Enabled = false;
+            foreach(self_Timer tm in RecTimers.Values)
+            {
+                tm.Enabled = false;
+            }
+            Log("停止服务", "服务停止成功！",true);
         }
-
+        /*
         private void ReceivePK10CData()
         {
             DataTypePoint dtp = GlobalClass.TypeDataPoints["PK10"];
@@ -188,9 +192,9 @@ namespace DataRecSvr
             PK10_HtmlDataClass hdc = new PK10_HtmlDataClass(GlobalClass.TypeDataPoints["PK10"]);
             ExpectList<T> tmp = hdc.getExpectList<T>();
             if (tmp == null || tmp.Count == 0)
-            {
                 this.Tm_ForPK10.Interval = RepeatSeconds / 20 * 1000;
                 Log("尝试接收数据", "未接收到数据,数据源错误！",true);
+            {
                 return;
             }
             ExpectList el = new ExpectList(tmp.Table);
@@ -317,7 +321,7 @@ namespace DataRecSvr
             //Log("接收数据", string.Format("当前访问时间为：{0},{1}秒后继续访问！",CurrTime.ToString(),this.Tm_ForPK10.Interval/1000),false);
             //FillOrgData(listView_TXFFCData, currEl);
         }
-
+       
         private void ReceiveTXFFCData()
         {
 
@@ -368,7 +372,7 @@ namespace DataRecSvr
             currEl = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1));
             //FillOrgData(listView_TXFFCData, currEl);
         }
-        
+         */
         private void  ReceiveData(string DataType,Timer useTimer,string strReadTableName,string[] codes,bool NeedCalc = false)
         {
             DataReader rd = DataReaderBuild.CreateReader(DataType, strReadTableName, codes);
@@ -491,6 +495,8 @@ namespace DataRecSvr
                                     res = AfterReceiveProcess(CalcProcess);
                                     if (res == false)
                                         useTimer.Interval = RepeatSeconds / 20 * 1000;
+                                    else
+                                        Program.AllServiceConfig.haveReceiveData = true;//每次成功接收后都将已接收到数据标志置为true，当外部调用访问后将该标志置回为false
                                     if (CurrDataList.MissExpectCount() > 1)//执行完计算(关闭所有记录)后再标记为已错期
                                     {
                                         MissExpectEventPassCnt = 1;
@@ -570,9 +576,9 @@ namespace DataRecSvr
             return true;
         }
 
-        void onFinished()
+        void onFinished(DataTypePoint dtp)
         {
-            Log("计算完成", "提醒");
+            Log(dtp.DataType, "计算完成");
         }
         
     }

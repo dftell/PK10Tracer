@@ -24,20 +24,60 @@ using WolfInv.com.RemoteObjectsLib;
 using WolfInv.com.WinInterComminuteLib;
 using WolfInv.com.ChargeLib;
 using System.Runtime.InteropServices;
+using Gecko;
 
 namespace ExchangeTermial
 {
     delegate void CloseCallBack();
-    
+    public enum ShowCommands : int
+    {
+
+        SW_HIDE = 0,
+
+        SW_SHOWNORMAL = 1,
+
+        SW_NORMAL = 1,
+
+        SW_SHOWMINIMIZED = 2,
+
+        SW_SHOWMAXIMIZED = 3,
+
+        SW_MAXIMIZE = 3,
+
+        SW_SHOWNOACTIVATE = 4,
+
+        SW_SHOW = 5,
+
+        SW_MINIMIZE = 6,
+
+        SW_SHOWMINNOACTIVE = 7,
+
+        SW_SHOWNA = 8,
+
+        SW_RESTORE = 9,
+
+        SW_SHOWDEFAULT = 10,
+
+        SW_FORCEMINIMIZE = 11,
+
+        SW_MAX = 11
+
+    }
+
     public partial class MainWindow : Form
     {
         [DllImport("KERNEL32.DLL", EntryPoint = "GetCurrentProcess", SetLastError = true, CallingConvention = CallingConvention.StdCall)]
         internal static extern bool SetProcessWorkingSetSize(IntPtr pProcess, int dwMinimumWorkingSetSize, int dwMaximumWorkingSetSize);
 
         [DllImport("KERNEL32.DLL", EntryPoint = "SetProcessWorkingSetSize", SetLastError = true, CallingConvention = CallingConvention.StdCall)]
+        
+        //[DllImport("shell32.dll")]
+        //static extern IntPtr ShellExecute(IntPtr hwnd, string lpOperation, string lpFile, string lpParameters, string lpDirectory, ShowCommands nShowCmd);
 
+
+        
         internal static extern IntPtr GetCurrentProcess();
-
+        bool isIE = false;
         Dictionary<string, Int64> NewExpects = new Dictionary<string, long>();
         bool WebBrowserLoad = false;
         Dictionary<int, RequestClass> CurrDic = new Dictionary<int, RequestClass>();
@@ -61,6 +101,7 @@ namespace ExchangeTermial
         string UseReqId = null;
         int UseAmt = 0;
         string reqChargeAmt = "";
+
         double CurrVal
         {
             get
@@ -74,7 +115,7 @@ namespace ExchangeTermial
                 {
 
                 }
-                return wr.GetCurrMoney(doc);
+                return isIE ? wr.GetCurrMoney(webBrowser1.Document) : wr.GetCurrMoney(geckoWebBrowser1.Document);
             }
         }
         System.Windows.Forms.Timer SendStatusTimer = new System.Windows.Forms.Timer() ;
@@ -85,7 +126,9 @@ namespace ExchangeTermial
         ChargeOperator chgOpt = null;
         public MainWindow()
         {
+            
             InitializeComponent();
+            isIE = (Program.gc.UseBrowser.Trim().ToLower().Length == 0 || Program.gc.UseBrowser.Trim().ToLower().Equals("ie"));
             wr = WebRuleBuilder.Create(Program.gc);
             this.Text = string.Format("{0}[{2}][v:{1}]", this.Text, Program.VerNo, Program.gc.ClientUserName);
             Program.Title = this.Text;
@@ -99,9 +142,238 @@ namespace ExchangeTermial
             chgOpt.OperateChargeForm = new Action<string, string,string,string>(Request);
             chgOpt.SvrNam = string.Format("{0}充值机", Program.gc.ClientUserName);
             chgRmt.Operate = chgOpt;
-            this.webBrowser1.Document.Window.Error += new HtmlElementErrorEventHandler(Window_Error);
+            
+            
+        }
+
+        void InitWebBrowser()
+        {
+            if (isIE)
+            {
+                this.webBrowser1.Visible = true;
+                this.webBrowser1.Dock = DockStyle.Fill;
+                this.geckoWebBrowser1.Visible = false;
+                this.geckoWebBrowser1.Dock = DockStyle.None;
+                this.webBrowser1.DocumentCompleted += DocumentCompleted_IE;
+                this.webBrowser1.Document.Window.Error += new HtmlElementErrorEventHandler(Window_Error);
+                Gecko.CertOverrideService.GetService().ValidityOverride += geckoWebBrowser1_ValidityOverride;
+                try
+                {
+                    //ShellExecute(IntPtr.Zero, "open", "rundll32.exe", "InetCpl.cpl,ClearMyTracksByProcess 8","",ShowCommands.SW_HIDE);
+
+                }
+                catch(Exception ce)
+                {
+
+                }
+                /*
+             Temporary Internet Files  （Internet临时文件）
+ClearMyTracksByProcess 8
+Cookies
+ClearMyTracksByProcess 2
+History (历史记录)
+ClearMyTracksByProcess 1
+ Form. Data （表单数据）
+ClearMyTracksByProcess 16
+ Passwords (密码）
+ClearMyTracksByProcess 32
+ Delete All  （全部删除）
+ClearMyTracksByProcess 255    
+             */
+            }
+            else
+            {
+                this.webBrowser1.Visible = false;
+                this.webBrowser1.Dock = DockStyle.None;
+                this.geckoWebBrowser1.Visible = true;
+                this.geckoWebBrowser1.Dock = DockStyle.Fill;
+                //this.geckoWebBrowser1.DocumentCompleted += DocumentCompleted_FireFox;
+                this.geckoWebBrowser1.DocumentCompleted += new EventHandler<Gecko.Events.GeckoDocumentCompletedEventArgs>(DocumentCompleted_FireFox);
+                this.geckoWebBrowser1.DOMContentLoaded += GeckoWebBrowser1_DOMContentLoaded;
+            }
+        }
+
+        private void GeckoWebBrowser1_DOMContentLoaded(object sender, DomEventArgs e)
+        {
+            DocumentCompleted_FireFox(sender,null);
+        }
+
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+            InitWebBrowser();
+            geckoWebBrowser1.CreateControl();
+            AssetUnitList = new Dictionary<string, string>();
+            foreach (string key in GlobalClass.TypeDataPoints.Keys)
+            {
+                Dictionary<string, string> currDic = getAssetLists(key);
+                foreach (string aid in currDic.Keys)
+                {
+                    if (!AssetUnitList.ContainsKey(aid))
+                    {
+                        AssetUnitList.Add(aid, currDic[aid]);
+                    }
+                }
+            }
+            dicExistInsts = new Dictionary<string, Dictionary<long, string>>();
+
+            //
+            LoadUrl(null);
+            //Application.DoEvents();
+            //MySleep(20 * 1000);//睡20秒等待webbrowser加载
+            Application.DoEvents();
+            //this.timer_RequestInst.Enabled = true;
+            //this.timer_RequestInst.AutoReset = true;
+            //timer_RequestInst_Tick(null, null);
+            InitTimers();
+            Set_RequestTime(true);
+            Set_SendTime(true);
+            SendStatusTimer_Elapsed(null, null);
 
         }
+
+        void LoadUrl(string url)
+        {
+            if(string.IsNullOrEmpty(url))
+                url = string.Format(Program.gc.LoginPage, string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost));
+            
+            if (!isIE)
+            {
+                LoadUrl_FireFox(url);
+                loadUrl = geckoWebBrowser1.Url.ToString();
+            }
+            else
+            {
+                LoadUrl_IE(url);
+             loadUrl = geckoWebBrowser1.Url.ToString();
+            }
+            //loadUrl = url;
+        }
+
+        void LoadUrl_IE(string url)
+        {
+            //if (loading)
+            //{
+            //    this.toolStripStatusLabel1.Text = "正在载入中！";
+            //    return;
+            //}
+            Logined = false;
+            WebBrowserLoad = false;
+            //string url = Program.gc.LoginUrlModel.Replace("{host}", Program.gc.LoginDefaultHost);
+            //string url = string.Format(Program.gc.LoginPage, string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost));
+            //loadUrl = url;
+            try
+            {
+                lock (webBrowser1)
+                {
+                    if (this.webBrowser1.Url != null && this.webBrowser1.Url.ToString() == url)
+                        return;
+                    //this.webBrowser1 = null;
+                    //this.webBrowser1 = new WebBrowser();
+                    //this.webBrowser1.DocumentCompleted += DocumentCompleted_IE;
+                    //this.webBrowser1.Url = new Uri(url);
+                    //if(this.webBrowser1.Url == null)
+                    //{
+                    //    this.webBrowser1.Url = new Uri(url);
+                    //}
+                    //else
+                    this.webBrowser1.Navigate(url, false);
+                    HomeDocIE = this.webBrowser1.Document;
+                    this.webBrowser1.ScriptErrorsSuppressed = true;
+                    Application.DoEvents();
+                    MySleep(3 * 1000);
+                    ScriptLoaded = false;
+                    LogableClass.ToLog(webBrowser1?.Url?.Host, "准备唤醒！");
+                    Program.wxl.Log(string.Format("[{0}]起来", Program.gc.ClientAliasName), "不愿做奴隶的程序们！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                    if (ChanleUseTimes < 0)//载入时线路访问次数置0
+                    {
+                        ChanleUseTimes = 0;
+                    }
+                }
+                ////else
+                ////{
+                ////    Program.wxl.Log("起不来", "睡眠不足！");
+                ////    return;
+                ////}
+
+            }
+            catch (Exception ce)
+            {
+                InSleep = true;
+                Logined = false;
+                LogableClass.ToLog("错误", ce.Message, ce.StackTrace);
+                Program.wxl.Log("错误", string.Format("[{0}]起床困难户。", Program.gc.ClientAliasName), string.Format("{0}:{1}", ce.Message, ce.StackTrace));
+                timers_RequestInst.ForEach(a => { a.Interval = 1 * 1000; });
+                return;
+            }
+            Application.DoEvents();
+            //Thread.Sleep(10 * 1000);
+
+            timers_RequestInst.ForEach(a => { a.Interval = 60 * 1000; });
+            //this.timer_RequestInst.Enabled = true;
+            //Set_SendTime(true);
+        }
+
+        void LoadUrl_FireFox(string url)
+        {
+
+            Logined = false;
+            WebBrowserLoad = false;
+            //string url = Program.gc.LoginUrlModel.Replace("{host}", Program.gc.LoginDefaultHost);
+            
+            try
+            {
+                lock (geckoWebBrowser1)
+                {
+
+                    //this.webBrowser1 = null;
+                    //this.webBrowser1 = new WebBrowser();
+                    //geckoWebBrowser1.DocumentCompleted += DocumentCompleted_FireFox;// .DocumentCompleted += webBrowser1_DocumentCompleted;
+
+                    //this.webBrowser1.Url = new Uri(url);
+                    //if(this.webBrowser1.Url == null)
+                    //{
+                    //    this.webBrowser1.Url = new Uri(url);
+                    //}
+                    //else
+                    if (this.geckoWebBrowser1.Url != null && this.geckoWebBrowser1.Url.ToString() == url)
+                        return;
+                    this.geckoWebBrowser1.Navigate(url);
+                    HomeDocFireFox = this.geckoWebBrowser1.Document;
+                    // this.geckoWebBrowser1.scr = true;
+                    Application.DoEvents();
+                    MySleep(3 * 1000);
+                    ScriptLoaded = false;
+                    LogableClass.ToLog(geckoWebBrowser1?.Url?.Host, "准备唤醒！");
+                    Program.wxl.Log(string.Format("[{0}]起来", Program.gc.ClientAliasName), "不愿做奴隶的程序们！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                    if (ChanleUseTimes < 0)//载入时线路访问次数置0
+                    {
+                        ChanleUseTimes = 0;
+                    }
+                }
+                ////else
+                ////{
+                ////    Program.wxl.Log("起不来", "睡眠不足！");
+                ////    return;
+                ////}
+
+            }
+            catch (Exception ce)
+            {
+                InSleep = true;
+                Logined = false;
+                LogableClass.ToLog("错误", ce.Message, ce.StackTrace);
+                Program.wxl.Log("错误", string.Format("[{0}]起床困难户。", Program.gc.ClientAliasName), string.Format("{0}:{1}", ce.Message, ce.StackTrace), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                timers_RequestInst.ForEach(a => { a.Interval = 1 * 1000; });
+                return;
+            }
+            Application.DoEvents();
+            //Thread.Sleep(10 * 1000);
+
+            timers_RequestInst.ForEach(a => { a.Interval = 60 * 1000; });
+            //this.timer_RequestInst.Enabled = true;
+            //Set_SendTime(true);
+        }
+
 
         private void Window_Error(object sender, HtmlElementErrorEventArgs e)
         {
@@ -113,7 +385,7 @@ namespace ExchangeTermial
         void Request(string wxId,string wxName,string reqId,string chargeAmt)
         {
             //chargeMoneyToolStripMenuItem_Click(null, null);
-            string url = string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost);
+            string url = string.Format(Program.gc.LoginPage, string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost));
             var rnd = new Random().Next();
             string fullurl = string.Format("{0}/Recharge/ThirdRecharge?amount={1}&t={2}&rnd={3}", url, chargeAmt, 139,rnd);
             Program.wxl.Log(string.Format("[收到充值请求]微信编号:{0};微信昵称:{1};请求Id:{2};请求金额:{3}！", wxId,wxName,reqId,chargeAmt ), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
@@ -123,7 +395,7 @@ namespace ExchangeTermial
             chgOpt.reqId = Guid.NewGuid().ToString();
             UseReqId = chgOpt.reqId;
             chgOpt.ResponseString = null;
-            webBrowser_charge.DocumentCompleted += WebBrowser_charge_DocumentCompleted;
+            
             chargeData = null;
             Task.Run(() => {
                 checkCharge();
@@ -133,25 +405,13 @@ namespace ExchangeTermial
 
 
 
-        private void MainWindow_Load(object sender, EventArgs e)
-        {
-            AssetUnitList = getAssetLists();
-            dicExistInsts = new Dictionary<string,Dictionary<long, string>>();
-            LoadUrl();
-            //this.timer_RequestInst.Enabled = true;
-            //this.timer_RequestInst.AutoReset = true;
-            //timer_RequestInst_Tick(null, null);
-            InitTimers();
-            Set_RequestTime(true);
-            Set_SendTime(true);
-            SendStatusTimer_Elapsed(null, null);
-            
-        }
-
+        
         Dictionary<string, DataTypePoint> dtps = new Dictionary<string, DataTypePoint>();
         void InitTimers()
         {
             dtps = GlobalClass.TypeDataPoints;
+            //NewExpects = new Dictionary<string, long>();
+            //dicExistInsts = new Dictionary<string, Dictionary<long, string>>();
             foreach (string key in dtps.Keys)
             {
                 System.Windows.Forms.Timer tm = new System.Windows.Forms.Timer();
@@ -160,8 +420,15 @@ namespace ExchangeTermial
                 tm.Enabled = true;
                 tm.Start();
                 timers_RequestInst.Add(tm);
-                NewExpects.Add(key, 0);
-                dicExistInsts.Add(key, new Dictionary<long, string>());
+                if (!NewExpects.ContainsKey(key))
+                {
+                    NewExpects.Add(key, 0);
+                    dicExistInsts.Add(key, new Dictionary<long, string>());
+                }
+                if (!dicExistInsts.ContainsKey(key))
+                {
+                    dicExistInsts.Add(key, new Dictionary<long, string>());
+                }
             }
         }
 
@@ -225,9 +492,26 @@ namespace ExchangeTermial
             {
                 
                 DateTime now = DateTime.Now;
+                //if ()
+                //    IsLoadCompleted = isIE ? wr.IsLoadCompleted(webBrowser1.Document) : wr.IsLoadCompleted(geckoWebBrowser1.Document);
+                if (Logined == false)
+                    Logined = isIE ? wr.IsLogined(webBrowser1.Document) : wr.IsLogined(geckoWebBrowser1.Document);
+                if(Logined)
+                {
+                    WebBrowserLoad = true;
+                    if(isIE)
+                    {
+                        HomeDocIE = webBrowser1.Document;
+                    }
+                    else
+                    {
+                        HomeDocFireFox = geckoWebBrowser1.Document;
+                    }
+                }
                 if (dicExistInsts != null && dicExistInsts.Count > 0)
                 {
-                    SwitchChanle();
+                    if(!InSleep) //只有没睡才切换
+                        SwitchChanle();
                 }
                 bool isDebug = false;
                 string myinfo = MyIpInfo;
@@ -275,7 +559,8 @@ namespace ExchangeTermial
         }
         void SwitchChanle()
         {
-            releaseIE();
+            releaseWebBrowser();
+            
             return;
             //Program.wxl.Log("正在进行网络线路测速！",string.Format("当前线路:{0}", Program.gc.LoginDefaultHost));
             string hostname = wr.GetChanle(string.Format(Program.gc.WebNavUrl,Program.gc.NavHost), Program.gc.LoginDefaultHost, ChanleUseTimes >= 5);
@@ -294,7 +579,7 @@ namespace ExchangeTermial
                 ChanleUseTimes = -1;
                 Program.gc.LoginDefaultHost = hostname;
                 GlobalClass.SetConfig();
-                LoadUrl();
+                LoadUrl(loadUrl);
                 Logined = true;//如果这个不设置，不会重新下注，而要等到多次刷新后才会为真
                 return;
             }
@@ -306,7 +591,7 @@ namespace ExchangeTermial
                     ChanleUseTimes = -1;
                     Program.gc.LoginDefaultHost = hostname;
                     GlobalClass.SetConfig();
-                    LoadUrl();
+                    LoadUrl(loadUrl);
                     Logined = true;//如果这个不设置，不会重新下注，而要等到多次刷新后才会为真
                     return;
                 }
@@ -364,214 +649,326 @@ namespace ExchangeTermial
             //return localaddr.ToString();
         }
 
-        
+        void releaseWebBrowser()
+        {
+            if(Program.gc.UseBrowser.Trim().ToLower().Equals("firefox"))
+            {
+
+            }
+            else
+            {
+                releaseIE();
+            }
+        }
+
+
         void releaseIE()
         {
-            IntPtr pHandle = GetCurrentProcess();
-            SetProcessWorkingSetSize(pHandle, -1, -1);
-        }
-        void LoadUrl()
-        {
-            Logined = false;
-            WebBrowserLoad = false;
-            //string url = Program.gc.LoginUrlModel.Replace("{host}", Program.gc.LoginDefaultHost);
-            string url = string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost);
             try
             {
-                lock (webBrowser1)
-                {
-
-                    //this.webBrowser1 = null;
-                    //this.webBrowser1 = new WebBrowser();
-                    this.webBrowser1.DocumentCompleted += webBrowser1_DocumentCompleted;
-                    //this.webBrowser1.Url = new Uri(url);
-                    this.webBrowser1.Navigate(url,false);
-                    this.webBrowser1.ScriptErrorsSuppressed = true;
-                    Application.DoEvents();
-                    Thread.Sleep(3 * 1000);
-                    ScriptLoaded = false;
-                    LogableClass.ToLog(webBrowser1?.Url?.Host, "准备唤醒！");
-                    Program.wxl.Log(string.Format("[{0}]起来", Program.gc.ClientAliasName), "不愿做奴隶的程序们！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
-                    if (ChanleUseTimes < 0)//载入时线路访问次数置0
-                    {
-                        ChanleUseTimes = 0;
-                    }
-                }
-                ////else
-                ////{
-                ////    Program.wxl.Log("起不来", "睡眠不足！");
-                ////    return;
-                ////}
-
+                //IntPtr pHandle = GetCurrentProcess();
+                //SetProcessWorkingSetSize(pHandle, -1, -1);
             }
-            catch (Exception ce)
+            catch
             {
-                InSleep = true;
-                Logined = false;
-                LogableClass.ToLog("错误", ce.Message, ce.StackTrace);
-                Program.wxl.Log("错误", string.Format("[{0}]起床困难户。",Program.gc.ClientAliasName), string.Format("{0}:{1}", ce.Message, ce.StackTrace));
-                timers_RequestInst.ForEach(a=> { a.Interval = 1 * 1000; });
-                return;
+
             }
-            Application.DoEvents();
-            //Thread.Sleep(10 * 1000);
-
-            timers_RequestInst.ForEach(a => { a.Interval = 60 * 1000; });
-            //this.timer_RequestInst.Enabled = true;
-            //Set_SendTime(true);
         }
-
-        void AddScript()
+        bool loading = false;
+        
+        HtmlDocument getDocument(GeckoDocument doc)
         {
-            HtmlElementCollection elHeads = webBrowser1.Document.GetElementsByTagName("head");
+            HtmlDocument ret = webBrowser1.Document;
+            HtmlElementCollection elHeads = ret.GetElementsByTagName("head");
             if (elHeads == null)
             {
                 Program.wxl.Log("网页未正常加载，无法注入代码！");
-                return;
+                return ret;
             }
             HtmlElement head = elHeads[0];
-            //创建script标签
-            HtmlElement scriptEl = webBrowser1.Document.CreateElement("script");
-            IHTMLScriptElement element = (IHTMLScriptElement)scriptEl.DomElement;
-            //给script标签加js内容
+            try
+            {
+                head.OuterHtml = doc.Head.OuterHtml;
+                ret.Body.OuterHtml = doc.Body.OuterHtml;
+            }
+            catch(Exception ce)
+            {
+
+            }
+            return ret;
+        }
+
+        
+        
+        void AddScript(HtmlDocument IEDoc,GeckoDocument FireFoxDoc,string ElementName="head",string LanguageEncoding="gb2312")
+        {
             string scriptFile = Program.gc.LoginUrlModel.Replace("https", "");
             scriptFile = scriptFile.Replace("http", "");
             scriptFile = scriptFile.Replace("://", "");
+            scriptFile = scriptFile.Replace("/", "");
             ////scriptFile = scriptFile.Replace(".", "_");
-            element.text = this.getScriptText(string.Format("{0}_Pure.js", scriptFile));
-            //将script标签添加到head标签中
-            head.AppendChild(scriptEl);
+            string jstxt = this.getScriptText(string.Format("{0}_Pure.js", scriptFile));
+            if (isIE)
+            {
+                IEDoc.Encoding = LanguageEncoding;
+                HtmlElementCollection elHeads = IEDoc.GetElementsByTagName(ElementName);
+                if (elHeads == null)
+                {
+                    Program.wxl.Log("网页未正常加载，无法注入代码！");
+                    return;
+                }
+
+
+                HtmlElement head = elHeads[0];
+                //创建script标签
+                HtmlElement scriptEl = IEDoc.CreateElement("script");
+                IHTMLScriptElement element = (IHTMLScriptElement)scriptEl.DomElement;
+                //给script标签加js内容
+                element.text = jstxt;
+                //将script标签添加到head标签中
+                head.AppendChild(scriptEl);
+                
+            }
+            else
+            {
+                var js = FireFoxDoc.CreateHtmlElement("script");
+                js.InnerHtml = jstxt;
+                FireFoxDoc.Head.AppendChild(js);
+            }
             ScriptLoaded = true;
         }
 
         void Login()
         {
-            webBrowser1.ScriptErrorsSuppressed = true;
-            LogableClass.ToLog(webBrowser1.Url.Host, "首次进入，加载文件！");
+            try
+            {
+                if (!isIE)
+                {
+                    Login_FireFox();
+                }
+                else
+                {
+                    Login_IE();
+                }
+
+
+            }
+            catch (Exception ce)
+            {
+
+            }
+        }
+        void Login_FireFox()
+        {
+            //geckoWebBrowser1.ScriptErrorsSuppressed = true;
+            LogableClass.ToLog(geckoWebBrowser1.Url.Host, "首次进入，加载文件！");
             //if(!ScriptLoaded)
-            AddScript(); //执行js代码,未来修改为网络载入
-            Thread.Sleep(3 * 1000);//等待验证码图片载入
-            webBrowser1.Document.InvokeScript("Login", new string[] { Program.gc.ClientUserName, Program.gc.ClientPassword, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost), Program.gc.WXLogNoticeUser });
+            AddScript(null,loginDocFireFox??HomeDocFireFox); //执行js代码,未来修改为网络载入
+            //MySleep(3 * 1000);//等待验证码图片载入
+                              //geckoWebBrowser1.Document.InvokeScript("Login", new string[] { Program.gc.ClientUserName, Program.gc.ClientPassword, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost), Program.gc.WXLogNoticeUser });
+            using (AutoJSContext context = new AutoJSContext(geckoWebBrowser1.Window))
+            {
+                string jstxt = string.Format("Login('{0}','{1}','{2}','{3}');", Program.gc.ClientUserName, Program.gc.ClientPassword, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost), Program.gc.WXLogNoticeUser);
+                try
+                {
+                    context.EvaluateScript(jstxt);
+                }
+                catch(Exception ce)
+                {
+                    MessageBox.Show(string.Format("{0}:{1}", ce.Message, ce.StackTrace));
+                    return;
+                }
+            }
             WebBrowserLoad = true;
         }
 
-        private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-      try
-            {
-            HtmlDocument doc = webBrowser1.Document;
-            //CurrVal = wr.GetCurrMoney(doc);
-            if (webBrowser1.ReadyState == WebBrowserReadyState.Complete)
-            {
 
-                    this.toolStripStatusLabel1.Text = "已载入";
-                if (ReadySleep)
+        private void geckoWebBrowser1_ValidityOverride(object sender, Gecko.Events.CertOverrideEventArgs e)
+        {
+            e.OverrideResult = Gecko.CertOverride.Mismatch | Gecko.CertOverride.Time | Gecko.CertOverride.Untrusted; e.Temporary = true; e.Handled = true;
+
+        }
+
+
+        void Login_IE()
+        {
+            webBrowser1.ScriptErrorsSuppressed = true;
+            LogableClass.ToLog(webBrowser1.Url.Host, "首次进入，加载文件！");
+            //if(!ScriptLoaded)
+            AddScript(loginDocIE ??HomeDocIE, null); //执行js代码,未来修改为网络载入
+            //MySleep(3 * 1000);//等待验证码图片载入
+            (loginDocIE ?? HomeDocIE).InvokeScript("Login", new string[] { Program.gc.ClientUserName, Program.gc.ClientPassword, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost), Program.gc.WXLogNoticeUser });
+            WebBrowserLoad = true;
+        }
+
+        string loadUrl = null;
+        HtmlDocument loginDocIE;
+        HtmlDocument lotteryDocIE;
+        HtmlDocument HomeDocIE;
+
+        GeckoDocument loginDocFireFox;
+        GeckoDocument lotteryDocFireFox;
+        GeckoDocument HomeDocFireFox;
+
+
+
+        private void DocumentCompleted_IE(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            
+            try
+            {
+                //if (webBrowser1.ReadyState != WebBrowserReadyState.Complete)
+                //    return;
+                //if((sender as WebBrowser).Url.ToString() != loadUrl)
+                //{
+                //    return;
+                //}
+                HtmlDocument doc = webBrowser1.Document;
+               
+                //CurrVal = wr.GetCurrMoney(doc);
+                if (webBrowser1.ReadyState == WebBrowserReadyState.Complete)
                 {
-                    LogableClass.ToLog(webBrowser1.Url.Host, "进入睡眠！");
-                    ReadySleep = false;
-                    return;
-                }
-                LogableClass.ToLog(webBrowser1.Url.Host, "唤醒！");
-                bool IsVaildWeb = wr.IsVaildWeb(doc);
-                bool IsLogined = wr.IsLogined(doc);
-                    bool IsLoadCompleted = wr.IsLoadCompleted(doc);
-                    if(!IsLoadCompleted)
+                    HomeDocIE = this.webBrowser1.Document;
+                    this.toolStripStatusLabel1.Text = "已载入";
+                    if (ReadySleep)
                     {
+                        LogableClass.ToLog(webBrowser1.Url.Host, "进入睡眠！");
+                        ReadySleep = false;
                         return;
                     }
-                if (IsVaildWeb || IsLogined)//是登录页面或者内容页面
-                {
-                    if (IsVaildWeb)
+                    LogableClass.ToLog(webBrowser1.Url.Host, "唤醒！");
+                    bool IsVaildWeb = wr.IsVaildWeb(doc);
+                    bool IsLogined = wr.IsLogined(doc);
+                    if (IsVaildWeb && IsLogined == false)
                     {
-                        if (!WebBrowserLoad)//第一次载入
-                        {
-                            Login();
+                        MySleep(5 * 1000);
+                        IsLogined = wr.IsLogined(doc);
+                    }
 
-                        }
-                        else//加载文件后事件
+                    bool IsLoadCompleted = IsLoadComplete(Program.gc.HostKey);// wr.IsLoadCompleted(doc);
+                    if (IsLoadCompleted || IsLogined) //缓存已登录
+                    {
+                        WebBrowserLoad = true;
+                    }
+                    if (IsLoadCompleted)//一旦加载的有网站标志，那就是主页
+                    {
+                        HomeDocIE = webBrowser1.Document;
+                    }
+                    if (isInLoginDocument())
+                    {
+                        loginDocIE = webBrowser1.Document;
+                       
+                    }
+                    if (isInLotteryDocument())//如果是投注页
+                    {
+                        lotteryDocIE = webBrowser1.Document;
+                    }
+                    if (!IsLoadCompleted)
+                    {
+                        loading = true;
+                        this.toolStripStatusLabel1.Text = "未完全载入！";
+                        return;
+                    }
+                    
+                    loading = false;
+                    if (IsVaildWeb || IsLogined)//是登录页面或者内容页面
+                    {
+                        if (IsVaildWeb)
                         {
-                            bool TryLogin = wr.IsLogined(doc);
-                            //加载自定义脚本后的处理
-                            ////while (!TryLogin)
-                            ////{
-                            ////    if (wr.IsLogined(doc))
-                            ////        break;
-                            ////    Thread.Sleep(10 * 1000);
-                            ////}
-                            if (TryLogin == false)
+                            if (!WebBrowserLoad || loginDocIE != null)//第一次载入
                             {
-                                LogableClass.ToLog(webBrowser1.Url.Host, "还没完全加载！");
-                                return;
+                                Login();
+
                             }
-                            //CurrVal = wr.GetCurrMoney(doc);
-                            Logined = true;
-                            //this.timer_RequestInst_Tick(null, null);
-                            if (!IsLogined)
+                            else//加载文件后事件
                             {
-                                LogableClass.ToLog(webBrowser1.Url.Host, "密码错误！");
+                                bool TryLogin = wr.IsLogined(doc);
+                                //加载自定义脚本后的处理
+                                ////while (!TryLogin)
+                                ////{
+                                ////    if (wr.IsLogined(doc))
+                                ////        break;
+                                ////    Thread.Sleep(10 * 1000);
+                                ////}
+                                if (TryLogin == false)
+                                {
+                                    LogableClass.ToLog(webBrowser1.Url.Host, "还没完全加载！");
+                                    return;
+                                }
+                                //CurrVal = wr.GetCurrMoney(doc);
+                                Logined = true;
+                                //this.timer_RequestInst_Tick(null, null);
+                                if (!IsLogined)
+                                {
+                                    LogableClass.ToLog(webBrowser1.Url.Host, "密码错误！");
+                                    return;
+                                }
+                                else
+                                {
+                                    LogableClass.ToLog(webBrowser1.Url.Host, "登堂入室！");
+                                    return;
+                                }
+
+                            }
+                        }
+                        else//已经登录了
+                        {
+                            //不是登录网页就一定是已经登录了
+                            LogableClass.ToLog(webBrowser1.Url.Host, "网页载入后但未出现预期内容！");
+                            return;
+                        }
+                    }
+                    else //其他内容
+                    {
+                        if (WebBrowserLoad)//已经登入
+                        {
+                            if (Logined)//建议更换主机地址
+                            {
+                                LogableClass.ToLog(webBrowser1.Url.Host, "无法访问主机，建议启动服务选择合适的备用服务！");
+                                reLoadWebBrowser();
                                 return;
                             }
                             else
                             {
-                                LogableClass.ToLog(webBrowser1.Url.Host, "登堂入室！");
+                                reLoadWebBrowser();
+                                LogableClass.ToLog(webBrowser1.Url.Host, "登录后无法访问主机，建议更换主机重新登录！");
                                 return;
                             }
-
-                        }
-                    }
-                    else//已经登录了
-                    {
-                        //不是登录网页就一定是已经登录了
-                        LogableClass.ToLog(webBrowser1.Url.Host, "网页载入后但未出现预期内容！");
-                        return;
-                    }
-                }
-                else //其他内容
-                {
-                    if (WebBrowserLoad)//已经登入
-                    {
-                        if (Logined)//建议更换主机地址
-                        {
-                            LogableClass.ToLog(webBrowser1.Url.Host, "无法访问主机，建议启动服务选择合适的备用服务！");
-                            reLoadWebBrowser();
-                            return;
                         }
                         else
                         {
-                            reLoadWebBrowser();
-                            LogableClass.ToLog(webBrowser1.Url.Host, "登录后无法访问主机，建议更换主机重新登录！");
+                            //其他网页
+                            LogableClass.ToLog(webBrowser1.Url.Host, "睡眠综合症！");
                             return;
                         }
                     }
-                    else
+
+                }
+                else
+                {
+                    if(wr.IsLogined(doc))
                     {
-                        //其他网页
-                        LogableClass.ToLog(webBrowser1.Url.Host, "睡眠综合症！");
+                        Logined = true;
+                        WebBrowserLoad = true;
+                    }
+                    if (!WebBrowserLoad)//中间状态，不理睬
+                    {
                         return;
                     }
-                }
 
-            }
-            else
-            {
-                if (!WebBrowserLoad)//中间状态，不理睬
-                {
-                    return;
+                    //////加载自定义脚本后的处理
+                    ////while(true)
+                    ////{
+                    ////    if(wr.IsLogined(doc))
+                    ////        break;
+                    ////    Thread.Sleep(60 * 1000);
+                    ////}
+                    ////Logined = true;
+                    ////this.timer_RequestInst_Tick(null, null);
                 }
-
-                //////加载自定义脚本后的处理
-                ////while(true)
-                ////{
-                ////    if(wr.IsLogined(doc))
-                ////        break;
-                ////    Thread.Sleep(60 * 1000);
-                ////}
-                ////Logined = true;
-                ////this.timer_RequestInst_Tick(null, null);
-            }
-            //if (Logined)
-            //{
-            //    //网页中间刷新
+                //if (Logined)
+                //{
+                //    //网页中间刷新
 
 
                 //}
@@ -581,6 +978,207 @@ namespace ExchangeTermial
             {
                 this.toolStripStatusLabel3.Text = string.Format("{0}:{1}", ce.Message, ce.StackTrace);
             }
+        }
+
+        private bool isInLoginDocument()
+        {
+            if(isIE)
+            {
+                HtmlDocument doc = webBrowser1.Document;
+                
+                return WebRule.existElement(doc, Program.gc.LoginPageUserNameId);
+            }
+            else
+            {
+                GeckoDocument doc =  geckoWebBrowser1.Document;
+                return WebRule.existElement(doc, Program.gc.LoginPageUserNameId);
+            }
+            
+        }
+
+        private bool IsLoadComplete(string key)
+        {
+            
+            if (isIE)
+            {
+                  return WebRule.existElement(HomeDocIE, key);
+            }
+            else
+            {
+                return WebRule.existElement(HomeDocFireFox, key);
+            }
+        }
+
+        private bool isInLotteryDocument()
+        {
+            object obj = null;
+            if (isIE)
+                obj = webBrowser1.Document;
+            else
+                obj = geckoWebBrowser1.Document;
+            return WebRule.existElement(obj, Program.gc.LetteryPageUserKeyId);
+
+        }
+
+        private void DocumentCompleted_FireFox(object sender, Gecko.Events.GeckoDocumentCompletedEventArgs e)
+        {
+            try
+            {
+                //if (webBrowser1.ReadyState != WebBrowserReadyState.Complete)
+                //    return;
+                //if((sender as WebBrowser).Url.ToString() != loadUrl)
+                //{
+                //    return;
+                //}
+                GeckoDocument doc = geckoWebBrowser1.Document;
+
+                //CurrVal = wr.GetCurrMoney(doc);
+                if (geckoWebBrowser1.Document.ReadyState == "complete")
+                {
+
+                    this.toolStripStatusLabel1.Text = "已载入";
+                    if (ReadySleep)
+                    {
+                        LogableClass.ToLog(geckoWebBrowser1.Url.Host, "进入睡眠！");
+                        ReadySleep = false;
+                        return;
+                    }
+                    LogableClass.ToLog(geckoWebBrowser1.Url.Host, "唤醒！");
+                    bool IsVaildWeb = wr.IsVaildWeb(doc);
+                    bool IsLogined = wr.IsLogined(doc);
+                    //if (IsVaildWeb && IsLogined == false)
+                    //{
+                    //    MySleep(5 * 1000);
+                    //    IsLogined = wr.IsLogined(doc);
+                    //}
+                    HomeDocFireFox = geckoWebBrowser1.Document;
+                    bool IsLoadCompleted = IsLoadComplete(Program.gc.HostKey);// wr.IsLoadCompleted(doc);
+                    if(IsLoadCompleted||IsLogined) //缓存已登录
+                    {
+                        WebBrowserLoad = true;
+                    }
+                    if (IsLoadCompleted)//一旦加载的有网站标志，那就是主页
+                    {
+                        HomeDocFireFox = geckoWebBrowser1.Document;
+                    }
+                    if (isInLoginDocument())
+                    {
+                        loginDocFireFox = geckoWebBrowser1.Document;
+                    }
+                    if (isInLotteryDocument())//如果是投注页
+                    {
+                        lotteryDocFireFox = geckoWebBrowser1.Document;
+                    }
+                    if (!IsLoadCompleted)
+                    {
+                        loading = true;
+                        this.toolStripStatusLabel1.Text = "未完全载入！";
+                        return;
+                    }
+                    loading = false;
+                    if (IsVaildWeb || IsLogined)//是登录页面或者内容页面
+                    {
+                        if (IsVaildWeb)
+                        {
+                            if (!WebBrowserLoad || loginDocFireFox!= null)//第一次载入 或者是在login页面
+                            {
+                                Login();
+
+                            }
+                            else//加载文件后事件
+                            {
+                                bool TryLogin = wr.IsLogined(doc);
+                                //加载自定义脚本后的处理
+                                ////while (!TryLogin)
+                                ////{
+                                ////    if (wr.IsLogined(doc))
+                                ////        break;
+                                ////    Thread.Sleep(10 * 1000);
+                                ////}
+                                if (TryLogin == false)
+                                {
+                                    LogableClass.ToLog(geckoWebBrowser1.Url.Host, "还没完全加载！");
+                                    return;
+                                }
+                                //CurrVal = wr.GetCurrMoney(doc);
+                                Logined = true;
+                                //this.timer_RequestInst_Tick(null, null);
+                                if (!IsLogined)
+                                {
+                                    LogableClass.ToLog(webBrowser1.Url.Host, "密码错误！");
+                                    return;
+                                }
+                                else
+                                {
+                                    LogableClass.ToLog(webBrowser1.Url.Host, "登堂入室！");
+                                    return;
+                                }
+
+                            }
+                        }
+                        else//已经登录了
+                        {
+                            //不是登录网页就一定是已经登录了
+                            LogableClass.ToLog(webBrowser1.Url.Host, "网页载入后但未出现预期内容！");
+                            return;
+                        }
+                    }
+                    else //其他内容
+                    {
+                        if (WebBrowserLoad)//已经登入
+                        {
+                            if (Logined)//建议更换主机地址
+                            {
+                                LogableClass.ToLog(geckoWebBrowser1.Url.Host, "无法访问主机，建议启动服务选择合适的备用服务！");
+                                reLoadWebBrowser();
+                                return;
+                            }
+                            else
+                            {
+                                reLoadWebBrowser();
+                                LogableClass.ToLog(geckoWebBrowser1.Url.Host, "登录后无法访问主机，建议更换主机重新登录！");
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            //其他网页
+                            LogableClass.ToLog(geckoWebBrowser1.Url.Host, "睡眠综合症！");
+                            return;
+                        }
+                    }
+
+                }
+                else
+                {
+                    if (!WebBrowserLoad)//中间状态，不理睬
+                    {
+                        return;
+                    }
+
+                    //////加载自定义脚本后的处理
+                    ////while(true)
+                    ////{
+                    ////    if(wr.IsLogined(doc))
+                    ////        break;
+                    ////    Thread.Sleep(60 * 1000);
+                    ////}
+                    ////Logined = true;
+                    ////this.timer_RequestInst_Tick(null, null);
+                }
+                //if (Logined)
+                //{
+                //    //网页中间刷新
+
+
+                //}
+                ////}
+            }
+            catch (Exception ce)
+            {
+                this.toolStripStatusLabel3.Text = string.Format("{0}:{1}", ce.Message, ce.StackTrace);
+            }
+
         }
 
         string getScriptText(string scriptName)
@@ -607,10 +1205,18 @@ namespace ExchangeTermial
 
         private void txt_ExpectNo_TextChanged(object sender, EventArgs e)
         {
-
+            RefreshImages();
         }
 
+        void MySleep(long milsec)
+        {
+            int tick = Environment.TickCount;
+            while (Environment.TickCount - tick < milsec)
+            {
+                Application.DoEvents();
+            }
 
+        }
 
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -618,11 +1224,11 @@ namespace ExchangeTermial
 
         }
 
-        Dictionary<string, string> getAssetLists()
+        Dictionary<string, string> getAssetLists(string key)
         {
             Dictionary<string, string> ret = new Dictionary<string, string>();
             CommunicateToServer wc = new CommunicateToServer();
-            CommResult cr = wc.getRequestAssetList(GlobalClass.strAssetInfoURL);
+            CommResult cr = wc.getRequestAssetList(string.Format(GlobalClass.strAssetInfoURL,GlobalClass.TypeDataPoints[key].InstHost));
             if (!cr.Succ)
             {
                 this.statusStrip1.Items[0].Text = cr.Message;
@@ -654,7 +1260,7 @@ namespace ExchangeTermial
                 int rndtime = rd.Next(1000, buffSec * 1000);//增加随机数，防止单机多客户端并行同时下注
                 if (InSleep)//还在睡觉,唤醒
                 {
-                    LoadUrl();
+                    LoadUrl(loadUrl);
                     ////while(!Logined)
                     ////{
                     ////    System.Threading.Thread.Sleep(30*1000);
@@ -690,8 +1296,10 @@ namespace ExchangeTermial
                 this.toolStripStatusLabel2.Text = DateTime.Now.ToLongTimeString();
                 //}
                 DateTime CurrTime = DateTime.Now.AddHours(dtp.DiffHours).AddMinutes(dtp.DiffMinutes);//调整后的时间
+                RefreshImages();
                 if ((CurrExpectNo > this.NewExpects[dtp.DataType] && this.NewExpects[dtp.DataType]>0) || (RefreshTimes == 0)) //获取到最新指令
                 {
+                    
                     LastInstsTime = DateTime.Now.AddHours(dtp.DiffHours).AddMinutes(dtp.DiffMinutes);
                     int CurrMin = DateTime.Now.Minute % 5;
 
@@ -742,8 +1350,18 @@ namespace ExchangeTermial
                     }
                     else//如果没有登录，重新载入,当前指令不发送，只要不发送，这条指令就不会存入缓存。可以下次获取到再发
                     {
-                        if (webBrowser1.ReadyState == WebBrowserReadyState.Complete)//如果状态完成了还是没有登录，那就要重新登陆
-                            LoadUrl();
+                        if (isIE)
+                        {
+                            if (webBrowser1.ReadyState == WebBrowserReadyState.Complete)//如果状态完成了还是没有登录，那就要重新登陆
+                                LoadUrl(loadUrl);
+                        }
+                        else
+                        {
+                            if(geckoWebBrowser1.Document.ReadyState == "complete")
+                            {
+                                LoadUrl(loadUrl);
+                            }
+                        }
 
                     }
 
@@ -759,7 +1377,7 @@ namespace ExchangeTermial
                         DateTime nextTime = DateTime.Now.AddMilliseconds(tm.Interval);
                         KnockEgg();//敲蛋
                         Application.DoEvents();
-                        Thread.Sleep(5000);//暂停，等发送消息
+                        MySleep(5000);//暂停，等发送消息
                         reLoadWebBrowser();//开百度网页，睡觉
                         Program.wxl.Log(string.Format("下次启动时间！"), nextTime.ToString("yyyyMMdd HH:mm:ss"), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
                     }
@@ -793,79 +1411,88 @@ namespace ExchangeTermial
             string ret = null;
             return ret;
         }
-        Rule_ForKcaiCom rule = null;
+        WebRule rule = null;
         private void Send_Data(DataTypePoint dtp,string strText)
         {
-            string dtpName = dtp.DataType;
-            //if (this.txt_Insts.Text.Trim().Length == 0) return;
-            //string strText = dicExistInsts[dtpName].Last().Value;
-            if(rule == null)
-                rule = new Rule_ForKcaiCom(Program.gc);
-            //if (!ScriptLoaded)
-            AddScript();
-            string msg = rule.IntsToJsonString(dtpName, strText, Program.gc.ChipUnit);
-            double lastval = this.CurrVal;
-            //SendMsg
-            int maxCnt = 10;
-            int sendCnt = 0;
-            int sleepsec = 60;
-            //while (webBrowser1.ReadyState != WebBrowserReadyState.Complete)
-            //{
+            try
 
-
-            //    sendCnt++;
-
-            //    Program.wxl.Log("警告", string.Format("[{1}]第{0}次浏览器加载未完成", sendCnt, Program.gc.ClientAliasName), string.Format("请检查线路{0}是否正常！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost)));
-            //    //LoadUrl();
-            //    if (Program.gc.NeedAutoReset)//允许自动切换
-            //        SwitchChanle();
-            //    //Reboot();
-            //    NewExpects[dtpName]--;//允许下次再接收数据发送
-            //    RefreshTimes = 1;//让第一次发生错误后下次刷新指令会自动发送
-            //    return;
-            //    Application.DoEvents();
-
-            //    Thread.Sleep(sleepsec * 1000);
-            //    if (sendCnt > maxCnt)
-            //    {
-            //        LoadUrl();
-            //        Program.wxl.Log("错误", "发送指令失败！", string.Format("连续{0}次未发送出下注指令！", sendCnt));
-            //        return;
-            //    }
-            //}
-            webBrowser1.Document.InvokeScript("SendMsg", new object[] { this.NewExpects[dtpName], msg, Program.gc.ClientAliasName, Program.gc.WXLogNoticeUser, this.txt_Insts.Text, lastval, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost), rule.config.lotteryTypes[dtpName].ruleId });
-            //if (sender == null)
-            //{
-            //    this.statusStrip1.Text = "自动下注成功！";
-            //}
-            
-            if (!dicExistInsts[dtpName].ContainsKey(this.NewExpects[dtpName]))
             {
-                dicExistInsts[dtpName].Add(this.NewExpects[dtpName], strText);
-            }
-            this.toolStripStatusLabel1.Text = "已发送";
-            this.Cursor = Cursors.Default;
-            //Application.DoEvents();
-            //Thread.Sleep(5 * 1000);
-            //webBrowser1.Refresh();
-            //Application.DoEvents();
-            //Thread.Sleep(3 * 1000);
-            ////string ValTip = "无";
-            ////if(CurrVal<=lastval)
-            ////{
-            ////    ValTip = "下注后金额无变化，您的下注可能在20秒内没被执行！请注意查看！";
-            ////}
-            //Program.wxl.Log(string.Format("[{0}]:{1};下注前金额:{2:f2};现可用余额:{3:f2}；提示:{4}",this.NewExpect, this.txt_Insts.Text, lastval,this.CurrVal,ValTip));
-            ////if (e != null)
-            ////{
-            ////    MessageBox.Show(msg);
-            ////}
+                string dtpName = dtp.DataType;
+                //if (this.txt_Insts.Text.Trim().Length == 0) return;
+                //string strText = dicExistInsts[dtpName].Last().Value;
+                if (rule == null)
+                    rule = WebRuleBuilder.Create(Program.gc);
+                //if (!ScriptLoaded)
+                AddScript(lotteryDocIE ?? HomeDocIE, lotteryDocFireFox ?? HomeDocFireFox);
+                string msg = rule.IntsToJsonString(dtpName, strText, Program.gc.ChipUnit);
+                double lastval = this.CurrVal;
+                //SendMsg
+                int maxCnt = 10;
+                int sendCnt = 0;
+                int sleepsec = 60;
+                //while (webBrowser1.ReadyState != WebBrowserReadyState.Complete)
+                //{
 
-            //if (sender != null)
-            //{
-            //    Thread.Sleep(2 * 1000);
-            //    MessageBox.Show(string.Format("下注前金额:{0:f2};现可用余额:{1:f2}；提示:{2}", lastval, this.CurrVal, ValTip));
-            //}
+
+                //    sendCnt++;
+
+                //    Program.wxl.Log("警告", string.Format("[{1}]第{0}次浏览器加载未完成", sendCnt, Program.gc.ClientAliasName), string.Format("请检查线路{0}是否正常！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost)));
+                //    //LoadUrl();
+                //    if (Program.gc.NeedAutoReset)//允许自动切换
+                //        SwitchChanle();
+                //    //Reboot();
+                //    NewExpects[dtpName]--;//允许下次再接收数据发送
+                //    RefreshTimes = 1;//让第一次发生错误后下次刷新指令会自动发送
+                //    return;
+                //    Application.DoEvents();
+
+                //    Thread.Sleep(sleepsec * 1000);
+                //    if (sendCnt > maxCnt)
+                //    {
+                //        LoadUrl();
+                //        Program.wxl.Log("错误", "发送指令失败！", string.Format("连续{0}次未发送出下注指令！", sendCnt));
+                //        return;
+                //    }
+                //}
+                webBrowser1.Document.InvokeScript("SendMsg", new object[] { this.NewExpects[dtpName], msg, Program.gc.ClientAliasName, Program.gc.WXLogNoticeUser, this.txt_Insts.Text, lastval, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost), rule.config.lotteryTypes[dtpName].ruleId });
+                //if (sender == null)
+                //{
+                //    this.statusStrip1.Text = "自动下注成功！";
+                //}
+
+                if (!dicExistInsts[dtpName].ContainsKey(this.NewExpects[dtpName]))
+                {
+                    dicExistInsts[dtpName].Add(this.NewExpects[dtpName], strText);
+                }
+                this.toolStripStatusLabel1.Text = "已发送";
+                this.Cursor = Cursors.Default;
+                //Application.DoEvents();
+                //Thread.Sleep(5 * 1000);
+                //webBrowser1.Refresh();
+                //Application.DoEvents();
+                //Thread.Sleep(3 * 1000);
+                ////string ValTip = "无";
+                ////if(CurrVal<=lastval)
+                ////{
+                ////    ValTip = "下注后金额无变化，您的下注可能在20秒内没被执行！请注意查看！";
+                ////}
+                //Program.wxl.Log(string.Format("[{0}]:{1};下注前金额:{2:f2};现可用余额:{3:f2}；提示:{4}",this.NewExpect, this.txt_Insts.Text, lastval,this.CurrVal,ValTip));
+                ////if (e != null)
+                ////{
+                ////    MessageBox.Show(msg);
+                ////}
+
+                //if (sender != null)
+                //{
+                //    Thread.Sleep(2 * 1000);
+                //    MessageBox.Show(string.Format("下注前金额:{0:f2};现可用余额:{1:f2}；提示:{2}", lastval, this.CurrVal, ValTip));
+                //}
+            }
+            catch(Exception ce)
+            {
+
+            }
+
         }
         private void btn_Send_Click(object sender, EventArgs e)
         {
@@ -875,53 +1502,84 @@ namespace ExchangeTermial
                 this.Cursor = Cursors.WaitCursor;
             }
             string dtpName = this.NewExpects.First().Key;
-            if (this.txt_Insts.Text.Trim().Length == 0) return;
+            if (this.txt_Insts.Text.Trim().Length == 0)
+                return;
             if(rule==null)
-                rule = new Rule_ForKcaiCom(Program.gc);
-            //if (!ScriptLoaded)
-            AddScript();
-
-            string msg = null;
+                rule = WebRuleBuilder.Create(Program.gc);
+            string strHost = string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost);
+            string lotterUrl = string.Format(Program.gc.LotteryPage,strHost);
             try
             {
-                msg = rule.IntsToJsonString(dtpName, this.txt_Insts.Text, Program.gc.ChipUnit);
-            }
-            catch(Exception ce)
-            {
-                return;
-            }
-            double lastval = this.CurrVal;
-            //SendMsg
-            int maxCnt = 10;
-            int sendCnt = 0;
-            int sleepsec = 60;
-            ////while (webBrowser1.ReadyState != WebBrowserReadyState.Complete)
-            ////{
-
-
-            ////    sendCnt++;
-
-            ////    Program.wxl.Log("警告", string.Format("[{1}]第{0}次浏览器加载未完成", sendCnt,Program.gc.ClientAliasName), string.Format("请检查线路{0}是否正常！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost)));
-            ////    //LoadUrl();
-            ////    if (Program.gc.NeedAutoReset)//允许自动切换
-            ////        SwitchChanle();
-            ////    //Reboot();
-            ////    NewExpects[NewExpects.First().Key] --;//允许下次再接收数据发送
-            ////    RefreshTimes = 1;//让第一次发生错误后下次刷新指令会自动发送
-            ////    return;
-            ////    Application.DoEvents();
-
-            ////    Thread.Sleep(sleepsec * 1000);
-            ////    if (sendCnt > maxCnt)
-            ////    {
-            ////        LoadUrl();
-            ////        Program.wxl.Log("错误", "发送指令失败！", string.Format("连续{0}次未发送出下注指令！", sendCnt));
-            ////        return;
-            ////    }
-            ////}
-            webBrowser1.Document.InvokeScript("SendMsg", 
-                new object[] 
+                
+                if (isIE)
                 {
+                    if (webBrowser1.Url.ToString() != lotterUrl)
+                    {
+                        webBrowser1.Navigate(lotterUrl);
+                        
+                    }
+                    lotteryDocIE = webBrowser1.Document;
+                }
+                else
+                {
+                    if(geckoWebBrowser1.Url.ToString() != lotterUrl)
+                    {
+                        geckoWebBrowser1.Navigate(lotterUrl);
+                    }
+                    lotteryDocFireFox = geckoWebBrowser1.Document;
+                }
+                //rule = new Rule_ForKcaiCom(Program.gc);
+                //if (!ScriptLoaded)
+                AddScript(lotteryDocIE ?? HomeDocIE, lotteryDocFireFox ?? HomeDocFireFox);
+
+                string msg = null;
+                try
+                {
+                    msg = rule.IntsToJsonString(dtpName, this.txt_Insts.Text, Program.gc.ChipUnit);
+                }
+                catch (Exception ce)
+                {
+                    return;
+                }
+                double lastval = this.CurrVal;
+                //SendMsg
+                int maxCnt = 10;
+                int sendCnt = 0;
+                int sleepsec = 60;
+                ////while (webBrowser1.ReadyState != WebBrowserReadyState.Complete)
+                ////{
+
+
+                ////    sendCnt++;
+
+                ////    Program.wxl.Log("警告", string.Format("[{1}]第{0}次浏览器加载未完成", sendCnt,Program.gc.ClientAliasName), string.Format("请检查线路{0}是否正常！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost)));
+                ////    //LoadUrl();
+                ////    if (Program.gc.NeedAutoReset)//允许自动切换
+                ////        SwitchChanle();
+                ////    //Reboot();
+                ////    NewExpects[NewExpects.First().Key] --;//允许下次再接收数据发送
+                ////    RefreshTimes = 1;//让第一次发生错误后下次刷新指令会自动发送
+                ////    return;
+                ////    Application.DoEvents();
+
+                ////    Thread.Sleep(sleepsec * 1000);
+                ////    if (sendCnt > maxCnt)
+                ////    {
+                ////        LoadUrl();
+                ////        Program.wxl.Log("错误", "发送指令失败！", string.Format("连续{0}次未发送出下注指令！", sendCnt));
+                ////        return;
+                ////    }
+                ////}
+                try
+                {
+                    string ruleid = "0";
+                    if (rule.config != null)
+                        ruleid = rule.config.lotteryTypes.ContainsKey(dtpName) ? rule.config.lotteryTypes[dtpName].ruleId : "0";
+                    if (isIE)
+                    {
+                        webBrowser1.Document.InvokeScript("SendMsg",
+                            new object[]
+                            {
                     this.NewExpects.First().Value.ToString(),
                     msg,
                     Program.gc.ClientAliasName,
@@ -929,22 +1587,54 @@ namespace ExchangeTermial
                     this.txt_Insts.Text,
                     lastval,
                     string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost),
-                    int.Parse(rule.config.lotteryTypes[dtpName].ruleId )
-                    });
-            if(sender == null)
-            {
-                this.statusStrip1.Text = "自动下注成功！";
+                    int.Parse(ruleid)
+                                });
+                    }
+                    else
+                    {
+                        AutoJSContext context = new AutoJSContext(geckoWebBrowser1.Window);
+                        string jstxt = string.Format("SendMsg('{0}','{1}','{2}','{3}','{4}','{5}','{6}',{7});",
+                            this.NewExpects.First().Value.ToString(),
+                            msg,
+                            Program.gc.ClientAliasName,
+                            Program.gc.WXLogNoticeUser,
+                            this.txt_Insts.Text,
+                            lastval,
+                            string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost),
+                            int.Parse(ruleid));
+                        context.EvaluateScript(jstxt);
+                    }
+                }
+                catch (Exception ce)
+                {
+                    MessageBox.Show(string.Format("{0}:{1}", ce, ce.StackTrace));
+                    return;
+                }
+                if (sender == null)
+                {
+                    this.statusStrip1.Text = "自动下注成功！";
+                }
+                else
+                {
+                    MessageBox.Show("手动下注成功！");
+                }
+                if (!dicExistInsts.First().Value.ContainsKey(this.NewExpects.First().Value))
+                {
+                    dicExistInsts.First().Value.Add(this.NewExpects.First().Value, this.txt_Insts.Text);
+                }
             }
-            else
+            catch (Exception ce)
             {
-                MessageBox.Show("手动下注成功！");
+                this.toolStripStatusLabel1.Text = ce.Message;
+                this.toolStripStatusLabel2.Text = ce.StackTrace;
+                return;
             }
-            if (!dicExistInsts.First().Value.ContainsKey(this.NewExpects.First().Value))
+            finally
             {
-                dicExistInsts.First().Value.Add(this.NewExpects.First().Value, this.txt_Insts.Text);
+                this.Cursor = Cursors.Default;
             }
             this.toolStripStatusLabel1.Text = "已发送";
-            this.Cursor = Cursors.Default;
+            
             //Application.DoEvents();
             //Thread.Sleep(5 * 1000);
             //webBrowser1.Refresh();
@@ -991,7 +1681,8 @@ namespace ExchangeTermial
             string url = "https://www.baidu.com";
             try
             {
-                if (webBrowser1.ReadyState == WebBrowserReadyState.Complete)
+                
+                if ((webBrowser1.ReadyState == WebBrowserReadyState.Complete && isIE)||(geckoWebBrowser1.StatusText=="completed" && isIE==false))
                 {
                     this.webBrowser1.Navigate(url);
                 }
@@ -1000,14 +1691,14 @@ namespace ExchangeTermial
                     Program.wxl.Log(string.Format("[{0}]程序们，再坚持一会",Program.gc.ClientAliasName), "让其他屌丝们干完事了一起睡！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
 
                     ReadySleep = false;
-                    Thread.Sleep(2 * 60 * 1000);
+                    MySleep(2 * 60 * 1000);
                     return;
                 }
             }
             catch (Exception ce)
             {
                 ReadySleep = false;
-                Thread.Sleep(2 * 60 * 1000);
+                MySleep(2 * 60 * 1000);
                 LogableClass.ToLog("错误", "此刻无法入眠", string.Format("{0}:{1}", ce.Message, ce.StackTrace));
                 Program.wxl.Log(string.Format("[{0}]错误",Program.gc.ClientAliasName), "此刻无法入眠，让我再酝酿一番如何？", string.Format("{0}:{1}", ce.Message, ce.StackTrace), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
                 return;
@@ -1021,7 +1712,11 @@ namespace ExchangeTermial
 
         private void reLoadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            LoadUrl();
+            if(loadUrl == "about:blank")
+            {
+                loadUrl = null;
+            }
+            LoadUrl(loadUrl);
         }
 
         void RefreshStatus()
@@ -1039,6 +1734,20 @@ namespace ExchangeTermial
             toolStripStatusLabel3.Visible = true;
         }
 
+        void RefreshImages()
+        {
+
+            this.pic_serImage.Load(getImageUrl(string.Format("lv_0.jpg?t={0}", Guid.NewGuid().ToString())));
+            this.pic_carImage.Load(getImageUrl(string.Format("lv_1.jpg?t={0}", Guid.NewGuid().ToString())));
+            this.pic_ChanceImage.Load(getImageUrl(string.Format("chances.jpg?t={0}", Guid.NewGuid().ToString())));
+            this.pic_chartImage.Load(getImageUrl(string.Format("chart.png?t={0}", Guid.NewGuid().ToString())));
+        }
+
+        string getImageUrl(string name)
+        {
+            return string.Format("{0}/chartImgs/{1}",GlobalClass.TypeDataPoints.First().Value.InstHost,name);
+        }
+
         private void TSMI_sendStatusInfor_Click(object sender, EventArgs e)
         {
             this.SendStatusTimer_Elapsed(null, null);
@@ -1054,10 +1763,11 @@ namespace ExchangeTermial
             try
             {
                 //if (!ScriptLoaded)
-                AddScript();
+                AddScript(lotteryDocIE ?? HomeDocIE, lotteryDocFireFox ?? HomeDocFireFox);
+                //AddScript();
                 webBrowser1.Document.InvokeScript("JumpFillPage", null);
-                Thread.Sleep(3000);
-                AddScript();
+                MySleep(3000);
+                //AddScript();
                 webBrowser1.Document.InvokeScript(arg[0], useArg);
             }
             catch (Exception ce)
@@ -1069,7 +1779,7 @@ namespace ExchangeTermial
         void KnockEgg()
         {
             //if (!ScriptLoaded)
-            AddScript();
+            AddScript(HomeDocIE, HomeDocFireFox);
             webBrowser1.Document.InvokeScript("ClickEgg", new object[] { Program.gc.ClientUserName, Program.gc.WXLogNoticeUser, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost) });
             //Program.wxl.Log("已为您砸金蛋！");
         }
@@ -1087,7 +1797,7 @@ namespace ExchangeTermial
         private void btn_SelfAddCombo_Click(object sender, EventArgs e)
         {
             Program.gc.LoginDefaultHost = this.txt_NewInsts.Text;
-            LoadUrl();
+            LoadUrl(null);
         }
 
         private void chargeMoneyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1120,7 +1830,7 @@ namespace ExchangeTermial
                     {
                         break;
                     }
-                    Thread.Sleep(100);
+                    MySleep(100);
                     if (chargeData != null)
                     {
                         break;
@@ -1203,7 +1913,7 @@ namespace ExchangeTermial
 
                         return;
                     }
-                    Thread.Sleep(100);
+                    MySleep(100);
 
                 }
             }
@@ -1259,7 +1969,7 @@ namespace ExchangeTermial
                     chargeAmt = strChargeAmt?.Split('：')[1].Trim();
                     err_msg = wr.getErr_Msg(doc);
                     Program.wxl.Log(string.Format("请求金额[{3}]元,获取到充值网页信息！订单号:{0};金额:[{1}];消息:{2}", chargeId, chargeAmt, err_msg, chgOpt.strAmt), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
-                    Thread.Sleep(200);
+                    MySleep(200);
                     double chargeAmtInt = 0.0;
                     int inputAmtInt = 0;
                     bool isInt = double.TryParse(chargeAmt??"0.0",out chargeAmtInt);
@@ -1338,9 +2048,45 @@ namespace ExchangeTermial
         {
             Login();
         }
+
+        private void inLotteryHomeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoadLotteryHome();
+            loadUrl = string.Format(Program.gc.LotteryPage,string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost));
+        }
+
+
+        void LoadLotteryHome()
+        {
+            if(isIE)
+            {
+                AddScript(HomeDocIE, null);
+                HomeDocIE.InvokeScript("gotoLotteryHome",new object[0] { });
+            }
+            else
+            {
+                AddScript(HomeDocIE, HomeDocFireFox);
+                
+            }
+        }
+
+        private void switchWebBrowserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            isIE = (!isIE);
+            MainWindow_Load(null, null);
+        }
     }
 
-   
-    
+
+    public class FireFoxBrowser:GeckoWebBrowser
+    {
+        void Invode(string script)
+        {
+            //
+            
+
+            
+        }
+    }
     
 }
