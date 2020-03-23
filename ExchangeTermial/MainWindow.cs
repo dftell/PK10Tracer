@@ -126,7 +126,7 @@ namespace ExchangeTermial
         ChargeOperator chgOpt = null;
         public MainWindow()
         {
-            
+            Xpcom.Initialize("Firefox");
             InitializeComponent();
             isIE = (Program.gc.UseBrowser.Trim().ToLower().Length == 0 || Program.gc.UseBrowser.Trim().ToLower().Equals("ie"));
             wr = WebRuleBuilder.Create(Program.gc);

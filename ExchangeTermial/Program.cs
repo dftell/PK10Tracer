@@ -54,7 +54,7 @@ namespace ExchangeTermial
 
                 frm =  new Form1(strName, strPassword, AutoLogin);
                 string msg = wxl.Log(string.Format("{0}","客户端启动！"));
-                Xpcom.Initialize("Firefox");
+                
                 Application.Run(frm);
                 
                 wxl.Log(string.Format("{0}", "客户端退出！"));
