@@ -43,6 +43,7 @@ namespace WolfInv.com.Strags.KLXxY
                 {
                     al.Add(string.Format("A2/{0},{1}", Arr4[j], Arr4[j + 1]));
                 }
+                //al.Add(string.Format("A2/{0}", string.Join(",",Arr4)));//支持2码多数
                 cc.ChanceCode = string.Format("A7/{0}+{1}", a7, string.Join("+", al));
                 
 
@@ -224,7 +225,7 @@ namespace WolfInv.com.Strags.KLXxY
 
         public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
-            return 2;
+            return 1;
         }
 
         public override StagConfigSetting getInitStagSetting()

@@ -91,7 +91,7 @@ namespace WolfInv.com.ExchangeLib
             {
                 Gained = dGained;
             }
-            dr["Gained"] = dGained;
+            dr["Gained"] = Gained;
             dr["Profit"] = dGained - dCost;
             dr["UpdateTime"] = DateTime.Now.ToString();
             return true;

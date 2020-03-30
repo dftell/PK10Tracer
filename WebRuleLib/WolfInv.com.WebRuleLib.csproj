@@ -57,9 +57,15 @@
   <ItemGroup>
     <Compile Include="IWebRule.cs" />
     <Compile Include="JsProcessRuleClass.cs" />
+    <Compile Include="LotteryBetRuleClass.cs" />
+    <Compile Include="LotteryConfigClass.cs" />
+    <Compile Include="LotteryTypes.cs" />
+    <Compile Include="PK10KindLotteryConfigClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rule_ForKcaiCom.cs" />
+    <Compile Include="WebConfig.cs" />
     <Compile Include="WebRule.cs" />
+    <Compile Include="XxYLotteryConfigClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BaseObjectsLib\WolfInv.com.BaseObjectsLib.csproj">
@@ -69,6 +75,10 @@
     <ProjectReference Include="..\LogLib\WolfInv.com.LogLib.csproj">
       <Project>{182084E4-C48B-4585-9221-4A54CAF7448F}</Project>
       <Name>WolfInv.com.LogLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProbMathLib\WolfInv.com.ProbMathLib.csproj">
+      <Project>{6af5544d-5b6b-40a9-9258-72cbe6ce207d}</Project>
+      <Name>WolfInv.com.ProbMathLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\WebCommunicateClass\WolfInv.com.WebCommunicateClass.csproj">
       <Project>{58c01aaf-4a7c-4b53-a7ed-efc6dbd22610}</Project>

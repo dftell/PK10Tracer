@@ -48,16 +48,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AllInstances.cs" />
+    <Compile Include="CarCollection.cs" />
     <Compile Include="ChanceClass_ForCombinXxY.cs" />
+    <Compile Include="CombinLottery_ExpectListProcess.cs" />
     <Compile Include="CommCollection.cs" />
+    <Compile Include="CommCollection_KLXxY.cs" />
     <Compile Include="ExchanceClass.cs" />
     <Compile Include="ExpectListProcess.cs" />
+    <Compile Include="ExpectListProcess_KLXxY.cs" />
     <Compile Include="Features\FeatureBaseClass.cs" />
     <Compile Include="ICommCollection.cs" />
     <Compile Include="IExpectListProcess.cs" />
     <Compile Include="LottyExpactList.cs" />
+    <Compile Include="PermutLottery_ExpectListProcess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecurityData.cs" />
+    <Compile Include="SerialCollection.cs" />
     <Compile Include="SubscriptClass.cs" />
   </ItemGroup>
   <ItemGroup>

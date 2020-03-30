@@ -170,7 +170,7 @@ namespace WolfInv.com.PK10CorePress
             }
             //////ExpectData inputEd = el[begid];
             //////Log("计算服务", "获取到期号信息", string.Format("expect:{0};openCode:{1}",inputEd.Expect,inputEd.OpenCode));
-            if (el.Count>begid+2)//只匹配一期
+            if (el.Count>begid+2 ||el.Count == 1)//只匹配一期
             {
                 int ei = begid + 1;
                 ExpectData<TimeSerialData> data = el[ei];
@@ -224,15 +224,17 @@ namespace WolfInv.com.PK10CorePress
                         case CombinBetType.All:
                         default:
                             {
-                                
+                                int tn = ci.betChipCnt+1;//一定要加1，是标志基础
                                 if (ci.betChipCnt > SelectNums)//如果大于选择码
                                 {
                                     container = new CombinClass(ci.betCode, SelectNums);//找出N码选出数目的所有组合
                                     if(container.Contains(strRes))//命中
                                     {
-                                        if (this.AllTypeChipsBaseOdds.ContainsKey(ci.betChipCnt-1))
+                                        
+                                        if (this.AllTypeChipsBaseOdds.ContainsKey(tn))
                                         {
-                                            MatchCnt +=AllTypeChipsBaseOdds[ci.betChipCnt-1];
+                                            
+                                            MatchCnt +=AllTypeChipsBaseOdds[tn];
                                             //break;
                                         }
                                         else//找不到，返回基本倍数
@@ -246,9 +248,9 @@ namespace WolfInv.com.PK10CorePress
                                     container = new CombinClass(strRes, ci.betChipCnt);//中奖结果的C(S,N)组合
                                     if(container.Contains(ci.betCode))
                                     {
-                                        if (this.AllTypeChipsBaseOdds.ContainsKey(ci.betChipCnt-1))
+                                        if (this.AllTypeChipsBaseOdds.ContainsKey(tn))
                                         {
-                                            MatchCnt +=AllTypeChipsBaseOdds[ci.betChipCnt-1];
+                                            MatchCnt +=AllTypeChipsBaseOdds[tn];
                                             //break;
                                         }
                                         else//找不到，返回基本倍数
@@ -303,6 +305,9 @@ namespace WolfInv.com.PK10CorePress
         {
             public CombinBetType betType;
             public string betCode;
+            /// <summary>
+            /// 投注数目，此变量只对Ａ，Ｃ，Ｐ　（１～８）有效，对趣味玩法全部无效
+            /// </summary>
             public int betChipCnt;
             
             public ChanceItem()
@@ -314,7 +319,7 @@ namespace WolfInv.com.PK10CorePress
                 string[] arr = code.ToUpper().Split('/');
                 betCode = arr[1];
                 betType = arr[0][0] == 'A' ? CombinBetType.All : (arr[0][0] == 'C' ? CombinBetType.Combin : CombinBetType.Permut);
-                betChipCnt = int.Parse(arr[0].Substring(1));
+                betChipCnt = int.Parse(arr[0].Substring(1));//只对ACP（1~8有效）
             }
         }
 

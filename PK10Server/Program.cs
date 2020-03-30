@@ -94,14 +94,22 @@ namespace PK10Server
                 //处理非UI线程异常
                 AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
                 wxlog = new WXLogClass("客户端", gc.WXLogNoticeUser, string.Format(gc.WXLogUrl, gc.WXSVRHost));//指定默认登录用户，为捕捉第一次产生错误用。
+
+                if (GlobalClass.TypeDataPoints.First().Value.onlyDebug==9)//永远不执行，到内部去执行测试界面
+                {
+                    testWindow frm1 = new testWindow();
+                    Application.Run(frm1);
+                }
+                else
+                {
+                    frm = new MainForm();
+                    tm_heart = new Timer();
+                    tm_heart.Enabled = true;
+                    tm_heart.Interval = 100;
+                    tm_heart.Tick += Tm_heart_Tick;
+                    Application.Run(frm);
+                }
                 
-                
-                frm = new MainForm();
-                tm_heart = new Timer();
-                tm_heart.Enabled = true;
-                tm_heart.Interval = 100;
-                tm_heart.Tick += Tm_heart_Tick;
-                Application.Run(frm);
                 AllGlobalSetting.wxlog.Log("关闭程序", "终止界面", string.Format(gc.WXLogUrl, gc.WXSVRHost));
             }
             catch(Exception ce)
@@ -112,13 +120,25 @@ namespace PK10Server
 
         private static void Tm_heart_Tick(object sender, EventArgs e)
         {
-            if (UseSetting != null)
+            try
             {
-                bool haveRec = UseSetting.haveReceiveData;
-                if(haveRec)
+                if (UseSetting != null)
                 {
-                    CalcFinishedEvent(DateTime.Now);
+
+                    bool haveRec = UseSetting.haveReceiveData;
+                    if (haveRec)
+                    {
+                        CalcFinishedEvent(DateTime.Now);
+                    }
                 }
+                else
+                {
+                    tm_heart.Enabled = false;
+                }
+            }
+            catch(Exception ce)
+            {
+                tm_heart.Enabled = false;//停掉
             }
             
         }
@@ -144,12 +164,12 @@ namespace PK10Server
                         string url = string.Format("ipc://IPC_{0}/{1}", GlobalClass.TypeDataPoints.First().Key, strclassname);
                         LogableClass.ToLog("监控终端", "刷新数据", url);
                         _UseSetting = wc.GetServerObject<ServiceSetting<TimeSerialData>>(url, false);
-
                     }
                     catch (Exception ce)
                     {
                         string msg = ce.Message;
-                        MessageBox.Show(string.Format("获取用户设置错误:{0}", ce.Message));
+                        return null;
+                        //MessageBox.Show(string.Format("获取用户设置错误:{0}", ce.Message));
                     }
                 }
                 return _UseSetting;
@@ -241,26 +261,4 @@ namespace PK10Server
         }
     }
 
-    class c1
-    {
-        public static string Name = "C1";
-        public void printName()
-        {
-            MessageBox.Show(Name);
-        }
-    }
-
-    class c2:c1
-    {
-        public c2()
-        {
-            Name = "c2";
-        }
-    
-    }
-
-    class c3 : c1
-    {
-
-    }
 }

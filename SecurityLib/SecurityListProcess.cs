@@ -56,6 +56,11 @@ namespace WolfInv.com.SecurityLib
 
         public override DataTable Table => throw new NotImplementedException();
 
+        public override DataSet ExDataTable(DataTypePoint dtp, string expect,Func<DataTypePoint,string,DataSet> func)
+        {
+            return null;
+        }
+
         public override int FindLastDataExistCount(int StartPos, int lng, string StrKey, string val)
         {
             throw new NotImplementedException();

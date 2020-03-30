@@ -37,51 +37,48 @@
             this.txt_password = new System.Windows.Forms.TextBox();
             this.btn_login = new System.Windows.Forms.Button();
             this.btn_cancel = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.ddl_websites = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(154, 112);
-            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label1.Location = new System.Drawing.Point(77, 56);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(58, 24);
+            this.label1.Size = new System.Drawing.Size(29, 12);
             this.label1.TabIndex = 0;
             this.label1.Text = "账号";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(154, 188);
-            this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label2.Location = new System.Drawing.Point(77, 94);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(58, 24);
+            this.label2.Size = new System.Drawing.Size(29, 12);
             this.label2.TabIndex = 1;
             this.label2.Text = "密码";
             // 
             // txt_user
             // 
-            this.txt_user.Location = new System.Drawing.Point(284, 102);
-            this.txt_user.Margin = new System.Windows.Forms.Padding(6);
+            this.txt_user.Location = new System.Drawing.Point(142, 51);
             this.txt_user.Name = "txt_user";
-            this.txt_user.Size = new System.Drawing.Size(272, 35);
+            this.txt_user.Size = new System.Drawing.Size(138, 21);
             this.txt_user.TabIndex = 2;
             // 
             // txt_password
             // 
-            this.txt_password.Location = new System.Drawing.Point(284, 182);
-            this.txt_password.Margin = new System.Windows.Forms.Padding(6);
+            this.txt_password.Location = new System.Drawing.Point(142, 91);
             this.txt_password.Name = "txt_password";
             this.txt_password.PasswordChar = '*';
-            this.txt_password.Size = new System.Drawing.Size(272, 35);
+            this.txt_password.Size = new System.Drawing.Size(138, 21);
             this.txt_password.TabIndex = 3;
             // 
             // btn_login
             // 
-            this.btn_login.Location = new System.Drawing.Point(264, 286);
-            this.btn_login.Margin = new System.Windows.Forms.Padding(6);
+            this.btn_login.Location = new System.Drawing.Point(109, 167);
             this.btn_login.Name = "btn_login";
-            this.btn_login.Size = new System.Drawing.Size(120, 48);
+            this.btn_login.Size = new System.Drawing.Size(60, 24);
             this.btn_login.TabIndex = 4;
             this.btn_login.Text = "登录";
             this.btn_login.UseVisualStyleBackColor = true;
@@ -90,22 +87,40 @@
             // btn_cancel
             // 
             this.btn_cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btn_cancel.Location = new System.Drawing.Point(388, 286);
-            this.btn_cancel.Margin = new System.Windows.Forms.Padding(6);
+            this.btn_cancel.Location = new System.Drawing.Point(175, 167);
             this.btn_cancel.Name = "btn_cancel";
-            this.btn_cancel.Size = new System.Drawing.Size(120, 48);
+            this.btn_cancel.Size = new System.Drawing.Size(60, 24);
             this.btn_cancel.TabIndex = 5;
             this.btn_cancel.Text = "取消";
             this.btn_cancel.UseVisualStyleBackColor = true;
             this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(77, 131);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(29, 12);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "平台";
+            // 
+            // ddl_websites
+            // 
+            this.ddl_websites.FormattingEnabled = true;
+            this.ddl_websites.Location = new System.Drawing.Point(142, 128);
+            this.ddl_websites.Name = "ddl_websites";
+            this.ddl_websites.Size = new System.Drawing.Size(138, 20);
+            this.ddl_websites.TabIndex = 7;
+            // 
             // Form1
             // 
             this.AcceptButton = this.btn_login;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btn_cancel;
-            this.ClientSize = new System.Drawing.Size(744, 442);
+            this.ClientSize = new System.Drawing.Size(372, 221);
+            this.Controls.Add(this.ddl_websites);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_login);
             this.Controls.Add(this.txt_password);
@@ -113,7 +128,6 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(6);
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "快乐割菜-登录";
@@ -131,6 +145,8 @@
         private System.Windows.Forms.TextBox txt_password;
         private System.Windows.Forms.Button btn_login;
         private System.Windows.Forms.Button btn_cancel;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox ddl_websites;
     }
 }
 

@@ -54,15 +54,6 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.tabControl2 = new System.Windows.Forms.TabControl();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.pic_serImage = new System.Windows.Forms.PictureBox();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.pic_carImage = new System.Windows.Forms.PictureBox();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.pic_ChanceImage = new System.Windows.Forms.PictureBox();
-            this.tabPage7 = new System.Windows.Forms.TabPage();
-            this.pic_chartImage = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btn_Send = new System.Windows.Forms.Button();
             this.txt_OpenTime = new System.Windows.Forms.TextBox();
@@ -72,22 +63,32 @@
             this.txt_Insts = new System.Windows.Forms.TextBox();
             this.txt_ExpectNo = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.btn_TestJscript = new System.Windows.Forms.Button();
+            this.btn_AddHedge = new System.Windows.Forms.Button();
+            this.btn_SelfAddCombo = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txt_NewInsts = new System.Windows.Forms.TextBox();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.pic_serImage = new System.Windows.Forms.PictureBox();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.pic_carImage = new System.Windows.Forms.PictureBox();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.pic_ChanceImage = new System.Windows.Forms.PictureBox();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.pic_chartImage = new System.Windows.Forms.PictureBox();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
-            this.geckoWebBrowser1 = new Gecko.GeckoWebBrowser();
             this.webBrowser_charge = new System.Windows.Forms.WebBrowser();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.webBrowser_nav = new System.Windows.Forms.WebBrowser();
+            this.geckoWebBrowser1 = new Gecko.GeckoWebBrowser();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txt_NewInsts = new System.Windows.Forms.TextBox();
-            this.btn_TestJscript = new System.Windows.Forms.Button();
-            this.btn_AddHedge = new System.Windows.Forms.Button();
-            this.btn_SelfAddCombo = new System.Windows.Forms.Button();
+            this.switchPlatformToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -99,7 +100,9 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.tabControl2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_serImage)).BeginInit();
             this.tabPage5.SuspendLayout();
@@ -108,11 +111,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pic_ChanceImage)).BeginInit();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_chartImage)).BeginInit();
-            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -170,7 +171,8 @@
             this.loadTheNavigateWindowToolStripMenuItem,
             this.userLoginToolStripMenuItem,
             this.inLotteryHomeToolStripMenuItem,
-            this.switchWebBrowserToolStripMenuItem});
+            this.switchWebBrowserToolStripMenuItem,
+            this.switchPlatformToolStripMenuItem});
             this.tsmi_Operate.Name = "tsmi_Operate";
             this.tsmi_Operate.Size = new System.Drawing.Size(44, 21);
             this.tsmi_Operate.Text = "操作";
@@ -178,70 +180,70 @@
             // mnuRefreshWebToolStripMenuItem
             // 
             this.mnuRefreshWebToolStripMenuItem.Name = "mnuRefreshWebToolStripMenuItem";
-            this.mnuRefreshWebToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.mnuRefreshWebToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.mnuRefreshWebToolStripMenuItem.Text = "睡觉";
             this.mnuRefreshWebToolStripMenuItem.Click += new System.EventHandler(this.mnuRefreshWebToolStripMenuItem_Click);
             // 
             // reLoadToolStripMenuItem
             // 
             this.reLoadToolStripMenuItem.Name = "reLoadToolStripMenuItem";
-            this.reLoadToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.reLoadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.reLoadToolStripMenuItem.Text = "醒来";
             this.reLoadToolStripMenuItem.Click += new System.EventHandler(this.reLoadToolStripMenuItem_Click);
             // 
             // tsmi_knockTheEgg
             // 
             this.tsmi_knockTheEgg.Name = "tsmi_knockTheEgg";
-            this.tsmi_knockTheEgg.Size = new System.Drawing.Size(177, 22);
+            this.tsmi_knockTheEgg.Size = new System.Drawing.Size(180, 22);
             this.tsmi_knockTheEgg.Text = "砸蛋";
             this.tsmi_knockTheEgg.Click += new System.EventHandler(this.tsmi_knockTheEgg_Click);
             // 
             // switchChanleToolStripMenuItem
             // 
             this.switchChanleToolStripMenuItem.Name = "switchChanleToolStripMenuItem";
-            this.switchChanleToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.switchChanleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.switchChanleToolStripMenuItem.Text = "切换通道";
             this.switchChanleToolStripMenuItem.Click += new System.EventHandler(this.switchChanleToolStripMenuItem_Click);
             // 
             // chargeMoneyToolStripMenuItem
             // 
             this.chargeMoneyToolStripMenuItem.Name = "chargeMoneyToolStripMenuItem";
-            this.chargeMoneyToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.chargeMoneyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.chargeMoneyToolStripMenuItem.Text = "ChargeMoney";
             this.chargeMoneyToolStripMenuItem.Click += new System.EventHandler(this.chargeMoneyToolStripMenuItem_Click);
             // 
             // hideTheFloatWindowToolStripMenuItem
             // 
             this.hideTheFloatWindowToolStripMenuItem.Name = "hideTheFloatWindowToolStripMenuItem";
-            this.hideTheFloatWindowToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.hideTheFloatWindowToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.hideTheFloatWindowToolStripMenuItem.Text = "隐藏/显示充值窗口";
             this.hideTheFloatWindowToolStripMenuItem.Click += new System.EventHandler(this.hideTheFloatWindowToolStripMenuItem_Click);
             // 
             // loadTheNavigateWindowToolStripMenuItem
             // 
             this.loadTheNavigateWindowToolStripMenuItem.Name = "loadTheNavigateWindowToolStripMenuItem";
-            this.loadTheNavigateWindowToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.loadTheNavigateWindowToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadTheNavigateWindowToolStripMenuItem.Text = "载入导航";
             this.loadTheNavigateWindowToolStripMenuItem.Click += new System.EventHandler(this.loadTheNavigateWindowToolStripMenuItem_Click);
             // 
             // userLoginToolStripMenuItem
             // 
             this.userLoginToolStripMenuItem.Name = "userLoginToolStripMenuItem";
-            this.userLoginToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.userLoginToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.userLoginToolStripMenuItem.Text = "用户登录";
             this.userLoginToolStripMenuItem.Click += new System.EventHandler(this.userLoginToolStripMenuItem_Click);
             // 
             // inLotteryHomeToolStripMenuItem
             // 
             this.inLotteryHomeToolStripMenuItem.Name = "inLotteryHomeToolStripMenuItem";
-            this.inLotteryHomeToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.inLotteryHomeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.inLotteryHomeToolStripMenuItem.Text = "进入游戏厅";
             this.inLotteryHomeToolStripMenuItem.Click += new System.EventHandler(this.inLotteryHomeToolStripMenuItem_Click);
             // 
             // switchWebBrowserToolStripMenuItem
             // 
             this.switchWebBrowserToolStripMenuItem.Name = "switchWebBrowserToolStripMenuItem";
-            this.switchWebBrowserToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.switchWebBrowserToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.switchWebBrowserToolStripMenuItem.Text = "切换浏览器";
             this.switchWebBrowserToolStripMenuItem.Click += new System.EventHandler(this.switchWebBrowserToolStripMenuItem_Click);
             // 
@@ -298,9 +300,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.webBrowser1);
-            this.splitContainer1.Panel2.Controls.Add(this.geckoWebBrowser1);
             this.splitContainer1.Size = new System.Drawing.Size(1289, 637);
-            this.splitContainer1.SplitterDistance = 375;
+            this.splitContainer1.SplitterDistance = 154;
             this.splitContainer1.TabIndex = 5;
             // 
             // splitContainer2
@@ -316,100 +317,9 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.tabControl2);
-            this.splitContainer2.Size = new System.Drawing.Size(1289, 375);
+            this.splitContainer2.Size = new System.Drawing.Size(1289, 154);
             this.splitContainer2.SplitterDistance = 709;
             this.splitContainer2.TabIndex = 4;
-            // 
-            // tabControl2
-            // 
-            this.tabControl2.Controls.Add(this.tabPage3);
-            this.tabControl2.Controls.Add(this.tabPage4);
-            this.tabControl2.Controls.Add(this.tabPage5);
-            this.tabControl2.Controls.Add(this.tabPage6);
-            this.tabControl2.Controls.Add(this.tabPage7);
-            this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl2.Location = new System.Drawing.Point(0, 0);
-            this.tabControl2.Name = "tabControl2";
-            this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(576, 375);
-            this.tabControl2.TabIndex = 3;
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.pic_serImage);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(568, 349);
-            this.tabPage4.TabIndex = 1;
-            this.tabPage4.Text = "排名信息";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // pic_serImage
-            // 
-            this.pic_serImage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pic_serImage.Location = new System.Drawing.Point(3, 3);
-            this.pic_serImage.Name = "pic_serImage";
-            this.pic_serImage.Size = new System.Drawing.Size(562, 343);
-            this.pic_serImage.TabIndex = 0;
-            this.pic_serImage.TabStop = false;
-            // 
-            // tabPage5
-            // 
-            this.tabPage5.Controls.Add(this.pic_carImage);
-            this.tabPage5.Location = new System.Drawing.Point(4, 22);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(568, 349);
-            this.tabPage5.TabIndex = 2;
-            this.tabPage5.Text = "车次信息";
-            this.tabPage5.UseVisualStyleBackColor = true;
-            // 
-            // pic_carImage
-            // 
-            this.pic_carImage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pic_carImage.Location = new System.Drawing.Point(0, 0);
-            this.pic_carImage.Name = "pic_carImage";
-            this.pic_carImage.Size = new System.Drawing.Size(568, 349);
-            this.pic_carImage.TabIndex = 1;
-            this.pic_carImage.TabStop = false;
-            // 
-            // tabPage6
-            // 
-            this.tabPage6.Controls.Add(this.pic_ChanceImage);
-            this.tabPage6.Location = new System.Drawing.Point(4, 22);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(516, 203);
-            this.tabPage6.TabIndex = 3;
-            this.tabPage6.Text = "机会列表";
-            this.tabPage6.UseVisualStyleBackColor = true;
-            // 
-            // pic_ChanceImage
-            // 
-            this.pic_ChanceImage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pic_ChanceImage.Location = new System.Drawing.Point(0, 0);
-            this.pic_ChanceImage.Name = "pic_ChanceImage";
-            this.pic_ChanceImage.Size = new System.Drawing.Size(516, 203);
-            this.pic_ChanceImage.TabIndex = 1;
-            this.pic_ChanceImage.TabStop = false;
-            // 
-            // tabPage7
-            // 
-            this.tabPage7.Controls.Add(this.pic_chartImage);
-            this.tabPage7.Location = new System.Drawing.Point(4, 22);
-            this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Size = new System.Drawing.Size(516, 203);
-            this.tabPage7.TabIndex = 4;
-            this.tabPage7.Text = "走势图";
-            this.tabPage7.UseVisualStyleBackColor = true;
-            // 
-            // pic_chartImage
-            // 
-            this.pic_chartImage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pic_chartImage.Location = new System.Drawing.Point(0, 0);
-            this.pic_chartImage.Name = "pic_chartImage";
-            this.pic_chartImage.Size = new System.Drawing.Size(516, 203);
-            this.pic_chartImage.TabIndex = 1;
-            this.pic_chartImage.TabStop = false;
             // 
             // groupBox1
             // 
@@ -424,7 +334,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(709, 375);
+            this.groupBox1.Size = new System.Drawing.Size(709, 154);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "***";
@@ -480,7 +390,7 @@
             this.txt_Insts.Location = new System.Drawing.Point(14, 46);
             this.txt_Insts.Multiline = true;
             this.txt_Insts.Name = "txt_Insts";
-            this.txt_Insts.Size = new System.Drawing.Size(689, 321);
+            this.txt_Insts.Size = new System.Drawing.Size(689, 100);
             this.txt_Insts.TabIndex = 2;
             // 
             // txt_ExpectNo
@@ -500,6 +410,165 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "下注期号";
             // 
+            // tabControl2
+            // 
+            this.tabControl2.Controls.Add(this.tabPage3);
+            this.tabControl2.Controls.Add(this.tabPage4);
+            this.tabControl2.Controls.Add(this.tabPage5);
+            this.tabControl2.Controls.Add(this.tabPage6);
+            this.tabControl2.Controls.Add(this.tabPage7);
+            this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl2.Location = new System.Drawing.Point(0, 0);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(576, 154);
+            this.tabControl2.TabIndex = 3;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.btn_TestJscript);
+            this.tabPage3.Controls.Add(this.btn_AddHedge);
+            this.tabPage3.Controls.Add(this.btn_SelfAddCombo);
+            this.tabPage3.Controls.Add(this.label4);
+            this.tabPage3.Controls.Add(this.txt_NewInsts);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(568, 128);
+            this.tabPage3.TabIndex = 0;
+            this.tabPage3.Text = "指令信息";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // btn_TestJscript
+            // 
+            this.btn_TestJscript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_TestJscript.Location = new System.Drawing.Point(506, 78);
+            this.btn_TestJscript.Name = "btn_TestJscript";
+            this.btn_TestJscript.Size = new System.Drawing.Size(45, 21);
+            this.btn_TestJscript.TabIndex = 15;
+            this.btn_TestJscript.Text = "测脚本";
+            this.btn_TestJscript.UseVisualStyleBackColor = true;
+            this.btn_TestJscript.Click += new System.EventHandler(this.btn_TestJscript_Click);
+            // 
+            // btn_AddHedge
+            // 
+            this.btn_AddHedge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_AddHedge.Location = new System.Drawing.Point(506, 24);
+            this.btn_AddHedge.Name = "btn_AddHedge";
+            this.btn_AddHedge.Size = new System.Drawing.Size(45, 21);
+            this.btn_AddHedge.TabIndex = 14;
+            this.btn_AddHedge.Text = "加对冲";
+            this.btn_AddHedge.UseVisualStyleBackColor = true;
+            this.btn_AddHedge.Click += new System.EventHandler(this.btn_SelfAddCombo_Click);
+            // 
+            // btn_SelfAddCombo
+            // 
+            this.btn_SelfAddCombo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_SelfAddCombo.Location = new System.Drawing.Point(506, 51);
+            this.btn_SelfAddCombo.Name = "btn_SelfAddCombo";
+            this.btn_SelfAddCombo.Size = new System.Drawing.Size(45, 21);
+            this.btn_SelfAddCombo.TabIndex = 13;
+            this.btn_SelfAddCombo.Text = "加组合";
+            this.btn_SelfAddCombo.UseVisualStyleBackColor = true;
+            this.btn_SelfAddCombo.Click += new System.EventHandler(this.btn_SelfAddCombo_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(4, 9);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(65, 12);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "自定义组合";
+            // 
+            // txt_NewInsts
+            // 
+            this.txt_NewInsts.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txt_NewInsts.Location = new System.Drawing.Point(6, 24);
+            this.txt_NewInsts.Multiline = true;
+            this.txt_NewInsts.Name = "txt_NewInsts";
+            this.txt_NewInsts.Size = new System.Drawing.Size(494, 100);
+            this.txt_NewInsts.TabIndex = 10;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.pic_serImage);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(568, 128);
+            this.tabPage4.TabIndex = 1;
+            this.tabPage4.Text = "排名信息";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // pic_serImage
+            // 
+            this.pic_serImage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pic_serImage.Location = new System.Drawing.Point(3, 3);
+            this.pic_serImage.Name = "pic_serImage";
+            this.pic_serImage.Size = new System.Drawing.Size(562, 122);
+            this.pic_serImage.TabIndex = 0;
+            this.pic_serImage.TabStop = false;
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.pic_carImage);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(568, 128);
+            this.tabPage5.TabIndex = 2;
+            this.tabPage5.Text = "车次信息";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // pic_carImage
+            // 
+            this.pic_carImage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pic_carImage.Location = new System.Drawing.Point(0, 0);
+            this.pic_carImage.Name = "pic_carImage";
+            this.pic_carImage.Size = new System.Drawing.Size(568, 128);
+            this.pic_carImage.TabIndex = 1;
+            this.pic_carImage.TabStop = false;
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.pic_ChanceImage);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Size = new System.Drawing.Size(568, 128);
+            this.tabPage6.TabIndex = 3;
+            this.tabPage6.Text = "机会列表";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // pic_ChanceImage
+            // 
+            this.pic_ChanceImage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pic_ChanceImage.Location = new System.Drawing.Point(0, 0);
+            this.pic_ChanceImage.Name = "pic_ChanceImage";
+            this.pic_ChanceImage.Size = new System.Drawing.Size(568, 128);
+            this.pic_ChanceImage.TabIndex = 1;
+            this.pic_ChanceImage.TabStop = false;
+            // 
+            // tabPage7
+            // 
+            this.tabPage7.Controls.Add(this.pic_chartImage);
+            this.tabPage7.Location = new System.Drawing.Point(4, 22);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Size = new System.Drawing.Size(568, 128);
+            this.tabPage7.TabIndex = 4;
+            this.tabPage7.Text = "走势图";
+            this.tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // pic_chartImage
+            // 
+            this.pic_chartImage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pic_chartImage.Location = new System.Drawing.Point(0, 0);
+            this.pic_chartImage.Name = "pic_chartImage";
+            this.pic_chartImage.Size = new System.Drawing.Size(568, 128);
+            this.pic_chartImage.TabIndex = 1;
+            this.pic_chartImage.TabStop = false;
+            // 
             // webBrowser1
             // 
             this.webBrowser1.CausesValidation = false;
@@ -507,20 +576,10 @@
             this.webBrowser1.Location = new System.Drawing.Point(0, 0);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(1289, 258);
+            this.webBrowser1.Size = new System.Drawing.Size(1289, 479);
             this.webBrowser1.TabIndex = 0;
             this.webBrowser1.Url = new System.Uri("", System.UriKind.Relative);
             this.webBrowser1.Visible = false;
-            // 
-            // geckoWebBrowser1
-            // 
-            this.geckoWebBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.geckoWebBrowser1.FrameEventsPropagateToMainWindow = false;
-            this.geckoWebBrowser1.Location = new System.Drawing.Point(0, 0);
-            this.geckoWebBrowser1.Name = "geckoWebBrowser1";
-            this.geckoWebBrowser1.Size = new System.Drawing.Size(1289, 258);
-            this.geckoWebBrowser1.TabIndex = 5;
-            this.geckoWebBrowser1.UseHttpActivityObserver = false;
             // 
             // webBrowser_charge
             // 
@@ -563,6 +622,15 @@
             this.webBrowser_nav.Size = new System.Drawing.Size(1289, 637);
             this.webBrowser_nav.TabIndex = 0;
             // 
+            // geckoWebBrowser1
+            // 
+            this.geckoWebBrowser1.FrameEventsPropagateToMainWindow = false;
+            this.geckoWebBrowser1.Location = new System.Drawing.Point(0, 0);
+            this.geckoWebBrowser1.Name = "geckoWebBrowser1";
+            this.geckoWebBrowser1.Size = new System.Drawing.Size(0, 0);
+            this.geckoWebBrowser1.TabIndex = 0;
+            this.geckoWebBrowser1.UseHttpActivityObserver = false;
+            // 
             // statusStrip1
             // 
             this.statusStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
@@ -599,73 +667,12 @@
             this.toolStripStatusLabel3.Size = new System.Drawing.Size(500, 17);
             this.toolStripStatusLabel3.Text = "toolStripStatusLabel3";
             // 
-            // tabPage3
+            // switchPlatformToolStripMenuItem
             // 
-            this.tabPage3.Controls.Add(this.btn_TestJscript);
-            this.tabPage3.Controls.Add(this.btn_AddHedge);
-            this.tabPage3.Controls.Add(this.btn_SelfAddCombo);
-            this.tabPage3.Controls.Add(this.label4);
-            this.tabPage3.Controls.Add(this.txt_NewInsts);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(568, 349);
-            this.tabPage3.TabIndex = 0;
-            this.tabPage3.Text = "指令信息";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(4, 9);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(65, 12);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "自定义组合";
-            // 
-            // txt_NewInsts
-            // 
-            this.txt_NewInsts.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_NewInsts.Location = new System.Drawing.Point(6, 24);
-            this.txt_NewInsts.Multiline = true;
-            this.txt_NewInsts.Name = "txt_NewInsts";
-            this.txt_NewInsts.Size = new System.Drawing.Size(494, 321);
-            this.txt_NewInsts.TabIndex = 10;
-            // 
-            // btn_TestJscript
-            // 
-            this.btn_TestJscript.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_TestJscript.Location = new System.Drawing.Point(506, 78);
-            this.btn_TestJscript.Name = "btn_TestJscript";
-            this.btn_TestJscript.Size = new System.Drawing.Size(45, 21);
-            this.btn_TestJscript.TabIndex = 15;
-            this.btn_TestJscript.Text = "测脚本";
-            this.btn_TestJscript.UseVisualStyleBackColor = true;
-            this.btn_TestJscript.Click += new System.EventHandler(this.btn_TestJscript_Click);
-            // 
-            // btn_AddHedge
-            // 
-            this.btn_AddHedge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_AddHedge.Location = new System.Drawing.Point(506, 24);
-            this.btn_AddHedge.Name = "btn_AddHedge";
-            this.btn_AddHedge.Size = new System.Drawing.Size(45, 21);
-            this.btn_AddHedge.TabIndex = 14;
-            this.btn_AddHedge.Text = "加对冲";
-            this.btn_AddHedge.UseVisualStyleBackColor = true;
-            this.btn_AddHedge.Click += new System.EventHandler(this.btn_SelfAddCombo_Click);
-            // 
-            // btn_SelfAddCombo
-            // 
-            this.btn_SelfAddCombo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_SelfAddCombo.Location = new System.Drawing.Point(506, 51);
-            this.btn_SelfAddCombo.Name = "btn_SelfAddCombo";
-            this.btn_SelfAddCombo.Size = new System.Drawing.Size(45, 21);
-            this.btn_SelfAddCombo.TabIndex = 13;
-            this.btn_SelfAddCombo.Text = "加组合";
-            this.btn_SelfAddCombo.UseVisualStyleBackColor = true;
-            this.btn_SelfAddCombo.Click += new System.EventHandler(this.btn_SelfAddCombo_Click);
+            this.switchPlatformToolStripMenuItem.Name = "switchPlatformToolStripMenuItem";
+            this.switchPlatformToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.switchPlatformToolStripMenuItem.Text = "切换平台";
+            //this.switchPlatformToolStripMenuItem.Click += new System.EventHandler(this.switchPlatformToolStripMenuItem_Click);
             // 
             // MainWindow
             // 
@@ -691,7 +698,11 @@
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.tabControl2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pic_serImage)).EndInit();
             this.tabPage5.ResumeLayout(false);
@@ -700,14 +711,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.pic_ChanceImage)).EndInit();
             this.tabPage7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pic_chartImage)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -772,5 +779,6 @@
         private System.Windows.Forms.Button btn_TestJscript;
         private System.Windows.Forms.Button btn_AddHedge;
         private System.Windows.Forms.Button btn_SelfAddCombo;
+        private System.Windows.Forms.ToolStripMenuItem switchPlatformToolStripMenuItem;
     }
 }

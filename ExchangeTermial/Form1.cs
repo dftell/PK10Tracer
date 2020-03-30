@@ -43,6 +43,24 @@ namespace ExchangeTermial
         {
             this.btn_login.Enabled = false;
             this.Cursor = Cursors.WaitCursor;
+            if(this.ddl_websites.SelectedIndex<0)
+            {
+                MessageBox.Show("请选择平台！");
+                return;
+            }
+            if(Program.allGc == null)
+            {
+                Program.allGc = Program.gc.CopyTo<GlobalClass>();
+            }
+           // GlobalClass.resetTypeDataPoints();//必须重新设置，每个平台投注品种不一样
+            GlobalClass sgc = new GlobalClass(this.ddl_websites.SelectedValue.ToString());
+            if(sgc.loadSucc)
+            {
+                Program.gc = sgc;
+               
+                //Program.gc.ForWeb = this.ddl_websites.SelectedValue.ToString();
+                //return;
+            }
             CommunicateToServer cts =new CommunicateToServer();
             CommResult cr =  cts.Login( GlobalClass.strLoginUrlModel, this.txt_user.Text,this.txt_password.Text);
             if(cr == null)
@@ -113,7 +131,7 @@ namespace ExchangeTermial
             try
             {
                 //Program.gc.LoginDefaultHost = WebRuleBuilder.Create(Program.gc).GetChanle(Program.gc.WebNavUrl, Program.gc.LoginDefaultHost); ;
-                GlobalClass.SetConfig();
+                GlobalClass.SetConfig( Program.gc.ForWeb);
                 this.Hide();
                 this.Cursor = Cursors.Default;
                 //必须重新指定登录用户
@@ -159,6 +177,25 @@ namespace ExchangeTermial
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            InitWebSites();
+        }
+
+        void InitWebSites()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("key");
+            dt.Columns.Add("val");
+            foreach(string key in GlobalClass.WebSites.Keys)
+            {
+                //DataRow dr = dt.NewRow();
+                dt.Rows.Add(new string[] { key, GlobalClass.WebSites[key] });
+            }
+            this.ddl_websites.Items.Clear();
+            ddl_websites.DisplayMember = "val";
+            ddl_websites.ValueMember = "key";
+            ddl_websites.DataSource = dt;
+            ddl_websites.Refresh();
+            ddl_websites.SelectedValue = Program.gc.ForWeb;
 
         }
 

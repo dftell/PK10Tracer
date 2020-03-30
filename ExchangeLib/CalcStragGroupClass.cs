@@ -122,7 +122,7 @@ namespace WolfInv.com.ExchangeLib
                 Log("错误","计算服务", string.Format("{0}:{1}",e.Message,  e.StackTrace));
             }
             GetNoClosedChances(AllNoClosedChances);
-            Finished();
+            Finished?.Invoke();
             GetAllStdDevList(grpTotolStdDic);
         }
         
@@ -157,7 +157,7 @@ namespace WolfInv.com.ExchangeLib
             if(this.UseStrags.Count>0)
                 maxViewCnt = (int)this.UseStrags.Max(t => t.Value?.ReviewExpectCnt);
             //Log("计算服务", "最大回览期数", maxViewCnt.ToString());
-            cc = new ExpectListProcessBuilder<T>(dtp,el).getProcess().getSerialData(maxViewCnt, this.UseSerial);
+            cc = new ExpectListProcessBuilder<T>(dtp,el).getProcess().getSerialData(maxViewCnt, this.UseSerial);//获取连续数据，可能是外部数据，这个的内部处理必须要改。 2020.3.30
             // cc.orgData = el;//必须指定原始数据？
             //Log("计算服务", "中间数据长度",cc.Data.Count.ToString());
             Dictionary<StragClass, List<ChanceClass<T>>> css = new Dictionary<StragClass, List<ChanceClass<T>>>();
@@ -193,6 +193,7 @@ namespace WolfInv.com.ExchangeLib
                 }
                 BaseStragClass<T> currStrag = UseStrags[currPlan.PlanStrag.GUID];
                 currStrag.SetLastUserData(el);//必须给策略填充数据
+                currStrag.setDataTypePoint(dtp);
                 ////////////////////////////////////////////////////////////////////
                 ///
                 ///

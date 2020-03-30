@@ -119,25 +119,32 @@ namespace ExchangeTermial
             }
         }
         System.Windows.Forms.Timer SendStatusTimer = new System.Windows.Forms.Timer() ;
-        List<System.Windows.Forms.Timer> timers_RequestInst = new List<System.Windows.Forms.Timer>();
+        List<MyTimer> timers_RequestInst = new List<MyTimer>();
         //TcpServiceSocketAsync svr;
         int const_maxbuffsize = 1024 * 1024 * 2;
         ChargeRemoteClass chgRmt = null;
         ChargeOperator chgOpt = null;
+        ClientExchanger ce;
         public MainWindow()
         {
-            Xpcom.Initialize("Firefox");
             InitializeComponent();
-            isIE = (Program.gc.UseBrowser.Trim().ToLower().Length == 0 || Program.gc.UseBrowser.Trim().ToLower().Equals("ie"));
+            ce = new ClientExchanger();
+            //ce.Load();
+            
+            
+        }
+        void reLoad()
+        {
+            InitWebBrowser();
+            initMenuItems();            
             wr = WebRuleBuilder.Create(Program.gc);
-            this.Text = string.Format("{0}[{2}][v:{1}]", this.Text, Program.VerNo, Program.gc.ClientUserName);
+            this.Text = string.Format("{0}[{2}][v:{1}]", Program.gc.ForWeb, Program.VerNo, Program.gc.ClientUserName);
             Program.Title = this.Text;
             //webBrowser1.Url = new Uri("http://www.baidu.com");
             //svr = new TcpServiceSocketAsync(5,const_maxbuffsize);
             //svr.recvMessageEvent += Request;
             //UsePort = TcpServiceSocketAsync.getRandomPort(8080);
-            chgRmt = new ChargeRemoteClass();
-            
+            chgRmt = new ChargeRemoteClass();            
             chgOpt = new ChargeOperator();
             chgOpt.OperateChargeForm = new Action<string, string,string,string>(Request);
             chgOpt.SvrNam = string.Format("{0}充值机", Program.gc.ClientUserName);
@@ -145,18 +152,76 @@ namespace ExchangeTermial
             
             
         }
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+            reLoad();
+            AssetUnitList = new Dictionary<string, string>();
+            foreach (string key in GlobalClass.TypeDataPoints.Keys)
+            {
+                Dictionary<string, string> currDic = getAssetLists(key);
+                foreach (string aid in currDic.Keys)
+                {
+                    if (!AssetUnitList.ContainsKey(aid))
+                    {
+                        AssetUnitList.Add(aid, currDic[aid]);
+                    }
+                }
+            }
+            dicExistInsts = new Dictionary<string, Dictionary<long, string>>();
 
+            //
+            LoadUrl(LoginPage);
+            //Application.DoEvents();
+            //MySleep(20 * 1000);//睡20秒等待webbrowser加载
+            Application.DoEvents();
+            //this.timer_RequestInst.Enabled = true;
+            //this.timer_RequestInst.AutoReset = true;
+            //timer_RequestInst_Tick(null, null);
+            InitTimers();
+            Set_RequestTime(true);
+            Set_SendTime(true);
+            SendStatusTimer_Elapsed(null, null);
+
+        }
+
+        void init_FireFox()
+        {
+            
+            // 
+            // geckoWebBrowser1
+            // 
+            if (!isIE)
+            {
+                this.geckoWebBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
+                this.geckoWebBrowser1.FrameEventsPropagateToMainWindow = false;
+                this.geckoWebBrowser1.Location = new System.Drawing.Point(0, 0);
+                this.geckoWebBrowser1.Name = "geckoWebBrowser1";
+                this.geckoWebBrowser1.Size = new System.Drawing.Size(1289, 258);
+                this.geckoWebBrowser1.TabIndex = 5;
+                this.geckoWebBrowser1.UseHttpActivityObserver = false;
+            }
+            if (!isIE)
+                this.splitContainer1.Panel2.Controls.Add(this.geckoWebBrowser1);
+        }
         void InitWebBrowser()
         {
+            isIE = (Program.gc.UseBrowser.Trim().ToLower().Length == 0 || Program.gc.UseBrowser.Trim().ToLower().Equals("ie"));
+            if (!isIE)
+            {
+                
+                Xpcom.Initialize("Firefox");
+                init_FireFox();
+            }
             if (isIE)
             {
+                
                 this.webBrowser1.Visible = true;
                 this.webBrowser1.Dock = DockStyle.Fill;
-                this.geckoWebBrowser1.Visible = false;
-                this.geckoWebBrowser1.Dock = DockStyle.None;
+                //this.geckoWebBrowser1.Visible = false;
+                //this.geckoWebBrowser1.Dock = DockStyle.None;
                 this.webBrowser1.DocumentCompleted += DocumentCompleted_IE;
                 this.webBrowser1.Document.Window.Error += new HtmlElementErrorEventHandler(Window_Error);
-                Gecko.CertOverrideService.GetService().ValidityOverride += geckoWebBrowser1_ValidityOverride;
+                //Gecko.CertOverrideService.GetService().ValidityOverride += geckoWebBrowser1_ValidityOverride;
                 try
                 {
                     //ShellExecute(IntPtr.Zero, "open", "rundll32.exe", "InetCpl.cpl,ClearMyTracksByProcess 8","",ShowCommands.SW_HIDE);
@@ -190,6 +255,7 @@ ClearMyTracksByProcess 255
                 //this.geckoWebBrowser1.DocumentCompleted += DocumentCompleted_FireFox;
                 this.geckoWebBrowser1.DocumentCompleted += new EventHandler<Gecko.Events.GeckoDocumentCompletedEventArgs>(DocumentCompleted_FireFox);
                 this.geckoWebBrowser1.DOMContentLoaded += GeckoWebBrowser1_DOMContentLoaded;
+                geckoWebBrowser1.CreateControl();
             }
         }
 
@@ -198,39 +264,47 @@ ClearMyTracksByProcess 255
             DocumentCompleted_FireFox(sender,null);
         }
 
-        private void MainWindow_Load(object sender, EventArgs e)
+        string Host
         {
-            InitWebBrowser();
-            geckoWebBrowser1.CreateControl();
-            AssetUnitList = new Dictionary<string, string>();
-            foreach (string key in GlobalClass.TypeDataPoints.Keys)
+            get
             {
-                Dictionary<string, string> currDic = getAssetLists(key);
-                foreach (string aid in currDic.Keys)
-                {
-                    if (!AssetUnitList.ContainsKey(aid))
-                    {
-                        AssetUnitList.Add(aid, currDic[aid]);
-                    }
-                }
+                return string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost);
             }
-            dicExistInsts = new Dictionary<string, Dictionary<long, string>>();
-
-            //
-            LoadUrl(null);
-            //Application.DoEvents();
-            //MySleep(20 * 1000);//睡20秒等待webbrowser加载
-            Application.DoEvents();
-            //this.timer_RequestInst.Enabled = true;
-            //this.timer_RequestInst.AutoReset = true;
-            //timer_RequestInst_Tick(null, null);
-            InitTimers();
-            Set_RequestTime(true);
-            Set_SendTime(true);
-            SendStatusTimer_Elapsed(null, null);
-
         }
 
+        string LoginPage
+        {
+            get
+            {
+                return string.Format(Program.gc.LoginPage, Host);
+            }
+        }
+
+        string LotteryPage
+        {
+            get
+            {
+                return string.Format(Program.gc.LotteryPage, Host);
+            }
+        }
+
+        
+        void initMenuItems()
+        {
+            switchPlatformToolStripMenuItem.DropDownItems.Clear();
+            foreach(var obj in GlobalClass.WebSites)
+            {
+                if (Program.gc.ForWeb.Equals(obj.Key))
+                    continue;
+                ToolStripMenuItem mi = new ToolStripMenuItem();
+                mi.Text = obj.Value;
+                mi.Tag = obj.Key;
+                mi.Click += switchPlatformToolStripMenuItem_Click;
+                switchPlatformToolStripMenuItem.DropDownItems.Add(mi);
+            }    
+
+            
+        }
         void LoadUrl(string url)
         {
             if(string.IsNullOrEmpty(url))
@@ -244,7 +318,7 @@ ClearMyTracksByProcess 255
             else
             {
                 LoadUrl_IE(url);
-             loadUrl = geckoWebBrowser1.Url.ToString();
+                loadUrl = webBrowser1.Url.ToString();
             }
             //loadUrl = url;
         }
@@ -265,8 +339,14 @@ ClearMyTracksByProcess 255
             {
                 lock (webBrowser1)
                 {
-                    if (this.webBrowser1.Url != null && this.webBrowser1.Url.ToString() == url)
+                    if (this.webBrowser1.Url != null && (this.webBrowser1.Url.ToString() == url || this.webBrowser1.Url.ToString() == string.Format(Program.gc.LotteryPage, string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost))))
                         return;
+                    if (wr.IsLogined(webBrowser1.Document)||isInLotteryDocument())//如果已经登录了，不在加载
+                    {
+                        Logined = true;
+                        WebBrowserLoad = true;
+                        return;
+                    }
                     //this.webBrowser1 = null;
                     //this.webBrowser1 = new WebBrowser();
                     //this.webBrowser1.DocumentCompleted += DocumentCompleted_IE;
@@ -308,7 +388,7 @@ ClearMyTracksByProcess 255
             Application.DoEvents();
             //Thread.Sleep(10 * 1000);
 
-            timers_RequestInst.ForEach(a => { a.Interval = 60 * 1000; });
+            //timers_RequestInst.ForEach(a => { a.Interval = 60 * 1000; });
             //this.timer_RequestInst.Enabled = true;
             //Set_SendTime(true);
         }
@@ -412,12 +492,15 @@ ClearMyTracksByProcess 255
             dtps = GlobalClass.TypeDataPoints;
             //NewExpects = new Dictionary<string, long>();
             //dicExistInsts = new Dictionary<string, Dictionary<long, string>>();
+            int ti = 0;
             foreach (string key in dtps.Keys)
             {
-                System.Windows.Forms.Timer tm = new System.Windows.Forms.Timer();
+                MyTimer tm = new MyTimer();
                 tm.Tag = dtps[key];
                 tm.Tick += timer_RequestInst_Tick;
                 tm.Enabled = true;
+                //tm.Interval = (1 + new Random().Next(5)) * 1000;
+                tm.index = ti;
                 tm.Start();
                 timers_RequestInst.Add(tm);
                 if (!NewExpects.ContainsKey(key))
@@ -429,6 +512,7 @@ ClearMyTracksByProcess 255
                 {
                     dicExistInsts.Add(key, new Dictionary<long, string>());
                 }
+                ti++;
             }
         }
 
@@ -453,7 +537,7 @@ ClearMyTracksByProcess 255
                 a.Interval = InterVal;
                 if (dtp.ReceiveSeconds > 0)
                 {
-                    a.Interval = (int)dtp.ReceiveSeconds * 1000;
+                    a.Interval = (int)dtp.ReceiveSeconds/10 * 1000;//默认1/10周期
                 }
                 a.Tick += timer_RequestInst_Tick;
                 a.Enabled = Running;
@@ -502,11 +586,16 @@ ClearMyTracksByProcess 255
                     if(isIE)
                     {
                         HomeDocIE = webBrowser1.Document;
+                        if(isInLotteryDocument())
+                        {
+      
+                        }
                     }
                     else
                     {
                         HomeDocFireFox = geckoWebBrowser1.Document;
                     }
+                    double currval = CurrVal;
                 }
                 if (dicExistInsts != null && dicExistInsts.Count > 0)
                 {
@@ -543,7 +632,7 @@ ClearMyTracksByProcess 255
                         bool suc = chgRmt.CreateChannel(string.Format("CM_{0}", Program.gc.ClientUserName));
                         if (!suc)
                         {
-                            CloseFrm();
+                            //CloseFrm();
                             return;
                         }
                         SocketRunning = true;
@@ -578,7 +667,7 @@ ClearMyTracksByProcess 255
                 }
                 ChanleUseTimes = -1;
                 Program.gc.LoginDefaultHost = hostname;
-                GlobalClass.SetConfig();
+                GlobalClass.SetConfig(Program.gc.ForWeb);
                 LoadUrl(loadUrl);
                 Logined = true;//如果这个不设置，不会重新下注，而要等到多次刷新后才会为真
                 return;
@@ -590,7 +679,7 @@ ClearMyTracksByProcess 255
                     Program.wxl.Log(string.Format("客户端长期使用该线路[{0}次]，强制自动切换到新线路！", ChanleUseTimes)+ string.Format("已为您从线路{0}自动切换到线路{1}！", Program.gc.LoginDefaultHost, hostname));
                     ChanleUseTimes = -1;
                     Program.gc.LoginDefaultHost = hostname;
-                    GlobalClass.SetConfig();
+                    GlobalClass.SetConfig(Program.gc.ForWeb);
                     LoadUrl(loadUrl);
                     Logined = true;//如果这个不设置，不会重新下注，而要等到多次刷新后才会为真
                     return;
@@ -706,8 +795,9 @@ ClearMyTracksByProcess 255
             scriptFile = scriptFile.Replace("http", "");
             scriptFile = scriptFile.Replace("://", "");
             scriptFile = scriptFile.Replace("/", "");
+            string strFolderName = string.Format("jscript\\{0}", Program.gc.ForWeb);
             ////scriptFile = scriptFile.Replace(".", "_");
-            string jstxt = this.getScriptText(string.Format("{0}_Pure.js", scriptFile));
+            string jstxt = this.getScriptText("addJscript.js",  strFolderName);
             if (isIE)
             {
                 IEDoc.Encoding = LanguageEncoding;
@@ -856,12 +946,12 @@ ClearMyTracksByProcess 255
                     }
                     if (isInLoginDocument())
                     {
-                        loginDocIE = webBrowser1.Document;
+                        //loginDocIE = webBrowser1.Document;
                        
                     }
                     if (isInLotteryDocument())//如果是投注页
                     {
-                        lotteryDocIE = webBrowser1.Document;
+                        //lotteryDocIE = webBrowser1.Document;
                     }
                     if (!IsLoadCompleted)
                     {
@@ -985,15 +1075,31 @@ ClearMyTracksByProcess 255
             if(isIE)
             {
                 HtmlDocument doc = webBrowser1.Document;
+                bool suc = WebRule.existElement(doc, Program.gc.LoginPageUserNameId);
+                if(suc)
+                {
+                    HomeDocIE = doc;
+                    return true;
+                }
+               
+                for(int i=0;i<webBrowser1.Document.Window.Frames.Count;i++)
+                {
+                    suc = WebRule.existElement(webBrowser1.Document.Window.Frames[i].Document, Program.gc.LoginPageUserNameId);
+                    if (suc)
+                    {
+                        HomeDocIE = webBrowser1.Document.Window.Frames[i].Document;
+                        return true;
+                    }
+
+                }
                 
-                return WebRule.existElement(doc, Program.gc.LoginPageUserNameId);
             }
             else
             {
                 GeckoDocument doc =  geckoWebBrowser1.Document;
                 return WebRule.existElement(doc, Program.gc.LoginPageUserNameId);
             }
-            
+            return false;
         }
 
         private bool IsLoadComplete(string key)
@@ -1001,10 +1107,30 @@ ClearMyTracksByProcess 255
             
             if (isIE)
             {
-                  return WebRule.existElement(HomeDocIE, key);
+                HtmlDocument doc = webBrowser1.Document;
+                bool succ = WebRule.existElement(HomeDocIE, key);
+                if(succ)
+                {
+                    HomeDocIE = doc;
+                    loginDocIE = doc;
+                    return true;
+                }
+                for(int i=0;i<doc.Window.Frames.Count;i++)
+                {
+                    succ = WebRule.existElement(doc.Window.Frames[i], key);
+                    if(succ)
+                    {
+                        HomeDocIE = doc;
+                        loginDocIE = doc;
+                        return true;
+                    }
+                }
+                return false;
             }
             else
             {
+                if (HomeDocFireFox == null)
+                    return false;
                 return WebRule.existElement(HomeDocFireFox, key);
             }
         }
@@ -1013,7 +1139,27 @@ ClearMyTracksByProcess 255
         {
             object obj = null;
             if (isIE)
+            {
+                
                 obj = webBrowser1.Document;
+                HtmlDocument doc = obj as HtmlDocument;
+                bool succ = WebRule.existElement(doc, Program.gc.LetteryPageUserKeyId);
+                if(succ)
+                {
+                    lotteryDocIE = doc;
+                    return true;
+                }
+                for (int i = 0; i < doc.Window.Frames.Count; i++)
+                {
+                    succ = WebRule.existElement(doc.Window.Frames[i].Document, Program.gc.LetteryPageUserKeyId);
+                    if (succ)
+                    {
+                        lotteryDocIE = doc.Window.Frames[i].Document;
+                        return true;
+                    }
+                }
+                return false;
+            }
             else
                 obj = geckoWebBrowser1.Document;
             return WebRule.existElement(obj, Program.gc.LetteryPageUserKeyId);
@@ -1181,10 +1327,10 @@ ClearMyTracksByProcess 255
 
         }
 
-        string getScriptText(string scriptName)
+        string getScriptText(string scriptName,string subFolder="")
         {
             string ret = "";
-            string FilePath = string.Format("{0}\\{1}", Application.StartupPath, scriptName);
+            string FilePath = string.Format("{0}\\{1}\\{2}", Application.StartupPath,subFolder, scriptName);
             try
             {
                 StreamReader fs = new StreamReader(FilePath, Encoding.Default);
@@ -1228,7 +1374,7 @@ ClearMyTracksByProcess 255
         {
             Dictionary<string, string> ret = new Dictionary<string, string>();
             CommunicateToServer wc = new CommunicateToServer();
-            CommResult cr = wc.getRequestAssetList(string.Format(GlobalClass.strAssetInfoURL,GlobalClass.TypeDataPoints[key].InstHost));
+            CommResult cr = wc.getRequestAssetList(string.Format(GlobalClass.strAssetInfoURL,GlobalClass.TypeDataPoints[key].InstHost,key));
             if (!cr.Succ)
             {
                 this.statusStrip1.Items[0].Text = cr.Message;
@@ -1247,7 +1393,7 @@ ClearMyTracksByProcess 255
             try
             {
                 
-                System.Windows.Forms.Timer tm = sender as System.Windows.Forms.Timer;
+                MyTimer tm = sender as MyTimer;
                 if (tm == null)
                     tm = timers_RequestInst.First();
                 DataTypePoint dtp = tm.Tag as DataTypePoint;
@@ -1379,6 +1525,7 @@ ClearMyTracksByProcess 255
                         Application.DoEvents();
                         MySleep(5000);//暂停，等发送消息
                         reLoadWebBrowser();//开百度网页，睡觉
+                        timers_RequestInst[tm.index].Interval = tm.Interval;//实际把计时器间隔往后推
                         Program.wxl.Log(string.Format("下次启动时间！"), nextTime.ToString("yyyyMMdd HH:mm:ss"), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
                     }
                     else
@@ -1454,7 +1601,7 @@ ClearMyTracksByProcess 255
                 //        return;
                 //    }
                 //}
-                webBrowser1.Document.InvokeScript("SendMsg", new object[] { this.NewExpects[dtpName], msg, Program.gc.ClientAliasName, Program.gc.WXLogNoticeUser, this.txt_Insts.Text, lastval, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost), rule.config.lotteryTypes[dtpName].ruleId });
+                webBrowser1.Document.InvokeScript("SendMsg", new object[] { this.NewExpects[dtpName].ToString().Substring(GlobalClass.TypeDataPoints[dtpName].ClientExpectCodeSubIndex), msg, Program.gc.ClientAliasName, Program.gc.WXLogNoticeUser, this.txt_Insts.Text, lastval, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost), rule.config.lotteryTypes[dtpName].ruleId });
                 //if (sender == null)
                 //{
                 //    this.statusStrip1.Text = "自动下注成功！";
@@ -1530,7 +1677,11 @@ ClearMyTracksByProcess 255
                 }
                 //rule = new Rule_ForKcaiCom(Program.gc);
                 //if (!ScriptLoaded)
-                AddScript(lotteryDocIE ?? HomeDocIE, lotteryDocFireFox ?? HomeDocFireFox);
+                if(!isInLotteryDocument())
+                {
+                    return;
+                }
+                AddScript(lotteryDocIE??HomeDocIE, lotteryDocFireFox ?? HomeDocFireFox);
 
                 string msg = null;
                 try
@@ -1577,10 +1728,10 @@ ClearMyTracksByProcess 255
                         ruleid = rule.config.lotteryTypes.ContainsKey(dtpName) ? rule.config.lotteryTypes[dtpName].ruleId : "0";
                     if (isIE)
                     {
-                        webBrowser1.Document.InvokeScript("SendMsg",
+                        (lotteryDocIE??HomeDocIE).InvokeScript("SendMsg",
                             new object[]
                             {
-                    this.NewExpects.First().Value.ToString(),
+                    this.txt_ExpectNo.Text.Substring(GlobalClass.TypeDataPoints.First().Value.ClientExpectCodeSubIndex),
                     msg,
                     Program.gc.ClientAliasName,
                     Program.gc.WXLogNoticeUser,
@@ -1594,7 +1745,7 @@ ClearMyTracksByProcess 255
                     {
                         AutoJSContext context = new AutoJSContext(geckoWebBrowser1.Window);
                         string jstxt = string.Format("SendMsg('{0}','{1}','{2}','{3}','{4}','{5}','{6}',{7});",
-                            this.NewExpects.First().Value.ToString(),
+                            this.NewExpects.First().Value.ToString().Substring(GlobalClass.TypeDataPoints.First().Value.ClientExpectCodeSubIndex),
                             msg,
                             Program.gc.ClientAliasName,
                             Program.gc.WXLogNoticeUser,
@@ -1616,7 +1767,8 @@ ClearMyTracksByProcess 255
                 }
                 else
                 {
-                    MessageBox.Show("手动下注成功！");
+                    //MessageBox.Show("手动下注成功！");
+                    this.statusStrip1.Text = "手动下注成功!";
                 }
                 if (!dicExistInsts.First().Value.ContainsKey(this.NewExpects.First().Value))
                 {
@@ -1666,13 +1818,25 @@ ClearMyTracksByProcess 255
 
         private void mnu_RefreshInsts_Click(object sender, EventArgs e)
         {
-            timer_RequestInst_Tick(null, null);
+            timers_RequestInst.ForEach(a => {
+                timer_RequestInst_Tick(a, null);
+            });
+            
         }
 
 
         private void mnuRefreshWebToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if(isIE)
+            {
+                loadUrl = this.webBrowser1.Url.ToString();
+            }
+            else
+            {
+                loadUrl = this.geckoWebBrowser1.Url.ToString();
+            }
             reLoadWebBrowser();
+            //loadUrl = string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost);
         }
 
         void reLoadWebBrowser()
@@ -1736,11 +1900,17 @@ ClearMyTracksByProcess 255
 
         void RefreshImages()
         {
+            try
+            {
+                this.pic_serImage.Load(getImageUrl(string.Format("lv_0.jpg?t={0}", Guid.NewGuid().ToString())));
+                this.pic_carImage.Load(getImageUrl(string.Format("lv_1.jpg?t={0}", Guid.NewGuid().ToString())));
+                this.pic_ChanceImage.Load(getImageUrl(string.Format("chances.jpg?t={0}", Guid.NewGuid().ToString())));
+                this.pic_chartImage.Load(getImageUrl(string.Format("chart.png?t={0}", Guid.NewGuid().ToString())));
+            }
+            catch
+            {
 
-            this.pic_serImage.Load(getImageUrl(string.Format("lv_0.jpg?t={0}", Guid.NewGuid().ToString())));
-            this.pic_carImage.Load(getImageUrl(string.Format("lv_1.jpg?t={0}", Guid.NewGuid().ToString())));
-            this.pic_ChanceImage.Load(getImageUrl(string.Format("chances.jpg?t={0}", Guid.NewGuid().ToString())));
-            this.pic_chartImage.Load(getImageUrl(string.Format("chart.png?t={0}", Guid.NewGuid().ToString())));
+            }
         }
 
         string getImageUrl(string name)
@@ -1751,6 +1921,7 @@ ClearMyTracksByProcess 255
         private void TSMI_sendStatusInfor_Click(object sender, EventArgs e)
         {
             this.SendStatusTimer_Elapsed(null, null);
+            RefreshStatus();
         }
 
         private void btn_TestJscript_Click(object sender, EventArgs e)
@@ -2051,6 +2222,7 @@ ClearMyTracksByProcess 255
 
         private void inLotteryHomeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            loadUrl = string.Format(Program.gc.LotteryPage, string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost));
             LoadLotteryHome();
             loadUrl = string.Format(Program.gc.LotteryPage,string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost));
         }
@@ -2075,9 +2247,32 @@ ClearMyTracksByProcess 255
             isIE = (!isIE);
             MainWindow_Load(null, null);
         }
+
+        void testLMAZ()
+        {
+            
+        }
+
+        private void switchPlatformToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string forWeb = (sender as ToolStripMenuItem).Tag.ToString();
+            GlobalClass sgc = new GlobalClass(forWeb);
+            if(!sgc.loadSucc)
+            {
+                return;
+            }
+            Program.gc = sgc;
+            reLoad();
+            MainWindow_Load(null, null);
+        }
     }
 
 
+
+    public class MyTimer:System.Windows.Forms.Timer
+    {
+        public int index = 0;
+    }
     public class FireFoxBrowser:GeckoWebBrowser
     {
         void Invode(string script)

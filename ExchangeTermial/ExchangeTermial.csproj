@@ -69,16 +69,38 @@
     <Reference Include="Geckofx-Winforms, Version=45.0.34.0, Culture=neutral, PublicKeyToken=3209ac31600d1857, processorArchitecture=x86">
       <HintPath>..\packages\Geckofx45.45.0.34\lib\net45\Geckofx-Winforms.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="mshtml">
-      <HintPath>..\..\..\..\..\projects\PK10TracerClient\mshtml.dll</HintPath>
+    <Reference Include="Interop.MSScriptControl">
+      <HintPath>G:\迅雷下载\傲世皇朝挂机软件\傲世皇朝挂机软件\Interop.MSScriptControl.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.MSXML2">
+      <HintPath>G:\迅雷下载\傲世皇朝挂机软件\傲世皇朝挂机软件\Interop.MSXML2.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Lzma, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>G:\迅雷下载\傲世皇朝挂机软件\傲世皇朝挂机软件\Lzma.dll</HintPath>
+    </Reference>
+    <Reference Include="MdiTabControl">
+      <HintPath>G:\迅雷下载\傲世皇朝挂机软件\傲世皇朝挂机软件\MdiTabControl.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>G:\迅雷下载\傲世皇朝挂机软件\傲世皇朝挂机软件\Microsoft.mshtml.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="MySql.Data">
+      <HintPath>G:\迅雷下载\傲世皇朝挂机软件\傲世皇朝挂机软件\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -88,8 +110,12 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="傲世皇朝挂机软件">
+      <HintPath>G:\迅雷下载\傲世皇朝挂机软件\傲世皇朝挂机软件\傲世皇朝挂机软件.exe</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientExchanger.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

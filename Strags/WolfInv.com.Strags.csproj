@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseStrag.cs" />
+    <Compile Include="KLXxY\Strag_KLXxY_ExData_Missed.cs" />
     <Compile Include="PK10\ChanceTraceStragClass.cs" />
     <Compile Include="CommPickEditClass.cs" />
     <Compile Include="CommSelectOjectDialog.cs">
@@ -121,6 +122,10 @@
     <ProjectReference Include="..\ProbMathLib\WolfInv.com.ProbMathLib.csproj">
       <Project>{6AF5544D-5B6B-40A9-9258-72CBE6CE207D}</Project>
       <Name>WolfInv.com.ProbMathLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SecurityLib\WolfInv.com.SecurityLib.csproj">
+      <Project>{aa6cd329-d212-4998-be10-2a4728175f53}</Project>
+      <Name>WolfInv.com.SecurityLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

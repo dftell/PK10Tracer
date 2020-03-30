@@ -86,6 +86,12 @@ namespace WolfInv.com.ProbMathLib
             return ret;
         }
         
+        /// <summary>
+        /// 获得组合数数量
+        /// </summary>
+        /// <param name="N"></param>
+        /// <param name="M"></param>
+        /// <returns></returns>
         public static decimal GetCombination(int N, int M)
         {
             if (M < 15)

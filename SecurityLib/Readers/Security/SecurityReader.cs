@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using MongoDB.Driver;
 using System;
 using WolfInv.com.ProbMathLib;
+using System.Data;
+
 namespace WolfInv.com.SecurityLib
 {
     public delegate void CheckFinishedCnt(int total,int grpcnt,int FinishedGrpCnt,int InPoolCnt,int FinishedCnt); 
@@ -311,7 +313,10 @@ namespace WolfInv.com.SecurityLib
             throw new NotImplementedException();
         }
 
-        
+        public override DataSet ReadExData(DataTypePoint dtp, string expectNo, Func<DataTypePoint, string, System.Data.DataSet> ConvertFunc)
+        {
+            throw new NotImplementedException();
+        }
 
         Func<StockMongoData, XDXRData> func = delegate (StockMongoData ac)
         {

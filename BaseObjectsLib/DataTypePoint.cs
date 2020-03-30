@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
+using System.Xml;
+
 namespace WolfInv.com.BaseObjectsLib
 {
     public class DataTypePoint:DetailStringClass
     {
+        public int onlyDebug = 0;//只是测试，为1导致主界面切换至测试界面
         public int IsSecurityData = 0;//是否是证券数据
         public string MainDataUrl = "";
         public string MainDataType = "XML";//HTML,XML,JSON,TXT
@@ -74,36 +77,98 @@ namespace WolfInv.com.BaseObjectsLib
         /// <summary>
         /// client use
         /// </summary>
-
-        public string InstHost; 
-
+        public ExDataConfigClass ExDataConfig;
+       
+        public string InstHost;
+        /// <summary>
+        /// 客户端请求期号截取位置，默认不截取，对于广东11选5需要截取2位
+        /// </summary>
+        public int ClientExpectCodeSubIndex;
         public DataPointBuff RuntimeInfo;
         public DataTypePoint(string name,Dictionary<string,string> list)
         {
             DataType = name;
-            Type t = this.GetType();
-            FieldInfo[] fs = t.GetFields();
-            
-            for(int i=0;i<fs.Length;i++)
-            {
-                if(list.ContainsKey(fs[i].Name))
-                {
-                    //ToLog(fs[i].Name, list[fs[i].Name]);
-                    try
-                    {
-                        fs[i].SetValue(this, Convert.ChangeType(list[fs[i].Name], fs[i].FieldType));
-                    }
-                    catch(Exception ce)
-                    {
-                        ToLog(fs[i].Name, list[fs[i].Name]);
-                        //throw ce;
-                    }
-                }
-            }
+            ReadData(this.GetType(), this, list);
             this.RuntimeInfo = new DataPointBuff();
             this.RuntimeInfo.DefaultDataUrl = this.MainDataUrl;
             this.RuntimeInfo.DefaultUseDataType = this.MainDataType;
             this.RuntimeInfo.DefaultDataDecode = this.DataDecode;
+        }
+
+        public static bool ReadData(Type t,object obj, Dictionary<string, string> list)
+        {
+            try
+            {
+                //Type t = this.GetType();
+                FieldInfo[] fs = t.GetFields();
+
+                for (int i = 0; i < fs.Length; i++)
+                {
+                    if (list.ContainsKey(fs[i].Name))
+                    {
+                        //ToLog(fs[i].Name, list[fs[i].Name]);
+                        if((fs[i].FieldType.IsSubclassOf(typeof(System.ValueType)) == false) && (fs[i].FieldType != typeof(string)))//如果是对象，并且不是字符串，要特别处理
+                        {
+                            object sobj = Activator.CreateInstance(fs[i].FieldType);
+                            string strVal = list[fs[i].Name];
+                            Dictionary<string, string> slist = new Dictionary<string, string>();
+                            XmlDocument xmldoc = new XmlDocument();
+                            try
+                            {
+                                xmldoc.LoadXml(strVal);
+                                XmlNodeList nodes = xmldoc.SelectNodes("item/item");
+                                
+                                for(int d=0;d<nodes.Count;d++)
+                                {
+                                    string key=null, val=null;
+                                    XmlAttribute att = nodes[d].Attributes["key"];
+                                    if(att!= null)
+                                    {
+                                        key = att.Value;
+                                    }
+                                    if (string.IsNullOrEmpty(key))
+                                        continue;
+                                    att = nodes[d].Attributes["value"];
+                                    if (att != null)
+                                        val = att.Value;
+                                    if(slist.ContainsKey(key) == false)
+                                    {
+                                        slist.Add(key, val);
+                                    }
+                                }
+                            }
+                            catch
+                            {
+                                continue;
+                            }
+                            ReadData(sobj.GetType(), sobj, slist);//再读取子节点进对象
+                            try
+                            {
+                                fs[i].SetValue(obj, sobj);
+                            }
+                            catch
+                            {
+
+                            }
+                            continue;
+                        }
+                        try
+                        {
+                            fs[i].SetValue(obj, Convert.ChangeType(list[fs[i].Name], fs[i].FieldType));
+                        }
+                        catch (Exception ce)
+                        {
+                            ToLog(fs[i].Name, list[fs[i].Name]);
+                            //throw ce;
+                        }
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
+            return true;
         }
     }
 
@@ -148,6 +213,23 @@ namespace WolfInv.com.BaseObjectsLib
         
     }
 
+    public class ExDataConfigClass
+    {
+        /*
+         <item key="InterfaceUrl" value="https://www.52cp.cn/ah11x5/api/miss?"/>
+		  <item key="interfaceKey" value="gd11x5"/>
+		  <item key="args" value="lottery,pos,target,period,sort,desc"/>
+             */
+        public string MissHtmlUrl;
+        public string InterfaceUrl;
+        public string interfaceKey;
+        public string keyReg;
+        public string argsModel;
+        public string dataFormat;
+        public string convertClass;
+        public string dataColumns;
+        public string periods;
+    }
     public class LotteryPropertyClass
     {
 

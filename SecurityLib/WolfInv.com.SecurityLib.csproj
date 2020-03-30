@@ -85,6 +85,9 @@
     <Compile Include="Readers\Lotty\kl12\KL11_HtmlDataClass.cs" />
     <Compile Include="Readers\Lotty\kl12\KL12_HtmlDataClass.cs" />
     <Compile Include="Readers\Lotty\kl12\SCKL12_HtmlDataClass.cs" />
+    <Compile Include="Readers\Lotty\kl12\Web52CPDataClass.cs" />
+    <Compile Include="Readers\Lotty\kl12\Web52CP_HtmlDataClass.cs" />
+    <Compile Include="Readers\Lotty\kl12\Web52CP_MissData_ProcessClass.cs" />
     <Compile Include="Readers\MongoDataReader.cs" />
     <Compile Include="Readers\Security\NoSqlDataReader.cs" />
     <Compile Include="Readers\Lotty\PK10_HtmlDataClass.cs" />

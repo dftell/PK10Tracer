@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 using System.Data;
 namespace WolfInv.com.BaseObjectsLib
 {
-    public abstract class BaseCollection<T>:IBaseCollection where T:TimeSerialData
+    public abstract class BaseCollection<T> : IBaseCollection where T : TimeSerialData
     {
+        /// <summary>
+        /// 外部现成的统计数据，可以直接供策略统计分析，不必自己重新从数据库中计算结果
+        /// </summary>
+        public abstract DataSet ExDataTable(DataTypePoint dtp, string expect, Func<DataTypePoint,string, DataSet> convertFunc);
         public abstract DataTable Table { get; }
         public abstract DataTableEx CarDistributionTable { get; }
         public abstract DataTableEx CarTable { get; }
@@ -29,6 +33,7 @@ namespace WolfInv.com.BaseObjectsLib
 
     public interface IBaseCollection
     {
+        DataSet ExDataTable(DataTypePoint dtp, string expect, Func<DataTypePoint,string, DataSet> convertFunc);
         DataTableEx CarDistributionTable { get; }
         DataTableEx CarTable { get; }
         DataTableEx SerialDistributionTable { get; }

@@ -58,6 +58,11 @@ namespace WolfInv.com.SecurityLib
             throw new NotImplementedException();
         }
 
+        public override DataSet ReadExData(DataTypePoint dtp, string expectNo, Func<DataTypePoint, string, System.Data.DataSet> ConvertFunc)
+        {
+            throw new NotImplementedException();
+        }
+
         public override ExpectList<T> ReadHistory<T>()
         {
             return null;

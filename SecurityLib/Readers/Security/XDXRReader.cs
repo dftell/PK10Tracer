@@ -2,6 +2,8 @@
 using WolfInv.com.BaseObjectsLib;
 using System;
 using WolfInv.com.LogLib;
+using System.Data;
+
 namespace WolfInv.com.SecurityLib
 {
     public class XDXRReader : DateSerialCodeDataReader
@@ -40,7 +42,10 @@ namespace WolfInv.com.SecurityLib
             return DataListConverter<XDXRData>.ToDirectionary(list, "code");
         }
 
-        
+        public override DataSet ReadExData(DataTypePoint dtp, string expectNo, Func<DataTypePoint, string, System.Data.DataSet> ConvertFunc)
+        {
+                    throw new NotImplementedException();
+        }
 
         public Func<string, string, MongoReturnDataList<XDXRData>> getXDXRList = delegate (string DataType, string code)
         {

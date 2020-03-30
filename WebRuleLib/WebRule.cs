@@ -13,129 +13,6 @@ using Gecko;
 
 namespace WolfInv.com.WebRuleLib
 {
-    public class WebConfig
-    {
-        public float WebWholeOdds = 0;
-
-        public Dictionary<string, LotteryTypes> lotteryTypes;
-
-        public BetUnits Units;
-
-        public WebConfig()
-        {
-            lotteryTypes = new Dictionary<string, LotteryTypes>();
-            Units = new BetUnits();
-        }
-
-        public void LoadXml(XmlNode doc)
-        {
-            WebWholeOdds = float.Parse(XmlUtil.GetSubNodeText(doc,"config/@odds"));
-            lotteryTypes = LotteryTypes.getListFromXml(doc.SelectSingleNode("config/Lotteries"));
-            Units.LoadXml(doc.SelectSingleNode("config/Units"));
-        }
-    }
-
-    public class LotteryTypes:List<LotteryBetRuleClass>
-    {
-        public string Id { get; set; }
-        public string ruleId { get; set; }
-        public string Name { get; set; }
-
-        Dictionary<string, LotteryBetRuleClass> t_AllRules;
-        public Dictionary<string,LotteryBetRuleClass> AllRules
-        {
-            get
-            {
-                if(t_AllRules!= null)
-                {
-                    return t_AllRules;
-                }
-                t_AllRules = this.ToDictionary(a => a.BetRule, b=>b);
-                return t_AllRules;
-            }
-        }
-
-        public static Dictionary<string, LotteryTypes> getListFromXml(XmlNode node)
-        {
-            Dictionary<string, LotteryTypes> ret = new Dictionary<string, LotteryTypes>();
-            
- 
-            XmlNodeList nodes = node.SelectNodes("Lottery");
-            foreach(XmlNode sn in nodes)
-            {
-                LotteryTypes lt = new LotteryTypes();
-                string strKey = XmlUtil.GetSubNodeText(sn,"@id");
-                lt.LoadXml(sn);
-                ret.Add(strKey,lt);
-            }
-            return ret;
-        }
-
-        public void LoadXml(XmlNode node)
-        {
-            Dictionary<string, LotteryTypes> ret = new Dictionary<string, LotteryTypes>();
-            Id = XmlUtil.GetSubNodeText(node, "@id");
-            ruleId = XmlUtil.GetSubNodeText(node, "@ruleId");
-            Name = XmlUtil.GetSubNodeText(node, "@name");
-            XmlNodeList nodes = node.SelectNodes("BetTypes/BetType");
-            foreach (XmlNode sn in nodes)
-            {
-                LotteryBetRuleClass lbr = new LotteryBetRuleClass();
-                lbr.LoadXml(sn);
-                this.Add(lbr);
-            }
-        }
-    }
-    /*
-         "cqc": 1,
-    "tjc": 2,
-    "jlk3": 3,
-    "jsk3": 4,
-    "pl3": 5,
-    "fc3d": 6,
-    "klpk": 7,
-    "pk10": 8,
-    "wfc": 9,
-    "sd11x5": 10,
-    "ggc": 11,
-    "kck3": 12,
-    "kcjs3d": 13,
-    "xjssc": 14,
-    "gxk3": 15,
-    "ahk3": 16,
-    "hubk3": 17,
-    "hebk3": 18,
-    "shk3": 19,
-    "yfc": 20,
-    "gd11x5": 21,
-    "jx11x5": 22,
-    "sh11x5": 23,
-    "hlj11x5": 24,
-    "bjk3": 27,
-    "js11x5": 28,
-    "hgffc": 29,
-    "heb11x5": 30,
-    "yfcnew": 31,
-    "yfk3": 32,
-    "txffc": 33,
-    "xyft": 34,
-    "paoma": 35,
-    "btbffc": 36
-         */
-    public class LotteryBetRuleClass
-    {
-        public string BetRule { get; set; }
-        public string BetType { get; set; }
-        public string BetRuleName { get; set; }
-        
-        public void LoadXml(XmlNode node)
-        {
-            //<BetType bettype="801" betrule="8010101">猜冠军</BetType>
-            BetRule = XmlUtil.GetSubNodeText(node, "@betrule");
-            BetType = XmlUtil.GetSubNodeText(node, "@bettype");
-            BetRuleName = XmlUtil.GetSubNodeText(node, ".");
-        }
-    }
 
     public class BetUnits:List<BetUnit>
     {
@@ -195,6 +72,7 @@ namespace WolfInv.com.WebRuleLib
 
     public abstract class WebRule : ILotteryRule
     {
+        public string webName;
         //public abstract string IntsListToJsonString(List<InstClass> Insts);
         public virtual string IntsToJsonString(string LotteryName,String ccs, int unit)
         {
@@ -202,29 +80,35 @@ namespace WolfInv.com.WebRuleLib
         }
         public GlobalClass GobalSetting;
         public WebConfig config;
-        protected WebRule(GlobalClass setting)
+        protected WebRule(string name,GlobalClass setting)
         {
+            webName = name;
             GobalSetting = setting;
+            if(!Load("rule.xml", string.Format("config\\{0}\\Rules\\", name)))
+            {
+                Load("rule.xm", "config\\Rules");
+            }
         }
 
 
-        public void Load(string filename,string foldername)
+        public bool Load(string filename,string foldername)
         {
             config = new WebConfig();
             string xmltext = GlobalClass.LoadTextFile(filename, foldername);
-            if (xmltext != null)
+            if(string.IsNullOrEmpty(xmltext))
             {
-                XmlDocument xmldoc = new XmlDocument();
-                try
-                {
-                    xmldoc.LoadXml(xmltext);
-                    config.LoadXml(xmldoc);
-                }
-                catch (Exception ce)
-                {
-                    return;
-                }
-
+                return false;
+            }
+            XmlDocument xmldoc = new XmlDocument();
+            try
+            {
+                xmldoc.LoadXml(xmltext);
+                config.LoadXml(xmldoc);
+                return true;
+            }
+            catch (Exception ce)
+            {
+                return false;
             }
         }
 
@@ -241,9 +125,16 @@ namespace WolfInv.com.WebRuleLib
         public  bool IsLoadCompleted(HtmlDocument indoc)
         {
             string strNotice = GobalSetting.HostKey;
-
-            return WebRule.existElement(indoc, GobalSetting.HostKey);
-
+            bool suc = WebRule.existElement(indoc, GobalSetting.HostKey);
+            if (suc)
+                return true;
+            for (int i = 0; i < indoc.Window.Frames.Count; i++)
+            {
+                suc = WebRule.existElement(indoc.Window.Frames[i].Document, GobalSetting.HostKey);
+                if (suc)
+                    return true;
+            }
+            return false;
         }
 
         public  bool IsVaildWeb(GeckoDocument doc)
@@ -260,7 +151,7 @@ namespace WolfInv.com.WebRuleLib
         public bool IsLoadCompleted(GeckoDocument indoc)
         {
             string strNotice = GobalSetting.HostKey;
-
+            
             return WebRule.existElement(indoc, GobalSetting.HostKey);
 
 
@@ -273,12 +164,48 @@ namespace WolfInv.com.WebRuleLib
 
         public bool IsLogined(HtmlDocument doc)
         {
-            return WebRule.existElement(doc, GobalSetting.LoginedFlag);
-            return true;
+
+            bool suc = WebRule.existElement(doc, GobalSetting.LoginedFlag);
+            if (suc)
+                return suc;
+            for (int i=0;i<doc.Window.Frames.Count;i++)
+            {
+                suc = WebRule.existElement(doc.Window.Frames[i].Document, GobalSetting.LoginedFlag);
+                if (suc)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public double GetCurrMoney(HtmlDocument doc)
         {
+            string outval = "";
+            bool succ = WebRule.existElement(doc, GobalSetting.AmountId, out outval);
+            if(succ)
+            {
+                double outRes = 0.00;
+                if (double.TryParse(outval, out outRes))
+                {
+                    return outRes;
+                }
+                return 0;
+            }
+            for (int i = 0; i < doc.Window.Frames.Count; i++)
+            {
+                succ = WebRule.existElement(doc.Window.Frames[i].Document, GobalSetting.AmountId, out outval);
+                if (succ)
+                {
+                    double outRes = 0.00;
+                    if (double.TryParse(outval, out outRes))
+                    {
+                        return outRes;
+                    }
+                    //return 0;
+                }
+            }
+            return 0;
             HtmlElement ElPoint = doc?.GetElementById(GobalSetting.AmountId);
             double ret = 0;
             if (ElPoint != null)
@@ -406,7 +333,7 @@ namespace WolfInv.com.WebRuleLib
                     idval = he.GetAttribute(tagKeyType.Trim());
                     if (string.IsNullOrEmpty(idval)) //标签都没有
                         continue;
-                    if (idval?.Trim() == tagKeyValue)//如果匹配上了
+                    if (idval?.Trim().ToLower() == tagKeyValue.ToLower())//如果匹配上了
                     {
                         outVal = he.InnerText;
                         return true;
@@ -442,15 +369,23 @@ namespace WolfInv.com.WebRuleLib
     {
         public static WebRule Create(GlobalClass gc)
         {
-            if(gc.ForWeb.ToLower().IndexOf("kcai")>=0)
+            
+            WebRule ret = null;
+            switch(gc.InstFormat.ToLower().Trim())
             {
-                return new Rule_ForKcaiCom(gc);
+                case "kcai":
+                    {
+                        ret = new Rule_ForKcaiCom(gc.InstFormat, gc);
+                        break;
+                    }
+                default:
+                    {
+                        ret = new JsProcessRuleClass(gc.InstFormat, gc); 
+                        break;
+                    }
             }
-            ////else if()
-            ////{
 
-            ////}
-            return new JsProcessRuleClass(gc);
+            return ret;
         }
 
         

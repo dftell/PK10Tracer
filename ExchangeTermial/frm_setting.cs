@@ -43,7 +43,7 @@ namespace ExchangeTermial
             try
             {
                 SaveToServer(ret);
-                GlobalClass.SetConfig();
+                GlobalClass.SetConfig( Program.gc.ForWeb );
                 this.Close();
             }
             catch(Exception ce)

@@ -322,7 +322,9 @@ namespace WolfInv.com.BackTestLib
                 AllData = ExpectList<T>.Concat(AllData, el);
                 if (dtp.IsSecurityData==0)
                 {
-                    begNo = el.LastData.LExpectNo + 1;//加一期
+
+                    //begNo = el.LastData.LExpectNo + 1;//加一期
+                    begNo = long.Parse(er.getNextExpectNo(el.LastData.Expect));
                 }
                 else
                 {
@@ -346,13 +348,13 @@ namespace WolfInv.com.BackTestLib
                     {
                         if (dtp.IsSecurityData == 0)//如果非证券，判断两个期号之间是否连续
                         {
-                            if (AllData[(int)testIndex].ExpectIndex != testData.LastData.ExpectIndex + 1)
-                            {
-                                if (dtp.DataType == "PK10")
-                                {
-                                    throw new Exception(string.Format("{1}第{0}期后出现数据遗漏，请补充数据后继续测试！", testData.LastData.Expect, testData.LastData.OpenTime));
-                                }
-                            }
+                            ////if (AllData[(int)testIndex].Expect != testData.LastData.ExpectIndex + 1)
+                            ////{
+                            ////    if (dtp.DataType == "PK10")
+                            ////    {
+                            ////        throw new Exception(string.Format("{1}第{0}期后出现数据遗漏，请补充数据后继续测试！", testData.LastData.Expect, testData.LastData.OpenTime));
+                            ////    }
+                            ////}
                         }
                         testData.RemoveAt(0);
                         testData.Add(AllData[(int)testIndex]);

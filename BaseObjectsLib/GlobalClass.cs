@@ -11,10 +11,22 @@ namespace WolfInv.com.BaseObjectsLib
     [Serializable]
     public class GlobalClass : DetailStringClass,iLog
     {
+        static GlobalClass()
+        {
+
+            ReadConfig();
+            //ReReadStragList();
+        }
+        public bool loadSucc;//判断加载是否成功，为客户端子目录加载准备的
+
         public GlobalClass()
         {
-            //_logname = "config";
-            ReadConfig();
+            loadSucc = ReadConfig("");
+        }
+        public GlobalClass(string forWeb)
+        {
+
+            loadSucc = ReadConfig(string.IsNullOrEmpty(forWeb)?"":string.Format("config\\{0}\\", forWeb));
         }
 
         static string _LogUser;
@@ -40,7 +52,12 @@ namespace WolfInv.com.BaseObjectsLib
         {
             get { return _wxsvrhost; }
         }
-
+        public static void resetTypeDataPoints()
+        {
+            _SystemDbTables = null;
+            _dataType = null;
+            _TypeDataPoints = null;
+        }
         public static Dictionary<string, DataTypePoint> _TypeDataPoints;
         public static Dictionary<string, DataTypePoint> TypeDataPoints
         {
@@ -107,7 +124,27 @@ namespace WolfInv.com.BaseObjectsLib
                 return _dataType;
             }
         }
+        static Dictionary<string, string> _webSites;
+        public static Dictionary<string, string> WebSites
+        {
+            get
+            {
+                if (_webSites == null)
+                {
+                    if (sSysParams == null)
+                        return null;
 
+                    if (!sSysParams.ContainsKey("WebSites"))
+                    {
+                        ToLog("初始化品种清单", "获取品种分类定义错误");
+                        return null;
+                    }
+                    _webSites = sSysParams["WebSites"];
+                }
+
+                return _webSites;
+            }
+        }
         static Dictionary<string, Dictionary<string, string>> sSysParams;
         Dictionary<string, Dictionary<string, string>> SysParams
         {
@@ -123,7 +160,7 @@ namespace WolfInv.com.BaseObjectsLib
         public static string Title = "快乐赛车";
         public static string strLoginUrlModel = "http://www.wolfinv.com/PK10/App/login.asp?User={0}&Password={1}";
         public static string strRequestInstsURL = "http://www.wolfinv.com/pk10/app/requestinsts.asp";
-        public static string strAssetInfoURL = "{0}/pk10/app/getAssetLists.asp";
+        public static string strAssetInfoURL = "{0}/pk10/app/getAssetLists.asp?type={1}";
         public static string dbServer = "";// "www.wolfinv.com";//"47.95.222.142";//"www.wolfinv.com";
         public static string dbName = "";//"PK10db";
         public static string dbUser = "";//"sa";
@@ -373,6 +410,16 @@ namespace WolfInv.com.BaseObjectsLib
             
         }
 
+        public string InstFormat
+        {
+            get
+            {
+                if (SysParams.Count > 0 && SysParams["System"].ContainsKey("InstFormat"))
+                    return SysParams["System"]["InstFormat"];
+                return ForWeb;//没有就返回forweb
+            }
+        }
+
         public int TotalCnt
         {
             get
@@ -613,6 +660,36 @@ namespace WolfInv.com.BaseObjectsLib
             {
                 if (SysParams.Count > 0 && SysParams["System"].ContainsKey("WebNavUrl"))
                     return SysParams["System"]["WebNavUrl"];
+                return null;
+            }
+        }
+
+        public string HostLoginUrl
+        {
+            get
+            {
+                if (SysParams.Count > 0 && SysParams["System"].ContainsKey("HostLoginUrl"))
+                    return SysParams["System"]["HostLoginUrl"];
+                return null;
+            }
+        }
+
+        public string HostAmountUrl
+        {
+            get
+            {
+                if (SysParams.Count > 0 && SysParams["System"].ContainsKey("HostAmountUrl"))
+                    return SysParams["System"]["HostAmountUrl"];
+                return null;
+            }
+        }
+
+        public string HostBetUrl
+        {
+            get
+            {
+                if (SysParams.Count > 0 && SysParams["System"].ContainsKey("HostBetUrl"))
+                    return SysParams["System"]["HostBetUrl"];
                 return null;
             }
         }
@@ -951,12 +1028,7 @@ namespace WolfInv.com.BaseObjectsLib
             return db;
         }
 
-        static GlobalClass()
-        {
-
-            ReadConfig();
-            //ReReadStragList();
-        }
+        
         
         static string _strStragJsons = null;
         
@@ -983,17 +1055,17 @@ namespace WolfInv.com.BaseObjectsLib
             }
         }
        
-        static void ReadConfig()
+        static bool ReadConfig(string folder="")
         {
+            resetTypeDataPoints();
+            sSysParams = null;
             sSysParams = new Dictionary<string, Dictionary<string, string>>();
             XmlDocument doc = new XmlDocument();
             string strPath = typeof(GlobalClass).Assembly.Location;
-            string strXmlPath = Path.GetDirectoryName(strPath) + "\\config.xml";
+            string strXmlPath = string.Format( "{0}\\{1}\\config.xml", Path.GetDirectoryName(strPath),folder);
             try
             {
                 doc.Load(strXmlPath);
-
-
                 XmlDocument configDoc = doc;
                 XmlNodeList configs = configDoc.SelectNodes("root/configs/config");
                 for (int i = 0; i < configs.Count; i++)
@@ -1006,6 +1078,10 @@ namespace WolfInv.com.BaseObjectsLib
                     {
                         string name = configitems[j].Attributes["key"].Value;
                         string val = configitems[j].Attributes["value"].Value;
+                        if(configitems[j].SelectNodes("./item").Count>0)//还有子项，以该项的xml作为value,value值无效
+                        {
+                            val = configitems[j].OuterXml;
+                        }
                         if (!configtypeDir.ContainsKey(name))
                             configtypeDir.Add(name, val);
                         else
@@ -1017,12 +1093,19 @@ namespace WolfInv.com.BaseObjectsLib
             catch (Exception ce)
             {
                 ToLog("读取配置文件错误", ce.Message);
-                return;
+                return false;
             }
+            return true;
         }
 
-        public static void SetConfig()
+        public static void SetConfig(string websit = "")
         {
+            string forweb = "";
+            if(!string.IsNullOrEmpty(websit))
+            {
+                forweb = string.Format("config\\{0}\\", websit);
+                     
+            }
             XmlDocument xmldoc = new XmlDocument();
             xmldoc.LoadXml("<root><configs/></root>");
             XmlNode configNodes = xmldoc.SelectSingleNode("root/configs");
@@ -1038,16 +1121,36 @@ namespace WolfInv.com.BaseObjectsLib
                     XmlNode itemnode = xmldoc.CreateElement("item");
                     XmlAttribute attkey = xmldoc.CreateAttribute("key");
                     XmlAttribute attvalue = xmldoc.CreateAttribute("value");
-                    attkey.Value = itemkey;
-                    attvalue.Value = sSysParams[configkey][itemkey];
-                    itemnode.Attributes.Append(attkey);
-                    itemnode.Attributes.Append(attvalue);
-                    configNode.AppendChild(itemnode);
+                    string strVal = sSysParams[configkey][itemkey];
+                    XmlDocument subdoc = new XmlDocument();
+                    bool isSNode = false;
+                    try
+                    {
+                        subdoc.LoadXml(strVal);//如果能加载进
+                        strVal = "";
+                        isSNode = true;
+                    }
+                    catch
+                    {
+
+                    }
+                    if (!isSNode)//不是子节点，只是简单加item节点包括key，value
+                    {
+                        attkey.Value = itemkey;
+                        attvalue.Value = sSysParams[configkey][itemkey];
+                        itemnode.Attributes.Append(attkey);
+                        itemnode.Attributes.Append(attvalue);
+                        configNode.AppendChild(itemnode);
+                    }
+                    else //把整个value值作为节点加进去
+                    {
+                        configNode.AppendChild(xmldoc.ImportNode(subdoc.SelectSingleNode("item"), true));
+                    }
                 }
                 configNodes.AppendChild(configNode);
             }
             string strPath = typeof(GlobalClass).Assembly.Location;
-            string strXmlPath = Path.GetDirectoryName(strPath) + "\\config.xml";
+            string strXmlPath =string.Format("{0}\\{1}\\config.xml", Path.GetDirectoryName(strPath), forweb);
             try
             {
                 xmldoc.Save(strXmlPath);

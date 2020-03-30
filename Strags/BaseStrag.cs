@@ -253,6 +253,12 @@ namespace WolfInv.com.Strags
 
         public abstract StagConfigSetting getInitStagSetting();
 
+        protected DataTypePoint UsingDpt;
+        public void setDataTypePoint(DataTypePoint dtp)
+        {
+            UsingDpt = dtp;
+        }
+            
 
         //public abstract Int64 getChipAmount(double RestCash, ChanceClass cc, AmoutSerials ams);//查找类默认单利为1，复利为赔率保本对应的凯利公式所算出来的比例
 

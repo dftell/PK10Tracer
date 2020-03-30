@@ -13,6 +13,10 @@ namespace ExchangeTermial
     public static class Program
     {
         public static GlobalClass gc;
+        /// <summary>
+        /// 专供切换平台使用
+        /// </summary>
+        public static GlobalClass allGc;
         public static string VerNo;
         public static WXLogClass wxl;
         public static string Title;
@@ -32,7 +36,17 @@ namespace ExchangeTermial
             System.IO.Directory.SetCurrentDirectory(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location));
             
             //Xpcom.Initialize("Firefox");
-            gc = new GlobalClass();
+            gc = new GlobalClass();//加载根目录config
+            if(!gc.loadSucc)
+            {
+                return;
+            }
+            ////GlobalClass sgc = new GlobalClass(string.Format("config\\",gc.ForWeb));
+            ////if(sgc.loadSucc)//如果有子目录
+            ////{
+            ////    gc = sgc;
+            ////}
+            
             System.Drawing.Image img = null;
             //string retver = VerPwdClass.getString(img);
             Application.EnableVisualStyles();

@@ -82,6 +82,7 @@ namespace PK10Server
                 this.lastExpect = strexpect;
                 ExpectListProcessBuilder<TimeSerialData> elp = new ExpectListProcessBuilder<TimeSerialData>(dtp, ViewDataList);
                 BaseCollection<TimeSerialData> sc = elp.getProcess().getSerialData(180, true);
+                runstg.setDataTypePoint(dtp);
                 List<ChanceClass<TimeSerialData>> cs =  runstg.getChances(sc, ViewDataList.LastData);
                 this.Txt_Chances.Text = string.Join("\r\n", cs.Select(a => a.ChanceCode)) ;
                 Program.AllGlobalSetting.wxlog.Log(string.Format("彩种{0}第{1}指令:\r\n{2}",dtp.DataType,this.lastExpect,this.Txt_Chances.Text));

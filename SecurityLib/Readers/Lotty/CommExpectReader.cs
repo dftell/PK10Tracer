@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using WolfInv.com.DbAccessLib;
 using WolfInv.com.BaseObjectsLib;
+using System.Net.Http;
+using System.Net;
 namespace WolfInv.com.SecurityLib
 {
     //Sql data reader
@@ -246,6 +248,12 @@ namespace WolfInv.com.SecurityLib
                 sql = string.Format("update dataExpectInfoTable set nextExpect='{0}',currExpect='{1}' where dataType='{2}'", nextExpect, currExpect, dataType);
             }
             db.ExecSql(new ConditionSql(sql));
+        }
+
+        public override DataSet ReadExData(DataTypePoint dtp, string expectNo,Func<DataTypePoint,string, DataSet> ConvertFunc)
+        {
+            
+            return ConvertFunc(dtp,expectNo);
         }
     }
 

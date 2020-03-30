@@ -52,6 +52,8 @@ namespace WolfInv.com.SecurityLib
         public abstract int SaveHistoryData<T>(ExpectList<T> InData) where T : TimeSerialData;
         public abstract int SaveNewestData<T>(ExpectList<T> InData) where T : TimeSerialData;
 
+        public abstract System.Data.DataSet ReadExData(DataTypePoint dtp, string expectNo, Func<DataTypePoint, string, System.Data.DataSet> ConvertFunc);
+
         public abstract int DeleteChanceByIndex(long index, string strDataOwner = null);
 
         public abstract int DeleteExpectData(string expectid);
