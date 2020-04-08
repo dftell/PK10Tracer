@@ -159,9 +159,10 @@ namespace DataRecSvr
             ////}
             foreach(self_Timer tm in RecTimers.Values)
             {
-                tm.Interval = 1000;
+                //tm.Interval = 1000;
+                //tm.Enabled = true;
                 tm.Enabled = true;
-                
+                Tm_Elapsed(tm, null);
                 Log(string.Format("{0}开始服务", tm.Name), "开始接收数据",true);
                 //Tm_Elapsed(tm, null);
             }
@@ -454,7 +455,8 @@ namespace DataRecSvr
                         int savecnt = rd.SaveNewestData(NewList);
                         if (savecnt > 0)
                         {
-                            CurrDataList = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1 * dtp.CheckNewestDataDays));//前十天的数据 尽量的大于reviewcnt,免得需要再取一次数据
+                            Log("保存数据条数", string.Format("{0}条数！",savecnt), glb.NormalNoticeFlag);
+                            CurrDataList = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1 * dtp.CheckNewestDataDays));//前十天的数据 尽量的大于reviewcnt,免得需要再取一次数据,尽量多取，以防后面策略调用需要上万条数据，还要防止放假中间间隔时间较长
                             if (CurrDataList == null)
                             {
                                 useTimer.Interval = RepeatSeconds / 20 * 1000;
@@ -566,6 +568,7 @@ namespace DataRecSvr
             {
                 //this.CalcProcess.Calc();
                 CalcObj.OnFinishedCalc = onFinished;
+                Log("开始计算", "启动计算",Program.gc.NormalNoticeFlag);
                 CalcObj.Calc();
             }
             catch(Exception e)

@@ -20,7 +20,7 @@ namespace WolfInv.com.PK10CorePress
     }
 
 
-    public class ChanceClass_ForCombinXxY:ChanceClass, iXxYClass
+    public class ChanceClass_ForCombinXxY:NolimitTraceChance, iXxYClass
     {
         public ChanceClass_ForCombinXxY()
         {
@@ -100,8 +100,8 @@ namespace WolfInv.com.PK10CorePress
             }
         }
 
-        Dictionary<int, int> CombinTypebaseodds = null;
-        Dictionary<int, int> CombinTypeChipsBaseOdds
+        static Dictionary<int, int> CombinTypebaseodds = null;
+        public Dictionary<int, int> CombinTypeChipsBaseOdds
         {
             get
             {
@@ -110,7 +110,7 @@ namespace WolfInv.com.PK10CorePress
                     if (this.strCombinTypeBaseOdds == null || this.strCombinTypeBaseOdds.Length == 0)
                         return new Dictionary<int, int>();
                     CombinTypebaseodds = new Dictionary<int, int>();
-                    int basindex = 2;
+                    int basindex = 0;
                     string[] arr = strCombinTypeBaseOdds.Split(',');
                     for (int i = 0; i < arr.Length; i++)
                     {
@@ -131,7 +131,7 @@ namespace WolfInv.com.PK10CorePress
                     if (this.strPermutTypeBaseOdds == null || this.strPermutTypeBaseOdds.Length == 0)
                         return new Dictionary<int, int>();
                     PermutTypebaseodds = new Dictionary<int, int>();
-                    int basindex = 1;
+                    int basindex = 0;
                     string[] arr = strPermutTypeBaseOdds.Split(',');
                     for (int i = 0; i < arr.Length; i++)
                     {
@@ -170,10 +170,11 @@ namespace WolfInv.com.PK10CorePress
             }
             //////ExpectData inputEd = el[begid];
             //////Log("计算服务", "获取到期号信息", string.Format("expect:{0};openCode:{1}",inputEd.Expect,inputEd.OpenCode));
-            if (el.Count>begid+2 ||el.Count == 1)//只匹配一期
+            if (el.Count == 1)//只匹配一期
             {
-                int ei = begid + 1;
+                int ei = el.Count==1?el.Count-1:begid + 1;
                 ExpectData<TimeSerialData> data = el[ei];
+                return Match(data,out MatchCnt);
                 string[] strOrgArr = data.OpenCode.Split(',');
                 string strRes =  CombinGenerator.ResortNumString(data.OpenCode,",");
                 foreach (ChanceItem ci in this.SubItems)
@@ -209,9 +210,9 @@ namespace WolfInv.com.PK10CorePress
                                 string[] strSArr = CombinGenerator.ResortNumString(strCiArr);// 获取前N位排序好的中奖号码
                                 if (string.Join(",", strSArr) == CombinGenerator.ResortNumString(ci.betCode,",")) //如果排序好的前N位中奖串等于重排后的投注串，命中
                                 {
-                                    if (this.CombinTypebaseodds.ContainsKey(ci.betChipCnt-1))
+                                    if (this.CombinTypeChipsBaseOdds.ContainsKey(ci.betChipCnt-1))
                                     {
-                                        MatchCnt += CombinTypebaseodds[ci.betChipCnt-1];
+                                        MatchCnt += CombinTypeChipsBaseOdds[ci.betChipCnt-1];
                                         //break;
                                     }
                                     else//找不到，返回基本倍数
@@ -268,6 +269,120 @@ namespace WolfInv.com.PK10CorePress
                     }
                 }
                 
+            }
+            else
+            {
+                for(int i= begid+1; i<el.Count;i++)//中途任何一次匹配都干掉
+                {
+                    
+                    ExpectData<TimeSerialData> data = el[i];
+                    bool suc = Match(data, out MatchCnt);
+                    if(suc)
+                    {
+                        break;
+                    }
+                }
+            }
+            if (MatchCnt > 0)
+                return true;
+            return false;
+        }
+
+        bool Match(ExpectData<TimeSerialData> data,out int MatchCnt)
+        {
+            MatchCnt = 0;
+            string[] strOrgArr = data.OpenCode.Split(',');
+            string strRes = CombinGenerator.ResortNumString(data.OpenCode, ",");
+            foreach (ChanceItem ci in this.SubItems)
+            {
+                CombinClass container = null;
+                string[] strCiArr = null;
+                if (ci.betChipCnt <= SelectNums)
+                {
+                    strCiArr = new string[ci.betChipCnt];
+                    Array.Copy(strOrgArr, strCiArr, ci.betChipCnt);
+                }
+                switch (ci.betType)
+                {
+                    case CombinBetType.Permut:
+                        {
+                            if (string.Join(",", strCiArr) == ci.betCode)//未排序的数组和投注串完全相等
+                            {
+                                if (this.PermutTypebaseodds.ContainsKey(ci.betChipCnt - 1))
+                                {
+                                    MatchCnt += PermutTypebaseodds[ci.betChipCnt - 1];
+                                    //break;
+                                }
+                                else//找不到，返回基本倍数
+                                {
+                                    MatchCnt += 2;
+                                }
+                            }
+
+                            break;
+                        }
+                    case CombinBetType.Combin:
+                        {
+                            string[] strSArr = CombinGenerator.ResortNumString(strCiArr);// 获取前N位排序好的中奖号码
+                            if (string.Join(",", strSArr) == CombinGenerator.ResortNumString(ci.betCode, ",")) //如果排序好的前N位中奖串等于重排后的投注串，命中
+                            {
+                                if (this.CombinTypeChipsBaseOdds.ContainsKey(ci.betChipCnt - 1))
+                                {
+                                    MatchCnt += CombinTypeChipsBaseOdds[ci.betChipCnt - 1];
+                                    //break;
+                                }
+                                else//找不到，返回基本倍数
+                                {
+                                    MatchCnt += 2;
+                                }
+                            }
+                            break;
+                        }
+                    case CombinBetType.All:
+                    default:
+                        {
+                            int tn = ci.betChipCnt + 1;//一定要加1，是标志基础
+                            if (ci.betChipCnt > SelectNums)//如果大于选择码
+                            {
+                                container = new CombinClass(ci.betCode, SelectNums);//找出N码选出数目的所有组合
+                                if (container.Contains(strRes))//命中
+                                {
+
+                                    if (this.AllTypeChipsBaseOdds.ContainsKey(tn))
+                                    {
+
+                                        MatchCnt += AllTypeChipsBaseOdds[tn];
+                                        //break;
+                                    }
+                                    else//找不到，返回基本倍数
+                                    {
+                                        MatchCnt += 2;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                container = new CombinClass(strRes, ci.betChipCnt);//中奖结果的C(S,N)组合
+                                if (container.Contains(ci.betCode))
+                                {
+                                    if (this.AllTypeChipsBaseOdds.ContainsKey(tn))
+                                    {
+                                        MatchCnt += AllTypeChipsBaseOdds[tn];
+                                        //break;
+                                    }
+                                    else//找不到，返回基本倍数
+                                    {
+                                        MatchCnt += 2;
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                }
+                if (ci.betChipCnt >= SelectNums && MatchCnt > 0)//只要有一个子长机会命中，就不再检查其他子机会
+                {
+                    break;
+                }
             }
             if (MatchCnt > 0)
                 return true;

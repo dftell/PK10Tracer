@@ -137,7 +137,7 @@ namespace WolfInv.com.ServerInitLib
                 {
                     continue;
                 }
-                if(spc.StragLotteryName!= dpt.DataType && !IsBackTest)
+                if(spc.UseDataSource!= dpt.DataType && !IsBackTest)
                 {
                     ToLog("计划不属于使用的数据源", strKey);
                     continue;

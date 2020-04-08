@@ -60,6 +60,7 @@
     <Compile Include="ICommCollection.cs" />
     <Compile Include="IExpectListProcess.cs" />
     <Compile Include="LottyExpactList.cs" />
+    <Compile Include="MissDataCalcClass.cs" />
     <Compile Include="PermutLottery_ExpectListProcess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecurityData.cs" />

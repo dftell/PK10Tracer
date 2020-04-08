@@ -51,6 +51,7 @@
       <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
     </Reference>
@@ -87,7 +88,9 @@
     <Compile Include="Readers\Lotty\kl12\SCKL12_HtmlDataClass.cs" />
     <Compile Include="Readers\Lotty\kl12\Web52CPDataClass.cs" />
     <Compile Include="Readers\Lotty\kl12\Web52CP_HtmlDataClass.cs" />
+    <Compile Include="Readers\Lotty\kl12\Web52CP_Lotty_Miss_DataItemClass.cs" />
     <Compile Include="Readers\Lotty\kl12\Web52CP_MissData_ProcessClass.cs" />
+    <Compile Include="Readers\MissData\MissDataItem.cs" />
     <Compile Include="Readers\MongoDataReader.cs" />
     <Compile Include="Readers\Security\NoSqlDataReader.cs" />
     <Compile Include="Readers\Lotty\PK10_HtmlDataClass.cs" />

@@ -205,6 +205,7 @@ namespace DataRecSvr
                 this.FinishedThreads = 0;
                 foreach (string key in Program.AllServiceConfig.AllRunningPlanGrps.Keys)//再次为计划组分配资源，保证策略和计划一直在内存。
                 {
+                    //Log("计算组执行处理", key, Program.gc.NormalNoticeFlag);
                     CalcStragGroupClass<T> csc = Program.AllServiceConfig.AllRunningPlanGrps[key] as CalcStragGroupClass<T>;
                     //if (!IsTestBack &&  !csc.Running)
                     //    continue;
@@ -261,7 +262,7 @@ namespace DataRecSvr
                         return true; //如果是回测，不做处理
                     Log("写入标志文件", "供web程序读取！");
                     DataReader rder = DataReaderBuild.CreateReader(DataPoint.DataType, ReadDataTableName, Codes);
-                    string NewExpectNo = rder.getNextExpectNo(Program.AllServiceConfig.LastDataSector.LastData.Expect);
+                    string NewExpectNo = DataReader.getNextExpectNo(Program.AllServiceConfig.LastDataSector.LastData.Expect,DataPoint);
                     string NewNo = string.Format("{0}|{1}", NewExpectNo, Program.AllServiceConfig.LastDataSector.LastData.OpenTime);
                     rder.updateExpectInfo(DataPoint.DataType, NewExpectNo, Program.AllServiceConfig.LastDataSector.LastData.Expect);
                     new LogInfo().WriteFile(NewNo, path, strExpectNo, strtype, true, true);

@@ -197,9 +197,9 @@ namespace PK10Server
             lv.Columns.Add("次数");
             for (int i = 1; i < 20; i++)
             {
-                lv.Columns.Add(string.Format("{0}{1}", i, strHeaderFlag),100);
+                lv.Columns.Add(string.Format("{0}{1}", i, strHeaderFlag),70);
             }
-            lv.Columns.Add(string.Format("{0}{1}", 0, strHeaderFlag),100);
+            lv.Columns.Add(string.Format("{0}{1}", 0, strHeaderFlag),70);
         }
 
         private void toolStripMenuItem_backTest_Click(object sender, EventArgs e)

@@ -13,6 +13,16 @@ namespace DataRecSvr
         public static string CurrExpectNo;
         public string ServiceName;
         public static ExpectList<T> CurrDataList;
+
+        /// <summary>
+        /// 专为外部程序调用而设，调用前先设置gc
+        /// </summary>
+        /// <param name="gc"></param>
+        public void setGlobalClass(GlobalClass gc)
+        {
+            Program.gc = gc;
+        }
+
         //protected WXLogClass wxl = new WXLogClass("服务器管理员",GlobalClass.LogUser, GlobalClass.LogUrl);
         public ExpectList<T> CurrData
         {

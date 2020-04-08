@@ -96,7 +96,22 @@ namespace WolfInv.com.SecurityLib
             throw new NotImplementedException();
         }
 
+        public override AmoutSerials getOptSerials(DataTypePoint dtp, string type, int len, double odds, long MaxValue, int FirstAmt, bool NeedAddFirst)
+        {
+            throw new NotImplementedException();
+        }
+
         public override DataTableEx getSubTable(int cnt, int n)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override DataTable getTableFromSpecCondition(DataTypePoint dtp, string currExpect, int Period, string strPos, string strTaget, params object[] others)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool isMatch(string code, string currCode)
         {
             throw new NotImplementedException();
         }

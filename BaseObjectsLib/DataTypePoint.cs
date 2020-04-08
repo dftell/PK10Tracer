@@ -220,6 +220,7 @@ namespace WolfInv.com.BaseObjectsLib
 		  <item key="interfaceKey" value="gd11x5"/>
 		  <item key="args" value="lottery,pos,target,period,sort,desc"/>
              */
+        public string FromDataBase;
         public string MissHtmlUrl;
         public string InterfaceUrl;
         public string interfaceKey;

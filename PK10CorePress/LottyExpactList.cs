@@ -61,7 +61,11 @@ namespace WolfInv.com.PK10CorePress
         public ExpectList getSubArray(int FromIndex, int len)
         {
             ExpectList ret = new ExpectList();
-            base.getSubArray(FromIndex, len).ForEach(a => ret.Add(a.CopyTo<ExpectData>()));
+            ExpectList<TimeSerialData> tmp = base.getSubArray(FromIndex, len);
+            foreach (ExpectData<TimeSerialData> a in tmp)
+            {
+                ret.Add(a.CopyTo<ExpectData>());
+            }
             return ret;// as ExpectList;
         }
 

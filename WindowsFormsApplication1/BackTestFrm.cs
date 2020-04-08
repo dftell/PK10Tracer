@@ -184,7 +184,7 @@ namespace BackTestSys
             auc.SaveDataToFile();
             MessageBox.Show("执行完毕！");
         }
-
+        Thread thrd = null;
         private void DoSomething(BackgroundWorker worker, DoWorkEventArgs e)
         {
             
@@ -250,7 +250,7 @@ namespace BackTestSys
             timer_Tip.Tick += new EventHandler(RefreshList);
             this.timer_Tip.Interval = int.Parse(txt_Timer_Interval.Text) * 1000;
             this.timer_Tip.Enabled = true;
-            Thread thrd = null;
+            
             try
             {
 
@@ -366,7 +366,7 @@ namespace BackTestSys
                     }
                     double bs = 100.00 * (float)ret.HoldCntDic[key] / (float)ret.ChanceList.Count;
                     double rbs = 100.00 * (float)ret.HoldWinCntDic[key] / (float)ret.ChanceList.Count;
-                    double dr = (float)ret.HoldCntDic[key] / ((float)ret.LoopCnt / 180);
+                    double dr = (float)ret.HoldCntDic[key] / ((float)ret.LoopCnt / GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()].ExpectCodeCounterMax);
                     double cr = 100.00 * (float)ret.HoldWinCntDic[key] / (ret.ChanceList.Count - preCnt);
                     double mr = 100.00 * (float)ret.WinChipsDic[key] / (AllChips - preInChips);
                     li.SubItems.Add(string.Format("{0:F}/{1:F}", bs, rbs));
@@ -871,21 +871,27 @@ namespace BackTestSys
                     
                     this.toolStripStatusLabel1.Text = string.Format("第{2}次,{0}/{1}", es.CurrIndex.ToString(), es.ExpectCnt, btc.testIndex);
                     this.toolStripStatusLabel2.Text = string.Format("{0}% 最大值:[{1}%]   最小值:[{2}%] ", es.GainedRate.ToString(), es.MaxRate, es.MinRate);
+                    DataTable copyDt = es.MoneyIncreamLine.Copy();
+                    copyDt.Columns.Add("point", typeof(string));
+                    for(int i= 0;i<copyDt.Rows.Count;i++)
+                    {
+                        copyDt.Rows[i]["point"] = copyDt.Rows[i]["id"].ToString().Substring(0, 8);
 
-                    DataView moneyLines = new DataView(es.MoneyIncreamLine);
+                    }
+                    DataView moneyLines =new DataView(copyDt);
                     if (this.chart1.Series.Count == 0)
                     {
                         Series ss = new Series();
                         ss.ChartType = SeriesChartType.Line;
                         this.chart1.Series.Add(ss);
                     }
-                    this.chart1.Series[0].Points.DataBindXY(moneyLines, "id", moneyLines, "val");
+                    this.chart1.Series[0].Points.DataBindXY(moneyLines, "point", moneyLines, "val");
                     this.chart1.Series[0].Name = SCList[0].AssetUnitInfo.UnitName;
                 }
                 lock (es.ExchangeDetail)
                 {
                     DataView vExchangeDetail = new DataView(es.ExchangeDetail);
-                    vExchangeDetail.Sort = "Id desc";
+                    //vExchangeDetail.Sort = "id desc";
                     this.dataGridView_ExchangeDetail.DataSource = vExchangeDetail;
                     this.dataGridView_ExchangeDetail.Refresh();
                     if (SCList.Count > 0)
@@ -1063,6 +1069,22 @@ namespace BackTestSys
                 this.txt_begExpNo.Text = "2008-1-1";
                 this.txt_endExpNo.Text = "2018-12-31";
             }
+        }
+
+        private void BackTestFrm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            try
+            {
+                thrd.Abort();
+                thrd = null;
+                this.timer_Tip.Enabled = false;
+                this.timer_Tip = null;
+            }
+            catch(Exception ce)
+            {
+
+            }
+
         }
     }
 

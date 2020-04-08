@@ -215,6 +215,10 @@
       <Project>{38B7C927-F264-46A1-A550-388F440D79BE}</Project>
       <Name>WolfInv.com.BaseObjectsLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DataRecSvr\DataRecSvr.csproj">
+      <Project>{6a28259f-0369-4801-8b73-540bd4b7c7d5}</Project>
+      <Name>DataRecSvr</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ExchangeLib\WolfInv.com.ExchangeLib.csproj">
       <Project>{BE222046-7D38-4E42-BCB5-CE4CCC5AB4CD}</Project>
       <Name>WolfInv.com.ExchangeLib</Name>

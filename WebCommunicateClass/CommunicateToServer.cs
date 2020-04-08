@@ -29,7 +29,7 @@ namespace WolfInv.com.WebCommunicateClass
             return ret;
         }
 
-        public CommResult getRequestInsts(string requestUrl)
+        public CommResult getRequestInsts<T>(string requestUrl)
         {
             string json = null;
             CommResult ret = new CommResult();
@@ -47,10 +47,10 @@ namespace WolfInv.com.WebCommunicateClass
                 ret.Message = ce.Message;
                 return ret;
             }
-            RequestClass rc = null;
+            RecordObject rc = Activator.CreateInstance(typeof(T)) as RecordObject; 
             try
             {
-                rc = new RequestClass().getObjectByJsonString(json);
+                rc = (rc as iSerialJsonClass<T>).getObjectByJsonString(json) as RecordObject;
             }
             catch(Exception e)
             {
@@ -69,6 +69,8 @@ namespace WolfInv.com.WebCommunicateClass
             ret.Result.Add(rc);
             return ret;
         }
+
+        
 
         public CommResult getRequestAssetList(string requestUrl)
         {

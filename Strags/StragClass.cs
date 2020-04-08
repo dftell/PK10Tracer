@@ -41,12 +41,14 @@ namespace WolfInv.com.Strags
     [XmlInclude(typeof(Strag_KLXxY_ExData_Missed))]
     public abstract class StragClass : BaseStragClass<TimeSerialData>, iDbFile,IFindChance, ITraceChance, WolfInv.com.BaseObjectsLib.ISpecAmount
     {
+        
         public StragClass():base()
         {
             CommSetting = new SettingClass();
             //SetDefaultValueAttribute();
             StagSetting = new StagConfigSetting();
             StagSetting = this.getInitStagSetting();
+            
         }
         
 
@@ -241,27 +243,37 @@ namespace WolfInv.com.Strags
         public abstract long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts);
         public long getDefaultChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
-            int chips = cc.ChipCount-1;
-            int maxcnt = amts.MaxHoldCnts[chips];
-            int eShift = 0;
-            int bHold = cc.HoldTimeCnt;// HoldCnt - CurrChancesCnt + 1;
-            if (cc.IncrementType == InterestType.CompoundInterest)
+            try
             {
-                if (cc.AllowMaxHoldTimeCnt > 0 && cc.HoldTimeCnt > cc.AllowMaxHoldTimeCnt)
+                int chips = cc.ChipCount - 1;
+                int maxcnt = amts.MaxHoldCnts[chips];
+                int eShift = 0;
+                int bHold = cc.HoldTimeCnt;// HoldCnt - CurrChancesCnt + 1;
+                if (cc.IncrementType == InterestType.CompoundInterest)
                 {
-                    return 0;
+                    if (cc.AllowMaxHoldTimeCnt > 0 && cc.HoldTimeCnt > cc.AllowMaxHoldTimeCnt)
+                    {
+                        return 0;
+                    }
+                    return (long)Math.Floor(cc.FixRate.Value * RestCash / cc.ChipCount);
                 }
-                return (long)Math.Floor(cc.FixRate.Value * RestCash / cc.ChipCount);
+                //Log("获取机会金额处理", string.Format("当前持有次数：{0}", HoldCnt));
+                bool firstTimes = true;
+                if (bHold > maxcnt)
+                {
+                    firstTimes = false;
+                    Log("风险", "通用重复策略开始次数达到最大上限", string.Format("机会{0}持有次数达到{1}次总投入金额已为{2}", cc.ChanceCode, bHold, "未知"));
+                    eShift = (int)maxcnt * 2 / 3;
+                }
+
+                //int eRCnt = (bHold % (maxcnt + 1)) + eShift - 1;
+                int eRCnt = firstTimes?bHold-1:Math.Min(maxcnt-1, eShift + ((bHold - maxcnt) % (maxcnt-eShift)));
+                return amts.Serials[chips][eRCnt];
             }
-            //Log("获取机会金额处理", string.Format("当前持有次数：{0}", HoldCnt));
-            
-            if (bHold > maxcnt)
+            catch(Exception ce)
             {
-                Log("风险", "通用重复策略开始次数达到最大上限", string.Format("机会{0}持有次数达到{1}次总投入金额已为{2}", cc.ChanceCode, bHold, "未知"));
-                eShift = (int)maxcnt * 2 / 3;
+                return 1;
             }
-            int eRCnt = (bHold % (maxcnt + 1)) + eShift - 1;
-            return amts.Serials[chips][eRCnt];
 
         }
 

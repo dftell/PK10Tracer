@@ -34,7 +34,7 @@ namespace Test_Win
         [STAThread]
         static void Main1()
         {
-            splitFile("share", "function(", '}');
+            //splitFile("share", "function(", '}');
             //return;
             LogableClass.ToLog("初始化服务器全局设置", "开始");
             InitSystem<TimeSerialData>();
@@ -47,6 +47,7 @@ namespace Test_Win
             ////gb.w = new WindAPI();
             ////gb.w.start();
             ReceiveService<TimeSerialData> rc = new ReceiveService<TimeSerialData>();
+            rc.setGlobalClass(AllServiceConfig.gc);
             rc.CalcProcess = new CalcService<TimeSerialData>();
             rc.Start();
             Form2 frm = new Form2(gb);
@@ -153,7 +154,15 @@ namespace Test_Win
         [STAThread]
         static void Main()
         {
-
+            ////MissDataSerial mcc = new MissDataSerial(300);
+            ////mcc.OpList = new[] { 0, 2, 3, 1, 200, 90, 1, 1, 1, 1, 0 }.ToList();
+            ////for(int i=1;i<10;i++)
+            ////{
+            ////    mcc = mcc.getAdd(i%10==0?1:0);
+            ////}
+            //return;
+            Main1();
+            return;
             Application.Run(new frm_ImageTextRead());
             return;
             //////////测试读取数据

@@ -60,8 +60,21 @@ namespace PK10Server
                 }
                 runstg.ReviewExpectCnt = int.Parse(this.txt_reviewcnt.Text);
                 DataTypePoint dtp = GlobalClass.TypeDataPoints.First().Value;
+                AmoutSerials amt = new AmoutSerials();
+                ChanceClass<TimeSerialData> cc = new ChanceClass<TimeSerialData>();
+                cc.ChanceCode = "A3/1,2,3";
+                runstg.allowInvestmentMaxValue = spr.MaxLostAmount;
+                runstg.setDataTypePoint(dtp);
                 DataReader er = DataReaderBuild.CreateReader(dtp.DataType, null, null);
-                ExpectList<TimeSerialData> ViewDataList = er.ReadNewestData<TimeSerialData>(DateTime.Now.AddDays(-1 * dtp.CheckNewestDataDays));
+                ExpectList<TimeSerialData> ViewDataList = er.ReadNewestData<TimeSerialData>(DateTime.Now.AddDays(-30 * dtp.CheckNewestDataDays));
+                string strexpect = ViewDataList.LastData.Expect;
+                this.txt_lastExpect.Text = strexpect;
+                this.lastExpect = strexpect;
+                ExpectListProcessBuilder<TimeSerialData> elp = new ExpectListProcessBuilder<TimeSerialData>(dtp, ViewDataList);
+                BaseCollection<TimeSerialData> sc = elp.getProcess().getSerialData(ViewDataList.Count, true);
+                List<ChanceClass<TimeSerialData>> cs = runstg.getChances(sc, ViewDataList.LastData);
+                long val = (runstg as StragClass).getChipAmount(runstg.allowInvestmentMaxValue, cc, amt);
+                
                 if (ViewDataList == null || ViewDataList.Count == 0)
                 {
                     this.toolStripStatusLabel1.Text = "未读取到数据！";
@@ -72,18 +85,17 @@ namespace PK10Server
                     this.toolStripStatusLabel1.Text = "无数据";
                     return;
                 }
-                string strexpect = ViewDataList.LastData.Expect;
+                
                 if (this.lastExpect == strexpect)
                 {
                     this.toolStripStatusLabel1.Text = "无最新数据数据";
                     return;
                 }
-                this.txt_lastExpect.Text = strexpect;
-                this.lastExpect = strexpect;
-                ExpectListProcessBuilder<TimeSerialData> elp = new ExpectListProcessBuilder<TimeSerialData>(dtp, ViewDataList);
-                BaseCollection<TimeSerialData> sc = elp.getProcess().getSerialData(180, true);
-                runstg.setDataTypePoint(dtp);
-                List<ChanceClass<TimeSerialData>> cs =  runstg.getChances(sc, ViewDataList.LastData);
+                
+                
+                
+                
+                
                 this.Txt_Chances.Text = string.Join("\r\n", cs.Select(a => a.ChanceCode)) ;
                 Program.AllGlobalSetting.wxlog.Log(string.Format("彩种{0}第{1}指令:\r\n{2}",dtp.DataType,this.lastExpect,this.Txt_Chances.Text));
             }

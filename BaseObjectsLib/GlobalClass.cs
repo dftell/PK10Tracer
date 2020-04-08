@@ -115,7 +115,7 @@ namespace WolfInv.com.BaseObjectsLib
 
                     if (!sSysParams.ContainsKey("DataType"))
                     {
-                        ToLog("初始化品种清单","获取品种分类定义错误");
+                        //ToLog("初始化品种清单","获取品种分类定义错误");
                         return null;
                     }
                     _dataType = sSysParams["DataType"];
@@ -136,7 +136,6 @@ namespace WolfInv.com.BaseObjectsLib
 
                     if (!sSysParams.ContainsKey("WebSites"))
                     {
-                        ToLog("初始化品种清单", "获取品种分类定义错误");
                         return null;
                     }
                     _webSites = sSysParams["WebSites"];
@@ -286,6 +285,21 @@ namespace WolfInv.com.BaseObjectsLib
             }
         }
 
+        public string SendMsgFromWebRequest
+        {
+            get
+            {
+                if (SysParams.ContainsKey("System"))
+                {
+                    if (SysParams["System"].ContainsKey("SendMsgFromWebRequest"))
+                    {
+                        return SysParams["System"]["SendMsgFromWebRequest"];
+                    }
+                }
+                return "0";
+            }
+        }
+
         public int ChipUnit
         {
             get
@@ -324,11 +338,15 @@ namespace WolfInv.com.BaseObjectsLib
             string ret = null;
             try
             {
-                ret = File.OpenText(filepath).ReadToEnd();
+                ret = File.ReadAllText(filepath);
             }
             catch(Exception e)
             {
                 return ret;
+            }
+            finally
+            {
+                
             }
             return ret;
         }
@@ -396,16 +414,25 @@ namespace WolfInv.com.BaseObjectsLib
                 b_AllowExchange = value;
             }
         }
-
+        string _ForWeb;
         public string ForWeb
         {
             get
             {
-                if (SysParams.Count > 0)
+                if (_ForWeb == null)
                 {
-                    return SysParams["System"]["ForWeb"] ;
-                }
-                return null;
+                    if (SysParams.Count > 0 && SysParams["System"].ContainsKey("ForWeb"))
+                    {
+                        _ForWeb = SysParams["System"]["ForWeb"];
+                    }
+                    return _ForWeb;
+                } 
+                return _ForWeb;
+            }
+            set
+            {
+                _ForWeb = value;
+                SysParams["System"]["ForWeb"] = value;
             }
             
         }
@@ -434,7 +461,7 @@ namespace WolfInv.com.BaseObjectsLib
         {
             get
             {
-                if(SysParams.Count > 0)
+                if(SysParams.Count > 0 && SysParams["System"].ContainsKey("AllowHedge"))
                     return SysParams["System"]["AllowHedge"]=="1"?true:false;
                 return false;
             }
@@ -473,7 +500,7 @@ namespace WolfInv.com.BaseObjectsLib
             {
                 if (_ClentUserName == null)
                 {
-                    if (SysParams.Count > 0)
+                    if (SysParams.Count > 0 && SysParams["System"].ContainsKey("ClientUsername"))
                         _ClentUserName = SysParams["System"]["ClientUsername"];
                     return "";
                 }
@@ -760,11 +787,15 @@ namespace WolfInv.com.BaseObjectsLib
         }}
         
 
-        public int StartCols{get{
+        public int StartCols{
+            get
+            {
             if(SysParams.Count > 0)
                 return int.Parse(SysParams["System"]["StartCol"]);
             return 0;
-        }}
+
+            }
+        }
         double _Odds = double.NaN;
         public double Odds
         {
@@ -968,28 +999,42 @@ namespace WolfInv.com.BaseObjectsLib
             return 0;
         }
 
-        #region 客户端资产单元投资配置
-        public Dictionary<string,int> AssetUnits
+        #region 客户端资产单元投资配置\
+        Dictionary<string, AssetInfoConfig> _AssetUnits;
+        public Dictionary<string,AssetInfoConfig> AssetUnits
         {
             get
             {
-                Dictionary<string, int> ret = new Dictionary<string, int>();
-                if (SysParams.Count > 0 && SysParams.ContainsKey("AssetUnits"))
+                if (_AssetUnits == null)
                 {
-                    Dictionary<string, string> assetunits = SysParams["AssetUnits"];
-                    return assetunits.ToDictionary(p => p.Key, p => int.Parse(p.Value));
+                    _AssetUnits = new Dictionary<string, AssetInfoConfig>();
+                    if (SysParams.Count > 0 && SysParams.ContainsKey("AssetUnits"))
+                    {
+                        Dictionary<string, string> assetunits = SysParams["AssetUnits"];
+                        foreach (string key in assetunits.Keys)
+                        {
+                            //AssetInfoConfig aic = aic = DetailStringClass.GetObjectByXml<AssetInfoConfig>(assetunits[key]);
+                            _AssetUnits.Add(key, new AssetInfoConfig(GlobalClass.readXmlItems(assetunits[key])));
+                        }
+                        //return assetunits; assetunits.ToDictionary(p => p.Key, p => int.Parse(p.Value));
+                    }
                 }
-                return ret;
+                return _AssetUnits;
             }
             set
             {
                 if (value == null)
                     return;
+                _AssetUnits = value;
                 if(SysParams == null)
                 {
                     return;//SysParams = new Dictionary<string, Dictionary<string, string>>();
                 }
-                SysParams["AssetUnits"] = value.ToDictionary(p => p.Key, p => p.Value.ToString());
+                SysParams["AssetUnits"] = new Dictionary<string, string>();
+                value.Keys.ToList().ForEach(
+                    a=> {
+                        SysParams["AssetUnits"].Add(a, GlobalClass.writeXmlItems(value[a].getStringDic(),a,value[a].value));
+                    });
 
             }
         }
@@ -1097,6 +1142,84 @@ namespace WolfInv.com.BaseObjectsLib
             }
             return true;
         }
+        public static Dictionary<string,string> readXmlItems(string strNode)
+        {
+            Dictionary<string, string> ret = new Dictionary<string, string>();
+            try
+            {
+                XmlDocument xmldoc = new XmlDocument();
+                xmldoc.LoadXml(strNode);
+                ret = readXmlItems(xmldoc.SelectSingleNode("item"));
+            }
+            catch
+            {
+                ret.Add(strNode, strNode);
+            }
+            return ret;
+        }
+        public static Dictionary<string,string> readXmlItems(XmlNode node)
+        {
+            Dictionary<string, string> ret = new Dictionary<string, string>();
+            XmlNodeList nodes = node.SelectNodes("./item");
+            foreach(XmlNode snode in nodes)
+            {
+                if(snode.SelectNodes("./item").Count==0)
+                {
+                    ret.Add(snode.Attributes["key"].Value, snode.Attributes["value"].Value);
+                }
+                else
+                {
+                    ret.Add(snode.Attributes["key"].Value, snode.OuterXml);
+                }
+            }
+            return ret;
+        }
+
+        public static string writeXmlItems(Dictionary<string,string>  val,string keyName,object keyValue=null)
+        {
+            string ret = string.Format("<item key=\"{0}\" value=\"{1}\"/>",keyName,keyValue);
+            XmlDocument xmldoc = new XmlDocument();
+            xmldoc.LoadXml(ret);
+            
+            try
+            {
+                XmlNode root = xmldoc.SelectSingleNode("item");
+                foreach(string key in val.Keys)
+                {
+                    
+                    if (val[key].StartsWith("<item") && val[key].EndsWith("</item>"))
+                    {
+                        try
+                        {
+                            XmlDocument sdoc = new XmlDocument();
+                            sdoc.LoadXml(val[key]);
+                            root.AppendChild(xmldoc.ImportNode(sdoc.SelectSingleNode("item"),true));
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+                    else
+                    {
+                        XmlNode newnode = xmldoc.CreateElement("item");
+                        XmlAttribute att = xmldoc.CreateAttribute("key");
+                        att.Value = key;
+                        newnode.Attributes.Append(att);
+                        att = xmldoc.CreateAttribute("value");
+                        att.Value = val[key];
+                        newnode.Attributes.Append(att);
+                        root.AppendChild(newnode);
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+            return xmldoc.OuterXml;
+        }
+
 
         public static void SetConfig(string websit = "")
         {
@@ -1418,6 +1541,63 @@ namespace WolfInv.com.BaseObjectsLib
                 sum += serial[i - 1] * chips;
             }
             return sum;
+        }
+    }
+
+    public class AssetInfoConfig:DetailStringClass
+    {
+        public int value = 0; //当前金额
+        public int NeedSelectTimes = 0;//需要择时
+        //public int MaxTracingTimes = 0;//最大追踪次数
+        public double maxStopGainedValue = 50000;//止盈金额
+        public AssetInfoConfig()
+        {
+
+        }
+
+        public AssetInfoConfig(int val)
+        {
+            value = val;
+        }
+
+        public AssetInfoConfig(string val)
+        {
+            int.TryParse(val, out value);
+        }
+        public AssetInfoConfig(Dictionary<string,string> vals)
+        {
+            loadFromStringDic(vals);
+        }
+        void loadFromStringDic(Dictionary<string,string> vals)
+        {
+            if(vals.ContainsKey("value"))
+            {
+                int.TryParse(vals["value"], out value);
+            }
+            else
+            {
+                if(vals.Count == 1)
+                {
+                    int.TryParse(vals.Keys.First(), out value);
+                }
+            }
+            if (vals.ContainsKey("NeedSelectTimes"))
+            {
+                int.TryParse(vals["NeedSelectTimes"], out NeedSelectTimes);
+            }
+            if (vals.ContainsKey("maxStopGainedValue"))
+            {
+                double.TryParse(vals["maxStopGainedValue"], out maxStopGainedValue);
+            }
+        }
+
+        public Dictionary<string,string> getStringDic()
+        {
+            Dictionary<string, string> ret = new Dictionary<string, string>();
+            ret.Add("value",value.ToString());
+            ret.Add("NeedSelectTimes", NeedSelectTimes.ToString());
+            ret.Add("maxStopGainedValue", maxStopGainedValue.ToString());
+            return ret;
         }
     }
 }

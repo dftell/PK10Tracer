@@ -148,6 +148,11 @@ namespace WolfInv.com.Strags
                     int Time1, Time2,SameNoCnt;
                     Time1 = MatchTimes[_key];
                     Time2 = MatchTimes[_key1];
+                    if(!BySer)//如果是按车视图
+                    {
+                        Time1-=2;
+                        Time2-=2;
+                    }
                     SameNoCnt = ChanceClass.getSameNoCnt(MatchChances[_key], MatchChances[_key1]);//获得相同号码的数量
                     //判断两个是不是本车/本排名中最大长度的机会
                     int AddSameNocnt = -2;//只有两个都是最长才不减，否则每个减1

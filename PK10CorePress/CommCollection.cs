@@ -498,10 +498,22 @@ namespace WolfInv.com.PK10CorePress
             }
             return ret;
         }
-    
-    
-        
-    
+
+        public override DataTable getTableFromSpecCondition(DataTypePoint dtp, string currExpect, int Period, string strPos, string strTaget, params object[] others)
+        {
+            DataTable ret = new DataTable();
+            return null;
+        }
+
+        public override bool isMatch(string code, string currCode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override AmoutSerials getOptSerials(DataTypePoint dtp, string type, int len, double odds, long MaxValue, int FirstAmt, bool NeedAddFirst)
+        {
+            return GlobalClass.getOptSerials(odds, MaxValue, FirstAmt);
+        }
     }
 
 }

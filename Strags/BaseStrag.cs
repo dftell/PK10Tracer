@@ -361,7 +361,9 @@ namespace WolfInv.com.Strags
         }
 
 
+        public object RunningPlan;
 
+        public long allowInvestmentMaxValue;
 
         public abstract Type getTheChanceType();
     }

@@ -160,7 +160,6 @@ namespace WolfInv.com.Strags.KLXxY
                                 if (mi.SubItems[MatchCnt].Contains(si))
                                 {
                                     mcnt++;
-
                                 }
                             }
                             mi.SubItemMatchCnt[MatchCnt] += mcnt;
@@ -225,7 +224,16 @@ namespace WolfInv.com.Strags.KLXxY
 
         public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
-            return 1;
+            ExpectList data = LastUseData();
+            if(data == null)
+            {
+                return 0;
+            }
+            if(data.LastData.Expect == cc.ExpectCode)
+            {
+                return 1;
+            }
+            return 0;
         }
 
         public override StagConfigSetting getInitStagSetting()

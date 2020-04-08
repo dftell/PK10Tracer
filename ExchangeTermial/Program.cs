@@ -88,6 +88,7 @@ namespace ExchangeTermial
             }
             finally
             {
+                GlobalClass.SetConfig(gc.ForWeb);
                 if(frm != null)
                    GC.SuppressFinalize(frm);
             }

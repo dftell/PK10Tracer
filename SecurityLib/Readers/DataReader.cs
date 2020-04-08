@@ -59,11 +59,11 @@ namespace WolfInv.com.SecurityLib
         public abstract int DeleteExpectData(string expectid);
 
         public abstract void ExecProduce(string Procs);
-        public  string getNextExpectNo(string expect)
+        public static  string getNextExpectNo(string expect,DataTypePoint dtp)
         {
-            int DateLong = GlobalClass.TypeDataPoints[this.strDataType].ExpectCodeDateLong;
-            int CounterMax = GlobalClass.TypeDataPoints[this.strDataType].ExpectCodeCounterMax;
-            string dateFmt = GlobalClass.TypeDataPoints[this.strDataType].ExpectCodeDateFormate;
+            int DateLong = dtp.ExpectCodeDateLong;
+            int CounterMax = dtp.ExpectCodeCounterMax;
+            string dateFmt = dtp.ExpectCodeDateFormate;
             //if(DateLong==0)
             //    return string.Format("{0}", long.Parse(expect) + 1);
             string strDate = expect.Substring(0, DateLong);
@@ -91,6 +91,32 @@ namespace WolfInv.com.SecurityLib
             }
         }
 
+        public static long getInterExpectCnt(string expectFrom,string expectTo,DataTypePoint dtp)
+        {
+            long lFrom = long.Parse(expectFrom);
+            long lTo = long.Parse(expectTo);
+            if (lTo <= lFrom)
+                return 1;
+            if(lTo-lFrom<dtp.ExpectCodeCounterMax)
+            {
+                return Math.Max(1,lTo - lFrom);
+            }
+            string currExpect = expectFrom;
+            long ret = 1;
+            while(true)
+            {
+                currExpect = getNextExpectNo(currExpect, dtp);
+                if(currExpect.Trim() == expectTo.Trim())
+                {
+                    return ret;
+                }
+                ret++;
+                if (ret> 1000)
+                {
+                    return 1;
+                }
+            }
+        }
         public abstract void updateExpectInfo(string dataType, string nextExpect, string currExpect);
     }
 

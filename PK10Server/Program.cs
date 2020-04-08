@@ -6,7 +6,7 @@ using WolfInv.com.LogLib;
 using WolfInv.com.ServerInitLib;
 using WolfInv.com.WinInterComminuteLib;
 using System.Linq;
-
+using DataRecSvr;
 namespace PK10Server
 {
     //////static class Program
@@ -83,7 +83,6 @@ namespace PK10Server
                 //LogableClass.ToLog("测试", "看看");
                 InitSystem();
                 AllGlobalSetting.wxlog.Log("初始化系统", "各种配置读取完毕并有效初始化！", string.Format(gc.WXLogUrl, gc.WXSVRHost));
-                
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
@@ -94,7 +93,7 @@ namespace PK10Server
                 //处理非UI线程异常
                 AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
                 wxlog = new WXLogClass("客户端", gc.WXLogNoticeUser, string.Format(gc.WXLogUrl, gc.WXSVRHost));//指定默认登录用户，为捕捉第一次产生错误用。
-
+                
                 if (GlobalClass.TypeDataPoints.First().Value.onlyDebug==9)//永远不执行，到内部去执行测试界面
                 {
                     testWindow frm1 = new testWindow();
@@ -120,11 +119,12 @@ namespace PK10Server
 
         private static void Tm_heart_Tick(object sender, EventArgs e)
         {
+            int bigCycle = (int)((GlobalClass.TypeDataPoints.Values.First() == null) ? 5 * 1000 : GlobalClass.TypeDataPoints.First().Value.ReceiveSeconds * 1000);
             try
             {
                 if (UseSetting != null)
                 {
-
+                    tm_heart.Interval = 100;
                     bool haveRec = UseSetting.haveReceiveData;
                     if (haveRec)
                     {
@@ -133,7 +133,13 @@ namespace PK10Server
                 }
                 else
                 {
-                    tm_heart.Enabled = false;
+                    if (tm_heart.Interval < bigCycle)//只有当间隔小于大周期时才提醒，默认让它继续工作，一直到连接到为再自动改为小周期。
+                    {
+                        tm_heart.Enabled = false;
+                        MessageBox.Show(string.Format("服务已经终止！将变更刷新时间为{0}秒！",bigCycle/1000));
+                        tm_heart.Interval = bigCycle;
+                        tm_heart.Enabled = true;
+                    }
                 }
             }
             catch(Exception ce)

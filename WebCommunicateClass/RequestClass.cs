@@ -4,7 +4,7 @@ using System.Web.Script.Serialization;
 using WolfInv.com.PK10CorePress;
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.RemoteObjectsLib;
-
+using WolfInv.com.SecurityLib;
 namespace WolfInv.com.WebCommunicateClass
 {
     /// <summary>
@@ -12,6 +12,7 @@ namespace WolfInv.com.WebCommunicateClass
     /// </summary>
     public class RequestClass : RecordObject, IList<ChanceClass>, iSerialJsonClass<RequestClass>
     {
+        public Action<string,int, SelectTimeInstClass> SelectTimeChanged;
         public string Expect;
         public string LastTime;
         FullInsts objFullInsts;
@@ -134,7 +135,13 @@ namespace WolfInv.com.WebCommunicateClass
             return ret;
         }
 
-        public string getUserInsts(GlobalClass setting)
+        public SelectTimeInstClass getSelectTimeAmt(DataTypePoint dtp,string expectNo,int currCnt,Func<string,string,int,SelectTimeInstClass> getRemoteCnt)
+        {
+            SelectTimeInstClass ret = getRemoteCnt(dtp.DataType, expectNo, currCnt);
+            return ret;
+        }
+        Dictionary<string, int> SelectTimeDic;
+        public string getUserInsts(GlobalClass setting,DataTypePoint dtp,string NewExpectNo,string forweb, Func<string, string, int, SelectTimeInstClass> getRemoteCnt)
         {
             string ret = "";
             List<string> allTxt = new List<string>();
@@ -144,10 +151,7 @@ namespace WolfInv.com.WebCommunicateClass
                 ChanceClass cc = this[i];
                 string strAssetId = cc.AssetId;
                 int AssetCnt = 0;
-                if(setting.AssetUnits.ContainsKey(strAssetId))
-                {
-                    AssetCnt = setting.AssetUnits[strAssetId];
-                }
+                
                 string strccNewInst = "";
                 if (cc.ChanceCode.Trim().Length == 0)
                 {
@@ -155,6 +159,41 @@ namespace WolfInv.com.WebCommunicateClass
                 }
                 if (cc.UnitCost == 0)
                     continue;
+                string strCurrExpect = cc.ExpectCode;
+                int calcHoldTimes = (int)DataReader.getInterExpectCnt(strCurrExpect, NewExpectNo,dtp);
+                if(cc.HoldTimeCnt+1<calcHoldTimes)
+                {
+                    continue;
+                }
+                if (setting.AssetUnits.ContainsKey(strAssetId))
+                {
+                    AssetInfoConfig aic = setting.AssetUnits[strAssetId];
+                    if (aic == null)
+                        continue;
+                    AssetCnt = aic.value;
+                    if (aic.NeedSelectTimes == 1)
+                    {
+                        int newVal = 0;
+                        if (SelectTimeDic == null)
+                            SelectTimeDic = new Dictionary<string, int>();
+                        if (SelectTimeDic.ContainsKey(cc.GUID))
+                        {
+                            newVal = SelectTimeDic[cc.GUID];
+                        }
+                        else
+                        {
+                            SelectTimeInstClass obj = getSelectTimeAmt(dtp, cc.ExpectCode, AssetCnt, getRemoteCnt);
+                            if (obj == null)
+                                continue;
+                            newVal = obj.RetCnt;
+                            SelectTimeChanged?.Invoke(strAssetId,AssetCnt, obj);
+                            AssetCnt = obj.RetCnt;
+                            setting.AssetUnits[strAssetId].value = newVal;
+                            SelectTimeDic.Add(cc.GUID, newVal);
+                        }
+                        AssetCnt = newVal;
+                    }
+                }
                 //修改为自动计算出来的结果
                 //Int64 Amt = cc.UnitCost*setting.SerTotal(cc.ChipCount);
                 int chips = cc.ChipCount - 1;
@@ -196,8 +235,40 @@ namespace WolfInv.com.WebCommunicateClass
                 }
                 allTxt.Add(strccNewInst);
             }
+            GlobalClass.SetConfig(forweb);
             return string.Join(" ", allTxt.ToArray()).Trim();
 
         }
+    
+    }
+
+    public class SelectTimeInstClass: RecordObject,iSerialJsonClass<SelectTimeInstClass>
+    {
+        public string Expect;
+        public string DataType;
+        public int RequestCnt;
+        public int RetCnt;
+        public string Error;
+        public List<MatchGroupClass> List;
+        public SelectTimeInstClass()
+        {
+
+        }
+
+        public SelectTimeInstClass getObjectByJsonString(string str)
+        {
+            SelectTimeInstClass ret = null;
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            ret = js.Deserialize<SelectTimeInstClass>(str);
+            return ret;
+        }
+    }
+
+    public class MatchGroupClass
+    {
+        public int SerNo;
+        public string ExpectCode;//":"20200405041","
+        public int times;//":10,"
+        public int chipCount;//":19
     }
 }

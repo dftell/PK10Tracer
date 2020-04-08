@@ -53,26 +53,34 @@ namespace WolfInv.com.WebRuleLib
                 LotteryBetRuleClass currRule = items.First().Value;//获取到类型
                 string strNums = ccArr[1];//
                 String ccOrgCars = ccArr[1].Trim();
-                ccCars = toStdCarFmt(ccOrgCars).Trim();//车号组合标准格式
+                ccCars = ToStdFmt(ccOrgCars,ccNos.ToUpper().StartsWith("P")).Trim();//车号组合标准格式
                 ccUnitCost = Int64.Parse(ccArr[2]);
                 if (ccUnitCost == 0)
                     continue;
-                string[] numArr = strNums.Split(',');
-                for(int c=0;c<numArr.Length;c++)
-                {
-                    numArr[c] = numArr[c].PadLeft(2, '0');
-                }
+                
                 
 
                 InstClass ic = new InstClass();
                 ic.ruleId = currRule.BetRule;//配置文件里面指定的规则号
-                ic.betNum = getNums(ccNos,rules,numArr.Length).ToString();//所有指令数量都为1？好像也不是的，而是组合数
+                ic.betNum = getNums(ccNos,rules, ccCars).ToString();//所有指令数量都为1？好像也不是的，而是组合数
                 ic.itemTimes = String.Format("{0:N2}", unitVal * ccUnitCost);
-                ic.selNums = string.Join(" ",numArr); //Array2String(strNums.Split(',')).Replace(", ", ",");
-                double odds = getRealOdds(ccNos, rules, setting.Odds);
-                Decimal Iodds = Convert.ToDecimal(odds);//使用银行家舍入
-                odds = (double)Decimal.Round(Iodds, 2)/2;
-                Iodds = Decimal.Round((Decimal)odds, 2);
+                ic.selNums = ccCars; //Array2String(strNums.Split(',')).Replace(", ", ",");
+                string strOdds = null;
+                if(currRule.OddsDic.ContainsKey(setting.Odds.ToString()))
+                {
+                    strOdds = currRule.OddsDic[setting.Odds.ToString()];
+                }
+                double odds = 0.0;
+                bool needCalcOdds = true;
+                if (!string.IsNullOrEmpty(strOdds))
+                {
+                    if(double.TryParse(strOdds,out odds))
+                    {
+                        needCalcOdds = false;
+                    }
+                }
+                if(needCalcOdds)//当没有取到赔率，或者赔率非法，才去计算
+                    odds = getRealOdds(ccNos, rules, setting.Odds);
                 ic.jsOdds = string.Format("{0:N2}",Math.Round(odds,2));//string.Format("{0:N2}",getRealOdds(setting.Odds, rules.elementCount, rules.baseTimes, rules.calcTimes, currRule.oddsTimes));//  String.Format("{0:N2}", setting.Odds);
                 ic.priceMode = unit;
                 InsArr.Add(ic);
@@ -88,6 +96,27 @@ namespace WolfInv.com.WebRuleLib
             }
         }
 
+        string ToStdFmt(string str,bool isP)
+        {
+            string[] arr = str.Trim().Split(',');
+            for(int i=0;i<arr.Length;i++)
+            {
+                if(isP)
+                {
+                    string[] pArr = arr[i].Split('-');
+                    for(int p=0;p<pArr.Length;p++)
+                    {
+                        pArr[p] = pArr[p].Trim().PadLeft(2, '0');
+                    }
+                    arr[i] = string.Join(" ", pArr);
+                }
+                else
+                {
+                    arr[i] = arr[i].Trim().PadLeft(2, '0');
+                }
+            }
+            return string.Join(isP ? "," : " ", arr);
+        }
 
         double getRealOdds(string ccNos,LotteryTypes lts, double orgOdds)
         {
@@ -126,7 +155,7 @@ namespace WolfInv.com.WebRuleLib
             return (double)Decimal.Round((Decimal)( orgOdds * ret*2/10),2); ;
         }
 
-        int getNums(string ccNos, LotteryTypes lts, int n)
+        int getNums(string ccNos, LotteryTypes lts, string nums)
         {
             string pType = ccNos.Substring(0, 1);//A,C,P
             string pVal = ccNos.Substring(1, 1);//1~8
@@ -136,19 +165,27 @@ namespace WolfInv.com.WebRuleLib
             {
                 case "C":
                     {
+                        int n = nums.Split(' ').Length;
                         Decimal c = ProbMath.GetCombination(n,nVal);
                         ret = (int)c;
                         break;
                     }
                 case "P":
                     {
-                        Decimal c = ProbMath.GetFactorial(n, nVal);//11任意5个的组合为C(11,5)
-                        ret = (int)c;
+                        //Decimal c = ProbMath.GetFactorial(n, nVal);//11任意5个的组合为C(11,5)
+                        string[] arr = nums.Split(',');
+                        int n = 1;
+                        for (int i=0;i<arr.Length;i++)
+                        {
+                            n = n * arr[i].Split(' ').Length;
+                        }
+                        ret = n;//重复的暂时不考虑，正常应该要考虑到 1-2-3，3-2-1，1-3-2这种情况
                         break;
                     }
                 case "A":
                 default:
                     {
+                        int n = nums.Split(' ').Length;
                         Decimal c = ProbMath.GetCombination(n, nVal);//11任意5个的组合为C(11,5)
                         ret = (int)c;
                         break;

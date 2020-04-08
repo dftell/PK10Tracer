@@ -6,12 +6,93 @@ using System.Net.Http;
 using System.Reflection;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Net;
+using System.Text;
+using System.IO;
+
 namespace WolfInv.com.SecurityLib
 {
+    public class WebAccessor
+    {
+        public static string GetData(string url)
+        {
+            return GetData(url, Encoding.UTF8);
+        }
+        public static string GetData(string url, Encoding Encode)
+        {
+            string ret = "";
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
+            req.Method = "Get";
+            try
+            {
+                using (WebResponse wr = req.GetResponse())
+                {
+                    wr.GetResponseStream();
+                    ret = new StreamReader(wr.GetResponseStream(), Encode).ReadToEnd();
+                    wr.Close();
+                }
+            }
+            catch (Exception ce)
+            {
+                return null;
+
+                //throw ce;
+            }
+            return ret;
+        }
+
+        public static string PostData(string url, string Data, Encoding Encode)
+        {
+            string ret = "";
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
+            req.Method = "Post";
+            try
+            {
+                byte[] byteArray = Encoding.UTF8.GetBytes(Data);
+                Stream newStream = req.GetRequestStream();//创建一个Stream,赋值是写入HttpWebRequest对象提供的一个stream里面
+                newStream.Write(byteArray, 0, byteArray.Length);
+                newStream.Close();
+                using (WebResponse wr = req.GetResponse())
+                {
+                    wr.GetResponseStream();
+                    ret = new StreamReader(wr.GetResponseStream(), Encode).ReadToEnd();
+                    wr.Close();
+                }
+            }
+            catch (Exception ce)
+            {
+                return ce.Message;
+
+                //throw ce;
+            }
+            return ret;
+        }
+
+        public static Stream GetStream(string url)
+        {
+            Stream ret = null;
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
+            req.Method = "Get";
+            try
+            {
+                using (WebResponse wr = req.GetResponse())
+                {
+                    ret = wr.GetResponseStream();
+                    wr.Close();
+                }
+            }
+            catch (Exception ce)
+            {
+                return null;
+
+                //throw ce;
+            }
+            return ret;
+        }
+    }
     public class Web52CP_MissData_ProcessClass : iConvertToDataSet, iGenerateUrl
     {
-        HttpClient req;
-        HttpClientHandler handler;
+
         public DataTable ConvertToData(string strHtml, DataTypePoint dtp,DataTable oldTable = null)
         {
             Type t = Type.GetType(dtp.ExDataConfig.convertClass);
@@ -86,35 +167,13 @@ namespace WolfInv.com.SecurityLib
                 object[] args = objs.Skip(1).ToArray();
                 url = string.Format(dtp.ExDataConfig.InterfaceUrl+"{0}", string.Format(missUrlModel, args));
             }
-            string res = getHtml(url);
+            string res = WebAccessor.GetData(url);
             if (res == null)
                 return null;
             return ConvertToData(res,dtp,dt);            
         }
 
-        public string getHtml(string url)
-        {
-            if (handler == null)
-            {
-                handler = new HttpClientHandler();
-                handler.UseCookies = true;
-                handler.AllowAutoRedirect = true;
-            }
-            if (req == null)
-            {
-                req = new HttpClient(handler);
-            }
-            try
-            {
-                var res = req.GetAsync(url).Result;
-                return res.Content.ReadAsStringAsync().Result;
-            }
-            catch(Exception ce)
-            {
-                return null;
-            }
-            
-        }
+        
 
         public string getCurrExpect(string strHtml)
         {
@@ -123,7 +182,7 @@ namespace WolfInv.com.SecurityLib
 
         public bool hasNewsMissData(DataTypePoint dtp,string expectNo)
         {
-            string strHtml = getHtml(dtp.ExDataConfig.MissHtmlUrl);
+            string strHtml = WebAccessor.GetData(dtp.ExDataConfig.MissHtmlUrl);
             if (strHtml == null)
                 return false;
             string strReg = dtp.ExDataConfig.keyReg;
@@ -141,27 +200,6 @@ namespace WolfInv.com.SecurityLib
             }
             return false;
         }
-    }
-
-    [Serializable]
-    public class Web52CP_Lotty_Miss_DataItemClass : Web52CP_Lotty_DataClass
-    {
-        public string num;// "10,11",
-        public int times;// 3,
-        public Single m_times;//: 2.73,
-        public string miss3;// "-",
-        public string miss2;// 38,
-        public string miss1;// 124,
-        public string miss;// 102,
-        public string avg_miss;// 54,
-        public string max_miss;// 124,
-        public string cycle;//: 110,
-        public string arise3;//: 0,
-        public string arise2;//: 2,
-        public string arise1;//: 0,
-        public string arise;//: 1,
-        public Single investment;//: 0.93,
-        public Single supplement;//: 0.2
     }
     [Serializable]
     public class Web52CPMissDataClass : JsonableClass<Web52CPMissDataClass>

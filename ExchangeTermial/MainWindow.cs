@@ -128,7 +128,7 @@ namespace ExchangeTermial
         public MainWindow()
         {
             InitializeComponent();
-            ce = new ClientExchanger();
+            //ce = new ClientExchanger(webBrowser1,Program.gc);
             //ce.Load();
             
             
@@ -221,6 +221,7 @@ namespace ExchangeTermial
                 //this.geckoWebBrowser1.Dock = DockStyle.None;
                 this.webBrowser1.DocumentCompleted += DocumentCompleted_IE;
                 this.webBrowser1.Document.Window.Error += new HtmlElementErrorEventHandler(Window_Error);
+                this.webBrowser1.ScriptErrorsSuppressed = true;
                 //Gecko.CertOverrideService.GetService().ValidityOverride += geckoWebBrowser1_ValidityOverride;
                 try
                 {
@@ -900,13 +901,42 @@ ClearMyTracksByProcess 255
         GeckoDocument lotteryDocFireFox;
         GeckoDocument HomeDocFireFox;
 
-
+        CookieCollection getCookie(string strCookie)
+        {
+            CookieCollection cc = new CookieCollection();
+            try
+            {
+                if (string.IsNullOrEmpty(strCookie))
+                {
+                    return cc;
+                }
+                string[] arr = strCookie.Split(';');
+                for (int i = 0; i < arr.Length; i++)
+                {
+                    string strC = arr[i].Trim();
+                    string[] cArr = strC.Split('=');
+                    string name = cArr[0].Trim();
+                    string val = cArr[1].Trim();
+                    string dom = "";
+                    if (cArr.Length > 2)
+                        dom = cArr[2];
+                    System.Net.Cookie ck = new System.Net.Cookie(name, val,"/",Host.Replace("https://","").Replace("http://",""));
+                    cc.Add(ck);
+                }
+            }
+            catch (Exception ce)
+            {
+                this.toolStripStatusLabel3.Text = string.Format("{0}:{1}", ce.Message, ce.StackTrace);
+            }
+            return cc;
+        }
 
         private void DocumentCompleted_IE(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             
             try
             {
+                
                 //if (webBrowser1.ReadyState != WebBrowserReadyState.Complete)
                 //    return;
                 //if((sender as WebBrowser).Url.ToString() != loadUrl)
@@ -918,6 +948,9 @@ ClearMyTracksByProcess 255
                 //CurrVal = wr.GetCurrMoney(doc);
                 if (webBrowser1.ReadyState == WebBrowserReadyState.Complete)
                 {
+                    CookieCollection cc =getCookie(this.webBrowser1.Document.Cookie);
+                    if(Program.gc.SendMsgFromWebRequest == "1")
+                        this.ce.SetCookie(cc);
                     HomeDocIE = this.webBrowser1.Document;
                     this.toolStripStatusLabel1.Text = "已载入";
                     if (ReadySleep)
@@ -1417,7 +1450,7 @@ ClearMyTracksByProcess 255
                 }
                 
                 CommunicateToServer wc = new CommunicateToServer();
-                CommResult cr = wc.getRequestInsts(string.Format("{0}/{1}{2}",dtp.InstHost,"pk10/app/requestInsts.asp?Dtp=",dtp.DataType));
+                CommResult cr = wc.getRequestInsts<RequestClass>(string.Format("{0}/{1}{2}",dtp.InstHost,"pk10/app/requestInsts.asp?Dtp=",dtp.DataType));
                 if (!cr.Succ)
                 {
                     this.statusStrip1.Items[0].Text = cr.Message;
@@ -1429,6 +1462,8 @@ ClearMyTracksByProcess 255
                     Program.wxl.Log("无指令！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
                     return;
                 }
+                ///pk10/app/getwaveselecttimeamount.asp?type=xyft&expect=20200405120&cnt=1
+                string selectTimeAmtUrlModel = "pk10/app/getwaveselecttimeamount.asp?type={0}&expect={1}&cnt={2}";
                 RequestClass ic = cr.Result[0] as RequestClass;
                 if (ic == null)
                 {
@@ -1457,11 +1492,37 @@ ClearMyTracksByProcess 255
                     ////{
                     ////    this.timer_RequestInst.Interval = (5-CurrMin)*6000;//5分钟以后见
                     ////}
-                    tm.Interval = (int)dtp.ReceiveSeconds *1000/6 + rndtime ;//  2 * 60 * 1000 + rndtime;//5分钟以后见,减掉1秒不*断收敛时间，防止延迟接收
+                    //tm.Interval = (int)dtp.ReceiveSeconds *1000/6 + rndtime ;//  2 * 60 * 1000 + rndtime;//5分钟以后见,减掉1秒不*断收敛时间，防止延迟接收
                                                                               //ToAdd:填充各内容
                     this.txt_ExpectNo.Text = ic.Expect;
                     this.txt_OpenTime.Text = ic.LastTime;
-                    string txt = ic.getUserInsts(Program.gc);
+                    ic.SelectTimeChanged = (a, b,c) => {
+                        string strList = string.Format("最近5轮出现的组合信息为:{0}", string.Join(",", c.List.Select(curr =>string.Format("{0}次{1}个组合",curr.times, curr.chipCount)).Take(5).ToArray()));
+                        this.txt_NewInsts.Text = strList;
+                        string strDiff = "";
+                        if(b!= c.RequestCnt)
+                            strDiff = string.Format("资产单元{0}信号由{1}改为{2}!", AssetUnitList[a],b,c.RetCnt);
+                        Program.wxl.Log(string.Format("{0};{1}",strList,strDiff), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+
+                    };
+                    string txt = ic.getUserInsts(Program.gc,dtp,ic.Expect,Program.gc.ForWeb,
+                        (dp,ec,cnt)=>
+                        {
+                            CommunicateToServer cts = new CommunicateToServer();
+                            CommResult cs = wc.getRequestInsts<SelectTimeInstClass>(string.Format("{0}/{1}", dtp.InstHost, string.Format(selectTimeAmtUrlModel, dp, ec, cnt)));
+                            if (!cs.Succ)
+                            {
+                                this.statusStrip1.Items[0].Text = cr.Message;
+                                return null;
+                            }
+                            if(cs.Cnt != 1)
+                            {
+                                this.statusStrip1.Items[0].Text = "择时信息异常！";
+                                return null;
+                            }
+                            SelectTimeInstClass sti = cs.Result[0] as SelectTimeInstClass;
+                            return sti;
+                        });
                     string[] insts = txt.Trim().Replace("+", " ").Split(' ');
                     long AllSum = insts.Where(a => a.Trim().Length > 1).ToList().Select(a => long.Parse(a.Trim().Split('/')[2])).Sum();
                     this.NewExpects[dtpName] = CurrExpectNo;
@@ -1601,17 +1662,39 @@ ClearMyTracksByProcess 255
                 //        return;
                 //    }
                 //}
-                webBrowser1.Document.InvokeScript("SendMsg", new object[] { this.NewExpects[dtpName].ToString().Substring(GlobalClass.TypeDataPoints[dtpName].ClientExpectCodeSubIndex), msg, Program.gc.ClientAliasName, Program.gc.WXLogNoticeUser, this.txt_Insts.Text, lastval, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost), rule.config.lotteryTypes[dtpName].ruleId });
-                //if (sender == null)
-                //{
-                //    this.statusStrip1.Text = "自动下注成功！";
-                //}
-
-                if (!dicExistInsts[dtpName].ContainsKey(this.NewExpects[dtpName]))
+                if (1 == 1)
                 {
-                    dicExistInsts[dtpName].Add(this.NewExpects[dtpName], strText);
+                    bool succ = sendInsts(this.NewExpects.First().Value.ToString(),msg, dtpName, strText, lastval, null, Program.gc.SendMsgFromWebRequest == "1");
+                    if(!succ)
+                    {
+                        return;
+                    }
                 }
-                this.toolStripStatusLabel1.Text = "已发送";
+                else
+                {
+                    webBrowser1.Document.InvokeScript("SendMsg", new object[] {
+                    this.NewExpects[dtpName].ToString().Substring(GlobalClass.TypeDataPoints[dtpName].ClientExpectCodeSubIndex),
+                    msg,
+                    Program.gc.ClientAliasName,
+                    Program.gc.WXLogNoticeUser,
+                    this.txt_Insts.Text,
+                    lastval,
+                    string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost),
+                    rule.config.lotteryTypes[dtpName].ruleId
+                });
+
+
+                    //if (sender == null)
+                    //{
+                    //    this.statusStrip1.Text = "自动下注成功！";
+                    //}
+
+                    if (!dicExistInsts[dtpName].ContainsKey(this.NewExpects[dtpName]))
+                    {
+                        dicExistInsts[dtpName].Add(this.NewExpects[dtpName], strText);
+                    }
+                    this.toolStripStatusLabel1.Text = "已发送";
+                }
                 this.Cursor = Cursors.Default;
                 //Application.DoEvents();
                 //Thread.Sleep(5 * 1000);
@@ -1721,16 +1804,26 @@ ClearMyTracksByProcess 255
                 ////        return;
                 ////    }
                 ////}
-                try
+                if (1 == 1)
                 {
-                    string ruleid = "0";
-                    if (rule.config != null)
-                        ruleid = rule.config.lotteryTypes.ContainsKey(dtpName) ? rule.config.lotteryTypes[dtpName].ruleId : "0";
-                    if (isIE)
+                    bool succ = sendInsts(this.txt_ExpectNo.Text.Trim(),msg, dtpName, this.txt_Insts.Text, lastval, sender,Program.gc.SendMsgFromWebRequest=="1");
+                    if(!succ)
                     {
-                        (lotteryDocIE??HomeDocIE).InvokeScript("SendMsg",
-                            new object[]
-                            {
+                        return;
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        string ruleid = "0";
+                        if (rule.config != null)
+                            ruleid = rule.config.lotteryTypes.ContainsKey(dtpName) ? rule.config.lotteryTypes[dtpName].ruleId : "0";
+                        if (isIE)
+                        {
+                            (lotteryDocIE ?? HomeDocIE).InvokeScript("SendMsg",
+                                new object[]
+                                {
                     this.txt_ExpectNo.Text.Substring(GlobalClass.TypeDataPoints.First().Value.ClientExpectCodeSubIndex),
                     msg,
                     Program.gc.ClientAliasName,
@@ -1739,27 +1832,28 @@ ClearMyTracksByProcess 255
                     lastval,
                     string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost),
                     int.Parse(ruleid)
-                                });
+                                    });
+                        }
+                        else
+                        {
+                            AutoJSContext context = new AutoJSContext(geckoWebBrowser1.Window);
+                            string jstxt = string.Format("SendMsg('{0}','{1}','{2}','{3}','{4}','{5}','{6}',{7});",
+                                this.NewExpects.First().Value.ToString().Substring(GlobalClass.TypeDataPoints.First().Value.ClientExpectCodeSubIndex),
+                                msg,
+                                Program.gc.ClientAliasName,
+                                Program.gc.WXLogNoticeUser,
+                                this.txt_Insts.Text,
+                                lastval,
+                                string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost),
+                                int.Parse(ruleid));
+                            context.EvaluateScript(jstxt);
+                        }
                     }
-                    else
+                    catch (Exception ce)
                     {
-                        AutoJSContext context = new AutoJSContext(geckoWebBrowser1.Window);
-                        string jstxt = string.Format("SendMsg('{0}','{1}','{2}','{3}','{4}','{5}','{6}',{7});",
-                            this.NewExpects.First().Value.ToString().Substring(GlobalClass.TypeDataPoints.First().Value.ClientExpectCodeSubIndex),
-                            msg,
-                            Program.gc.ClientAliasName,
-                            Program.gc.WXLogNoticeUser,
-                            this.txt_Insts.Text,
-                            lastval,
-                            string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost),
-                            int.Parse(ruleid));
-                        context.EvaluateScript(jstxt);
+                        MessageBox.Show(string.Format("{0}:{1}", ce, ce.StackTrace));
+                        return;
                     }
-                }
-                catch (Exception ce)
-                {
-                    MessageBox.Show(string.Format("{0}:{1}", ce, ce.StackTrace));
-                    return;
                 }
                 if (sender == null)
                 {
@@ -1809,6 +1903,72 @@ ClearMyTracksByProcess 255
             //    MessageBox.Show(string.Format("下注前金额:{0:f2};现可用余额:{1:f2}；提示:{2}", lastval, this.CurrVal, ValTip));
             //}
         }
+        bool succprocss(string json)
+        {
+            return true;
+        }
+
+       
+
+        
+        bool sendInsts(string expectNo,string EncodingMsg,string dtpName,string orgMsg,double lastval,object sender,bool sendFromWebRequest)
+        {
+            string ruleid = "0";
+            if (rule.config != null)
+                ruleid = rule.config.lotteryTypes.ContainsKey(dtpName) ? rule.config.lotteryTypes[dtpName].ruleId : "0";
+            if (sendFromWebRequest)
+            {
+                ce.SetCookie(getCookie(this.webBrowser1.Document.Cookie));
+                bool succ = ce.sendInsts(expectNo,EncodingMsg, dtpName, orgMsg, lastval, ruleid,sender,succprocss,(a,b)=>{
+                    if(sender!=null)
+                    {
+                        MessageBox.Show(string.Format("{0}:{1}", a, b));
+                    }
+                });
+                return succ;
+            }
+            string msg = EncodingMsg;
+            try
+            {
+                
+                if (isIE)
+                {
+                    (lotteryDocIE ?? HomeDocIE).InvokeScript("SendMsg",
+                        new object[]
+                        {
+                    expectNo.Substring(GlobalClass.TypeDataPoints.First().Value.ClientExpectCodeSubIndex),
+                    msg,
+                    Program.gc.ClientAliasName,
+                    Program.gc.WXLogNoticeUser,
+                    orgMsg,
+                    lastval,
+                    string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost),
+                    int.Parse(ruleid)
+                            });
+                }
+                else
+                {
+                    AutoJSContext context = new AutoJSContext(geckoWebBrowser1.Window);
+                    string jstxt = string.Format("SendMsg('{0}','{1}','{2}','{3}','{4}','{5}','{6}',{7});",
+                        expectNo.Substring(GlobalClass.TypeDataPoints.First().Value.ClientExpectCodeSubIndex),
+                        msg,
+                        Program.gc.ClientAliasName,
+                        Program.gc.WXLogNoticeUser,
+                        orgMsg,
+                        lastval,
+                        string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost),
+                        int.Parse(ruleid));
+                    context.EvaluateScript(jstxt);
+                }
+            }
+            catch (Exception ce)
+            {
+                if(sender != null)
+                    MessageBox.Show(string.Format("{0}:{1}", ce, ce.StackTrace));
+                return false;
+            }
+            return true;
+        }
 
         private void mnu_SetAssetUnitCnt_Click(object sender, EventArgs e)
         {
@@ -1845,18 +2005,18 @@ ClearMyTracksByProcess 255
             string url = "https://www.baidu.com";
             try
             {
-                
+                this.webBrowser1.Navigate(url);
                 if ((webBrowser1.ReadyState == WebBrowserReadyState.Complete && isIE)||(geckoWebBrowser1.StatusText=="completed" && isIE==false))
                 {
-                    this.webBrowser1.Navigate(url);
+                    //this.webBrowser1.Navigate(url);
                 }
                 else
                 {
                     Program.wxl.Log(string.Format("[{0}]程序们，再坚持一会",Program.gc.ClientAliasName), "让其他屌丝们干完事了一起睡！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
 
-                    ReadySleep = false;
-                    MySleep(2 * 60 * 1000);
-                    return;
+                    //ReadySleep = false;
+                    //MySleep(2 * 60 * 1000);
+                    //return;
                 }
             }
             catch (Exception ce)

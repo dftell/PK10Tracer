@@ -8,6 +8,8 @@ namespace WolfInv.com.BaseObjectsLib
 {
     public abstract class BaseCollection<T> : IBaseCollection where T : TimeSerialData
     {
+        public abstract AmoutSerials getOptSerials(DataTypePoint dtp, string type, int len, double odds, Int64 MaxValue, int FirstAmt, bool NeedAddFirst);
+        public abstract DataTable getTableFromSpecCondition(DataTypePoint dtp,string currExpect, int Period, string strPos, string strTaget, params object[] others);
         /// <summary>
         /// 外部现成的统计数据，可以直接供策略统计分析，不必自己重新从数据库中计算结果
         /// </summary>
@@ -29,10 +31,21 @@ namespace WolfInv.com.BaseObjectsLib
         public abstract Dictionary<string, double> getAllShiftCnt(int ReviewCnt, int TrainCnt);
         public abstract Dictionary<string, Matrix> getC_K_NStep(int reviewCnt, int StepCnt);
         public abstract List<double> getEntropyList(int reviewCnt);
+
+        public abstract bool isMatch(string code, string currCode);
     }
 
     public interface IBaseCollection
     {
+        /// <summary>
+        /// 从指定条件获得表，兼容外部Web和本地数据库
+        /// </summary>
+        /// <param name="dtp"></param>
+        /// <param name="Period"></param>
+        /// <param name="strPos"></param>
+        /// <param name="strTaget"></param>
+        /// <returns></returns>
+        DataTable getTableFromSpecCondition(DataTypePoint dtp, string currExpect, int Period, string strPos, string strTaget,params object[] others);
         DataSet ExDataTable(DataTypePoint dtp, string expect, Func<DataTypePoint,string, DataSet> convertFunc);
         DataTableEx CarDistributionTable { get; }
         DataTableEx CarTable { get; }

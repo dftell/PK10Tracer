@@ -1,6 +1,7 @@
 ﻿using XmlProcess;
 using System.Xml;
-
+using System.Collections.Generic;
+using System.Linq;
 namespace WolfInv.com.WebRuleLib
 {
     /*
@@ -48,6 +49,7 @@ namespace WolfInv.com.WebRuleLib
         public string instType { get; set; }
 
         public double oddsTimes { get; set; }
+        public Dictionary<string, string> OddsDic;
         
         public void LoadXml(XmlNode node)
         {
@@ -60,6 +62,17 @@ namespace WolfInv.com.WebRuleLib
             if (double.TryParse(XmlUtil.GetSubNodeText(node,"@oddsTimes"),out fOddsTimes))
             {
                 oddsTimes = fOddsTimes;
+            }
+            XmlNodeList nodes = node.SelectNodes("./Odds");
+            OddsDic = new Dictionary<string, string>();
+            foreach(XmlNode onode  in nodes)
+            {
+                string odd = XmlUtil.GetSubNodeText(onode, "@base");
+                string val = XmlUtil.GetSubNodeText(onode, "@value");
+                if(!OddsDic.ContainsKey(odd))
+                {
+                    OddsDic.Add(odd, val);
+                }
             }
             BetRuleName = XmlUtil.GetSubNodeText(node, ".");
         }

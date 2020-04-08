@@ -222,10 +222,21 @@ namespace WolfInv.com.Strags
             cc.AllowMaxHoldTimeCnt = 1;
             try
             {
-                
+                if (LastUseData().LastData.Expect != cc.ExpectCode)
+                {
+                    return 0;
+                }
                 if (cc.IncrementType == InterestType.CompoundInterest)
                 {
+                    if(cc.HoldTimeCnt >1)
+                    {
+                        return 0;
+                    }
                     if (cc.AllowMaxHoldTimeCnt > 0 && cc.HoldTimeCnt > cc.AllowMaxHoldTimeCnt)
+                    {
+                        return 0;
+                    }
+                    if(LastUseData().LastData.Expect != cc.ExpectCode)
                     {
                         return 0;
                     }
@@ -237,6 +248,7 @@ namespace WolfInv.com.Strags
                 }
                 //大于5码的不受限制
                 int shift = 0;
+                
                 if (cc.ChipCount < this.InputMinTimes && cc.HoldTimeCnt > cc.AllowMaxHoldTimeCnt && cc.AllowMaxHoldTimeCnt > 0)
                 {
                     int CurrChipCount = ChanceClass.getChipsByCode(cc.ChanceCode);

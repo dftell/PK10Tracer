@@ -70,6 +70,10 @@
       <Project>{1b418905-1d78-4758-9b21-cf9bfc054f88}</Project>
       <Name>WolfInv.com.PK10CorePress</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SecurityLib\WolfInv.com.SecurityLib.csproj">
+      <Project>{aa6cd329-d212-4998-be10-2a4728175f53}</Project>
+      <Name>WolfInv.com.SecurityLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WolfInv.com.RemoteObjectLib\WolfInv.com.RemoteObjectLib.csproj">
       <Project>{5512ddfb-0ca8-4bb7-ac01-e21bdc814f0f}</Project>
       <Name>WolfInv.com.RemoteObjectLib</Name>

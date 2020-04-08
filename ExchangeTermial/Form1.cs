@@ -13,6 +13,10 @@ using WolfInv.com.RemoteObjectsLib;
 using System.Xml;
 using WolfInv.com.WebRuleLib;
 using System.Web.Script.Serialization;
+using System.Net;
+using System.Collections.Specialized;
+using System.Web;
+
 namespace ExchangeTermial
 {
     public partial class Form1 : Form
@@ -52,12 +56,17 @@ namespace ExchangeTermial
             {
                 Program.allGc = Program.gc.CopyTo<GlobalClass>();
             }
-           // GlobalClass.resetTypeDataPoints();//必须重新设置，每个平台投注品种不一样
+            // GlobalClass.resetTypeDataPoints();//必须重新设置，每个平台投注品种不一样
+            Program.gc.ClientUserName = this.txt_user.Text.Trim();
+            Program.gc.ClientPassword = this.txt_password.Text.Trim();
+            Program.gc.ForWeb = this.ddl_websites.SelectedValue.ToString();
+            GlobalClass.SetConfig();
             GlobalClass sgc = new GlobalClass(this.ddl_websites.SelectedValue.ToString());
             if(sgc.loadSucc)
             {
+
                 Program.gc = sgc;
-               
+                
                 //Program.gc.ForWeb = this.ddl_websites.SelectedValue.ToString();
                 //return;
             }
@@ -91,17 +100,23 @@ namespace ExchangeTermial
             XmlDocument xmldoc = new XmlDocument();
             try
             {
-                xmldoc.LoadXml(ret.BaseInfo.AssetConfig);
+                string strXml = HttpUtility.UrlDecode(ret.BaseInfo.AssetConfig, Encoding.UTF8);
+                xmldoc.LoadXml(strXml);
                 XmlNodeList items = xmldoc.SelectNodes("config[@type='AssetUnits']/item");
-                Dictionary<string, int> assetconfig = new Dictionary<string, int>();
+                Dictionary<string, AssetInfoConfig> assetconfig = new Dictionary<string, AssetInfoConfig>();
                 if(items.Count>0)
                 {
                     for (int i = 0; i < items.Count; i++)
                     {
                         string key = items[i].SelectSingleNode("@key").Value;
-                        int val = int.Parse(items[i].SelectSingleNode("@value").Value);
-                        if (!assetconfig.ContainsKey(key))
-                            assetconfig.Add(key, val);
+                        //int val = int.Parse(items[i].SelectSingleNode("@value").Value);
+                        //if (!assetconfig.ContainsKey(key))
+                        //    assetconfig.Add(key, val);
+                        AssetInfoConfig aic = new AssetInfoConfig(GlobalClass.readXmlItems(items[i].OuterXml));
+                        if(!assetconfig.ContainsKey(key))
+                        {
+                            assetconfig.Add(key, aic);
+                        }
                     }
                 }
                 Program.gc.AssetUnits = assetconfig;
@@ -158,6 +173,9 @@ namespace ExchangeTermial
                 MessageBox.Show(string.Format("{0}:{1}",ce1.Message,ce1.StackTrace));
             }
         }
+
+        
+
 
         class SvrConfigClass:iSerialJsonClass<SvrConfigClass>
         {

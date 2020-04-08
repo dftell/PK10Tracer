@@ -12,6 +12,8 @@ using WolfInv.com.ServerInitLib;
 using WolfInv.com.Strags;
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.SecurityLib;
+using WolfInv.com.PK10CorePress;
+
 namespace WolfInv.com.BackTestLib
 {
     public delegate void SuccEvent();
@@ -52,7 +54,7 @@ namespace WolfInv.com.BackTestLib
             long begNo = BegExpect;
 
             //ExpectReader er = new ExpectReader();
-            DataReader er = null;////////////////////////////////
+            DataReader er = DataReaderBuild.CreateReader(dtp.DataType, "", null);
             ExpectList<T> el = null;
             long cnt = 0;
             
@@ -72,7 +74,7 @@ namespace WolfInv.com.BackTestLib
                 el = er.ReadHistory<T>(begNo, LoopCnt);
                 if (el == null)
                 {
-                    ret.LoopCnt = cnt * LoopCnt;
+                    ret.LoopCnt = (cnt+1) * LoopCnt;
                     ret.succ = false;
                     ret.Msg = "读取历史数据错误！";
                     break;
@@ -84,23 +86,28 @@ namespace WolfInv.com.BackTestLib
                     ret.Msg = string.Format("成功遍历{0}条记录！共发现机会{1}次！其中,{2}.", testIndex, ret.ChanceList.Count,ret.HoldInfo);
                     break;
                 }
+                
                 AllData = ExpectList<T>.Concat(AllData, el);
                 begNo = el.LastData.LExpectNo + 1;
 
                 cnt++;
                 //Todo:
-
+                int pastCnt = 0;
                 while (testIndex < AllData.Count)
                 {
+                    ret.LoopCnt = pastCnt + testIndex;
                     if (testData == null)
                     {
                         testData = AllData.getSubArray(0, teststrag.ReviewExpectCnt);
                     }
                     else
                     {
-                        if (AllData[(int)testIndex].ExpectIndex != testData.LastData.ExpectIndex + 1)
+                        if (dtp.DataType == "PK10")
                         {
-                            throw new Exception(string.Format("{1}第{0}期后出现数据遗漏，请补充数据后继续测试！", testData.LastData.Expect, testData.LastData.OpenTime));
+                            if (AllData[(int)testIndex].ExpectIndex != testData.LastData.ExpectIndex + 1)
+                            {
+                                throw new Exception(string.Format("{1}第{0}期后出现数据遗漏，请补充数据后继续测试！", testData.LastData.Expect, testData.LastData.OpenTime));
+                            }
                         }
                         testData.RemoveAt(0);
                         testData.Add(AllData[(int)testIndex]);
@@ -121,6 +128,14 @@ namespace WolfInv.com.BackTestLib
                                         cc.HoldTimeCnt = (int)(testData.LastData.ExpectIndex - cc.InputExpect.ExpectIndex);
                                     }
                                 }
+                            }
+                            if (dtp.IsXxY == 1)
+                            {
+                                (cc as iXxYClass).AllNums = dtp.AllNums;
+                                (cc as iXxYClass).SelectNums = dtp.SelectNums;
+                                (cc as iXxYClass).strAllTypeBaseOdds = dtp.strAllTypeOdds;
+                                (cc as iXxYClass).strCombinTypeBaseOdds = dtp.strCombinTypeOdds;
+                                (cc as iXxYClass).strPermutTypeBaseOdds = dtp.strPermutTypeOdds;
                             }
                             bool Matched = cc.Matched(testData.LastData, out matchcnt, false);
                             if (cc.NeedConditionEnd)
@@ -161,14 +176,17 @@ namespace WolfInv.com.BackTestLib
                             }
                             else
                             {
-                                if (Matched || (cc.HoldTimeCnt>0 && cc.HoldTimeCnt == cc.AllowMaxHoldTimeCnt))//关闭
+                                if (Matched || (!Matched && cc.HoldTimeCnt>0 && cc.HoldTimeCnt == cc.AllowMaxHoldTimeCnt))//关闭
                                 {
                                     cc.Closed = true;
                                     cc.EndExpectNo = testData.LastData.Expect;
                                     cc.MatchChips = matchcnt;
                                     if (!teststrag.GetRev)//只有不求相反值的情况下，才赋持有是次数
                                     {
-                                        cc.HoldTimeCnt = (int)(testData.LastData.ExpectIndex - cc.InputExpect.ExpectIndex);
+                                        if (dtp.DataType == "PK10")
+                                        {
+                                            cc.HoldTimeCnt = (int)(testData.LastData.ExpectIndex - cc.InputExpect.ExpectIndex);
+                                        }
                                     }
                                     else
                                     {
@@ -188,7 +206,7 @@ namespace WolfInv.com.BackTestLib
                                     tmpChances.Add(key, cc);
                                 }
                             }
-                            if (cc.Closed)
+                            if (cc.Closed  && cc.MatchChips>0)
                             {
                                 int HCnt = 1;
                                 if (ret.HoldCntDic.ContainsKey(cc.HoldTimeCnt))
@@ -215,6 +233,7 @@ namespace WolfInv.com.BackTestLib
                     if (testData.Count == 0) 
                         break;
                     teststrag.SetLastUserData(testData);
+                    teststrag.setDataTypePoint(dtp);
                     List<ChanceClass<T>> cs = teststrag.getChances(sc,testData.LastData);//获取所有机会
                     if (ret.ChanceList == null)
                     {
@@ -225,6 +244,7 @@ namespace WolfInv.com.BackTestLib
                     foreach(string key in tmpChances.Keys)
                     {
                         ChanceClass<T> cc = tmpChances[key];
+                        cc.AllowMaxHoldTimeCnt = int.MaxValue;
                         NoCloseChances.Add(key, cc);
                     }
                     for (int i = 0; i < cs.Count; i++)
@@ -241,11 +261,13 @@ namespace WolfInv.com.BackTestLib
                         }
                         else
                         {
+                            cs[i].AllowMaxHoldTimeCnt = int.MaxValue;
                             NoCloseChances.Add(key, cs[i]);
                         }
                     }
                     testIndex++;
                 }
+                pastCnt += el.Count;
             }
             FinishedProcess();
             //return ret;
@@ -324,7 +346,7 @@ namespace WolfInv.com.BackTestLib
                 {
 
                     //begNo = el.LastData.LExpectNo + 1;//加一期
-                    begNo = long.Parse(er.getNextExpectNo(el.LastData.Expect));
+                    begNo = long.Parse(DataReader.getNextExpectNo(el.LastData.Expect,dtp));
                 }
                 else
                 {
@@ -363,6 +385,7 @@ namespace WolfInv.com.BackTestLib
                     //ToAdd:以下是内容
                     cs.CurrData = testData;
                     cs.OnFinishedCalc += OnCalcFinished;
+                    cs.setGlobalClass(Program.gc);
                     cs.Calc();
                     while (!cs.CalcFinished)
                     {
@@ -697,7 +720,7 @@ namespace WolfInv.com.BackTestLib
                             ProbWaveSelectStragClass strag = ec.OccurStrag as ProbWaveSelectStragClass;
                             if (!strag.UseAmountList().ContainsKey(testData.LastData.Expect))
                             {
-                                Int64 AllAmt = (ec.OccurStrag as ISpecAmount).getChipAmount(es.summary, ec.OwnerChance, ec.OccurStrag.CommSetting.GetGlobalSetting().DefaultHoldAmtSerials);
+                                Int64 AllAmt = (ec.OccurStrag as BaseObjectsLib.ISpecAmount).getChipAmount(es.summary, ec.OwnerChance, ec.OccurStrag.CommSetting.GetGlobalSetting().DefaultHoldAmtSerials);
                                 Int64 ChipAmt = (Int64)Math.Floor((double)AllAmt / NoCloseChances.Count);
                                 ec.ExchangeAmount = ChipAmt;
                                 ec.ExchangeRate = ChipAmt/es.summary;
