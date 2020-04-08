@@ -23,7 +23,7 @@ namespace DataRecSvr
         public CalcService<T> CalcProcess;
         GlobalClass glb = new GlobalClass();
         int MissExpectEventPassCnt = 0;
-        int MaxMissEventCnt = 15;
+        int MaxMissEventCnt = 20;// 15;//错期发生后需要经历的最大平稳期数，从15改为20
         public ReceiveService()
         {
             InitializeComponent();
@@ -432,10 +432,20 @@ namespace DataRecSvr
                     //ExpectList<T> currEl = rd.ReadNewestData<T>(DateTime.Today.AddDays(-1 * dtp.CheckNewestDataDays)); ;//改从PK10配置中获取
                     //Log("接收第一期数据", el.FirstData.Expect, true);
                     //ExpectList<T> currEl = rd.ReadNewestData<T>(dtp.NewRecCount);
-                    ExpectList<T> currEl = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1 * dtp.CheckNewestDataDays));
-                    if ((currEl == null || currEl.Count == 0) || (el.Count > 0 && currEl.Count > 0 && el.LastData.ExpectIndex > currEl.LastData.ExpectIndex))//获取到新数据
+                    ExpectList<T> currEl = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1 * dtp.CheckNewestDataDays)); //前十天的数据 //2020.4.8 尽量的大于reviewcnt, 免得需要再取一次数据, 尽量多取，以防后面策略调用需要上万条数据，还要防止放假中间间隔时间较长
+                    ExpectList<T> NewList = rd.getNewestData<T>(new ExpectList<T>(el.Table), currEl);//新列表是最新的数据在前的，后面使用时要反序用
+                    
+                    //if ((currEl == null || currEl.Count == 0) || (el.Count > 0 && currEl.Count > 0 && el.LastData.ExpectIndex > currEl.LastData.ExpectIndex))//获取到新数据
+                    if (NewList.Count > 0)
                     {
-                        if(currEl.Count>0)
+                        string lastExpect = currEl?.LastData?.Expect;
+                        string newestExpect = el.LastData.Expect;
+                        int interExpect = 1;//间隔数量
+                        if(lastExpect!= null)
+                        {
+                            interExpect = (int) DataReader.getInterExpectCnt(lastExpect, newestExpect, dtp);
+                        }
+                        if (currEl.Count>0)
                             Log(string.Format("接收到{0}数据", DataType), string.Format("接收到数据！新数据：[{0},{1}],老数据:[{2},{3}]", el.LastData.Expect, el.LastData.OpenCode, currEl.LastData.Expect, currEl.LastData.OpenCode), glb.NormalNoticeFlag);
                         //Program.AllServiceConfig.wxlog.Log("接收到数据", string.Format("接收到数据！{0}", el.LastData.ToString()));
                         PK10_LastSignTime = CurrTime;
@@ -443,7 +453,7 @@ namespace DataRecSvr
                         int CurrSec = DateTime.Now.Second;
                         //useTimer.Interval = (CurrMin % RepeatMinutes < 2 ? 2 : 7 - CurrMin) * 60000 - (CurrSec + RepeatMinutes) * 1000;//5分钟以后见,减掉5秒不断收敛时间，防止延迟接收
                         useTimer.Interval = FeatureTime.Subtract(CurrTime).TotalMilliseconds;
-                        ExpectList<T>  NewList = rd.getNewestData<T>(new ExpectList<T>(el.Table), currEl);
+                        //ExpectList<T>  NewList = rd.getNewestData<T>(new ExpectList<T>(el.Table), currEl);
                         string[] expects = NewList.DataList.Select(a=>a.Expect).ToArray();
                         //Log("存在数据",string.Format("共{0}期:[{1}]", currEl.Count,string.Join(",", currEl.DataList.Select(a=>a.Expect).ToArray())),true);
                         if (NewList.Count == 0)
@@ -456,25 +466,30 @@ namespace DataRecSvr
                         if (savecnt > 0)
                         {
                             Log("保存数据条数", string.Format("{0}条数！",savecnt), glb.NormalNoticeFlag);
-                            CurrDataList = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1 * dtp.CheckNewestDataDays));//前十天的数据 尽量的大于reviewcnt,免得需要再取一次数据,尽量多取，以防后面策略调用需要上万条数据，还要防止放假中间间隔时间较长
-                            if (CurrDataList == null)
-                            {
-                                useTimer.Interval = RepeatSeconds / 20 * 1000;
-                                Log("计算最新数据错误", "无法获取最新数据发生错误，请检查数据库是否正常！", glb.ExceptNoticeFlag);
-                                return;
-                            }
+                            ////CurrDataList = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1 * dtp.CheckNewestDataDays));//前十天的数据 尽量的大于reviewcnt,免得需要再取一次数据,尽量多取，以防后面策略调用需要上万条数据，还要防止放假中间间隔时间较长
+                            ////if (CurrDataList == null) //只是测试，要不要？
+                            ////{
+                            ////    useTimer.Interval = RepeatSeconds / 20 * 1000;
+                            ////    Log("计算最新数据错误", "无法获取最新数据发生错误，请检查数据库是否正常！", glb.ExceptNoticeFlag);
+                            ////    return;
+                            ////}
                             CurrExpectNo = el.LastData.Expect;
 
-                            Program.AllServiceConfig.LastDataSector = new ExpectList<TimeSerialData>(CurrDataList.Table);
+                            //Program.AllServiceConfig.LastDataSector = new ExpectList<TimeSerialData>(CurrDataList.Table);
                             //2019/4/22日出现错过732497，732496两期记录错过，但是732498却收到的情况，同时，正好在732498多次重复策略正好开出结束，因错过2期导致一直未归零，
                             //一直长时间追号开出近60期
                             //为避免出现这种情况
                             //判断是否错过了期数，如果错过期数，将所有追踪策略归零，不再追号,也不再执行选号程序，
                             //是否要连续停几期？执行完后，在接收策略里面发现前10期有不连续的情况，直接跳过，只接收数据不执行选号。
-                            CurrDataList.UseType = dtp;
-                            if (CurrDataList.MissExpectCount() > 1|| MissExpectEventPassCnt>0)//如果出现错期
+                            //CurrDataList.UseType = dtp;
+                            if (interExpect - NewList.Count > 0  || MissExpectEventPassCnt>0)//错期特征，当前期和上期的差大于新收到数据条数，表示老数据和新数据中有缺失数据，这样的特征出现后连续10期不计算，等稳定后再说，错期后如果中间期补进来，在10期内标志仍然是真，不需要特别对其处理。
                             {
-                                Log("接收到错期数据", string.Format("接收到数据！{0}", el.LastData.ToString()), glb.ExceptNoticeFlag);
+                                if(interExpect > 1 )//如果是发生错期
+                                    Log(string.Format("{1}接收到错期数据，其中缺失理论数据条数为{2}条，此后{0}期将不计算，期间该彩种所有信号均无效，之后自动恢复！",MaxMissEventCnt,dtp.DataType,interExpect-NewList.Count), string.Format("接收到数据！{0}", el.LastData.ToString()), true);
+                                if(interExpect <=0)
+                                {
+                                    Log(string.Format("{0}接收到后补的错期数据！",  dtp.DataType), string.Format("接收到数据！{0}", el.LastData.ToString()), true);
+                                }
                                 if (MissExpectEventPassCnt <= MaxMissEventCnt)//超过最大平稳期，置零,下次再计算
                                 {
                                     MissExpectEventPassCnt = 0;
@@ -486,22 +501,40 @@ namespace DataRecSvr
                             }
                             else//第一次及平稳期后进行计算
                             {
+                                if(interExpect < 0) //补充进来的错期数据
+                                {
+                                    Log(string.Format("经过{0}期最大平稳期后接收到补充进来的错期数据，如果是关键期，仍然对平稳期后的信号有影响，请及时检查！",MaxMissEventCnt), string.Format("接收到数据！{0}", el.LastData.ToString()), true);//只保存数据，不做处理
+                                    return;
+                                }
                                 bool res = false;
                                 if (NeedCalc)
                                 {
-                                    if (CalcProcess == null)
-                                        CalcProcess = new CalcService<T>();
-                                    CalcProcess.DataPoint = dtp;
-                                    CalcProcess.ReadDataTableName = strReadTableName;
-                                    CalcProcess.Codes = codes;
-                                    res = AfterReceiveProcess(CalcProcess);
-                                    if (res == false)
-                                        useTimer.Interval = RepeatSeconds / 20 * 1000;
-                                    else
-                                        Program.AllServiceConfig.haveReceiveData = true;//每次成功接收后都将已接收到数据标志置为true，当外部调用访问后将该标志置回为false
-                                    if (CurrDataList.MissExpectCount() > 1)//执行完计算(关闭所有记录)后再标记为已错期
+                                    CurrData = currEl; //开始的记录以老记录为基础
+                                    
+                                    //2020.4.8 为保证择时处理准确，增加对新增基础数据进行分解计算，务必保证每一条合法的记录都经过计算。错期的不在此范围内，因为本来就是错的，计算也是错误
+                                    for (int i = NewList.Count-1;i>=0 ; i--)//新序列是反序，要反着用  
                                     {
-                                        MissExpectEventPassCnt = 1;
+                                        if(NewList.Count>1)
+                                        {
+                                            Log("一次接收到多期数据", string.Format("当前执行！{0};{1};{2}", NewList[i].Expect,NewList[i].OpenCode,NewList[i].OpenTime), true);//只保存数据，不做处理
+                                        }
+                                        CurrData.Add(NewList[i]);
+                                        CurrData.UseType = dtp;
+                                        //Program.AllServiceConfig.LastDataSector = new ExpectList<TimeSerialData>(CurrDataList.Table);
+                                        if (CalcProcess == null)
+                                            CalcProcess = new CalcService<T>();
+                                        CalcProcess.DataPoint = dtp;
+                                        CalcProcess.ReadDataTableName = strReadTableName;
+                                        CalcProcess.Codes = codes;
+                                        res = AfterReceiveProcess(CalcProcess);
+                                        if (res == false)
+                                            useTimer.Interval = RepeatSeconds / 20 * 1000;
+                                        else
+                                            Program.AllServiceConfig.haveReceiveData = true;//每次成功接收后都将已接收到数据标志置为true，当外部调用访问后将该标志置回为false
+                                        /*if (CurrData.MissExpectCount() > 1)//执行完计算(关闭所有记录)后再标记为已错期
+                                        {
+                                            MissExpectEventPassCnt = 1;
+                                        }*/
                                     }
                                 }
                             }

@@ -12,7 +12,7 @@ namespace DataRecSvr
     {
         public static string CurrExpectNo;
         public string ServiceName;
-        public static ExpectList<T> CurrDataList;
+        static ExpectList<T> CurrDataList;
 
         /// <summary>
         /// 专为外部程序调用而设，调用前先设置gc

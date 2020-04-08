@@ -261,10 +261,11 @@ namespace DataRecSvr
                     if (IsTestBack)
                         return true; //如果是回测，不做处理
                     Log("写入标志文件", "供web程序读取！");
+                    string expectCode = CurrData.LastData.Expect;
                     DataReader rder = DataReaderBuild.CreateReader(DataPoint.DataType, ReadDataTableName, Codes);
-                    string NewExpectNo = DataReader.getNextExpectNo(Program.AllServiceConfig.LastDataSector.LastData.Expect,DataPoint);
-                    string NewNo = string.Format("{0}|{1}", NewExpectNo, Program.AllServiceConfig.LastDataSector.LastData.OpenTime);
-                    rder.updateExpectInfo(DataPoint.DataType, NewExpectNo, Program.AllServiceConfig.LastDataSector.LastData.Expect);
+                    string NewExpectNo = DataReader.getNextExpectNo(expectCode,DataPoint);
+                    string NewNo = string.Format("{0}|{1}", NewExpectNo, CurrData.LastData.OpenCode);
+                    rder.updateExpectInfo(DataPoint.DataType, NewExpectNo, expectCode);
                     new LogInfo().WriteFile(NewNo, path, strExpectNo, strtype, true, true);
 
                     //保存策略
@@ -447,7 +448,7 @@ namespace DataRecSvr
                 //获得策略
                 BaseStragClass<T> sc = Program.AllServiceConfig.AllStrags[sGUId] as BaseStragClass<T>;
                 int mcnt = 0;
-                bool Matched = cl[i].Matched(CurrDataList, out mcnt);
+                bool Matched = cl[i].Matched(CurrData, out mcnt);
                 cl[i].MatchChips += mcnt;
                 if (sc is ITraceChance)//优先关闭程序跟踪
                 {

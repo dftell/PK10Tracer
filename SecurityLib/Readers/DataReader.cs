@@ -95,8 +95,8 @@ namespace WolfInv.com.SecurityLib
         {
             long lFrom = long.Parse(expectFrom);
             long lTo = long.Parse(expectTo);
-            if (lTo <= lFrom)
-                return 1;
+            if (lTo <= lFrom) //
+                return lFrom-lTo;
             if(lTo-lFrom<dtp.ExpectCodeCounterMax)
             {
                 return Math.Max(1,lTo - lFrom);
