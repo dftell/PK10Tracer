@@ -15,6 +15,7 @@ namespace WolfInv.com.WebCommunicateClass
         public Action<string,int, SelectTimeInstClass> SelectTimeChanged;
         public string Expect;
         public string LastTime;
+        public string LastOpenCode;
         FullInsts objFullInsts;
         public FullInsts Full
         {
@@ -165,6 +166,13 @@ namespace WolfInv.com.WebCommunicateClass
                 {
                     continue;
                 }
+                if(!cc.Tracerable)//只要是非跟踪策略
+                {
+                    if(calcHoldTimes > 1)//和要下注的期数大于1就过滤，因为不要跟踪，只有当期才要下注
+                    {
+                        continue;
+                    }
+                }
                 if (setting.AssetUnits.ContainsKey(strAssetId))
                 {
                     AssetInfoConfig aic = setting.AssetUnits[strAssetId];
@@ -264,7 +272,7 @@ namespace WolfInv.com.WebCommunicateClass
         }
     }
 
-    public class MatchGroupClass
+    public class MatchGroupClass: DisplayAsTableClass
     {
         public int SerNo;
         public string ExpectCode;//":"20200405041","

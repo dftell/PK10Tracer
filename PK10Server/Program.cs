@@ -144,7 +144,9 @@ namespace PK10Server
             }
             catch(Exception ce)
             {
+                
                 tm_heart.Enabled = false;//停掉
+                MessageBox.Show(string.Format("{0}", ce.Message));
             }
             
         }

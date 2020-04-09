@@ -104,9 +104,3 @@ C:\Users\zhouys\projects\PK10TracerClient\ExchangeTermial.exe.config
 C:\Users\zhouys\projects\PK10TracerClient\ExchangeTermial.exe
 C:\Users\zhouys\projects\PK10TracerClient\ExchangeTermial.pdb
 E:\github\source\dftell\PK10Tracer\ExchangeTermial\obj\x86\Debug\ExchangeTermial.testWeb.resources
-E:\projects\PK10TracerClient\EasyHook32.dll
-E:\projects\PK10TracerClient\EasyHook32Svc.exe
-E:\projects\PK10TracerClient\EasyHook64.dll
-E:\projects\PK10TracerClient\EasyHook64Svc.exe
-E:\projects\PK10TracerClient\EasyLoad32.dll
-E:\projects\PK10TracerClient\EasyLoad64.dll

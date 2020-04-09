@@ -226,7 +226,8 @@ namespace DataRecSvr
                 list.Values.ToList<ChanceClass<T>>().ForEach(p =>
                 {
                     ChanceClass<TimeSerialData> cc = p as ChanceClass<TimeSerialData>;
-                    Program.AllServiceConfig.AllNoClosedChanceList.Add(p.GUID, cc);
+                    if(!Program.AllServiceConfig.AllNoClosedChanceList.ContainsKey(p.GUID))
+                        Program.AllServiceConfig.AllNoClosedChanceList.Add(p.GUID, cc);
                 });
             }
         }
@@ -264,7 +265,7 @@ namespace DataRecSvr
                     string expectCode = CurrData.LastData.Expect;
                     DataReader rder = DataReaderBuild.CreateReader(DataPoint.DataType, ReadDataTableName, Codes);
                     string NewExpectNo = DataReader.getNextExpectNo(expectCode,DataPoint);
-                    string NewNo = string.Format("{0}|{1}", NewExpectNo, CurrData.LastData.OpenCode);
+                    string NewNo = string.Format("{0}|{1}|{2}", NewExpectNo, CurrData.LastData.OpenTime, CurrData.LastData.OpenCode);
                     rder.updateExpectInfo(DataPoint.DataType, NewExpectNo, expectCode);
                     new LogInfo().WriteFile(NewNo, path, strExpectNo, strtype, true, true);
 

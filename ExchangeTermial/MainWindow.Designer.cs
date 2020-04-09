@@ -48,6 +48,7 @@
             this.userLoginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inLotteryHomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.switchWebBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.switchPlatformToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_Setting = new System.Windows.Forms.ToolStripMenuItem();
             this.mnu_SetAssetUnitCnt = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -88,7 +89,8 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.switchPlatformToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.dgv_matchGroupList = new System.Windows.Forms.DataGridView();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -114,6 +116,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.tabPage8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_matchGroupList)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -180,72 +184,78 @@
             // mnuRefreshWebToolStripMenuItem
             // 
             this.mnuRefreshWebToolStripMenuItem.Name = "mnuRefreshWebToolStripMenuItem";
-            this.mnuRefreshWebToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.mnuRefreshWebToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.mnuRefreshWebToolStripMenuItem.Text = "睡觉";
             this.mnuRefreshWebToolStripMenuItem.Click += new System.EventHandler(this.mnuRefreshWebToolStripMenuItem_Click);
             // 
             // reLoadToolStripMenuItem
             // 
             this.reLoadToolStripMenuItem.Name = "reLoadToolStripMenuItem";
-            this.reLoadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reLoadToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.reLoadToolStripMenuItem.Text = "醒来";
             this.reLoadToolStripMenuItem.Click += new System.EventHandler(this.reLoadToolStripMenuItem_Click);
             // 
             // tsmi_knockTheEgg
             // 
             this.tsmi_knockTheEgg.Name = "tsmi_knockTheEgg";
-            this.tsmi_knockTheEgg.Size = new System.Drawing.Size(180, 22);
+            this.tsmi_knockTheEgg.Size = new System.Drawing.Size(177, 22);
             this.tsmi_knockTheEgg.Text = "砸蛋";
             this.tsmi_knockTheEgg.Click += new System.EventHandler(this.tsmi_knockTheEgg_Click);
             // 
             // switchChanleToolStripMenuItem
             // 
             this.switchChanleToolStripMenuItem.Name = "switchChanleToolStripMenuItem";
-            this.switchChanleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.switchChanleToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.switchChanleToolStripMenuItem.Text = "切换通道";
             this.switchChanleToolStripMenuItem.Click += new System.EventHandler(this.switchChanleToolStripMenuItem_Click);
             // 
             // chargeMoneyToolStripMenuItem
             // 
             this.chargeMoneyToolStripMenuItem.Name = "chargeMoneyToolStripMenuItem";
-            this.chargeMoneyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.chargeMoneyToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.chargeMoneyToolStripMenuItem.Text = "ChargeMoney";
             this.chargeMoneyToolStripMenuItem.Click += new System.EventHandler(this.chargeMoneyToolStripMenuItem_Click);
             // 
             // hideTheFloatWindowToolStripMenuItem
             // 
             this.hideTheFloatWindowToolStripMenuItem.Name = "hideTheFloatWindowToolStripMenuItem";
-            this.hideTheFloatWindowToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.hideTheFloatWindowToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.hideTheFloatWindowToolStripMenuItem.Text = "隐藏/显示充值窗口";
             this.hideTheFloatWindowToolStripMenuItem.Click += new System.EventHandler(this.hideTheFloatWindowToolStripMenuItem_Click);
             // 
             // loadTheNavigateWindowToolStripMenuItem
             // 
             this.loadTheNavigateWindowToolStripMenuItem.Name = "loadTheNavigateWindowToolStripMenuItem";
-            this.loadTheNavigateWindowToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadTheNavigateWindowToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.loadTheNavigateWindowToolStripMenuItem.Text = "载入导航";
             this.loadTheNavigateWindowToolStripMenuItem.Click += new System.EventHandler(this.loadTheNavigateWindowToolStripMenuItem_Click);
             // 
             // userLoginToolStripMenuItem
             // 
             this.userLoginToolStripMenuItem.Name = "userLoginToolStripMenuItem";
-            this.userLoginToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.userLoginToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.userLoginToolStripMenuItem.Text = "用户登录";
             this.userLoginToolStripMenuItem.Click += new System.EventHandler(this.userLoginToolStripMenuItem_Click);
             // 
             // inLotteryHomeToolStripMenuItem
             // 
             this.inLotteryHomeToolStripMenuItem.Name = "inLotteryHomeToolStripMenuItem";
-            this.inLotteryHomeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.inLotteryHomeToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.inLotteryHomeToolStripMenuItem.Text = "进入游戏厅";
             this.inLotteryHomeToolStripMenuItem.Click += new System.EventHandler(this.inLotteryHomeToolStripMenuItem_Click);
             // 
             // switchWebBrowserToolStripMenuItem
             // 
             this.switchWebBrowserToolStripMenuItem.Name = "switchWebBrowserToolStripMenuItem";
-            this.switchWebBrowserToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.switchWebBrowserToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.switchWebBrowserToolStripMenuItem.Text = "切换浏览器";
             this.switchWebBrowserToolStripMenuItem.Click += new System.EventHandler(this.switchWebBrowserToolStripMenuItem_Click);
+            // 
+            // switchPlatformToolStripMenuItem
+            // 
+            this.switchPlatformToolStripMenuItem.Name = "switchPlatformToolStripMenuItem";
+            this.switchPlatformToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.switchPlatformToolStripMenuItem.Text = "切换平台";
             // 
             // tsmi_Setting
             // 
@@ -417,6 +427,7 @@
             this.tabControl2.Controls.Add(this.tabPage5);
             this.tabControl2.Controls.Add(this.tabPage6);
             this.tabControl2.Controls.Add(this.tabPage7);
+            this.tabControl2.Controls.Add(this.tabPage8);
             this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl2.Location = new System.Drawing.Point(0, 0);
             this.tabControl2.Name = "tabControl2";
@@ -667,12 +678,25 @@
             this.toolStripStatusLabel3.Size = new System.Drawing.Size(500, 17);
             this.toolStripStatusLabel3.Text = "toolStripStatusLabel3";
             // 
-            // switchPlatformToolStripMenuItem
+            // tabPage8
             // 
-            this.switchPlatformToolStripMenuItem.Name = "switchPlatformToolStripMenuItem";
-            this.switchPlatformToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.switchPlatformToolStripMenuItem.Text = "切换平台";
-            //this.switchPlatformToolStripMenuItem.Click += new System.EventHandler(this.switchPlatformToolStripMenuItem_Click);
+            this.tabPage8.Controls.Add(this.dgv_matchGroupList);
+            this.tabPage8.Location = new System.Drawing.Point(4, 22);
+            this.tabPage8.Name = "tabPage8";
+            this.tabPage8.Size = new System.Drawing.Size(568, 128);
+            this.tabPage8.TabIndex = 5;
+            this.tabPage8.Text = "择时信息";
+            this.tabPage8.UseVisualStyleBackColor = true;
+            // 
+            // dgv_matchGroupList
+            // 
+            this.dgv_matchGroupList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_matchGroupList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_matchGroupList.Location = new System.Drawing.Point(0, 0);
+            this.dgv_matchGroupList.Name = "dgv_matchGroupList";
+            this.dgv_matchGroupList.RowTemplate.Height = 23;
+            this.dgv_matchGroupList.Size = new System.Drawing.Size(568, 128);
+            this.dgv_matchGroupList.TabIndex = 0;
             // 
             // MainWindow
             // 
@@ -715,6 +739,8 @@
             this.tabPage2.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.tabPage8.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_matchGroupList)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -780,5 +806,7 @@
         private System.Windows.Forms.Button btn_AddHedge;
         private System.Windows.Forms.Button btn_SelfAddCombo;
         private System.Windows.Forms.ToolStripMenuItem switchPlatformToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabPage8;
+        private System.Windows.Forms.DataGridView dgv_matchGroupList;
     }
 }

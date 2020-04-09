@@ -231,6 +231,35 @@ namespace WolfInv.com.BaseObjectsLib
         public string dataColumns;
         public string periods;
     }
+
+    public class WebInfoClass:DetailStringClass
+    {
+        public WebInfoClass()//必须要见无参数构造函数，为反射实例化准备
+        {
+
+        }
+        public WebInfoClass(Dictionary<string, string> list)
+        {
+            
+            DataTypePoint.ReadData(this.GetType(), this, list);
+    
+        }
+        public string siteName;
+        public string useHost;
+        public string connectVerUrl;
+        public string cookieKey;
+        public string cookieKeyXPath;
+        public string loginPageUrl;
+        public string userAuthUrl;// https://c.jhc3w.com/Account/Auth
+        public string userAuthModel;
+        public string betUrl;//
+        public string betModel;
+        public string betRecModel;
+        public string gameInfoUrl;//
+        public string amountInfoUrl;//
+        public string userInfoUrl;
+    }
+
     public class LotteryPropertyClass
     {
 

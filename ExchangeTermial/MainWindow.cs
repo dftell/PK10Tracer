@@ -125,16 +125,23 @@ namespace ExchangeTermial
         ChargeRemoteClass chgRmt = null;
         ChargeOperator chgOpt = null;
         ClientExchanger ce;
+        bool SendMsgFromWebRequest;
         public MainWindow()
         {
             InitializeComponent();
-            //ce = new ClientExchanger(webBrowser1,Program.gc);
-            //ce.Load();
+            ce = new ClientExchanger(webBrowser1,Program.gc);
+            SendMsgFromWebRequest = (Program.gc.SendMsgFromWebRequest == "1");
             
             
         }
         void reLoad()
         {
+            if (SendMsgFromWebRequest)
+            {
+                //ce.Load(null);
+                //return;
+                //ce.Login(Program.gc.ClientUserName, Program.gc.ClientPassword, null);
+            }
             InitWebBrowser();
             initMenuItems();            
             wr = WebRuleBuilder.Create(Program.gc);
@@ -155,6 +162,7 @@ namespace ExchangeTermial
         private void MainWindow_Load(object sender, EventArgs e)
         {
             reLoad();
+            //return;
             AssetUnitList = new Dictionary<string, string>();
             foreach (string key in GlobalClass.TypeDataPoints.Keys)
             {
@@ -1426,6 +1434,10 @@ ClearMyTracksByProcess 255
             try
             {
                 
+                if(!inWorkTimeRange())
+                {
+                    return;
+                }
                 MyTimer tm = sender as MyTimer;
                 if (tm == null)
                     tm = timers_RequestInst.First();
@@ -1439,6 +1451,10 @@ ClearMyTracksByProcess 255
                 int rndtime = rd.Next(1000, buffSec * 1000);//增加随机数，防止单机多客户端并行同时下注
                 if (InSleep)//还在睡觉,唤醒
                 {
+                    if (!inWorkTimeRange())
+                    {
+                        return;
+                    }
                     LoadUrl(loadUrl);
                     ////while(!Logined)
                     ////{
@@ -1496,8 +1512,18 @@ ClearMyTracksByProcess 255
                                                                               //ToAdd:填充各内容
                     this.txt_ExpectNo.Text = ic.Expect;
                     this.txt_OpenTime.Text = ic.LastTime;
+                    this.txt_OpenCode.Text = ic.LastOpenCode;
                     ic.SelectTimeChanged = (a, b,c) => {
-                        string strList = string.Format("最近5轮出现的组合信息为:{0}", string.Join(",", c.List.Select(curr =>string.Format("{0}次{1}个组合",curr.times, curr.chipCount)).Take(5).ToArray()));
+                        if (c.List.Count > 0)
+                        {
+                            DataTable dt =  DisplayAsTableClass.ToTable<MatchGroupClass>(c.List);
+                            DataView dv = new DataView(dt);
+                            dv.Sort = "SerNo";
+                            this.dgv_matchGroupList.DataSource = dv;
+                            this.dgv_matchGroupList.Refresh();
+
+                        }
+                        string strList = string.Format("[期号提示:{0}]最近5轮出现的组合信息为:{1}", CurrExpectNo, string.Join(",", c.List.Select(curr =>string.Format("{0}次{1}个组合",curr.times, curr.chipCount)).Take(5).ToArray()));
                         this.txt_NewInsts.Text = strList;
                         string strDiff = "";
                         if(b!= c.RequestCnt)
@@ -1575,6 +1601,10 @@ ClearMyTracksByProcess 255
                 }
                 else
                 {
+                    if (!inWorkTimeRange())
+                    {
+                        return;
+                    }
                     if (CurrTime.TimeOfDay < dtp.ReceiveStartTime.TimeOfDay)//如果在9点前
                     {
                         //下一个时间点是9：08
@@ -1612,7 +1642,37 @@ ClearMyTracksByProcess 255
             }
         }
 
-
+        bool inWorkTimeRange()
+        {
+            DateTime startTime;
+            DateTime endTime;
+            DateTime currTime = DateTime.Now;
+            foreach(DataTypePoint dtp in GlobalClass.TypeDataPoints.Values)
+            {
+                DateTime useStartTime = dtp.ReceiveStartTime.AddHours(-1 * dtp.DiffHours).AddMinutes(-1 * dtp.DiffMinutes);
+                DateTime useEndTime = (dtp.ReceiveEndTime == DateTime.MinValue ? DateTime.Parse("23:59:00") : dtp.ReceiveEndTime).AddHours(-1 * dtp.DiffHours).AddMinutes(-1 * dtp.DiffMinutes);
+                DateTime currDayStartTime = DateTime.Today.AddTicks(useStartTime.TimeOfDay.Ticks);
+                DateTime currDayEndTime = DateTime.Today.AddTicks(useEndTime.TimeOfDay.Ticks);
+                bool crossDay = false;
+                if(currDayStartTime>currDayEndTime)//跨天
+                {
+                    crossDay = true;
+                    if(currTime<currDayEndTime)//已经跨天了
+                    {
+                        currDayStartTime = currDayStartTime.AddDays(-1);
+                    }
+                    else
+                    {
+                        currDayEndTime = currDayEndTime.AddDays(1);
+                    }
+                }
+                if(currTime>currDayStartTime && currTime<currDayEndTime)//任何一个彩种，只要当前时间介于开始时间和结束时间之间，返回真，否者
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         string ReCalcTheInstChips()
         {
@@ -2127,8 +2187,9 @@ ClearMyTracksByProcess 255
 
         private void btn_SelfAddCombo_Click(object sender, EventArgs e)
         {
-            Program.gc.LoginDefaultHost = this.txt_NewInsts.Text;
-            LoadUrl(null);
+            ce.Load(txt_NewInsts.Text.Trim());
+            
+            //LoadUrl(null);
         }
 
         private void chargeMoneyToolStripMenuItem_Click(object sender, EventArgs e)

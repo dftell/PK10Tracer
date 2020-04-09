@@ -63,11 +63,13 @@ namespace ExchangeTermial
         {
             string strReq = "<config  type='AssetUnits'>{0}</config>";
             string[] list = assets.Select(a => string.Format("{0}", GlobalClass.writeXmlItems(a.Value.getStringDic(),a.Key,a.Value.value))).ToArray();
-            string urlModel = "http://www.wolfinv.com/pk10/app/UpdateUser.asp?UserId={0}&AssetConfig={1}&dir=1";
+            string urlModel = "http://www.wolfinv.com/pk10/app/UpdateUser.asp?";
+            
             string reqAsset = string.Format(strReq, string.Join("", list));
             string encode = HttpUtility.UrlEncode(reqAsset, Encoding.UTF8);
-            string url = string.Format(urlModel, Program.UserId, encode);
-            string succ = AccessWebServerClass.GetData(url, Encoding.UTF8);
+            string url = urlModel;
+            string strPost = string.Format("UserId={0}&AssetConfig={1}&dir=1", Program.UserId, encode);
+            string succ = AccessWebServerClass.PostData(url,strPost, Encoding.UTF8);
             if(succ == "succ")
             {
                 MessageBox.Show(succ);

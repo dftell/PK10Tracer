@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmoutSerials.cs" />
+    <Compile Include="AssetInfoConfig.cs" />
     <Compile Include="BaseCollection.cs" />
     <Compile Include="BaseDataItemClass.cs" />
     <Compile Include="BaseDataTable.cs" />

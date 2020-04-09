@@ -514,11 +514,12 @@ namespace DataRecSvr
                                     //2020.4.8 为保证择时处理准确，增加对新增基础数据进行分解计算，务必保证每一条合法的记录都经过计算。错期的不在此范围内，因为本来就是错的，计算也是错误
                                     for (int i = NewList.Count-1;i>=0 ; i--)//新序列是反序，要反着用  
                                     {
-                                        if(NewList.Count>1)
-                                        {
-                                            Log("一次接收到多期数据", string.Format("当前执行！{0};{1};{2}", NewList[i].Expect,NewList[i].OpenCode,NewList[i].OpenTime), true);//只保存数据，不做处理
-                                        }
+                                        
                                         CurrData.Add(NewList[i]);
+                                        if (NewList.Count > 1)
+                                        {
+                                            Log("一次接收到多期数据", string.Format("最后记录{3};当前执行！{0};{1};{2}", NewList[i].Expect, NewList[i].OpenCode, NewList[i].OpenTime,CurrData.LastData.Expect), true);//只保存数据，不做处理
+                                        }
                                         CurrData.UseType = dtp;
                                         //Program.AllServiceConfig.LastDataSector = new ExpectList<TimeSerialData>(CurrDataList.Table);
                                         if (CalcProcess == null)

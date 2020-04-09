@@ -9,12 +9,12 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WinInterComminuteLib\obj\Debug\Wo
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WinInterComminuteLib\obj\Debug\WolfInv.com.WinInterComminuteLib.pdb
 E:\github\project\PK10Tracer\WolfInv.com.WinInterComminuteLib.dll
 E:\github\project\PK10Tracer\WolfInv.com.WinInterComminuteLib.pdb
+C:\Users\zhouys\projects\PK10TracerClient\WolfInv.com.WinInterComminuteLib.dll
+C:\Users\zhouys\projects\PK10TracerClient\WolfInv.com.WinInterComminuteLib.pdb
+E:\projects\PK10TracerClient\WolfInv.com.WinInterComminuteLib.dll
+E:\projects\PK10TracerClient\WolfInv.com.WinInterComminuteLib.pdb
 E:\github\source\dftell\PK10Tracer\WinInterComminuteLib\obj\Debug\WolfInv.com.WinInterComminuteLib.csprojAssemblyReference.cache
 E:\github\source\dftell\PK10Tracer\WinInterComminuteLib\obj\Debug\WolfInv.com.WinInterComminuteLib.csproj.CoreCompileInputs.cache
 E:\github\source\dftell\PK10Tracer\WinInterComminuteLib\obj\Debug\WolfInv.com.WinInterComminuteLib.csproj.CopyComplete
 E:\github\source\dftell\PK10Tracer\WinInterComminuteLib\obj\Debug\WolfInv.com.WinInterComminuteLib.dll
 E:\github\source\dftell\PK10Tracer\WinInterComminuteLib\obj\Debug\WolfInv.com.WinInterComminuteLib.pdb
-E:\projects\PK10TracerClient\WolfInv.com.WinInterComminuteLib.dll
-E:\projects\PK10TracerClient\WolfInv.com.WinInterComminuteLib.pdb
-C:\Users\zhouys\projects\PK10TracerClient\WolfInv.com.WinInterComminuteLib.dll
-C:\Users\zhouys\projects\PK10TracerClient\WolfInv.com.WinInterComminuteLib.pdb
