@@ -121,3 +121,6 @@ E:\github\source\dftell\PK10Tracer\Test_Win\obj\x86\Debug\Test_Win.csproj.CopyCo
 E:\projects\PK10Tracer\Test_Win.exe.config
 E:\projects\PK10Tracer\Test_Win.exe
 E:\projects\PK10Tracer\Test_Win.pdb
+E:\projects\PK10TracerTestWin\Test_Win.exe.config
+E:\projects\PK10TracerTestWin\Test_Win.exe
+E:\projects\PK10TracerTestWin\Test_Win.pdb

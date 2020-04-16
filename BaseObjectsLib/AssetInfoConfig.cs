@@ -6,6 +6,7 @@ namespace WolfInv.com.BaseObjectsLib
     {
         public int value = 0; //当前金额
         public int NeedSelectTimes = 0;//需要择时
+        public int CurrTimes = 0;
         //public int MaxTracingTimes = 0;//最大追踪次数
         public double maxStopGainedValue = 50000;//止盈金额
         public AssetInfoConfig()
@@ -47,6 +48,10 @@ namespace WolfInv.com.BaseObjectsLib
             {
                 double.TryParse(vals["maxStopGainedValue"], out maxStopGainedValue);
             }
+            if(vals.ContainsKey("currTimes"))
+            {
+                int.TryParse(vals["currTimes"], out CurrTimes);
+            }
         }
 
         public Dictionary<string,string> getStringDic()
@@ -55,6 +60,7 @@ namespace WolfInv.com.BaseObjectsLib
             ret.Add("value",value.ToString());
             ret.Add("NeedSelectTimes", NeedSelectTimes.ToString());
             ret.Add("maxStopGainedValue", maxStopGainedValue.ToString());
+            ret.Add("currTimes", CurrTimes.ToString());
             return ret;
         }
     }

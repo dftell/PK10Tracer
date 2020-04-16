@@ -25,9 +25,15 @@ using WolfInv.com.WinInterComminuteLib;
 using WolfInv.com.ChargeLib;
 using System.Runtime.InteropServices;
 using Gecko;
+using System.Security.Permissions;
+using WolfInv.com.PK10CorePress;
 
 namespace ExchangeTermial
 {
+    public enum ExpectDataStatus
+    {
+        Created,CalcAmt,Push,SentOccurErr,Sent
+    }
     delegate void CloseCallBack();
     public enum ShowCommands : int
     {
@@ -64,19 +70,22 @@ namespace ExchangeTermial
 
     }
 
+    [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+    [System.Runtime.InteropServices.ComVisibleAttribute(true)]
     public partial class MainWindow : Form
     {
         [DllImport("KERNEL32.DLL", EntryPoint = "GetCurrentProcess", SetLastError = true, CallingConvention = CallingConvention.StdCall)]
         internal static extern bool SetProcessWorkingSetSize(IntPtr pProcess, int dwMinimumWorkingSetSize, int dwMaximumWorkingSetSize);
 
         [DllImport("KERNEL32.DLL", EntryPoint = "SetProcessWorkingSetSize", SetLastError = true, CallingConvention = CallingConvention.StdCall)]
-        
+
         //[DllImport("shell32.dll")]
         //static extern IntPtr ShellExecute(IntPtr hwnd, string lpOperation, string lpFile, string lpParameters, string lpDirectory, ShowCommands nShowCmd);
 
-
+        
         
         internal static extern IntPtr GetCurrentProcess();
+        Dictionary<string, DataStatusInfoClass> AllDataInfoDic = new Dictionary<string, DataStatusInfoClass>();
         bool isIE = false;
         Dictionary<string, Int64> NewExpects = new Dictionary<string, long>();
         bool WebBrowserLoad = false;
@@ -88,6 +97,7 @@ namespace ExchangeTermial
         bool InSleep = false;
         bool Logined = false;
         WebRule wr = null;
+        
         bool ReadySleep = false;
         bool ScriptLoaded = false;
         int UsePort = -1;
@@ -101,11 +111,16 @@ namespace ExchangeTermial
         string UseReqId = null;
         int UseAmt = 0;
         string reqChargeAmt = "";
-
+        double _currVal;
         double CurrVal
         {
             get
             {
+                if(SendMsgFromWebRequest)
+                {
+                    //getAmount();
+                    return _currVal;
+                }
                 HtmlDocument doc = null;
                 try
                 {
@@ -116,6 +131,10 @@ namespace ExchangeTermial
 
                 }
                 return isIE ? wr.GetCurrMoney(webBrowser1.Document) : wr.GetCurrMoney(geckoWebBrowser1.Document);
+            }
+            set
+            {
+                _currVal = value;
             }
         }
         System.Windows.Forms.Timer SendStatusTimer = new System.Windows.Forms.Timer() ;
@@ -142,9 +161,10 @@ namespace ExchangeTermial
                 //return;
                 //ce.Login(Program.gc.ClientUserName, Program.gc.ClientPassword, null);
             }
+            wr = WebRuleBuilder.Create(Program.gc);
             InitWebBrowser();
             initMenuItems();            
-            wr = WebRuleBuilder.Create(Program.gc);
+            
             this.Text = string.Format("{0}[{2}][v:{1}]", Program.gc.ForWeb, Program.VerNo, Program.gc.ClientUserName);
             Program.Title = this.Text;
             //webBrowser1.Url = new Uri("http://www.baidu.com");
@@ -192,6 +212,10 @@ namespace ExchangeTermial
 
         }
 
+        void RefreshData()
+        {
+
+        }
         void init_FireFox()
         {
             
@@ -224,6 +248,8 @@ namespace ExchangeTermial
             {
                 
                 this.webBrowser1.Visible = true;
+                
+                initWebRule();
                 this.webBrowser1.Dock = DockStyle.Fill;
                 //this.geckoWebBrowser1.Visible = false;
                 //this.geckoWebBrowser1.Dock = DockStyle.None;
@@ -268,6 +294,85 @@ ClearMyTracksByProcess 255
             }
         }
 
+        void initWebRule()
+        {
+            this.webBrowser1.ObjectForScripting = wr;
+            wr.SuccLogin = AfterLogined;
+            wr.SuccSend = AfterSendMsg;
+            wr.CompleteSendMsg = AfterSendMsgComplete;
+            wr.SuccGetGameInfo = AfterGetGameInfo;
+            wr.SuccGetAmount = AfterGetAmount;
+            wr.MsgBox = WXMsgBox;
+        }
+
+        void AfterGetGameInfo(GameInfoClass gic)
+        {
+            
+        }
+
+        void AfterGetAmount(AmountInfoClass amt)
+        {
+            this.CurrVal = amt.CurrMoney;
+            this.RefreshStatus();
+        }
+
+        void AfterSendMsgComplete(string msg,string msg1)
+        {
+
+        }
+
+        void AfterSendMsg(WebBetReturnInfoClass wbri)
+        {
+            //MessageBox.Show(wbri.betRecInfo);
+            if(wbri.Succ)
+               WXMsgBox(string.Format("当前余额:{0}",wbri.restAmount), wbri.betRecInfo);
+            else
+            {
+                WXMsgBox("发送失败",wbri.Msg);
+            }
+        }
+
+        void AfterLogined(WebUserInfoClass wic)
+        {
+            if(!wic.LoginSucc)
+            {
+                WXMsgBox(string.Format("账号{0}登录{1}失败",Program.gc.ClientUserName,Program.gc.ForWeb), wic.Msg);
+                return;
+            }
+            Logined = true;
+            
+            webBrowser1.Navigate(string.Format(Program.gc.LotteryPage,string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost) ));
+            Application.DoEvents();
+            MySleep(3 * 1000);
+            getAmount();
+            getGameInfo(70);
+            Application.DoEvents();
+            MySleep(2 * 1000);
+            WXMsgBox(string.Format("账号{0}登录{1}成功", Program.gc.ClientUserName, Program.gc.ForWeb), string.Format("当前余额:{0}元" ,CurrVal));
+        }
+
+        void getGameInfo(int n)
+        {
+            webBrowser1.ScriptErrorsSuppressed = true;
+            //LogableClass.ToLog(webBrowser1.Url.Host, "首次进入，加载文件！");
+            //if(!ScriptLoaded)
+            AddScript(loginDocIE ?? HomeDocIE, null); //执行js代码,未来修改为网络载入
+            //MySleep(3 * 1000);//等待验证码图片载入
+            (loginDocIE ?? HomeDocIE).InvokeScript("getGameInfo", new string[] { string.Format(Program.gc.LoginUrlModel,Program.gc.LoginDefaultHost), n.ToString()});
+            WebBrowserLoad = true;
+        }
+
+        void getAmount()
+        {
+            
+            webBrowser1.ScriptErrorsSuppressed = true;
+            //LogableClass.ToLog(webBrowser1.Url.Host, "首次进入，加载文件！");
+            //if(!ScriptLoaded)
+            AddScript(loginDocIE ?? HomeDocIE, null); //执行js代码,未来修改为网络载入
+            //MySleep(3 * 1000);//等待验证码图片载入
+            (loginDocIE ?? HomeDocIE).InvokeScript("getGameAmount", new string[] { string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost) });
+            WebBrowserLoad = true;
+        }
         private void GeckoWebBrowser1_DOMContentLoaded(object sender, DomEventArgs e)
         {
             DocumentCompleted_FireFox(sender,null);
@@ -289,7 +394,13 @@ ClearMyTracksByProcess 255
             }
         }
 
-        string LotteryPage
+        public void WXMsgBox(string title,string msg)
+        {
+            //MessageBox.Show(string.Format("{0}:{1}",title,msg));
+            //return;
+            Program.wxl.Log(title,msg, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+        }
+         string LotteryPage
         {
             get
             {
@@ -796,10 +907,11 @@ ClearMyTracksByProcess 255
             return ret;
         }
 
-        
-        
-        void AddScript(HtmlDocument IEDoc,GeckoDocument FireFoxDoc,string ElementName="head",string LanguageEncoding="gb2312")
+
+        void AddScript(HtmlDocument IEDoc,GeckoDocument FireFoxDoc,string ElementName="body",string LanguageEncoding="gb2312")
         {
+            //if (ScriptLoaded)
+            //    return;
             string scriptFile = Program.gc.LoginUrlModel.Replace("https", "");
             scriptFile = scriptFile.Replace("http", "");
             scriptFile = scriptFile.Replace("://", "");
@@ -892,11 +1004,11 @@ ClearMyTracksByProcess 255
         void Login_IE()
         {
             webBrowser1.ScriptErrorsSuppressed = true;
-            LogableClass.ToLog(webBrowser1.Url.Host, "首次进入，加载文件！");
+            //LogableClass.ToLog(webBrowser1.Url.Host, "首次进入，加载文件！");
             //if(!ScriptLoaded)
             AddScript(loginDocIE ??HomeDocIE, null); //执行js代码,未来修改为网络载入
             //MySleep(3 * 1000);//等待验证码图片载入
-            (loginDocIE ?? HomeDocIE).InvokeScript("Login", new string[] { Program.gc.ClientUserName, Program.gc.ClientPassword, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost), Program.gc.WXLogNoticeUser });
+            (loginDocIE ?? HomeDocIE).InvokeScript("Login", new string[] { Program.gc.ClientUserName, Program.gc.ClientPassword, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost), Program.gc.WXLogNoticeUser ,string.Format(Program.gc.LoginUrlModel,Program.gc.LoginDefaultHost)});
             WebBrowserLoad = true;
         }
 
@@ -957,8 +1069,8 @@ ClearMyTracksByProcess 255
                 if (webBrowser1.ReadyState == WebBrowserReadyState.Complete)
                 {
                     CookieCollection cc =getCookie(this.webBrowser1.Document.Cookie);
-                    if(Program.gc.SendMsgFromWebRequest == "1")
-                        this.ce.SetCookie(cc);
+                    //if(Program.gc.SendMsgFromWebRequest == "1")
+                    //    this.ce.SetCookie(cc);
                     HomeDocIE = this.webBrowser1.Document;
                     this.toolStripStatusLabel1.Text = "已载入";
                     if (ReadySleep)
@@ -1405,6 +1517,31 @@ ClearMyTracksByProcess 255
 
         }
 
+        Single getProbByPeriod(List<MatchGroupClass> list,int n,out Single safeProb)
+        {
+            safeProb = 0.00F;
+            list = list.Take(n).ToList();
+            if(list.Count < n)
+            {
+                return 0.0F;
+            }
+            int currChips = list[0].chipCount;
+            MatchGroupClass lastMaxObj =  list.Skip(1).Where(a => a.chipCount >= currChips).OrderByDescending(a => a.chipCount*100+a.times).First();
+            if(lastMaxObj == null)
+            {
+                lastMaxObj = list.Skip(1).Where(a => a.chipCount <= currChips).OrderByDescending(a => a.chipCount * 100 + a.times).First();
+            }
+            if (lastMaxObj == null)
+            {
+                return 0.0F;
+            }
+            list = list.Where(a => a.SerNo < lastMaxObj.SerNo).ToList();
+            int matchCnt = list.Sum(a=>a.MatchCnt);
+            int ccChips = list.Sum(a => a.chipCount);
+            safeProb = (Single)((matchCnt+1) * 100.00 / ccChips);
+            Single ret = (Single)((matchCnt * 100.00) / ccChips);
+            return ret;
+        }
 
         private void groupBox1_Enter(object sender, EventArgs e)
         {
@@ -1436,6 +1573,14 @@ ClearMyTracksByProcess 255
                 
                 if(!inWorkTimeRange())
                 {
+                    if(SendMsgFromWebRequest)
+                    {
+                        if(Logined)//开着百度睡觉，把登录状态改为false
+                        {
+                            Logined = false;
+                            reLoadWebBrowser();
+                        }
+                    }
                     return;
                 }
                 MyTimer tm = sender as MyTimer;
@@ -1494,9 +1639,32 @@ ClearMyTracksByProcess 255
                 //}
                 DateTime CurrTime = DateTime.Now.AddHours(dtp.DiffHours).AddMinutes(dtp.DiffMinutes);//调整后的时间
                 RefreshImages();
+                DateTime preTime = DateTime.Parse(ic.LastTime).AddSeconds(dtp.ReceiveSeconds);
+                if (ic.LastTime.Trim().Length> 0 && DateTime.Now> preTime)
+                {
+                    this.txt_OpenTime.BackColor = Color.Red;
+                    Application.DoEvents();
+                    this.txt_ExpectNo.BackColor = Color.Red;
+                    Application.DoEvents();
+                    this.txt_OpenCode.BackColor = Color.Red;
+                    Application.DoEvents();
+                }
                 if ((CurrExpectNo > this.NewExpects[dtp.DataType] && this.NewExpects[dtp.DataType]>0) || (RefreshTimes == 0)) //获取到最新指令
                 {
-                    
+                    if (SendMsgFromWebRequest)//如果从请求发送
+                    {
+                        getAmount();
+                        Application.DoEvents();
+                        MySleep(1 * 1000);
+                        Application.DoEvents();
+                        getGameInfo(70);
+                    }
+                    this.txt_OpenTime.BackColor = Color.Green;
+                    Application.DoEvents();
+                    this.txt_ExpectNo.BackColor = Color.Green;
+                    Application.DoEvents();
+                    this.txt_OpenCode.BackColor = Color.Green;
+                    Application.DoEvents();
                     LastInstsTime = DateTime.Now.AddHours(dtp.DiffHours).AddMinutes(dtp.DiffMinutes);
                     int CurrMin = DateTime.Now.Minute % 5;
 
@@ -1511,23 +1679,38 @@ ClearMyTracksByProcess 255
                     //tm.Interval = (int)dtp.ReceiveSeconds *1000/6 + rndtime ;//  2 * 60 * 1000 + rndtime;//5分钟以后见,减掉1秒不*断收敛时间，防止延迟接收
                                                                               //ToAdd:填充各内容
                     this.txt_ExpectNo.Text = ic.Expect;
+                    Application.DoEvents();
                     this.txt_OpenTime.Text = ic.LastTime;
+                    Application.DoEvents();
                     this.txt_OpenCode.Text = ic.LastOpenCode;
-                    ic.SelectTimeChanged = (a, b,c) => {
+                    Application.DoEvents();
+                    ic.SelectTimeChanged = (a, b,c,cc) => {
+                        Single currProb100 = 0.0F;
+                        Single safeProb100 = 0.0F;
+                        Single currProb300 = 0.0F;
+                        Single safeProb300 = 0.0F;
+                        Single currProb1000 = 0.0F;
+                        Single safeProb1000 = 0.0F;
                         if (c.List.Count > 0)
                         {
+                            currProb100 = getProbByPeriod(c.List,100,out safeProb100);
+                            currProb300 = getProbByPeriod(c.List, 300,out safeProb300);
+                            currProb1000 = getProbByPeriod(c.List, 1000, out safeProb1000);
                             DataTable dt =  DisplayAsTableClass.ToTable<MatchGroupClass>(c.List);
                             DataView dv = new DataView(dt);
                             dv.Sort = "SerNo";
                             this.dgv_matchGroupList.DataSource = dv;
                             this.dgv_matchGroupList.Refresh();
+                            Application.DoEvents();
 
                         }
-                        string strList = string.Format("[期号提示:{0}]最近5轮出现的组合信息为:{1}", CurrExpectNo, string.Join(",", c.List.Select(curr =>string.Format("{0}次{1}个组合",curr.times, curr.chipCount)).Take(5).ToArray()));
+                        string strProbModel = "概率(%)100期:当前[{0}]/安全[{1}];300期:当前[{2}]/安全[{3}];1000期:当前[{4}]/安全[{5}];";
+                        string strProb = string.Format(strProbModel, currProb100, safeProb100, currProb300, safeProb300, currProb1000, safeProb1000);
+                        string strList = string.Format("[{0}期提示:[机会:{1};数量:{2}]];{3}最近5轮出现的组合信息为:{4}", CurrExpectNo,cc.ChanceCode,cc.UnitCost, strProb,string.Join(",", c.List.Select(curr =>string.Format("{0}次{1}个组合",curr.times, curr.chipCount)).Take(5).ToArray()));
                         this.txt_NewInsts.Text = strList;
                         string strDiff = "";
                         if(b!= c.RequestCnt)
-                            strDiff = string.Format("资产单元{0}信号由{1}改为{2}!", AssetUnitList[a],b,c.RetCnt);
+                            strDiff = string.Format("资产单元{0}信号由{1}改为{2}!", AssetUnitList[a],b,c.ReturnCnt);
                         Program.wxl.Log(string.Format("{0};{1}",strList,strDiff), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
 
                     };
@@ -1553,7 +1736,7 @@ ClearMyTracksByProcess 255
                     long AllSum = insts.Where(a => a.Trim().Length > 1).ToList().Select(a => long.Parse(a.Trim().Split('/')[2])).Sum();
                     this.NewExpects[dtpName] = CurrExpectNo;
                     this.txt_Insts.Text = txt;
-
+                    Application.DoEvents();
                     if (!Logined)
                     {
                         Logined = wr.IsLogined(this.webBrowser1.Document);
@@ -1583,6 +1766,11 @@ ClearMyTracksByProcess 255
                     }
                     else//如果没有登录，重新载入,当前指令不发送，只要不发送，这条指令就不会存入缓存。可以下次获取到再发
                     {
+                        int realInterVal = Math.Min((int)dtp.ReceiveSeconds * 2*1000, tm.Interval * 3);
+                        tm.Interval = Math.Max((int)dtp.ReceiveSeconds * 2 *1000, realInterVal);// realInterVal ;
+                        userLoginToolStripMenuItem_Click(null, null);
+                        Application.DoEvents();
+                        return;
                         if (isIE)
                         {
                             if (webBrowser1.ReadyState == WebBrowserReadyState.Complete)//如果状态完成了还是没有登录，那就要重新登陆
@@ -1683,7 +1871,6 @@ ClearMyTracksByProcess 255
         private void Send_Data(DataTypePoint dtp,string strText)
         {
             try
-
             {
                 string dtpName = dtp.DataType;
                 //if (this.txt_Insts.Text.Trim().Length == 0) return;
@@ -1820,7 +2007,7 @@ ClearMyTracksByProcess 255
                 }
                 //rule = new Rule_ForKcaiCom(Program.gc);
                 //if (!ScriptLoaded)
-                if(!isInLotteryDocument())
+                if(!SendMsgFromWebRequest && !isInLotteryDocument())
                 {
                     return;
                 }
@@ -1976,17 +2163,20 @@ ClearMyTracksByProcess 255
             string ruleid = "0";
             if (rule.config != null)
                 ruleid = rule.config.lotteryTypes.ContainsKey(dtpName) ? rule.config.lotteryTypes[dtpName].ruleId : "0";
-            if (sendFromWebRequest)
-            {
-                ce.SetCookie(getCookie(this.webBrowser1.Document.Cookie));
-                bool succ = ce.sendInsts(expectNo,EncodingMsg, dtpName, orgMsg, lastval, ruleid,sender,succprocss,(a,b)=>{
-                    if(sender!=null)
-                    {
-                        MessageBox.Show(string.Format("{0}:{1}", a, b));
-                    }
-                });
-                return succ;
-            }
+            //if (sendFromWebRequest && sender== null)
+            //{
+            //    Program.wxl.Log(string.Format("[{0}]第[{1}]期投注",dtpName,expectNo), orgMsg , string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+
+            //    return true;
+            //    //ce.SetCo/*o*/kie(getCookie(this.webBrowser1.Document.Cookie));
+            //    bool succ = ce.sendInsts(expectNo,EncodingMsg, dtpName, orgMsg, lastval, ruleid,sender,succprocss,(a,b)=>{
+            //        if(sender!=null)
+            //        {
+            //            MessageBox.Show(string.Format("{0}:{1}", a, b));
+            //        }
+            //    });
+            //    return succ;
+            //}
             string msg = EncodingMsg;
             try
             {
@@ -2003,7 +2193,8 @@ ClearMyTracksByProcess 255
                     orgMsg,
                     lastval,
                     string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost),
-                    int.Parse(ruleid)
+                    int.Parse(ruleid),
+                    string.Format(Program.gc.LoginUrlModel,Program.gc.LoginDefaultHost)
                             });
                 }
                 else
@@ -2105,6 +2296,8 @@ ClearMyTracksByProcess 255
 
         void RefreshStatus()
         {
+            if (this.timers_RequestInst.Count == 0)
+                return;
             this.toolStripStatusLabel1.Text = string.Format("已加载页面:{0};已登录:{1};睡眠状态:{2}", WebBrowserLoad, Logined, InSleep);
             this.toolStripStatusLabel2.Text = string.Format("当前余额：{0}", CurrVal);
             this.toolStripStatusLabel3.Text = string.Format("{0}秒后见", this.timers_RequestInst[0]?.Interval / 1000);
@@ -2123,16 +2316,23 @@ ClearMyTracksByProcess 255
             try
             {
                 this.pic_serImage.Load(getImageUrl(string.Format("lv_0.jpg?t={0}", Guid.NewGuid().ToString())));
+                Application.DoEvents();
                 this.pic_carImage.Load(getImageUrl(string.Format("lv_1.jpg?t={0}", Guid.NewGuid().ToString())));
+                Application.DoEvents();
                 this.pic_ChanceImage.Load(getImageUrl(string.Format("chances.jpg?t={0}", Guid.NewGuid().ToString())));
+                Application.DoEvents();
                 this.pic_chartImage.Load(getImageUrl(string.Format("chart.png?t={0}", Guid.NewGuid().ToString())));
+                Application.DoEvents();
             }
             catch
             {
 
             }
         }
-
+        public void test(string val)
+        {
+            MessageBox.Show(val);
+        }
         string getImageUrl(string name)
         {
             return string.Format("{0}/chartImgs/{1}",GlobalClass.TypeDataPoints.First().Value.InstHost,name);
@@ -2489,6 +2689,24 @@ ClearMyTracksByProcess 255
     }
 
 
+    public class DataStatusInfoClass
+    {
+        public DataTypePoint dtp;
+        public Dictionary<string, ExpectDataInfo> EachExpectDataInfo;
+
+    }
+
+
+    
+
+    public class ExpectDataInfo
+    {
+        public string ExpectCode;
+        public List<ChanceClass> ExpectChances;
+        public List<InstClass> ExpectInsts;
+        public double TotalAmount;
+        public ExpectDataStatus SendFinished;
+    }
 
     public class MyTimer:System.Windows.Forms.Timer
     {

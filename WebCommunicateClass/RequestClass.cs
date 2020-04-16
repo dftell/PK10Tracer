@@ -5,6 +5,7 @@ using WolfInv.com.PK10CorePress;
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.RemoteObjectsLib;
 using WolfInv.com.SecurityLib;
+using WolfInv.com.Strags;
 namespace WolfInv.com.WebCommunicateClass
 {
     /// <summary>
@@ -12,7 +13,7 @@ namespace WolfInv.com.WebCommunicateClass
     /// </summary>
     public class RequestClass : RecordObject, IList<ChanceClass>, iSerialJsonClass<RequestClass>
     {
-        public Action<string,int, SelectTimeInstClass> SelectTimeChanged;
+        public Action<string,int, SelectTimeInstClass,ChanceClass> SelectTimeChanged;
         public string Expect;
         public string LastTime;
         public string LastOpenCode;
@@ -162,25 +163,31 @@ namespace WolfInv.com.WebCommunicateClass
                     continue;
                 string strCurrExpect = cc.ExpectCode;
                 int calcHoldTimes = (int)DataReader.getInterExpectCnt(strCurrExpect, NewExpectNo,dtp);
-                if(cc.HoldTimeCnt+1<calcHoldTimes)
-                {
-                    continue;
-                }
+                
                 if(!cc.Tracerable)//只要是非跟踪策略
                 {
-                    if(calcHoldTimes > 1)//和要下注的期数大于1就过滤，因为不要跟踪，只有当期才要下注
+                    if (cc.HoldTimeCnt + 1 < calcHoldTimes)
                     {
                         continue;
                     }
+                    if (calcHoldTimes > 1)//和要下注的期数大于1就过滤，因为不要跟踪，只有当期才要下注
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    cc.HoldTimeCnt = calcHoldTimes;
                 }
                 if (setting.AssetUnits.ContainsKey(strAssetId))
                 {
                     AssetInfoConfig aic = setting.AssetUnits[strAssetId];
                     if (aic == null)
                         continue;
-                    AssetCnt = aic.value;
+                    AssetCnt = aic.value;//默认等于设置值
                     if (aic.NeedSelectTimes == 1)
                     {
+                        AssetCnt = aic.value * aic.CurrTimes;//择时策略等于设置值*当前倍数
                         int newVal = 0;
                         if (SelectTimeDic == null)
                             SelectTimeDic = new Dictionary<string, int>();
@@ -190,31 +197,40 @@ namespace WolfInv.com.WebCommunicateClass
                         }
                         else
                         {
-                            SelectTimeInstClass obj = getSelectTimeAmt(dtp, cc.ExpectCode, AssetCnt, getRemoteCnt);
+                            SelectTimeInstClass obj = getSelectTimeAmt(dtp, cc.ExpectCode, aic.CurrTimes, getRemoteCnt);
                             if (obj == null)
                                 continue;
-                            newVal = obj.RetCnt;
-                            SelectTimeChanged?.Invoke(strAssetId,AssetCnt, obj);
-                            AssetCnt = obj.RetCnt;
-                            setting.AssetUnits[strAssetId].value = newVal;
+                            newVal = obj.ReturnCnt;
+                            SelectTimeChanged?.Invoke(strAssetId,AssetCnt, obj,cc);
+                            //AssetCnt = newVal;
+                            setting.AssetUnits[strAssetId].CurrTimes = newVal;
                             SelectTimeDic.Add(cc.GUID, newVal);
                         }
-                        AssetCnt = newVal;
+                        AssetCnt = newVal*aic.value;
                     }
                 }
-                //修改为自动计算出来的结果
+                else
+                {
+
+                }
+                //修改为自动计算出来的结果 , //2020.4.11 需要取得策略才能获得正确的金额，客户端根本无法获得策略信息，所有，根本不可能实现，服务端必须算出来正确的基础金额，提供给客户端使用
                 //Int64 Amt = cc.UnitCost*setting.SerTotal(cc.ChipCount);
+                Int64 Amt = 1;
+                /*
                 int chips = cc.ChipCount - 1;
                 int maxcnt = 1;
+                
                 if(amts.MaxHoldCnts.Length< chips)//只支持小注数策略，大注数全部使用1
                     maxcnt = amts.MaxHoldCnts[chips];
                 int bShift = 0;
                 if (cc.HoldTimeCnt > maxcnt)
                     bShift = (int)maxcnt * 2 / 3;
                 int RCnt = (cc.HoldTimeCnt % (maxcnt + 1)) + bShift -1;
-                Int64 Amt = 1;
+                
                 if(amts.MaxHoldCnts.Length < chips)
                     Amt = amts.Serials[chips][RCnt]*AssetCnt;
+                    */
+                Amt = cc.UnitCost * AssetCnt;
                 if (cc.ChanceType != 2)//非对冲
                 {
                     if (cc.ChanceType == 1)//一次性下注
@@ -255,7 +271,7 @@ namespace WolfInv.com.WebCommunicateClass
         public string Expect;
         public string DataType;
         public int RequestCnt;
-        public int RetCnt;
+        public int ReturnCnt;
         public string Error;
         public List<MatchGroupClass> List;
         public SelectTimeInstClass()
@@ -278,5 +294,6 @@ namespace WolfInv.com.WebCommunicateClass
         public string ExpectCode;//":"20200405041","
         public int times;//":10,"
         public int chipCount;//":19
+        public int MatchCnt;//
     }
 }

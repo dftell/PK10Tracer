@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using WolfInv.com.BaseObjectsLib;
-using IntelligentPlanning;
-using IntelligentPlanning.CustomControls;
-using IntelligentPlanning.ExDataGridView;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Http;
@@ -28,7 +24,7 @@ namespace ExchangeTermial
 {
     public enum WebStatus
     {
-        NoIn,InHost,InLogin,Logined
+        NoIn, InHost, InLogin, Logined
     }
     public class ClientExchanger
     {
@@ -36,6 +32,7 @@ namespace ExchangeTermial
         WebInfoClass webinfo;
         public string Referer = string.Empty;
         WebStatus currStatus;
+        HttpClientToServer hts ;
         public CookieContainer CookieContainer
         {
             get
@@ -55,24 +52,66 @@ namespace ExchangeTermial
                 throw new Exception("webinfo config error!");
             }
             webinfo.useHost = hostWithHead;
+            hts = new HttpClientToServer(host);
         }
 
+        public CookieCollection CurrCookies = new CookieCollection();
 
-
+        public void AddCookies(CookieCollection ces)
+        {
+            CurrCookies.Add(ces);
+        }
 
         public bool Load(string newurl)
         {
+            browser.Navigate(loginPageUrl);
+            
+            return true;
             if (!string.IsNullOrEmpty(newurl))
                 gc.LoginDefaultHost = newurl;
-
-            HttpWebResponse res = getConnect(loginPageUrl);
-            string result = "";
-            if(res != null)
+            if (!getConnect("http://" + host))
+                return false;
+            if(!getConnectCookie(hostWithHead+ webinfo.connectVerUrl))
             {
                 return false;
             }
-            CookieCollection cc = getServerCookie(loginPageUrl);
-            
+            if(!getConnectCookie(loginPageUrl,CurrCookies))
+            {
+                return false;
+            }
+            string post = string.Format("LoginID={0}&Password={1}", Program.gc.ClientUserName, Program.gc.ClientPassword);
+            return AccessWeb(host, loginRequestUrl, post, Encoding.UTF8, (s) =>
+            {
+                return true;
+            },
+                (a, b) =>
+                {
+                    MessageBox.Show(string.Format("{0}:{1}", a, b));
+                }, true, CurrCookies, false, hostWithHead + webinfo.loginPageUrl
+                );
+            return false;
+            bool succ = hts.ConnectToServer(hostWithHead, hostWithHead, false, cookieContainer.GetCookies(new Uri(hostWithHead)),  null);// ; getConnect(loginPageUrl);
+            string result = "";
+            if (!succ)
+            {
+                return false;
+            }
+            //访问登陆页面
+            post = string.Format("LoginID={0}&Password={1}", Program.gc.ClientUserName, Program.gc.ClientPassword);
+            string body = hts.getStringFromServer(hostWithHead, loginPageUrl, "", Encoding.UTF8, (a) => { return true; }, null,false, cookieContainer.GetCookies(new Uri(hostWithHead)));            //CookieCollection cc = getServerCookie(loginPageUrl);
+            if (body == null)
+                return false;
+            string key = webinfo.cookieKey;
+            string keyval = null;
+            HtmlTagClass htc = HtmlTagClass.getTagInfo(body, key);
+            if (htc == null)
+            {
+                return false;
+            }
+            cookieContainer.SetCookies(new Uri(hostWithHead), getCookie(htc.KeyValue, htc.AttValue, "/"));
+            //提交验证页面
+            body = hts.getStringFromServer(host, webinfo.connectVerUrl, post, Encoding.UTF8, (a) => { return true; }, null,true, cookieContainer.GetCookies(new Uri(host)));
+            return true;
             //for(int i=0;i<cc.Count;i++)
             //{
             //    CookieContainer.SetCookies(new Uri(hostWithHead),getCookie(cc[i].Name,cc[i].Value,cc[i].Path));
@@ -92,9 +131,58 @@ namespace ExchangeTermial
         public string GetLastCookie()
         {
             var cookies = CookieContainer.GetCookies(new Uri(host));
-           
+
             return $"last_wxuin={cookies["wxuin"].Value};wxuin={cookies["wxuin"].Value};" +
                 $"webwxuvid={cookies["webwxuvid"].Value}; webwx_auth_ticket={cookies["webwx_auth_ticket"].Value}";
+        }
+
+        public bool getConnectCookie(string url,CookieCollection cc = null)
+        {
+            HttpWebRequest req = null;
+            HttpWebResponse res = null;
+            try
+            {
+                req = WebRequest.Create(url) as HttpWebRequest;
+                //req.Proxy = new WebProxy(hostWithHead);
+                req.Method = WebRequestMethods.Http.Get;
+                req.ProtocolVersion = HttpVersion.Version11;
+                req.CookieContainer = new CookieContainer();
+                if (cc != null)
+                    req.CookieContainer.Add(cc);
+                req.KeepAlive = true;
+                req.AllowAutoRedirect = false;
+                req.Host = host;
+                res = req.GetResponse() as HttpWebResponse;
+                while (res.StatusCode == HttpStatusCode.RedirectKeepVerb)
+                {
+                    string reUrl = res.Headers["Location"].ToString();
+                    if (req.CookieContainer.Count > 0)
+                    {
+                        Uri currDomain = req.RequestUri;
+                        CookieCollection cl = req.CookieContainer.GetCookies(currDomain);
+                        CurrCookies.Add(cl);
+                        res.Close();
+                        return true;
+                    }
+                    req = WebRequest.Create(hostWithHead+reUrl) as HttpWebRequest;
+                    req.AllowAutoRedirect = false;
+                    req.CookieContainer = new CookieContainer();
+                    if(CurrCookies.Count>0)
+                    {
+                        req.CookieContainer.Add(CurrCookies);
+                    }
+                    res = req.GetResponse() as HttpWebResponse;
+                }
+                //while(response.StatusCode == HttpStatusCode.Redirect || response.StatusCode == HttpStatusCode.RedirectKeepVerb || response.StatusCode == HttpStatusCode.Moved)
+                //{
+
+                //}
+            }
+            catch (Exception ce)
+            {
+                return false;
+            }
+            return false;
         }
 
         public string getCookieString(CookieCollection cc)
@@ -124,7 +212,7 @@ namespace ExchangeTermial
         {
             get
             {
-                return string.Format(gc.HostLoginUrl, hostWithHead); 
+                return string.Format(gc.HostLoginUrl, hostWithHead);
             }
         }
         string betUrl
@@ -143,12 +231,12 @@ namespace ExchangeTermial
             }
         }
         GlobalClass gc;
-        PTBase ptobj;
+        //PTBase ptobj;
         string hostWithHead
         {
             get
             {
-                return string.Format(gc.LoginUrlModel,gc.LoginDefaultHost);
+                return string.Format(gc.LoginUrlModel, gc.LoginDefaultHost);
             }
         }
 
@@ -160,31 +248,9 @@ namespace ExchangeTermial
             }
         }
 
-        CookieCollection CurrCookies;
-        public void SetCookie(CookieCollection cc)
-        {
-            CurrCookies = cc;
-        }
+        //CookieCollection CurrCookies;
+       
 
-        
-        private void Browser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
-        {
-            if (browser.Url.ToString() == hostWithHead)
-            {
-
-            }
-        }
-
-
-        
-
-        private void Browser_Navigated(object sender, WebBrowserNavigatedEventArgs e)
-        {
-            if(browser.Url.ToString() == hostWithHead)
-            {
-
-            }
-        }
 
         private void DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
@@ -193,9 +259,9 @@ namespace ExchangeTermial
                 string strCookie = browser.Document.Cookie;
                 if (string.IsNullOrEmpty(strCookie))
                     return;
-                if(browser.Url.ToString() == hostWithHead+webinfo.connectVerUrl)
+                if (browser.Url.ToString() == hostWithHead + webinfo.connectVerUrl)
                 {
-                    if(currStatus == WebStatus.NoIn)
+                    if (currStatus == WebStatus.NoIn)
                     {
                         CookieContainer.SetCookies(new Uri(hostWithHead), strCookie);
                         currStatus = WebStatus.InHost;
@@ -203,7 +269,7 @@ namespace ExchangeTermial
                         return;
                     }
                 }
-                
+
                 string body = browser.Document.Body.OuterHtml;
                 string key = webinfo.cookieKey;
                 string keyval = null;
@@ -212,15 +278,15 @@ namespace ExchangeTermial
                 {
                     return;
                 }
-                
-                
-                cookieContainer.SetCookies(new Uri(hostWithHead), getCookie(htc.KeyValue, htc.AttValue,"/"));
-                
-                string[] arr = strCookie.Split(';');    
-                for(int i=0;i<arr.Length;i++)
+
+
+                cookieContainer.SetCookies(new Uri(hostWithHead), getCookie(htc.KeyValue, htc.AttValue, "/"));
+
+                string[] arr = strCookie.Split(';');
+                for (int i = 0; i < arr.Length; i++)
                 {
                     string[] carr = arr[i].Split('=');
-                    CookieContainer.SetCookies(new Uri(hostWithHead), getCookie(carr[0], carr.Length == 1 ? "" : carr[1],"/"));
+                    CookieContainer.SetCookies(new Uri(hostWithHead), getCookie(carr[0], carr.Length == 1 ? "" : carr[1], "/"));
                 }
                 if (browser.Url.ToString() == loginPageUrl)
                 {
@@ -231,17 +297,17 @@ namespace ExchangeTermial
                 }
                 //Login(gc.ClientUserName, gc.ClientPassword, null);
             }
-            
+
         }
-        public string getCookie(string name,string val,string path = "/")
+        public string getCookie(string name, string val, string path = "/")
         {
-            string ret = string.Format("{0}={1}",name,val);
-            return HttpUtility.UrlEncode(ret,Encoding.UTF8);
+            string ret = string.Format("{0}={1}", name, val);
+            return HttpUtility.UrlEncode(ret, Encoding.UTF8);
         }
 
-        Cookie getCookie(string strCookie,string currHost = null)
+        Cookie getCookie(string strCookie, string currHost = null)
         {
-            if(string.IsNullOrEmpty(strCookie))
+            if (string.IsNullOrEmpty(strCookie))
             {
                 return null;
             }
@@ -256,12 +322,12 @@ namespace ExchangeTermial
             string val = keyArr[1];
             string path = "";
             string domain = "";
-            for(int i=1;i<arr.Length;i++)
+            for (int i = 1; i < arr.Length; i++)
             {
                 keyArr = arr[i].Split('=');
-                if(keyArr[0].Trim() == "Path")
+                if (keyArr[0].Trim() == "Path")
                 {
-                    if(keyArr.Length>1)
+                    if (keyArr.Length > 1)
                     {
                         path = keyArr[1];
                     }
@@ -274,7 +340,7 @@ namespace ExchangeTermial
                     }
                 }
             }
-            if(!string.IsNullOrEmpty(currHost))
+            if (!string.IsNullOrEmpty(currHost))
             {
                 if (string.IsNullOrEmpty(domain))
                     domain = currHost;
@@ -282,31 +348,31 @@ namespace ExchangeTermial
             return new Cookie(key, val, path, domain);
         }
 
-        CookieCollection GetCookieCollection(string strCookie,string currhost = null)
+        CookieCollection GetCookieCollection(string strCookie, string currhost = null)
         {
             CookieCollection cc = new CookieCollection();
             return cc;
         }
 
-        public bool Login(string id,string pwd,string verPwd)
+        public bool Login(string id, string pwd, string verPwd)
         {
             //https://jhc3.msnmht.cn/Account/LoginVerify
             //
             try
             {
-                string url = string.Format("{0}{1}",hostWithHead,webinfo.userAuthUrl);
-                string post = string.Format("LoginID={0}&Password={1}",id,pwd);
-                return AccessWeb(host, url,post, Encoding.UTF8, (s) =>
-                  {
-                      return true;
-                  },
+                string url = string.Format("{0}{1}", hostWithHead, webinfo.userAuthUrl);
+                string post = string.Format("LoginID={0}&Password={1}", id, pwd);
+                return AccessWeb(host, url, post, Encoding.UTF8, (s) =>
+                   {
+                       return true;
+                   },
                 (a, b) =>
                 {
                     MessageBox.Show(string.Format("{0}:{1}", a, b));
-                }, true, null, false,hostWithHead+webinfo.loginPageUrl
+                }, true, null, false, hostWithHead + webinfo.loginPageUrl
                 );
             }
-            catch(Exception ce)
+            catch (Exception ce)
             {
 
             }
@@ -318,14 +384,14 @@ namespace ExchangeTermial
             return true;
         }
 
-        public bool AccessWeb(string host, string url, string PostData, Encoding encoding, Func<string, bool> succFunc, Action<string, string> faileFunc, bool Post = true, CookieCollection inCookie = null, bool allowRedirect = false, string referUrl=null)
+        public bool AccessWeb(string host, string url, string PostData, Encoding encoding, Func<string, bool> succFunc, Action<string, string> faileFunc, bool Post = true, CookieCollection inCookie = null, bool allowRedirect = false, string referUrl = null)
         {
             try
             {
-                string ret = GetOrPostFormString(url, PostData,Post,referUrl, allowRedirect);
+                string ret = GetOrPostFormString(url, PostData, Post, referUrl, allowRedirect);
                 return succFunc(ret);
             }
-            catch(Exception ce)
+            catch (Exception ce)
             {
                 faileFunc(ce.Message, ce.StackTrace);
             }
@@ -333,14 +399,14 @@ namespace ExchangeTermial
             ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult);
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Ssl3;
             ServicePointManager.CheckCertificateRevocationList = false;
-            
+
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
-            
+
             //req. "zh-Cn");
             try
             {
                 //setRequest(req, Post, host, "", allowRedirect, inCookie);
-                if(string.IsNullOrEmpty(PostData))
+                if (string.IsNullOrEmpty(PostData))
                 {
                     req.ContentLength = 0;
                 }
@@ -354,9 +420,9 @@ namespace ExchangeTermial
                 string ret = null;
                 HttpWebResponse res = (HttpWebResponse)req.GetResponse();
                 bool firstTime = true;
-                while(!req.AllowAutoRedirect&& (res.StatusCode == HttpStatusCode.RedirectKeepVerb || res.StatusCode == HttpStatusCode.Redirect))
+                while (!req.AllowAutoRedirect && (res.StatusCode == HttpStatusCode.RedirectKeepVerb || res.StatusCode == HttpStatusCode.Redirect))
                 {
-                    
+
                     string currUrl = req.Address.ToString();
                     string reurl = host + res.Headers["Location"].ToString();
                     CookieCollection cc = res.Cookies;
@@ -367,12 +433,12 @@ namespace ExchangeTermial
                         firstTime = false;
                     }
                     res = (HttpWebResponse)req.GetResponse();
-                  
+
                 }
                 ret = new StreamReader(res.GetResponseStream()).ReadToEnd();
                 return succFunc == null ? false : succFunc.Invoke(ret);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 faileFunc(e.Message, e.StackTrace);
                 return false;
@@ -390,12 +456,12 @@ namespace ExchangeTermial
         /// <param name="ruleId"></param>
         /// <param name="sender"></param>
         /// <returns></returns>
-        public bool sendInsts(string expectNo,string EncodingMsg, string dtpName, string orgMsg, double lastval,string ruleId, object sender,Func<string,bool> succFunc,Action<string,string> failFunc)
+        public bool sendInsts(string expectNo, string EncodingMsg, string dtpName, string orgMsg, double lastval, string ruleId, object sender, Func<string, bool> succFunc, Action<string, string> failFunc)
         {
             try
             {
                 string guid = GenerateGuid();//无论如何，先生成一个guid,可用可不用
-                if(string.IsNullOrEmpty(guid))
+                if (string.IsNullOrEmpty(guid))
                 {
                     guid = Guid.NewGuid().ToString();
                 }
@@ -406,17 +472,17 @@ namespace ExchangeTermial
                     return false;
                 }
                 string url = getUrl(guid);
-                return AccessWeb(host,hostWithHead + url, postData, Encoding.UTF8, succFunc, failFunc, true, this.CurrCookies, false);
+                return AccessWeb(host, hostWithHead + url, postData, Encoding.UTF8, succFunc, failFunc, true, this.CurrCookies, false);
             }
-            catch(Exception ce)
+            catch (Exception ce)
             {
                 failFunc(ce.Message, ce.StackTrace);
                 return false;
             }
-                //return false;
+            //return false;
         }
 
-        public string getPostData(string ExpectNo,string EncodingMsg,string ruleid,string guid)
+        public string getPostData(string ExpectNo, string EncodingMsg, string ruleid, string guid)
         {
             VsaEngine Engine = VsaEngine.CreateEngine();
             string txt = GlobalClass.LoadTextFile("getPostData.js", string.Format("jscript\\{0}\\", gc.ForWeb));
@@ -444,23 +510,23 @@ namespace ExchangeTermial
         }
 
         object ExecuteScript(string sExpression, string sCode)
-         {
-             MSScriptControl.ScriptControl scriptControl = new MSScriptControl.ScriptControl();
-             scriptControl.UseSafeSubset = false;
-             
-             scriptControl.Language = "JScript";
-             scriptControl.AddCode(sCode);
-             try
-             {
-                 object str = scriptControl.Eval(sExpression);
-                 return str;
-             }
-             catch (Exception ex)
-             {
-                 string str = ex.Message;
-             }
-             return null;
-         }
+        {
+            MSScriptControl.ScriptControl scriptControl = new MSScriptControl.ScriptControl();
+            scriptControl.UseSafeSubset = false;
+
+            scriptControl.Language = "JScript";
+            scriptControl.AddCode(sCode);
+            try
+            {
+                object str = scriptControl.Eval(sExpression);
+                return str;
+            }
+            catch (Exception ex)
+            {
+                string str = ex.Message;
+            }
+            return null;
+        }
 
         public string GenerateGuid()
         {
@@ -472,7 +538,7 @@ namespace ExchangeTermial
                 object value = Eval.JScriptEvaluate(allscript, Engine);
                 return value?.ToString();
             }
-            catch(Exception ce)
+            catch (Exception ce)
             {
                 return null;
             }
@@ -484,7 +550,7 @@ namespace ExchangeTermial
             {
                 string txt = GlobalClass.LoadTextFile("getUrl.js", string.Format("jscript\\{0}\\", gc.ForWeb));
                 string allscript = string.Format("{0};getUrl('{1}');", txt, guid);
-                VsaEngine Engine =VsaEngine.CreateEngine();
+                VsaEngine Engine = VsaEngine.CreateEngine();
                 object value = Eval.JScriptEvaluate(allscript, Engine);
                 return value?.ToString();
             }
@@ -495,7 +561,7 @@ namespace ExchangeTermial
         }
 
 
-        public string GetOrPostFormString(string url, string body,bool POST=true,string referUrl = null,bool allowDirect = false)
+        public string GetOrPostFormString(string url, string body, bool POST = true, string referUrl = null, bool allowDirect = false)
         {
             string result = string.Empty;
             Stream stream = Retry<Stream>(() =>
@@ -599,30 +665,35 @@ namespace ExchangeTermial
             return request;
         }
 
-        public HttpWebResponse getConnect(string url)
+        public bool getConnect(string url)
         {
             //ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult);
             //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Ssl3;
             //ServicePointManager.CheckCertificateRevocationList = false;
             HttpWebRequest req = null;
-            HttpWebResponse response = null;
-            
-            req = WebRequest.Create(url) as HttpWebRequest;
-            req.ProtocolVersion = HttpVersion.Version11;
-            req.Method =  WebRequestMethods.Http.Connect;
-            req.KeepAlive = true;
-            //req.CookieContainer = new CookieContainer();
-            //req.AllowAutoRedirect = true;
-            req.Host = host;
-            response = req.GetResponse() as HttpWebResponse;
-            //while(response.StatusCode == HttpStatusCode.Redirect || response.StatusCode == HttpStatusCode.RedirectKeepVerb || response.StatusCode == HttpStatusCode.Moved)
-            //{
+            HttpWebResponse res = null;
+            try
+            {
+                req = WebRequest.Create(url + ":443") as HttpWebRequest;
+                req.ProtocolVersion = HttpVersion.Version11;
+                req.Method = WebRequestMethods.Http.Connect;
+                req.KeepAlive = true;
+                //req.CookieContainer = new CookieContainer();
+                //req.AllowAutoRedirect = true;
+                req.Credentials = CredentialCache.DefaultCredentials;
+                req.Host = host;
+                res = req.GetResponse() as HttpWebResponse;
+                res.Close();
+                return true;
+            }
+            catch(Exception ce)
+            {
+                return false;
+            }
+            return false;
+        }
 
-            //}
-            return response;
-    }
-
-        public Stream GetResponseStream(string url, bool post=true, string contentType = null, string body = null,string referUrl= null,bool AllowRedirect = false)
+        public Stream GetResponseStream(string url, bool post = true, string contentType = null, string body = null, string referUrl = null, bool AllowRedirect = false)
         {
             HttpWebRequest request = null;
             HttpWebResponse response = null;
@@ -635,14 +706,14 @@ namespace ExchangeTermial
                 //string oldUrl = request.RequestUri.ToString();
                 string redirectUrl = response.Headers["Location"].ToString();
                 request = WebRequest.Create(hostWithHead + redirectUrl) as HttpWebRequest;
-                
-                for(int i=0;i<response.Cookies.Count;i++)
+
+                for (int i = 0; i < response.Cookies.Count; i++)
                 {
                     Cookie cc = response.Cookies[i];
                     CookieContainer.SetCookies(new Uri(hostWithHead), getCookie(cc.Name, cc.Value, cc.Path));
                 }
                 request = setRequest(request, post, host, body, referUrl, true, cookieContainer, contentType);
-                
+
                 response = request.GetResponse() as HttpWebResponse;
             }
             stream = response.GetResponseStream();
@@ -668,12 +739,12 @@ namespace ExchangeTermial
                 request.Headers.Add("x-requested-with", "XMLHttpRequest");
                 request.AllowAutoRedirect = true;
                 response = request.GetResponse() as HttpWebResponse;
-                while(response.StatusCode == HttpStatusCode.RedirectKeepVerb)
+                while (response.StatusCode == HttpStatusCode.RedirectKeepVerb)
                 {
                     string newUrl = hostWithHead + response.Headers["Location"].ToString();
-                    if(response.Cookies.Count>0)
+                    if (response.Cookies.Count > 0)
                     {
-                        
+
                         ret = response.Cookies;
                         return ret;
                     }
@@ -690,7 +761,7 @@ namespace ExchangeTermial
                 }
                 ret = response.Cookies;
             }
-            catch(Exception ce)
+            catch (Exception ce)
             {
                 return null;
             }
@@ -698,7 +769,7 @@ namespace ExchangeTermial
         }
 
 
-        HttpWebRequest setRequest(HttpWebRequest request, bool Post,string host,string body,string referUrl=null,bool AllowRedirect = false, CookieContainer cc=null,string contentType = null)
+        HttpWebRequest setRequest(HttpWebRequest request, bool Post, string host, string body, string referUrl = null, bool AllowRedirect = false, CookieContainer cc = null, string contentType = null)
         {
 #if !DEBUG
             //request.Proxy = null;
@@ -785,11 +856,11 @@ namespace ExchangeTermial
                 //req.Headers.Set(HttpRequestHeader.Host, host.Replace("https://", "").Replace("http://", ""));
                 SetHeaderValue(req.Headers, "Host", host.Replace("https://", "").Replace("http://", ""));
             }
-            
+
             req.Headers.Add("Upgrade-Insecure-Requests", "1");
-            
+
             //req.Method = Post ? "Post" : "GET";
-            if(cc != null)
+            if (cc != null)
             {
 
                 //if (cc.Count>0 && cc[cc.Count-1].Name != "ai_user")
@@ -798,7 +869,7 @@ namespace ExchangeTermial
                 //    cc.Add(new Cookie("ai_user", ai_user, "/", req.Host));
                 //}
                 List<string> cs = new List<string>();
-          
+
                 //req.CookieContainer.Add(cc);
                 string strCookie = string.Join(";", cs);
                 SetHeaderValue(req.Headers, "Cookie", strCookie);
@@ -814,15 +885,15 @@ namespace ExchangeTermial
                 collection[name] = value;
             }
         }
-        public string ToServer(string host,string url, string PostData, Encoding Encode,Action<string> succFunc,Action<string> faileFunc, bool Post = true,CookieCollection inCookie=null)
+        public string ToServer(string host, string url, string PostData, Encoding Encode, Action<string> succFunc, Action<string> faileFunc, bool Post = true, CookieCollection inCookie = null)
         {
-            
+
 
             HttpClientHandler handler = new HttpClientHandler();
-            handler.AllowAutoRedirect = false ;
+            handler.AllowAutoRedirect = false;
             handler.UseCookies = true;
             handler.CookieContainer = new CookieContainer();
-            if(inCookie != null)
+            if (inCookie != null)
             {
                 handler.CookieContainer.Add(inCookie);
             }
@@ -847,7 +918,7 @@ namespace ExchangeTermial
             req.DefaultRequestHeaders.Add("Host", host.Replace("https://", "").Replace("http://", ""));
             req.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:50.0) Gecko/20100101 Firefox/50.0");
             req.DefaultRequestHeaders.Add("Accept-Language", "zh-Cn");
-            
+
             string method = "Post";
             CookieCollection cc1 = new CookieCollection();
             //cc1.Add(new Cookie("ai_user", "", "/", req.DefaultRequestHeaders.Host));
@@ -858,17 +929,17 @@ namespace ExchangeTermial
                 method = "Get";
             req.DefaultRequestHeaders.Add("Method", method);
             req.DefaultRequestHeaders.Add("KeepAlive", "true");
-            req.DefaultRequestHeaders.Add("Cookie","");
+            req.DefaultRequestHeaders.Add("Cookie", "");
 
             try
             {
                 Uri accessUrl = new Uri(url);
-                var res = req.GetAsync(url.Replace(host,"")).Result;   
+                var res = req.GetAsync(url.Replace(host, "")).Result;
                 bool changed = false;
                 while (res.StatusCode == HttpStatusCode.RedirectKeepVerb)
                 {
-                    string fullUrl = host + accessUrl.ToString().Replace(host,"");
-                    CookieCollection cc =  handler.CookieContainer.GetCookies(new Uri(fullUrl));
+                    string fullUrl = host + accessUrl.ToString().Replace(host, "");
+                    CookieCollection cc = handler.CookieContainer.GetCookies(new Uri(fullUrl));
                     //if (changed == false)
                     {
                         accessUrl = res.Headers.Location;
@@ -879,20 +950,20 @@ namespace ExchangeTermial
                     {
                         cookies.Add(string.Format("{0}={1}", cc[i].Name, cc[i].Value));
                     }
-                    
+
                     //req.DefaultRequestHeaders.Add("Set-Cookie", string.Join(";", cookies));
                     //////HttpClient hc = new HttpClient(handler);
                     //////req.DefaultRequestHeaders.ToList().ForEach(
                     //////    a=> {
                     //////        hc.DefaultRequestHeaders.Add(a.Key, a.Value);
                     //////    });
-                    
-                    res = req.GetAsync(host+res.Headers.Location).Result;
+
+                    res = req.GetAsync(host + res.Headers.Location).Result;
                 }
                 ret = res.Content.ReadAsStringAsync().Result;
                 succFunc?.Invoke(ret);
             }
-            catch(Exception ce)
+            catch (Exception ce)
             {
                 faileFunc?.Invoke(ce.Message);
                 return null;
@@ -956,9 +1027,6 @@ namespace ExchangeTermial
         }
     }
 
-    public class MyRequest:WebResponse
-    {
-        
-    }
+    
 
 }

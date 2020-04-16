@@ -104,7 +104,7 @@ namespace PK10Server
                     frm = new MainForm();
                     tm_heart = new Timer();
                     tm_heart.Enabled = true;
-                    tm_heart.Interval = 100;
+                    tm_heart.Interval = 800;
                     tm_heart.Tick += Tm_heart_Tick;
                     Application.Run(frm);
                 }
@@ -124,7 +124,7 @@ namespace PK10Server
             {
                 if (UseSetting != null)
                 {
-                    tm_heart.Interval = 100;
+                    tm_heart.Interval = 800;
                     bool haveRec = UseSetting.haveReceiveData;
                     if (haveRec)
                     {
@@ -255,7 +255,7 @@ namespace PK10Server
                 this.RefreshMainWindow();
                 
             }
-            System.Threading.Thread.Sleep(1000);
+            //System.Threading.Thread.Sleep(1000);
             if (this.RefreshMonitorWindow == null)
             {
                 Program.wxlog.Log("无法刷新", "主监控窗口事件未初始化！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));

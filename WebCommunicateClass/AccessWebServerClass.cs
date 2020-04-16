@@ -39,6 +39,7 @@ namespace WolfInv.com.WebCommunicateClass
         {
             string ret = "";
             HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
+            req.ContentType = "application/x-www-form-urlencoded,multipart/form-data,application/json,application/xml";
             req.Method = "Post";
             try
             {

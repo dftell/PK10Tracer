@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using WolfInv.com.WebCommunicateClass;
 using System.Linq;
 using WolfInv.com.ProbMathLib;
+using System.Security.Permissions;
 
 namespace WolfInv.com.WebRuleLib
 {
     /// <summary>
     /// XxY类，包括11选5，12选5，重庆时时彩等
     /// </summary>
+    [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+    [System.Runtime.InteropServices.ComVisibleAttribute(true)]
     public  class XxYLotteryConfigClass : LotteryConfigClass
     {
 

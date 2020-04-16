@@ -194,19 +194,75 @@ namespace WolfInv.com.ServerInitLib
         /// <returns></returns></T>
         public static bool JudgeInRunTime<T>(DateTime CurrTime, StragRunPlanClass<T> spc) where T:TimeSerialData
         {
-            
+            DataTypePoint dtp = GlobalClass.TypeDataPoints.First().Value;
+            DateTime useStartTime = dtp.ReceiveStartTime.AddHours(-1 * dtp.DiffHours).AddMinutes(-1 * dtp.DiffMinutes);
+            DateTime useEndTime = (dtp.ReceiveEndTime == DateTime.MinValue ? DateTime.Parse("23:59:00") : dtp.ReceiveEndTime).AddHours(-1 * dtp.DiffHours).AddMinutes(-1 * dtp.DiffMinutes).AddHours(1); //多加一个小时
+            DateTime currDayStartTime = DateTime.Today.AddTicks(useStartTime.TimeOfDay.Ticks);
+            DateTime currDayEndTime = DateTime.Today.AddTicks(useEndTime.TimeOfDay.Ticks);
+            bool crossDay = false;
+            if (currDayStartTime > currDayEndTime)//跨天
+            {
+                crossDay = true;
+                if (CurrTime < currDayEndTime)//已经跨天了
+                {
+                    currDayStartTime = currDayStartTime.AddDays(-1);
+                }
+                else
+                {
+                    currDayEndTime = currDayEndTime.AddDays(1);
+                }
+            }
+            if (CurrTime > currDayStartTime && CurrTime < currDayEndTime)//任何一个彩种，只要当前时间介于开始时间和结束时间之间，返回真，否者
+            {
+                return true;
+            }
+
+            return false;
+
+
+
             int diffHours = GlobalClass.TypeDataPoints.First().Value.DiffHours;
             int diffMinutes = GlobalClass.TypeDataPoints.First().Value.DiffMinutes;
-            DateTime cprTime = CurrTime.AddHours(diffHours).AddMinutes(diffMinutes);
+            DateTime cprTime = CurrTime.AddHours(diffHours).AddMinutes(diffMinutes).AddHours(-1);//多减一个小时，防止超出
             string strToday = CurrTime.AddHours(diffHours).ToShortDateString();
             DateTime setBegTime = DateTime.Parse(string.Format("{0} {1}", strToday, spc.DailyStartTime));
             DateTime setEndTime = DateTime.Parse(string.Format("{0} {1}", strToday, spc.DailyEndTime));
             if (cprTime < setBegTime || cprTime > setEndTime)
             {
-                //ToLog("策略超出执行时间", spc.ToString());
+
+                ToLog(string.Format("策略超出执行时间,当前调整后时间:{0}",cprTime.ToString()), spc.ToString());
                 return false;
             }
             return true;
+        }
+        static bool inWorkTimeRange(DataTypePoint dtp, DateTime currTime)
+        {
+            //DateTime startTime;
+            //DateTime endTime;
+            
+            DateTime useStartTime = dtp.ReceiveStartTime.AddHours(-1 * dtp.DiffHours).AddMinutes(-1 * dtp.DiffMinutes);
+            DateTime useEndTime = (dtp.ReceiveEndTime == DateTime.MinValue ? DateTime.Parse("23:59:00") : dtp.ReceiveEndTime).AddHours(-1 * dtp.DiffHours).AddMinutes(-1 * dtp.DiffMinutes);
+            DateTime currDayStartTime = DateTime.Today.AddTicks(useStartTime.TimeOfDay.Ticks);
+            DateTime currDayEndTime = DateTime.Today.AddTicks(useEndTime.TimeOfDay.Ticks);
+            bool crossDay = false;
+            if (currDayStartTime > currDayEndTime)//跨天
+            {
+                crossDay = true;
+                if (currTime < currDayEndTime)//已经跨天了
+                {
+                    currDayStartTime = currDayStartTime.AddDays(-1);
+                }
+                else
+                {
+                    currDayEndTime = currDayEndTime.AddDays(1);
+                }
+            }
+            if (currTime > currDayStartTime && currTime < currDayEndTime)//任何一个彩种，只要当前时间介于开始时间和结束时间之间，返回真，否者
+            {
+                return true;
+            }
+           
+            return false;
         }
 
     }

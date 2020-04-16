@@ -372,7 +372,7 @@ namespace DataRecSvr
             //判断是否错过了期数，如果错过期数，将所有追踪策略归零，不再追号,也不再执行选号程序，
             //是否要连续停几期？执行完后，在接收策略里面发现前10期有不连续的情况，直接跳过，只接收数据不执行选号。
             this.CurrData.UseType = this.DataPoint;
-            if (this.CurrData.MissExpectCount() > 1)
+            if (this.DataPoint.DataType == "PK10" &&  this.CurrData.MissExpectCount() > 1)
             {
                 if (!IsTestBack) //如果非回测，保存交易记录
                 {

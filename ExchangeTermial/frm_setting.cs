@@ -44,12 +44,16 @@ namespace ExchangeTermial
                     int.TryParse(dt.Rows[i]["cnt"]?.ToString(), out aic.value);
                     //int.TryParse(dt.Rows[i]["needSelectTime"]?.ToString(), out aic.NeedSelectTimes);
                     aic.NeedSelectTimes = (bool)dt.Rows[i]["needSelectTime"]==true ? 1 : 0;
+                    int.TryParse(dt.Rows[i]["currTimes"]?.ToString(), out aic.CurrTimes);
                     double.TryParse(dt.Rows[i]["gainedUbound"]?.ToString(), out aic.maxStopGainedValue);
                     ret.Add(dt.Rows[i]["id"].ToString(), aic);
                 }
                 Program.gc.AssetUnits = ret;
 
-                SaveToServer(ret);
+                if(!SaveToServer(ret))
+                {
+                    return;
+                }
                 GlobalClass.SetConfig(Program.gc.ForWeb);
                 this.Close();
             }
@@ -59,7 +63,7 @@ namespace ExchangeTermial
             }
         }
 
-        void SaveToServer(Dictionary<string,AssetInfoConfig> assets)
+        bool SaveToServer(Dictionary<string,AssetInfoConfig> assets)
         {
             string strReq = "<config  type='AssetUnits'>{0}</config>";
             string[] list = assets.Select(a => string.Format("{0}", GlobalClass.writeXmlItems(a.Value.getStringDic(),a.Key,a.Value.value))).ToArray();
@@ -68,13 +72,15 @@ namespace ExchangeTermial
             string reqAsset = string.Format(strReq, string.Join("", list));
             string encode = HttpUtility.UrlEncode(reqAsset, Encoding.UTF8);
             string url = urlModel;
-            string strPost = string.Format("UserId={0}&AssetConfig={1}&dir=1", Program.UserId, encode);
+            string strPost = string.Format("UserId={0}&dir=1&AssetConfig={1}", Program.UserId, encode);
             string succ = AccessWebServerClass.PostData(url,strPost, Encoding.UTF8);
-            if(succ == "succ")
+            
+            bool ret = (succ == "succ");
+            if(!ret)
             {
                 MessageBox.Show(succ);
             }
-
+            return ret;
         }
 
         DataTable getAssetUnitSetting(Dictionary<string,string> aul,Dictionary<string,AssetInfoConfig> aus)
@@ -83,6 +89,7 @@ namespace ExchangeTermial
             dt.Columns.Add("id");
             dt.Columns.Add("name");
             dt.Columns.Add("cnt");
+            dt.Columns.Add("currTimes");
             dt.Columns.Add("needSelectTime",typeof(bool));
             dt.Columns.Add("gainedUbound");
             foreach(string key in aul.Keys)
@@ -91,6 +98,7 @@ namespace ExchangeTermial
                 dr["id"] = key;
                 dr["name"] = aul[key];
                 dr["cnt"] = aus.ContainsKey(key) ? aus[key].value : 1;
+                dr["currTimes"] = aus.ContainsKey(key) ? aus[key].CurrTimes : 0;
                 dr["needSelectTime"] = aus.ContainsKey(key) ? aus[key].NeedSelectTimes : 0;
                 dr["gainedUbound"] = aus.ContainsKey(key) ? aus[key].maxStopGainedValue : 0;
                 dt.Rows.Add(dr);

@@ -55,6 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ASHC_WebRule.cs" />
     <Compile Include="IWebRule.cs" />
     <Compile Include="JsProcessRuleClass.cs" />
     <Compile Include="LotteryBetRuleClass.cs" />

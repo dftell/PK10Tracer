@@ -144,8 +144,11 @@ namespace PK10Server
             try
             {
                 RefreshPK10Data();
+                Application.DoEvents();
                 RefreshPK10NoClosedChances();
+                Application.DoEvents();
                 RefrshStragAndPlan();
+                Application.DoEvents();
                 RefreshLogData();
             }
             catch

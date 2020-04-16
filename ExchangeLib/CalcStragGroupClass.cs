@@ -182,7 +182,7 @@ namespace WolfInv.com.ExchangeLib
                         TraceChance<T> tcc = CurrCc as TraceChance<T>;
                         CurrCc.UnitCost = tcc.getChipAmount(GlobalClass.DefaultMaxLost,CurrCc,GlobalClass._DefaultHoldAmtSerials.Value);
                         //CurrCc.HoldTimeCnt = CurrCc.HoldTimeCnt + 1;
-                        CurrCc.HoldTimeCnt = (int)DataReader.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp);
+                        CurrCc.HoldTimeCnt = (int)DataReader.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp)+1;
                         CurrCc.Cost += CurrCc.ChipCount * CurrCc.UnitCost;
                         CurrCc.UpdateTime = CurrCc.CreateTime;
                         OldList.Add(CurrCc.GUID, CurrCc);
@@ -240,7 +240,7 @@ namespace WolfInv.com.ExchangeLib
                         {
                             CurrCc = OldCc;
                             //CurrCc.HoldTimeCnt = CurrCc.HoldTimeCnt + 1;
-                            CurrCc.HoldTimeCnt = (int)DataReader.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp);
+                            CurrCc.HoldTimeCnt = (int)DataReader.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp)+1;
                             CurrCc.UnitCost = 0;
                             NeedUseOldData = true;
                             Log("计算服务", "相同处理", string.Format("出现相同的机会{0},持有次数增1->{1}", CurrCc.ChanceCode, CurrCc.HoldTimeCnt));
@@ -347,7 +347,7 @@ namespace WolfInv.com.ExchangeLib
                         if (specStrag != null)//如果没有方法，再从机会级检查
                         {
                             //CurrCc.HoldTimeCnt++;
-                            CurrCc.HoldTimeCnt = (int)DataReader.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp);
+                            CurrCc.HoldTimeCnt = (int)DataReader.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp) +1;
                             CurrCc.UnitCost = specStrag.getChipAmount(restAmt, CurrCc, amts);
                             CurrCc.Cost += CurrCc.ChipCount * CurrCc.UnitCost;
                             CurrCc.UpdateTime = DateTime.Now;
@@ -363,7 +363,7 @@ namespace WolfInv.com.ExchangeLib
                     {
 
                         //CurrCc.HoldTimeCnt++;
-                        CurrCc.HoldTimeCnt = (int)DataReader.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp);
+                        CurrCc.HoldTimeCnt = (int)DataReader.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp)+1;
                         TraceChance<T> testCc = (TraceChance<T>)CurrCc;
                         if (testCc == null) continue;
                         CurrCc.UnitCost = testCc.getChipAmount(restAmt, CurrCc, amts);
@@ -379,7 +379,7 @@ namespace WolfInv.com.ExchangeLib
                     else
                     {
                         //CurrCc.HoldTimeCnt++;
-                        CurrCc.HoldTimeCnt = (int)DataReader.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp);
+                        CurrCc.HoldTimeCnt = (int)DataReader.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp)+1;
                         ISpecAmount Strag = (ISpecAmount)currStrag;
                         if (Strag == null) continue ;
                         CurrCc.UnitCost = Strag.getChipAmount(restAmt, CurrCc, amts);

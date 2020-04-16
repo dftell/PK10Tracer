@@ -11,6 +11,7 @@ using System.Drawing;
 using mshtml;
 using Gecko;
 using WolfInv.com.ProbMathLib;
+using System.Security.Permissions;
 //using WolfInv.com.SecurityLib;
 namespace WolfInv.com.WebRuleLib
 {
@@ -36,10 +37,11 @@ namespace WolfInv.com.WebRuleLib
         }
     }
 
-    
-    
 
-   
+
+
+    [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+    [System.Runtime.InteropServices.ComVisibleAttribute(true)]
     public class Rule_ForKcaiCom : WebRule
     {
         GlobalClass gsetting;

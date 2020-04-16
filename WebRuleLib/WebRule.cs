@@ -11,7 +11,7 @@ using System.Xml.Linq;
 using System.Drawing;
 using Gecko;
 using System.Text.RegularExpressions;
-
+using System.Security.Permissions;
 namespace WolfInv.com.WebRuleLib
 {
 
@@ -71,6 +71,41 @@ namespace WolfInv.com.WebRuleLib
         }
     }
 
+    public class WebServerReturnClass
+    {
+        public string returnJson;
+        public string Msg;
+    }
+    public class WebUserInfoClass : WebServerReturnClass
+    {
+        public string Name;
+        public string Pwd;
+        public string BankId;
+        public string AssetPwd;
+        public bool LoginSucc;
+    }
+
+    public class AmountInfoClass:WebServerReturnClass
+    {
+        public double CurrMoney;
+    }
+
+    public class WebBetReturnInfoClass: WebServerReturnClass
+    {
+        public bool Succ;
+        public double restAmount;
+        public string SerialNo;
+        public int betRecordCnt;
+        public string betRecInfo;
+
+    }
+    public class GameInfoClass : WebServerReturnClass
+    {
+        public string GameId;
+        public Dictionary<string, LotteryBetRuleClass> AllRules;
+    }
+    [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+    [System.Runtime.InteropServices.ComVisibleAttribute(true)]
     public abstract class WebRule : ILotteryRule
     {
         public string webName;
@@ -91,6 +126,12 @@ namespace WolfInv.com.WebRuleLib
             }
         }
 
+        public Action<WebBetReturnInfoClass> SuccSend;
+        public Action<WebUserInfoClass> SuccLogin;
+        public Action<AmountInfoClass> SuccGetAmount;
+        public Action<GameInfoClass> SuccGetGameInfo;
+        public Action<string,string> CompleteSendMsg;
+        public Action<string, string> MsgBox;
 
         public bool Load(string filename,string foldername)
         {
@@ -112,16 +153,7 @@ namespace WolfInv.com.WebRuleLib
                 return false;
             }
         }
-
-
-
-
-
-
-
-
-
-
+                
         #region 获取或判断对象值
         public  bool IsLoadCompleted(HtmlDocument indoc)
         {
@@ -372,6 +404,40 @@ namespace WolfInv.com.WebRuleLib
             outVal = ret.AttValue;
             return true;
         }
+
+        public virtual bool LoginSuccFunc(string res)
+        {
+            return false;
+        }
+
+        public virtual bool GetGameInfoSuccFunc(string res)
+        {
+            return false;
+        }
+
+        public virtual bool GetAmountSuccFunc(string res)
+        {
+            return false;
+        }
+
+        public virtual void LoginErrorFunc(string res)
+        {
+
+        }
+        public virtual bool SendCompletedFunc(string res)
+        {
+            return false;
+        }
+        public virtual bool SendSuccFunc(string res)
+        {
+            return false;
+        }
+
+        public virtual void MsgTo(string title,string msg)
+        {
+            this.MsgBox?.Invoke(title, msg);
+        }
+
     }
 
     public class HtmlTagClass
@@ -452,13 +518,19 @@ namespace WolfInv.com.WebRuleLib
     {
         public static WebRule Create(GlobalClass gc)
         {
-            
+            string val = gc.InstFormat.ToLower().Trim();
             WebRule ret = null;
-            switch(gc.InstFormat.ToLower().Trim())
+            switch(val)
             {
                 case "kcai":
                     {
                         ret = new Rule_ForKcaiCom(gc.InstFormat, gc);
+                        break;
+                    }
+                case "ashc": //傲视皇朝
+                case "jhc"://金皇朝
+                    {
+                        ret = new ASHC_WebRule(gc.InstFormat, gc);
                         break;
                     }
                 default:
