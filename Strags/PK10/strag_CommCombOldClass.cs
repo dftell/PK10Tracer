@@ -148,12 +148,16 @@ namespace WolfInv.com.Strags
                     int Time1, Time2,SameNoCnt;
                     Time1 = MatchTimes[_key];
                     Time2 = MatchTimes[_key1];
-                    if(!BySer)//如果是按车视图
-                    {
-                        Time1-=2;
-                        Time2-=2;
-                    }
+                    
                     SameNoCnt = ChanceClass.getSameNoCnt(MatchChances[_key], MatchChances[_key1]);//获得相同号码的数量
+                    if (SameNoCnt < this.ChipCount)
+                    {
+                        if (this.UsingDpt.DataType == "XYFT" && this.ChipCount == 3)//xyft 3*2或者2*3 需要减2
+                        {
+                            Time1 -= 2;
+                            Time2 -= 2;
+                        }
+                    }
                     //判断两个是不是本车/本排名中最大长度的机会
                     int AddSameNocnt = -2;//只有两个都是最长才不减，否则每个减1
                     if (MaxCnts[key] > Time1)
@@ -169,6 +173,7 @@ namespace WolfInv.com.Strags
                         Time2 -= 2;
                     }
                     //SameNoCnt += AddSameNocnt;
+                    
                     bool Matched = false;
                     //Level1
                     int LevelU2 = this.CommSetting.minColTimes[this.ChipCount + 2 - 1]; //上两级

@@ -1092,7 +1092,10 @@ namespace PK10Server
             }
         }
 
-   
+        private void contextMenuStrip_OperatePlan_Opening(object sender, CancelEventArgs e)
+        {
+
+        }
     }
 
 

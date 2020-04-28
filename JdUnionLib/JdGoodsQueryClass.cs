@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
@@ -202,30 +204,47 @@ namespace WolfInv.com.JdUnionLib
                 for(int i=0;i<returnResult.data.unionGoods.Count;i++)
                 {
                     string id = returnResult.data.unionGoods[i][0].skuId;
+                    JdSearchGoods jsg = returnResult.data.unionGoods[i][0];
                     JdGoodSummayInfoItemClass ji = new JdGoodSummayInfoItemClass();
                     if (AllcommissionGoods == null)
                         AllcommissionGoods = new Dictionary<string, JdGoodSummayInfoItemClass>();
                     if (AllcommissionGoods.ContainsKey(id))
                     {
                         ji = AllcommissionGoods[id];
+                        
+                        if(ret.Count>defaultReturnCnt)
+                        {
+                            break;
+                        }
                         ret.Add(id, ji);
                     }
                     else
                     {
-                        if(noMatchedList.Count< defaultReturnCnt)
-                            noMatchedList.Add(id);
+                        if (jsg.hasCoupon == 0)
+                        {
+                            if (noMatchedList.Count < defaultReturnCnt)
+                                noMatchedList.Add(id);
+                        }
+                        else //如果显示有优惠券，直接用搜到的信息
+                        {
+                            ji = jsg;
+                            ret.Add(id, ji);
+                        }
                     }
                     
                 }
                 List<JdGoodSummayInfoItemClass> res = null;
-                if (LoadPromotionGoodsinfo != null)
+                if (noMatchedList.Count > 0)
                 {
-                    res = LoadPromotionGoodsinfo(noMatchedList);
-                    
-                }
-                else
-                {
-                    res = getInfoBySukIds(noMatchedList);
+                    if (LoadPromotionGoodsinfo != null)
+                    {
+                        res = LoadPromotionGoodsinfo(noMatchedList);
+
+                    }
+                    else
+                    {
+                        res = getInfoBySukIds(noMatchedList);
+                    }
                 }
                 res.ForEach(a =>
                 {
@@ -243,7 +262,7 @@ namespace WolfInv.com.JdUnionLib
             return ret;
         }
 
-        static List<JdGoodSummayInfoItemClass> getInfoBySukIds(List<string> skids)
+        public static List<JdGoodSummayInfoItemClass> getInfoBySukIds(List<string> skids)
         {
             //JdUnion_Goods_PromotionGoodsinfo_Class
             string dsName = "JDUnion_PromotionGoodsinfo";
@@ -273,6 +292,13 @@ namespace WolfInv.com.JdUnionLib
                 jsiic.imgageUrl = dr["JGD08"].ToString();
                 jsiic.materialUrl = dr["JGD09"].ToString();
                 jsiic.price = dr["JGD11"].ToString();
+                if (dr.Table.Columns.Contains("JGD18"))
+                {
+                    jsiic.seckillEndTime = dr["JGD18"].ToString();
+                    jsiic.seckillOriPrice = dr["JGD19"].ToString();
+                    jsiic.seckillPrice = dr["JGD20"].ToString();
+                    jsiic.seckillStartTime = dr["JGD21"].ToString();
+                }
                 jsiic.discount = "";
                 jsiic.couponLink = "";
                 ret.Add(jsiic);
@@ -298,12 +324,104 @@ namespace WolfInv.com.JdUnionLib
         {
 
         }
-
-        class JdSearchGoods
+        
+        public static string getShortLink(string url)
         {
-            public string skuId;
-            public string skuName;
-            public string materialUrl;
+            string createUrl = "https://dwz.cn/admin/v2/create";
+            String SIGN = "7d2772ad2792943aa67ae1213f9288d9";
+            string content_type = "application/json";
+            string strUrl = "{\"Url\":\"{0}\"}";
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(createUrl);
+            string ret = null;
+            try
+            {
+                req.Method = "Post";
+                //req.Headers.Add("Content-Type", content_type);
+                req.ContentType = content_type;
+                req.Headers.Add("Token", SIGN);
+
+
+                string Data = strUrl.Replace("{0}", url);
+                byte[] byteArray = Encoding.UTF8.GetBytes(Data);
+                Stream newStream = req.GetRequestStream();//创建一个Stream,赋值是写入HttpWebRequest对象提供的一个stream里面
+                newStream.Write(byteArray, 0, byteArray.Length);
+                newStream.Close();
+                using (WebResponse wr = req.GetResponse())
+                {
+                    wr.GetResponseStream();
+                    ret = new StreamReader(wr.GetResponseStream(), Encoding.UTF8).ReadToEnd();
+                    wr.Close();
+                }
+                if (!string.IsNullOrEmpty(ret))
+                {
+                    JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+                    shortLinkReturnResult returnResult = javaScriptSerializer.Deserialize<shortLinkReturnResult>(ret);
+                    if (returnResult.Code != 0)
+                    {
+                        return null;
+                    }
+                    return returnResult.ShortUrl;
+                }
+                return null;
+            }
+            catch (Exception ce)
+            {
+
+            }
+            return "";
+        }
+
+
+        public class JdSearchGoods: JdGoodSummayInfoItemClass
+        {
+            //public string couponLink;
+            public double couponDiscount;
+            public double couponQuota;
+            public double lowerPrice;
+            public double finalPrice;
+            public int hasCoupon;
+            public double wlPrice;
+            public double wlCommission;
+            public double wlCommissionRatio;
+            //public string skuId;
+            //public string skuName;
+            //public string materialUrl;
+            /*
+             "inOrderComm30Days": 110640.69,
+          "inOrderCount30Days": 4356,
+          "isZY": 1,
+          "skuId": 100002033667,
+          "skuName": "创维 (SKYWORTH) 450升 冰箱双开门 对开门 双变频节能静音 除菌率＞99.9% 家用风冷无霜 超薄嵌入 W450BP",
+          "materialUrl": "jfs/t1/84763/7/19578/202673/5ea14486E73f1c259/825cc78b74cfb406.jpg",
+          "shopName": "创维冰箱洗衣机自营旗舰店",
+          "shopId": 1000007373,
+          "wlPrice": 1899.00,
+          "wlCommission": 27.59,
+          "wlCommissionRatio": 1.5,
+          "isPinGou": 0,
+          "hasCoupon": 1,
+          "isCommonPlan": 1,
+          "planId": 932942496,
+          "orientationFlag": 0,
+          "isLock": 0,
+          "couponLink": "https://coupon.m.jd.com/coupons/show.action?key=cb31546dddad43a5afe780d98ef8e1dc&roleId=29290043",
+          "couponDiscount": 60.0,
+          "couponQuota": 999.0,
+          "couponRemainCnt": 83958,
+          "vid": 1000007373,
+          "finalPrice": 1839.00,
+          "deliveryType": 1,
+          "goodCommentsShare": 98,
+          "requestId": "s_efbfd9838e1047f9bf9c246f648d7028",
+          "abParam": "SVC",
+          "abVersion": "SVC",
+          "isCare": 0,
+          "bonusActivityInfo": {
+            "isPreOrRunActivity": 1,
+            "bonus": false
+          },
+          "lowerPrice": 1899.00
+             */
         }
     }
     public class eliteData
@@ -314,12 +432,20 @@ namespace WolfInv.com.JdUnionLib
     public class EliteDataClass
     {
         public int eliteId { get; set; }
-        public Dictionary<string,JdGoodSummayInfoItemClass> Data = new Dictionary<string,JdGoodSummayInfoItemClass>();
+        public Dictionary<string, JdGoodSummayInfoItemClass> Data = new Dictionary<string, JdGoodSummayInfoItemClass>();
         public DateTime lastUpdateTime = DateTime.MinValue;
         public EliteDataClass(int e)
         {
             eliteId = e;
         }
 
+    }
+
+    public class shortLinkReturnResult
+    {
+        public int Code;
+        public string ShortUrl;
+        public string LongUrl;
+        public string ErrMsg;
     }
 }

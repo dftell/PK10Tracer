@@ -252,7 +252,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(520, 289);
+            this.tabPage5.Size = new System.Drawing.Size(379, 289);
             this.tabPage5.TabIndex = 1;
             this.tabPage5.Text = "波动曲线图";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -268,7 +268,7 @@
             this.grpbox_control.Controls.Add(this.txt_AssetTimeLength);
             this.grpbox_control.Location = new System.Drawing.Point(3, 3);
             this.grpbox_control.Name = "grpbox_control";
-            this.grpbox_control.Size = new System.Drawing.Size(511, 35);
+            this.grpbox_control.Size = new System.Drawing.Size(370, 35);
             this.grpbox_control.TabIndex = 1;
             this.grpbox_control.TabStop = false;
             this.grpbox_control.Text = "调整";
@@ -276,7 +276,7 @@
             // btn_clearNet
             // 
             this.btn_clearNet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_clearNet.Location = new System.Drawing.Point(465, 10);
+            this.btn_clearNet.Location = new System.Drawing.Point(324, 10);
             this.btn_clearNet.Name = "btn_clearNet";
             this.btn_clearNet.Size = new System.Drawing.Size(43, 22);
             this.btn_clearNet.TabIndex = 4;
@@ -288,7 +288,7 @@
             // 
             this.ddl_assetunits.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ddl_assetunits.FormattingEnabled = true;
-            this.ddl_assetunits.Location = new System.Drawing.Point(358, 13);
+            this.ddl_assetunits.Location = new System.Drawing.Point(217, 13);
             this.ddl_assetunits.Margin = new System.Windows.Forms.Padding(2);
             this.ddl_assetunits.Name = "ddl_assetunits";
             this.ddl_assetunits.Size = new System.Drawing.Size(107, 20);
@@ -297,7 +297,7 @@
             // btn_adjustAssetTimeLength
             // 
             this.btn_adjustAssetTimeLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_adjustAssetTimeLength.Location = new System.Drawing.Point(311, 9);
+            this.btn_adjustAssetTimeLength.Location = new System.Drawing.Point(170, 9);
             this.btn_adjustAssetTimeLength.Name = "btn_adjustAssetTimeLength";
             this.btn_adjustAssetTimeLength.Size = new System.Drawing.Size(43, 22);
             this.btn_adjustAssetTimeLength.TabIndex = 2;
@@ -309,7 +309,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(165, 16);
+            this.label1.Location = new System.Drawing.Point(24, 16);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(77, 12);
             this.label1.TabIndex = 1;
@@ -318,7 +318,7 @@
             // txt_AssetTimeLength
             // 
             this.txt_AssetTimeLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txt_AssetTimeLength.Location = new System.Drawing.Point(248, 12);
+            this.txt_AssetTimeLength.Location = new System.Drawing.Point(107, 12);
             this.txt_AssetTimeLength.Name = "txt_AssetTimeLength";
             this.txt_AssetTimeLength.Size = new System.Drawing.Size(54, 21);
             this.txt_AssetTimeLength.TabIndex = 0;
@@ -342,7 +342,7 @@
             series1.Legend = "Legend1";
             series1.Name = "数据4";
             this.chart_ForGuide.Series.Add(series1);
-            this.chart_ForGuide.Size = new System.Drawing.Size(511, 236);
+            this.chart_ForGuide.Size = new System.Drawing.Size(370, 236);
             this.chart_ForGuide.TabIndex = 0;
             this.chart_ForGuide.Text = "波动曲线图";
             // 
@@ -351,7 +351,7 @@
             this.tabPage10.Controls.Add(this.dg_AssetUnits);
             this.tabPage10.Location = new System.Drawing.Point(4, 22);
             this.tabPage10.Name = "tabPage10";
-            this.tabPage10.Size = new System.Drawing.Size(520, 289);
+            this.tabPage10.Size = new System.Drawing.Size(379, 289);
             this.tabPage10.TabIndex = 2;
             this.tabPage10.Text = "资产单元";
             this.tabPage10.UseVisualStyleBackColor = true;
@@ -363,7 +363,7 @@
             this.dg_AssetUnits.Location = new System.Drawing.Point(0, 0);
             this.dg_AssetUnits.Name = "dg_AssetUnits";
             this.dg_AssetUnits.RowTemplate.Height = 23;
-            this.dg_AssetUnits.Size = new System.Drawing.Size(520, 289);
+            this.dg_AssetUnits.Size = new System.Drawing.Size(379, 289);
             this.dg_AssetUnits.TabIndex = 0;
             this.dg_AssetUnits.DoubleClick += new System.EventHandler(this.dg_AssetUnits_DoubleClick);
             // 
@@ -494,40 +494,41 @@
             this.tmi_Edit,
             this.tmi_Delete});
             this.contextMenuStrip_OperatePlan.Name = "contextMenuStrip_OperatePlan";
-            this.contextMenuStrip_OperatePlan.Size = new System.Drawing.Size(149, 114);
+            this.contextMenuStrip_OperatePlan.Size = new System.Drawing.Size(181, 136);
+            this.contextMenuStrip_OperatePlan.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_OperatePlan_Opening);
             // 
             // tmi_refreshPlans
             // 
             this.tmi_refreshPlans.Name = "tmi_refreshPlans";
-            this.tmi_refreshPlans.Size = new System.Drawing.Size(148, 22);
+            this.tmi_refreshPlans.Size = new System.Drawing.Size(180, 22);
             this.tmi_refreshPlans.Text = "刷新";
             this.tmi_refreshPlans.Click += new System.EventHandler(this.tsmi_refreshPlans_Click);
             // 
             // tmi_StartPlan
             // 
             this.tmi_StartPlan.Name = "tmi_StartPlan";
-            this.tmi_StartPlan.Size = new System.Drawing.Size(148, 22);
+            this.tmi_StartPlan.Size = new System.Drawing.Size(180, 22);
             this.tmi_StartPlan.Text = "开始运行计划";
             this.tmi_StartPlan.Click += new System.EventHandler(this.tmi_StartPlan_Click);
             // 
             // tmi_StopPlan
             // 
             this.tmi_StopPlan.Name = "tmi_StopPlan";
-            this.tmi_StopPlan.Size = new System.Drawing.Size(148, 22);
+            this.tmi_StopPlan.Size = new System.Drawing.Size(180, 22);
             this.tmi_StopPlan.Text = "停止运行计划";
             this.tmi_StopPlan.Click += new System.EventHandler(this.tmi_StopPlan_Click);
             // 
             // tmi_Edit
             // 
             this.tmi_Edit.Name = "tmi_Edit";
-            this.tmi_Edit.Size = new System.Drawing.Size(148, 22);
+            this.tmi_Edit.Size = new System.Drawing.Size(180, 22);
             this.tmi_Edit.Text = "修改";
             this.tmi_Edit.Click += new System.EventHandler(this.tmi_Edit_Click);
             // 
             // tmi_Delete
             // 
             this.tmi_Delete.Name = "tmi_Delete";
-            this.tmi_Delete.Size = new System.Drawing.Size(148, 22);
+            this.tmi_Delete.Size = new System.Drawing.Size(180, 22);
             this.tmi_Delete.Text = "删除";
             this.tmi_Delete.Click += new System.EventHandler(this.tmi_Delete_Click);
             // 
@@ -582,7 +583,7 @@
             this.tabPage8.Controls.Add(this.dg_NoCloseChances);
             this.tabPage8.Location = new System.Drawing.Point(4, 22);
             this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Size = new System.Drawing.Size(218, 289);
+            this.tabPage8.Size = new System.Drawing.Size(359, 289);
             this.tabPage8.TabIndex = 2;
             this.tabPage8.Text = "委托状态";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -594,7 +595,7 @@
             this.dg_NoCloseChances.Location = new System.Drawing.Point(0, 0);
             this.dg_NoCloseChances.Name = "dg_NoCloseChances";
             this.dg_NoCloseChances.RowTemplate.Height = 23;
-            this.dg_NoCloseChances.Size = new System.Drawing.Size(218, 289);
+            this.dg_NoCloseChances.Size = new System.Drawing.Size(359, 289);
             this.dg_NoCloseChances.TabIndex = 0;
             this.dg_NoCloseChances.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dg_NoCloseChances_MouseUp);
             // 

@@ -10,10 +10,10 @@ namespace WolfInv.com.WebCommunicateClass
 {
     public class CommunicateToServer
     {
-        public CommResult Login(string loginUrl,string username,string pwd)
+        public CommResult Login(string loginUrl,string username,string pwd,string webcode)
         {
             CommResult ret = new CommResult();
-            string url = string.Format(loginUrl,username,pwd);
+            string url = string.Format(loginUrl,username,pwd,webcode);
             string json = AccessWebServerClass.GetData(url, Encoding.Default);
             UserInfoClass user = UserInfoClass.GetUserInfo(json);
             if (user == null)

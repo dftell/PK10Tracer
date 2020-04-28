@@ -32,7 +32,7 @@ namespace ExchangeTermial
 {
     public enum ExpectDataStatus
     {
-        Created,CalcAmt,Push,SentOccurErr,Sent
+        Created,CalcAmt,Push,SentOccurErr,Sent,NoValidate
     }
     delegate void CloseCallBack();
     public enum ShowCommands : int
@@ -69,7 +69,7 @@ namespace ExchangeTermial
         SW_MAX = 11
 
     }
-
+    delegate void SetDataGridCallback<T>(string id, DataTable dt,T otherObj, string sort = null);
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     [System.Runtime.InteropServices.ComVisibleAttribute(true)]
     public partial class MainWindow : Form
@@ -93,6 +93,7 @@ namespace ExchangeTermial
         DateTime LastInstsTime = DateTime.MaxValue;
         Dictionary<string, string> AssetUnitList;
         long RefreshTimes = 0;
+
         Dictionary<string,Dictionary<long, string>> dicExistInsts;
         bool InSleep = false;
         bool Logined = false;
@@ -138,7 +139,7 @@ namespace ExchangeTermial
             }
         }
         System.Windows.Forms.Timer SendStatusTimer = new System.Windows.Forms.Timer() ;
-        List<MyTimer> timers_RequestInst = new List<MyTimer>();
+        Dictionary<string,MyTimer> timers_RequestInst = new Dictionary<string, MyTimer>();
         //TcpServiceSocketAsync svr;
         int const_maxbuffsize = 1024 * 1024 * 2;
         ChargeRemoteClass chgRmt = null;
@@ -196,20 +197,21 @@ namespace ExchangeTermial
                 }
             }
             dicExistInsts = new Dictionary<string, Dictionary<long, string>>();
+            InSleep = true;
 
             //
-            LoadUrl(LoginPage);
+            //LoadUrl(LoginPage);
             //Application.DoEvents();
             //MySleep(20 * 1000);//睡20秒等待webbrowser加载
             Application.DoEvents();
             //this.timer_RequestInst.Enabled = true;
             //this.timer_RequestInst.AutoReset = true;
             //timer_RequestInst_Tick(null, null);
-            InitTimers();
-            Set_RequestTime(true);
-            Set_SendTime(true);
+            
+            //Set_RequestTime(true, defaultInterVal());
+            Set_SendTime(true, 5*60*1000);
             SendStatusTimer_Elapsed(null, null);
-
+            InitTimers();
         }
 
         void RefreshData()
@@ -302,13 +304,114 @@ ClearMyTracksByProcess 255
             wr.CompleteSendMsg = AfterSendMsgComplete;
             wr.SuccGetGameInfo = AfterGetGameInfo;
             wr.SuccGetAmount = AfterGetAmount;
+            wr.SuccGetBetRec = AfterGetBetRecordInfo;
+            wr.AJaxError = AfterAJaxError;
+            wr.SuccCancelBet = AfterCancelBet;
             wr.MsgBox = WXMsgBox;
         }
 
         void AfterGetGameInfo(GameInfoClass gic)
         {
-            
+
         }
+
+        void AfterCancelBet(WebServerReturnClass ret)
+        {
+            if(ret.Succ)
+            {
+                getBetRecInfo();
+            }
+        }
+
+        void AfterAJaxError(WebServerReturnClass err)
+        {
+            Logined = false;
+        }
+
+        void AfterGetBetRecordInfo(BetRecordListClass brec)
+        {
+            if(brec.Succ)
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.Add("序号");
+                dt.Columns.Add("关键字");
+                dt.Columns.Add("彩种");
+                dt.Columns.Add("规则");
+                dt.Columns.Add("内容");
+                dt.Columns.Add("状态");
+                dt.Columns.Add("成本");
+                dt.Columns.Add("返奖");
+                dt.Columns.Add("盈利");
+                dt.Columns.Add("时间");
+                brec.Data.ForEach(
+                    a =>
+                    {
+                    dt.Rows.Add(new object[]{
+                            a.ID,
+                            a.Key,
+                            a.GameName,
+                            a.BetType,
+                            a.Nums,
+                            
+                            a.Status,
+                            a.Cost,
+                            a.ReturnAmount,
+                            a.EarnedAmount,
+                            a.CreateTime
+                    });
+                    }
+                    );
+                new Task(()=> {
+                    try
+                    {
+                        //delegate void SetSpecDataGridCallback(DataTable dt);
+                        SetDataGridDataTable(dgv_betRecs, dt ,brec, "时间 desc");
+                        //this.dgv_betRecs.DataSource = dt;
+                        //this.dgv_betRecs.Refresh();
+                    }
+                    catch
+                    {
+
+                    }
+                }).Start();
+            }
+        }
+
+        void SetDataGridDataTable<T>(DataGridView dg, DataTable dt, T otherObj, string sort = null)
+        {
+
+            dg.Invoke(new SetDataGridCallback<T>(SetDgTableById), new object[] { dg.Name, dt,otherObj, sort });
+        }
+        void SetDgTableById<T>(string id, DataTable dt,T otherObj, string sort)
+        {
+            Control[] ctrls = this.Controls.Find(id, true);
+            if (ctrls.Length != 1)
+            {
+                return;
+            }
+            if (sort != null)
+            {
+                DataView dv = new DataView(dt);
+                dv.Sort = sort;
+                (ctrls[0] as DataGridView).DataSource = dv;
+            }
+            else
+            {
+                (ctrls[0] as DataGridView).DataSource = dt;
+            }
+            if (otherObj != null)
+            {
+                ObjectTable<T> brt = new ObjectTable<T>();
+                brt.dt = dt;
+                brt.otherObject = otherObj;
+                (ctrls[0] as DataGridView).Tag = brt;
+            }
+            else
+            {
+                (ctrls[0] as DataGridView).Tag = dt;
+            }
+        }
+
 
         void AfterGetAmount(AmountInfoClass amt)
         {
@@ -324,31 +427,60 @@ ClearMyTracksByProcess 255
         void AfterSendMsg(WebBetReturnInfoClass wbri)
         {
             //MessageBox.Show(wbri.betRecInfo);
-            if(wbri.Succ)
-               WXMsgBox(string.Format("当前余额:{0}",wbri.restAmount), wbri.betRecInfo);
+            if (wbri.Succ)
+            {
+                if (!dicExistInsts[wbri.dtp].ContainsKey(this.NewExpects[wbri.dtp]))
+                {
+                    dicExistInsts[wbri.dtp].Add(this.NewExpects[wbri.dtp], wbri.SendData);
+                }
+                if(this.timers_RequestInst.ContainsKey(wbri.dtp))
+                {
+                    DataTypePoint dtp = null;
+                    if (GlobalClass.TypeDataPoints.ContainsKey(wbri.dtp))
+                    {
+                        dtp = GlobalClass.TypeDataPoints[wbri.dtp];
+                    }
+                    this.timers_RequestInst[wbri.dtp].Interval = defaultInterVal(dtp, true);
+                }
+                WXMsgBox(string.Format("当前余额:{0}", wbri.restAmount), wbri.SendData);
+                this.toolStripStatusLabel3.Text = wbri.SendData;
+                getBetRecInfo();
+            }
             else
             {
-                WXMsgBox("发送失败",wbri.Msg);
+                
+                WXMsgBox(string.Format("发送[{0}]失败",wbri.SendData), wbri.Msg);
             }
+            
         }
 
         void AfterLogined(WebUserInfoClass wic)
         {
-            if(!wic.LoginSucc)
+            if(!wic.Succ)
             {
                 WXMsgBox(string.Format("账号{0}登录{1}失败",Program.gc.ClientUserName,Program.gc.ForWeb), wic.Msg);
                 return;
             }
             Logined = true;
-            
-            webBrowser1.Navigate(string.Format(Program.gc.LotteryPage,string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost) ));
-            Application.DoEvents();
-            MySleep(3 * 1000);
-            getAmount();
-            getGameInfo(70);
-            Application.DoEvents();
-            MySleep(2 * 1000);
-            WXMsgBox(string.Format("账号{0}登录{1}成功", Program.gc.ClientUserName, Program.gc.ForWeb), string.Format("当前余额:{0}元" ,CurrVal));
+            try
+            {
+                lock (webBrowser1)
+                {
+                    webBrowser1.ScriptErrorsSuppressed = true;
+                    webBrowser1.Navigate(string.Format(Program.gc.LotteryPage, string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost)));
+                }
+                Application.DoEvents();
+                MySleep(3 * 1000);
+                getAmount();
+                //getGameInfo(70);
+                Application.DoEvents();
+                MySleep(2 * 1000);
+                WXMsgBox(string.Format("账号{0}登录{1}成功", Program.gc.ClientUserName, Program.gc.ForWeb), string.Format("当前余额:{0}元", CurrVal));
+            }
+            catch
+            {
+
+            }
         }
 
         void getGameInfo(int n)
@@ -359,6 +491,32 @@ ClearMyTracksByProcess 255
             AddScript(loginDocIE ?? HomeDocIE, null); //执行js代码,未来修改为网络载入
             //MySleep(3 * 1000);//等待验证码图片载入
             (loginDocIE ?? HomeDocIE).InvokeScript("getGameInfo", new string[] { string.Format(Program.gc.LoginUrlModel,Program.gc.LoginDefaultHost), n.ToString()});
+            WebBrowserLoad = true;
+        }
+
+        void cancelBetRec(params object[] args)
+        {
+            webBrowser1.ScriptErrorsSuppressed = true;
+            //LogableClass.ToLog(webBrowser1.Url.Host, "首次进入，加载文件！");
+            //if(!ScriptLoaded)
+            AddScript(loginDocIE ?? HomeDocIE, null); //执行js代码,未来修改为网络载入
+            //MySleep(3 * 1000);//等待验证码图片载入
+            List<string> inlist = new List<string>();
+            inlist.Add(string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost));
+            args.ToList().ForEach(a => inlist.Add(a?.ToString()));
+            object[] strargs = inlist.ToArray();
+            (loginDocIE ?? HomeDocIE).InvokeScript("CancelBet", strargs);
+            //WebBrowserLoad = true;
+        }
+
+        void getBetRecInfo()
+        {
+            webBrowser1.ScriptErrorsSuppressed = true;
+            //LogableClass.ToLog(webBrowser1.Url.Host, "首次进入，加载文件！");
+            //if(!ScriptLoaded)
+            AddScript(loginDocIE ?? HomeDocIE, null); //执行js代码,未来修改为网络载入
+            //MySleep(3 * 1000);//等待验证码图片载入
+            (loginDocIE ?? HomeDocIE).InvokeScript("getBetRecordList", new string[] { string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost) });
             WebBrowserLoad = true;
         }
 
@@ -502,7 +660,7 @@ ClearMyTracksByProcess 255
                 Logined = false;
                 LogableClass.ToLog("错误", ce.Message, ce.StackTrace);
                 Program.wxl.Log("错误", string.Format("[{0}]起床困难户。", Program.gc.ClientAliasName), string.Format("{0}:{1}", ce.Message, ce.StackTrace));
-                timers_RequestInst.ForEach(a => { a.Interval = 1 * 1000; });
+                timers_RequestInst.Values.ToList().ForEach(a => { a.Interval = defaultInterVal(); });
                 return;
             }
             Application.DoEvents();
@@ -511,6 +669,16 @@ ClearMyTracksByProcess 255
             //timers_RequestInst.ForEach(a => { a.Interval = 60 * 1000; });
             //this.timer_RequestInst.Enabled = true;
             //Set_SendTime(true);
+        }
+
+        int defaultInterVal(DataTypePoint dtp = null,bool receivedData = false)
+        {
+            if(dtp == null)
+            {
+                return getInterVal(GlobalClass.TypeDataPoints.First().Value, receivedData);
+            }
+            return getInterVal(dtp, receivedData);
+
         }
 
         void LoadUrl_FireFox(string url)
@@ -563,13 +731,13 @@ ClearMyTracksByProcess 255
                 Logined = false;
                 LogableClass.ToLog("错误", ce.Message, ce.StackTrace);
                 Program.wxl.Log("错误", string.Format("[{0}]起床困难户。", Program.gc.ClientAliasName), string.Format("{0}:{1}", ce.Message, ce.StackTrace), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
-                timers_RequestInst.ForEach(a => { a.Interval = 1 * 1000; });
+                timers_RequestInst.Values.ToList().ForEach(a => { a.Interval = defaultInterVal(); });
                 return;
             }
             Application.DoEvents();
             //Thread.Sleep(10 * 1000);
 
-            timers_RequestInst.ForEach(a => { a.Interval = 60 * 1000; });
+            timers_RequestInst.Values.ToList().ForEach(a => { a.Interval = defaultInterVal(); });
             //this.timer_RequestInst.Enabled = true;
             //Set_SendTime(true);
         }
@@ -616,13 +784,15 @@ ClearMyTracksByProcess 255
             foreach (string key in dtps.Keys)
             {
                 MyTimer tm = new MyTimer();
+                tm.dtp = dtps[key];
                 tm.Tag = dtps[key];
+                
                 tm.Tick += timer_RequestInst_Tick;
                 tm.Enabled = true;
-                //tm.Interval = (1 + new Random().Next(5)) * 1000;
+                tm.Interval = defaultInterVal();// (1 + new Random().Next(5)) * 1000;
                 tm.index = ti;
-                tm.Start();
-                timers_RequestInst.Add(tm);
+                
+                timers_RequestInst.Add(key,tm);
                 if (!NewExpects.ContainsKey(key))
                 {
                     NewExpects.Add(key, 0);
@@ -632,6 +802,8 @@ ClearMyTracksByProcess 255
                 {
                     dicExistInsts.Add(key, new Dictionary<long, string>());
                 }
+                tm.Start();
+                //timer_RequestInst_Tick(tm, null);
                 ti++;
             }
         }
@@ -650,24 +822,20 @@ ClearMyTracksByProcess 255
 
         void Set_RequestTime(bool Running, int InterVal = 20 * 60 * 1000)
         {
-            timers_RequestInst.ForEach(a =>
+            foreach(string key in this.timers_RequestInst.Keys)
             {
+                MyTimer a = this.timers_RequestInst[key];
                 DataTypePoint dtp = a.Tag as DataTypePoint;
 
                 a.Interval = InterVal;
                 if (dtp.ReceiveSeconds > 0)
                 {
-                    a.Interval = (int)dtp.ReceiveSeconds/10 * 1000;//默认1/10周期
+                    a.Interval = defaultInterVal();//默认1/10周期
                 }
                 a.Tick += timer_RequestInst_Tick;
                 a.Enabled = Running;
-                a.Start();
+                //a.Start();
             }
-            );
-            ////if(Running)
-            ////{
-            ////    SendStatusTimer_Elapsed(null, null);
-            ////}
         }
 
 
@@ -1004,6 +1172,7 @@ ClearMyTracksByProcess 255
         void Login_IE()
         {
             webBrowser1.ScriptErrorsSuppressed = true;
+            //webBrowser1.ScriptErrorsSuppressed = false;
             //LogableClass.ToLog(webBrowser1.Url.Host, "首次进入，加载文件！");
             //if(!ScriptLoaded)
             AddScript(loginDocIE ??HomeDocIE, null); //执行js代码,未来修改为网络载入
@@ -1064,10 +1233,23 @@ ClearMyTracksByProcess 255
                 //    return;
                 //}
                 HtmlDocument doc = webBrowser1.Document;
-               
+                if (SendMsgFromWebRequest  && !Logined)
+                {
+                    if (IsLoadComplete(Program.gc.HostKey))//如果加载到主页，那就登录
+                    {
+                        WXMsgBox("判断是在登陆页", "登录！");
+                        InSleep = false;
+                        WebBrowserLoad = true;
+                        Login();
+                        return;
+                    }
+                    WXMsgBox("判断不在登陆页", doc.Body.OuterHtml.Substring(0,Math.Min(doc.Body.OuterHtml.Length,30)));
+                    return;
+                }
                 //CurrVal = wr.GetCurrMoney(doc);
                 if (webBrowser1.ReadyState == WebBrowserReadyState.Complete)
                 {
+                    
                     CookieCollection cc =getCookie(this.webBrowser1.Document.Cookie);
                     //if(Program.gc.SendMsgFromWebRequest == "1")
                     //    this.ce.SetCookie(cc);
@@ -1261,7 +1443,7 @@ ClearMyTracksByProcess 255
             if (isIE)
             {
                 HtmlDocument doc = webBrowser1.Document;
-                bool succ = WebRule.existElement(HomeDocIE, key);
+                bool succ = WebRule.existElement(HomeDocIE??doc, key);
                 if(succ)
                 {
                     HomeDocIE = doc;
@@ -1517,32 +1699,7 @@ ClearMyTracksByProcess 255
 
         }
 
-        Single getProbByPeriod(List<MatchGroupClass> list,int n,out Single safeProb)
-        {
-            safeProb = 0.00F;
-            list = list.Take(n).ToList();
-            if(list.Count < n)
-            {
-                return 0.0F;
-            }
-            int currChips = list[0].chipCount;
-            MatchGroupClass lastMaxObj =  list.Skip(1).Where(a => a.chipCount >= currChips).OrderByDescending(a => a.chipCount*100+a.times).First();
-            if(lastMaxObj == null)
-            {
-                lastMaxObj = list.Skip(1).Where(a => a.chipCount <= currChips).OrderByDescending(a => a.chipCount * 100 + a.times).First();
-            }
-            if (lastMaxObj == null)
-            {
-                return 0.0F;
-            }
-            list = list.Where(a => a.SerNo < lastMaxObj.SerNo).ToList();
-            int matchCnt = list.Sum(a=>a.MatchCnt);
-            int ccChips = list.Sum(a => a.chipCount);
-            safeProb = (Single)((matchCnt+1) * 100.00 / ccChips);
-            Single ret = (Single)((matchCnt * 100.00) / ccChips);
-            return ret;
-        }
-
+        
         private void groupBox1_Enter(object sender, EventArgs e)
         {
 
@@ -1570,12 +1727,16 @@ ClearMyTracksByProcess 255
         {
             try
             {
-                
-                if(!inWorkTimeRange())
+                MyTimer tm = sender as MyTimer;
+                if (tm == null)
+                    tm = timers_RequestInst.Values.First();
+                //tm.Enabled = false;
+
+                 if (RefreshTimes >0 && !inWorkTimeRange())
                 {
                     if(SendMsgFromWebRequest)
                     {
-                        if(Logined)//开着百度睡觉，把登录状态改为false
+                        if(!InSleep)//开着百度睡觉，把登录状态改为false
                         {
                             Logined = false;
                             reLoadWebBrowser();
@@ -1583,9 +1744,89 @@ ClearMyTracksByProcess 255
                     }
                     return;
                 }
-                MyTimer tm = sender as MyTimer;
-                if (tm == null)
-                    tm = timers_RequestInst.First();
+                if(!WebBrowserLoad)
+                {//只能等待加载完成！
+                    //return;
+                }
+                if (InSleep)
+                {
+                    string currUrl = webBrowser1.Url.ToString().Replace("https://", "").Replace("http://", "");//.Replace("/","");
+                    string strHost = Host.Replace("https://", "").Replace("http://", "");
+                    if (strHost.EndsWith("/"))
+                    {
+                        strHost = Host.Substring(0, Host.Length - 1);
+                    }
+                    if (currUrl.EndsWith("/"))
+                    {
+                        currUrl = currUrl.Substring(0, currUrl.Length - 1);
+                    }
+                    bool inHost = false;
+                    if (currUrl.Contains(strHost))
+                    {
+                        inHost = true;
+                    }
+                    if (!inHost)
+                    {
+                        tm.Interval = 3 * defaultInterVal();//给登录一点时间
+                        string logpage = string.Format(Program.gc.LoginPage, Host);
+                        try
+                        {
+                            
+                            lock (webBrowser1)
+                            {
+                                
+                                new Task(() =>
+                                {
+                                    webBrowser1.Navigate(logpage);
+                                }).Start();
+                                //Application.DoEvents();
+                            }
+                            WXMsgBox("转到登录页", logpage);
+                        }
+                        catch(Exception ce)
+                        {
+                            WXMsgBox("转到登录页错误", string.Format("{0}:{1}", ce.Message, ce.StackTrace));
+                        }
+                        return;
+                    }
+                }
+                /*
+                if(!Logined)
+                {
+                    string currUrl = webBrowser1.Url.ToString().Replace("https://", "").Replace("http://", "");//.Replace("/","");
+                    string strHost = Host.Replace("https://", "").Replace("http://", "");
+                    if (strHost.EndsWith("/"))
+                    {
+                        strHost = Host.Substring(0, Host.Length - 1);
+                    }
+                    if(currUrl.EndsWith("/"))
+                    {
+                        currUrl = currUrl.Substring(0, currUrl.Length - 1);
+                    }
+                    bool inHost = false;
+                    if(currUrl.Contains(strHost))
+                    {
+                        inHost = true;
+                    }
+                    if (!currUrl.Trim().Equals(strHost.Trim().Replace("https://", "").Replace("http://", "")) && !inHost)
+                    {
+                        lock (webBrowser1)
+                        {
+                            webBrowser1.Navigate(Host);
+                        }
+                        return;
+                    }
+                    else
+                    {
+                        tm.Enabled = false;
+                        Login();
+                        this.statusStrip1.Items[2].Text = "正在登录！";
+                        tm.Interval = 3*defaultInterVal();//给登录一点时间
+                        //tm.Enabled = true;
+                        return;
+                    }
+                }
+                */
                 DataTypePoint dtp = tm.Tag as DataTypePoint;
                 if (dtp == null)
                     return;
@@ -1594,21 +1835,21 @@ ClearMyTracksByProcess 255
                 Random rd = new Random();
                 int buffSec = (int)dtp.ReceiveSeconds / 60;
                 int rndtime = rd.Next(1000, buffSec * 1000);//增加随机数，防止单机多客户端并行同时下注
-                if (InSleep)//还在睡觉,唤醒
-                {
-                    if (!inWorkTimeRange())
-                    {
-                        return;
-                    }
-                    LoadUrl(loadUrl);
-                    ////while(!Logined)
-                    ////{
-                    ////    System.Threading.Thread.Sleep(30*1000);
-                    ////}
-                    InSleep = false;
-                    tm.Interval = buffSec*2 * 1000 + rndtime;//等待唤醒以后再访问
-                    return;
-                }
+                ////if (InSleep)//还在睡觉,唤醒
+                ////{
+                ////    if (!inWorkTimeRange())
+                ////    {
+                ////        return;
+                ////    }
+                ////    LoadUrl(loadUrl);
+                ////    ////while(!Logined)
+                ////    ////{
+                ////    ////    System.Threading.Thread.Sleep(30*1000);
+                ////    ////}
+                ////    InSleep = false;
+                ////    tm.Interval = 2*defaultInterVal();//等待唤醒以后再访问
+                ////    return;
+                ////}
                 
                 CommunicateToServer wc = new CommunicateToServer();
                 CommResult cr = wc.getRequestInsts<RequestClass>(string.Format("{0}/{1}{2}",dtp.InstHost,"pk10/app/requestInsts.asp?Dtp=",dtp.DataType));
@@ -1635,36 +1876,25 @@ ClearMyTracksByProcess 255
                 Int64 CurrExpectNo = Int64.Parse(ic.Expect);
                 //if (this.statusStrip1.Items.Count >= 2)
                 //{
-                this.toolStripStatusLabel2.Text = DateTime.Now.ToLongTimeString();
+                
                 //}
                 DateTime CurrTime = DateTime.Now.AddHours(dtp.DiffHours).AddMinutes(dtp.DiffMinutes);//调整后的时间
-                RefreshImages();
-                DateTime preTime = DateTime.Parse(ic.LastTime).AddSeconds(dtp.ReceiveSeconds);
-                if (ic.LastTime.Trim().Length> 0 && DateTime.Now> preTime)
+                string strList = "";
+                if (((CurrExpectNo > this.NewExpects[dtp.DataType] && this.NewExpects[dtp.DataType]>0))||this.NewExpects[dtp.DataType] == 0) //获取到最新指令
                 {
-                    this.txt_OpenTime.BackColor = Color.Red;
-                    Application.DoEvents();
-                    this.txt_ExpectNo.BackColor = Color.Red;
-                    Application.DoEvents();
-                    this.txt_OpenCode.BackColor = Color.Red;
-                    Application.DoEvents();
-                }
-                if ((CurrExpectNo > this.NewExpects[dtp.DataType] && this.NewExpects[dtp.DataType]>0) || (RefreshTimes == 0)) //获取到最新指令
-                {
+
                     if (SendMsgFromWebRequest)//如果从请求发送
                     {
-                        getAmount();
-                        Application.DoEvents();
-                        MySleep(1 * 1000);
-                        Application.DoEvents();
-                        getGameInfo(70);
+                        ////if (CurrVal == 0)
+                        ////{
+                        ////    getAmount();
+                        ////    Application.DoEvents();
+                        ////    MySleep(1 * 1000);
+                        ////    Application.DoEvents();
+                        ////}
+                        //getGameInfo(70);
                     }
-                    this.txt_OpenTime.BackColor = Color.Green;
-                    Application.DoEvents();
-                    this.txt_ExpectNo.BackColor = Color.Green;
-                    Application.DoEvents();
-                    this.txt_OpenCode.BackColor = Color.Green;
-                    Application.DoEvents();
+                    
                     LastInstsTime = DateTime.Now.AddHours(dtp.DiffHours).AddMinutes(dtp.DiffMinutes);
                     int CurrMin = DateTime.Now.Minute % 5;
 
@@ -1678,12 +1908,7 @@ ClearMyTracksByProcess 255
                     ////}
                     //tm.Interval = (int)dtp.ReceiveSeconds *1000/6 + rndtime ;//  2 * 60 * 1000 + rndtime;//5分钟以后见,减掉1秒不*断收敛时间，防止延迟接收
                                                                               //ToAdd:填充各内容
-                    this.txt_ExpectNo.Text = ic.Expect;
-                    Application.DoEvents();
-                    this.txt_OpenTime.Text = ic.LastTime;
-                    Application.DoEvents();
-                    this.txt_OpenCode.Text = ic.LastOpenCode;
-                    Application.DoEvents();
+                    
                     ic.SelectTimeChanged = (a, b,c,cc) => {
                         Single currProb100 = 0.0F;
                         Single safeProb100 = 0.0F;
@@ -1691,27 +1916,44 @@ ClearMyTracksByProcess 255
                         Single safeProb300 = 0.0F;
                         Single currProb1000 = 0.0F;
                         Single safeProb1000 = 0.0F;
+                        int No2MatchCnt = 0;
                         if (c.List.Count > 0)
                         {
-                            currProb100 = getProbByPeriod(c.List,100,out safeProb100);
-                            currProb300 = getProbByPeriod(c.List, 300,out safeProb300);
-                            currProb1000 = getProbByPeriod(c.List, 1000, out safeProb1000);
-                            DataTable dt =  DisplayAsTableClass.ToTable<MatchGroupClass>(c.List);
-                            DataView dv = new DataView(dt);
-                            dv.Sort = "SerNo";
-                            this.dgv_matchGroupList.DataSource = dv;
-                            this.dgv_matchGroupList.Refresh();
-                            Application.DoEvents();
+                            
+                            currProb100 = ExpectDataInfo.getProbByPeriod(c.List,100,out safeProb100);
+                            currProb300 = ExpectDataInfo.getProbByPeriod(c.List, 300,out safeProb300);
+                            currProb1000 = ExpectDataInfo.getProbByPeriod(c.List, 1000, out safeProb1000);
+                            DataTable dt = DisplayAsTableClass.ToTable<MatchGroupClass>(c.List);
+                            new Task(() =>
+                            {
+                                
+                                //DataView dv = new DataView(dt);
+                                SetDataGridDataTable<string>(this.dgv_matchGroupList, dt,null, "SerNo");
+                            }).Start();
+                            DataRow[] drs = dt.Select("MatchCnt>1","SerNo");
+                            int maxId = int.Parse(dt.Rows[dt.Rows.Count - 1]["SerNo"].ToString());//最后一个SerNo
+                            if(drs.Length>0)
+                            {
+                                maxId = int.Parse(drs[0]["SerNo"].ToString());
+                            }
+                            drs = dt.Select("SerNo < " + maxId);
+                            No2MatchCnt = drs.ToList().Sum(dr => int.Parse(dr["chipCount"].ToString()));
+                            //dv.Sort = "SerNo";
+                            //this.dgv_matchGroupList.DataSource = dv;
+                            //this.dgv_matchGroupList.Refresh();
+                            //Application.DoEvents();
 
                         }
-                        string strProbModel = "概率(%)100期:当前[{0}]/安全[{1}];300期:当前[{2}]/安全[{3}];1000期:当前[{4}]/安全[{5}];";
-                        string strProb = string.Format(strProbModel, currProb100, safeProb100, currProb300, safeProb300, currProb1000, safeProb1000);
-                        string strList = string.Format("[{0}期提示:[机会:{1};数量:{2}]];{3}最近5轮出现的组合信息为:{4}", CurrExpectNo,cc.ChanceCode,cc.UnitCost, strProb,string.Join(",", c.List.Select(curr =>string.Format("{0}次{1}个组合",curr.times, curr.chipCount)).Take(5).ToArray()));
-                        this.txt_NewInsts.Text = strList;
+                        string strProbModel = "概率(%)100期:当前[{0}]/安全[{1}];300期:当前[{2}]/安全[{3}];1000期:当前[{4}]/安全[{5}];持续{6}次机会未出双响！";
+                        string strProb = string.Format(strProbModel, currProb100, safeProb100, currProb300, safeProb300, currProb1000, safeProb1000, No2MatchCnt);
+                        strList = string.Format("[{0}期提示:[机会:{1};数量:{2}]];{3}最近5轮出现的组合信息为:{4}", CurrExpectNo,cc.ChanceCode,cc.UnitCost, strProb,string.Join(",", c.List.Select(curr =>string.Format("{0}次{1}个组合",curr.times, curr.chipCount)).Take(5).ToArray()));
                         string strDiff = "";
                         if(b!= c.RequestCnt)
                             strDiff = string.Format("资产单元{0}信号由{1}改为{2}!", AssetUnitList[a],b,c.ReturnCnt);
-                        Program.wxl.Log(string.Format("{0};{1}",strList,strDiff), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                        new Task(() =>
+                        {
+                            Program.wxl.Log(string.Format("{0};{1}", strList, strDiff), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                        }).Start();
 
                     };
                     string txt = ic.getUserInsts(Program.gc,dtp,ic.Expect,Program.gc.ForWeb,
@@ -1734,57 +1976,33 @@ ClearMyTracksByProcess 255
                         });
                     string[] insts = txt.Trim().Replace("+", " ").Split(' ');
                     long AllSum = insts.Where(a => a.Trim().Length > 1).ToList().Select(a => long.Parse(a.Trim().Split('/')[2])).Sum();
-                    this.NewExpects[dtpName] = CurrExpectNo;
-                    this.txt_Insts.Text = txt;
-                    Application.DoEvents();
-                    if (!Logined)
+                    bool NewRec = false;
+                    if (CurrExpectNo > this.NewExpects[dtp.DataType] && this.NewExpects[dtpName]>0)
                     {
-                        Logined = wr.IsLogined(this.webBrowser1.Document);
+                        NewRec = true;
                     }
+                    this.NewExpects[dtpName] = CurrExpectNo;
+                    tm.Interval = defaultInterVal();
                     if (Logined)
                     {
-                        if (RefreshTimes > 0)
+                        if (NewRec)//新记录才发送，第一条记录不发送
                         {
-                            //发送请求时线路次数加一
-                            if (ChanleUseTimes < 0)
-                            {
-                                ChanleUseTimes = 1;
-                            }
-                            else
-                            {
-                                ChanleUseTimes++;
-                            }
+                            
                             if (AllSum == 0)
                             {
-                                Program.wxl.Log(string.Format("[{1}]第{0}期", this.txt_ExpectNo.Text,Program.gc.ClientAliasName), "当期指令为空信号，或者金额为0", string.Format("{0}:[{1}]", "指令", this.txt_Insts.Text), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                                Program.wxl.Log(string.Format("[{1}]第{0}期", this.txt_ExpectNo.Text, Program.gc.ClientAliasName), "当期指令为空信号，或者金额为0", string.Format("{0}:[{1}]", "指令", this.txt_Insts.Text), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
                                 SwitchChanle();//赶着空指令切换线路
                                 return;
                             }
-                            this.Send_Data(dtp,txt);
-                        }
-                        RefreshTimes = 1;
-                    }
-                    else//如果没有登录，重新载入,当前指令不发送，只要不发送，这条指令就不会存入缓存。可以下次获取到再发
-                    {
-                        int realInterVal = Math.Min((int)dtp.ReceiveSeconds * 2*1000, tm.Interval * 3);
-                        tm.Interval = Math.Max((int)dtp.ReceiveSeconds * 2 *1000, realInterVal);// realInterVal ;
-                        userLoginToolStripMenuItem_Click(null, null);
-                        Application.DoEvents();
-                        return;
-                        if (isIE)
-                        {
-                            if (webBrowser1.ReadyState == WebBrowserReadyState.Complete)//如果状态完成了还是没有登录，那就要重新登陆
-                                LoadUrl(loadUrl);
-                        }
-                        else
-                        {
-                            if(geckoWebBrowser1.Document.ReadyState == "complete")
+                            RefreshTimes = 1;
+                            if (dicExistInsts.ContainsKey(dtpName) && !dicExistInsts[dtpName].ContainsKey(this.NewExpects[dtpName]))//防止多次发送
                             {
-                                LoadUrl(loadUrl);
+                                this.Send_Data(dtp, txt);
                             }
                         }
 
                     }
+                    refreshWindow(dtp, ic, txt,strList);
 
                 }
                 else
@@ -1804,32 +2022,59 @@ ClearMyTracksByProcess 255
                         Application.DoEvents();
                         MySleep(5000);//暂停，等发送消息
                         reLoadWebBrowser();//开百度网页，睡觉
-                        timers_RequestInst[tm.index].Interval = tm.Interval;//实际把计时器间隔往后推
+                        timers_RequestInst[tm.dtp.DataType].Interval = tm.Interval;//实际把计时器间隔往后推
                         Program.wxl.Log(string.Format("下次启动时间！"), nextTime.ToString("yyyyMMdd HH:mm:ss"), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
                     }
                     else
                     {
-
-                        if (CurrTime.Subtract(LastInstsTime).Minutes > (int)dtp.ReceiveSeconds/60*3/2)//如果离上期时间超过7分钟，说明数据未接收到，那不要再频繁以10秒访问服务器
+                        int interVal = (int)getInterVal(dtp, false);
+                        if (CurrTime.Subtract(LastInstsTime).Seconds > (int)dtp.ReceiveSeconds*3/2)//如果离上期时间超过7分钟，说明数据未接收到，那不要再频繁以10秒访问服务器
                         {
-                            tm.Interval = (int)dtp.ReceiveSeconds * 2*1000 / 5 + rndtime;
+                            //tm.Interval = (int)dtp.ReceiveSeconds * 2*1000 / 5 + rndtime;
+                            tm.Interval = 2 * interVal;
                         }
                         else //一般未接收到，2*60秒以后再试
                         {
-                            tm.Interval = (int)dtp.ReceiveSeconds * 1*1000 / 5 + rndtime;
+                            //tm.Interval = (int)dtp.ReceiveSeconds * 1*1000 / 5 + rndtime;
+                            tm.Interval = interVal;
                         }
                     }
                 }
-                RefreshStatus();
+                RefreshStatus(tm.Interval);
             }
             catch (Exception ce)
             {
-                LogableClass.ToLog("错误", "刷新指令", string.Format("{0}:{1}", ce.Message, ce.StackTrace));
-                Program.wxl.Log("错误", string.Format("[{0}]刷新指令发生错误。",Program.gc.ClientAliasName), string.Format("{0}:{1}", ce.Message, ce.StackTrace), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
-
+                new Task(() =>
+                {
+                    LogableClass.ToLog("错误", "刷新指令", string.Format("{0}:{1}", ce.Message, ce.StackTrace));
+                    Program.wxl.Log("错误", string.Format("[{0}]刷新指令发生错误。", Program.gc.ClientAliasName), string.Format("{0}:{1}", ce.Message, ce.StackTrace), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                }).Start();
             }
         }
 
+        void refreshWindow(DataTypePoint dtp, RequestClass ic, string txt, string strList)
+        {
+            this.toolStripStatusLabel2.Text = DateTime.Now.ToLongTimeString();
+            this.txt_ExpectNo.Text = ic.Expect;
+            this.txt_OpenTime.Text = ic.LastTime;
+            this.txt_OpenCode.Text = ic.LastOpenCode;
+            this.txt_OpenTime.BackColor = Color.Green;
+            this.txt_ExpectNo.BackColor = Color.Green;
+            this.txt_OpenCode.BackColor = Color.Green;
+            this.txt_Insts.Text = txt;
+            this.txt_NewInsts.Text = strList;
+            RefreshImages();
+            DateTime preTime = DateTime.Parse(ic.LastTime).AddSeconds(dtp.ReceiveSeconds);
+            if (ic.LastTime.Trim().Length > 0 && DateTime.Now > preTime)
+            {
+                this.txt_OpenTime.BackColor = Color.Red;
+                Application.DoEvents();
+                this.txt_ExpectNo.BackColor = Color.Red;
+                Application.DoEvents();
+                this.txt_OpenCode.BackColor = Color.Red;
+                Application.DoEvents();
+            }
+        }
         bool inWorkTimeRange()
         {
             DateTime startTime;
@@ -1911,7 +2156,13 @@ ClearMyTracksByProcess 255
                 //}
                 if (1 == 1)
                 {
-                    bool succ = sendInsts(this.NewExpects.First().Value.ToString(),msg, dtpName, strText, lastval, null, Program.gc.SendMsgFromWebRequest == "1");
+                    bool succ = sendInsts(this.NewExpects.First().Value.ToString(),
+                        msg,
+                        dtpName,
+                        strText, 
+                        lastval, 
+                        null, 
+                        Program.gc.SendMsgFromWebRequest == "1");
                     if(!succ)
                     {
                         return;
@@ -1992,7 +2243,10 @@ ClearMyTracksByProcess 255
                 {
                     if (webBrowser1.Url.ToString() != lotterUrl)
                     {
-                        webBrowser1.Navigate(lotterUrl);
+                        lock (webBrowser1)
+                        {
+                            webBrowser1.Navigate(lotterUrl);
+                        }
                         
                     }
                     lotteryDocIE = webBrowser1.Document;
@@ -2053,6 +2307,13 @@ ClearMyTracksByProcess 255
                 ////}
                 if (1 == 1)
                 {
+                    if(dicExistInsts.ContainsKey(dtpName) && dicExistInsts[dtpName].ContainsKey(this.NewExpects[dtpName]))
+                    {
+                        if(MessageBox.Show("继续发送指令?","当期指令已发送",MessageBoxButtons.YesNo) == DialogResult.No)
+                        {
+                            return;
+                        }
+                    }
                     bool succ = sendInsts(this.txt_ExpectNo.Text.Trim(),msg, dtpName, this.txt_Insts.Text, lastval, sender,Program.gc.SendMsgFromWebRequest=="1");
                     if(!succ)
                     {
@@ -2111,10 +2372,10 @@ ClearMyTracksByProcess 255
                     //MessageBox.Show("手动下注成功！");
                     this.statusStrip1.Text = "手动下注成功!";
                 }
-                if (!dicExistInsts.First().Value.ContainsKey(this.NewExpects.First().Value))
-                {
-                    dicExistInsts.First().Value.Add(this.NewExpects.First().Value, this.txt_Insts.Text);
-                }
+                //if (!dicExistInsts.First().Value.ContainsKey(this.NewExpects.First().Value))
+                //{
+                //    dicExistInsts.First().Value.Add(this.NewExpects.First().Value, this.txt_Insts.Text);
+                //}
             }
             catch (Exception ce)
             {
@@ -2155,6 +2416,23 @@ ClearMyTracksByProcess 255
             return true;
         }
 
+
+        int getInterVal(DataTypePoint dtp,bool receivedData)
+        {
+            long RecSecs = dtp.ReceiveSeconds;
+            int noRecVal = (int)RecSecs / 10;
+            int rdm = new Random().Next(noRecVal);
+            if (!receivedData)
+            {
+                return noRecVal*1000;
+            }
+            if(DateTime.Now.Subtract(LastInstsTime).Seconds > 3*RecSecs/2)//如果超过了3/2，就算是接收到了数据，也要以未接收的频率接收本期数据
+            {
+                return noRecVal*1000;
+            }
+            return 1000*(9* noRecVal + rdm); 
+            
+        }
        
 
         
@@ -2194,7 +2472,8 @@ ClearMyTracksByProcess 255
                     lastval,
                     string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost),
                     int.Parse(ruleid),
-                    string.Format(Program.gc.LoginUrlModel,Program.gc.LoginDefaultHost)
+                    string.Format(Program.gc.LoginUrlModel,Program.gc.LoginDefaultHost),
+                    dtpName
                             });
                 }
                 else
@@ -2208,7 +2487,8 @@ ClearMyTracksByProcess 255
                         orgMsg,
                         lastval,
                         string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost),
-                        int.Parse(ruleid));
+                        int.Parse(ruleid),
+                        dtpName);
                     context.EvaluateScript(jstxt);
                 }
             }
@@ -2229,7 +2509,7 @@ ClearMyTracksByProcess 255
 
         private void mnu_RefreshInsts_Click(object sender, EventArgs e)
         {
-            timers_RequestInst.ForEach(a => {
+            timers_RequestInst.Values.ToList().ForEach(a => {
                 timer_RequestInst_Tick(a, null);
             });
             
@@ -2256,7 +2536,8 @@ ClearMyTracksByProcess 255
             string url = "https://www.baidu.com";
             try
             {
-                this.webBrowser1.Navigate(url);
+                lock(webBrowser1)
+                    this.webBrowser1.Navigate(url);
                 if ((webBrowser1.ReadyState == WebBrowserReadyState.Complete && isIE)||(geckoWebBrowser1.StatusText=="completed" && isIE==false))
                 {
                     //this.webBrowser1.Navigate(url);
@@ -2294,13 +2575,14 @@ ClearMyTracksByProcess 255
             LoadUrl(loadUrl);
         }
 
-        void RefreshStatus()
+        void RefreshStatus(int interval = 0)
         {
             if (this.timers_RequestInst.Count == 0)
                 return;
             this.toolStripStatusLabel1.Text = string.Format("已加载页面:{0};已登录:{1};睡眠状态:{2}", WebBrowserLoad, Logined, InSleep);
             this.toolStripStatusLabel2.Text = string.Format("当前余额：{0}", CurrVal);
-            this.toolStripStatusLabel3.Text = string.Format("{0}秒后见", this.timers_RequestInst[0]?.Interval / 1000);
+            if(interval>0)
+                this.toolStripStatusLabel3.Text = string.Format("{1}:{0}秒后见", DateTime.Now.ToString(),interval / 1000);
             //SendStatusTimer_Elapsed(null, null);
         }
 
@@ -2329,10 +2611,7 @@ ClearMyTracksByProcess 255
 
             }
         }
-        public void test(string val)
-        {
-            MessageBox.Show(val);
-        }
+        
         string getImageUrl(string name)
         {
             return string.Format("{0}/chartImgs/{1}",GlobalClass.TypeDataPoints.First().Value.InstHost,name);
@@ -2616,14 +2895,7 @@ ClearMyTracksByProcess 255
 
         }
 
-        class WebData
-        {
-            public string orderNum;
-            public string ImgData;
-            public string chargeAmt;
-            public string err_msg;
-            public int LoadCnt;
-        }
+        
 
         private void hideTheFloatWindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2686,6 +2958,42 @@ ClearMyTracksByProcess 255
             reLoad();
             MainWindow_Load(null, null);
         }
+
+        private void refreshBetRecToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            getBetRecInfo();
+        }
+
+        private void cancelBetRecToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem menu = sender as ToolStripMenuItem;
+            try
+            {
+                DataGridView dg = (menu.Owner as ContextMenuStrip).SourceControl as DataGridView;
+                if (dg.SelectedRows.Count <= 0)
+                    return;
+                int index = dg.SelectedRows[0].Index;
+                ObjectTable<BetRecordListClass> bdt = dg.Tag as ObjectTable < BetRecordListClass > ;
+                if (bdt == null)
+                    return;
+                if (bdt.dt.Rows.Count < index + 1)
+                {
+                    return;
+                }
+                BetRecordClass rec = bdt.otherObject.Data[index];
+                object[] objs =  wr.getBetKeys(this.webBrowser1.Document.Cookie,this.webBrowser1.Document.Body.OuterHtml, rec);
+                this.cancelBetRec(objs);
+            }
+            catch (Exception ce)
+            {
+                string msg = ce.Message;
+            }
+        }
+         
+        private void refreshBetRecToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            getBetRecInfo();
+        }
     }
 
 
@@ -2693,23 +3001,24 @@ ClearMyTracksByProcess 255
     {
         public DataTypePoint dtp;
         public Dictionary<string, ExpectDataInfo> EachExpectDataInfo;
+        public DataStatusInfoClass(DataTypePoint _dtp, RequestClass rc)
+        {
+            dtp = _dtp;
 
+        }
     }
-
 
     
 
-    public class ExpectDataInfo
+    public class ObjectTable<T>
     {
-        public string ExpectCode;
-        public List<ChanceClass> ExpectChances;
-        public List<InstClass> ExpectInsts;
-        public double TotalAmount;
-        public ExpectDataStatus SendFinished;
+        public DataTable dt;
+        public T otherObject;
     }
 
     public class MyTimer:System.Windows.Forms.Timer
     {
+        public DataTypePoint dtp;
         public int index = 0;
     }
     public class FireFoxBrowser:GeckoWebBrowser

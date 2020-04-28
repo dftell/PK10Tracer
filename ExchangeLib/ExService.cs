@@ -154,8 +154,9 @@ namespace WolfInv.com.ExchangeLib
                 #endregion
                 if (CurrMoney < ec.ExchangeAmount * ec.OwnerChance.ChipCount)
                 {
-                    LogableClass.ToLog("风险","剩余金额不足", ec.OwnerChance.ToDetailString());
-                    return false;
+                    //LogableClass.ToLog("风险","剩余金额不足", ec.OwnerChance.ToDetailString());
+                    //CurrMoney += InitCash;
+                    //return false;
                 }
                 if (ec.ExchangeAmount * ec.OwnerChance.ChipCount * 10 > CurrMoney)//记录投入资金超出10%的记录
                 {

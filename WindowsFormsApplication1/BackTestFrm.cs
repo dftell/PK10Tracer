@@ -312,6 +312,13 @@ namespace BackTestSys
             ret = btc.ret;
             if (ret == null) 
                 return;
+            if(!ret.succ && ret.Msg!= null)
+            {
+                
+                this.timer_Tip.Enabled = false;
+                MessageBox.Show(ret.Msg);
+                return;
+            }
             this.listView1.Items.Clear();
 
             lock (ret.ChanceList)
@@ -388,8 +395,22 @@ namespace BackTestSys
 
         private void btn_startTest_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("确定开始回测？", "确认", MessageBoxButtons.YesNo) == DialogResult.No)
+            if (thrd == null)
             {
+                if (MessageBox.Show("确定开始回测？", "确认", MessageBoxButtons.YesNo) == DialogResult.No)
+                {
+                    return;
+                }
+            }
+            else
+            {
+                if (MessageBox.Show("确定停止回测？", "确认", MessageBoxButtons.YesNo) == DialogResult.No)
+                {
+                    
+                    return;
+                }
+                thrd.Abort();
+                thrd = null;
                 return;
             }
             bw = new BackgroundWorker();
@@ -562,7 +583,7 @@ namespace BackTestSys
             ////    CheckFrm.Show();
             ////    return;
             ////}
-            CheckFrm.InputExpect = int.Parse(strExpect);
+            CheckFrm.InputExpect = long.Parse(strExpect);
             CheckFrm.Show();
             
         }
@@ -1086,6 +1107,8 @@ namespace BackTestSys
             }
 
         }
+
+        
     }
 
     public class ListViewItemComparer : System.Collections.IComparer 

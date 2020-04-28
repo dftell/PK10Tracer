@@ -31,7 +31,7 @@ namespace WolfInv.com.WebRuleLib
                 this.SuccLogin?.Invoke(wic);
                 return false;
             }
-            wic.LoginSucc = true;
+            wic.Succ = true;
             this.SuccLogin?.Invoke(wic);
             //return base.LoginSuccFunc(res);
             return true;
@@ -39,7 +39,18 @@ namespace WolfInv.com.WebRuleLib
 
         public override bool GetGameInfoSuccFunc(string res)
         {
-            this.SuccGetGameInfo?.Invoke(new GameInfoClass());
+            GameInfoClass gic = new GameInfoClass();
+            gic.returnJson = res;
+            ASHC_GameInfoReturnClass girc = new ASHC_GameInfoReturnClass();
+            girc = girc.FromJson(res);
+            if(girc == null)
+            {
+                gic.Msg = "获取游戏信息错误！";
+                this.SuccGetGameInfo?.Invoke(gic);
+                return false;
+            }
+            gic.Succ = true;
+            this.SuccGetGameInfo?.Invoke(gic);
             return true;
         }
 
@@ -54,17 +65,74 @@ namespace WolfInv.com.WebRuleLib
             return ret;
         }
 
+        public override bool CancelBetSuccFunc(string res)
+        {
+            WebServerReturnClass ret = new WebServerReturnClass();
+            ret.returnJson = res;
+            if(res.ToLower().IndexOf("true")<0)
+            {
+                ret.Msg = res;
+                this.SuccCancelBet?.Invoke(ret);
+                return false;
+            }
+            ret.Succ = true;
+            this.SuccCancelBet?.Invoke(ret);
+            return false;
+        }
+
         public override bool SendCompletedFunc(string res)
         {
+            
             return base.SendCompletedFunc(res);
         }
 
-        public override bool SendSuccFunc(string res)
+        public override bool BetRecSuccFunc(string res)
+        {
+            BetRecordListClass gic = new BetRecordListClass();
+            gic.returnJson = res;
+            ASHC_BetRecReturnClass girc = new ASHC_BetRecReturnClass();
+            girc = girc.FromJson(res);
+            if (girc == null)
+            {
+                gic.Msg = "获取游戏信息错误！";
+                this.SuccGetBetRec?.Invoke(gic);
+                return false;
+            }
+            gic.Data = new List<BetRecordClass>();
+            girc.data.ForEach(a => {
+
+                gic.Data.Add(
+                new BetRecordClass()
+                {
+                    Nums = a.Number,
+                    BetType = a.BetTypeName,
+                    Cost = a.Cost.ToString(),
+                    GameName = a.LotteryGameName,
+                    Status = a.StateStr,
+                    EarnedAmount = a.EarnedAmount.ToString(),
+                    BetAmount = a.Cost.ToString(),
+                    SerialNo = a.SerialNumber,
+                    ID = a.ID,
+                    Key = a.hashKey,
+                    CreateTime = a.CreateTimeStr,
+                    ReturnAmount = a.Prize.ToString()
+                });
+            });
+            gic.Succ = true;
+            this.SuccGetBetRec?.Invoke(gic);
+            return true;
+
+        }
+
+
+        public override bool SendSuccFunc(string res,string dtp,string InstsText)
         {
             ASHC_BetReturnClass ret = new ASHC_BetReturnClass();
             ret = ret.FromJson(res);
             WebBetReturnInfoClass wric = new WebBetReturnInfoClass();
             wric.returnJson = res;
+            wric.dtp = dtp;
+            wric.SendData = InstsText;
             if (ret == null)
             {
                 wric.Msg = "返回结果非法！";
@@ -81,12 +149,27 @@ namespace WolfInv.com.WebRuleLib
             wric.Succ = true;
             wric.Msg = ret.ErrorMessage;
             wric.betRecordCnt = ret.BetDatas.Count;
-            wric.betRecInfo = string.Join(";", ret.BetDatas.Select(a=> {
+            wric.betRecInfo = string.Format("本次投注共计{0}元，{1}",ret.BetDatas.Sum(a=>a.Multiple*a.Unit*a.Count), string.Join(";", ret.BetDatas.Select(a=> {
                 return string.Format("{0}/{1}/{2}", a.Position.Replace("10", "0").Replace(" ",""), a.Number.Replace("10", "999").Replace("0","").Replace(",", "").Replace("999","0").Replace(" ","").Trim(), a.Multiple);
-            }));
+            })));
             this.SuccSend?.Invoke(wric);
             return true;
-            return base.SendSuccFunc(res);
+            //return base.SendSuccFunc(res);
+        }
+
+        public override object[] getBetKeys(string strCookie,string strHtml, BetRecordClass bet)
+        {
+            string key = bet.Key;
+            string id = bet.ID;
+            string val = null;
+            WebRule.existElement(strHtml, "input|name|__RequestVerificationToken|value",out val);
+            string __req = val;
+            return new object[] { __req,id,key };
+        }
+
+        public override void AjaxErrorFunc(string res)
+        {
+            base.AjaxErrorFunc(res);
         }
 
         class ASHC_LoginReturnClass:JsonableClass<ASHC_LoginReturnClass>
@@ -126,7 +209,7 @@ namespace WolfInv.com.WebRuleLib
 
         class ASHC_BetInfoClass
         {
-            public string Unit;
+            public double Unit;
             public string BetTypeCodeId;
             public string StateStr;
             public string Number;
@@ -164,6 +247,36 @@ namespace WolfInv.com.WebRuleLib
         class ASHC_GameInfoReturnClass:JsonableClass<ASHC_GameInfoReturnClass>
         {
             public int LotteryCategoryId;
+        }
+
+        class ASHC_BetRecReturnClass:JsonableClass<ASHC_BetRecReturnClass>
+        {
+            public List<ASHC_BetRec> data;
+        }
+
+        class ASHC_BetRec
+        {
+            public string BetModel;
+            public string BetProposalID;
+            public string BetTypeCode;
+            public string BetTypeName;
+            public double Cost;
+            public string CreateTime;
+            public string CreateTimeStr;
+            public double EarnedAmount;
+            public string hashKey;
+            public bool HideBetNumber;
+            public string ID;
+            public string IssueSerialNumber;
+            public string LotteryGameName;
+            public string Number;
+            public string Prize;
+            public string returnAmount;
+            public string ReturnRate;
+            public string SerialNumber;
+            public string State;
+            public string StateStr;
+            public string WinningNumber;
         }
     }
 }

@@ -31,6 +31,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.tsmi_System = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,6 +50,7 @@
             this.inLotteryHomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.switchWebBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.switchPlatformToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshBetRecToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_Setting = new System.Windows.Forms.ToolStripMenuItem();
             this.mnu_SetAssetUnitCnt = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -79,6 +81,13 @@
             this.pic_ChanceImage = new System.Windows.Forms.PictureBox();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.pic_chartImage = new System.Windows.Forms.PictureBox();
+            this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.dgv_matchGroupList = new System.Windows.Forms.DataGridView();
+            this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.dgv_betRecs = new System.Windows.Forms.DataGridView();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cancelBetRecToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshBetRecToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.webBrowser_charge = new System.Windows.Forms.WebBrowser();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -89,8 +98,6 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tabPage8 = new System.Windows.Forms.TabPage();
-            this.dgv_matchGroupList = new System.Windows.Forms.DataGridView();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -113,11 +120,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.pic_ChanceImage)).BeginInit();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_chartImage)).BeginInit();
+            this.tabPage8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_matchGroupList)).BeginInit();
+            this.tabPage9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_betRecs)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.tabPage8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_matchGroupList)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -176,7 +186,8 @@
             this.userLoginToolStripMenuItem,
             this.inLotteryHomeToolStripMenuItem,
             this.switchWebBrowserToolStripMenuItem,
-            this.switchPlatformToolStripMenuItem});
+            this.switchPlatformToolStripMenuItem,
+            this.refreshBetRecToolStripMenuItem});
             this.tsmi_Operate.Name = "tsmi_Operate";
             this.tsmi_Operate.Size = new System.Drawing.Size(44, 21);
             this.tsmi_Operate.Text = "操作";
@@ -256,6 +267,13 @@
             this.switchPlatformToolStripMenuItem.Name = "switchPlatformToolStripMenuItem";
             this.switchPlatformToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.switchPlatformToolStripMenuItem.Text = "切换平台";
+            // 
+            // refreshBetRecToolStripMenuItem
+            // 
+            this.refreshBetRecToolStripMenuItem.Name = "refreshBetRecToolStripMenuItem";
+            this.refreshBetRecToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.refreshBetRecToolStripMenuItem.Text = "刷新投注记录";
+            this.refreshBetRecToolStripMenuItem.Click += new System.EventHandler(this.refreshBetRecToolStripMenuItem_Click);
             // 
             // tsmi_Setting
             // 
@@ -428,6 +446,7 @@
             this.tabControl2.Controls.Add(this.tabPage6);
             this.tabControl2.Controls.Add(this.tabPage7);
             this.tabControl2.Controls.Add(this.tabPage8);
+            this.tabControl2.Controls.Add(this.tabPage9);
             this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl2.Location = new System.Drawing.Point(0, 0);
             this.tabControl2.Name = "tabControl2";
@@ -580,6 +599,69 @@
             this.pic_chartImage.TabIndex = 1;
             this.pic_chartImage.TabStop = false;
             // 
+            // tabPage8
+            // 
+            this.tabPage8.Controls.Add(this.dgv_matchGroupList);
+            this.tabPage8.Location = new System.Drawing.Point(4, 22);
+            this.tabPage8.Name = "tabPage8";
+            this.tabPage8.Size = new System.Drawing.Size(568, 128);
+            this.tabPage8.TabIndex = 5;
+            this.tabPage8.Text = "择时信息";
+            this.tabPage8.UseVisualStyleBackColor = true;
+            // 
+            // dgv_matchGroupList
+            // 
+            this.dgv_matchGroupList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_matchGroupList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_matchGroupList.Location = new System.Drawing.Point(0, 0);
+            this.dgv_matchGroupList.Name = "dgv_matchGroupList";
+            this.dgv_matchGroupList.RowTemplate.Height = 23;
+            this.dgv_matchGroupList.Size = new System.Drawing.Size(568, 128);
+            this.dgv_matchGroupList.TabIndex = 0;
+            // 
+            // tabPage9
+            // 
+            this.tabPage9.Controls.Add(this.dgv_betRecs);
+            this.tabPage9.Location = new System.Drawing.Point(4, 22);
+            this.tabPage9.Name = "tabPage9";
+            this.tabPage9.Size = new System.Drawing.Size(568, 128);
+            this.tabPage9.TabIndex = 6;
+            this.tabPage9.Text = "投注记录";
+            this.tabPage9.UseVisualStyleBackColor = true;
+            // 
+            // dgv_betRecs
+            // 
+            this.dgv_betRecs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_betRecs.ContextMenuStrip = this.contextMenuStrip1;
+            this.dgv_betRecs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_betRecs.Location = new System.Drawing.Point(0, 0);
+            this.dgv_betRecs.Name = "dgv_betRecs";
+            this.dgv_betRecs.RowTemplate.Height = 23;
+            this.dgv_betRecs.Size = new System.Drawing.Size(568, 128);
+            this.dgv_betRecs.TabIndex = 0;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cancelBetRecToolStripMenuItem,
+            this.refreshBetRecToolStripMenuItem1});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(149, 48);
+            // 
+            // cancelBetRecToolStripMenuItem
+            // 
+            this.cancelBetRecToolStripMenuItem.Name = "cancelBetRecToolStripMenuItem";
+            this.cancelBetRecToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.cancelBetRecToolStripMenuItem.Text = "撤消下注";
+            this.cancelBetRecToolStripMenuItem.Click += new System.EventHandler(this.cancelBetRecToolStripMenuItem_Click);
+            // 
+            // refreshBetRecToolStripMenuItem1
+            // 
+            this.refreshBetRecToolStripMenuItem1.Name = "refreshBetRecToolStripMenuItem1";
+            this.refreshBetRecToolStripMenuItem1.Size = new System.Drawing.Size(148, 22);
+            this.refreshBetRecToolStripMenuItem1.Text = "刷新下注信息";
+            this.refreshBetRecToolStripMenuItem1.Click += new System.EventHandler(this.refreshBetRecToolStripMenuItem1_Click);
+            // 
             // webBrowser1
             // 
             this.webBrowser1.CausesValidation = false;
@@ -678,26 +760,6 @@
             this.toolStripStatusLabel3.Size = new System.Drawing.Size(500, 17);
             this.toolStripStatusLabel3.Text = "toolStripStatusLabel3";
             // 
-            // tabPage8
-            // 
-            this.tabPage8.Controls.Add(this.dgv_matchGroupList);
-            this.tabPage8.Location = new System.Drawing.Point(4, 22);
-            this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Size = new System.Drawing.Size(568, 128);
-            this.tabPage8.TabIndex = 5;
-            this.tabPage8.Text = "择时信息";
-            this.tabPage8.UseVisualStyleBackColor = true;
-            // 
-            // dgv_matchGroupList
-            // 
-            this.dgv_matchGroupList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_matchGroupList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_matchGroupList.Location = new System.Drawing.Point(0, 0);
-            this.dgv_matchGroupList.Name = "dgv_matchGroupList";
-            this.dgv_matchGroupList.RowTemplate.Height = 23;
-            this.dgv_matchGroupList.Size = new System.Drawing.Size(568, 128);
-            this.dgv_matchGroupList.TabIndex = 0;
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -735,12 +797,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.pic_ChanceImage)).EndInit();
             this.tabPage7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pic_chartImage)).EndInit();
+            this.tabPage8.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_matchGroupList)).EndInit();
+            this.tabPage9.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_betRecs)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.tabPage8.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_matchGroupList)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -808,5 +873,11 @@
         private System.Windows.Forms.ToolStripMenuItem switchPlatformToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage8;
         private System.Windows.Forms.DataGridView dgv_matchGroupList;
+        private System.Windows.Forms.TabPage tabPage9;
+        private System.Windows.Forms.DataGridView dgv_betRecs;
+        private System.Windows.Forms.ToolStripMenuItem refreshBetRecToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem cancelBetRecToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem refreshBetRecToolStripMenuItem1;
     }
 }

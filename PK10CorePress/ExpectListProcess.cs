@@ -106,8 +106,8 @@ namespace WolfInv.com.PK10CorePress
             string RestModel = "1234567890";
             for (int i = 0; i < Math.Min(reviewCnt, data.Count); i++)
             {
-                ExpectData currExpect = data[lastId - i].CopyTo<ExpectData>();
-                Dictionary<int, string> lastData = null;
+                ExpectData currExpect = data[lastId - i];//.CopyTo<ExpectData>();
+                Dictionary<int, string> lastData = null;//data[lastId-i].CopyTo
                 Dictionary<int, string> newData = new Dictionary<int, string>();
                 if (i > 0)
                 {

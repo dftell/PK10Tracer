@@ -43,9 +43,16 @@ namespace HappyShareLottery
                 //LogableClass.ToLog("监控终端", "刷新数据", url);
                 //_UseSetting = wc.GetServerObject<ServiceSetting<TimeSerialData>>(url);
                 WinComminuteClass comm = new WinComminuteClass();
-                wif = comm.GetServerObject<WebInterfaceClass>(url, false);
-                Heart_Timer.Start();
-                Heart_Timer_Tick(null, null);
+                try
+                {
+                    wif = comm.GetServerObject<WebInterfaceClass>(url, false);
+                    Heart_Timer.Start();
+                    Heart_Timer_Tick(null, null);
+                }
+                catch
+                {
+
+                }
                 wxMessageReceiveSvr svr = new wxMessageReceiveSvr(wif,frm);
                 //svr.Monitor = new frm_planMonitor();
                 //svr.wif = wif;

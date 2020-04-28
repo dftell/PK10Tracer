@@ -92,7 +92,10 @@ namespace WolfInv.com.ExchangeLib
                     if (j == cc.StragId)
                     {
                         if (!CurrExistChanceList.ContainsKey(cc.GUID))
-                            CurrExistChanceList.Add(cc.GUID, cc);
+                        {
+                            if(CurrExistChanceList.Where(a=>a.Value.ChanceCode == cc.ChanceCode).Count() == 0)//防止多个机会意外重复
+                                CurrExistChanceList.Add(cc.GUID, cc);
+                        }
                         else
                             ToLog("计算服务", "相同的策略出现了同一个机会", string.Format("策略{0}:{1}", cc.StragId, cc.ChanceCode));
                         Matched = true;

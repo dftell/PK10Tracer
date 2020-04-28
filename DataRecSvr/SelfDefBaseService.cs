@@ -23,6 +23,11 @@ namespace DataRecSvr
             Program.gc = gc;
         }
 
+        public void setAllSettingConfig(WolfInv.com.ServerInitLib.ServiceSetting<TimeSerialData> setting)
+        {
+            Program.AllServiceConfig = setting;
+        }
+
         //protected WXLogClass wxl = new WXLogClass("服务器管理员",GlobalClass.LogUser, GlobalClass.LogUrl);
         public ExpectList<T> CurrData
         {

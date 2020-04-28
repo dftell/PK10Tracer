@@ -40,6 +40,10 @@ namespace WolfInv.com.SecurityLib
     {
         public static DataReader  CreateReader(string strType,string docName,string[] codes)
         {
+            if(!GlobalClass.TypeDataPoints.ContainsKey(strType))
+            {
+                return null;
+            }
             DataTypePoint dtp = GlobalClass.TypeDataPoints[strType];
             DataReader ret = null;
             switch(strType)

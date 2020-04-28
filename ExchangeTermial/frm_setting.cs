@@ -72,7 +72,7 @@ namespace ExchangeTermial
             string reqAsset = string.Format(strReq, string.Join("", list));
             string encode = HttpUtility.UrlEncode(reqAsset, Encoding.UTF8);
             string url = urlModel;
-            string strPost = string.Format("UserId={0}&dir=1&AssetConfig={1}", Program.UserId, encode);
+            string strPost = string.Format("UserId={0}&dir=1&AssetConfig={1}&web={2}", Program.UserId, encode,Program.gc.ForWeb);
             string succ = AccessWebServerClass.PostData(url,strPost, Encoding.UTF8);
             
             bool ret = (succ == "succ");

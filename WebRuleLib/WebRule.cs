@@ -73,6 +73,9 @@ namespace WolfInv.com.WebRuleLib
 
     public class WebServerReturnClass
     {
+        public bool Succ;
+        public string dtp;
+        public string SendData;
         public string returnJson;
         public string Msg;
     }
@@ -82,7 +85,6 @@ namespace WolfInv.com.WebRuleLib
         public string Pwd;
         public string BankId;
         public string AssetPwd;
-        public bool LoginSucc;
     }
 
     public class AmountInfoClass:WebServerReturnClass
@@ -92,17 +94,39 @@ namespace WolfInv.com.WebRuleLib
 
     public class WebBetReturnInfoClass: WebServerReturnClass
     {
-        public bool Succ;
         public double restAmount;
         public string SerialNo;
         public int betRecordCnt;
         public string betRecInfo;
 
     }
+    public class BetRecordClass
+    {
+        public string SerialNo;
+        public string ID;
+        public string Key;
+        public string GameName;
+        public string CreateTime;
+        public string Position;
+        public string Nums;
+        public string Cost;
+        public string EarnedAmount;
+        public string Status;
+        public string BetAmount;
+        public string ReturnAmount;
+        public string Odds;
+        public string BetType;
+    }
+
+    public class BetRecordListClass:WebServerReturnClass
+    {
+        public List<BetRecordClass> Data;
+    }
     public class GameInfoClass : WebServerReturnClass
     {
         public string GameId;
         public Dictionary<string, LotteryBetRuleClass> AllRules;
+        public List<string> MyBetList;
     }
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     [System.Runtime.InteropServices.ComVisibleAttribute(true)]
@@ -131,6 +155,9 @@ namespace WolfInv.com.WebRuleLib
         public Action<AmountInfoClass> SuccGetAmount;
         public Action<GameInfoClass> SuccGetGameInfo;
         public Action<string,string> CompleteSendMsg;
+        public Action<BetRecordListClass> SuccGetBetRec;
+        public Action<WebServerReturnClass> AJaxError;
+        public Action<WebServerReturnClass> SuccCancelBet;
         public Action<string, string> MsgBox;
 
         public bool Load(string filename,string foldername)
@@ -280,6 +307,25 @@ namespace WolfInv.com.WebRuleLib
         #endregion
 
 
+        public virtual string getCookieByName(string strCookie, string key)
+        {
+            string[] arr = strCookie.Split(';');
+            for (int i = 0; i < arr.Length; i++)
+            {
+                string[] carr = arr[i].Split('=');
+                if(carr[0] == key)
+                {
+
+                    return carr[1];
+                }
+            }
+            return null;
+        }
+
+        public virtual object[] getBetKeys(string strCookie,string html,BetRecordClass bet)
+        {
+            return new object[] { };
+        }
 
         protected abstract Dictionary<string, int> GetChanlesInfo(string url);
 
@@ -344,6 +390,9 @@ namespace WolfInv.com.WebRuleLib
 
         public static bool existElement(object doc,string tag,out string outVal)
         {
+            outVal = null;
+            if (doc == null)
+                return false;
             bool isIE = doc is HtmlDocument;
             string[] arr = tag.Split('|'); //p|class|lkjlfd 
             string tagName = arr[0];//tag p ，a，table ，td，div
@@ -424,11 +473,16 @@ namespace WolfInv.com.WebRuleLib
         {
 
         }
+
+        public virtual bool CancelBetSuccFunc(string res)
+        {
+            return false;
+        }
         public virtual bool SendCompletedFunc(string res)
         {
             return false;
         }
-        public virtual bool SendSuccFunc(string res)
+        public virtual bool SendSuccFunc(string res,string dtp,string data)
         {
             return false;
         }
@@ -436,6 +490,20 @@ namespace WolfInv.com.WebRuleLib
         public virtual void MsgTo(string title,string msg)
         {
             this.MsgBox?.Invoke(title, msg);
+        }
+
+        public virtual void AjaxErrorFunc(string res)
+        {
+            WebBetReturnInfoClass wri = new WebBetReturnInfoClass();
+            wri.returnJson = res;
+            wri.Msg = res;
+            wri.Succ = false;
+            this.AJaxError?.Invoke(wri);
+        }
+
+        public virtual bool BetRecSuccFunc(string res)
+        {
+            return false;
         }
 
     }

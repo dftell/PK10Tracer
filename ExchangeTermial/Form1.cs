@@ -71,7 +71,7 @@ namespace ExchangeTermial
                 //return;
             }
             CommunicateToServer cts =new CommunicateToServer();
-            CommResult cr =  cts.Login( GlobalClass.strLoginUrlModel, this.txt_user.Text,this.txt_password.Text);
+            CommResult cr =  cts.Login( GlobalClass.strLoginUrlModel, this.txt_user.Text,this.txt_password.Text,this.ddl_websites.SelectedValue.ToString());
             if(cr == null)
             {
                 

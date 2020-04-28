@@ -30,7 +30,7 @@ namespace WolfInv.com.JdUnionLib
                     return iddic[strSuid];
                 string link = getMyUrl(strSuid);
                 if (string.IsNullOrEmpty(link))
-                    return link;
+                    return this.couponLink;
                 link = orgUrl + link;
                 string ret = shortLinkFunc?.Invoke(link);
                 if (ret == null)
@@ -57,8 +57,13 @@ namespace WolfInv.com.JdUnionLib
         public string couponLink { get; set; }
         public long batchId { get; set; }
         public int isHot { get; set; }
-        public int elitId{get;set;}
+        public int elitId { get; set; }
         public int inOrderCount30Days { get; set; }
+
+        public string seckillEndTime { get;set;}
+        public string seckillOriPrice { get; set; }
+        public string seckillPrice { get; set; }
+        public string seckillStartTime { get; set; }
 
         public string getMyUrl(string subid = null)
         {
@@ -128,6 +133,17 @@ namespace WolfInv.com.JdUnionLib
         }
         public string getFullContent(bool commissionUrl=false,string messageModule = null)
         {
+            if(this is JdGoodsQueryClass.JdSearchGoods)
+            {
+                if(string.IsNullOrEmpty(price))
+                {
+                    price = (this as JdGoodsQueryClass.JdSearchGoods).wlPrice.ToString();
+                }
+                if(string.IsNullOrEmpty(discount))
+                {
+                    discount = (this as JdGoodsQueryClass.JdSearchGoods).couponDiscount.ToString();
+                }
+            }
             if(WxFaceImage.Inited== false)
             {
                 

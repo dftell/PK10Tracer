@@ -6,6 +6,7 @@ using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.RemoteObjectsLib;
 using WolfInv.com.SecurityLib;
 using WolfInv.com.Strags;
+using System.Data;
 namespace WolfInv.com.WebCommunicateClass
 {
     /// <summary>
@@ -14,6 +15,7 @@ namespace WolfInv.com.WebCommunicateClass
     public class RequestClass : RecordObject, IList<ChanceClass>, iSerialJsonClass<RequestClass>
     {
         public Action<string,int, SelectTimeInstClass,ChanceClass> SelectTimeChanged;
+        public Action<Dictionary<ChanceClass,long>> SetChanceList;
         public string Expect;
         public string LastTime;
         public string LastOpenCode;
@@ -148,9 +150,11 @@ namespace WolfInv.com.WebCommunicateClass
             string ret = "";
             List<string> allTxt = new List<string>();
             AmoutSerials amts = setting.DefaultHoldAmtSerials;
+            Dictionary<ChanceClass, long> chances = new Dictionary<ChanceClass, long>();
             for (int i = 0; i < this.Count; i++)
             {
                 ChanceClass cc = this[i];
+                
                 string strAssetId = cc.AssetId;
                 int AssetCnt = 0;
                 
@@ -179,6 +183,7 @@ namespace WolfInv.com.WebCommunicateClass
                 {
                     cc.HoldTimeCnt = calcHoldTimes;
                 }
+                
                 if (setting.AssetUnits.ContainsKey(strAssetId))
                 {
                     AssetInfoConfig aic = setting.AssetUnits[strAssetId];
@@ -201,7 +206,7 @@ namespace WolfInv.com.WebCommunicateClass
                             if (obj == null)
                                 continue;
                             newVal = obj.ReturnCnt;
-                            SelectTimeChanged?.Invoke(strAssetId,AssetCnt, obj,cc);
+                            SelectTimeChanged?.Invoke(strAssetId,aic.CurrTimes, obj,cc);
                             //AssetCnt = newVal;
                             setting.AssetUnits[strAssetId].CurrTimes = newVal;
                             SelectTimeDic.Add(cc.GUID, newVal);
@@ -257,9 +262,11 @@ namespace WolfInv.com.WebCommunicateClass
                         strccNewInst = string.Format("{0}/{1}", cc.ChanceCode, Amt);
                     }
                 }
+                chances.Add(cc,Amt);
                 allTxt.Add(strccNewInst);
             }
-            GlobalClass.SetConfig(forweb);
+            //GlobalClass.SetConfig(forweb);
+            this.SetChanceList?.Invoke(chances);
             return string.Join(" ", allTxt.ToArray()).Trim();
 
         }
@@ -268,6 +275,7 @@ namespace WolfInv.com.WebCommunicateClass
 
     public class SelectTimeInstClass: RecordObject,iSerialJsonClass<SelectTimeInstClass>
     {
+        public bool succ;
         public string Expect;
         public string DataType;
         public int RequestCnt;

@@ -170,19 +170,20 @@ namespace JdEBuy
                                 ups[i].Items.Add("JGD14", new UpdateItem("JGD14", batchData.keyvalue));
                             }
                             batchData.SubItems.Add(ups[i]);
-                            if (i == ups.Count - 1 || batchData.SubItems.Count == batchCnt)
+                            if (i == ups.Count - 1 || batchData.SubItems.Count == batchCnt)//分批保存
                             {
                                 bool succ = (SaveClientData == null) ? false : (SaveClientData.Invoke("jdUnion_BatchLoad", batchData, DataRequestType.Add));
                                 if (!succ)
                                 {
                                     ErrCnt += batchData.SubItems.Count;
+                                    UpdateText?.Invoke(string.Format("预期存储条数为{0}条，实际保存条数为{1}条！错误:{2}", batchData.SubItems.Count,0,""));
                                 }
                                 else
                                 {
                                     SaveCnt += batchData.SubItems.Count;
-                                    for (int k = 0; k < ups.Count; k++)
+                                    for (int k = 0; k < batchData.SubItems.Count; k++)
                                     {
-                                        string skey = ups[k].Items["JGD02"].value;
+                                        string skey = batchData.SubItems[k].Items["JGD02"].value;
                                         if (!allExistKeys.Contains(skey))
                                         {
                                             allExistKeys.Add(skey);
@@ -198,7 +199,7 @@ namespace JdEBuy
                                 batchData = new UpdateData();
                             }
                         }
-                        if (batchData.SubItems.Count > 0)//最后的不能错过。
+                        if (batchData.SubItems.Count > 0)//最后的不能错过。最后一期可能是跳过了的，批处理数量也可能没有达到
                         {
                             bool succ = SaveClientData == null ? false : SaveClientData.Invoke("jdUnion_BatchLoad", batchData, DataRequestType.Add);
                             if (!succ)
@@ -209,12 +210,13 @@ namespace JdEBuy
                             else
                             {
                                 SaveCnt += batchData.SubItems.Count;
-                                for (int k = 0; k < ups.Count; k++)
+                                for (int k = 0; k < batchData.SubItems.Count; k++)
                                 {
-                                    string skey = ups[k].Items["JGD02"].value;
+                                    string skey = batchData.SubItems[k].Items["JGD02"].value;
                                     if (!allExistKeys.Contains(skey))
                                     {
                                         allExistKeys.Add(skey);
+
                                     }
                                     if (!newAddRec.ContainsKey(skey))
                                     {

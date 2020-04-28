@@ -74,14 +74,21 @@ namespace JdEBuy
                 jsiic.materialUrl = dr["JGD09"].ToString();
                 jsiic.price = dr["JGD11"].ToString();
                 jsiic.discount = dr["JGD06"].ToString();
-                if (dr["JGD15"] != null)
+                if (dr.Table.Columns.Contains("JGD15") && dr["JGD15"] != null)
                     jsiic.elitId = int.Parse(dr["JGD15"].ToString());
-                
-                if (dr["JGD16"]!= null && !string.IsNullOrEmpty(dr["JGD16"].ToString()))
+                if (dr.Table.Columns.Contains("JGD16") && dr["JGD16"]!= null && !string.IsNullOrEmpty(dr["JGD16"].ToString()))
                     jsiic.isHot = int.Parse(dr["JGD16"].ToString());
-                if (dr["JGD17"] != null && !string.IsNullOrEmpty(dr["JGD17"].ToString()))
+                if (dr.Table.Columns.Contains("JGD17") && dr["JGD17"] != null && !string.IsNullOrEmpty(dr["JGD17"].ToString()))
                     jsiic.inOrderCount30Days = int.Parse(dr["JGD17"].ToString());
-                if(!edc.Data.ContainsKey(jsiic.skuId))
+                if (dr.Table.Columns.Contains("JGD18") && dr["JGD18"] != null && !string.IsNullOrEmpty(dr["JGD18"].ToString()))
+                    jsiic.seckillEndTime = dr["JGD18"].ToString();
+                if (dr.Table.Columns.Contains("JGD19") && dr["JGD19"] != null && !string.IsNullOrEmpty(dr["JGD19"].ToString()))
+                    jsiic.seckillOriPrice = dr["JGD19"].ToString();
+                if (dr.Table.Columns.Contains("JGD20") && dr["JGD20"] != null && !string.IsNullOrEmpty(dr["JGD20"].ToString()))
+                    jsiic.seckillPrice = dr["JGD20"].ToString();
+                if (dr.Table.Columns.Contains("JGD21") && dr["JGD21"] != null && !string.IsNullOrEmpty(dr["JGD21"].ToString()))
+                    jsiic.seckillStartTime = dr["JGD21"].ToString();
+                if (!edc.Data.ContainsKey(jsiic.skuId))
                     edc.Data.Add(jsiic.skuId,jsiic);
             }
             edc.lastUpdateTime = DateTime.Now;
@@ -157,13 +164,15 @@ namespace JdEBuy
         private void button1_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
-            JdGoodsQueryClass.LoadPromotionGoodsinfo = this.getInfoBySukIds;
+            JdGoodsQueryClass.LoadPromotionGoodsinfo = getInfoBySukIds;
              Dictionary<string,JdGoodSummayInfoItemClass> ret = JdGoodsQueryClass.QueryWeb(this.txt_ask.Text,10);
-            List<string> retStrs = ret.Select(a => {
+            List<string> retStrs = ret.OrderBy(a=>a.Value.price).Select(a => {
                 //a.Value.commissionUrl = a.Value.getMyUrl(null);
-                if (a.Value.commissionUrl == null)
+                if (a.Value?.materialUrl == null)
                     return null;
-                return a.Value.getFullContent(!string.IsNullOrEmpty(a.Value.commissionUrl));
+                a.Value.shortLinkFunc = JdGoodsQueryClass.getShortLink;
+                return a.Value.getFullContent(true) + a.Value.getShortLink("1969838238");
+                //return a.Value.getFullContent(!string.IsNullOrEmpty(a.Value?.commissionUrl)) ;
             }).ToList();
             string strRet = string.Join("\r\n",retStrs.Where(a=>string.IsNullOrEmpty(a)==false));
             this.txt_answer.Text  = strRet;
@@ -173,6 +182,7 @@ namespace JdEBuy
 
         List<JdGoodSummayInfoItemClass> getInfoBySukIds(List<string> skids)
         {
+            return JdGoodsQueryClass.getInfoBySukIds(skids);
             //JdUnion_Goods_PromotionGoodsinfo_Class
             string dsName = "JDUnion_PromotionGoodsinfo";
             List<JdGoodSummayInfoItemClass> ret = new List<JdGoodSummayInfoItemClass>();
@@ -201,7 +211,13 @@ namespace JdEBuy
                 jsiic.imgageUrl = dr["JGD08"].ToString();
                 jsiic.materialUrl = dr["JGD09"].ToString();
                 jsiic.price = dr["JGD11"].ToString();
-
+                if (dr.Table.Columns.Contains("JGD18"))
+                {
+                    jsiic.seckillEndTime = dr["JGD18"].ToString();
+                    jsiic.seckillOriPrice = dr["JGD19"].ToString();
+                    jsiic.seckillPrice = dr["JGD20"].ToString();
+                    jsiic.seckillStartTime = dr["JGD21"].ToString();
+                }
                 ret.Add(jsiic);
             }
             return ret;
@@ -232,17 +248,27 @@ namespace JdEBuy
                     jsiic.imgageUrl = dr.Items["JGD08"].value;
                     jsiic.materialUrl = dr.Items["JGD09"].value;
                     jsiic.price = dr.Items["JGD11"].value;
-                    jsiic.discount = dr.Items["JGD06"].value;
-                    if (dr.Dataset.Tables[0].Columns.Contains("JGD15") && dr.Items["JGD15"] != null)
+                    if(dr.Items.ContainsKey("JGD06") && dr.Items["JGD06"] != null)
+                        jsiic.discount = dr.Items["JGD06"].value;
+                    if (dr.Items.ContainsKey("JGD15") && dr.Items["JGD15"] != null)
                         jsiic.elitId = int.Parse(dr.Items["JGD15"].value);
-                    if (dr.Dataset.Tables[0].Columns.Contains("JGD14") && dr.Items["JGD14"] != null)
+                    if (dr.Items.ContainsKey("JGD14") && dr.Items["JGD14"] != null)
                         jsiic.batchId = int.Parse(dr.Items["JGD14"].value);
-                    if (dr.Dataset.Tables[0].Columns.Contains("JGD16") &&dr.Items["JGD16"] != null)
+                    if (dr.Items.ContainsKey("JGD16") &&dr.Items["JGD16"] != null)
                         jsiic.isHot = int.Parse(dr.Items["JGD16"].value);
-                    if (dr.Dataset.Tables[0].Columns.Contains("JGD17") && dr.Items["JGD17"] != null)
+                    if (dr.Items.ContainsKey("JGD17") && dr.Items["JGD17"] != null)
                         jsiic.inOrderCount30Days = int.Parse(dr.Items["JGD17"].value);
+                    if (dr.Items.ContainsKey("JGD18") && dr.Items["JGD18"] != null )
+                        jsiic.seckillEndTime = dr.Items["JGD18"].ToString();
+                    if (dr.Items.ContainsKey("JGD19") && dr.Items["JGD19"] != null )
+                        jsiic.seckillOriPrice = dr.Items["JGD19"].ToString();
+                    if (dr.Items.ContainsKey("JGD20") && dr.Items["JGD20"] != null )
+                        jsiic.seckillPrice = dr.Items["JGD20"].ToString();
+                    if (dr.Items.ContainsKey("JGD21") && dr.Items["JGD21"] != null )
+                        jsiic.seckillStartTime = dr.Items["JGD21"].ToString();
                     updateData.Add(key, jsiic);
                 }
+                currJdc.UpdateText(string.Format("更新全局数据成功！"));
             }
             catch (Exception ce)
             {

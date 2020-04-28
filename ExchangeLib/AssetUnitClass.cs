@@ -108,7 +108,7 @@ namespace WolfInv.com.ExchangeLib
 
         public DataTable SummaryLine()
         {
-            DataTable dt = ExchangeServer.MoneyIncreamLine;
+            DataTable dt = ExchangeServer?.MoneyIncreamLine;
             //ToLog("资产单元", ExchangeServer.getCurrAsset()?.UnitName,string.Format("SummaryLine()获取总资产！{0}条！",dt.Rows.Count));
             return dt;
         }

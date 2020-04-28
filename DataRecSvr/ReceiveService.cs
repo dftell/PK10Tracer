@@ -377,6 +377,11 @@ namespace DataRecSvr
         private void  ReceiveData(string DataType,Timer useTimer,string strReadTableName,string[] codes,bool NeedCalc = false)
         {
             DataReader rd = DataReaderBuild.CreateReader(DataType, strReadTableName, codes);
+            if(rd == null)
+            {
+                Log("核心运行数据丢失，建议立即重启服务！", string.Format("无法找到类型{0}！当前类型字典包含有为:{1]",DataType,string.Join(",",GlobalClass.TypeDataPoints.Keys.ToList())), true);
+                return;
+            }
             lock (rd)
             {
                 HtmlDataClass hdc = null;

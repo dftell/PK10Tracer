@@ -207,7 +207,7 @@ namespace BackTestSys
             this.splitter1.Location = new System.Drawing.Point(0, 0);
             this.splitter1.Margin = new System.Windows.Forms.Padding(2);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(2, 479);
+            this.splitter1.Size = new System.Drawing.Size(2, 639);
             this.splitter1.TabIndex = 0;
             this.splitter1.TabStop = false;
             // 
@@ -238,15 +238,15 @@ namespace BackTestSys
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer1.Size = new System.Drawing.Size(942, 479);
-            this.splitContainer1.SplitterDistance = 183;
+            this.splitContainer1.Size = new System.Drawing.Size(1192, 639);
+            this.splitContainer1.SplitterDistance = 244;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 1;
             // 
             // btn_trainPlan
             // 
             this.btn_trainPlan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_trainPlan.Location = new System.Drawing.Point(862, 164);
+            this.btn_trainPlan.Location = new System.Drawing.Point(1112, 164);
             this.btn_trainPlan.Name = "btn_trainPlan";
             this.btn_trainPlan.Size = new System.Drawing.Size(62, 21);
             this.btn_trainPlan.TabIndex = 11;
@@ -257,7 +257,7 @@ namespace BackTestSys
             // btn_DistrCheck
             // 
             this.btn_DistrCheck.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_DistrCheck.Location = new System.Drawing.Point(862, 77);
+            this.btn_DistrCheck.Location = new System.Drawing.Point(1112, 77);
             this.btn_DistrCheck.Margin = new System.Windows.Forms.Padding(2);
             this.btn_DistrCheck.Name = "btn_DistrCheck";
             this.btn_DistrCheck.Size = new System.Drawing.Size(61, 22);
@@ -269,7 +269,7 @@ namespace BackTestSys
             // btn_CalcEr
             // 
             this.btn_CalcEr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_CalcEr.Location = new System.Drawing.Point(862, 143);
+            this.btn_CalcEr.Location = new System.Drawing.Point(1112, 143);
             this.btn_CalcEr.Name = "btn_CalcEr";
             this.btn_CalcEr.Size = new System.Drawing.Size(62, 21);
             this.btn_CalcEr.TabIndex = 9;
@@ -280,7 +280,7 @@ namespace BackTestSys
             // btn_VirExchange
             // 
             this.btn_VirExchange.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_VirExchange.Location = new System.Drawing.Point(862, 33);
+            this.btn_VirExchange.Location = new System.Drawing.Point(1112, 33);
             this.btn_VirExchange.Margin = new System.Windows.Forms.Padding(2);
             this.btn_VirExchange.Name = "btn_VirExchange";
             this.btn_VirExchange.Size = new System.Drawing.Size(61, 22);
@@ -292,7 +292,7 @@ namespace BackTestSys
             // btn_CheckData
             // 
             this.btn_CheckData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_CheckData.Location = new System.Drawing.Point(862, 121);
+            this.btn_CheckData.Location = new System.Drawing.Point(1112, 121);
             this.btn_CheckData.Name = "btn_CheckData";
             this.btn_CheckData.Size = new System.Drawing.Size(61, 22);
             this.btn_CheckData.TabIndex = 7;
@@ -302,9 +302,8 @@ namespace BackTestSys
             // 
             // groupBox4
             // 
-            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupBox4.Location = new System.Drawing.Point(649, 92);
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Location = new System.Drawing.Point(899, 92);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(2);
@@ -315,11 +314,12 @@ namespace BackTestSys
             // 
             // groupBox3
             // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.txt_RoundStepLong);
             this.groupBox3.Controls.Add(this.label23);
             this.groupBox3.Controls.Add(this.txt_RoundCycLong);
             this.groupBox3.Controls.Add(this.label24);
-            this.groupBox3.Location = new System.Drawing.Point(649, 12);
+            this.groupBox3.Location = new System.Drawing.Point(899, 12);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
@@ -369,7 +369,7 @@ namespace BackTestSys
             // btn_roundTest
             // 
             this.btn_roundTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_roundTest.Location = new System.Drawing.Point(862, 55);
+            this.btn_roundTest.Location = new System.Drawing.Point(1112, 55);
             this.btn_roundTest.Margin = new System.Windows.Forms.Padding(2);
             this.btn_roundTest.Name = "btn_roundTest";
             this.btn_roundTest.Size = new System.Drawing.Size(61, 22);
@@ -381,7 +381,7 @@ namespace BackTestSys
             // btn_export
             // 
             this.btn_export.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_export.Location = new System.Drawing.Point(862, 99);
+            this.btn_export.Location = new System.Drawing.Point(1112, 99);
             this.btn_export.Margin = new System.Windows.Forms.Padding(2);
             this.btn_export.Name = "btn_export";
             this.btn_export.Size = new System.Drawing.Size(61, 22);
@@ -393,7 +393,7 @@ namespace BackTestSys
             // btn_startTest
             // 
             this.btn_startTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_startTest.Location = new System.Drawing.Point(862, 11);
+            this.btn_startTest.Location = new System.Drawing.Point(1112, 11);
             this.btn_startTest.Margin = new System.Windows.Forms.Padding(2);
             this.btn_startTest.Name = "btn_startTest";
             this.btn_startTest.Size = new System.Drawing.Size(61, 22);
@@ -404,8 +404,9 @@ namespace BackTestSys
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.runPlanPicker1);
             this.groupBox2.Controls.Add(this.txt_LearnCnt);
             this.groupBox2.Controls.Add(this.label31);
@@ -432,22 +433,24 @@ namespace BackTestSys
             this.groupBox2.Controls.Add(this.txt_reviewExpCnt);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Location = new System.Drawing.Point(347, 12);
+            this.groupBox2.Location = new System.Drawing.Point(476, 12);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox2.Size = new System.Drawing.Size(298, 167);
+            this.groupBox2.Size = new System.Drawing.Size(419, 228);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "回测策略设置";
             // 
             // runPlanPicker1
             // 
-            this.runPlanPicker1.Location = new System.Drawing.Point(128, 14);
+            this.runPlanPicker1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.runPlanPicker1.Location = new System.Drawing.Point(160, 10);
             this.runPlanPicker1.Margin = new System.Windows.Forms.Padding(6);
             this.runPlanPicker1.Name = "runPlanPicker1";
             this.runPlanPicker1.Plans = null;
-            this.runPlanPicker1.Size = new System.Drawing.Size(110, 21);
+            this.runPlanPicker1.Size = new System.Drawing.Size(190, 21);
             this.runPlanPicker1.TabIndex = 31;
             // 
             // txt_LearnCnt
@@ -471,7 +474,7 @@ namespace BackTestSys
             // 
             // txt_AllowMaxHoldTimeCnt
             // 
-            this.txt_AllowMaxHoldTimeCnt.Location = new System.Drawing.Point(183, 147);
+            this.txt_AllowMaxHoldTimeCnt.Location = new System.Drawing.Point(213, 143);
             this.txt_AllowMaxHoldTimeCnt.Margin = new System.Windows.Forms.Padding(2);
             this.txt_AllowMaxHoldTimeCnt.Name = "txt_AllowMaxHoldTimeCnt";
             this.txt_AllowMaxHoldTimeCnt.Size = new System.Drawing.Size(35, 21);
@@ -481,7 +484,7 @@ namespace BackTestSys
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(127, 152);
+            this.label29.Location = new System.Drawing.Point(157, 148);
             this.label29.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(53, 12);
@@ -529,7 +532,7 @@ namespace BackTestSys
             // chkb_getRev
             // 
             this.chkb_getRev.AutoSize = true;
-            this.chkb_getRev.Location = new System.Drawing.Point(132, 136);
+            this.chkb_getRev.Location = new System.Drawing.Point(162, 132);
             this.chkb_getRev.Margin = new System.Windows.Forms.Padding(2);
             this.chkb_getRev.Name = "chkb_getRev";
             this.chkb_getRev.Size = new System.Drawing.Size(48, 16);
@@ -540,7 +543,7 @@ namespace BackTestSys
             // chkb_onlyBS
             // 
             this.chkb_onlyBS.AutoSize = true;
-            this.chkb_onlyBS.Location = new System.Drawing.Point(132, 118);
+            this.chkb_onlyBS.Location = new System.Drawing.Point(162, 114);
             this.chkb_onlyBS.Margin = new System.Windows.Forms.Padding(2);
             this.chkb_onlyBS.Name = "chkb_onlyBS";
             this.chkb_onlyBS.Size = new System.Drawing.Size(84, 16);
@@ -551,7 +554,7 @@ namespace BackTestSys
             // chkb_onlySD
             // 
             this.chkb_onlySD.AutoSize = true;
-            this.chkb_onlySD.Location = new System.Drawing.Point(132, 98);
+            this.chkb_onlySD.Location = new System.Drawing.Point(162, 94);
             this.chkb_onlySD.Margin = new System.Windows.Forms.Padding(2);
             this.chkb_onlySD.Name = "chkb_onlySD";
             this.chkb_onlySD.Size = new System.Drawing.Size(84, 16);
@@ -562,7 +565,7 @@ namespace BackTestSys
             // chkb_exclueBS
             // 
             this.chkb_exclueBS.AutoSize = true;
-            this.chkb_exclueBS.Location = new System.Drawing.Point(132, 78);
+            this.chkb_exclueBS.Location = new System.Drawing.Point(162, 74);
             this.chkb_exclueBS.Margin = new System.Windows.Forms.Padding(2);
             this.chkb_exclueBS.Name = "chkb_exclueBS";
             this.chkb_exclueBS.Size = new System.Drawing.Size(72, 16);
@@ -573,7 +576,7 @@ namespace BackTestSys
             // chkb_exclueSD
             // 
             this.chkb_exclueSD.AutoSize = true;
-            this.chkb_exclueSD.Location = new System.Drawing.Point(132, 57);
+            this.chkb_exclueSD.Location = new System.Drawing.Point(162, 53);
             this.chkb_exclueSD.Margin = new System.Windows.Forms.Padding(2);
             this.chkb_exclueSD.Name = "chkb_exclueSD";
             this.chkb_exclueSD.Size = new System.Drawing.Size(72, 16);
@@ -606,7 +609,7 @@ namespace BackTestSys
             this.chkb_bySer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chkb_bySer.Checked = true;
             this.chkb_bySer.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkb_bySer.Location = new System.Drawing.Point(129, 40);
+            this.chkb_bySer.Location = new System.Drawing.Point(159, 36);
             this.chkb_bySer.Margin = new System.Windows.Forms.Padding(2);
             this.chkb_bySer.Name = "chkb_bySer";
             this.chkb_bySer.Size = new System.Drawing.Size(84, 16);
@@ -753,24 +756,24 @@ namespace BackTestSys
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(330, 169);
+            this.groupBox1.Size = new System.Drawing.Size(444, 230);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "回测数据设置";
             // 
             // txt_endExpNo
             // 
-            this.txt_endExpNo.Location = new System.Drawing.Point(270, 16);
+            this.txt_endExpNo.Location = new System.Drawing.Point(364, 16);
             this.txt_endExpNo.Margin = new System.Windows.Forms.Padding(2);
             this.txt_endExpNo.Name = "txt_endExpNo";
-            this.txt_endExpNo.Size = new System.Drawing.Size(50, 21);
+            this.txt_endExpNo.Size = new System.Drawing.Size(76, 21);
             this.txt_endExpNo.TabIndex = 42;
-            this.txt_endExpNo.Text = "70000";
+            this.txt_endExpNo.Text = "20491231180";
             // 
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(214, 18);
+            this.label33.Location = new System.Drawing.Point(308, 18);
             this.label33.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(53, 12);
@@ -834,7 +837,7 @@ namespace BackTestSys
             // checkBox_MixAll
             // 
             this.checkBox_MixAll.AutoSize = true;
-            this.checkBox_MixAll.Location = new System.Drawing.Point(255, 172);
+            this.checkBox_MixAll.Location = new System.Drawing.Point(348, 175);
             this.checkBox_MixAll.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_MixAll.Name = "checkBox_MixAll";
             this.checkBox_MixAll.Size = new System.Drawing.Size(72, 16);
@@ -845,7 +848,7 @@ namespace BackTestSys
             // checkBox_CreamModel
             // 
             this.checkBox_CreamModel.AutoSize = true;
-            this.checkBox_CreamModel.Location = new System.Drawing.Point(199, 172);
+            this.checkBox_CreamModel.Location = new System.Drawing.Point(228, 174);
             this.checkBox_CreamModel.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_CreamModel.Name = "checkBox_CreamModel";
             this.checkBox_CreamModel.Size = new System.Drawing.Size(72, 16);
@@ -855,7 +858,7 @@ namespace BackTestSys
             // 
             // txt_MaxHoldChanceCnt
             // 
-            this.txt_MaxHoldChanceCnt.Location = new System.Drawing.Point(271, 138);
+            this.txt_MaxHoldChanceCnt.Location = new System.Drawing.Point(365, 138);
             this.txt_MaxHoldChanceCnt.Margin = new System.Windows.Forms.Padding(2);
             this.txt_MaxHoldChanceCnt.Name = "txt_MaxHoldChanceCnt";
             this.txt_MaxHoldChanceCnt.Size = new System.Drawing.Size(55, 21);
@@ -864,7 +867,7 @@ namespace BackTestSys
             // 
             // txt_InitCash
             // 
-            this.txt_InitCash.Location = new System.Drawing.Point(271, 118);
+            this.txt_InitCash.Location = new System.Drawing.Point(365, 118);
             this.txt_InitCash.Margin = new System.Windows.Forms.Padding(2);
             this.txt_InitCash.Name = "txt_InitCash";
             this.txt_InitCash.Size = new System.Drawing.Size(55, 21);
@@ -874,7 +877,7 @@ namespace BackTestSys
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(203, 139);
+            this.label28.Location = new System.Drawing.Point(297, 139);
             this.label28.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(53, 12);
@@ -884,7 +887,7 @@ namespace BackTestSys
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(203, 120);
+            this.label27.Location = new System.Drawing.Point(297, 120);
             this.label27.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(29, 12);
@@ -893,7 +896,7 @@ namespace BackTestSys
             // 
             // txt_minColTimes10
             // 
-            this.txt_minColTimes10.Location = new System.Drawing.Point(166, 116);
+            this.txt_minColTimes10.Location = new System.Drawing.Point(208, 119);
             this.txt_minColTimes10.Margin = new System.Windows.Forms.Padding(2);
             this.txt_minColTimes10.Name = "txt_minColTimes10";
             this.txt_minColTimes10.Size = new System.Drawing.Size(36, 21);
@@ -903,7 +906,7 @@ namespace BackTestSys
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(110, 118);
+            this.label17.Location = new System.Drawing.Point(152, 121);
             this.label17.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(29, 12);
@@ -912,7 +915,7 @@ namespace BackTestSys
             // 
             // txt_minColTimes9
             // 
-            this.txt_minColTimes9.Location = new System.Drawing.Point(166, 98);
+            this.txt_minColTimes9.Location = new System.Drawing.Point(208, 101);
             this.txt_minColTimes9.Margin = new System.Windows.Forms.Padding(2);
             this.txt_minColTimes9.Name = "txt_minColTimes9";
             this.txt_minColTimes9.Size = new System.Drawing.Size(36, 21);
@@ -922,7 +925,7 @@ namespace BackTestSys
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(110, 98);
+            this.label18.Location = new System.Drawing.Point(152, 101);
             this.label18.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(23, 12);
@@ -931,7 +934,7 @@ namespace BackTestSys
             // 
             // txt_minColTimes8
             // 
-            this.txt_minColTimes8.Location = new System.Drawing.Point(166, 78);
+            this.txt_minColTimes8.Location = new System.Drawing.Point(208, 81);
             this.txt_minColTimes8.Margin = new System.Windows.Forms.Padding(2);
             this.txt_minColTimes8.Name = "txt_minColTimes8";
             this.txt_minColTimes8.Size = new System.Drawing.Size(36, 21);
@@ -941,7 +944,7 @@ namespace BackTestSys
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(110, 80);
+            this.label19.Location = new System.Drawing.Point(152, 83);
             this.label19.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(23, 12);
@@ -950,7 +953,7 @@ namespace BackTestSys
             // 
             // txt_minColTimes7
             // 
-            this.txt_minColTimes7.Location = new System.Drawing.Point(166, 60);
+            this.txt_minColTimes7.Location = new System.Drawing.Point(208, 63);
             this.txt_minColTimes7.Margin = new System.Windows.Forms.Padding(2);
             this.txt_minColTimes7.Name = "txt_minColTimes7";
             this.txt_minColTimes7.Size = new System.Drawing.Size(36, 21);
@@ -960,7 +963,7 @@ namespace BackTestSys
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(110, 61);
+            this.label20.Location = new System.Drawing.Point(152, 64);
             this.label20.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(23, 12);
@@ -969,7 +972,7 @@ namespace BackTestSys
             // 
             // txt_minColTimes6
             // 
-            this.txt_minColTimes6.Location = new System.Drawing.Point(166, 40);
+            this.txt_minColTimes6.Location = new System.Drawing.Point(208, 43);
             this.txt_minColTimes6.Margin = new System.Windows.Forms.Padding(2);
             this.txt_minColTimes6.Name = "txt_minColTimes6";
             this.txt_minColTimes6.Size = new System.Drawing.Size(36, 21);
@@ -979,7 +982,7 @@ namespace BackTestSys
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(110, 43);
+            this.label21.Location = new System.Drawing.Point(152, 46);
             this.label21.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(23, 12);
@@ -1083,7 +1086,7 @@ namespace BackTestSys
             // 
             // txt_GrownMaxVal
             // 
-            this.txt_GrownMaxVal.Location = new System.Drawing.Point(271, 80);
+            this.txt_GrownMaxVal.Location = new System.Drawing.Point(365, 80);
             this.txt_GrownMaxVal.Margin = new System.Windows.Forms.Padding(2);
             this.txt_GrownMaxVal.Name = "txt_GrownMaxVal";
             this.txt_GrownMaxVal.Size = new System.Drawing.Size(55, 21);
@@ -1093,7 +1096,7 @@ namespace BackTestSys
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(202, 80);
+            this.label11.Location = new System.Drawing.Point(296, 80);
             this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(65, 12);
@@ -1102,7 +1105,7 @@ namespace BackTestSys
             // 
             // txt_GrownMinVal
             // 
-            this.txt_GrownMinVal.Location = new System.Drawing.Point(271, 60);
+            this.txt_GrownMinVal.Location = new System.Drawing.Point(365, 60);
             this.txt_GrownMinVal.Margin = new System.Windows.Forms.Padding(2);
             this.txt_GrownMinVal.Name = "txt_GrownMinVal";
             this.txt_GrownMinVal.Size = new System.Drawing.Size(55, 21);
@@ -1112,7 +1115,7 @@ namespace BackTestSys
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(203, 63);
+            this.label10.Location = new System.Drawing.Point(297, 63);
             this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(65, 12);
@@ -1121,7 +1124,7 @@ namespace BackTestSys
             // 
             // txt_MinCols
             // 
-            this.txt_MinCols.Location = new System.Drawing.Point(271, 40);
+            this.txt_MinCols.Location = new System.Drawing.Point(365, 40);
             this.txt_MinCols.Margin = new System.Windows.Forms.Padding(2);
             this.txt_MinCols.Name = "txt_MinCols";
             this.txt_MinCols.Size = new System.Drawing.Size(55, 21);
@@ -1131,7 +1134,7 @@ namespace BackTestSys
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(203, 44);
+            this.label9.Location = new System.Drawing.Point(297, 44);
             this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(53, 12);
@@ -1140,7 +1143,7 @@ namespace BackTestSys
             // 
             // txt_Odds
             // 
-            this.txt_Odds.Location = new System.Drawing.Point(271, 99);
+            this.txt_Odds.Location = new System.Drawing.Point(365, 99);
             this.txt_Odds.Margin = new System.Windows.Forms.Padding(2);
             this.txt_Odds.Name = "txt_Odds";
             this.txt_Odds.Size = new System.Drawing.Size(55, 21);
@@ -1150,7 +1153,7 @@ namespace BackTestSys
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(204, 101);
+            this.label6.Location = new System.Drawing.Point(298, 101);
             this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(29, 12);
@@ -1159,17 +1162,17 @@ namespace BackTestSys
             // 
             // txt_LoopCnt
             // 
-            this.txt_LoopCnt.Location = new System.Drawing.Point(166, 14);
+            this.txt_LoopCnt.Location = new System.Drawing.Point(208, 17);
             this.txt_LoopCnt.Margin = new System.Windows.Forms.Padding(2);
             this.txt_LoopCnt.Name = "txt_LoopCnt";
-            this.txt_LoopCnt.Size = new System.Drawing.Size(36, 21);
+            this.txt_LoopCnt.Size = new System.Drawing.Size(77, 21);
             this.txt_LoopCnt.TabIndex = 3;
-            this.txt_LoopCnt.Text = "2049123199";
+            this.txt_LoopCnt.Text = "10000";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(110, 18);
+            this.label2.Location = new System.Drawing.Point(152, 21);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 12);
@@ -1181,9 +1184,9 @@ namespace BackTestSys
             this.txt_begExpNo.Location = new System.Drawing.Point(59, 16);
             this.txt_begExpNo.Margin = new System.Windows.Forms.Padding(2);
             this.txt_begExpNo.Name = "txt_begExpNo";
-            this.txt_begExpNo.Size = new System.Drawing.Size(50, 21);
+            this.txt_begExpNo.Size = new System.Drawing.Size(78, 21);
             this.txt_begExpNo.TabIndex = 1;
-            this.txt_begExpNo.Text = "2019080909";
+            this.txt_begExpNo.Text = "20140101001";
             this.txt_begExpNo.Click += new System.EventHandler(this.txt_begExpNo_Click);
             this.txt_begExpNo.DoubleClick += new System.EventHandler(this.txt_begExpNo_DoubleClick);
             // 
@@ -1214,7 +1217,7 @@ namespace BackTestSys
             this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(940, 292);
+            this.tabControl1.Size = new System.Drawing.Size(1190, 391);
             this.tabControl1.TabIndex = 3;
             // 
             // contextMenuStrip_ForListView
@@ -1239,7 +1242,7 @@ namespace BackTestSys
             this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage2.Size = new System.Drawing.Size(932, 266);
+            this.tabPage2.Size = new System.Drawing.Size(1182, 365);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "整体概率分布";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -1253,7 +1256,7 @@ namespace BackTestSys
             this.listView2.Location = new System.Drawing.Point(2, 2);
             this.listView2.Margin = new System.Windows.Forms.Padding(2);
             this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(928, 262);
+            this.listView2.Size = new System.Drawing.Size(1178, 361);
             this.listView2.TabIndex = 0;
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.View = System.Windows.Forms.View.Details;
@@ -1266,7 +1269,7 @@ namespace BackTestSys
             this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage1.Size = new System.Drawing.Size(932, 266);
+            this.tabPage1.Size = new System.Drawing.Size(1182, 266);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "小概率机会列表";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -1281,7 +1284,7 @@ namespace BackTestSys
             this.listView1.Margin = new System.Windows.Forms.Padding(2);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(928, 262);
+            this.listView1.Size = new System.Drawing.Size(1178, 262);
             this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -1294,7 +1297,7 @@ namespace BackTestSys
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(932, 266);
+            this.tabPage3.Size = new System.Drawing.Size(1182, 266);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "滚动测试结果";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1309,7 +1312,7 @@ namespace BackTestSys
             this.listView3.Location = new System.Drawing.Point(0, 0);
             this.listView3.Margin = new System.Windows.Forms.Padding(2);
             this.listView3.Name = "listView3";
-            this.listView3.Size = new System.Drawing.Size(932, 266);
+            this.listView3.Size = new System.Drawing.Size(1182, 266);
             this.listView3.TabIndex = 0;
             this.listView3.UseCompatibleStateImageBehavior = false;
             this.listView3.View = System.Windows.Forms.View.Details;
@@ -1320,7 +1323,7 @@ namespace BackTestSys
             this.tabPage4.Controls.Add(this.chart1);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(932, 266);
+            this.tabPage4.Size = new System.Drawing.Size(1182, 266);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "资金曲线";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -1339,7 +1342,7 @@ namespace BackTestSys
             series1.Legend = "Legend1";
             series1.Name = "收益率曲线";
             this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(932, 266);
+            this.chart1.Size = new System.Drawing.Size(1182, 266);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "收益率曲线图";
             // 
@@ -1348,7 +1351,7 @@ namespace BackTestSys
             this.tabPage5.Controls.Add(this.dataGridView_ExchangeDetail);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(932, 266);
+            this.tabPage5.Size = new System.Drawing.Size(1182, 266);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "交易明细";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -1361,7 +1364,7 @@ namespace BackTestSys
             this.dataGridView_ExchangeDetail.MultiSelect = false;
             this.dataGridView_ExchangeDetail.Name = "dataGridView_ExchangeDetail";
             this.dataGridView_ExchangeDetail.RowTemplate.Height = 23;
-            this.dataGridView_ExchangeDetail.Size = new System.Drawing.Size(932, 266);
+            this.dataGridView_ExchangeDetail.Size = new System.Drawing.Size(1182, 266);
             this.dataGridView_ExchangeDetail.TabIndex = 0;
             this.dataGridView_ExchangeDetail.DoubleClick += new System.EventHandler(this.dataGridView_ExchangeDetail_DoubleClick);
             // 
@@ -1371,7 +1374,7 @@ namespace BackTestSys
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(932, 266);
+            this.tabPage6.Size = new System.Drawing.Size(1182, 266);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "概率波动曲线";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -1405,7 +1408,7 @@ namespace BackTestSys
             this.chart_ForProb.Series.Add(series3);
             this.chart_ForProb.Series.Add(series4);
             this.chart_ForProb.Series.Add(series5);
-            this.chart_ForProb.Size = new System.Drawing.Size(926, 260);
+            this.chart_ForProb.Size = new System.Drawing.Size(1176, 260);
             this.chart_ForProb.TabIndex = 0;
             this.chart_ForProb.Text = "chart2";
             // 
@@ -1415,7 +1418,7 @@ namespace BackTestSys
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(932, 266);
+            this.tabPage7.Size = new System.Drawing.Size(1182, 266);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "概率数据";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -1456,7 +1459,7 @@ namespace BackTestSys
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView_ProbData.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView_ProbData.RowTemplate.Height = 23;
-            this.dataGridView_ProbData.Size = new System.Drawing.Size(926, 260);
+            this.dataGridView_ProbData.Size = new System.Drawing.Size(1176, 260);
             this.dataGridView_ProbData.TabIndex = 0;
             // 
             // tabPage8
@@ -1465,7 +1468,7 @@ namespace BackTestSys
             this.tabPage8.Location = new System.Drawing.Point(4, 22);
             this.tabPage8.Name = "tabPage8";
             this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage8.Size = new System.Drawing.Size(932, 266);
+            this.tabPage8.Size = new System.Drawing.Size(1182, 266);
             this.tabPage8.TabIndex = 7;
             this.tabPage8.Text = "整体离散度变化曲线";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -1495,7 +1498,7 @@ namespace BackTestSys
             this.chart_ForSystemStdDev.Series.Add(series6);
             this.chart_ForSystemStdDev.Series.Add(series7);
             this.chart_ForSystemStdDev.Series.Add(series8);
-            this.chart_ForSystemStdDev.Size = new System.Drawing.Size(926, 260);
+            this.chart_ForSystemStdDev.Size = new System.Drawing.Size(1176, 260);
             this.chart_ForSystemStdDev.TabIndex = 0;
             this.chart_ForSystemStdDev.Text = "系统整体散乱程度";
             // 
@@ -1505,7 +1508,7 @@ namespace BackTestSys
             this.tabPage9.Location = new System.Drawing.Point(4, 22);
             this.tabPage9.Name = "tabPage9";
             this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage9.Size = new System.Drawing.Size(932, 266);
+            this.tabPage9.Size = new System.Drawing.Size(1182, 266);
             this.tabPage9.TabIndex = 8;
             this.tabPage9.Text = "整体离散度数据";
             this.tabPage9.UseVisualStyleBackColor = true;
@@ -1517,7 +1520,7 @@ namespace BackTestSys
             this.dg_forStdDev.Location = new System.Drawing.Point(3, 3);
             this.dg_forStdDev.Name = "dg_forStdDev";
             this.dg_forStdDev.RowTemplate.Height = 23;
-            this.dg_forStdDev.Size = new System.Drawing.Size(926, 260);
+            this.dg_forStdDev.Size = new System.Drawing.Size(1176, 260);
             this.dg_forStdDev.TabIndex = 0;
             this.dg_forStdDev.DoubleClick += new System.EventHandler(this.dg_forStdDev_DoubleClick);
             // 
@@ -1542,10 +1545,10 @@ namespace BackTestSys
             this.toolStripProgressBar1,
             this.toolStripDropDownButton1,
             this.toolStripSplitButton1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 479);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 639);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 7, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(944, 43);
+            this.statusStrip1.Size = new System.Drawing.Size(1194, 43);
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -1573,7 +1576,7 @@ namespace BackTestSys
             this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(13, 4);
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(13, 41);
             this.toolStripDropDownButton1.Text = "toolStripDropDownButton1";
             // 
             // toolStripSplitButton1
@@ -1581,14 +1584,14 @@ namespace BackTestSys
             this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripSplitButton1.Name = "toolStripSplitButton1";
-            this.toolStripSplitButton1.Size = new System.Drawing.Size(16, 4);
+            this.toolStripSplitButton1.Size = new System.Drawing.Size(16, 41);
             this.toolStripSplitButton1.Text = "toolStripSplitButton1";
             // 
             // BackTestFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(944, 522);
+            this.ClientSize = new System.Drawing.Size(1194, 682);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.statusStrip1);

@@ -19,7 +19,7 @@ using System.IO;
 using System.Collections.Specialized;
 using System.Web.Script.Serialization;
 using WolfInv.com.WebCommunicateClass;
-
+using WolfInv.com.JdUnionLib;
 namespace HappyShareLottery
 {
     /// <summary>
@@ -36,52 +36,7 @@ namespace HappyShareLottery
             
         }
 
-        public static string getShortLink(string url)
-        {
-            string createUrl = "https://dwz.cn/admin/v2/create";
-            String SIGN = "7d2772ad2792943aa67ae1213f9288d9";
-            string content_type = "application/json";
-            string strUrl = "{\"Url\":\"{0}\"}";
-            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(createUrl);
-            string ret = null;
-            try
-            {
-                req.Method = "Post";
-                //req.Headers.Add("Content-Type", content_type);
-                req.ContentType = content_type;
-                req.Headers.Add("Token", SIGN);
-                
-
-                string Data = strUrl.Replace("{0}", url);
-                byte[] byteArray = Encoding.UTF8.GetBytes(Data);
-                Stream newStream = req.GetRequestStream();//创建一个Stream,赋值是写入HttpWebRequest对象提供的一个stream里面
-                newStream.Write(byteArray, 0, byteArray.Length);
-                newStream.Close();
-                using (WebResponse wr = req.GetResponse())
-                {
-                    wr.GetResponseStream();
-                    ret = new StreamReader(wr.GetResponseStream(), Encoding.UTF8).ReadToEnd();
-                    wr.Close();
-                }
-                if (!string.IsNullOrEmpty(ret))
-                {
-                    JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
-                    shortLinkReturnResult returnResult = javaScriptSerializer.Deserialize<shortLinkReturnResult>(ret);
-                    if(returnResult.Code != 0)
-                    {
-                        return null;
-                    }
-                    return returnResult.ShortUrl;
-                }
-                return null;
-            }
-            catch (Exception ce)
-            {
-
-            }
-            return "";
-        }
-
+        
         /*
          {
     "Code": 0,
@@ -90,13 +45,7 @@ namespace HappyShareLottery
     "ErrMsg": ""
 }
              */
-        class shortLinkReturnResult
-        {
-            public int Code;
-            public string ShortUrl;
-            public string LongUrl;
-            public string ErrMsg;
-        }
+        
         public void Init()
         {
             Dictionary<string, XmlNode> allPlans = getPlanXmlDictionary();
@@ -106,7 +55,7 @@ namespace HappyShareLottery
                 XmlNode node = allPlans[key];
                 wxChartPushClass wxp = new wxChartPushClass();
                 wxp.MessageTo = msgTo;
-                wxp.shortUrlFunc = getShortLink;
+                wxp.shortUrlFunc =  JdGoodsQueryClass.getShortLink;
                 wxp.Init(node);
                 
                 if (wxp.disabled)

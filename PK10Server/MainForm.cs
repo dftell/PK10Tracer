@@ -28,7 +28,7 @@ namespace PK10Server
         //PK10ExpectReader er = new PK10ExpectReader();
         DataReader er = null;
         long NewestExpectNo = 0;
-        public int InputExpect;
+        public long InputExpect;
         GlobalClass gobj;
         public MainForm():base()
         {
@@ -38,6 +38,10 @@ namespace PK10Server
             gobj = new GlobalClass();
             dtp = GlobalClass.TypeDataPoints.First().Value;
             er = DataReaderBuild.CreateReader(dtp.DataType, null, null);
+            if(Program.optFunc == null)
+            {
+                Program.optFunc = new operateClass();
+            }
             Program.optFunc.RefreshMainWindow += refreshData;
         }
 

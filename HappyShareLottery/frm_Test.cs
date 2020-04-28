@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using WolfInv.com.JdUnionLib;
 namespace HappyShareLottery
 {
     public partial class frm_Test : Form
@@ -19,7 +19,7 @@ namespace HappyShareLottery
 
         private void btn_test_Click(object sender, EventArgs e)
         {
-            txt_returnUrl.Text =  ChartPushService.getShortLink(this.txt_testUrl.Text.Trim());
+            txt_returnUrl.Text =  JdGoodsQueryClass.getShortLink(this.txt_testUrl.Text.Trim());
 
         }
     }

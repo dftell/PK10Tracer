@@ -44,6 +44,8 @@ namespace WolfInv.com.ExchangeLib
         public static void ExportExcel(string fileName, DataTable dataTable)
         {
             DataSet dataSet = new DataSet();
+            if (dataTable == null)
+                return;
             dataSet.Tables.Add(dataTable.Copy());
             ExportExcel(fileName, dataSet);
         }

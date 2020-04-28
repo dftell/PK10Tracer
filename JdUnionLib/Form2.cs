@@ -104,7 +104,7 @@ namespace WolfInv.com.JdUnionLib
         {
             string ret = JdUnion_GlbObject.Access_token;
             this.txt_access_token.Text = ret;
-            
+            this.txt_timestamp.Text = DateTime.Now.ToString();
             //this.txt_bdId.Text = JdUnion_GlbObject.dbId;
             DataTable dt = new DataTable();
             dt.Columns.Add("text");
