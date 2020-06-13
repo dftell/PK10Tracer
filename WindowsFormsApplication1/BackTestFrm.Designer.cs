@@ -812,7 +812,7 @@ namespace BackTestSys
             this.txt_Timer_Interval.Name = "txt_Timer_Interval";
             this.txt_Timer_Interval.Size = new System.Drawing.Size(35, 21);
             this.txt_Timer_Interval.TabIndex = 38;
-            this.txt_Timer_Interval.Text = "5";
+            this.txt_Timer_Interval.Text = "25";
             // 
             // label30
             // 
@@ -1167,7 +1167,7 @@ namespace BackTestSys
             this.txt_LoopCnt.Name = "txt_LoopCnt";
             this.txt_LoopCnt.Size = new System.Drawing.Size(77, 21);
             this.txt_LoopCnt.TabIndex = 3;
-            this.txt_LoopCnt.Text = "10000";
+            this.txt_LoopCnt.Text = "50000";
             // 
             // label2
             // 
@@ -1269,7 +1269,7 @@ namespace BackTestSys
             this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage1.Size = new System.Drawing.Size(1182, 266);
+            this.tabPage1.Size = new System.Drawing.Size(1182, 365);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "小概率机会列表";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -1284,7 +1284,7 @@ namespace BackTestSys
             this.listView1.Margin = new System.Windows.Forms.Padding(2);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(1178, 262);
+            this.listView1.Size = new System.Drawing.Size(1178, 361);
             this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -1297,7 +1297,7 @@ namespace BackTestSys
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1182, 266);
+            this.tabPage3.Size = new System.Drawing.Size(1182, 365);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "滚动测试结果";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1312,7 +1312,7 @@ namespace BackTestSys
             this.listView3.Location = new System.Drawing.Point(0, 0);
             this.listView3.Margin = new System.Windows.Forms.Padding(2);
             this.listView3.Name = "listView3";
-            this.listView3.Size = new System.Drawing.Size(1182, 266);
+            this.listView3.Size = new System.Drawing.Size(1182, 365);
             this.listView3.TabIndex = 0;
             this.listView3.UseCompatibleStateImageBehavior = false;
             this.listView3.View = System.Windows.Forms.View.Details;
@@ -1323,7 +1323,7 @@ namespace BackTestSys
             this.tabPage4.Controls.Add(this.chart1);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1182, 266);
+            this.tabPage4.Size = new System.Drawing.Size(1182, 365);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "资金曲线";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -1342,7 +1342,7 @@ namespace BackTestSys
             series1.Legend = "Legend1";
             series1.Name = "收益率曲线";
             this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(1182, 266);
+            this.chart1.Size = new System.Drawing.Size(1182, 365);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "收益率曲线图";
             // 
@@ -1351,7 +1351,7 @@ namespace BackTestSys
             this.tabPage5.Controls.Add(this.dataGridView_ExchangeDetail);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1182, 266);
+            this.tabPage5.Size = new System.Drawing.Size(1182, 365);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "交易明细";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -1364,7 +1364,7 @@ namespace BackTestSys
             this.dataGridView_ExchangeDetail.MultiSelect = false;
             this.dataGridView_ExchangeDetail.Name = "dataGridView_ExchangeDetail";
             this.dataGridView_ExchangeDetail.RowTemplate.Height = 23;
-            this.dataGridView_ExchangeDetail.Size = new System.Drawing.Size(1182, 266);
+            this.dataGridView_ExchangeDetail.Size = new System.Drawing.Size(1182, 365);
             this.dataGridView_ExchangeDetail.TabIndex = 0;
             this.dataGridView_ExchangeDetail.DoubleClick += new System.EventHandler(this.dataGridView_ExchangeDetail_DoubleClick);
             // 
@@ -1374,7 +1374,7 @@ namespace BackTestSys
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(1182, 266);
+            this.tabPage6.Size = new System.Drawing.Size(1182, 365);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "概率波动曲线";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -1408,7 +1408,7 @@ namespace BackTestSys
             this.chart_ForProb.Series.Add(series3);
             this.chart_ForProb.Series.Add(series4);
             this.chart_ForProb.Series.Add(series5);
-            this.chart_ForProb.Size = new System.Drawing.Size(1176, 260);
+            this.chart_ForProb.Size = new System.Drawing.Size(1176, 359);
             this.chart_ForProb.TabIndex = 0;
             this.chart_ForProb.Text = "chart2";
             // 
@@ -1418,7 +1418,7 @@ namespace BackTestSys
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(1182, 266);
+            this.tabPage7.Size = new System.Drawing.Size(1182, 365);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "概率数据";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -1459,7 +1459,7 @@ namespace BackTestSys
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView_ProbData.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView_ProbData.RowTemplate.Height = 23;
-            this.dataGridView_ProbData.Size = new System.Drawing.Size(1176, 260);
+            this.dataGridView_ProbData.Size = new System.Drawing.Size(1176, 359);
             this.dataGridView_ProbData.TabIndex = 0;
             // 
             // tabPage8
@@ -1468,7 +1468,7 @@ namespace BackTestSys
             this.tabPage8.Location = new System.Drawing.Point(4, 22);
             this.tabPage8.Name = "tabPage8";
             this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage8.Size = new System.Drawing.Size(1182, 266);
+            this.tabPage8.Size = new System.Drawing.Size(1182, 365);
             this.tabPage8.TabIndex = 7;
             this.tabPage8.Text = "整体离散度变化曲线";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -1498,7 +1498,7 @@ namespace BackTestSys
             this.chart_ForSystemStdDev.Series.Add(series6);
             this.chart_ForSystemStdDev.Series.Add(series7);
             this.chart_ForSystemStdDev.Series.Add(series8);
-            this.chart_ForSystemStdDev.Size = new System.Drawing.Size(1176, 260);
+            this.chart_ForSystemStdDev.Size = new System.Drawing.Size(1176, 359);
             this.chart_ForSystemStdDev.TabIndex = 0;
             this.chart_ForSystemStdDev.Text = "系统整体散乱程度";
             // 
@@ -1508,7 +1508,7 @@ namespace BackTestSys
             this.tabPage9.Location = new System.Drawing.Point(4, 22);
             this.tabPage9.Name = "tabPage9";
             this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage9.Size = new System.Drawing.Size(1182, 266);
+            this.tabPage9.Size = new System.Drawing.Size(1182, 365);
             this.tabPage9.TabIndex = 8;
             this.tabPage9.Text = "整体离散度数据";
             this.tabPage9.UseVisualStyleBackColor = true;
@@ -1520,7 +1520,7 @@ namespace BackTestSys
             this.dg_forStdDev.Location = new System.Drawing.Point(3, 3);
             this.dg_forStdDev.Name = "dg_forStdDev";
             this.dg_forStdDev.RowTemplate.Height = 23;
-            this.dg_forStdDev.Size = new System.Drawing.Size(1176, 260);
+            this.dg_forStdDev.Size = new System.Drawing.Size(1176, 359);
             this.dg_forStdDev.TabIndex = 0;
             this.dg_forStdDev.DoubleClick += new System.EventHandler(this.dg_forStdDev_DoubleClick);
             // 

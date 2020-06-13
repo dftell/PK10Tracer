@@ -139,13 +139,13 @@ namespace WolfInv.com.WebCommunicateClass
             return ret;
         }
 
-        public SelectTimeInstClass getSelectTimeAmt(DataTypePoint dtp,string expectNo,int currCnt,Func<string,string,int,SelectTimeInstClass> getRemoteCnt)
+        public SelectTimeInstClass getSelectTimeAmt(DataTypePoint dtp,string expectNo,AssetInfoConfig aic,Func<string,string,AssetInfoConfig,SelectTimeInstClass> getRemoteCnt)
         {
-            SelectTimeInstClass ret = getRemoteCnt(dtp.DataType, expectNo, currCnt);
+            SelectTimeInstClass ret = getRemoteCnt(dtp.DataType, expectNo,aic);
             return ret;
         }
         Dictionary<string, int> SelectTimeDic;
-        public string getUserInsts(GlobalClass setting,DataTypePoint dtp,string NewExpectNo,string forweb, Func<string, string, int, SelectTimeInstClass> getRemoteCnt)
+        public string getUserInsts(GlobalClass setting,DataTypePoint dtp,string NewExpectNo,string forweb,double CurrVal, Func<string, string, AssetInfoConfig, SelectTimeInstClass> getRemoteCnt)
         {
             string ret = "";
             List<string> allTxt = new List<string>();
@@ -190,7 +190,16 @@ namespace WolfInv.com.WebCommunicateClass
                     if (aic == null)
                         continue;
                     AssetCnt = aic.value;//默认等于设置值
-                    if (aic.NeedSelectTimes == 1)
+                    bool NeedStop = false;
+                    if (aic.NeedStopGained == 1)
+                    {
+                        if (CurrVal > aic.maxStopGainedValue)//如果当前值大于止盈值，投注数量等于0
+                        {
+                            NeedStop = true;
+                            AssetCnt = 0;
+                        }
+                    }
+                    if (!NeedStop && aic.NeedSelectTimes == 1)
                     {
                         AssetCnt = aic.value * aic.CurrTimes;//择时策略等于设置值*当前倍数
                         int newVal = 0;
@@ -202,17 +211,18 @@ namespace WolfInv.com.WebCommunicateClass
                         }
                         else
                         {
-                            SelectTimeInstClass obj = getSelectTimeAmt(dtp, cc.ExpectCode, aic.CurrTimes, getRemoteCnt);
+                            SelectTimeInstClass obj = getSelectTimeAmt(dtp, cc.ExpectCode, aic, getRemoteCnt);
                             if (obj == null)
                                 continue;
                             newVal = obj.ReturnCnt;
-                            SelectTimeChanged?.Invoke(strAssetId,aic.CurrTimes, obj,cc);
+                            SelectTimeChanged?.Invoke(strAssetId,obj.RequestCnt, obj,cc);
                             //AssetCnt = newVal;
-                            setting.AssetUnits[strAssetId].CurrTimes = newVal;
+                            //setting.AssetUnits[strAssetId].CurrTimes = newVal;
                             SelectTimeDic.Add(cc.GUID, newVal);
                         }
                         AssetCnt = newVal*aic.value;
                     }
+                    
                 }
                 else
                 {

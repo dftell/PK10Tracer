@@ -50,4 +50,12 @@ namespace WolfInv.com.SecurityLib
         }
 
     }
+
+    public class NewPK10_HtmlDataClass:KL11_HtmlDataClass
+    {
+        public NewPK10_HtmlDataClass(DataTypePoint dp) : base(dp)
+        {
+            
+        }
+    }
 }

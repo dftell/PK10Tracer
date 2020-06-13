@@ -90,13 +90,16 @@ namespace WolfInv.com.WebRuleLib
             return lcc.IntsToJsonString(ccs, unit);
         }
 
-        
-        
-
-        
 
 
-       
+
+        public override string ToInstItem(InstClass ic)
+        {
+            return ic.GetJson(true);//直接转换为Json
+        }
+
+
+
 
 
 
@@ -263,11 +266,301 @@ namespace WolfInv.com.WebRuleLib
             return item.innerText;
         }
 
-        
 
-       
+        public override bool LoginSuccFunc(string res)
+        {
+            
+            WebUserInfoClass wic = new WebUserInfoClass();
+            wic.returnJson = res;
+            wic.Msg = res;
+            if (res.ToLower().IndexOf("suc")<0)
+            {
+                this.SuccLogin?.Invoke(wic);
+                return false;
+            }
+            wic.Succ = true;
+            this.SuccLogin?.Invoke(wic);
+            //return base.LoginSuccFunc(res);
+            return true;
+        }
 
-        
+        public override bool GetGameInfoSuccFunc(string res)
+        {
+            GameInfoClass gic = new GameInfoClass();
+            gic.returnJson = res;
+            KCai_GameInfoReturnClass girc = new KCai_GameInfoReturnClass();
+            girc = JsonableClass<KCai_GameInfoReturnClass>.FromJson<KCai_GameInfoReturnClass>(res);
+            if (girc == null)
+            {
+                gic.Msg = "获取游戏信息错误！";
+                this.SuccGetGameInfo?.Invoke(gic);
+                return false;
+            }
+            gic.Succ = true;
+            this.SuccGetGameInfo?.Invoke(gic);
+            return true;
+        }
+
+        public override bool GetAmountSuccFunc(string res)
+        {
+            KCai_UserGamePoint amtobj = new KCai_UserGamePoint();
+            amtobj = amtobj.FromJson(res);
+            
+            
+            AmountInfoClass aic = new AmountInfoClass();
+            if(amtobj == null)
+            {
+                aic.CurrMoney = 0;
+                this.SuccGetAmount?.Invoke(aic);
+                return false;
+            }
+            aic.Succ = true;
+            double val = 0;
+            bool ret = double.TryParse(amtobj.GamePoint, out aic.CurrMoney);
+            //aic.CurrMoney = val;
+            this.SuccGetAmount?.Invoke(aic);
+            return ret;
+        }
+
+        public override bool CancelBetSuccFunc(string res)
+        {
+            KCai_CancelBetReturnClass resret = new KCai_CancelBetReturnClass();
+            resret = resret.FromJson(res);
+            
+            WebServerReturnClass ret = new WebServerReturnClass();
+            ret.returnJson = res;
+            if(resret == null)
+            {
+                this.SuccCancelBet?.Invoke(ret);
+                return false;
+            }
+            if (resret.result != "OK")
+            {
+                ret.Msg = resret.result;
+                this.SuccCancelBet?.Invoke(ret);
+                return false;
+            }
+            ret.Succ = true;
+            this.SuccCancelBet?.Invoke(ret);
+            return false;
+        }
+
+        public override bool SendCompletedFunc(string res)
+        {
+
+            return base.SendCompletedFunc(res);
+        }
+
+        public override bool BetRecSuccFunc(string res)
+        {
+            BetRecordListClass gic = new BetRecordListClass();
+            gic.returnJson = res;
+            string fullres = "{\"recentData\":" + res + "}";
+            KCai_BetRecReturnClass girc = JsonableClass<string>.FromJson<KCai_BetRecReturnClass>(fullres);
+            if (girc == null)
+            {
+                gic.Msg = "获取游戏信息错误！";
+                this.SuccGetBetRec?.Invoke(gic);
+                return false;
+            }
+            gic.Data = new List<BetRecordClass>();
+            girc.recentData.ForEach(a => {
+
+                gic.Data.Add(
+                new BetRecordClass()
+                {
+                    Nums = a.BetContent,
+                    BetType = a.BetRuleId,
+                    Cost = a.TotalAmount,
+                    GameName = a.BetRuleId,
+                    GameId = a.LotteryCode,
+                    Status = a.Mark,
+                    EarnedAmount = a.BonusAmount,
+                    BetAmount = a.TotalAmount,
+                    SerialNo = a.IssueNumber,
+                    ID = a.EncodeId,
+                    Key = a.IssueNumber,
+                    CreateTime = a.CreateTime,
+                    ReturnAmount = a.profit
+                });
+            });
+            gic.Succ = true;
+            this.SuccGetBetRec?.Invoke(gic);
+            return true;
+
+        }
+
+
+        public override bool SendSuccFunc(string res, string dtp,string expect, string InstsText)
+        {
+            KCai_BetReturnClass ret = new KCai_BetReturnClass();
+            ret = ret.FromJson(res);
+            WebBetReturnInfoClass wric = new WebBetReturnInfoClass();
+            wric.returnJson = res;
+            wric.dtp = dtp;
+            wric.SerialNo = expect;
+            wric.SendData = InstsText;
+            if (ret == null)
+            {
+                wric.Msg = "发送错误!";
+                this.SuccSend?.Invoke(wric);
+                return false;
+            }
+            if (ret.Ok != 1)
+            {
+                wric.Msg = "投注错误:"+ret.Tip;
+                this.SuccSend?.Invoke(wric);
+                return false;
+            }
+            double.TryParse(ret.gamePoint, out wric.restAmount);
+            wric.Succ = true;
+            wric.Msg = null;
+            //wric.SerialNo = ret.;//千万不能用返回的期号，因为不同平台的序号不一定相同，会导致接收时判断错误，接收到新记录而误认为不是新记录
+            //wric.betRecordCnt = ret.BetDatas.Count;
+            wric.betAmt = string.Format("{0}", ret.BetAmount);
+            wric.betRecInfo = string.Format("本次投注共计{0}元", ret.BetAmount);
+            this.SuccSend?.Invoke(wric);
+            return true;
+            //return base.SendSuccFunc(res);
+        }
+
+        public override object[] getBetKeys(string strCookie, string strHtml, BetRecordClass bet)
+        {
+            string key = bet.Key;
+            string id = bet.ID;
+            string val = null;
+            WebRule.existElement(strHtml, "input|name|__RequestVerificationToken|value", out val);
+            string __req = val;
+            return new object[] { __req, id, bet.SerialNo,bet.GameId };
+        }
+
+        public override void AjaxErrorFunc(string title,string res)
+        {
+            base.AjaxErrorFunc(title,res);
+        }
+
+
+        public class KCai_BetReturnClass:JsonableClass<KCai_BetReturnClass>
+        {
+            public int Ok;//: 1,
+            public string Tip;
+            public string gamePoint;//": 453.1180,
+            public string BonusNum;//": "",
+            public string BonusTotalNumber;//: -1,
+            public string BonusAmount;//: 0,
+            public string BetAmount;//: 0.02,
+            public string rightTraces;
+            public List<KCai_BetDetailReturnClass> Orders;
+        }
+
+        public class KCai_UserGamePoint:JsonableClass<KCai_UserGamePoint>
+        {
+            /*{"Id":191833,
+             * "RealName":null,
+             * "Name":"gsyh",
+             * "ReturnPoint":0.1280,
+             * "UserLevel":0,
+             * "UserType":1,
+             * "Avator":null,
+             * "GamePoint":453.1380,
+             * "AgentLevel":0}
+        */
+            public string Id;
+            public string GamePoint;
+        }
+
+        public class KCai_GameInfoReturnClass:JsonableClass<KCai_GameInfoReturnClass>
+        {
+
+        }
+
+        public class KCai_BetRecReturnClass:JsonableClass<KCai_BetRecReturnClass>
+        {
+            public List<KCai_BetDetailReturnClass> recentData;
+            /*
+             {"recentData":[
+             {"EncodeId":"3D77E8FAH2",
+             "Id":1031268602,
+             "Uid":191833,
+             "LotteryCode":32,
+             "IssueNumber":"2005080020",
+             "OrderTime":"\/Date(1588868345000)\/",
+             "CreateTime":"\/Date(1588868351000)\/",
+             "AnnounceTime":"\/Date(1588868345000)\/",
+             "BatchNo":"200508001905191833",
+             "BetContent":"大",
+             "SortOrder":0,
+             "BetRuleId":32010101,
+             "Odds":1.95,
+             "BetUnitPrice":0.0200,
+             "TotalBet":1,
+             "TotalAmount":0.0200,
+             "BonusAmount":0.0000,
+             "BonusTotalNumber":-1,
+             "PlusOdds":0.00,
+             "OrderStatus":10,
+             "IsTraceOrder":false,
+             "Mark":"玩家撤单! 撤单时间:2020-05-08 00:19:11",
+             "BoNums":"","InsertDate":"2020-05-08 00:19:05",
+             "CloseTime":"",
+             "BonusNumber":"4,2,6",
+             "ReturnPoint":0.1280,
+             "LoginName":"gsyh",
+             "UserType":1,
+             "RuleName":"和值-大",
+             "LotteryName":"KC一分快3",
+             "profit":null,
+             "hasRunLottery":"否"},
+             {"EncodeId":"3D77E8B3H7","Id":1031268531,"Uid":191833,"LotteryCode":6,"IssueNumber":"2020080","OrderTime":"\/Date(1588868312000)\/","CreateTime":"\/Date(1588868312000)\/","AnnounceTime":"\/Date(1588868312000)\/","BatchNo":"200508001832191833","BetContent":"0,,","SortOrder":0,"BetRuleId":6040101,"Odds":9.68,"BetUnitPrice":0.0200,"TotalBet":1,"TotalAmount":0.0200,"BonusAmount":0.0000,"BonusTotalNumber":-1,"PlusOdds":0.00,"OrderStatus":0,"IsTraceOrder":false,"Mark":"普通投注","BoNums":"","InsertDate":"2020-05-08 00:18:32","CloseTime":"","BonusNumber":null,"ReturnPoint":0.1280,"LoginName":"gsyh","UserType":1,"RuleName":"定位胆","LotteryName":"福彩3D","profit":null,"hasRunLottery":"否"},
+             {"EncodeId":"3D77E3D0HG","Id":1031267280,"Uid":191833,"LotteryCode":8,"IssueNumber":"744352","OrderTime":"\/Date(1588867916000)\/","CreateTime":"\/Date(1588867932000)\/","AnnounceTime":"\/Date(1588867916000)\/","BatchNo":"200508001156191833","BetContent":",,01,,","SortOrder":0,"BetRuleId":8140101,"Odds":9.78,"BetUnitPrice":0.0200,"TotalBet":1,"TotalAmount":0.0200,"BonusAmount":0.0000,"BonusTotalNumber":-1,"PlusOdds":0.00,"OrderStatus":10,"IsTraceOrder":false,"Mark":"玩家撤单! 撤单时间:2020-05-08 00:12:12","BoNums":"","InsertDate":"2020-05-08 00:11:56","CloseTime":"","BonusNumber":null,"ReturnPoint":0.1280,"LoginName":"gsyh","UserType":1,"RuleName":"前五定位胆","LotteryName":"PK10","profit":null,"hasRunLottery":"否"},
+             {"EncodeId":"3D77BF64HR","Id":1031257956,"Uid":191833,"LotteryCode":8,"IssueNumber":"744351","OrderTime":"\/Date(1588865820000)\/","CreateTime":"\/Date(1588865820000)\/","AnnounceTime":"\/Date(1588866847000)\/","BatchNo":"200507233700191833","BetContent":"10,,,,","SortOrder":0,"BetRuleId":8140102,"Odds":9.78,"BetUnitPrice":0.0200,"TotalBet":1,"TotalAmount":0.0200,"BonusAmount":0.0000,"BonusTotalNumber":0,"PlusOdds":0.00,"OrderStatus":1,"IsTraceOrder":false,"Mark":"普通投注","BoNums":"","InsertDate":"2020-05-07 23:37:00","CloseTime":"","BonusNumber":"04,06,09,10,02,08,05,07,01,03","ReturnPoint":0.1280,"LoginName":"gsyh","UserType":1,"RuleName":"后五定位胆","LotteryName":"PK10","profit":-0.0200,"hasRunLottery":"是"},
+             {"EncodeId":"3D77A625H4","Id":1031251493,"Uid":191833,"LotteryCode":8,"IssueNumber":"744350","OrderTime":"\/Date(1588864505000)\/","CreateTime":"\/Date(1588864505000)\/","AnnounceTime":"\/Date(1588865704000)\/","BatchNo":"200507231505191833","BetContent":",,,,07","SortOrder":0,"BetRuleId":8140102,"Odds":9.78,"BetUnitPrice":0.0200,"TotalBet":1,"TotalAmount":0.0200,"BonusAmount":0.0000,"BonusTotalNumber":0,"PlusOdds":0.00,"OrderStatus":1,"IsTraceOrder":false,"Mark":"普通投注","BoNums":"","InsertDate":"2020-05-07 23:15:05","CloseTime":"","BonusNumber":"04,09,02,08,06,10,07,03,01,05","ReturnPoint":0.1280,"LoginName":"gsyh","UserType":1,"RuleName":"后五定位胆","LotteryName":"PK10","profit":-0.0200,"hasRunLottery":"是"},
+             {"EncodeId":"3D77A61DHF","Id":1031251485,"Uid":191833,"LotteryCode":21,"IssueNumber":"20050801","OrderTime":"\/Date(1588864502000)\/","CreateTime":"\/Date(1588864502000)\/","AnnounceTime":"\/Date(1588864502000)\/","BatchNo":"200507231502191833","BetContent":"02 06 10","SortOrder":0,"BetRuleId":21110101,"Odds":161.37,"BetUnitPrice":18.0000,"TotalBet":1,"TotalAmount":18.0000,"BonusAmount":0.0000,"BonusTotalNumber":-1,"PlusOdds":0.00,"OrderStatus":0,"IsTraceOrder":false,"Mark":"普通投注","BoNums":"","InsertDate":"2020-05-07 23:15:02","CloseTime":"","BonusNumber":null,"ReturnPoint":0.1280,"LoginName":"gsyh","UserType":1,"RuleName":"前三组选复式","LotteryName":"广东11选5","profit":null,"hasRunLottery":"否"}]}
+             */
+
+        }
+        public class KCai_BetDetailReturnClass:JsonableClass<KCai_BetDetailReturnClass>
+        {
+            public string EncodeId;
+            public string Id;
+            public string Uid;
+            public string LotteryCode;
+            public string IssueNumber;
+            public string OrderTime;
+            public string CreateTime;
+            public string AnnounceTime;
+            public string BatchNo;
+            public string BetContent;
+            public string SortOrder;
+            public string BetRuleId;
+            public string Odds;
+            public string BetUnitPrice;
+            public string TotalBet;
+            public string TotalAmount;
+            public string BonusAmount;
+            public string BonusTotalNumber;
+            public string PlusOdds;
+            public string OrderStatus;
+            public string IsTraceOrder;
+            public string Mark;
+            public string BoNums;
+            public string CloseTime;
+            public string BonusNumber;
+            public string ReturnPoint;
+            public string LoginName;
+            public string UserType;
+            public string RuleName;
+            public string LotteryName;
+            public string profit;
+            public string hasRunLottery;
+        }
+
+
+        public class KCai_CancelBetReturnClass:JsonableClass<KCai_CancelBetReturnClass>
+        {
+            public string result;
+            public string orders; 
+        }
 
     }
 

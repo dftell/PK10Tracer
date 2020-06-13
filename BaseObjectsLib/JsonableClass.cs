@@ -21,6 +21,19 @@ namespace WolfInv.com.BaseObjectsLib
             }
         }
 
+        public static T1 FromJson<T1>(string strjson)
+        {
+            try
+            {
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                return js.Deserialize<T1>(strjson);
+            }
+            catch (Exception ce)
+            {
+                return default(T1);
+            }
+        }
+
         public string ToJson()
         {
             try

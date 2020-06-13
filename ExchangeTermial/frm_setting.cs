@@ -45,12 +45,19 @@ namespace ExchangeTermial
                     //int.TryParse(dt.Rows[i]["needSelectTime"]?.ToString(), out aic.NeedSelectTimes);
                     aic.NeedSelectTimes = (bool)dt.Rows[i]["needSelectTime"]==true ? 1 : 0;
                     int.TryParse(dt.Rows[i]["currTimes"]?.ToString(), out aic.CurrTimes);
+                    int.TryParse(dt.Rows[i]["DefaultReturnTimes"]?.ToString(), out aic.DefaultReturnTimes);
+                    int.TryParse(dt.Rows[i]["AutoTraceMinChips"]?.ToString(), out aic.AutoTraceMinChips);
+                    aic.AutoResumeDefaultReturnValue = (bool)dt.Rows[i]["AutoResumeDefaultReturnValue"] ? 1 : 0;
+                    aic.EmergencyStop = (bool)dt.Rows[i]["EmergencyStop"] ? 1 : 0;
+                    aic.AutoEmergencyStop = (bool)dt.Rows[i]["AutoEmergencyStop"] ? 1 : 0;
+                    aic.ZeroCloseResume = (bool)dt.Rows[i]["ZeroCloseResume"] ? 1 : 0;
+                    aic.NeedStopGained = (bool)dt.Rows[i]["NeedStopGained"]?1:0;
                     double.TryParse(dt.Rows[i]["gainedUbound"]?.ToString(), out aic.maxStopGainedValue);
                     ret.Add(dt.Rows[i]["id"].ToString(), aic);
                 }
                 Program.gc.AssetUnits = ret;
 
-                if(!SaveToServer(ret))
+                if(!SaveToServer(ret,true))
                 {
                     return;
                 }
@@ -63,10 +70,10 @@ namespace ExchangeTermial
             }
         }
 
-        bool SaveToServer(Dictionary<string,AssetInfoConfig> assets)
+        public static bool SaveToServer(Dictionary<string,AssetInfoConfig> assets,bool Tip=false)
         {
             string strReq = "<config  type='AssetUnits'>{0}</config>";
-            string[] list = assets.Select(a => string.Format("{0}", GlobalClass.writeXmlItems(a.Value.getStringDic(),a.Key,a.Value.value))).ToArray();
+            string[] list = assets.Select(a => string.Format("{0}", GlobalClass.writeXmlItems(a.Value.getStringDic(),a.Key,""))).ToArray();
             string urlModel = "http://www.wolfinv.com/pk10/app/UpdateUser.asp?";
             
             string reqAsset = string.Format(strReq, string.Join("", list));
@@ -78,7 +85,14 @@ namespace ExchangeTermial
             bool ret = (succ == "succ");
             if(!ret)
             {
-                MessageBox.Show(succ);
+                if (Tip)
+                {
+                    MessageBox.Show(succ);
+                    Program.wxl.Log(succ);
+                }
+                else
+                    MainWindow.WXMsgBox("保存配置失败！", succ);
+                    
             }
             return ret;
         }
@@ -90,7 +104,15 @@ namespace ExchangeTermial
             dt.Columns.Add("name");
             dt.Columns.Add("cnt");
             dt.Columns.Add("currTimes");
+            dt.Columns.Add("DefaultReturnTimes");
+            dt.Columns.Add("AutoResumeDefaultReturnValue",typeof(bool));
+            dt.Columns.Add("ZeroCloseResume", typeof(bool));
+            dt.Columns.Add("AutoTraceMinChips");
+            
+            dt.Columns.Add("AutoEmergencyStop",typeof(bool));
+            dt.Columns.Add("EmergencyStop", typeof(bool));
             dt.Columns.Add("needSelectTime",typeof(bool));
+            dt.Columns.Add("NeedStopGained", typeof(bool));
             dt.Columns.Add("gainedUbound");
             foreach(string key in aul.Keys)
             {
@@ -99,7 +121,14 @@ namespace ExchangeTermial
                 dr["name"] = aul[key];
                 dr["cnt"] = aus.ContainsKey(key) ? aus[key].value : 1;
                 dr["currTimes"] = aus.ContainsKey(key) ? aus[key].CurrTimes : 0;
+                dr["DefaultReturnTimes"] = aus.ContainsKey(key) ? aus[key].DefaultReturnTimes : 0;
+                dr["AutoResumeDefaultReturnValue"] = aus.ContainsKey(key) ? aus[key].AutoResumeDefaultReturnValue : 0;
+                dr["ZeroCloseResume"] = aus.ContainsKey(key) ? aus[key].ZeroCloseResume : 0;
+                dr["AutoTraceMinChips"] = aus.ContainsKey(key) ? aus[key].AutoTraceMinChips : 0;
+                dr["EmergencyStop"] = aus.ContainsKey(key) ? aus[key].EmergencyStop : 0;
+                dr["AutoEmergencyStop"] = aus.ContainsKey(key) ? aus[key].AutoEmergencyStop : 0;
                 dr["needSelectTime"] = aus.ContainsKey(key) ? aus[key].NeedSelectTimes : 0;
+                dr["NeedStopGained"] = aus.ContainsKey(key) ? aus[key].NeedStopGained : 0;
                 dr["gainedUbound"] = aus.ContainsKey(key) ? aus[key].maxStopGainedValue : 0;
                 dt.Rows.Add(dr);
             }

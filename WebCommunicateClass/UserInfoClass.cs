@@ -63,5 +63,7 @@ namespace WolfInv.com.WebCommunicateClass
         public string WXToUser;
         public string AssetConfig;
         public string AliasName;
+        public string WebLoginId;
+        public string WebLoginPwd;
     }
 }

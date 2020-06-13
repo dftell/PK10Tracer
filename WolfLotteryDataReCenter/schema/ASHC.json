@@ -1,0 +1,2054 @@
+{
+  "DanTiaoProbability": 1,
+  "LotteryGameState": 1,
+  "MaxPrizePerLongHuDanTiao": 0,
+  "MaxPrizePerDanTiao": 30000,
+  "MaxPrizePerIssue": 300000,
+  "LotteryCategoryId": 5,
+  "LotteryCategoryOffset": 0,
+  "UserReturnPoint": 7.5,
+  "LotteryGameId": 70,
+  "RecentIssues": [
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 18:18:40",
+      "GameSerialNumber": "20200510063"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 18:23:40",
+      "GameSerialNumber": "20200510064"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 18:28:40",
+      "GameSerialNumber": "20200510065"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 18:33:40",
+      "GameSerialNumber": "20200510066"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 18:38:40",
+      "GameSerialNumber": "20200510067"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 18:43:40",
+      "GameSerialNumber": "20200510068"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 18:48:40",
+      "GameSerialNumber": "20200510069"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 18:53:40",
+      "GameSerialNumber": "20200510070"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 18:58:40",
+      "GameSerialNumber": "20200510071"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 19:03:40",
+      "GameSerialNumber": "20200510072"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 19:08:40",
+      "GameSerialNumber": "20200510073"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 19:13:40",
+      "GameSerialNumber": "20200510074"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 19:18:40",
+      "GameSerialNumber": "20200510075"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 19:23:40",
+      "GameSerialNumber": "20200510076"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 19:28:40",
+      "GameSerialNumber": "20200510077"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 19:33:40",
+      "GameSerialNumber": "20200510078"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 19:38:40",
+      "GameSerialNumber": "20200510079"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 19:43:40",
+      "GameSerialNumber": "20200510080"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 19:48:40",
+      "GameSerialNumber": "20200510081"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 19:53:40",
+      "GameSerialNumber": "20200510082"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 19:58:40",
+      "GameSerialNumber": "20200510083"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 20:03:40",
+      "GameSerialNumber": "20200510084"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 20:08:40",
+      "GameSerialNumber": "20200510085"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 20:13:40",
+      "GameSerialNumber": "20200510086"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 20:18:40",
+      "GameSerialNumber": "20200510087"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 20:23:40",
+      "GameSerialNumber": "20200510088"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 20:28:40",
+      "GameSerialNumber": "20200510089"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 20:33:40",
+      "GameSerialNumber": "20200510090"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 20:38:40",
+      "GameSerialNumber": "20200510091"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 20:43:40",
+      "GameSerialNumber": "20200510092"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 20:48:40",
+      "GameSerialNumber": "20200510093"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 20:53:40",
+      "GameSerialNumber": "20200510094"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 20:58:40",
+      "GameSerialNumber": "20200510095"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 21:03:40",
+      "GameSerialNumber": "20200510096"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 21:08:40",
+      "GameSerialNumber": "20200510097"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 21:13:40",
+      "GameSerialNumber": "20200510098"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 21:18:40",
+      "GameSerialNumber": "20200510099"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 21:23:40",
+      "GameSerialNumber": "20200510100"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 21:28:40",
+      "GameSerialNumber": "20200510101"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 21:33:40",
+      "GameSerialNumber": "20200510102"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 21:38:40",
+      "GameSerialNumber": "20200510103"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 21:43:40",
+      "GameSerialNumber": "20200510104"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 21:48:40",
+      "GameSerialNumber": "20200510105"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 21:53:40",
+      "GameSerialNumber": "20200510106"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 21:58:40",
+      "GameSerialNumber": "20200510107"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 22:03:40",
+      "GameSerialNumber": "20200510108"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 22:08:40",
+      "GameSerialNumber": "20200510109"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 22:13:40",
+      "GameSerialNumber": "20200510110"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 22:18:40",
+      "GameSerialNumber": "20200510111"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 22:23:40",
+      "GameSerialNumber": "20200510112"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 22:28:40",
+      "GameSerialNumber": "20200510113"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 22:33:40",
+      "GameSerialNumber": "20200510114"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 22:38:40",
+      "GameSerialNumber": "20200510115"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 22:43:40",
+      "GameSerialNumber": "20200510116"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 22:48:40",
+      "GameSerialNumber": "20200510117"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 22:53:40",
+      "GameSerialNumber": "20200510118"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 22:58:40",
+      "GameSerialNumber": "20200510119"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 23:03:40",
+      "GameSerialNumber": "20200510120"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 23:08:40",
+      "GameSerialNumber": "20200510121"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 23:13:40",
+      "GameSerialNumber": "20200510122"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 23:18:40",
+      "GameSerialNumber": "20200510123"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 23:23:40",
+      "GameSerialNumber": "20200510124"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 23:28:40",
+      "GameSerialNumber": "20200510125"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 23:33:40",
+      "GameSerialNumber": "20200510126"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 23:38:40",
+      "GameSerialNumber": "20200510127"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 23:43:40",
+      "GameSerialNumber": "20200510128"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 23:48:40",
+      "GameSerialNumber": "20200510129"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 23:53:40",
+      "GameSerialNumber": "20200510130"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/10 23:58:40",
+      "GameSerialNumber": "20200510131"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 00:03:40",
+      "GameSerialNumber": "20200510132"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 00:08:40",
+      "GameSerialNumber": "20200510133"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 00:13:40",
+      "GameSerialNumber": "20200510134"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 00:18:40",
+      "GameSerialNumber": "20200510135"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 00:23:40",
+      "GameSerialNumber": "20200510136"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 00:28:40",
+      "GameSerialNumber": "20200510137"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 00:33:40",
+      "GameSerialNumber": "20200510138"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 00:38:40",
+      "GameSerialNumber": "20200510139"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 00:43:40",
+      "GameSerialNumber": "20200510140"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 00:48:40",
+      "GameSerialNumber": "20200510141"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 00:53:40",
+      "GameSerialNumber": "20200510142"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 00:58:40",
+      "GameSerialNumber": "20200510143"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 01:03:40",
+      "GameSerialNumber": "20200510144"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 01:08:40",
+      "GameSerialNumber": "20200510145"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 01:13:40",
+      "GameSerialNumber": "20200510146"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 01:18:40",
+      "GameSerialNumber": "20200510147"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 01:23:40",
+      "GameSerialNumber": "20200510148"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 01:28:40",
+      "GameSerialNumber": "20200510149"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 01:33:40",
+      "GameSerialNumber": "20200510150"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 01:38:40",
+      "GameSerialNumber": "20200510151"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 01:43:40",
+      "GameSerialNumber": "20200510152"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 01:48:40",
+      "GameSerialNumber": "20200510153"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 01:53:40",
+      "GameSerialNumber": "20200510154"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 01:58:40",
+      "GameSerialNumber": "20200510155"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 02:03:40",
+      "GameSerialNumber": "20200510156"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 02:08:40",
+      "GameSerialNumber": "20200510157"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 02:13:40",
+      "GameSerialNumber": "20200510158"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 02:18:40",
+      "GameSerialNumber": "20200510159"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 02:23:40",
+      "GameSerialNumber": "20200510160"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 02:28:40",
+      "GameSerialNumber": "20200510161"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 02:33:40",
+      "GameSerialNumber": "20200510162"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 02:38:40",
+      "GameSerialNumber": "20200510163"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 02:43:40",
+      "GameSerialNumber": "20200510164"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 02:48:40",
+      "GameSerialNumber": "20200510165"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 02:53:40",
+      "GameSerialNumber": "20200510166"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 02:58:40",
+      "GameSerialNumber": "20200510167"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 03:03:40",
+      "GameSerialNumber": "20200510168"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 03:08:40",
+      "GameSerialNumber": "20200510169"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 03:13:40",
+      "GameSerialNumber": "20200510170"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 03:18:40",
+      "GameSerialNumber": "20200510171"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 03:23:40",
+      "GameSerialNumber": "20200510172"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 03:28:40",
+      "GameSerialNumber": "20200510173"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 03:33:40",
+      "GameSerialNumber": "20200510174"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 03:38:40",
+      "GameSerialNumber": "20200510175"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 03:43:40",
+      "GameSerialNumber": "20200510176"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 03:48:40",
+      "GameSerialNumber": "20200510177"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 03:53:40",
+      "GameSerialNumber": "20200510178"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 03:58:40",
+      "GameSerialNumber": "20200510179"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 04:03:40",
+      "GameSerialNumber": "20200510180"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 13:08:40",
+      "GameSerialNumber": "20200511001"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 13:13:40",
+      "GameSerialNumber": "20200511002"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 13:18:40",
+      "GameSerialNumber": "20200511003"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 13:23:40",
+      "GameSerialNumber": "20200511004"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 13:28:40",
+      "GameSerialNumber": "20200511005"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 13:33:40",
+      "GameSerialNumber": "20200511006"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 13:38:40",
+      "GameSerialNumber": "20200511007"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 13:43:40",
+      "GameSerialNumber": "20200511008"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 13:48:40",
+      "GameSerialNumber": "20200511009"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 13:53:40",
+      "GameSerialNumber": "20200511010"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 13:58:40",
+      "GameSerialNumber": "20200511011"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 14:03:40",
+      "GameSerialNumber": "20200511012"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 14:08:40",
+      "GameSerialNumber": "20200511013"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 14:13:40",
+      "GameSerialNumber": "20200511014"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 14:18:40",
+      "GameSerialNumber": "20200511015"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 14:23:40",
+      "GameSerialNumber": "20200511016"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 14:28:40",
+      "GameSerialNumber": "20200511017"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 14:33:40",
+      "GameSerialNumber": "20200511018"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 14:38:40",
+      "GameSerialNumber": "20200511019"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 14:43:40",
+      "GameSerialNumber": "20200511020"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 14:48:40",
+      "GameSerialNumber": "20200511021"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 14:53:40",
+      "GameSerialNumber": "20200511022"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 14:58:40",
+      "GameSerialNumber": "20200511023"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 15:03:40",
+      "GameSerialNumber": "20200511024"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 15:08:40",
+      "GameSerialNumber": "20200511025"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 15:13:40",
+      "GameSerialNumber": "20200511026"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 15:18:40",
+      "GameSerialNumber": "20200511027"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 15:23:40",
+      "GameSerialNumber": "20200511028"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 15:28:40",
+      "GameSerialNumber": "20200511029"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 15:33:40",
+      "GameSerialNumber": "20200511030"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 15:38:40",
+      "GameSerialNumber": "20200511031"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 15:43:40",
+      "GameSerialNumber": "20200511032"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 15:48:40",
+      "GameSerialNumber": "20200511033"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 15:53:40",
+      "GameSerialNumber": "20200511034"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 15:58:40",
+      "GameSerialNumber": "20200511035"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 16:03:40",
+      "GameSerialNumber": "20200511036"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 16:08:40",
+      "GameSerialNumber": "20200511037"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 16:13:40",
+      "GameSerialNumber": "20200511038"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 16:18:40",
+      "GameSerialNumber": "20200511039"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 16:23:40",
+      "GameSerialNumber": "20200511040"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 16:28:40",
+      "GameSerialNumber": "20200511041"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 16:33:40",
+      "GameSerialNumber": "20200511042"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 16:38:40",
+      "GameSerialNumber": "20200511043"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 16:43:40",
+      "GameSerialNumber": "20200511044"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 16:48:40",
+      "GameSerialNumber": "20200511045"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 16:53:40",
+      "GameSerialNumber": "20200511046"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 16:58:40",
+      "GameSerialNumber": "20200511047"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 17:03:40",
+      "GameSerialNumber": "20200511048"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 17:08:40",
+      "GameSerialNumber": "20200511049"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 17:13:40",
+      "GameSerialNumber": "20200511050"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 17:18:40",
+      "GameSerialNumber": "20200511051"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 17:23:40",
+      "GameSerialNumber": "20200511052"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 17:28:40",
+      "GameSerialNumber": "20200511053"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 17:33:40",
+      "GameSerialNumber": "20200511054"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 17:38:40",
+      "GameSerialNumber": "20200511055"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 17:43:40",
+      "GameSerialNumber": "20200511056"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 17:48:40",
+      "GameSerialNumber": "20200511057"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 17:53:40",
+      "GameSerialNumber": "20200511058"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 17:58:40",
+      "GameSerialNumber": "20200511059"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 18:03:40",
+      "GameSerialNumber": "20200511060"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 18:08:40",
+      "GameSerialNumber": "20200511061"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 18:13:40",
+      "GameSerialNumber": "20200511062"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 18:18:40",
+      "GameSerialNumber": "20200511063"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 18:23:40",
+      "GameSerialNumber": "20200511064"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 18:28:40",
+      "GameSerialNumber": "20200511065"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 18:33:40",
+      "GameSerialNumber": "20200511066"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 18:38:40",
+      "GameSerialNumber": "20200511067"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 18:43:40",
+      "GameSerialNumber": "20200511068"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 18:48:40",
+      "GameSerialNumber": "20200511069"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 18:53:40",
+      "GameSerialNumber": "20200511070"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 18:58:40",
+      "GameSerialNumber": "20200511071"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 19:03:40",
+      "GameSerialNumber": "20200511072"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 19:08:40",
+      "GameSerialNumber": "20200511073"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 19:13:40",
+      "GameSerialNumber": "20200511074"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 19:18:40",
+      "GameSerialNumber": "20200511075"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 19:23:40",
+      "GameSerialNumber": "20200511076"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 19:28:40",
+      "GameSerialNumber": "20200511077"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 19:33:40",
+      "GameSerialNumber": "20200511078"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 19:38:40",
+      "GameSerialNumber": "20200511079"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 19:43:40",
+      "GameSerialNumber": "20200511080"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 19:48:40",
+      "GameSerialNumber": "20200511081"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 19:53:40",
+      "GameSerialNumber": "20200511082"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 19:58:40",
+      "GameSerialNumber": "20200511083"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 20:03:40",
+      "GameSerialNumber": "20200511084"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 20:08:40",
+      "GameSerialNumber": "20200511085"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 20:13:40",
+      "GameSerialNumber": "20200511086"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 20:18:40",
+      "GameSerialNumber": "20200511087"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 20:23:40",
+      "GameSerialNumber": "20200511088"
+    },
+    {
+      "Checked": false,
+      "Multiple": 0,
+      "BetAmount": 0,
+      "EndTime": "2020/05/11 20:28:40",
+      "GameSerialNumber": "20200511089"
+    }
+  ],
+  "OldIssues": [
+    {
+      "EndTime": "2020/05/10 18:13:40",
+      "OriginalWinningNumber": null,
+      "GameWinningNumber": "09,06,02,04,07,01,10,03,05,08",
+      "GameSerialNumber": "20200510062"
+    },
+    {
+      "EndTime": "2020/05/10 18:08:40",
+      "OriginalWinningNumber": null,
+      "GameWinningNumber": "03,09,04,07,10,05,01,02,08,06",
+      "GameSerialNumber": "20200510061"
+    },
+    {
+      "EndTime": "2020/05/10 18:03:40",
+      "OriginalWinningNumber": null,
+      "GameWinningNumber": "09,04,07,10,05,03,02,06,01,08",
+      "GameSerialNumber": "20200510060"
+    },
+    {
+      "EndTime": "2020/05/10 17:58:40",
+      "OriginalWinningNumber": null,
+      "GameWinningNumber": "07,02,09,10,06,03,01,08,05,04",
+      "GameSerialNumber": "20200510059"
+    },
+    {
+      "EndTime": "2020/05/10 17:53:40",
+      "OriginalWinningNumber": null,
+      "GameWinningNumber": "07,08,01,09,03,05,06,02,10,04",
+      "GameSerialNumber": "20200510058"
+    },
+    {
+      "EndTime": "2020/05/10 17:48:40",
+      "OriginalWinningNumber": null,
+      "GameWinningNumber": "02,01,04,06,07,03,05,09,08,10",
+      "GameSerialNumber": "20200510057"
+    },
+    {
+      "EndTime": "2020/05/10 17:43:40",
+      "OriginalWinningNumber": null,
+      "GameWinningNumber": "10,02,04,07,01,08,09,03,06,05",
+      "GameSerialNumber": "20200510056"
+    },
+    {
+      "EndTime": "2020/05/10 17:38:40",
+      "OriginalWinningNumber": null,
+      "GameWinningNumber": "03,09,05,08,02,01,07,04,06,10",
+      "GameSerialNumber": "20200510055"
+    },
+    {
+      "EndTime": "2020/05/10 17:33:40",
+      "OriginalWinningNumber": null,
+      "GameWinningNumber": "02,04,08,10,07,05,01,06,09,03",
+      "GameSerialNumber": "20200510054"
+    },
+    {
+      "EndTime": "2020/05/10 17:28:40",
+      "OriginalWinningNumber": null,
+      "GameWinningNumber": "10,05,08,04,01,07,09,06,03,02",
+      "GameSerialNumber": "20200510053"
+    },
+    {
+      "EndTime": "2020/05/10 17:23:40",
+      "OriginalWinningNumber": null,
+      "GameWinningNumber": "01,02,04,07,09,10,08,06,05,03",
+      "GameSerialNumber": "20200510052"
+    },
+    {
+      "EndTime": "2020/05/10 17:18:40",
+      "OriginalWinningNumber": null,
+      "GameWinningNumber": "03,04,02,07,06,05,09,08,01,10",
+      "GameSerialNumber": "20200510051"
+    },
+    {
+      "EndTime": "2020/05/10 17:13:40",
+      "OriginalWinningNumber": null,
+      "GameWinningNumber": "07,02,10,05,04,06,03,09,01,08",
+      "GameSerialNumber": "20200510050"
+    },
+    {
+      "EndTime": "2020/05/10 17:08:40",
+      "OriginalWinningNumber": null,
+      "GameWinningNumber": "04,01,10,05,03,02,08,07,06,09",
+      "GameSerialNumber": "20200510049"
+    },
+    {
+      "EndTime": "2020/05/10 17:03:40",
+      "OriginalWinningNumber": null,
+      "GameWinningNumber": "08,03,01,10,09,02,06,05,07,04",
+      "GameSerialNumber": "20200510048"
+    },
+    {
+      "EndTime": "2020/05/10 16:58:40",
+      "OriginalWinningNumber": null,
+      "GameWinningNumber": "02,09,03,06,10,07,04,01,08,05",
+      "GameSerialNumber": "20200510047"
+    },
+    {
+      "EndTime": "2020/05/10 16:53:40",
+      "OriginalWinningNumber": null,
+      "GameWinningNumber": "10,01,06,07,05,09,08,03,02,04",
+      "GameSerialNumber": "20200510046"
+    },
+    {
+      "EndTime": "2020/05/10 16:48:40",
+      "OriginalWinningNumber": null,
+      "GameWinningNumber": "01,04,05,08,09,10,06,07,03,02",
+      "GameSerialNumber": "20200510045"
+    },
+    {
+      "EndTime": "2020/05/10 16:43:40",
+      "OriginalWinningNumber": null,
+      "GameWinningNumber": "03,10,01,05,02,09,08,07,04,06",
+      "GameSerialNumber": "20200510044"
+    },
+    {
+      "EndTime": "2020/05/10 16:38:40",
+      "OriginalWinningNumber": null,
+      "GameWinningNumber": "04,03,08,01,05,07,02,09,10,06",
+      "GameSerialNumber": "20200510043"
+    }
+  ],
+  "MiaoMiaoWinningNumbers": null,
+  "BetTypeInfos": {
+    "3001": {
+      "State": true,
+      "AwardCount": 1,
+      "TopAwardCode": 3001,
+      "BetTypeCode": 3001,
+      "Awards": {
+        "3001": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3002": {
+      "State": true,
+      "AwardCount": 1,
+      "TopAwardCode": 3001,
+      "BetTypeCode": 3002,
+      "Awards": {
+        "3001": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3003": {
+      "State": false,
+      "AwardCount": 1,
+      "TopAwardCode": 3003,
+      "BetTypeCode": 3003,
+      "Awards": {
+        "3003": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3004": {
+      "State": false,
+      "AwardCount": 1,
+      "TopAwardCode": 3003,
+      "BetTypeCode": 3004,
+      "Awards": {
+        "3003": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3005": {
+      "State": true,
+      "AwardCount": 1,
+      "TopAwardCode": 3005,
+      "BetTypeCode": 3005,
+      "Awards": {
+        "3005": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3006": {
+      "State": true,
+      "AwardCount": 1,
+      "TopAwardCode": 3005,
+      "BetTypeCode": 3006,
+      "Awards": {
+        "3005": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3007": {
+      "State": true,
+      "AwardCount": 1,
+      "TopAwardCode": 3007,
+      "BetTypeCode": 3007,
+      "Awards": {
+        "3007": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3008": {
+      "State": true,
+      "AwardCount": 1,
+      "TopAwardCode": 3008,
+      "BetTypeCode": 3008,
+      "Awards": {
+        "3008": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3009": {
+      "State": true,
+      "AwardCount": 1,
+      "TopAwardCode": 3009,
+      "BetTypeCode": 3009,
+      "Awards": {
+        "3009": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3010": {
+      "State": true,
+      "AwardCount": 1,
+      "TopAwardCode": 3009,
+      "BetTypeCode": 3010,
+      "Awards": {
+        "3009": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3011": {
+      "State": true,
+      "AwardCount": 1,
+      "TopAwardCode": 3011,
+      "BetTypeCode": 3011,
+      "Awards": {
+        "3011": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3012": {
+      "State": true,
+      "AwardCount": 1,
+      "TopAwardCode": 3011,
+      "BetTypeCode": 3012,
+      "Awards": {
+        "3011": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3013": {
+      "State": true,
+      "AwardCount": 1,
+      "TopAwardCode": 3013,
+      "BetTypeCode": 3013,
+      "Awards": {
+        "3013": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3014": {
+      "State": true,
+      "AwardCount": 1,
+      "TopAwardCode": 3013,
+      "BetTypeCode": 3014,
+      "Awards": {
+        "3013": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3015": {
+      "State": true,
+      "AwardCount": 1,
+      "TopAwardCode": 3013,
+      "BetTypeCode": 3015,
+      "Awards": {
+        "3013": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3016": {
+      "State": true,
+      "AwardCount": 1,
+      "TopAwardCode": 3013,
+      "BetTypeCode": 3016,
+      "Awards": {
+        "3013": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3017": {
+      "State": true,
+      "AwardCount": 1,
+      "TopAwardCode": 3013,
+      "BetTypeCode": 3017,
+      "Awards": {
+        "3013": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3018": {
+      "State": true,
+      "AwardCount": 1,
+      "TopAwardCode": 3018,
+      "BetTypeCode": 3018,
+      "Awards": {
+        "3018": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3019": {
+      "State": true,
+      "AwardCount": 4,
+      "TopAwardCode": 3019,
+      "BetTypeCode": 3019,
+      "Awards": {
+        "3019": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        },
+        "3020": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        },
+        "3021": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        },
+        "3022": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3023": {
+      "State": true,
+      "AwardCount": 5,
+      "TopAwardCode": 3023,
+      "BetTypeCode": 3023,
+      "Awards": {
+        "3023": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 8.89
+        },
+        "3024": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 8.89
+        },
+        "3025": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        },
+        "3026": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        },
+        "3027": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3028": {
+      "State": true,
+      "AwardCount": 9,
+      "TopAwardCode": 3028,
+      "BetTypeCode": 3028,
+      "Awards": {
+        "3028": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        },
+        "3029": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        },
+        "3030": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        },
+        "3031": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        },
+        "3032": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        },
+        "3033": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        },
+        "3034": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        },
+        "3035": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        },
+        "3036": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3037": {
+      "State": true,
+      "AwardCount": 1,
+      "TopAwardCode": 3037,
+      "BetTypeCode": 3037,
+      "Awards": {
+        "3037": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3038": {
+      "State": false,
+      "AwardCount": 1,
+      "TopAwardCode": 3038,
+      "BetTypeCode": 3038,
+      "Awards": {
+        "3038": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3039": {
+      "State": false,
+      "AwardCount": 1,
+      "TopAwardCode": 3039,
+      "BetTypeCode": 3039,
+      "Awards": {
+        "3039": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3040": {
+      "State": false,
+      "AwardCount": 1,
+      "TopAwardCode": 3039,
+      "BetTypeCode": 3040,
+      "Awards": {
+        "3039": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    },
+    "3041": {
+      "State": false,
+      "AwardCount": 1,
+      "TopAwardCode": 3041,
+      "BetTypeCode": 3041,
+      "Awards": {
+        "3041": {
+          "FixedPrize": 0,
+          "PrizeDiscount": 0
+        }
+      }
+    }
+  },
+  "OddsRestrict": null,
+  "WinningNumberCombos": null,
+  "WinningNumberStatistics": {
+    "Miss": {
+      "Position": [ 10, 5, 1, 13, 47, 23, 3, 14, 0, 6, 5, 3, 14, 2, 9, 0, 22, 4, 1, 18, 4, 0, 15, 1, 7, 16, 2, 8, 3, 12, 19, 20, 21, 0, 12, 5, 1, 7, 4, 2, 6, 7, 4, 12, 2, 3, 0, 21, 10, 1, 0, 13, 2, 20, 1, 12, 9, 6, 16, 10, 1, 2, 12, 15, 5, 4, 7, 10, 6, 0, 15, 1, 0, 7, 14, 2, 13, 3, 5, 20, 2, 16, 9, 18, 0, 6, 14, 1, 8, 4, 41, 9, 8, 3, 6, 1, 21, 0, 13, 5 ],
+      "OddEven": [ 0, 1, 0, 5, 0, 2, 1, 0, 2, 0, 2, 0, 1, 0, 1, 0, 0, 2, 0, 1, 6, 0, 0, 6, 0, 1, 1, 0, 2, 0, 0, 1, 1, 0, 0, 1, 0, 3, 6, 0 ],
+      "Sum": null,
+      "TripleSame": null,
+      "TripleOrder": null,
+      "DoubleSame": null,
+      "DoubleSameSingleDiff": null,
+      "Diff": null,
+      "SumF3": null,
+      "Longhu": null,
+      "Triple": null,
+      "Combination3": null,
+      "Combination6": null,
+      "MaxDifference": null,
+      "NumberDistribution": null,
+      "SumOddEven": null,
+      "SumCombineOddEven": null,
+      "SumBigSmallHe": null,
+      "S5Combine": null,
+      "S4Combine": null,
+      "S3Arbitrary1": null,
+      "S4Arbitrary1": null,
+      "S5Arbitrary1": null,
+      "SF2OddEven": null,
+      "SL2OddEven": null,
+      "SF3OddEven": null,
+      "SL3OddEven": null,
+      "PK10Longhu": [ 0, 1, 0, 3, 1, 0, 1, 0, 0, 4 ],
+      "NiuNiu": null,
+      "NiuNiuStud": null,
+      "DoubleSameOverAll": null,
+      "DiffOverAll": null,
+      "S3Special": null,
+      "GuessMatchNumber": null,
+      "PK10OddEvenSumForPos1Pos2": [ 0, 3, 0, 1 ],
+      "PK10SumForPos1Pos2Match": [ 5, 24, 13, 8, 11, 25, 3, 52, 14, 1, 2, 31, 0, 34, 44, 51, 53 ],
+      "SumLast": null,
+      "Happy8UpDown": null,
+      "Happy8OddEvenCount": null,
+      "PrimeComposite": null,
+      "NiuNiuTwoSide": null,
+      "LastBigSmail": null,
+      "CombinedOddEven": null
+    },
+    "Hot": {
+      "Position": [ 12, 12, 9, 15, 6, 15, 13, 18, 10, 10, 12, 8, 17, 12, 11, 13, 15, 14, 11, 7, 13, 14, 10, 16, 16, 8, 8, 12, 11, 12, 8, 7, 14, 11, 15, 10, 14, 9, 12, 20, 10, 9, 10, 7, 13, 16, 14, 14, 16, 11, 12, 14, 13, 18, 13, 6, 9, 9, 12, 14, 12, 11, 17, 10, 4, 11, 9, 14, 17, 15, 16, 13, 10, 11, 14, 18, 16, 10, 6, 6, 14, 14, 13, 7, 14, 10, 9, 11, 13, 15, 11, 18, 7, 13, 14, 13, 13, 9, 12, 10 ],
+      "OddEven": [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+      "Sum": null,
+      "TripleSame": null,
+      "TripleOrder": null,
+      "DoubleSame": null,
+      "DoubleSameSingleDiff": null,
+      "Diff": null,
+      "SumF3": null,
+      "Longhu": null,
+      "Triple": null,
+      "Combination3": null,
+      "Combination6": null,
+      "MaxDifference": null,
+      "NumberDistribution": null,
+      "SumOddEven": null,
+      "SumCombineOddEven": null,
+      "SumBigSmallHe": null,
+      "S5Combine": null,
+      "S4Combine": null,
+      "S3Arbitrary1": null,
+      "S4Arbitrary1": null,
+      "S5Arbitrary1": null,
+      "SF2OddEven": null,
+      "SL2OddEven": null,
+      "SF3OddEven": null,
+      "SL3OddEven": null,
+      "PK10Longhu": [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+      "NiuNiu": null,
+      "NiuNiuStud": null,
+      "DoubleSameOverAll": null,
+      "DiffOverAll": null,
+      "S3Special": null,
+      "GuessMatchNumber": null,
+      "PK10OddEvenSumForPos1Pos2": [ 0, 0, 0, 0 ],
+      "PK10SumForPos1Pos2Match": [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+      "SumLast": null,
+      "Happy8UpDown": null,
+      "Happy8OddEvenCount": null,
+      "PrimeComposite": null,
+      "NiuNiuTwoSide": null,
+      "LastBigSmail": null,
+      "CombinedOddEven": null
+    }
+  },
+  "LotteryOfficialURL": "http://www.luckyairship.com/"
+}

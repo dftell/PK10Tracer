@@ -368,6 +368,7 @@ namespace PK10Server
         
         void DisableAllMenus()
         {
+            //return;
             for (int i = 0; i < this.contextMenuStrip_OperatePlan.Items.Count; i++)
             {
                 this.contextMenuStrip_OperatePlan.Items[i].Visible = false;
@@ -434,6 +435,7 @@ namespace PK10Server
             catch (Exception ce)
             {
                 string msg = ce.Message;
+                MessageBox.Show(msg);
             }
             return null;
         }
@@ -611,7 +613,8 @@ namespace PK10Server
                     }
                     i = 0;
                     //foreach (string strName in assetUnits.Keys)
-
+                    AssetUnitClass needResetAssetUnit = null;
+                    double needResetNet = 0;
                     for (int ai = 0; ai < keys.Count; ai++)
                     {
                         //System.Threading.Thread.Sleep(5 * 1000);
@@ -626,9 +629,39 @@ namespace PK10Server
                         DataView dv = new DataView(DispDt);
                         dv.Sort = "id asc";
                         chrt.Series[i].Points.DataBindY(dv, "val");
+                        if (dt.Rows.Count > 0)
+                        {
+                            if (strName.Trim().StartsWith("C")||strName.IndexOf("_C")>0)
+                            {
+                                double currVal = 0;
+                                double.TryParse(dt.Rows[dt.Rows.Count - 1]["val"].ToString(), out currVal);
+                                if (currVal < -35)//警告
+                                {
+                                    Program.wxlog.Log(string.Format("品种{0}复利类资产单元资产收益率报警！", GlobalClass.TypeDataPoints.First().Key),string.Format("自产单元[{0}]当前收益率{1}。",strName,currVal), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                                }
+                                if (currVal < -50)
+                                {
+                                    needResetAssetUnit = vals[ai];//一次恢复一个满足条件的最后一个资产单位
+                                    needResetNet = currVal;
+                                }
+                            }
+                        }
                         i++;
                     }
                     chrt.Show();
+                    if(needResetAssetUnit!= null)
+                    {
+                        string msgModel = "复利类资产单元[{0}]当前资产收益率{1}小于-50%，将自动将其归1，请视情况在客户端上调整其对应的风险配置。";
+                        string msg = string.Format(msgModel, needResetAssetUnit.UnitName, needResetNet);
+                        if (needResetAssetUnit.Resume())
+                        {
+                            Program.wxlog.Log(string.Format("品种{0}资产收益率归1成功.", GlobalClass.TypeDataPoints.First().Key), msg, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                        }
+                        else
+                        {
+                            Program.wxlog.Log(string.Format("品种{0}资产收益率归1失败.", GlobalClass.TypeDataPoints.First().Key), msg ,string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                        }
+                    }
                     //try
                     //{
                     //this.chart_ForGuide = chrt;
@@ -642,6 +675,7 @@ namespace PK10Server
                     //{
                     //MessageBox.Show(ce.Message);
                     //}
+
                 }
                 //this.chart_ForSystemStdDev.DataSource = dv_stddev;
 
@@ -656,6 +690,7 @@ namespace PK10Server
             {
                 LogableClass.ToLog("监控", e.Message, e.StackTrace);
             }
+            
 
         }
 
@@ -726,16 +761,26 @@ namespace PK10Server
         private void dg_stragStatus_MouseUp(object sender, MouseEventArgs e)
         {
             DisableAllMenus();
-            StragRunPlanClass<T> strag = getGridAfterMouseUp<StragRunPlanClass<T>>(this.dg_stragStatus, e) as StragRunPlanClass<T>;
-            ////this.tmi_StartPlan.Enabled = false;
+            object obj = getGridAfterMouseUp<StragRunPlanClass<TimeSerialData>>(this.dg_stragStatus, e) ;
+            //MessageBox.Show(obj.GetType().ToString());
+            StragRunPlanClass<T> strag = obj as StragRunPlanClass<T>;
+            ///this.tmi_StartPlan.Enabled = false;
             ////this.tmi_StopPlan.Enabled = false;
             ////this.tmi_Edit.Enabled = false;
+            //MessageBox.Show(strag?.GetType().ToString());
             tmi_refreshPlans.Enabled = true;
-            if (strag == null) return;
+            if (strag == null)
+            {
+                //MessageBox.Show("依附对象为空！");
+                return;
+            }
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
+                this.tmi_Edit.Visible = true;
                 this.tmi_Edit.Enabled = true;
+                this.tmi_StopPlan.Visible = strag.Running;
                 this.tmi_StopPlan.Enabled = strag.Running;
+                this.tmi_StartPlan.Visible = !strag.Running;
                 this.tmi_StartPlan.Enabled = !strag.Running;
             }
         }
@@ -843,12 +888,12 @@ namespace PK10Server
             DataTable dt = dg.Tag as DataTable;
             if (dt == null)
             {
-                MessageBox.Show("附加表为空！");
+                //MessageBox.Show("附加表为空！");
                 return default(T);
             }
             if (dt.Rows.Count < index + 1)
             {
-                MessageBox.Show("表长度不足！");
+                MessageBox.Show("行数不足！");
                 return default(T);
             }
             DataRow dr = dt.Rows[index];
@@ -859,13 +904,15 @@ namespace PK10Server
             ////}
             string pguid = "";
             if (dt.Columns.Contains("GUID")) //支持所有guid
-                dr["GUID"].ToString();
+                pguid = dr["GUID"].ToString();
+            
             if (typeof(T1) == typeof(BaseStragClass<T>))
             {
                 return getServiceStrag(pguid);
             }
-            else if (typeof(T1) == typeof(StragRunPlanClass<T>))
+            else if (typeof(T1) == typeof(StragRunPlanClass<TimeSerialData>))
             {
+                //MessageBox.Show("已经进入");
                 return getServicePlan(pguid);
             }
             else if (typeof(T1) == typeof(ExpectData))
@@ -967,6 +1014,7 @@ namespace PK10Server
             catch (Exception ce)
             {
                 string msg = ce.Message;
+                //MessageBox.Show(msg);
             }
         }
 

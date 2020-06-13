@@ -104,6 +104,12 @@ E:\github\source\dftell\PK10Tracer\DataRecSvr\bin\debug\WolfInv.com.RemoteObject
 E:\github\source\dftell\PK10Tracer\DataRecSvr\bin\debug\MongoDB.Driver.Core.xml
 E:\github\source\dftell\PK10Tracer\DataRecSvr\bin\debug\DnsClient.xml
 E:\github\source\dftell\PK10Tracer\DataRecSvr\bin\debug\System.Buffers.xml
+C:\Users\zhouys\projects\PK10Tracer\DataRecSvr.exe.config
+C:\Users\zhouys\projects\PK10Tracer\DataRecSvr.exe
+C:\Users\zhouys\projects\PK10Tracer\DataRecSvr.pdb
+E:\projects\PK10Tracer\DataRecSvr.exe.config
+E:\projects\PK10Tracer\DataRecSvr.exe
+E:\projects\PK10Tracer\DataRecSvr.pdb
 E:\github\source\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.csprojAssemblyReference.cache
 E:\github\source\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.exe.config
 E:\github\source\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.ProjectInstaller.resources
@@ -112,9 +118,3 @@ E:\github\source\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.csproj.Co
 E:\github\source\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.csproj.CopyComplete
 E:\github\source\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.exe
 E:\github\source\dftell\PK10Tracer\DataRecSvr\obj\x86\Debug\DataRecSvr.pdb
-E:\projects\PK10Tracer\DataRecSvr.exe.config
-E:\projects\PK10Tracer\DataRecSvr.exe
-E:\projects\PK10Tracer\DataRecSvr.pdb
-C:\Users\zhouys\projects\PK10Tracer\DataRecSvr.exe.config
-C:\Users\zhouys\projects\PK10Tracer\DataRecSvr.exe
-C:\Users\zhouys\projects\PK10Tracer\DataRecSvr.pdb

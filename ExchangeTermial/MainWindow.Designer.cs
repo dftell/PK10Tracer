@@ -32,6 +32,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.tsmi_System = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,6 +54,7 @@
             this.switchWebBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.switchPlatformToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshBetRecToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setLoginedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_Setting = new System.Windows.Forms.ToolStripMenuItem();
             this.mnu_SetAssetUnitCnt = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -58,6 +62,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ddl_datatype = new System.Windows.Forms.ComboBox();
             this.btn_Send = new System.Windows.Forms.Button();
             this.txt_OpenTime = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -98,6 +103,7 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+            chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -128,6 +134,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -187,7 +194,8 @@
             this.inLotteryHomeToolStripMenuItem,
             this.switchWebBrowserToolStripMenuItem,
             this.switchPlatformToolStripMenuItem,
-            this.refreshBetRecToolStripMenuItem});
+            this.refreshBetRecToolStripMenuItem,
+            this.setLoginedToolStripMenuItem});
             this.tsmi_Operate.Name = "tsmi_Operate";
             this.tsmi_Operate.Size = new System.Drawing.Size(44, 21);
             this.tsmi_Operate.Text = "操作";
@@ -275,6 +283,13 @@
             this.refreshBetRecToolStripMenuItem.Text = "刷新投注记录";
             this.refreshBetRecToolStripMenuItem.Click += new System.EventHandler(this.refreshBetRecToolStripMenuItem_Click);
             // 
+            // setLoginedToolStripMenuItem
+            // 
+            this.setLoginedToolStripMenuItem.Name = "setLoginedToolStripMenuItem";
+            this.setLoginedToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.setLoginedToolStripMenuItem.Text = "手动设置登录成功";
+            this.setLoginedToolStripMenuItem.Click += new System.EventHandler(this.setLoginedToolStripMenuItem_Click);
+            // 
             // tsmi_Setting
             // 
             this.tsmi_Setting.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -327,9 +342,10 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(chart1);
             this.splitContainer1.Panel2.Controls.Add(this.webBrowser1);
             this.splitContainer1.Size = new System.Drawing.Size(1289, 637);
-            this.splitContainer1.SplitterDistance = 154;
+            this.splitContainer1.SplitterDistance = 242;
             this.splitContainer1.TabIndex = 5;
             // 
             // splitContainer2
@@ -345,12 +361,13 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.tabControl2);
-            this.splitContainer2.Size = new System.Drawing.Size(1289, 154);
+            this.splitContainer2.Size = new System.Drawing.Size(1289, 242);
             this.splitContainer2.SplitterDistance = 709;
             this.splitContainer2.TabIndex = 4;
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.ddl_datatype);
             this.groupBox1.Controls.Add(this.btn_Send);
             this.groupBox1.Controls.Add(this.txt_OpenTime);
             this.groupBox1.Controls.Add(this.label3);
@@ -362,10 +379,18 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(709, 154);
+            this.groupBox1.Size = new System.Drawing.Size(709, 242);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "***";
+            // 
+            // ddl_datatype
+            // 
+            this.ddl_datatype.FormattingEnabled = true;
+            this.ddl_datatype.Location = new System.Drawing.Point(20, 19);
+            this.ddl_datatype.Name = "ddl_datatype";
+            this.ddl_datatype.Size = new System.Drawing.Size(59, 20);
+            this.ddl_datatype.TabIndex = 8;
             // 
             // btn_Send
             // 
@@ -380,15 +405,15 @@
             // 
             // txt_OpenTime
             // 
-            this.txt_OpenTime.Location = new System.Drawing.Point(505, 20);
+            this.txt_OpenTime.Location = new System.Drawing.Point(520, 20);
             this.txt_OpenTime.Name = "txt_OpenTime";
-            this.txt_OpenTime.Size = new System.Drawing.Size(139, 21);
+            this.txt_OpenTime.Size = new System.Drawing.Size(124, 21);
             this.txt_OpenTime.TabIndex = 6;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(448, 24);
+            this.label3.Location = new System.Drawing.Point(461, 24);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(53, 12);
             this.label3.TabIndex = 5;
@@ -396,15 +421,15 @@
             // 
             // txt_OpenCode
             // 
-            this.txt_OpenCode.Location = new System.Drawing.Point(240, 20);
+            this.txt_OpenCode.Location = new System.Drawing.Point(296, 19);
             this.txt_OpenCode.Name = "txt_OpenCode";
-            this.txt_OpenCode.Size = new System.Drawing.Size(202, 21);
+            this.txt_OpenCode.Size = new System.Drawing.Size(159, 21);
             this.txt_OpenCode.TabIndex = 4;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(181, 23);
+            this.label2.Location = new System.Drawing.Point(237, 24);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 12);
             this.label2.TabIndex = 3;
@@ -418,12 +443,12 @@
             this.txt_Insts.Location = new System.Drawing.Point(14, 46);
             this.txt_Insts.Multiline = true;
             this.txt_Insts.Name = "txt_Insts";
-            this.txt_Insts.Size = new System.Drawing.Size(689, 100);
+            this.txt_Insts.Size = new System.Drawing.Size(689, 188);
             this.txt_Insts.TabIndex = 2;
             // 
             // txt_ExpectNo
             // 
-            this.txt_ExpectNo.Location = new System.Drawing.Point(71, 19);
+            this.txt_ExpectNo.Location = new System.Drawing.Point(136, 19);
             this.txt_ExpectNo.Name = "txt_ExpectNo";
             this.txt_ExpectNo.Size = new System.Drawing.Size(95, 21);
             this.txt_ExpectNo.TabIndex = 1;
@@ -432,7 +457,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(14, 23);
+            this.label1.Location = new System.Drawing.Point(77, 24);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 0;
@@ -451,7 +476,7 @@
             this.tabControl2.Location = new System.Drawing.Point(0, 0);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(576, 154);
+            this.tabControl2.Size = new System.Drawing.Size(576, 242);
             this.tabControl2.TabIndex = 3;
             // 
             // tabPage3
@@ -464,7 +489,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(568, 128);
+            this.tabPage3.Size = new System.Drawing.Size(568, 216);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "指令信息";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -519,7 +544,7 @@
             this.txt_NewInsts.Location = new System.Drawing.Point(6, 24);
             this.txt_NewInsts.Multiline = true;
             this.txt_NewInsts.Name = "txt_NewInsts";
-            this.txt_NewInsts.Size = new System.Drawing.Size(494, 100);
+            this.txt_NewInsts.Size = new System.Drawing.Size(494, 188);
             this.txt_NewInsts.TabIndex = 10;
             // 
             // tabPage4
@@ -528,7 +553,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(568, 128);
+            this.tabPage4.Size = new System.Drawing.Size(568, 216);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "排名信息";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -538,7 +563,7 @@
             this.pic_serImage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pic_serImage.Location = new System.Drawing.Point(3, 3);
             this.pic_serImage.Name = "pic_serImage";
-            this.pic_serImage.Size = new System.Drawing.Size(562, 122);
+            this.pic_serImage.Size = new System.Drawing.Size(562, 210);
             this.pic_serImage.TabIndex = 0;
             this.pic_serImage.TabStop = false;
             // 
@@ -547,7 +572,7 @@
             this.tabPage5.Controls.Add(this.pic_carImage);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(568, 128);
+            this.tabPage5.Size = new System.Drawing.Size(568, 216);
             this.tabPage5.TabIndex = 2;
             this.tabPage5.Text = "车次信息";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -557,7 +582,7 @@
             this.pic_carImage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pic_carImage.Location = new System.Drawing.Point(0, 0);
             this.pic_carImage.Name = "pic_carImage";
-            this.pic_carImage.Size = new System.Drawing.Size(568, 128);
+            this.pic_carImage.Size = new System.Drawing.Size(568, 216);
             this.pic_carImage.TabIndex = 1;
             this.pic_carImage.TabStop = false;
             // 
@@ -566,7 +591,7 @@
             this.tabPage6.Controls.Add(this.pic_ChanceImage);
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(568, 128);
+            this.tabPage6.Size = new System.Drawing.Size(568, 216);
             this.tabPage6.TabIndex = 3;
             this.tabPage6.Text = "机会列表";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -576,7 +601,7 @@
             this.pic_ChanceImage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pic_ChanceImage.Location = new System.Drawing.Point(0, 0);
             this.pic_ChanceImage.Name = "pic_ChanceImage";
-            this.pic_ChanceImage.Size = new System.Drawing.Size(568, 128);
+            this.pic_ChanceImage.Size = new System.Drawing.Size(568, 216);
             this.pic_ChanceImage.TabIndex = 1;
             this.pic_ChanceImage.TabStop = false;
             // 
@@ -585,7 +610,7 @@
             this.tabPage7.Controls.Add(this.pic_chartImage);
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Size = new System.Drawing.Size(568, 128);
+            this.tabPage7.Size = new System.Drawing.Size(568, 216);
             this.tabPage7.TabIndex = 4;
             this.tabPage7.Text = "走势图";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -595,7 +620,7 @@
             this.pic_chartImage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pic_chartImage.Location = new System.Drawing.Point(0, 0);
             this.pic_chartImage.Name = "pic_chartImage";
-            this.pic_chartImage.Size = new System.Drawing.Size(568, 128);
+            this.pic_chartImage.Size = new System.Drawing.Size(568, 216);
             this.pic_chartImage.TabIndex = 1;
             this.pic_chartImage.TabStop = false;
             // 
@@ -604,7 +629,7 @@
             this.tabPage8.Controls.Add(this.dgv_matchGroupList);
             this.tabPage8.Location = new System.Drawing.Point(4, 22);
             this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Size = new System.Drawing.Size(568, 128);
+            this.tabPage8.Size = new System.Drawing.Size(568, 216);
             this.tabPage8.TabIndex = 5;
             this.tabPage8.Text = "择时信息";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -616,7 +641,7 @@
             this.dgv_matchGroupList.Location = new System.Drawing.Point(0, 0);
             this.dgv_matchGroupList.Name = "dgv_matchGroupList";
             this.dgv_matchGroupList.RowTemplate.Height = 23;
-            this.dgv_matchGroupList.Size = new System.Drawing.Size(568, 128);
+            this.dgv_matchGroupList.Size = new System.Drawing.Size(568, 216);
             this.dgv_matchGroupList.TabIndex = 0;
             // 
             // tabPage9
@@ -624,7 +649,7 @@
             this.tabPage9.Controls.Add(this.dgv_betRecs);
             this.tabPage9.Location = new System.Drawing.Point(4, 22);
             this.tabPage9.Name = "tabPage9";
-            this.tabPage9.Size = new System.Drawing.Size(568, 128);
+            this.tabPage9.Size = new System.Drawing.Size(568, 216);
             this.tabPage9.TabIndex = 6;
             this.tabPage9.Text = "投注记录";
             this.tabPage9.UseVisualStyleBackColor = true;
@@ -637,7 +662,7 @@
             this.dgv_betRecs.Location = new System.Drawing.Point(0, 0);
             this.dgv_betRecs.Name = "dgv_betRecs";
             this.dgv_betRecs.RowTemplate.Height = 23;
-            this.dgv_betRecs.Size = new System.Drawing.Size(568, 128);
+            this.dgv_betRecs.Size = new System.Drawing.Size(568, 216);
             this.dgv_betRecs.TabIndex = 0;
             // 
             // contextMenuStrip1
@@ -669,7 +694,7 @@
             this.webBrowser1.Location = new System.Drawing.Point(0, 0);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(1289, 479);
+            this.webBrowser1.Size = new System.Drawing.Size(1289, 391);
             this.webBrowser1.TabIndex = 0;
             this.webBrowser1.Url = new System.Uri("", System.UriKind.Relative);
             this.webBrowser1.Visible = false;
@@ -760,6 +785,22 @@
             this.toolStripStatusLabel3.Size = new System.Drawing.Size(500, 17);
             this.toolStripStatusLabel3.Text = "toolStripStatusLabel3";
             // 
+            // chart1
+            // 
+            chartArea1.Name = "ChartArea1";
+            chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            chart1.Legends.Add(legend1);
+            chart1.Location = new System.Drawing.Point(79, 0);
+            chart1.Name = "chart1";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            chart1.Series.Add(series1);
+            chart1.Size = new System.Drawing.Size(671, 363);
+            chart1.TabIndex = 1;
+            chart1.Text = "chart1";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -806,6 +847,7 @@
             this.tabPage2.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(chart1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -879,5 +921,8 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem cancelBetRecToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem refreshBetRecToolStripMenuItem1;
+        private System.Windows.Forms.ComboBox ddl_datatype;
+        private System.Windows.Forms.ToolStripMenuItem setLoginedToolStripMenuItem;
+        private static System.Windows.Forms.DataVisualization.Charting.Chart chart1;
     }
 }

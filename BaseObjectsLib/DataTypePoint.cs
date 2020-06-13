@@ -84,6 +84,7 @@ namespace WolfInv.com.BaseObjectsLib
         /// 客户端请求期号截取位置，默认不截取，对于广东11选5需要截取2位
         /// </summary>
         public int ClientExpectCodeSubIndex;
+        public int ClientSerLen;//对某些平台序号长度可能要填充0，需要指定长度
         public DataPointBuff RuntimeInfo;
         public DataTypePoint(string name,Dictionary<string,string> list)
         {

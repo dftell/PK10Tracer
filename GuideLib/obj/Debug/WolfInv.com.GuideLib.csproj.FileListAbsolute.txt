@@ -1,10 +1,3 @@
-E:\github\project\PK10Tracer\WolfInv.com.GuideLib.dll
-E:\github\project\PK10Tracer\WolfInv.com.GuideLib.pdb
-E:\github\source\dftell\PK10Tracer\GuideLib\obj\Debug\WolfInv.com.GuideLib.csprojAssemblyReference.cache
-E:\github\source\dftell\PK10Tracer\GuideLib\obj\Debug\WolfInv.com.GuideLib.csproj.CoreCompileInputs.cache
-E:\github\source\dftell\PK10Tracer\GuideLib\obj\Debug\WolfInv.com.GuideLib.csproj.CopyComplete
-E:\github\source\dftell\PK10Tracer\GuideLib\obj\Debug\WolfInv.com.GuideLib.dll
-E:\github\source\dftell\PK10Tracer\GuideLib\obj\Debug\WolfInv.com.GuideLib.pdb
 C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.GuideLib.dll
 C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.GuideLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\WolfInv.com.GuideLib.csprojAssemblyReference.cache
@@ -12,3 +5,10 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\WolfInv.com.Gu
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\WolfInv.com.GuideLib.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\WolfInv.com.GuideLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\GuideLib\obj\Debug\WolfInv.com.GuideLib.pdb
+E:\github\project\PK10Tracer\WolfInv.com.GuideLib.dll
+E:\github\project\PK10Tracer\WolfInv.com.GuideLib.pdb
+E:\github\source\dftell\PK10Tracer\GuideLib\obj\Debug\WolfInv.com.GuideLib.csprojAssemblyReference.cache
+E:\github\source\dftell\PK10Tracer\GuideLib\obj\Debug\WolfInv.com.GuideLib.csproj.CoreCompileInputs.cache
+E:\github\source\dftell\PK10Tracer\GuideLib\obj\Debug\WolfInv.com.GuideLib.csproj.CopyComplete
+E:\github\source\dftell\PK10Tracer\GuideLib\obj\Debug\WolfInv.com.GuideLib.dll
+E:\github\source\dftell\PK10Tracer\GuideLib\obj\Debug\WolfInv.com.GuideLib.pdb

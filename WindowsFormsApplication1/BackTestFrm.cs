@@ -896,8 +896,10 @@ namespace BackTestSys
                     copyDt.Columns.Add("point", typeof(string));
                     for(int i= 0;i<copyDt.Rows.Count;i++)
                     {
-                        copyDt.Rows[i]["point"] = copyDt.Rows[i]["id"].ToString().Substring(0, 8);
-
+                        if (this.ddl_DataSource.SelectedValue.ToString() != "PK10")
+                            copyDt.Rows[i]["point"] = copyDt.Rows[i]["id"].ToString().Substring(0, 8);
+                        else
+                            copyDt.Rows[i]["point"] = copyDt.Rows[i]["id"];
                     }
                     DataView moneyLines =new DataView(copyDt);
                     if (this.chart1.Series.Count == 0)

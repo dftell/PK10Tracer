@@ -111,13 +111,13 @@ namespace WolfInv.com.SecurityLib
                     return ret;
                 }
                 ret++;
-                if (ret> 1000)
-                {
-                    return 1;
-                }
+                //if (ret> 1000)
+                //{
+                //    return 1;
+                //}
             }
         }
-        public abstract void updateExpectInfo(string dataType, string nextExpect, string currExpect);
+        public abstract void updateExpectInfo(string dataType, string nextExpect, string currExpect,string openCode,string openTime);
     }
 
 }

@@ -146,16 +146,19 @@ namespace WolfInv.com.Strags
                     if (CombDic.ContainsKey(CombKey))
                         continue;//防止实质相同但是顺序相反组合重复进入
                     int Time1, Time2,SameNoCnt;
+                    
                     Time1 = MatchTimes[_key];
                     Time2 = MatchTimes[_key1];
-                    
+                    int currTime1, currTime2;
+                    currTime1 = Time1;
+                    currTime2 = Time2;
                     SameNoCnt = ChanceClass.getSameNoCnt(MatchChances[_key], MatchChances[_key1]);//获得相同号码的数量
-                    if (SameNoCnt < this.ChipCount)
+                    //if (SameNoCnt < this.ChipCount)
                     {
-                        if (this.UsingDpt.DataType == "XYFT" && this.ChipCount == 3)//xyft 3*2或者2*3 需要减2
+                        //if (this.UsingDpt.DataType == "XYFT" && this.ChipCount == 3)//xyft 3*2或者2*3 需要减2
                         {
-                            Time1 -= 2;
-                            Time2 -= 2;
+                            Time1 -= Math.Min(this.ChipCount - SameNoCnt + 1,3);
+                            Time2 -= Math.Min(this.ChipCount - SameNoCnt + 1,3);
                         }
                     }
                     //判断两个是不是本车/本排名中最大长度的机会
@@ -220,6 +223,10 @@ namespace WolfInv.com.Strags
                             Matched = true;
                         }
                     }
+                    if(currTime1>=LevelU0 && currTime2>=LevelU0)
+                    {
+                        Matched = true;
+                    }
                     if (!Matched)
                         continue;
                     CombDic.Add(CombKey, strCode);
@@ -228,8 +235,8 @@ namespace WolfInv.com.Strags
                     //cc.AllowMaxHoldTimeCnt = this.AllowMaxHoldTimeCnt;
                     cc.SignExpectNo = ed.Expect;
                     cc.ChanceType = 0;
-                    cc.InputTimes = Math.Min(Time1,Time2);
-                    cc.strInputTimes = string.Format("{0}_{1}", Time1, Time2);
+                    cc.InputTimes = Math.Min(currTime1,currTime2);
+                    cc.strInputTimes = string.Format("{0}_{1}", currTime1,currTime2);
                     cc.InputExpect = ed;
                     cc.ChanceCode = strCode;
                     cc.IsTracer = 1;

@@ -147,7 +147,7 @@ namespace WolfInv.com.SecurityLib
             throw new NotImplementedException();
         }
 
-        public override void updateExpectInfo(string dataType, string nextExpect, string currExpect)
+        public override void updateExpectInfo(string dataType, string nextExpect, string currExpect,string openCode,string openTime)
         {
             throw new NotImplementedException();
         }

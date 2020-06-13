@@ -88,7 +88,7 @@ namespace ExchangeTermial
                         }
                     }
                 };
-                ret.InstsText = ic.getUserInsts(Program.gc, dtp, ic.Expect, Program.gc.ForWeb,getSelectInsts);
+                ret.InstsText = ic.getUserInsts(Program.gc, dtp, ic.Expect, Program.gc.ForWeb, TotalAmount,getSelectInsts);
                 string[] insts = ret.InstsText.Trim().Replace("+", " ").Split(' ');
                 ret.AllSum = insts.Where(a => a.Trim().Length > 1).ToList().Select(a => long.Parse(a.Trim().Split('/')[2])).Sum();
                 GlobalClass.SetConfig(Program.gc.ForWeb);
@@ -99,12 +99,37 @@ namespace ExchangeTermial
 
 
 
-        SelectTimeInstClass getSelectInsts(string dp, string ec, int cnt)
+        SelectTimeInstClass getSelectInsts(string dp, string ec, AssetInfoConfig aic)
         {
             SelectTimeInstClass sti = new SelectTimeInstClass();
-            string selectTimeAmtUrlModel = "pk10/app/getwaveselecttimeamount.asp?type={0}&expect={1}&cnt={2}";
+            //string selectTimeAmtUrlModel = "pk10/app/getwaveselecttimeamount.asp?type={0}&expect={1}&cnt={2}&defaultReturnValue={3}&AutoResumeDefaultValue={4}";
             CommunicateToServer cts = new CommunicateToServer();
-            CommResult cs = cts.getRequestInsts<SelectTimeInstClass>(string.Format("{0}/{1}", dtp.InstHost, string.Format(selectTimeAmtUrlModel, dp, ec, cnt)));
+            /*
+                         "pk10/app/getwaveselecttimeamount.asp?
+                         type={0}
+                         &expect={1}
+                         &cnt={2}
+                         &defaultReturnValue={3}
+                         &AutoResumeDefaultValue={4}
+                         &EmergencyStop={5}
+                         &StopIgnoreLength={6}
+                         &StopStepLen={7}
+                         &StopPower={8}";
+            */
+            ////CommResult cs = cts.getRequestInsts<SelectTimeInstClass>(string.Format("{0}/{1}", dtp.InstHost, string.Format(selectTimeAmtUrlModel, dp, ec, cnt,defaultReturnValue,AutoResumeDefaultValue)));
+            string selectTimeAmtUrlModel = "pk10/app/getwaveselecttimeamount.asp?type={0}&expect={1}&cnt={2}&defaultReturnValue={3}&AutoResumeDefaultValue={4}&EmergencyStop={5}&StopIgnoreLength={6}&StopStepLen={7}&StopPower={8}";
+            CommResult cs = cts.getRequestInsts<SelectTimeInstClass>(string.Format("{0}/{1}", dtp.InstHost, string.Format(
+                selectTimeAmtUrlModel,
+                dp,
+                ec,
+                aic.CurrTimes,
+                aic.DefaultReturnTimes,
+                aic.AutoResumeDefaultReturnValue,
+                aic.EmergencyStop,
+                aic.StopIgnoreLength,
+                aic.StopStepLen,
+                aic.StopPower
+                )));
             if (!cs.Succ)
             {
                 sti.Error = cs.Message;

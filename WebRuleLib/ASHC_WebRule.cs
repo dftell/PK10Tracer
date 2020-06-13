@@ -2,6 +2,8 @@
 using System.Security.Permissions;
 using WolfInv.com.BaseObjectsLib;
 using System.Linq;
+using WolfInv.com.WebCommunicateClass;
+
 namespace WolfInv.com.WebRuleLib
 {
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
@@ -13,6 +15,18 @@ namespace WolfInv.com.WebRuleLib
         public ASHC_WebRule(string name,GlobalClass setting):base(name,setting)
         {
 
+        }
+
+        public override string ToInstItem(InstClass ic)
+        {
+            /*{"LotteryGameID":10,"SerialNumber":"20200528022","Bets":[
+             * {"BetTypeCode":1016,"BetTypeName":"",
+             * "Number":"01 02 03",
+             * "Position":"","Unit":0.001,"Multiple":1,"ReturnRate":0,"IsCompressed":false,"NoCommission":false}],"Schedules":[],"StopIfWin":false,"BetMode":0,"Guid":"733e1a27-cdf6-b8ca-e192-504155a6cb85","IsLoginByWeChat":false}
+		*/
+            string ret = "\"BetTypeCode\":{0},\"BetTypeName\":\"{1}\",\"Number\":\"{2}\",\"Position\":\"{3}\",\"Unit\":{4:N2},\"Multiple\":{5},\"ReturnRate\":0,\"IsCompressed\":false,\"NoCommission\":false";
+            ret = "{"+string.Format(ret, ic.ruleId, "", string.IsNullOrEmpty(ic.fullSelNums)?ic.selNums:ic.fullSelNums, "", ic.Unit, ic.itemUnitTimes)+"}";
+            return ret;
         }
 
         public override bool LoginSuccFunc(string res)
@@ -37,6 +51,8 @@ namespace WolfInv.com.WebRuleLib
             return true;
         }
 
+        
+
         public override bool GetGameInfoSuccFunc(string res)
         {
             GameInfoClass gic = new GameInfoClass();
@@ -60,6 +76,7 @@ namespace WolfInv.com.WebRuleLib
             bool ret = double.TryParse(res, out val);
             AmountInfoClass aic = new AmountInfoClass();
             aic.CurrMoney = val;
+            aic.Succ = ret;
             this.SuccGetAmount?.Invoke(aic);
             
             return ret;
@@ -125,13 +142,14 @@ namespace WolfInv.com.WebRuleLib
         }
 
 
-        public override bool SendSuccFunc(string res,string dtp,string InstsText)
+        public override bool SendSuccFunc(string res,string dtp,string expect,string InstsText)
         {
             ASHC_BetReturnClass ret = new ASHC_BetReturnClass();
             ret = ret.FromJson(res);
             WebBetReturnInfoClass wric = new WebBetReturnInfoClass();
             wric.returnJson = res;
             wric.dtp = dtp;
+            wric.SerialNo = expect;
             wric.SendData = InstsText;
             if (ret == null)
             {
@@ -148,10 +166,13 @@ namespace WolfInv.com.WebRuleLib
             double.TryParse(ret.WalletAmount, out wric.restAmount);
             wric.Succ = true;
             wric.Msg = ret.ErrorMessage;
+            //wric.SerialNo = ret.SerialNumber;//千万不能用返回的期号，因为不同平台的序号不一定相同，会导致接收时判断错误，接收到新记录而误认为不是新记录
             wric.betRecordCnt = ret.BetDatas.Count;
-            wric.betRecInfo = string.Format("本次投注共计{0}元，{1}",ret.BetDatas.Sum(a=>a.Multiple*a.Unit*a.Count), string.Join(";", ret.BetDatas.Select(a=> {
+            wric.betAmt = string.Format("{0}", ret.BetDatas.Sum(a => a.Multiple * a.Unit * a.Count));
+            /*wric.betRecInfo = string.Format("本次投注共计{0}元，{1}",ret.BetDatas.Sum(a=>a.Multiple*a.Unit*a.Count), string.Join(";", ret.BetDatas.Select(a=> {
                 return string.Format("{0}/{1}/{2}", a.Position.Replace("10", "0").Replace(" ",""), a.Number.Replace("10", "999").Replace("0","").Replace(",", "").Replace("999","0").Replace(" ","").Trim(), a.Multiple);
-            })));
+            })));*/
+            wric.betRecInfo = "";
             this.SuccSend?.Invoke(wric);
             return true;
             //return base.SendSuccFunc(res);
@@ -167,9 +188,9 @@ namespace WolfInv.com.WebRuleLib
             return new object[] { __req,id,key };
         }
 
-        public override void AjaxErrorFunc(string res)
+        public override void AjaxErrorFunc(string title,string res)
         {
-            base.AjaxErrorFunc(res);
+            base.AjaxErrorFunc(title,res);
         }
 
         class ASHC_LoginReturnClass:JsonableClass<ASHC_LoginReturnClass>

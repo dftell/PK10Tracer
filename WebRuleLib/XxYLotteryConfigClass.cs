@@ -64,9 +64,12 @@ namespace WolfInv.com.WebRuleLib
                 
 
                 InstClass ic = new InstClass();
+                ic.ToWebJson = wr.ToInstItem;
+                //ic.Unit = unitVal;
                 ic.ruleId = currRule.BetRule;//配置文件里面指定的规则号
                 ic.betNum = getNums(ccNos,rules, ccCars).ToString();//所有指令数量都为1？好像也不是的，而是组合数
                 ic.itemTimes = String.Format("{0:N2}", unitVal * ccUnitCost);
+                ic.itemUnitTimes = ccUnitCost.ToString();
                 ic.selNums = ccCars; //Array2String(strNums.Split(',')).Replace(", ", ",");
                 string strOdds = null;
                 if(currRule.OddsDic.ContainsKey(setting.Odds.ToString()))

@@ -53,7 +53,7 @@ namespace WolfInv.com.Strags.KLXxY
             }
             maxMissVal = Maxmissdata.ToDictionary(a => a.Key, a => int.Parse(a.Value.max_miss));
             int allMax = maxMissVal.Values.Max();
-            for (int i=0;i<strPeriods.Length;i++)
+            for (int i= strPeriods.Length-1; i<strPeriods.Length;i++)//只看最大周期
             {
                 int peroid = int.Parse(strPeriods[i]);
                 int avg_times = (int) (bsc as CommCollection_KLXxY).getProbTimes(dtp, peroid, InputMaxTimes.ToString(), InputMinTimes.ToString(), new object[0]);
@@ -64,7 +64,7 @@ namespace WolfInv.com.Strags.KLXxY
                 }
                 int currPeriodMax = missdata.Max(a => int.Parse(a.Value.max_miss));
                 int currPeriodMissMax = missdata.Max(a => int.Parse(a.Value.miss));
-                if(currPeriodMax*3< allMax*1)
+                if(currPeriodMax*4< allMax*3)
                 {
                     Log(strLogType, string.Format("当期最大数量遗漏数量{0}小于最大周期遗漏数量{1}的2/3，整期跳过!", allMax, currPeriodMissMax));
                     return ret;
@@ -86,14 +86,12 @@ namespace WolfInv.com.Strags.KLXxY
                     {
                         return false;
                     }
-                    if(peroid < allMax/2) //小周期，达到了周期长度的返回，初步删选，如果最大值的1/3都没达到，所有的直接过滤掉
-                    {
-                        return miss == peroid;
-                    }
-                    if(miss*3< currPeriodMissMax * 2)
+                    
+                    if(miss*5< allMax * 4)
                     {
                         return false;
                     }
+                    return true;//所有当前次数大于最大周期最大的值3/4的值方允许通过
                     if(miss < allMax/2)
                     {
                         return false;

@@ -77,6 +77,7 @@ namespace WolfInv.com.WebRuleLib
         public string dtp;
         public string SendData;
         public string returnJson;
+        public string Title;
         public string Msg;
     }
     public class WebUserInfoClass : WebServerReturnClass
@@ -98,6 +99,8 @@ namespace WolfInv.com.WebRuleLib
         public string SerialNo;
         public int betRecordCnt;
         public string betRecInfo;
+        public string betAmt;
+        
 
     }
     public class BetRecordClass
@@ -106,6 +109,7 @@ namespace WolfInv.com.WebRuleLib
         public string ID;
         public string Key;
         public string GameName;
+        public string GameId;
         public string CreateTime;
         public string Position;
         public string Nums;
@@ -159,6 +163,8 @@ namespace WolfInv.com.WebRuleLib
         public Action<WebServerReturnClass> AJaxError;
         public Action<WebServerReturnClass> SuccCancelBet;
         public Action<string, string> MsgBox;
+
+        public abstract string ToInstItem(InstClass ic);
 
         public bool Load(string filename,string foldername)
         {
@@ -482,7 +488,7 @@ namespace WolfInv.com.WebRuleLib
         {
             return false;
         }
-        public virtual bool SendSuccFunc(string res,string dtp,string data)
+        public virtual bool SendSuccFunc(string res,string dtp,string expect,string data)
         {
             return false;
         }
@@ -492,11 +498,12 @@ namespace WolfInv.com.WebRuleLib
             this.MsgBox?.Invoke(title, msg);
         }
 
-        public virtual void AjaxErrorFunc(string res)
+        public virtual void AjaxErrorFunc(string title,string res)
         {
             WebBetReturnInfoClass wri = new WebBetReturnInfoClass();
             wri.returnJson = res;
             wri.Msg = res;
+            wri.Title = title;
             wri.Succ = false;
             this.AJaxError?.Invoke(wri);
         }

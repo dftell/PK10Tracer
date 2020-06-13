@@ -234,8 +234,8 @@ namespace WolfInv.com.SecurityLib
             db.ExecSql(new ConditionSql(sql));
         }
 
-        public override void updateExpectInfo(string dataType, string nextExpect, string currExpect=null)
-        
+        public override void updateExpectInfo(string dataType, string nextExpect, string currExpect=null, string openCode=null, string openTime=null)
+
         {
             DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = null;
@@ -245,7 +245,7 @@ namespace WolfInv.com.SecurityLib
             }
             else
             {
-                sql = string.Format("update dataExpectInfoTable set nextExpect='{0}',currExpect='{1}' where dataType='{2}'", nextExpect, currExpect, dataType);
+                sql = string.Format("update dataExpectInfoTable set nextExpect='{0}',currExpect='{1}',openCode='{2}',openTime='{3}' where dataType='{2}'", nextExpect, currExpect, dataType,openCode,openTime);
             }
             db.ExecSql(new ConditionSql(sql));
         }

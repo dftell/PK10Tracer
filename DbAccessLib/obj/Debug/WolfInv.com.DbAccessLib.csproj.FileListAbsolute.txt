@@ -8,13 +8,6 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Debug\WolfInv.com
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Debug\MongoDB.Bson.xml
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Debug\MongoDB.Driver.xml
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\bin\Debug\MongoDB.Driver.Core.xml
-E:\github\project\PK10Tracer\WolfInv.com.DbAccessLib.dll
-E:\github\project\PK10Tracer\WolfInv.com.DbAccessLib.pdb
-E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.csprojAssemblyReference.cache
-E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.csproj.CoreCompileInputs.cache
-E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.csproj.CopyComplete
-E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.dll
-E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.pdb
 C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.DbAccessLib.dll
 C:\Users\zhouys\Source\project\PK10Tracer\WolfInv.com.DbAccessLib.pdb
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.csprojAssemblyReference.cache
@@ -22,3 +15,10 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.pdb
+E:\github\project\PK10Tracer\WolfInv.com.DbAccessLib.dll
+E:\github\project\PK10Tracer\WolfInv.com.DbAccessLib.pdb
+E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.csprojAssemblyReference.cache
+E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.csproj.CoreCompileInputs.cache
+E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.csproj.CopyComplete
+E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.dll
+E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.pdb

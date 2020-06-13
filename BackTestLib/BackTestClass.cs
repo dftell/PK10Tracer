@@ -102,13 +102,13 @@ namespace WolfInv.com.BackTestLib
                     }
                     else
                     {
-                        if (dtp.DataType == "PK10")
-                        {
-                            if (AllData[(int)testIndex].ExpectIndex != testData.LastData.ExpectIndex + 1)
-                            {
-                                throw new Exception(string.Format("{1}第{0}期后出现数据遗漏，请补充数据后继续测试！", testData.LastData.Expect, testData.LastData.OpenTime));
-                            }
-                        }
+                        //if (dtp.DataType == "PK10")
+                        //{
+                        //    if (AllData[(int)testIndex].ExpectIndex != testData.LastData.ExpectIndex + 1)
+                        //    {
+                        //        throw new Exception(string.Format("{1}第{0}期后出现数据遗漏，请补充数据后继续测试！", testData.LastData.Expect, testData.LastData.OpenTime));
+                        //    }
+                        //}
                         testData.RemoveAt(0);
                         testData.Add(AllData[(int)testIndex]);
                     }
@@ -326,6 +326,25 @@ namespace WolfInv.com.BackTestLib
                 else
                 {
                     el = er.ReadHistory<T>(begNo, LoopCnt);
+                }
+                int maxRptCnt = 5;
+                int rptCnt = 0;
+                while(el==null)
+                {
+                    
+                    rptCnt++;
+                    if(rptCnt>maxRptCnt)
+                    {
+                        break;
+                    }
+                    if (dtp.IsSecurityData == 1)
+                    {
+                        el = er.ReadHistory<T>(begNo, LoopCnt);
+                    }
+                    else
+                    {
+                        el = er.ReadHistory<T>(begNo, LoopCnt);
+                    }
                 }
                 if (el == null)
                 {

@@ -23,6 +23,8 @@ namespace DataRecSvr
     public delegate void EventFinishedCalc(DataTypePoint dtp);
     public partial class CalcService<T> : SelfDefBaseService<T> where T :TimeSerialData
     {
+        public string runErrorMsg = null;
+        public string ErrorStackTrace = null;
         public DataTypePoint DataPoint { get; set; }
         public string[] Codes { get; set; }
         public string ReadDataTableName { get; set; }
@@ -118,7 +120,7 @@ namespace DataRecSvr
             //ThreadPool.stop
         }
         
-        public void Calc()
+        public bool Calc()
         {
             try
             {
@@ -134,6 +136,12 @@ namespace DataRecSvr
                                             //Log("计算准备", "获取未关闭的机会");
                 Dictionary<string, ChanceClass<T>> NoClosedChances = new Dictionary<string, ChanceClass<T>>();
                 NoClosedChances = CloseTheChances(this.IsTestBack);//关闭机会
+                if(NoClosedChances == null)
+                {
+                    runErrorMsg = "出现获取到机会数据的异常，计算中止！";
+                    ErrorStackTrace = "在读取机会数据时无法链接到数据库！";
+                    return false;
+                }
                 this.FinishedThreads = 0;//完成数量置0
                 RunThreads = 0;
 
@@ -215,8 +223,15 @@ namespace DataRecSvr
             }
             catch(Exception ce)
             {
+                //强制设置完成线程等于线程数，再检查是否完成，保证最后更新文件标志
+                FinishedThreads = RunThreads;
+                CheckFinished();
                 Log(ce.Message, ce.StackTrace, true);
+                runErrorMsg = ce.Message;
+                ErrorStackTrace = ce.StackTrace;
+                return false;
             }
+            return true;
         }
         
         void FillNoClosedChances(Dictionary<string, ChanceClass<T>> list)
@@ -265,8 +280,8 @@ namespace DataRecSvr
                     string expectCode = CurrData.LastData.Expect;
                     DataReader rder = DataReaderBuild.CreateReader(DataPoint.DataType, ReadDataTableName, Codes);
                     string NewExpectNo = DataReader.getNextExpectNo(expectCode,DataPoint);
-                    string NewNo = string.Format("{0}|{1}|{2}", NewExpectNo, CurrData.LastData.OpenTime, CurrData.LastData.OpenCode);
-                    rder.updateExpectInfo(DataPoint.DataType, NewExpectNo, expectCode);
+                    string NewNo = string.Format("{0}|{1}|{2}|{3}", NewExpectNo, CurrData.LastData.OpenTime, CurrData.LastData.OpenCode,expectCode);
+                    rder.updateExpectInfo(DataPoint.DataType, NewExpectNo, expectCode,CurrData.LastData.OpenCode,CurrData.LastData.OpenTime.ToString());
                     new LogInfo().WriteFile(NewNo, path, strExpectNo, strtype, true, true);
 
                     //保存策略
@@ -328,6 +343,23 @@ namespace DataRecSvr
             {
                 //DbChanceList<T> dcl = new PK10ExpectReader().getNoCloseChances<T>(null);
                 DbChanceList<T> dcl = DataReaderBuild.CreateReader(DataPoint.DataType, ReadDataTableName, Codes).getNoCloseChances<T>(null);
+                int MaxRepeateCnt = 5;
+                int Rcnt = 0;
+                while (dcl == null)
+                {
+                    if(Rcnt>MaxRepeateCnt)
+                    {
+                        Log("无法访问到机会数据", string.Format("连续{0}次未能读取到机会数据", MaxRepeateCnt),true);
+                        return null;
+                        //break;
+                        //throw new Exception("无法获取到机会数据！");
+                    }
+                    Rcnt++;
+                    Log("无法访问到机会数据", string.Format("继续尝试访问第{0}次",Rcnt),true);
+                    Thread.Sleep(1000);
+                    dcl = DataReaderBuild.CreateReader(DataPoint.DataType, ReadDataTableName, Codes).getNoCloseChances<T>(null);
+                    
+                }
                 //必须强制按数据库中存储的策略id,获取到策略的机会类型
                 foreach (var dc in dcl.Values)
                 {
@@ -353,10 +385,10 @@ namespace DataRecSvr
                             (tmp as iXxYClass).strCombinTypeBaseOdds = DataPoint.strCombinTypeOdds;
                             (tmp as iXxYClass).strPermutTypeBaseOdds = DataPoint.strPermutTypeOdds;
                         }
-                        Log("转换前机会类型", string.Format("{0}", tmp.GetType()));
+                        //Log("转换前机会类型", string.Format("{0}", tmp.GetType()));
                         dc.FillTo(ref tmp, true);//获取所有属性
                         ChanceClass<T> cc = tmp as ChanceClass<T>;
-                        Log("转换后机会类型", string.Format("{0}:{1}:{2}", cc.GetType(), cc.StragId, cc.ChanceCode));// cc.ToDetailString()));
+                        //Log("转换后机会类型", string.Format("{0}:{1}:{2}", cc.GetType(), cc.StragId, cc.ChanceCode));// cc.ToDetailString()));
                         cl.Add(cc);
                     }
                     //cl = dcl.Values.ToList();

@@ -14,7 +14,7 @@ namespace WolfInv.com.WebCommunicateClass
         {
             CommResult ret = new CommResult();
             string url = string.Format(loginUrl,username,pwd,webcode);
-            string json = AccessWebServerClass.GetData(url, Encoding.Default);
+            string json = AccessWebServerClass.GetData(url, Encoding.UTF8);
             UserInfoClass user = UserInfoClass.GetUserInfo(json);
             if (user == null)
             {

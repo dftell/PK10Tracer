@@ -96,10 +96,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessDataBase", "WCS\Acces
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfInv.com.MaxEntClass", "MaxEntClass\WolfInv.com.MaxEntClass.csproj", "{BBCFBDAD-D11A-4622-9463-284004F8520E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfLotteryDataReCenter", "WolfLotteryDataReCenter\WolfLotteryDataReCenter.csproj", "{954FF28C-BB3B-4CD3-A0D3-9C6FD2E34C7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMsg", "..\..\WebMsg\WebMsg\WebMsg.csproj", "{03062749-569C-4ED7-BE5D-F8CA1C8A756B}"
+EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -611,11 +612,38 @@ Global
 		{BBCFBDAD-D11A-4622-9463-284004F8520E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{BBCFBDAD-D11A-4622-9463-284004F8520E}.Release|x86.ActiveCfg = Release|Any CPU
 		{BBCFBDAD-D11A-4622-9463-284004F8520E}.Release|x86.Build.0 = Release|Any CPU
+		{954FF28C-BB3B-4CD3-A0D3-9C6FD2E34C7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{954FF28C-BB3B-4CD3-A0D3-9C6FD2E34C7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{954FF28C-BB3B-4CD3-A0D3-9C6FD2E34C7D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{954FF28C-BB3B-4CD3-A0D3-9C6FD2E34C7D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{954FF28C-BB3B-4CD3-A0D3-9C6FD2E34C7D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{954FF28C-BB3B-4CD3-A0D3-9C6FD2E34C7D}.Debug|x86.Build.0 = Debug|Any CPU
+		{954FF28C-BB3B-4CD3-A0D3-9C6FD2E34C7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{954FF28C-BB3B-4CD3-A0D3-9C6FD2E34C7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{954FF28C-BB3B-4CD3-A0D3-9C6FD2E34C7D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{954FF28C-BB3B-4CD3-A0D3-9C6FD2E34C7D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{954FF28C-BB3B-4CD3-A0D3-9C6FD2E34C7D}.Release|x86.ActiveCfg = Release|Any CPU
+		{954FF28C-BB3B-4CD3-A0D3-9C6FD2E34C7D}.Release|x86.Build.0 = Release|Any CPU
+		{03062749-569C-4ED7-BE5D-F8CA1C8A756B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03062749-569C-4ED7-BE5D-F8CA1C8A756B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03062749-569C-4ED7-BE5D-F8CA1C8A756B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{03062749-569C-4ED7-BE5D-F8CA1C8A756B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{03062749-569C-4ED7-BE5D-F8CA1C8A756B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{03062749-569C-4ED7-BE5D-F8CA1C8A756B}.Debug|x86.Build.0 = Debug|Any CPU
+		{03062749-569C-4ED7-BE5D-F8CA1C8A756B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03062749-569C-4ED7-BE5D-F8CA1C8A756B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03062749-569C-4ED7-BE5D-F8CA1C8A756B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{03062749-569C-4ED7-BE5D-F8CA1C8A756B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{03062749-569C-4ED7-BE5D-F8CA1C8A756B}.Release|x86.ActiveCfg = Release|Any CPU
+		{03062749-569C-4ED7-BE5D-F8CA1C8A756B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6432B33C-BA80-4009-8D0B-876219447076}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

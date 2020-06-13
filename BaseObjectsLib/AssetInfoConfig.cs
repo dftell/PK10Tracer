@@ -8,7 +8,28 @@ namespace WolfInv.com.BaseObjectsLib
         public int NeedSelectTimes = 0;//需要择时
         public int CurrTimes = 0;
         //public int MaxTracingTimes = 0;//最大追踪次数
+        public int NeedStopGained = 0;//需要止盈
+        public int AutoResumeDefaultReturnValue = 0;//自动恢复默认值
+        public int ZeroCloseResume = 0;//值归零后自动把自动回复默认值功能关闭，一直要到触发条件后才打开
+        public int AutoTraceMinChips = 40;//大于此值后客户端将AutoResumeDefaultReturnValue设为1
+        #region 制动参数
+        /*
+        紧急制动 
+        紧急制动生效后
+        1、有仓命中后直接停止，忽略自动恢复
+        2、无论持仓无仓均将返回值设为0，
+        3、无仓高位点火后紧急制动自动取消
+           */
+        public int AutoEmergencyStop = 0;//自动启动紧急制动，设为1后，算法计算出需要自动
+        public int EmergencyStop=0;     //自动刹车标志
+        public int StopIgnoreLength = 10;//刹车忽略长度
+        public int StopStepLen = 4;//刹车降速步长
+        public int StopPower = 2;//刹车力度，0为立即刹车，其他为降速倒数
+        #endregion
+
+        public int DefaultReturnTimes = 0;//触发条件后返回倍数，传入此参数，如果设置为>0则返回该值，如果为0则返回1
         public double maxStopGainedValue = 50000;//止盈金额
+        
         public AssetInfoConfig()
         {
 
@@ -48,9 +69,37 @@ namespace WolfInv.com.BaseObjectsLib
             {
                 double.TryParse(vals["maxStopGainedValue"], out maxStopGainedValue);
             }
+            if(vals.ContainsKey("AutoResumeDefaultReturnValue"))
+            {
+                int.TryParse(vals["AutoResumeDefaultReturnValue"], out AutoResumeDefaultReturnValue);
+            }
+            if (vals.ContainsKey("ZeroCloseResume"))
+            {
+                int.TryParse(vals["ZeroCloseResume"], out ZeroCloseResume);
+            }
+            if (vals.ContainsKey("NeedStopGained"))
+            {
+                int.TryParse(vals["NeedStopGained"], out NeedStopGained);
+            }
             if(vals.ContainsKey("currTimes"))
             {
                 int.TryParse(vals["currTimes"], out CurrTimes);
+            }
+            if(vals.ContainsKey("DefaultReturnTimes"))
+            {
+                int.TryParse(vals["DefaultReturnTimes"], out DefaultReturnTimes);
+            }
+            if(vals.ContainsKey("EmergencyStop"))
+            {
+                int.TryParse(vals["EmergencyStop"], out EmergencyStop);
+            }
+            if(vals.ContainsKey("AutoEmergencyStop"))
+            {
+                int.TryParse(vals["AutoEmergencyStop"], out AutoEmergencyStop);
+            }
+            if(vals.ContainsKey("AutoTraceMinChips"))
+            {
+                int.TryParse(vals["AutoTraceMinChips"], out AutoTraceMinChips);
             }
         }
 
@@ -59,7 +108,14 @@ namespace WolfInv.com.BaseObjectsLib
             Dictionary<string, string> ret = new Dictionary<string, string>();
             ret.Add("value",value.ToString());
             ret.Add("NeedSelectTimes", NeedSelectTimes.ToString());
+            ret.Add("NeedStopGained", NeedStopGained.ToString());
             ret.Add("maxStopGainedValue", maxStopGainedValue.ToString());
+            ret.Add("DefaultReturnTimes", DefaultReturnTimes.ToString());
+            ret.Add("AutoResumeDefaultReturnValue", AutoResumeDefaultReturnValue.ToString());
+            ret.Add("ZeroCloseResume", ZeroCloseResume.ToString());
+            ret.Add("EmergencyStop", EmergencyStop.ToString());
+            ret.Add("AutoEmergencyStop", AutoEmergencyStop.ToString());
+            ret.Add("AutoTraceMinChips", AutoTraceMinChips.ToString());
             ret.Add("currTimes", CurrTimes.ToString());
             return ret;
         }

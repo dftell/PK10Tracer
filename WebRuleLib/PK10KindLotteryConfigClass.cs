@@ -9,8 +9,14 @@ namespace WolfInv.com.WebRuleLib
     {
         public LotteryConfigClass_XYFT(WebRule we, LotteryTypes rs,string name) : base(we, rs,name)
         {
-            cRuleId_S = rules.AllRules["34140101"].BetRule;
-            cRuleId_B = rules.AllRules["34140102"].BetRule;
+            if (rules.AllRules.ContainsKey("34140101"))
+            {
+                LotteryBetRuleClass lbr_s = rules.AllRules["34140101"];
+                LotteryBetRuleClass lbr_b = rules.AllRules["34140102"];
+                cRuleId_S = rules.AllRules["34140101"].BetRule;
+                cRuleId_B = rules.AllRules["34140102"].BetRule;
+            }
+            Init_ruleId("34140101", "34140102");
             //g01_00 = "8010101";//猜冠军
             //g0102_00 = "8020101";//猜冠亚军
             //g0102_01 = "8020201";//猜冠亚军单式
@@ -27,7 +33,35 @@ namespace WolfInv.com.WebRuleLib
     public class PK10KindLotteryConfigClass: F2LotteryyConfigClass
     {
 
-
+        protected void Init_ruleId(string fore_key,string after_key)
+        {
+            if (rules.AllRules.ContainsKey(fore_key) && rules.AllRules.ContainsKey(after_key))
+            {
+                LotteryBetRuleClass lbr_s = rules.AllRules[fore_key];
+                LotteryBetRuleClass lbr_b = rules.AllRules[after_key];
+                bool useDiffType = false;
+                if(string.IsNullOrEmpty(lbr_s.BetType))
+                {
+                    useDiffType = true;
+                }
+                else
+                {
+                    useDiffType = !lbr_s.BetRule.Contains(lbr_s.BetType);//如果ruleid不包括type,那肯定是使用了其他命名规则
+                }
+                if(useDiffType)
+                {
+                    cRuleId_B = lbr_s.BetType;
+                    cRuleId_S = lbr_b.BetType;
+                }
+                else
+                {
+                    cRuleId_S = lbr_s.BetRule;
+                    cRuleId_B = lbr_b.BetRule;
+                }
+                //cRuleId_S = rules.AllRules["34140101"].BetRule;
+                //cRuleId_B = rules.AllRules["34140102"].BetRule;
+            }
+        }
         public PK10KindLotteryConfigClass(WebRule we, LotteryTypes rs,string name) : base(we, rs,name)
         {
         
@@ -40,6 +74,7 @@ namespace WolfInv.com.WebRuleLib
                 cRuleId_S = rules.AllRules["8140101"].BetRule;
             if (rules.AllRules.ContainsKey("8140102"))
                 cRuleId_B = rules.AllRules["8140102"].BetRule;
+            Init_ruleId("8140101", "8140102");
         }
 
         public override string IntsToJsonString(String ccs, int unit)
@@ -74,11 +109,14 @@ namespace WolfInv.com.WebRuleLib
                     continue;
                 String[] sArr = new String[5];
                 String[] bArr = new String[5];
+                String[] fArr = new string[10];
                 for (int j = 0; j < 5; j++)
                 {
                     sArr[j] = "";
                     bArr[j] = "";
                 }
+                for (int j = 0; j < 10; j++)
+                    fArr[j] = "";
                 int sArrCnt, bArrCnt;
                 sArrCnt = 0;
                 bArrCnt = 0;
@@ -102,29 +140,33 @@ namespace WolfInv.com.WebRuleLib
                         bArr[iNo - 5 - 1] = ccCars.Trim();
                         bArrCnt++;
                     }
+                    fArr[iNo-1] = ccCars.Trim();
                 }
+                InstClass ic = new InstClass();
+                ic.ToWebJson = wr.ToInstItem;
+                ic.fullSelNums = Array2String(fArr).Replace(", ", ",");
+                ic.itemTimes = String.Format("{0:N2}", unitVal * ccUnitCost);
+                ic.itemUnitTimes = ccUnitCost.ToString();
+                ic.jsOdds = String.Format("{0:N2}", setting.Odds);
+                ic.priceMode = unit;
+                //ic.Unit = unitVal;
                 if (sArrCnt > 0)
                 {
-                    InstClass ic = new InstClass();
+                    
                     ic.ruleId = cRuleId_S;
                     ic.betNum = String.Format("{0}", ccOrgCars.Length * sArrCnt);
-                    ic.itemTimes = String.Format("{0:N2}", unitVal * ccUnitCost);
                     ic.selNums = Array2String(sArr).Replace(", ", ",");
-                    ic.jsOdds = String.Format("{0:N2}", setting.Odds);
-                    ic.priceMode = unit;
-                    InsArr.Add(ic);
+                    
                 }
                 if (bArrCnt > 0)
                 {
-                    InstClass ic = new InstClass();
                     ic.ruleId = cRuleId_B;
                     ic.betNum = String.Format("{0}", ccOrgCars.Length * bArrCnt);
-                    ic.itemTimes = String.Format("{0:N2}", unitVal * ccUnitCost);
                     ic.selNums = Array2String(bArr).Replace(", ", ",");
-                    ic.jsOdds = String.Format("{0:N2}", setting.Odds);
-                    ic.priceMode = unit;
-                    InsArr.Add(ic);
+                    //InsArr.Add(ic);
                 }
+                InsArr.Add(ic);
+
 
             }
             if (InsArr.Count > 0)

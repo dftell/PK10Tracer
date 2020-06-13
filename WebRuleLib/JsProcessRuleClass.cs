@@ -3,6 +3,7 @@ using WolfInv.com.BaseObjectsLib;
 using System.Windows.Forms;
 using mshtml;
 using Gecko;
+using WolfInv.com.WebCommunicateClass;
 
 namespace WolfInv.com.WebRuleLib
 {
@@ -42,7 +43,11 @@ namespace WolfInv.com.WebRuleLib
         {
             return null;
         }
-        
+
+        public override string ToInstItem(InstClass ic)
+        {
+            return "";
+        }
 
         protected override Dictionary<string, int> GetChanlesInfo(string url)
         {

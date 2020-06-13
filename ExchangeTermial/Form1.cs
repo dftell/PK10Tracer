@@ -152,6 +152,7 @@ namespace ExchangeTermial
                 //必须重新指定登录用户
                 Program.wxl = new WolfInv.com.LogLib.WXLogClass(Program.gc.ClientAliasName, Program.gc.WXLogNoticeUser, Program.gc.WXLogUrl);
                 MainWindow mw = new MainWindow();
+                mw.setUser(ret.BaseInfo);
                 //testWeb mw = new testWeb();
                 DialogResult res = mw.ShowDialog();
 

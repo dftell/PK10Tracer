@@ -74,7 +74,8 @@ namespace WolfInv.com.ProbMathLib
                 LastRet++;
                 RealWr = (double)((LastRet * Odds) / (LastSum + LastRet * Chips) - 1);
             }
-            Vals.Add(HoldTimeCnt, LastRet);
+            if(!Vals.ContainsKey(HoldTimeCnt))
+                Vals.Add(HoldTimeCnt, LastRet);
             return LastRet;
 
         }

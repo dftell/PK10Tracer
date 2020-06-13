@@ -380,6 +380,7 @@
             // 
             // tabControl3
             // 
+            this.tabControl3.ContextMenuStrip = this.contextMenuStrip_OperatePlan;
             this.tabControl3.Controls.Add(this.tabPage9);
             this.tabControl3.Controls.Add(this.tabPage6);
             this.tabControl3.Controls.Add(this.tabPage7);
@@ -494,41 +495,41 @@
             this.tmi_Edit,
             this.tmi_Delete});
             this.contextMenuStrip_OperatePlan.Name = "contextMenuStrip_OperatePlan";
-            this.contextMenuStrip_OperatePlan.Size = new System.Drawing.Size(181, 136);
+            this.contextMenuStrip_OperatePlan.Size = new System.Drawing.Size(149, 114);
             this.contextMenuStrip_OperatePlan.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_OperatePlan_Opening);
             // 
             // tmi_refreshPlans
             // 
             this.tmi_refreshPlans.Name = "tmi_refreshPlans";
-            this.tmi_refreshPlans.Size = new System.Drawing.Size(180, 22);
+            this.tmi_refreshPlans.Size = new System.Drawing.Size(148, 22);
             this.tmi_refreshPlans.Text = "刷新";
             this.tmi_refreshPlans.Click += new System.EventHandler(this.tsmi_refreshPlans_Click);
             // 
             // tmi_StartPlan
             // 
             this.tmi_StartPlan.Name = "tmi_StartPlan";
-            this.tmi_StartPlan.Size = new System.Drawing.Size(180, 22);
+            this.tmi_StartPlan.Size = new System.Drawing.Size(148, 22);
             this.tmi_StartPlan.Text = "开始运行计划";
             this.tmi_StartPlan.Click += new System.EventHandler(this.tmi_StartPlan_Click);
             // 
             // tmi_StopPlan
             // 
             this.tmi_StopPlan.Name = "tmi_StopPlan";
-            this.tmi_StopPlan.Size = new System.Drawing.Size(180, 22);
+            this.tmi_StopPlan.Size = new System.Drawing.Size(148, 22);
             this.tmi_StopPlan.Text = "停止运行计划";
             this.tmi_StopPlan.Click += new System.EventHandler(this.tmi_StopPlan_Click);
             // 
             // tmi_Edit
             // 
             this.tmi_Edit.Name = "tmi_Edit";
-            this.tmi_Edit.Size = new System.Drawing.Size(180, 22);
+            this.tmi_Edit.Size = new System.Drawing.Size(148, 22);
             this.tmi_Edit.Text = "修改";
             this.tmi_Edit.Click += new System.EventHandler(this.tmi_Edit_Click);
             // 
             // tmi_Delete
             // 
             this.tmi_Delete.Name = "tmi_Delete";
-            this.tmi_Delete.Size = new System.Drawing.Size(180, 22);
+            this.tmi_Delete.Size = new System.Drawing.Size(148, 22);
             this.tmi_Delete.Text = "删除";
             this.tmi_Delete.Click += new System.EventHandler(this.tmi_Delete_Click);
             // 

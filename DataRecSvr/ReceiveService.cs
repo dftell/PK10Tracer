@@ -438,6 +438,11 @@ namespace DataRecSvr
                     //Log("接收第一期数据", el.FirstData.Expect, true);
                     //ExpectList<T> currEl = rd.ReadNewestData<T>(dtp.NewRecCount);
                     ExpectList<T> currEl = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1 * dtp.CheckNewestDataDays)); //前十天的数据 //2020.4.8 尽量的大于reviewcnt, 免得需要再取一次数据, 尽量多取，以防后面策略调用需要上万条数据，还要防止放假中间间隔时间较长
+                    if(currEl == null)
+                    {
+                        Log(string.Format("接收{0}数据错误", DataType),"读取最新数据发生错误！",true);
+                        return;
+                    }
                     ExpectList<T> NewList = rd.getNewestData<T>(new ExpectList<T>(el.Table), currEl);//新列表是最新的数据在前的，后面使用时要反序用
                     
                     //if ((currEl == null || currEl.Count == 0) || (el.Count > 0 && currEl.Count > 0 && el.LastData.ExpectIndex > currEl.LastData.ExpectIndex))//获取到新数据
@@ -608,11 +613,16 @@ namespace DataRecSvr
                 //this.CalcProcess.Calc();
                 CalcObj.OnFinishedCalc = onFinished;
                 Log("开始计算", "启动计算",Program.gc.NormalNoticeFlag);
-                CalcObj.Calc();
+                bool succ = CalcObj.Calc();
+                if(!succ)
+                {
+                    Log(string.Format("彩种{0}计算类出现已捕获的错误！", CalcObj.DataPoint.DataType),string.Format("",CalcObj.runErrorMsg,CalcObj.ErrorStackTrace),true);
+                    return false;
+                }
             }
             catch(Exception e)
             {
-                Log("计算错误", string.Format("{0}：{1}",e.Message,e.StackTrace),true);
+                Log(string.Format("彩种{0}计算出现计算类未捕获的错误！",CalcObj.DataPoint), string.Format("{0}：{1}",e.Message,e.StackTrace),true);
                 return false;
             }
             return true;

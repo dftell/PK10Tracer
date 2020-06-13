@@ -27,6 +27,7 @@ using System.Runtime.InteropServices;
 using Gecko;
 using System.Security.Permissions;
 using WolfInv.com.PK10CorePress;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ExchangeTermial
 {
@@ -82,9 +83,10 @@ namespace ExchangeTermial
         //[DllImport("shell32.dll")]
         //static extern IntPtr ShellExecute(IntPtr hwnd, string lpOperation, string lpFile, string lpParameters, string lpDirectory, ShowCommands nShowCmd);
 
-        
+
         
         internal static extern IntPtr GetCurrentProcess();
+        UserBaseInfo currUser;
         Dictionary<string, DataStatusInfoClass> AllDataInfoDic = new Dictionary<string, DataStatusInfoClass>();
         bool isIE = false;
         Dictionary<string, Int64> NewExpects = new Dictionary<string, long>();
@@ -146,6 +148,7 @@ namespace ExchangeTermial
         ChargeOperator chgOpt = null;
         ClientExchanger ce;
         bool SendMsgFromWebRequest;
+        bool NeedLoadGameInfo;
         public MainWindow()
         {
             InitializeComponent();
@@ -153,6 +156,11 @@ namespace ExchangeTermial
             SendMsgFromWebRequest = (Program.gc.SendMsgFromWebRequest == "1");
             
             
+        }
+
+        public void setUser(UserBaseInfo bi)
+        {
+            currUser = bi;
         }
         void reLoad()
         {
@@ -177,11 +185,13 @@ namespace ExchangeTermial
             chgOpt.OperateChargeForm = new Action<string, string,string,string>(Request);
             chgOpt.SvrNam = string.Format("{0}充值机", Program.gc.ClientUserName);
             chgRmt.Operate = chgOpt;
-            
-            
+            NeedLoadGameInfo = false;
+
+
         }
         private void MainWindow_Load(object sender, EventArgs e)
         {
+            LoadDDL();
             reLoad();
             //return;
             AssetUnitList = new Dictionary<string, string>();
@@ -212,6 +222,24 @@ namespace ExchangeTermial
             Set_SendTime(true, 5*60*1000);
             SendStatusTimer_Elapsed(null, null);
             InitTimers();
+            
+        }
+
+        void LoadDDL()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("key");
+            dt.Columns.Add("val");
+            foreach (string key in GlobalClass.TypeDataPoints.Keys)
+            {
+                //DataRow dr = dt.NewRow();
+                dt.Rows.Add(new string[] { key, key });
+            }
+            ddl_datatype.Items.Clear();
+            ddl_datatype.DisplayMember = "val";
+            ddl_datatype.ValueMember = "key";
+            ddl_datatype.DataSource = dt;
+            ddl_datatype.Refresh();
         }
 
         void RefreshData()
@@ -319,13 +347,24 @@ ClearMyTracksByProcess 255
         {
             if(ret.Succ)
             {
-                getBetRecInfo();
+                //refreshBetRecToolStripMenuItem_Click(null, null);
+                //getBetRecInfo();
+                ////new Task(() =>
+                ////{
+                ////    getBetRecInfo();
+                ////}).Start();
+                //this.cancelBetRecToolStripMenuItem_Click(null, null);
+            }
+            else
+            {
+                WXMsgBox("撤单错误", ret.Msg);
             }
         }
 
         void AfterAJaxError(WebServerReturnClass err)
         {
-            Logined = false;
+            WXMsgBox(err.Title??"Error", err.Msg);
+            //Logined = false;
         }
 
         void AfterGetBetRecordInfo(BetRecordListClass brec)
@@ -415,8 +454,19 @@ ClearMyTracksByProcess 255
 
         void AfterGetAmount(AmountInfoClass amt)
         {
-            this.CurrVal = amt.CurrMoney;
-            this.RefreshStatus();
+            if (amt.Succ)
+            {
+                this.CurrVal = amt.CurrMoney;
+                this.RefreshStatus();
+            }
+            else
+            {
+                Logined = false;
+                InSleep = true;
+                WebBrowserLoad = false;
+                reLoadWebBrowser();
+                WXMsgBox("获取到金额错误", "重置所有状态！需重新登陆");
+            }
         }
 
         void AfterSendMsgComplete(string msg,string msg1)
@@ -426,30 +476,46 @@ ClearMyTracksByProcess 255
 
         void AfterSendMsg(WebBetReturnInfoClass wbri)
         {
+            long currExpect = 0;
+            long.TryParse(wbri.SerialNo, out currExpect);
             //MessageBox.Show(wbri.betRecInfo);
+            DataTypePoint dtp = null;
+            if (this.timers_RequestInst.ContainsKey(wbri.dtp))
+            {
+                
+                if (GlobalClass.TypeDataPoints.ContainsKey(wbri.dtp))
+                {
+                    dtp = GlobalClass.TypeDataPoints[wbri.dtp];
+                }
+                
+            }
             if (wbri.Succ)
             {
-                if (!dicExistInsts[wbri.dtp].ContainsKey(this.NewExpects[wbri.dtp]))
+                Logined = true;
+                InSleep = false;
+                WebBrowserLoad = true;
+                CurrVal = wbri.restAmount;
+                NewExpects[wbri.dtp] = currExpect;
+                if (!dicExistInsts[wbri.dtp].ContainsKey(currExpect))
                 {
-                    dicExistInsts[wbri.dtp].Add(this.NewExpects[wbri.dtp], wbri.SendData);
+                    dicExistInsts[wbri.dtp].Add(currExpect, wbri.SendData);
                 }
-                if(this.timers_RequestInst.ContainsKey(wbri.dtp))
+                this.timers_RequestInst[wbri.dtp].Interval = defaultInterVal(dtp, true);
+                new Task(() =>
                 {
-                    DataTypePoint dtp = null;
-                    if (GlobalClass.TypeDataPoints.ContainsKey(wbri.dtp))
-                    {
-                        dtp = GlobalClass.TypeDataPoints[wbri.dtp];
-                    }
-                    this.timers_RequestInst[wbri.dtp].Interval = defaultInterVal(dtp, true);
-                }
-                WXMsgBox(string.Format("当前余额:{0}", wbri.restAmount), wbri.SendData);
+                    WXMsgBox(string.Format("[{3}]第{2}期投入:{0}元，当前余额:{1}元", wbri.betAmt, wbri.restAmount, currExpect, wbri.dtp), wbri.SendData);
+                }).Start();
                 this.toolStripStatusLabel3.Text = wbri.SendData;
-                getBetRecInfo();
+                ////new Task(() =>
+                ////{
+                ////    //this.cancelBetRecToolStripMenuItem_Click(null, null);
+                ////    getBetRecInfo();
+                ////}).Start();
             }
             else
             {
-                
-                WXMsgBox(string.Format("发送[{0}]失败",wbri.SendData), wbri.Msg);
+                this.timers_RequestInst[wbri.dtp].Interval = defaultInterVal(dtp);
+                WXMsgBox(string.Format("[{1}]第{2}期发送[{0}]失败",wbri.SendData,wbri.dtp, currExpect), wbri.Msg);
             }
             
         }
@@ -461,7 +527,8 @@ ClearMyTracksByProcess 255
                 WXMsgBox(string.Format("账号{0}登录{1}失败",Program.gc.ClientUserName,Program.gc.ForWeb), wic.Msg);
                 return;
             }
-            Logined = true;
+            WXMsgBox(Program.gc.ClientAliasName, string.Format("登陆{0}成功！", Program.gc.ForWeb));
+            setLogined();
             try
             {
                 lock (webBrowser1)
@@ -481,6 +548,13 @@ ClearMyTracksByProcess 255
             {
 
             }
+        }
+
+        void setLogined()
+        {
+            Logined = true;
+            InSleep = false;
+            WebBrowserLoad = true;
         }
 
         void getGameInfo(int n)
@@ -552,12 +626,7 @@ ClearMyTracksByProcess 255
             }
         }
 
-        public void WXMsgBox(string title,string msg)
-        {
-            //MessageBox.Show(string.Format("{0}:{1}",title,msg));
-            //return;
-            Program.wxl.Log(title,msg, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
-        }
+        
          string LotteryPage
         {
             get
@@ -641,7 +710,7 @@ ClearMyTracksByProcess 255
                     MySleep(3 * 1000);
                     ScriptLoaded = false;
                     LogableClass.ToLog(webBrowser1?.Url?.Host, "准备唤醒！");
-                    Program.wxl.Log(string.Format("[{0}]起来", Program.gc.ClientAliasName), "不愿做奴隶的程序们！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                    WXMsgBox(string.Format("[{0}]起来", Program.gc.ClientAliasName), "不愿做奴隶的程序们！");
                     if (ChanleUseTimes < 0)//载入时线路访问次数置0
                     {
                         ChanleUseTimes = 0;
@@ -659,7 +728,7 @@ ClearMyTracksByProcess 255
                 InSleep = true;
                 Logined = false;
                 LogableClass.ToLog("错误", ce.Message, ce.StackTrace);
-                Program.wxl.Log("错误", string.Format("[{0}]起床困难户。", Program.gc.ClientAliasName), string.Format("{0}:{1}", ce.Message, ce.StackTrace));
+                WXMsgBox("错误", string.Format("[{0}]起床困难户。", Program.gc.ClientAliasName));
                 timers_RequestInst.Values.ToList().ForEach(a => { a.Interval = defaultInterVal(); });
                 return;
             }
@@ -712,7 +781,7 @@ ClearMyTracksByProcess 255
                     MySleep(3 * 1000);
                     ScriptLoaded = false;
                     LogableClass.ToLog(geckoWebBrowser1?.Url?.Host, "准备唤醒！");
-                    Program.wxl.Log(string.Format("[{0}]起来", Program.gc.ClientAliasName), "不愿做奴隶的程序们！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                    WXMsgBox(string.Format("[{0}]起来", Program.gc.ClientAliasName), "不愿做奴隶的程序们！");
                     if (ChanleUseTimes < 0)//载入时线路访问次数置0
                     {
                         ChanleUseTimes = 0;
@@ -789,7 +858,7 @@ ClearMyTracksByProcess 255
                 
                 tm.Tick += timer_RequestInst_Tick;
                 tm.Enabled = true;
-                tm.Interval = defaultInterVal();// (1 + new Random().Next(5)) * 1000;
+                tm.Interval = defaultInterVal(dtps[key]);// (1 + new Random().Next(5)) * 1000;
                 tm.index = ti;
                 
                 timers_RequestInst.Add(key,tm);
@@ -830,7 +899,7 @@ ClearMyTracksByProcess 255
                 a.Interval = InterVal;
                 if (dtp.ReceiveSeconds > 0)
                 {
-                    a.Interval = defaultInterVal();//默认1/10周期
+                    a.Interval = defaultInterVal(dtp);//默认1/10周期
                 }
                 a.Tick += timer_RequestInst_Tick;
                 a.Enabled = Running;
@@ -1096,7 +1165,11 @@ ClearMyTracksByProcess 255
                     Program.wxl.Log("网页未正常加载，无法注入代码！");
                     return;
                 }
-
+                if(elHeads.Count == 0)
+                {
+                    Program.wxl.Log("未获取到文件头！");
+                    return;
+                }
 
                 HtmlElement head = elHeads[0];
                 //创建script标签
@@ -1177,7 +1250,7 @@ ClearMyTracksByProcess 255
             //if(!ScriptLoaded)
             AddScript(loginDocIE ??HomeDocIE, null); //执行js代码,未来修改为网络载入
             //MySleep(3 * 1000);//等待验证码图片载入
-            (loginDocIE ?? HomeDocIE).InvokeScript("Login", new string[] { Program.gc.ClientUserName, Program.gc.ClientPassword, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost), Program.gc.WXLogNoticeUser ,string.Format(Program.gc.LoginUrlModel,Program.gc.LoginDefaultHost)});
+            (loginDocIE ?? HomeDocIE).InvokeScript("Login", new string[] { currUser.WebLoginId, currUser.WebLoginPwd, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost), Program.gc.WXLogNoticeUser ,string.Format(Program.gc.LoginUrlModel,Program.gc.LoginDefaultHost)});
             WebBrowserLoad = true;
         }
 
@@ -1237,13 +1310,29 @@ ClearMyTracksByProcess 255
                 {
                     if (IsLoadComplete(Program.gc.HostKey))//如果加载到主页，那就登录
                     {
+                        string strUrl = doc.Url.ToString().Replace("//","/");
+                        string lotteryPage = string.Format(Program.gc.LotteryPage, string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost)).Replace("//","/");
+                        if(strUrl == lotteryPage)
+                        {
+                            getAmount();
+                            MySleep(3 * 1000);
+                            Logined = true;
+                            InSleep = false;
+                            WebBrowserLoad = true;
+                            TSMI_sendStatusInfor_Click(null, null);
+                            return;
+                        }
                         WXMsgBox("判断是在登陆页", "登录！");
-                        InSleep = false;
-                        WebBrowserLoad = true;
+                        //InSleep = false;
+                        //WebBrowserLoad = true;
                         Login();
                         return;
                     }
-                    WXMsgBox("判断不在登陆页", doc.Body.OuterHtml.Substring(0,Math.Min(doc.Body.OuterHtml.Length,30)));
+                    //WXMsgBox("判断不在登陆页", doc.Body.OuterHtml.Substring(0,Math.Min(doc.Body.OuterHtml.Length,30)));
+                    return;
+                }
+                if(SendMsgFromWebRequest)
+                {
                     return;
                 }
                 //CurrVal = wr.GetCurrMoney(doc);
@@ -1731,8 +1820,11 @@ ClearMyTracksByProcess 255
                 if (tm == null)
                     tm = timers_RequestInst.Values.First();
                 //tm.Enabled = false;
-
-                 if (RefreshTimes >0 && !inWorkTimeRange())
+                DataTypePoint dtp = tm.Tag as DataTypePoint;
+                if (dtp == null)
+                    return;
+                string dtpName = dtp.DataType;
+                if (RefreshTimes >0 && !inWorkTimeRange())
                 {
                     if(SendMsgFromWebRequest)
                     {
@@ -1740,11 +1832,42 @@ ClearMyTracksByProcess 255
                         {
                             Logined = false;
                             reLoadWebBrowser();
+                            //reLoadWebBrowser();
                         }
                     }
+                    else
+                    {
+                        if(!InSleep)
+                        {
+                            KnockEgg();
+                            Application.DoEvents();
+                            MySleep(10 * 1000);
+                            Logined = false;
+                            reLoadWebBrowser();
+                        }
+
+                    }
+
                     return;
                 }
-                if(!WebBrowserLoad)
+                DateTime CurrTime = DateTime.Now.AddHours(dtp.DiffHours).AddMinutes(dtp.DiffMinutes);//调整后的时间
+                Random rd = new Random();
+                int buffSec = (int)dtp.ReceiveSeconds / 60;
+                int rndtime = rd.Next(1000, buffSec * 1000);//增加随机数，防止单机多客户端并行同时下注
+                if (RefreshTimes > 0 && !inWorkTimeRange(dtpName))
+                {
+                    DateTime TargetTime = DateTime.Today.AddHours(dtp.ReceiveStartTime.Hour).AddMinutes(dtp.ReceiveStartTime.Minute);
+                    tm.Interval = Math.Max(30*1000,(int)TargetTime.Subtract(CurrTime).TotalMilliseconds) + rndtime;
+                    DateTime nextTime = DateTime.Now.AddMilliseconds(tm.Interval);
+                    KnockEgg();//敲蛋
+                    Application.DoEvents();
+                    MySleep(10 * 1000);//暂停，等发送消息
+                                       //reLoadWebBrowser();//开百度网页，睡觉
+                    timers_RequestInst[tm.dtp.DataType].Interval = tm.Interval;//实际把计时器间隔往后推
+                    WXMsgBox(string.Format("{0}下次启动时间！",dtpName), nextTime.ToString("yyyyMMdd HH:mm:ss"));
+                    return;
+                }
+                if (!WebBrowserLoad)
                 {//只能等待加载完成！
                     //return;
                 }
@@ -1761,13 +1884,24 @@ ClearMyTracksByProcess 255
                         currUrl = currUrl.Substring(0, currUrl.Length - 1);
                     }
                     bool inHost = false;
-                    if (currUrl.Contains(strHost))
+                    if (currUrl == strHost)
                     {
                         inHost = true;
                     }
+                    else
+                    {
+                        if(string.Format(Program.gc.LotteryPage,strHost) ==  currUrl)
+                        {
+                            InSleep = false;
+                            Logined = true;
+                            WebBrowserLoad = true;
+                            WXMsgBox("重置状态", "已经登录");
+                            return;
+                        }
+                    }
                     if (!inHost)
                     {
-                        tm.Interval = 3 * defaultInterVal();//给登录一点时间
+                        tm.Interval = 3 * defaultInterVal(tm.dtp);//给登录一点时间
                         string logpage = string.Format(Program.gc.LoginPage, Host);
                         try
                         {
@@ -1781,7 +1915,7 @@ ClearMyTracksByProcess 255
                                 }).Start();
                                 //Application.DoEvents();
                             }
-                            WXMsgBox("转到登录页", logpage);
+                            //WXMsgBox("转到登录页", logpage);
                         }
                         catch(Exception ce)
                         {
@@ -1789,73 +1923,33 @@ ClearMyTracksByProcess 255
                         }
                         return;
                     }
-                }
-                /*
-                if(!Logined)
-                {
-                    string currUrl = webBrowser1.Url.ToString().Replace("https://", "").Replace("http://", "");//.Replace("/","");
-                    string strHost = Host.Replace("https://", "").Replace("http://", "");
-                    if (strHost.EndsWith("/"))
+                    else//如果在页面但是没有登录，就开始登录
                     {
-                        strHost = Host.Substring(0, Host.Length - 1);
-                    }
-                    if(currUrl.EndsWith("/"))
-                    {
-                        currUrl = currUrl.Substring(0, currUrl.Length - 1);
-                    }
-                    bool inHost = false;
-                    if(currUrl.Contains(strHost))
-                    {
-                        inHost = true;
-                    }
-                    if (!currUrl.Trim().Equals(strHost.Trim().Replace("https://", "").Replace("http://", "")) && !inHost)
-                    {
-                        lock (webBrowser1)
-                        {
-                            webBrowser1.Navigate(Host);
-                        }
-                        return;
-                    }
-                    else
-                    {
-                        tm.Enabled = false;
                         Login();
-                        this.statusStrip1.Items[2].Text = "正在登录！";
-                        tm.Interval = 3*defaultInterVal();//给登录一点时间
-                        //tm.Enabled = true;
-                        return;
+                        tm.Interval = 2 * defaultInterVal(tm.dtp);//给登录一点时间
                     }
                 }
-                */
-                DataTypePoint dtp = tm.Tag as DataTypePoint;
-                if (dtp == null)
-                    return;
-
-                string dtpName = dtp.DataType;
-                Random rd = new Random();
-                int buffSec = (int)dtp.ReceiveSeconds / 60;
-                int rndtime = rd.Next(1000, buffSec * 1000);//增加随机数，防止单机多客户端并行同时下注
-                ////if (InSleep)//还在睡觉,唤醒
-                ////{
-                ////    if (!inWorkTimeRange())
-                ////    {
-                ////        return;
-                ////    }
-                ////    LoadUrl(loadUrl);
-                ////    ////while(!Logined)
-                ////    ////{
-                ////    ////    System.Threading.Thread.Sleep(30*1000);
-                ////    ////}
-                ////    InSleep = false;
-                ////    tm.Interval = 2*defaultInterVal();//等待唤醒以后再访问
-                ////    return;
-                ////}
+                
+                int ruleid = 0;
+                if (rule == null)
+                {
+                    rule = WebRuleBuilder.Create(Program.gc);
+                }
+                if (rule.config != null)
+                    int.TryParse(rule.config.lotteryTypes.ContainsKey(dtpName) ? rule.config.lotteryTypes[dtpName].ruleId : "0", out ruleid);
+                if (NeedLoadGameInfo && Logined)
+                {
+                    
+                    getGameInfo(ruleid);
+                }
                 
                 CommunicateToServer wc = new CommunicateToServer();
-                CommResult cr = wc.getRequestInsts<RequestClass>(string.Format("{0}/{1}{2}",dtp.InstHost,"pk10/app/requestInsts.asp?Dtp=",dtp.DataType));
+                string testExpect = "";
+                CommResult cr = wc.getRequestInsts<RequestClass>(string.Format("{0}/{1}",dtp.InstHost,string.Format("pk10/app/requestInsts.asp?Dtp={0}&testExpect={1}",dtp.DataType, testExpect)));
                 if (!cr.Succ)
                 {
                     this.statusStrip1.Items[0].Text = cr.Message;
+                    WXMsgBox(dtpName, "接收指令错误！");
                     return;
                 }
                 if (cr.Cnt != 1)
@@ -1865,7 +1959,14 @@ ClearMyTracksByProcess 255
                     return;
                 }
                 ///pk10/app/getwaveselecttimeamount.asp?type=xyft&expect=20200405120&cnt=1
-                string selectTimeAmtUrlModel = "pk10/app/getwaveselecttimeamount.asp?type={0}&expect={1}&cnt={2}";
+                ///
+                /*
+                 public int EmergencyStop=0;        
+        public int StopIgnoreLength = 10;//刹车忽略长度
+        public int StopStepLen = 4;//刹车降速步长
+        public int StopPower = 2;//刹车力度，0为立即刹车，其他为降速倒数
+                 */
+                string selectTimeAmtUrlModel = "pk10/app/getwaveselecttimeamount.asp?type={0}&expect={1}&cnt={2}&defaultReturnValue={3}&AutoResumeDefaultValue={4}&EmergencyStop={5}&StopIgnoreLength={6}&StopStepLen={7}&StopPower={8}";
                 RequestClass ic = cr.Result[0] as RequestClass;
                 if (ic == null)
                 {
@@ -1878,37 +1979,27 @@ ClearMyTracksByProcess 255
                 //{
                 
                 //}
-                DateTime CurrTime = DateTime.Now.AddHours(dtp.DiffHours).AddMinutes(dtp.DiffMinutes);//调整后的时间
+                
                 string strList = "";
-                if (((CurrExpectNo > this.NewExpects[dtp.DataType] && this.NewExpects[dtp.DataType]>0))||this.NewExpects[dtp.DataType] == 0) //获取到最新指令
+                string txt = "";
+                bool NewRec = false;
+                bool NeedSaveAssetConfig = false;
+                if (CurrExpectNo > this.NewExpects[dtp.DataType] && this.NewExpects[dtpName] > 0)
                 {
-
-                    if (SendMsgFromWebRequest)//如果从请求发送
-                    {
-                        ////if (CurrVal == 0)
-                        ////{
-                        ////    getAmount();
-                        ////    Application.DoEvents();
-                        ////    MySleep(1 * 1000);
-                        ////    Application.DoEvents();
-                        ////}
-                        //getGameInfo(70);
-                    }
-                    
+                    NewRec = true;
+                }
+                if (NewRec ||this.NewExpects[dtp.DataType] == 0) //获取到最新指令
+                {
+                    getGameInfo(ruleid);
+                    getAmount();
+                    MySleep(2 * 1000);
+                    //WXMsgBox(string.Format("{0}数据最新期{1}", dtpName, ic.Expect), ic.Insts);
                     LastInstsTime = DateTime.Now.AddHours(dtp.DiffHours).AddMinutes(dtp.DiffMinutes);
                     int CurrMin = DateTime.Now.Minute % 5;
-
-                    ////if (CurrMin % 5 < 2)
-                    ////{
-                    ////    this.timer_RequestInst.Interval = (2-CurrMin)*60000;//加分钟以后见
-                    ////}
-                    ////else
-                    ////{
-                    ////    this.timer_RequestInst.Interval = (5-CurrMin)*6000;//5分钟以后见
-                    ////}
-                    //tm.Interval = (int)dtp.ReceiveSeconds *1000/6 + rndtime ;//  2 * 60 * 1000 + rndtime;//5分钟以后见,减掉1秒不*断收敛时间，防止延迟接收
-                                                                              //ToAdd:填充各内容
-                    
+                    //资产对象
+                    //b原有值
+                    //c返回值
+                    //cc返回对象
                     ic.SelectTimeChanged = (a, b,c,cc) => {
                         Single currProb100 = 0.0F;
                         Single safeProb100 = 0.0F;
@@ -1948,27 +2039,78 @@ ClearMyTracksByProcess 255
                         string strProb = string.Format(strProbModel, currProb100, safeProb100, currProb300, safeProb300, currProb1000, safeProb1000, No2MatchCnt);
                         strList = string.Format("[{0}期提示:[机会:{1};数量:{2}]];{3}最近5轮出现的组合信息为:{4}", CurrExpectNo,cc.ChanceCode,cc.UnitCost, strProb,string.Join(",", c.List.Select(curr =>string.Format("{0}次{1}个组合",curr.times, curr.chipCount)).Take(5).ToArray()));
                         string strDiff = "";
-                        if(b!= c.RequestCnt)
-                            strDiff = string.Format("资产单元{0}信号由{1}改为{2}!", AssetUnitList[a],b,c.ReturnCnt);
+                        if(Program.gc.AssetUnits[a].AutoEmergencyStop == 1 && judgeAutoABS(c))//如果需要自动计算刹车
+                        {
+                            NeedSaveAssetConfig = true;
+                            
+                            Program.gc.AssetUnits[a].EmergencyStop = 1;
+                            WXMsgBox(string.Format("彩种:{0}第{1}期", dtpName, CurrExpectNo), "因行情运行至高位，自动启动ABS，下期命中后将自动停止投注，将当前值恢复到0！");
+                        }
+                        if (b != c.ReturnCnt)
+                        {
+                            Program.gc.AssetUnits[a].CurrTimes = c.ReturnCnt;
+                            string autoSetting = "";
+                            if(c!=null && c.List!= null && c.List.Count>0 && c.List[0].chipCount>Program.gc.AssetUnits[a].AutoTraceMinChips)//达到启动值后自动设置启动回复默认值为1，就可以自动跟踪了
+                            {
+                                Program.gc.AssetUnits[a].AutoResumeDefaultReturnValue = 1;
+                                autoSetting = "跟踪到长期机会，自动点火跟随启动!";
+                            }
+                            if(b == 1 && c.ReturnCnt == 0 && Program.gc.AssetUnits[a].ZeroCloseResume == 1)//允许到0关闭恢复功能，如果从1恢复到0，将AutoResumeDefaultReturnValue置为0，等下次跟踪到了以后再启动
+                            {
+                                Program.gc.AssetUnits[a].AutoResumeDefaultReturnValue = 0;
+                                autoSetting = "长期跟踪未命中，自动点火跟自动关闭，等待下次触发自动启动!如果觉得最近机会很好，可以手动打开！";
+                            }
+                            strDiff = string.Format("资产单元{0}信号由{1}改为{2},当前基本值为{3}!{4}", AssetUnitList[a], b, c.ReturnCnt,Program.gc.AssetUnits[a].value,string.IsNullOrEmpty(autoSetting)?"":autoSetting);
+                            NeedSaveAssetConfig = true;
+                        }
                         new Task(() =>
                         {
                             Program.wxl.Log(string.Format("{0};{1}", strList, strDiff), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
                         }).Start();
 
                     };
-                    string txt = ic.getUserInsts(Program.gc,dtp,ic.Expect,Program.gc.ForWeb,
-                        (dp,ec,cnt)=>
+                    txt = ic.getUserInsts(Program.gc,dtp,ic.Expect,Program.gc.ForWeb,CurrVal,
+                        (dp,ec,aic)=>
                         {
+
                             CommunicateToServer cts = new CommunicateToServer();
-                            CommResult cs = wc.getRequestInsts<SelectTimeInstClass>(string.Format("{0}/{1}", dtp.InstHost, string.Format(selectTimeAmtUrlModel, dp, ec, cnt)));
+                            /*
+                             "pk10/app/getwaveselecttimeamount.asp?
+                             type={0}
+                             &expect={1}
+                             &cnt={2}
+                             &defaultReturnValue={3}
+                             &AutoResumeDefaultValue={4}
+                             &EmergencyStop={5}
+                             &StopIgnoreLength={6}
+                             &StopStepLen={7}
+                             &StopPower={8}";
+                */
+                            string strTestExpect = "";
+                           // string selectTimeAmtUrlModel = "pk10/app/getwaveselecttimeamount.asp?type={0}&expect={1}&cnt={2}&defaultReturnValue={3}&AutoResumeDefaultValue={4}&EmergencyStop={5}&StopIgnoreLength={6}&StopStepLen={7}&StopPower={8}";
+                            CommResult cs = wc.getRequestInsts<SelectTimeInstClass>(string.Format("{0}/{1}", dtp.InstHost, string.Format(
+                                selectTimeAmtUrlModel, 
+                                dp, 
+                                ec, 
+                                aic.CurrTimes,
+                                aic.DefaultReturnTimes,
+                                aic.AutoResumeDefaultReturnValue,
+                                aic.EmergencyStop,
+                                aic.StopIgnoreLength,
+                                aic.StopStepLen,
+                                aic.StopPower,
+                                strTestExpect
+                                )));
                             if (!cs.Succ)
                             {
                                 this.statusStrip1.Items[0].Text = cr.Message;
+                                WXMsgBox(dtpName, "接收择时指令异常:" + cr.Message);
                                 return null;
                             }
                             if(cs.Cnt != 1)
                             {
                                 this.statusStrip1.Items[0].Text = "择时信息异常！";
+                                WXMsgBox(dtpName, "择时信息异常");
                                 return null;
                             }
                             SelectTimeInstClass sti = cs.Result[0] as SelectTimeInstClass;
@@ -1976,13 +2118,24 @@ ClearMyTracksByProcess 255
                         });
                     string[] insts = txt.Trim().Replace("+", " ").Split(' ');
                     long AllSum = insts.Where(a => a.Trim().Length > 1).ToList().Select(a => long.Parse(a.Trim().Split('/')[2])).Sum();
-                    bool NewRec = false;
-                    if (CurrExpectNo > this.NewExpects[dtp.DataType] && this.NewExpects[dtpName]>0)
+                    
+                    //this.NewExpects[dtpName] = CurrExpectNo;
+                    tm.Interval = defaultInterVal(dtp);
+                    if(NeedSaveAssetConfig)
                     {
-                        NewRec = true;
+                        new Task(()=>
+                        {
+                            if(!frm_setting.SaveToServer(Program.gc.AssetUnits, false))
+                            {
+                                WXMsgBox("择时自动修改配置后上传服务器失败！", "如果连续出现此信号在配置界面请手动保存，以免在关掉程序后重新下载配置后实际配置与预期不一样！");
+                            }
+                            
+                        }).Start();
+                        
+
+                        
+
                     }
-                    this.NewExpects[dtpName] = CurrExpectNo;
-                    tm.Interval = defaultInterVal();
                     if (Logined)
                     {
                         if (NewRec)//新记录才发送，第一条记录不发送
@@ -1990,40 +2143,80 @@ ClearMyTracksByProcess 255
                             
                             if (AllSum == 0)
                             {
-                                Program.wxl.Log(string.Format("[{1}]第{0}期", this.txt_ExpectNo.Text, Program.gc.ClientAliasName), "当期指令为空信号，或者金额为0", string.Format("{0}:[{1}]", "指令", this.txt_Insts.Text), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                                new Task(() =>
+                                {
+                                    getGameInfo(ruleid);
+                                    getAmount();
+                                }).Start();
+                                MySleep(2 * 1000);
+                                Program.wxl.Log(string.Format("[{1}]第{0}期资金余额:{2}", CurrExpectNo , Program.gc.ClientAliasName,CurrVal), "当期指令为空信号，或者金额为0", string.Format("{0}:[{1}]", "指令", txt), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
                                 SwitchChanle();//赶着空指令切换线路
+                                //if (dicExistInsts.ContainsKey(dtpName) && !dicExistInsts[dtpName].ContainsKey(this.NewExpects[dtpName]))//防止多次发送
+                                NewExpects[dtpName] = CurrExpectNo;
+                                if(NewRec && !dicExistInsts[dtpName].ContainsKey(CurrExpectNo))
+                                {
+                                    dicExistInsts[dtpName].Add(CurrExpectNo, txt);
+                                }
+                                refreshWindow(dtp, ic, txt, strList);
+
                                 return;
                             }
                             RefreshTimes = 1;
-                            if (dicExistInsts.ContainsKey(dtpName) && !dicExistInsts[dtpName].ContainsKey(this.NewExpects[dtpName]))//防止多次发送
+                            if (dicExistInsts.ContainsKey(dtpName) && !dicExistInsts[dtpName].ContainsKey(CurrExpectNo))//防止多次发送
                             {
-                                this.Send_Data(dtp, txt);
+                                if (txt.Trim().Length > 0)//浪费，一定是>0
+                                {
+                                    this.Send_Data(dtp, CurrExpectNo.ToString(),txt);
+                                    if (!SendMsgFromWebRequest)//如果不是从web请求发送，必须发送完后要加入。web请求从事件成功后处理。
+                                    {
+                                        dicExistInsts[dtpName].Add(CurrExpectNo, txt);
+                                    }
+                                }
                             }
+                        }
+                        else
+                        {
+                            NewExpects[dtpName] = CurrExpectNo;
+                            WXMsgBox(string.Format("[{1}]第{0}期", CurrExpectNo, dtpName), string.Format("{0},{1}",txt,"刚登录第一期不自动发送，如果有需要请手动点击发送！"));
                         }
 
                     }
                     refreshWindow(dtp, ic, txt,strList);
 
                 }
-                else
+                else//非新数据
                 {
-                    if (!inWorkTimeRange())
+                    //if (!inWorkTimeRange())
+                    //{
+                    //    return;
+                    //}
+                    //如果存在的字典里面包含了本彩种，但是本彩种没有最新的投注记录
+                    if(dicExistInsts.ContainsKey(dtpName) && !dicExistInsts[dtpName].ContainsKey(CurrExpectNo) && dicExistInsts.Count>0)//非第一次
                     {
-                        return;
+                        if (txt.Trim().Length > 0)
+                        {
+                            this.Send_Data(dtp, CurrExpectNo.ToString(), txt);
+                            if (SendMsgFromWebRequest)
+                            {
+                                tm.Interval = defaultInterVal(tm.dtp, true);
+                                WXMsgBox("补发送数据", txt);
+                            }
+                        }
+                        //return;
                     }
                     if (CurrTime.TimeOfDay < dtp.ReceiveStartTime.TimeOfDay)//如果在9点前
                     {
                         //下一个时间点是9：08
                         //DateTime ReceiveStartTime = dtp.ReceiveStartTime;
                         DateTime TargetTime = DateTime.Today.AddHours(dtp.ReceiveStartTime.Hour).AddMinutes(dtp.ReceiveStartTime.Minute);
-                        tm.Interval = (int)TargetTime.Subtract(CurrTime).TotalMilliseconds + rndtime;
+                        tm.Interval = Math.Max(30*1000,(int)TargetTime.Subtract(CurrTime).TotalMilliseconds) + rndtime;
                         DateTime nextTime = DateTime.Now.AddMilliseconds(tm.Interval);
                         KnockEgg();//敲蛋
                         Application.DoEvents();
-                        MySleep(5000);//暂停，等发送消息
-                        reLoadWebBrowser();//开百度网页，睡觉
+                        MySleep(10*1000);//暂停，等发送消息
+                        //reLoadWebBrowser();//开百度网页，睡觉
                         timers_RequestInst[tm.dtp.DataType].Interval = tm.Interval;//实际把计时器间隔往后推
-                        Program.wxl.Log(string.Format("下次启动时间！"), nextTime.ToString("yyyyMMdd HH:mm:ss"), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                        WXMsgBox(string.Format("下次启动时间！"), nextTime.ToString("yyyyMMdd HH:mm:ss"));
                     }
                     else
                     {
@@ -2051,7 +2244,78 @@ ClearMyTracksByProcess 255
                 }).Start();
             }
         }
+        static Dictionary<string,MatchGroupClass> AllMatchList;
+        bool judgeAutoABS(SelectTimeInstClass sti)
+        {
+            //只有在命中后判定？
+            /*一旦命中后就判定是否需要设置紧急制动，其他情况不去判定。
+             * 
+             */
+            try
+            {
+                //if (sti.List[0].times > 1)
+                //    return false;
+                if(AllMatchList == null)
+                {
+                    AllMatchList = new Dictionary<string,MatchGroupClass>();
+                }
 
+                //跳过第一个
+                sti.List.Skip(1).ToList().ForEach(a => {
+                    if (!AllMatchList.ContainsKey(a.ExpectCode))//保存所有的matchlist
+                        AllMatchList.Add(a.ExpectCode, a);
+                });
+                Dictionary<String, MatchGroupClass> useDic = AllMatchList.ToDictionary(a => a.Key, a => a.Value);
+                useDic.Add(sti.List[0].ExpectCode,sti.List[0]);
+                List<MatchGroupClass> mlist = useDic.Values.OrderByDescending(a=>a.ExpectCode).Take(500).OrderBy(a=>a.ExpectCode).ToList();//取前500次
+                //DataTable dt = WaveDataCheckClass.CreateStandardDataTable();//建立一个标准模板
+                double initValue = 400;//单利倍数，50对应20000，一份单位为1
+                double currValue = initValue;
+                int currWeight = 0;
+                int idx = 0;
+                double odds = Program.gc.Odds;
+                List<TimeSerialPoint<double>> vals = new List<TimeSerialPoint<double>>();
+                for(int i = 0;i<mlist.Count;i++ )//模拟单利
+                {
+                    idx = i;
+                    MatchGroupClass mgc = mlist[i];
+
+                    double cost = mgc.chipCount * 1;
+                    double gained = mgc.MatchCnt * odds;
+                    double profit = gained - cost;
+                    currValue += profit;
+                    currWeight += mgc.chipCount;
+                    vals.Add(new TimeSerialPoint<double>(currWeight,currValue));
+                }
+                WaveDataCheckResultClass<double> ret = WaveDataCheckClass.getCheckResult<double>(vals, 400, NetSelectBasicValue.MinValue, 10);
+                DataTable dt = ret.SamplestTable();
+                WXMsgBox(dt, "Weight", "Net");
+                WXMsgBox(string.Format("{0}[{1}]最后一个波段信息",sti.DataType,sti.Expect),ret.LastArea?.Descript());
+                if (!ret.LastArea.IsRaise)//如果是向下的，直接跳过，不可能止盈
+                {
+                    return false;
+                }
+                if(ret.LastArea.Len<5)//如果小于5轮，也无法判断是否需要止盈
+                {
+                    return false;
+                }
+                mlist = mlist.Skip(ret.LastArea.StartIndex).ToList();//最后一段数据
+                if(ret.LastArea.DrawDownRate > 0.2)//大于20%，立即止盈
+                {
+                    return true;
+                }
+                if (mlist.Count < 5)//大于5期
+                {
+                    return false;
+                }
+
+            }
+            catch
+            {
+                return false;
+            }            
+            return false;
+        }
         void refreshWindow(DataTypePoint dtp, RequestClass ic, string txt, string strList)
         {
             this.toolStripStatusLabel2.Text = DateTime.Now.ToLongTimeString();
@@ -2075,12 +2339,12 @@ ClearMyTracksByProcess 255
                 Application.DoEvents();
             }
         }
-        bool inWorkTimeRange()
+        bool inWorkTimeRange(string dtpName = null)
         {
             DateTime startTime;
             DateTime endTime;
             DateTime currTime = DateTime.Now;
-            foreach(DataTypePoint dtp in GlobalClass.TypeDataPoints.Values)
+            foreach (DataTypePoint dtp in dtpName==null?GlobalClass.TypeDataPoints.Values:GlobalClass.TypeDataPoints.Where(a=>a.Key == dtpName).Select(a=>a.Value))
             {
                 DateTime useStartTime = dtp.ReceiveStartTime.AddHours(-1 * dtp.DiffHours).AddMinutes(-1 * dtp.DiffMinutes);
                 DateTime useEndTime = (dtp.ReceiveEndTime == DateTime.MinValue ? DateTime.Parse("23:59:00") : dtp.ReceiveEndTime).AddHours(-1 * dtp.DiffHours).AddMinutes(-1 * dtp.DiffMinutes);
@@ -2099,6 +2363,7 @@ ClearMyTracksByProcess 255
                         currDayEndTime = currDayEndTime.AddDays(1);
                     }
                 }
+                
                 if(currTime>currDayStartTime && currTime<currDayEndTime)//任何一个彩种，只要当前时间介于开始时间和结束时间之间，返回真，否者
                 {
                     return true;
@@ -2113,7 +2378,7 @@ ClearMyTracksByProcess 255
             return ret;
         }
         WebRule rule = null;
-        private void Send_Data(DataTypePoint dtp,string strText)
+        private void Send_Data(DataTypePoint dtp,string currExpect,string strText)
         {
             try
             {
@@ -2121,7 +2386,10 @@ ClearMyTracksByProcess 255
                 //if (this.txt_Insts.Text.Trim().Length == 0) return;
                 //string strText = dicExistInsts[dtpName].Last().Value;
                 if (rule == null)
+                {
                     rule = WebRuleBuilder.Create(Program.gc);
+                    webBrowser1.ObjectForScripting = wr;
+                }
                 //if (!ScriptLoaded)
                 AddScript(lotteryDocIE ?? HomeDocIE, lotteryDocFireFox ?? HomeDocFireFox);
                 string msg = rule.IntsToJsonString(dtpName, strText, Program.gc.ChipUnit);
@@ -2156,7 +2424,7 @@ ClearMyTracksByProcess 255
                 //}
                 if (1 == 1)
                 {
-                    bool succ = sendInsts(this.NewExpects.First().Value.ToString(),
+                    bool succ = sendInsts(currExpect,
                         msg,
                         dtpName,
                         strText, 
@@ -2229,10 +2497,31 @@ ClearMyTracksByProcess 255
                 this.toolStripStatusLabel1.Text = "手动下注";
                 this.Cursor = Cursors.WaitCursor;
             }
-            string dtpName = this.NewExpects.First().Key;
+            
             if (this.txt_Insts.Text.Trim().Length == 0)
                 return;
-            if(rule==null)
+            string dtpName = null;
+            //如果有对应的期号等于或者小于输入框内期号，对应的类型就是我们要找的类型
+            var items = this.NewExpects.Where(a =>
+            {
+                if (a.Value.ToString() == this.txt_ExpectNo.Text || (a.Value + 1).ToString() == this.txt_ExpectNo.Text)
+                    return true;
+                return false;
+            });
+            if(items.Count()>0)
+            {
+                dtpName = items.First().Key;
+            }
+            if(dtpName == null)
+            {
+                dtpName = ddl_datatype.SelectedValue?.ToString();
+            }
+            if (dtpName == null)
+            {
+                MessageBox.Show("未获得对应的数据类型，可能是还没接收到任何数据！请手动选择要发送数据类型！");
+                return;
+            }
+            if (rule==null)
                 rule = WebRuleBuilder.Create(Program.gc);
             string strHost = string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost);
             string lotterUrl = string.Format(Program.gc.LotteryPage,strHost);
@@ -2241,15 +2530,15 @@ ClearMyTracksByProcess 255
                 
                 if (isIE)
                 {
-                    if (webBrowser1.Url.ToString() != lotterUrl)
-                    {
-                        lock (webBrowser1)
-                        {
-                            webBrowser1.Navigate(lotterUrl);
-                        }
+                    //if (webBrowser1.Url.ToString() != lotterUrl)
+                    //{
+                    //    lock (webBrowser1)
+                    //    {
+                    //        webBrowser1.Navigate(lotterUrl);
+                    //    }
                         
-                    }
-                    lotteryDocIE = webBrowser1.Document;
+                    //}
+                    //lotteryDocIE = webBrowser1.Document;
                 }
                 else
                 {
@@ -2430,7 +2719,7 @@ ClearMyTracksByProcess 255
             {
                 return noRecVal*1000;
             }
-            return 1000*(9* noRecVal + rdm); 
+            return 1000*(8* noRecVal + rdm); 
             
         }
        
@@ -2455,6 +2744,22 @@ ClearMyTracksByProcess 255
             //    });
             //    return succ;
             //}
+            bool needLeftFill0 = false;
+            DataTypePoint dtp =  GlobalClass.TypeDataPoints[dtpName];
+            string sendExpect = expectNo;
+            if (dtp.ClientSerLen >0)
+            {
+                int len = expectNo.Length;
+
+                if(len<dtp.ExpectCodeDateLong+dtp.ClientSerLen)
+                {
+                    string strDate = expectNo.Substring(0, dtp.ExpectCodeDateLong);
+                    string strSer = expectNo.Substring(dtp.ExpectCodeDateLong);
+                    sendExpect = strDate + strSer.PadLeft(dtp.ClientSerLen, '0');
+                    needLeftFill0 = true;
+                }
+            }
+            sendExpect = sendExpect.Substring(GlobalClass.TypeDataPoints[dtpName].ClientExpectCodeSubIndex);
             string msg = EncodingMsg;
             try
             {
@@ -2464,7 +2769,8 @@ ClearMyTracksByProcess 255
                     (lotteryDocIE ?? HomeDocIE).InvokeScript("SendMsg",
                         new object[]
                         {
-                    expectNo.Substring(GlobalClass.TypeDataPoints.First().Value.ClientExpectCodeSubIndex),
+                        sendExpect
+                    ,
                     msg,
                     Program.gc.ClientAliasName,
                     Program.gc.WXLogNoticeUser,
@@ -2473,14 +2779,15 @@ ClearMyTracksByProcess 255
                     string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost),
                     int.Parse(ruleid),
                     string.Format(Program.gc.LoginUrlModel,Program.gc.LoginDefaultHost),
-                    dtpName
+                    dtpName,
+                    expectNo
                             });
                 }
                 else
                 {
                     AutoJSContext context = new AutoJSContext(geckoWebBrowser1.Window);
                     string jstxt = string.Format("SendMsg('{0}','{1}','{2}','{3}','{4}','{5}','{6}',{7});",
-                        expectNo.Substring(GlobalClass.TypeDataPoints.First().Value.ClientExpectCodeSubIndex),
+                        sendExpect,
                         msg,
                         Program.gc.ClientAliasName,
                         Program.gc.WXLogNoticeUser,
@@ -2544,7 +2851,7 @@ ClearMyTracksByProcess 255
                 }
                 else
                 {
-                    Program.wxl.Log(string.Format("[{0}]程序们，再坚持一会",Program.gc.ClientAliasName), "让其他屌丝们干完事了一起睡！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                    WXMsgBox(string.Format("[{0}]程序们，再坚持一会",Program.gc.ClientAliasName), "让其他屌丝们干完事了一起睡！");
 
                     //ReadySleep = false;
                     //MySleep(2 * 60 * 1000);
@@ -2978,6 +3285,11 @@ ClearMyTracksByProcess 255
                     return;
                 if (bdt.dt.Rows.Count < index + 1)
                 {
+                    MessageBox.Show("请选择有效记录撤销！");
+                    return;
+                }
+                if(MessageBox.Show("确定撤销选择的记录?","撤销",MessageBoxButtons.YesNo) == DialogResult.No)
+                {
                     return;
                 }
                 BetRecordClass rec = bdt.otherObject.Data[index];
@@ -2993,6 +3305,98 @@ ClearMyTracksByProcess 255
         private void refreshBetRecToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             getBetRecInfo();
+        }
+
+        private void setLoginedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            setLogined();
+        }
+        public static void WXMsgBox(string title, string msg)
+        {
+            //MessageBox.Show(string.Format("{0}:{1}",title,msg));
+            //return;
+            Program.wxl.Log(title, msg, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+        }
+        public static void WXMsgBox(DataTable dt,string XVal,String YVal)
+        {
+            string msg = getImage64String(dt,XVal,YVal);
+            if(msg == null)
+            {
+                return;
+            }
+            Program.wxl.LogImage(msg, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+        }
+
+        public static string getImage64String(DataTable data,string XVal,string YVal)
+        {
+            MemoryStream ms = new MemoryStream();
+            try
+            {
+                Chart chart = chart1;// new Chart();
+                chart.Dock = DockStyle.Fill;
+                //chart.Width = 800;
+                //chart.Height = 600;
+                chart.Series.Clear();
+                Series sr = new Series(data.TableName);
+                sr.ChartType = SeriesChartType.Line;
+                
+                DataView dt = new DataView(data);
+                //chart.DataSource = dt;
+                sr.Points.DataBindXY(dt, XVal,dt,YVal);
+                chart.Series.Add(sr);
+                //sr.Points.DataBindY(dt, YVal);
+                chart.Visible = true;
+                chart.Show();
+                chart.SaveImage(ms, ChartImageFormat.Jpeg);
+                
+                byte[] arr = new byte[ms.Length];
+                ms.Read(arr, 0, (int)ms.Length);                
+                string ret = Convert.ToBase64String(arr);
+
+                return ret;
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                ms.Close();
+            }
+
+            return null;
+        }
+
+
+        /// <summary>
+        /// 将图片转换成base64字符串。
+        /// </summary>
+        /// <param name="imagefile">需要转换的图片文件。</param>
+        /// <returns>base64字符串。</returns>
+        public string GetBase64FromImage(string imagefile)
+        {
+            string strbaser64 = "";
+            
+            try
+            {
+                Bitmap bmp = new Bitmap(imagefile);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    byte[] arr = new byte[ms.Length];
+                    ms.Position = 0;
+                    ms.Read(arr, 0, (int)ms.Length);
+                    ms.Close();
+
+                    strbaser64 = Convert.ToBase64String(arr);
+                }
+            }
+            catch (Exception)
+            {
+                throw new Exception("Something wrong during convert!");
+            }
+
+            return strbaser64;
         }
     }
 
@@ -3031,5 +3435,9 @@ ClearMyTracksByProcess 255
             
         }
     }
+
+
+    
+
     
 }

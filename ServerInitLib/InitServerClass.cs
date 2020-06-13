@@ -99,11 +99,13 @@ namespace WolfInv.com.ServerInitLib
             {
                 StragRunPlanClass<T> spc = list[key];
                 if (AllStatusStrags.SelectMany(t => t.Value.UseSPlans.Select(a => a.GUID)).Contains(key))//支持后续加入计划，只要状态合适都可以加入
+                {
+                    ToLog("所有计划列表中根据GUID",string.Format("存在重复的计划",spc.Plan_Name));
                     continue;
+                }
                 if (!AllStrags.ContainsKey(spc.PlanStrag.GUID))
                 {
                     ToLog(string.Format("计划{0}非法",spc.PlanStrag.StragScript), "计划所对应策略已注销");
-                    
                     continue;
                 }
                 BaseStragClass<T> sc = AllStrags[spc.PlanStrag.GUID];
@@ -152,6 +154,7 @@ namespace WolfInv.com.ServerInitLib
                         csg = new CalcStragGroupClass<T>(GlobalClass.TypeDataPoints[spc.UseDataSource]);
                         if (!AllStatusStrags.ContainsKey(strKey))
                         {
+                            csg.GrpName = strKey; //增加名称，供后面调试使用。
                             AllStatusStrags.Add(strKey, csg);
                         }
                     }
@@ -179,7 +182,7 @@ namespace WolfInv.com.ServerInitLib
                 }
                 //csg = AllStatusStrags[strKey];
                 csg.UseSPlans.Add(spc);
-                ToLog("加入计划", spc.StragDescript);
+                ToLog("加入计划" + strKey, spc.StragDescript);
                 csg.UseStrags.Add(sc.GUID,sc);
                 csg.UseSerial = sc.BySer;
                 //ToLog("初始化待计算的计划", string.Format("准备运行的计划数为:{0};", AllStatusStrags.Count));
