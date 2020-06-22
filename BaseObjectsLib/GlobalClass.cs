@@ -993,6 +993,23 @@ namespace WolfInv.com.BaseObjectsLib
             }
             return new string[0];
         }
+        /// <summary>
+        /// AppMode
+        /// 0:自由模式，可自定义资产单元风险额度进行投注
+        /// 1:App模式，只能跟随对应的账号，根据该账号各资产单元风险额度按比例进行投注，
+        /// 一些主账号风险额度设得很小的资产单元，因本账号初始资金较小，同比例计算后可能为0，将永远不会投注。
+        /// </summary>
+        public int AppMode
+        {
+            get;set;
+        }
+
+        public int RiskTimes
+        {
+            get;set;
+        }
+
+        public int IsAdmin{ get; set; }
 
         ////public ExpectData NewestExpectData
         ////{

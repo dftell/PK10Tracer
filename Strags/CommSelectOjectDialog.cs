@@ -78,5 +78,18 @@ namespace WolfInv.com.Strags
             this._selectedObjects = new T[]{AllList[guid]};
             this.Close();
         }
+
+        private void dg_Datas_DoubleClick(object sender, EventArgs e)
+        {
+            if (this.dg_Datas.CurrentRow.Index < 0)
+                return;
+            string guid = this.dg_Datas.CurrentRow.Cells[0].Value.ToString();
+            if (!AllList.ContainsKey(guid))
+            {
+                return;
+            }
+            this._selectedObjects =new T[] { AllList[guid] };
+            this.Close();
+        }
     }
 }

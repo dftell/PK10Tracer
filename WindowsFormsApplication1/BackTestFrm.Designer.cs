@@ -74,7 +74,6 @@ namespace BackTestSys
             this.btn_export = new System.Windows.Forms.Button();
             this.btn_startTest = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.runPlanPicker1 = new WolfInv.com.ExchangeLib.RunPlanPicker();
             this.txt_LearnCnt = new System.Windows.Forms.TextBox();
             this.label31 = new System.Windows.Forms.Label();
             this.txt_AllowMaxHoldTimeCnt = new System.Windows.Forms.TextBox();
@@ -175,6 +174,7 @@ namespace BackTestSys
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
+            this.runPlanPicker1 = new WolfInv.com.ExchangeLib.RunPlanPicker();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -442,17 +442,6 @@ namespace BackTestSys
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "回测策略设置";
             // 
-            // runPlanPicker1
-            // 
-            this.runPlanPicker1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.runPlanPicker1.Location = new System.Drawing.Point(160, 10);
-            this.runPlanPicker1.Margin = new System.Windows.Forms.Padding(6);
-            this.runPlanPicker1.Name = "runPlanPicker1";
-            this.runPlanPicker1.Plans = null;
-            this.runPlanPicker1.Size = new System.Drawing.Size(190, 21);
-            this.runPlanPicker1.TabIndex = 31;
-            // 
             // txt_LearnCnt
             // 
             this.txt_LearnCnt.Location = new System.Drawing.Point(78, 36);
@@ -460,7 +449,7 @@ namespace BackTestSys
             this.txt_LearnCnt.Name = "txt_LearnCnt";
             this.txt_LearnCnt.Size = new System.Drawing.Size(35, 21);
             this.txt_LearnCnt.TabIndex = 30;
-            this.txt_LearnCnt.Text = "100";
+            this.txt_LearnCnt.Text = "180";
             // 
             // label31
             // 
@@ -681,7 +670,7 @@ namespace BackTestSys
             this.txt_reviewExpCnt.Name = "txt_reviewExpCnt";
             this.txt_reviewExpCnt.Size = new System.Drawing.Size(35, 21);
             this.txt_reviewExpCnt.TabIndex = 5;
-            this.txt_reviewExpCnt.Text = "28";
+            this.txt_reviewExpCnt.Text = "180";
             // 
             // label4
             // 
@@ -1586,6 +1575,17 @@ namespace BackTestSys
             this.toolStripSplitButton1.Name = "toolStripSplitButton1";
             this.toolStripSplitButton1.Size = new System.Drawing.Size(16, 41);
             this.toolStripSplitButton1.Text = "toolStripSplitButton1";
+            // 
+            // runPlanPicker1
+            // 
+            this.runPlanPicker1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.runPlanPicker1.Location = new System.Drawing.Point(160, 10);
+            this.runPlanPicker1.Margin = new System.Windows.Forms.Padding(6);
+            this.runPlanPicker1.Name = "runPlanPicker1";
+            this.runPlanPicker1.Plans = null;
+            this.runPlanPicker1.Size = new System.Drawing.Size(190, 21);
+            this.runPlanPicker1.TabIndex = 31;
             // 
             // BackTestFrm
             // 

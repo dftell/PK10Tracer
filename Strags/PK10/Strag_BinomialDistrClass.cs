@@ -57,14 +57,32 @@ namespace WolfInv.com.Strags
 
         public override List<ChanceClass> getChances(BaseCollection sc, ExpectData ed)
         {
-            InitAllPeaks();//初始化峰值列表
+            int minRows = this.CommSetting.GetGlobalSetting().MutliColMinTimes;
             List<ChanceClass> ret = new List<ChanceClass>();
+            Dictionary<int, List<int>> preReduceCnts = Strag_LongHoldStartReduceClass.getReduceTimes(this.UsingDpt, sc, minRows, 1, 2,1, true);//只检查上期
+            if(preReduceCnts.Count < 2)//如果整体基本没有变化，直接排除所有
+            {
+                //return ret;
+            }
+            int checkTerms = 10;
+            int checkStringLen = 3;
+            int minHoldTimes = 5;
+            Dictionary<int, List<int>> colReduceCnts = Strag_LongHoldStartReduceClass.getReduceTimes(this.UsingDpt, sc, minRows, checkTerms, checkStringLen, minHoldTimes, true);
+            InitAllPeaks();//初始化峰值列表            
             if (sc == null || sc.Table == null || sc.Table.Rows.Count < this.ReviewExpectCnt)
                 return ret;
             int AllItemCnt = AllBinomPeaks.Count;
             Dictionary<string, Dictionary<int, int>> AllList = new Dictionary<string, Dictionary<int, int>>();
             for (int i = 0; i < 10; i++)//遍历各车/各名次
             {
+                if (!colReduceCnts.ContainsKey(i))
+                {
+                    //continue;
+                }
+                if (colReduceCnts.ContainsKey(i) && (colReduceCnts[i].Count ==0 || colReduceCnts[i].Count > checkTerms/5 || (colReduceCnts[i].Count>0 && colReduceCnts[i][0] > checkTerms/2)))//如果太少，太多，太远都不行
+                {
+                    //continue;
+                }
                 string strCol = string.Format("{0}", (i + 1) % 10);
                 //string strVal = ed.ValueList[i];
                 Dictionary<int, int> ValCntItems = new Dictionary<int, int>();

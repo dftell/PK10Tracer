@@ -15,6 +15,8 @@ namespace WolfInv.com.BaseObjectsLib
         }
         public abstract List<Dictionary<int, string>> getNoDispNums(int reviewCnt);
         public abstract BaseCollection<T> getSerialData(int reviewCnt, bool ByNo) ;
+
+        
     }
 
     public interface ICommExpectListProcess<T> where T : TimeSerialData

@@ -78,6 +78,7 @@ namespace WolfInv.com.ExchangeLib
                     return PlanStrag.StragLotteryName;
                 return null;
             }
+            
         }
 
         [DisplayName("策略名称"),

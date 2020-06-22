@@ -271,6 +271,10 @@ namespace WolfInv.com.ExchangeLib
 
             get
             {
+                if(ExpectMoneyLine == null)
+                {
+                    ExpectMoneyLine = new Dictionary<string, double>();
+                }
                 lock (ExpectMoneyLine)
                 {
                     if (MoneyChangeTable == null || MoneyChangeTable.Rows.Count < ExpectMoneyLine.Count)

@@ -95,7 +95,9 @@ namespace ExchangeTermial
             Program.gc.ClientPassword = ret.BaseInfo.Password;
             Program.gc.Odds = ret.BaseInfo.Odds;
             Program.gc.WXLogNoticeUser = ret.BaseInfo.WXToUser;
-
+            Program.gc.AppMode = ret.BaseInfo.AppMode;
+            Program.gc.RiskTimes = ret.BaseInfo.RiskTimes;
+            Program.gc.IsAdmin = ret.BaseInfo.IsAdmin;
             Program.gc.ClientAliasName =  string.IsNullOrEmpty(ret.BaseInfo.AliasName)?ret.BaseInfo.UserCode:ret.BaseInfo.AliasName;
             XmlDocument xmldoc = new XmlDocument();
             try

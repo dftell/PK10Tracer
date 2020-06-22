@@ -59,11 +59,14 @@ namespace WolfInv.com.WebCommunicateClass
         public double Odds;
         public UserBaseInfo ParentInfo;
         public int GroupId;
-        public bool IsAdmin;
+        public int IsAdmin;//是否是管理员
         public string WXToUser;
         public string AssetConfig;
         public string AliasName;
         public string WebLoginId;
         public string WebLoginPwd;
+        public int AppMode;//0:自由模式，可根据自有配置投注，1:App模式，该模式下没有修改配置的权限，只能跟随主账户按对应比例投注
+        public int RiskTimes;//风险倍数
+        
     }
 }

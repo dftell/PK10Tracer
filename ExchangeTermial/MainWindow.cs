@@ -115,6 +115,9 @@ namespace ExchangeTermial
         int UseAmt = 0;
         string reqChargeAmt = "";
         double _currVal;
+        bool AppMode = true;
+        double InitCash = 0;
+        bool IsAdmin = false;
         double CurrVal
         {
             get
@@ -149,13 +152,15 @@ namespace ExchangeTermial
         ClientExchanger ce;
         bool SendMsgFromWebRequest;
         bool NeedLoadGameInfo;
+        bool LessThanWarnLine;
         public MainWindow()
         {
             InitializeComponent();
             ce = new ClientExchanger(webBrowser1,Program.gc);
             SendMsgFromWebRequest = (Program.gc.SendMsgFromWebRequest == "1");
-            
-            
+            AppMode = Program.gc.AppMode==1 ? true : false;
+            InitCash = Program.gc.RiskTimes * 400;
+            IsAdmin = Program.gc.IsAdmin == 1;
         }
 
         public void setUser(UserBaseInfo bi)
@@ -457,6 +462,25 @@ ClearMyTracksByProcess 255
             if (amt.Succ)
             {
                 this.CurrVal = amt.CurrMoney;
+                if (this.CurrVal < 0.25 * InitCash)
+                {
+                    if (!LessThanWarnLine)//只预告一次
+                    {
+                        WXMsgBox(string.Format("当前账户[{0}]余额预警!", Program.gc.ClientAliasName), string.Format("当前账户余额为{0}小于初始金额的25%，请考虑补充资金.", this.CurrVal));
+                    }
+                    LessThanWarnLine = true;
+                }
+                else
+                {
+                    LessThanWarnLine = false;
+                }
+                if (this.CurrVal > 2 * InitCash)
+                {
+                    
+                        WXMsgBox(string.Format("当前账户[{0}]余额提示!", Program.gc.ClientAliasName), string.Format("当前账户余额为{0}大于初始金额的2倍，请考虑提现！", this.CurrVal));
+              
+                    
+                }
                 this.RefreshStatus();
             }
             else
@@ -473,6 +497,7 @@ ClearMyTracksByProcess 255
         {
 
         }
+        
 
         void AfterSendMsg(WebBetReturnInfoClass wbri)
         {
@@ -501,10 +526,32 @@ ClearMyTracksByProcess 255
                     dicExistInsts[wbri.dtp].Add(currExpect, wbri.SendData);
                 }
                 this.timers_RequestInst[wbri.dtp].Interval = defaultInterVal(dtp, true);
-                new Task(() =>
+                bool needNotice = false;
+                CurrVal = wbri.restAmount;
+                if (IsAdmin)
                 {
-                    WXMsgBox(string.Format("[{3}]第{2}期投入:{0}元，当前余额:{1}元", wbri.betAmt, wbri.restAmount, currExpect, wbri.dtp), wbri.SendData);
-                }).Start();
+                    needNotice = true;
+                }
+                else
+                {
+                    if(CurrVal<0.25*InitCash)
+                    {
+                        needNotice = true;
+                    }
+                }
+                if (needNotice)
+                {
+                    new Task(() =>
+                    {
+                        WXMsgBox(string.Format("[{3}]第{2}期投入:{0}元，当前余额:{1}元", wbri.betAmt, wbri.restAmount, currExpect, wbri.dtp), wbri.SendData);
+                    }).Start();
+                }
+                double currBetAmt = 0;
+                double.TryParse(wbri.betAmt,out currBetAmt);
+                if(currBetAmt > 0.05*InitCash)
+                {
+                    WXMsgBox(string.Format("[{3}]第{2}期投入:{0}元,金额较大，超过初始金额的5%，当前余额:{1}元，请关注资金变动，如余额较小，请考虑充值，保证账户余额足够！", wbri.betAmt, wbri.restAmount, currExpect, wbri.dtp), wbri.SendData);
+                }
                 this.toolStripStatusLabel3.Text = wbri.SendData;
                 ////new Task(() =>
                 ////{
@@ -527,7 +574,7 @@ ClearMyTracksByProcess 255
                 WXMsgBox(string.Format("账号{0}登录{1}失败",Program.gc.ClientUserName,Program.gc.ForWeb), wic.Msg);
                 return;
             }
-            WXMsgBox(Program.gc.ClientAliasName, string.Format("登陆{0}成功！", Program.gc.ForWeb));
+            //WXMsgBox(Program.gc.ClientAliasName, string.Format("登陆{0}成功！", Program.gc.ForWeb));
             setLogined();
             try
             {
@@ -542,7 +589,7 @@ ClearMyTracksByProcess 255
                 //getGameInfo(70);
                 Application.DoEvents();
                 MySleep(2 * 1000);
-                WXMsgBox(string.Format("账号{0}登录{1}成功", Program.gc.ClientUserName, Program.gc.ForWeb), string.Format("当前余额:{0}元", CurrVal));
+                WXMsgBox(string.Format("账号{0}登录{1}成功", Program.gc.ClientUserName, Program.gc.ForWeb), string.Format("当前余额:{0}元,账号模式为{1},风险规模为{2}倍。", CurrVal,AppMode?"App模式":"自由投资模式",Program.gc.RiskTimes));
             }
             catch
             {
@@ -1826,6 +1873,7 @@ ClearMyTracksByProcess 255
                 string dtpName = dtp.DataType;
                 if (RefreshTimes >0 && !inWorkTimeRange())
                 {
+                    WXMsgBox(Program.gc.ClientAliasName, string.Format("当日交易结束，资金余额:{0}",CurrVal));
                     if(SendMsgFromWebRequest)
                     {
                         if(!InSleep)//开着百度睡觉，把登录状态改为false
@@ -1945,7 +1993,12 @@ ClearMyTracksByProcess 255
                 
                 CommunicateToServer wc = new CommunicateToServer();
                 string testExpect = "";
-                CommResult cr = wc.getRequestInsts<RequestClass>(string.Format("{0}/{1}",dtp.InstHost,string.Format("pk10/app/requestInsts.asp?Dtp={0}&testExpect={1}",dtp.DataType, testExpect)));
+                string strSubMode = "{0}/pk10/app/requestInsts.asp?Dtp={1}&App={2}&webcode={3}&loginname={4}&testExpect={5}";
+                string strMainMode = "{0}/pk10/app/requestInsts.asp?Dtp={1}&testExpect={2}";
+                string strRequestUrl = "";
+                strRequestUrl = string.Format(strSubMode, dtp.InstHost, dtp.DataType,AppMode?1:0,Program.gc.ForWeb,Program.gc.ClientUserName, testExpect);
+                //CommResult cr = wc.getRequestInsts<RequestClass>(string.Format("{0}/{1}", dtp.InstHost, string.Format("pk10/app/requestInsts.asp?Dtp={0}&testExpect={1}", dtp.DataType, testExpect)));
+                CommResult cr = wc.getRequestInsts<RequestClass>(strRequestUrl);
                 if (!cr.Succ)
                 {
                     this.statusStrip1.Items[0].Text = cr.Message;
@@ -2044,7 +2097,8 @@ ClearMyTracksByProcess 255
                             NeedSaveAssetConfig = true;
                             
                             Program.gc.AssetUnits[a].EmergencyStop = 1;
-                            WXMsgBox(string.Format("彩种:{0}第{1}期", dtpName, CurrExpectNo), "因行情运行至高位，自动启动ABS，下期命中后将自动停止投注，将当前值恢复到0！");
+                            if(IsAdmin)
+                                WXMsgBox(string.Format("彩种:{0}第{1}期", dtpName, CurrExpectNo), "因行情运行至高位，自动启动ABS，下期命中后将自动停止投注，将当前值恢复到0！");
                         }
                         if (b != c.ReturnCnt)
                         {
@@ -2063,17 +2117,22 @@ ClearMyTracksByProcess 255
                             strDiff = string.Format("资产单元{0}信号由{1}改为{2},当前基本值为{3}!{4}", AssetUnitList[a], b, c.ReturnCnt,Program.gc.AssetUnits[a].value,string.IsNullOrEmpty(autoSetting)?"":autoSetting);
                             NeedSaveAssetConfig = true;
                         }
-                        new Task(() =>
+                        if (IsAdmin)
                         {
-                            Program.wxl.Log(string.Format("{0};{1}", strList, strDiff), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
-                        }).Start();
+                            new Task(() =>
+                            {
+                                Program.wxl.Log(string.Format("{0};{1}", strList, strDiff), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                            }).Start();
+                        }
 
                     };
-                    txt = ic.getUserInsts(Program.gc,dtp,ic.Expect,Program.gc.ForWeb,CurrVal,
-                        (dp,ec,aic)=>
-                        {
+                    if (!AppMode)
+                    {
+                        txt = ic.getUserInsts(Program.gc, dtp, ic.Expect, Program.gc.ForWeb, CurrVal,
+                            (dp, ec, aic) =>
+                            {
 
-                            CommunicateToServer cts = new CommunicateToServer();
+                                CommunicateToServer cts = new CommunicateToServer();
                             /*
                              "pk10/app/getwaveselecttimeamount.asp?
                              type={0}
@@ -2086,36 +2145,41 @@ ClearMyTracksByProcess 255
                              &StopStepLen={7}
                              &StopPower={8}";
                 */
-                            string strTestExpect = "";
-                           // string selectTimeAmtUrlModel = "pk10/app/getwaveselecttimeamount.asp?type={0}&expect={1}&cnt={2}&defaultReturnValue={3}&AutoResumeDefaultValue={4}&EmergencyStop={5}&StopIgnoreLength={6}&StopStepLen={7}&StopPower={8}";
+                                string strTestExpect = "";
+                            // string selectTimeAmtUrlModel = "pk10/app/getwaveselecttimeamount.asp?type={0}&expect={1}&cnt={2}&defaultReturnValue={3}&AutoResumeDefaultValue={4}&EmergencyStop={5}&StopIgnoreLength={6}&StopStepLen={7}&StopPower={8}";
                             CommResult cs = wc.getRequestInsts<SelectTimeInstClass>(string.Format("{0}/{1}", dtp.InstHost, string.Format(
-                                selectTimeAmtUrlModel, 
-                                dp, 
-                                ec, 
-                                aic.CurrTimes,
-                                aic.DefaultReturnTimes,
-                                aic.AutoResumeDefaultReturnValue,
-                                aic.EmergencyStop,
-                                aic.StopIgnoreLength,
-                                aic.StopStepLen,
-                                aic.StopPower,
-                                strTestExpect
-                                )));
-                            if (!cs.Succ)
-                            {
-                                this.statusStrip1.Items[0].Text = cr.Message;
-                                WXMsgBox(dtpName, "接收择时指令异常:" + cr.Message);
-                                return null;
-                            }
-                            if(cs.Cnt != 1)
-                            {
-                                this.statusStrip1.Items[0].Text = "择时信息异常！";
-                                WXMsgBox(dtpName, "择时信息异常");
-                                return null;
-                            }
-                            SelectTimeInstClass sti = cs.Result[0] as SelectTimeInstClass;
-                            return sti;
-                        });
+                                    selectTimeAmtUrlModel,
+                                    dp,
+                                    ec,
+                                    aic.CurrTimes,
+                                    aic.DefaultReturnTimes,
+                                    aic.AutoResumeDefaultReturnValue,
+                                    aic.EmergencyStop,
+                                    aic.StopIgnoreLength,
+                                    aic.StopStepLen,
+                                    aic.StopPower,
+                                    strTestExpect
+                                    )));
+                                if (!cs.Succ)
+                                {
+                                    this.statusStrip1.Items[0].Text = cr.Message;
+                                    WXMsgBox(dtpName, "接收择时指令异常:" + cr.Message);
+                                    return null;
+                                }
+                                if (cs.Cnt != 1)
+                                {
+                                    this.statusStrip1.Items[0].Text = "择时信息异常！";
+                                    WXMsgBox(dtpName, "择时信息异常");
+                                    return null;
+                                }
+                                SelectTimeInstClass sti = cs.Result[0] as SelectTimeInstClass;
+                                return sti;
+                            });
+                    }
+                    else
+                    {
+                        txt = ic.Insts;
+                    }
                     string[] insts = txt.Trim().Replace("+", " ").Split(' ');
                     long AllSum = insts.Where(a => a.Trim().Length > 1).ToList().Select(a => long.Parse(a.Trim().Split('/')[2])).Sum();
                     
@@ -2149,7 +2213,7 @@ ClearMyTracksByProcess 255
                                     getAmount();
                                 }).Start();
                                 MySleep(2 * 1000);
-                                Program.wxl.Log(string.Format("[{1}]第{0}期资金余额:{2}", CurrExpectNo , Program.gc.ClientAliasName,CurrVal), "当期指令为空信号，或者金额为0", string.Format("{0}:[{1}]", "指令", txt), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                                //Program.wxl.Log(string.Format("[{1}]第{0}期资金余额:{2}", CurrExpectNo , Program.gc.ClientAliasName,CurrVal), "当期指令为空信号，或者金额为0", string.Format("{0}:[{1}]", "指令", txt), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
                                 SwitchChanle();//赶着空指令切换线路
                                 //if (dicExistInsts.ContainsKey(dtpName) && !dicExistInsts[dtpName].ContainsKey(this.NewExpects[dtpName]))//防止多次发送
                                 NewExpects[dtpName] = CurrExpectNo;
@@ -2289,8 +2353,11 @@ ClearMyTracksByProcess 255
                 }
                 WaveDataCheckResultClass<double> ret = WaveDataCheckClass.getCheckResult<double>(vals, 400, NetSelectBasicValue.MinValue, 10);
                 DataTable dt = ret.SamplestTable();
-                WXMsgBox(dt, "Weight", "Net");
-                WXMsgBox(string.Format("{0}[{1}]最后一个波段信息",sti.DataType,sti.Expect),ret.LastArea?.Descript());
+                if (IsAdmin)
+                {
+                    WXMsgBox(dt, "Weight", "Net");
+                    WXMsgBox(string.Format("{0}[{1}]最后一个波段信息", sti.DataType, sti.Expect), ret.LastArea?.Descript());
+                }
                 if (!ret.LastArea.IsRaise)//如果是向下的，直接跳过，不可能止盈
                 {
                     return false;
@@ -2810,6 +2877,11 @@ ClearMyTracksByProcess 255
 
         private void mnu_SetAssetUnitCnt_Click(object sender, EventArgs e)
         {
+            if(AppMode)
+            {
+                MessageBox.Show("App模式无法自由设置自己的资产单元的风险额度，如确有需求，请联系管理员。");
+                return;
+            }
             frm_setting frm = new frm_setting(AssetUnitList);
             frm.ShowDialog();
         }

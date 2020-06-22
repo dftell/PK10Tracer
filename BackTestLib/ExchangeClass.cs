@@ -17,7 +17,15 @@ namespace WolfInv.com.BackTestLib
         {
             tmpChances = new Dictionary<string, ChanceClass<T>>();
             if (ChanceList == null) ChanceList = new List<ChanceClass<T>>();
-            BaseCollection<T> sc = new ExpectListProcessBuilder<T>(dtp,testData).getProcess().getSerialData(teststrag.ReviewExpectCnt, teststrag.BySer);
+            BaseCollection<T> sc = null;
+            if (dtp.IsSecurityData==1)
+            {
+                sc = new ExpectListProcessBuilderForAll<T>(dtp, testData).getProcess().getSerialData(teststrag.ReviewExpectCnt, teststrag.BySer);
+            }
+            else
+            {
+                sc = new ExpectListProcessBuilder<T>(dtp, testData).getProcess().getSerialData(teststrag.ReviewExpectCnt, teststrag.BySer);
+            }
             foreach (string key in NoCloseChances.Keys)
             {
                 ChanceClass<T> cc = NoCloseChances[key];

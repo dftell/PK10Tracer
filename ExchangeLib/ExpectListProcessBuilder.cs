@@ -3,11 +3,11 @@ using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.SecurityLib;
 namespace WolfInv.com.ExchangeLib
 {
-    public class ExpectListProcessBuilder<T> where T:TimeSerialData
+    public class ExpectListProcessBuilderForAll<T> where T : TimeSerialData
     {
         ExpectList<T> data;
         DataTypePoint dtp;
-        public ExpectListProcessBuilder(DataTypePoint _dtp,ExpectList<T> _data)
+        public ExpectListProcessBuilderForAll(DataTypePoint _dtp, ExpectList<T> _data)
         {
             dtp = _dtp;
             data = _data;
@@ -18,7 +18,7 @@ namespace WolfInv.com.ExchangeLib
             CommExpectListProcess<T> ret = null;
             if (dtp.IsSecurityData == 1)
             {
-                ret = new SecurityListProcess<T>(data);
+                //ret = new SecurityListProcess<T>(data);
             }
             else
             {
@@ -26,7 +26,7 @@ namespace WolfInv.com.ExchangeLib
                 {
                     case "PK10":
                     case "XYFT":
-                    
+
                         {
                             ret = new ExpectListProcess(new ExpectList(data.Table.Copy())) as CommExpectListProcess<T>;// ConvertionExtensions.CopyTo<CommExpectListProcess<T>>(new ExpectListProcess(new ExpectList(data.Table)));
                             break;
@@ -62,6 +62,7 @@ namespace WolfInv.com.ExchangeLib
             return ret;
         }
     }
+
 
     public class ReaderBuilder
     {

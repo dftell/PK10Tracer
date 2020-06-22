@@ -61,4 +61,54 @@ namespace WolfInv.com.BaseObjectsLib
         List<double> getEntropyList(int reviewCnt);
         DataTableEx getSubTable(int FromId, int lng);
     }
+
+    public class LongDrgTableProcessor
+    {
+        public Dictionary<int,Dictionary<int,LongDrgNumberInfo>> AllLongDrgInfs;
+        public LongDrgTableProcessor(DataTable dt,int minRows)
+        {
+            AllLongDrgInfs = new Dictionary<int, Dictionary<int, LongDrgNumberInfo>>();
+            
+            for (int r = minRows; r < dt.Rows.Count; r++)
+            {
+                for(int c=0;c<dt.Columns.Count;c++)
+                {
+                    string col = dt.Columns[c].ColumnName;
+                    int icol = int.Parse(col);
+                    Dictionary<int,LongDrgNumberInfo> colDrgInfs = new Dictionary<int, LongDrgNumberInfo>();
+                    if (!AllLongDrgInfs.ContainsKey(icol))
+                    {
+                        AllLongDrgInfs.Add(icol, colDrgInfs);
+                    }
+                    else
+                    { 
+                        colDrgInfs = AllLongDrgInfs[icol];
+                    }
+                    string val = dt.Rows[r][col].ToString();
+                    val.ToList().ForEach(a => {
+                        string num = a.ToString();
+                        if (num.Trim().Length == 0)
+                            return;
+                        int inum = int.Parse(num);
+                        if(!colDrgInfs.ContainsKey(inum))
+                        {
+                            colDrgInfs.Add(inum, new LongDrgNumberInfo() { Pos=inum, Long = minRows-1, displayLong = 0 });
+                        }
+                        colDrgInfs[inum].Long++;
+                        colDrgInfs[inum].displayLong++;
+                    });
+                }
+            }
+        }
+    }
+
+    
+
+    public class LongDrgNumberInfo
+    {
+        public int Pos;
+        public int Long;
+        public int displayLong;
+        
+    }
 }

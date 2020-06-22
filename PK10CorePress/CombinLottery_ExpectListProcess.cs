@@ -4,6 +4,66 @@ using System.Text;
 using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.PK10CorePress
 {
+    public class ExpectListProcessBuilder<T> where T : TimeSerialData
+    {
+        ExpectList<T> data;
+        DataTypePoint dtp;
+        public ExpectListProcessBuilder(DataTypePoint _dtp, ExpectList<T> _data)
+        {
+            dtp = _dtp;
+            data = _data;
+        }
+
+        public CommExpectListProcess<T> getProcess()
+        {
+            CommExpectListProcess<T> ret = null;
+            if (dtp.IsSecurityData == 1)
+            {
+                //ret = new SecurityListProcess<T>(data);
+            }
+            else
+            {
+                switch (dtp.DataType)
+                {
+                    case "PK10":
+                    case "XYFT":
+
+                        {
+                            ret = new ExpectListProcess(new ExpectList(data.Table.Copy())) as CommExpectListProcess<T>;// ConvertionExtensions.CopyTo<CommExpectListProcess<T>>(new ExpectListProcess(new ExpectList(data.Table)));
+                            break;
+                        }
+                    case "SCKL12":
+                    case "NLKL12":
+                        {
+                            ret = new CombinLottery_ExpectListProcess(new ExpectList(data.Table)) as CommExpectListProcess<T>;
+                            (ret as CombinLottery_ExpectListProcess).AllNums = dtp.AllNums;
+                            (ret as CombinLottery_ExpectListProcess).SelectNums = dtp.SelectNums;
+                            (ret as CombinLottery_ExpectListProcess).strAllTypeOdds = dtp.strAllTypeOdds;
+                            (ret as CombinLottery_ExpectListProcess).strCombinTypeOdds = dtp.strCombinTypeOdds;
+                            (ret as CombinLottery_ExpectListProcess).strPermutTypeOdds = dtp.strPermutTypeOdds;
+
+                            break;
+                        }
+                    case "GDKL11":
+                        {
+                            ret = new CombinLottery_ExpectListProcess(new ExpectList(data.Table)) as CommExpectListProcess<T>;
+                            (ret as CombinLottery_ExpectListProcess).AllNums = dtp.AllNums;
+                            (ret as CombinLottery_ExpectListProcess).SelectNums = dtp.SelectNums;
+                            (ret as CombinLottery_ExpectListProcess).strAllTypeOdds = dtp.strAllTypeOdds;
+                            (ret as CombinLottery_ExpectListProcess).strCombinTypeOdds = dtp.strCombinTypeOdds;
+                            (ret as CombinLottery_ExpectListProcess).strPermutTypeOdds = dtp.strPermutTypeOdds;
+                            break;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
+            }
+            return ret;
+        }
+    }
+
     /// <summary>
     /// 组合类彩票处理
     /// </summary>

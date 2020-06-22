@@ -130,7 +130,11 @@ namespace WolfInv.com.Strags
         /// <summary>
         /// 最大持有期数
         /// </summary>
-        public int MaxHoldCnt;
+        [DescriptionAttribute("最大持有期数"),
+        DisplayName("最大持有期数"),
+        CategoryAttribute("入场条件"),
+        DefaultValueAttribute(500)]
+        public int MaxHoldCnt { get; set; }
 
         /// <summary>
         /// 是否固定注数
@@ -214,12 +218,16 @@ namespace WolfInv.com.Strags
         CategoryAttribute("入场条件"),
         DefaultValueAttribute(false)]
         public bool GetRev{get;set;}//求反
-
         [DescriptionAttribute("个性化设置"),
         DisplayName("个性化设置"),
         CategoryAttribute("其他设置"),
         Editor(typeof(SerialObjectEdit<StagConfigSetting>), typeof(UITypeEditor))]
         public StagConfigSetting StagSetting { get; set; }
+        [DescriptionAttribute("是否需要合并同期机会作为一个机会"),
+        DisplayName("同期合并机会"),
+        CategoryAttribute("输出设置"),
+        DefaultValueAttribute(false)]
+        public bool MergeChances { get; set; }
 
         /// <summary>
         /// 策略配置

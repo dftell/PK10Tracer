@@ -36,15 +36,16 @@
             // 
             // dg_Datas
             // 
-            this.dg_Datas.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dg_Datas.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dg_Datas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg_Datas.Location = new System.Drawing.Point(5, 22);
             this.dg_Datas.Name = "dg_Datas";
             this.dg_Datas.RowTemplate.Height = 23;
             this.dg_Datas.Size = new System.Drawing.Size(510, 317);
             this.dg_Datas.TabIndex = 0;
+            this.dg_Datas.DoubleClick += new System.EventHandler(this.dg_Datas_DoubleClick);
             // 
             // lbl_Title
             // 

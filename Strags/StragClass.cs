@@ -39,6 +39,7 @@ namespace WolfInv.com.Strags
     [XmlInclude(typeof(Strag_SimpleMaxEntryClass))]
     [XmlInclude(typeof(Strag_KLXxY_Combin_All8_All3))]
     [XmlInclude(typeof(Strag_KLXxY_ExData_Missed))]
+    [XmlInclude(typeof(Strag_LongHoldStartReduceClass))]
     public abstract class StragClass : BaseStragClass<TimeSerialData>, iDbFile,IFindChance, ITraceChance, WolfInv.com.BaseObjectsLib.ISpecAmount
     {
         

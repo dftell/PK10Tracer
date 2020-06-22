@@ -37,7 +37,7 @@ namespace WolfInv.com.ExchangeLib
             BaseCollection<T> cc = null;
             int maxViewCnt = (int)this.UseStrags.Max(t => t.Value.ReviewExpectCnt);
             //Log("计算服务", "最大回览期数", maxViewCnt.ToString());
-            cc = new ExpectListProcessBuilder<T>(dtp,el).getProcess().getSerialData(maxViewCnt, this.UseSerial);
+            cc = new ExpectListProcessBuilderForAll<T>(dtp,el).getProcess().getSerialData(maxViewCnt, this.UseSerial);
             // cc.orgData = el;//必须指定原始数据？
             //Log("计算服务", "中间数据长度",cc.Data.Count.ToString());
             Dictionary<StragClass, List<ChanceClass>> css = new Dictionary<StragClass, List<ChanceClass>>();

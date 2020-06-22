@@ -50,6 +50,9 @@ namespace ExchangeTermial
                     aic.AutoResumeDefaultReturnValue = (bool)dt.Rows[i]["AutoResumeDefaultReturnValue"] ? 1 : 0;
                     aic.EmergencyStop = (bool)dt.Rows[i]["EmergencyStop"] ? 1 : 0;
                     aic.AutoEmergencyStop = (bool)dt.Rows[i]["AutoEmergencyStop"] ? 1 : 0;
+                    int.TryParse(dt.Rows[i]["StopStepLen"]?.ToString(), out aic.StopStepLen);
+                    int.TryParse(dt.Rows[i]["StopIgnoreLength"]?.ToString(), out aic.StopIgnoreLength);
+                    int.TryParse(dt.Rows[i]["StopPower"]?.ToString(), out aic.StopPower);
                     aic.ZeroCloseResume = (bool)dt.Rows[i]["ZeroCloseResume"] ? 1 : 0;
                     aic.NeedStopGained = (bool)dt.Rows[i]["NeedStopGained"]?1:0;
                     double.TryParse(dt.Rows[i]["gainedUbound"]?.ToString(), out aic.maxStopGainedValue);
@@ -111,6 +114,9 @@ namespace ExchangeTermial
             
             dt.Columns.Add("AutoEmergencyStop",typeof(bool));
             dt.Columns.Add("EmergencyStop", typeof(bool));
+            dt.Columns.Add("StopIgnoreLength");
+            dt.Columns.Add("StopStepLen");
+            dt.Columns.Add("StopPower");
             dt.Columns.Add("needSelectTime",typeof(bool));
             dt.Columns.Add("NeedStopGained", typeof(bool));
             dt.Columns.Add("gainedUbound");
@@ -127,6 +133,9 @@ namespace ExchangeTermial
                 dr["AutoTraceMinChips"] = aus.ContainsKey(key) ? aus[key].AutoTraceMinChips : 0;
                 dr["EmergencyStop"] = aus.ContainsKey(key) ? aus[key].EmergencyStop : 0;
                 dr["AutoEmergencyStop"] = aus.ContainsKey(key) ? aus[key].AutoEmergencyStop : 0;
+                dr["StopIgnoreLength"] = aus.ContainsKey(key) ? aus[key].StopIgnoreLength : 0;
+                dr["StopStepLen"] = aus.ContainsKey(key) ? aus[key].StopStepLen : 0;
+                dr["StopPower"] = aus.ContainsKey(key) ? aus[key].StopPower : 0;
                 dr["needSelectTime"] = aus.ContainsKey(key) ? aus[key].NeedSelectTimes : 0;
                 dr["NeedStopGained"] = aus.ContainsKey(key) ? aus[key].NeedStopGained : 0;
                 dr["gainedUbound"] = aus.ContainsKey(key) ? aus[key].maxStopGainedValue : 0;

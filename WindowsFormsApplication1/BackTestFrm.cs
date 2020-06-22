@@ -1051,7 +1051,7 @@ namespace BackTestSys
             ////    CheckFrm.Show();
             ////    return;
             ////}
-            CheckFrm.InputExpect = int.Parse(strExpect);
+            CheckFrm.InputExpect = long.Parse(strExpect);
             CheckFrm.Show();
         }
 

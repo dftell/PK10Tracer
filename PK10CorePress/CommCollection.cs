@@ -103,7 +103,15 @@ namespace WolfInv.com.PK10CorePress
                     {
                         for (int j = 0; j < 10; j++)
                         {
-                            dr[string.Format("{0}", (j + 1) % 10)] = (this.orgData[i]).ValueList[j];
+                            if (this.orgData.Count > i)
+                            {
+                                ExpectData ed = this.orgData[i];
+                                dr[string.Format("{0}", (j + 1) % 10)] = ed.ValueList[j];
+                            }
+                            else
+                            {
+
+                            }
                         }
                     }
                     else
@@ -245,9 +253,10 @@ namespace WolfInv.com.PK10CorePress
         /// <returns></returns>
         public override int FindLastDataExistCount(int StartPos, int lng, string StrKey, string val)
         {
-            int Cnt = this.CarTable.Rows.Count;
+            DataTableEx dt = this.CarTable;
+            int Cnt = dt.Rows.Count;
             string sql = string.Format("([Id]>={3} and [Id]<={2}+{3}) and [{0}]={1}", StrKey, val, lng, StartPos);
-            return this.CarTable.Select(sql).Length;
+            return dt.Select(sql).Length;
         }
 
         public override string FindSpecColumnValue(int id, string strKey)

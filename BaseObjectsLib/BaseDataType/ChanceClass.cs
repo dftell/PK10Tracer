@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using WolfInv.com.BaseObjectsLib;
 using System.Reflection;
+using System.Linq;
 namespace WolfInv.com.BaseObjectsLib
 {
     public delegate bool EventCheckNeedEndTheChance<T>(ChanceClass<T> CheckCc, bool LastExpectMatched) where T : TimeSerialData;
@@ -316,6 +317,69 @@ namespace WolfInv.com.BaseObjectsLib
                 testStr = testStr.Replace(code1.Substring(i, 1), "");
             }
             return code2.Length - testStr.Length;
+        }
+
+        public static string getSameString(string code1,string code2)
+        {
+            string longString = code1.Length > code2.Length ? code1 : code2;
+            string shortString = longString.Equals(code1) ? code2 : code1;
+            HashSet<string> longset = new HashSet<string>();
+            longString.ToList().ForEach(a => {
+                if(!longset.Contains(a.ToString()))
+                {
+                    longset.Add(a.ToString());
+                }
+              
+            });
+            HashSet<string> sb = new HashSet<string>();
+            shortString.ToList().ForEach(a => {
+                if(longset.Contains(a.ToString()))
+                {
+                    if(!sb.Contains(a.ToString()))
+                    {
+                        sb.Add(a.ToString());
+                    }
+                }
+            });
+            return string.Join("",sb);
+        }
+
+        /// <summary>
+        /// 字符串相减，只支持差一个字符，或者差多个连续字符
+        /// </summary>
+        /// <param name="srcStr"></param>
+        /// <param name="substr"></param>
+        /// <returns></returns>
+        public static string ReduceString(string srcStr,string substr)//
+        {
+            if (srcStr.Equals(substr))
+                return "";
+            string ret = srcStr;
+            string tmp = substr;
+            string lastSub = substr;
+            while(tmp.Length>0)
+            {
+                string repRet = ret.Replace(tmp, "");
+                if(repRet.Equals(ret))
+                {
+                    //无效，减少长度
+                    tmp = tmp.Substring(1);
+                    continue;
+                }
+                ret = repRet;
+                tmp = lastSub.Replace(tmp, "");//完全相等
+                if (tmp.Length == 0)
+                    return ret;
+                lastSub = tmp;
+                string lastRet = ret.Replace(tmp, "");
+                if(lastRet.Equals(ret))
+                {
+                    tmp = tmp.Substring(1);
+                    continue;
+                }
+                return lastRet;
+            }
+            return "";
         }
 
         public static List<string> getAllSubCode(string OrgCode, int subCodeLng)

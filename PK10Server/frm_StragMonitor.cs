@@ -637,9 +637,18 @@ namespace PK10Server
                                 double.TryParse(dt.Rows[dt.Rows.Count - 1]["val"].ToString(), out currVal);
                                 if (currVal < -35)//警告
                                 {
-                                    Program.wxlog.Log(string.Format("品种{0}复利类资产单元资产收益率报警！", GlobalClass.TypeDataPoints.First().Key),string.Format("自产单元[{0}]当前收益率{1}。",strName,currVal), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                                    Program.wxlog.Log(string.Format("品种{0}复利类资产单元资产收益率报警！", GlobalClass.TypeDataPoints.First().Key),string.Format("资产单元[{0}]当前收益率{1}。",strName,currVal), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                                }
+                                if (currVal >190)//警告
+                                {
+                                    Program.wxlog.Log(string.Format("品种{0}复利类资产单元资产收益率过高报警！", GlobalClass.TypeDataPoints.First().Key), string.Format("资产单元[{0}]当前收益率{1}。", strName, currVal), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
                                 }
                                 if (currVal < -50)
+                                {
+                                    needResetAssetUnit = vals[ai];//一次恢复一个满足条件的最后一个资产单位
+                                    needResetNet = currVal;
+                                }
+                                if(currVal>200)
                                 {
                                     needResetAssetUnit = vals[ai];//一次恢复一个满足条件的最后一个资产单位
                                     needResetNet = currVal;
@@ -651,7 +660,7 @@ namespace PK10Server
                     chrt.Show();
                     if(needResetAssetUnit!= null)
                     {
-                        string msgModel = "复利类资产单元[{0}]当前资产收益率{1}小于-50%，将自动将其归1，请视情况在客户端上调整其对应的风险配置。";
+                        string msgModel = "复利类资产单元[{0}]当前资产收益率{1}小于-50%或大于200%，将自动将其归1，请视情况在客户端上调整其对应的风险配置。";
                         string msg = string.Format(msgModel, needResetAssetUnit.UnitName, needResetNet);
                         if (needResetAssetUnit.Resume())
                         {

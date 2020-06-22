@@ -64,6 +64,8 @@
     <Compile Include="MLStragClass\MachineLearnStragClass.cs" />
     <Compile Include="MLStragClass\OddEvenAndBigSmall_AutoLearnStragClass.cs" />
     <Compile Include="PK10\ProbWaveSelectStragClass.cs" />
+    <Compile Include="PK10\Strag_LongHoldStartReduceClass.cs" />
+    <Compile Include="PK10\Strag_Optimize_BinomialDistrClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StagConfigSetting.cs" />
     <Compile Include="StragClass.cs" />
