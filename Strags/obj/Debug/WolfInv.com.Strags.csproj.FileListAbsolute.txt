@@ -20,3 +20,4 @@ E:\github\source\dftell\PK10Tracer\Strags\obj\Debug\WolfInv.com.Strags.csproj.Co
 E:\github\source\dftell\PK10Tracer\Strags\obj\Debug\WolfInv.com.Strags.csproj.CopyComplete
 E:\github\source\dftell\PK10Tracer\Strags\obj\Debug\WolfInv.com.Strags.dll
 E:\github\source\dftell\PK10Tracer\Strags\obj\Debug\WolfInv.com.Strags.pdb
+E:\github\project\PK10Tracer\WolfInv.com.Strags.dll.config

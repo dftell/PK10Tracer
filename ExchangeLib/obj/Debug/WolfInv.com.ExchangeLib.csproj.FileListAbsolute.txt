@@ -16,3 +16,4 @@ E:\github\source\dftell\PK10Tracer\ExchangeLib\obj\Debug\WolfInv.com.ExchangeLib
 E:\github\source\dftell\PK10Tracer\ExchangeLib\obj\Debug\WolfInv.com.ExchangeLib.csproj.CopyComplete
 E:\github\source\dftell\PK10Tracer\ExchangeLib\obj\Debug\WolfInv.com.ExchangeLib.dll
 E:\github\source\dftell\PK10Tracer\ExchangeLib\obj\Debug\WolfInv.com.ExchangeLib.pdb
+E:\github\project\PK10Tracer\WolfInv.com.ExchangeLib.dll.config

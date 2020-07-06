@@ -51,7 +51,7 @@ namespace WolfInv.com.Strags
         {
             for (int i = MinFilterCnt; i <= MaxFilterCnt; i = i + StepCnt)
             {
-                CalcPeakValues(i, this.InputMaxTimes, 0.098);
+                CalcPeakValues(i, this.InputMaxTimes, 0.0975);
             }
         }
 
@@ -59,15 +59,15 @@ namespace WolfInv.com.Strags
         {
             int minRows = this.CommSetting.GetGlobalSetting().MutliColMinTimes;
             List<ChanceClass> ret = new List<ChanceClass>();
-            Dictionary<int, List<int>> preReduceCnts = Strag_LongHoldStartReduceClass.getReduceTimes(this.UsingDpt, sc, minRows, 1, 2,1, true);//只检查上期
-            if(preReduceCnts.Count < 2)//如果整体基本没有变化，直接排除所有
+            Dictionary<int, List<int>> preReduceCnts = Strag_LongHoldStartReduceClass.getReduceTimes(this.UsingDpt, sc, minRows, 1, 2, 1, true);//只检查上期
+            if (preReduceCnts.Count < 2)//如果整体基本没有变化，直接排除所有
             {
-                //return ret;
+                return ret;
             }
             int checkTerms = 10;
             int checkStringLen = 3;
             int minHoldTimes = 5;
-            Dictionary<int, List<int>> colReduceCnts = Strag_LongHoldStartReduceClass.getReduceTimes(this.UsingDpt, sc, minRows, checkTerms, checkStringLen, minHoldTimes, true);
+            //Dictionary<int, List<int>> colReduceCnts = Strag_LongHoldStartReduceClass.getReduceTimes(this.UsingDpt, sc, minRows, checkTerms, checkStringLen, minHoldTimes, true);
             InitAllPeaks();//初始化峰值列表            
             if (sc == null || sc.Table == null || sc.Table.Rows.Count < this.ReviewExpectCnt)
                 return ret;
@@ -75,14 +75,14 @@ namespace WolfInv.com.Strags
             Dictionary<string, Dictionary<int, int>> AllList = new Dictionary<string, Dictionary<int, int>>();
             for (int i = 0; i < 10; i++)//遍历各车/各名次
             {
-                if (!colReduceCnts.ContainsKey(i))
-                {
-                    //continue;
-                }
-                if (colReduceCnts.ContainsKey(i) && (colReduceCnts[i].Count ==0 || colReduceCnts[i].Count > checkTerms/5 || (colReduceCnts[i].Count>0 && colReduceCnts[i][0] > checkTerms/2)))//如果太少，太多，太远都不行
-                {
-                    //continue;
-                }
+                //if (!colReduceCnts.ContainsKey(i))
+                //{
+                //    //continue;
+                //}
+                //if (colReduceCnts.ContainsKey(i) && (colReduceCnts[i].Count ==0 || colReduceCnts[i].Count > checkTerms/5 || (colReduceCnts[i].Count>0 && colReduceCnts[i][0] > checkTerms/2)))//如果太少，太多，太远都不行
+                //{
+                //    //continue;
+                //}
                 string strCol = string.Format("{0}", (i + 1) % 10);
                 //string strVal = ed.ValueList[i];
                 Dictionary<int, int> ValCntItems = new Dictionary<int, int>();
@@ -94,7 +94,7 @@ namespace WolfInv.com.Strags
                     {
                         int ViewCnt = int.Parse(key.Split('_')[0]);//获得峰值清单对应的实验次数
                         int ExistCnt = sc.FindLastDataExistCount(ViewCnt, strCol, strVal);//获得前N-1次该车次出现的次数
-                        if (AllBinomPeaks[key].Contains(ExistCnt + 1))//如果该二项分布检查的峰值是7，8，9，值出现的次数是6，7，8,匹配，+1
+                        if (AllBinomPeaks[key].Contains(ExistCnt))// + 1))//如果该二项分布检查的峰值是7，8，9，值出现的次数是6，7，8,匹配，+1
                         {
                             ValCntItems[val] = ValCntItems[val] + 1;
                         }
@@ -105,7 +105,7 @@ namespace WolfInv.com.Strags
                 Dictionary<int,int> MatchPoisonItems = new Dictionary<int,int>();
                 foreach(int key in ValidItems.Keys)
                 {
-                    int ViewCnt = MinFilterCnt-1; //找出所有值在前100次里出现的次数
+                    int ViewCnt = MinFilterCnt -1; //找出所有值在前100次里出现的次数
                     int ExistCnt = sc.FindLastDataExistCount(ViewCnt,strCol,key.ToString());//满足最泊松分布最顶峰
                     if(ExistCnt == ViewCnt/10-1)
                     {

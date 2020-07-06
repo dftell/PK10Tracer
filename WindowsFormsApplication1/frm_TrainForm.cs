@@ -28,10 +28,12 @@ namespace BackTestSystem
             this.ddl_MLFunc.DisplayMember = "text";
             this.ddl_MLFunc.ValueMember = "value";
 
-            DataTable dt_categery = ClassOperateTool.getAllSubClass(typeof(MLDataFactory), "", "");
-            
+            DataTable dt_categery = ClassOperateTool.getAllSubClass(typeof(MLDataCategoryFactoryClass), "text","value");
+            this.ddl_categryFunc.DataSource = dt_categery;
+            this.ddl_categryFunc.DisplayMember = "text";
+            this.ddl_categryFunc.ValueMember = "value";
         }
-        
+
         Type MLType;
         Type DataCategroyType;
         Thread RunningThread = null;
@@ -43,7 +45,22 @@ namespace BackTestSystem
             //return;//暂时不支持训练集回测
             long len = long.Parse(this.txt_DataLength.Text);
             int deep = int.Parse(this.txt_LearnDeep.Text);
-            ExpectList<TimeSerialData> el = new ExpectReader().ReadHistory<TimeSerialData>(long.Parse(this.txt_BegExpect.Text), len+deep+1);
+            DataTypePoint dtp = GlobalClass.TypeDataPoints.First().Value;
+            DataReader er = DataReaderBuild.CreateReader(dtp.DataType, dtp.HistoryTable, dtp.RuntimeInfo.SecurityCodes); //支持所有数据
+            ExpectList<TimeSerialData> el = null;
+            int maxCnt = 5;
+            int repcnt = 0;
+            while (el == null)
+            {
+                el = er.ReadHistory<TimeSerialData>(long.Parse(this.txt_BegExpect.Text), len + deep + 1);
+                if (el == null)
+                    Thread.Sleep(1 * 1000);
+                repcnt++;
+                if(repcnt>maxCnt)
+                {
+                    break;
+                }
+            }
             //MLDataFactory mldf = new MLDataFactory(ExpectList.getExpectList(el));
             DataCategroyType = (Type)this.ddl_categryFunc.SelectedValue;
             MLType = (Type)this.ddl_MLFunc.SelectedValue;
@@ -54,10 +71,12 @@ namespace BackTestSystem
                 //MLInstances<int, int> TrainSet = mldf.getAllSpecColRoundLabelAndFeatures(i,deep, chkb_AllUseShift.Checked ? 1 : 0);
                 MLInstances<int, int> TrainSet = mldf.getCategoryData(i, deep, chkb_AllUseShift.Checked ? 1 : 0);
                 MachineLearnClass<int, int> SelectFunc = (MachineLearnClass<int, int>)ClassOperateTool.getInstanceByType(MLType);//获取机器学习类型
+
                 SelectFunc.OnTrainFinished += OnTrainFinished;
                 SelectFunc.OnPeriodEvent += OnPeriodEvent;
                 SelectFunc.OnSaveEvent += SaveData;
                 SelectFunc.GroupId = i;
+                SelectFunc.LearnDeep = deep;
                 SelectFunc.FillTrainData(TrainSet);
                 SelectFunc.InitTrain();
                 SelectFunc.TrainIterorCnt = int.Parse(txt_IteratCnt.Text);
@@ -74,7 +93,7 @@ namespace BackTestSystem
 
         void OnPeriodEvent(params object[] objs)
         {
-            int test = 1;
+            int test = 0;
             if(test > 0)
                 return;
             lock (dataGridView1.Tag)
@@ -100,7 +119,7 @@ namespace BackTestSystem
                             dt.Rows.Add(dr);
                         }
                         dr = dt.Rows[i];
-                        dr["Id"] = i + 1;
+                        dr["项目"] = keynames[i];// i + 1;
                         //dr[colname] = keynames[i];
                         dr[colval] = keydata[i];
                         //dt.Rows.Add(dr);
@@ -128,7 +147,7 @@ namespace BackTestSystem
         void initDataTable(ref DataTable dt)
         {
             dt = new DataTable();
-            dt.Columns.Add("Id", typeof(int));
+            dt.Columns.Add("项目");
             for(int i=0;i<10;i++)
             {
                 string strcol = string.Format("{0}", (i + 1) % 10);
@@ -256,7 +275,7 @@ namespace BackTestSystem
                 this.Cursor = Cursors.WaitCursor;
                 ExecClass ec = new ExecClass();
                 ec.GroupId = (i + 1) % 10;
-                ec.MaxEnt = SelectFunc;
+                ec.useMachineLearnClass = SelectFunc;
                 ec.TestData = TestSet;
                 new Thread(new ThreadStart(ec.Exec)).Start();
             }
@@ -267,12 +286,12 @@ namespace BackTestSystem
         class ExecClass
         {
             public MLInstances<int, int> TestData;
-            public MachineLearnClass<int, int> MaxEnt;
+            public MachineLearnClass<int, int> useMachineLearnClass;
             public double outValue;
             public int GroupId;
             public void Exec()
             {
-                string res = MaxEnt.CheckInstances(TestData).ToString();
+                string res = useMachineLearnClass.CheckInstances(TestData).ToString();
                 MessageBox.Show(string.Format("{0}:{1}",GroupId,res));
             }
         }

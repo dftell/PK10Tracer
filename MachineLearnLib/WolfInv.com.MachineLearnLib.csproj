@@ -34,8 +34,13 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MathNet.Numerics, Version=4.11.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.4.11.0\lib\net461\MathNet.Numerics.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,9 +49,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BayesLib\BayesDSelectorcs.cs" />
+    <Compile Include="BPNeuralNetwork\BPNeuralNetwork.cs" />
     <Compile Include="DescentMethods\DescentMethodClass.cs" />
     <Compile Include="LinearRegression\LMSAlgorithm.cs" />
     <Compile Include="MachineLearnClass.cs" />
+    <Compile Include="Markov\MarkovClass.cs" />
     <Compile Include="MaxEntModel\MaxEntModelClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -63,6 +70,10 @@
       <Project>{6AF5544D-5B6B-40A9-9258-72CBE6CE207D}</Project>
       <Name>WolfInv.com.ProbMathLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

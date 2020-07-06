@@ -12,3 +12,4 @@ E:\github\source\dftell\PK10Tracer\ServerInitLib\obj\Debug\WolfInv.com.ServerIni
 E:\github\source\dftell\PK10Tracer\ServerInitLib\obj\Debug\WolfInv.com.ServerInitLib.csproj.CopyComplete
 E:\github\source\dftell\PK10Tracer\ServerInitLib\obj\Debug\WolfInv.com.ServerInitLib.dll
 E:\github\source\dftell\PK10Tracer\ServerInitLib\obj\Debug\WolfInv.com.ServerInitLib.pdb
+E:\github\project\PK10Tracer\WolfInv.com.ServerInitLib.dll.config

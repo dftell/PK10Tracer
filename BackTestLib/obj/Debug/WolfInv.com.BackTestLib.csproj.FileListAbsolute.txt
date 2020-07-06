@@ -12,3 +12,4 @@ E:\github\source\dftell\PK10Tracer\BackTestLib\obj\Debug\WolfInv.com.BackTestLib
 E:\github\source\dftell\PK10Tracer\BackTestLib\obj\Debug\WolfInv.com.BackTestLib.csproj.CopyComplete
 E:\github\source\dftell\PK10Tracer\BackTestLib\obj\Debug\WolfInv.com.BackTestLib.dll
 E:\github\source\dftell\PK10Tracer\BackTestLib\obj\Debug\WolfInv.com.BackTestLib.pdb
+E:\github\project\PK10Tracer\WolfInv.com.BackTestLib.dll.config

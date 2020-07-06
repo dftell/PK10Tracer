@@ -11,6 +11,7 @@ namespace WolfInv.com.Strags
     public abstract class MLDataCategoryFactoryClass
     {
         protected ExpectList Data;
+        
         public abstract MLInstances<int, int> getCategoryData(int col, int Deep, int AllowUseShift);
 
 
@@ -247,6 +248,23 @@ namespace WolfInv.com.Strags
         {
             MLInstance<int, int> ret = new MLInstance<int, int>();
             return ret;     
+        }
+    }
+
+    /// <summary>
+    /// 马尔科夫分类特征
+    /// </summary>
+    public class MarkovCategoryFactioryClass : MLDataCategoryFactoryClass
+    {
+        public override MLInstances<int, int> getCategoryData(int col, int Deep, int AllowUseShift)
+        {
+            MLInstances<int, int> ret = new MLInstances<int, int>();
+            for(int i=0;i<this.Data.Count;i++)
+            {
+                ExpectData ed = Data[i];
+                ret.Add(new MLInstance<int, int>(new int[] { int.Parse(ed.ValueList[col]) }.ToList()));
+            }
+            return ret;
         }
     }
 }

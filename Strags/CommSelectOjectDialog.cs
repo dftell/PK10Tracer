@@ -83,6 +83,8 @@ namespace WolfInv.com.Strags
         {
             if (this.dg_Datas.CurrentRow.Index < 0)
                 return;
+            if (this.dg_Datas.SelectedRows.Count <= 0)
+                return;
             string guid = this.dg_Datas.CurrentRow.Cells[0].Value.ToString();
             if (!AllList.ContainsKey(guid))
             {

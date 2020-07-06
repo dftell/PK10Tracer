@@ -40,9 +40,9 @@ namespace WolfInv.com.MachineLearnLib
         {
             set { _GrpId = value; }
         }
-
+        public int LearnDeep;
         public int TrainIterorCnt ;
-
+        public  PredictResultClass PredictResult;
         public static MLFeatureFunctionsSummary<LabelT, FeatureT> FeatureSummary;//= new MLFeatureFunctionsSummary<LabelT, FeatureT>();
         protected MLInstances<LabelT, FeatureT> TrainData;
         protected Dictionary<string, MLFeatureFunctionsClass<LabelT, FeatureT>> functions = new Dictionary<string, MLFeatureFunctionsClass<LabelT, FeatureT>>();
@@ -150,6 +150,29 @@ namespace WolfInv.com.MachineLearnLib
             string strText = DetailStringClass.getXmlByObjectList<MLFeatureFunctionsSummary<LabelT, FeatureT>>(ret);
             OnSaveEvent(strText);
 
+        }
+
+        /// <summary>
+        /// 直接预测结果类
+        /// </summary>
+        public class PredictResultClass
+        {
+            /// <summary>
+            /// 训练个数
+            /// </summary>
+            public int TrainCnt;
+            /// <summary>
+            /// 做出过预测的个数
+            /// </summary>
+            public int PreDictCnt;
+            /// <summary>
+            /// 成功次数
+            /// </summary>
+            public int CorrectCnt;
+            /// <summary>
+            /// 成功匹配个数
+            /// </summary>
+            public long MatchCnt;
         }
 
         public void LoadSummary()

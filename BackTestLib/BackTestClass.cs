@@ -319,6 +319,7 @@ namespace WolfInv.com.BackTestLib
             int AllCnt = 0;
             while (el == null || el.Count > 0) //如果取到的数据长度大于0
             {
+
                 if (dtp.IsSecurityData == 1)
                 {
                     el = er.ReadHistory<T>(begNo, LoopCnt);
@@ -327,11 +328,11 @@ namespace WolfInv.com.BackTestLib
                 {
                     el = er.ReadHistory<T>(begNo, LoopCnt);
                 }
-                int maxRptCnt = 5;
                 int rptCnt = 0;
+                int maxRptCnt = 5;
                 while(el==null)
                 {
-                    
+                    Thread.Sleep(2 * 1000);
                     rptCnt++;
                     if(rptCnt>maxRptCnt)
                     {
@@ -345,6 +346,7 @@ namespace WolfInv.com.BackTestLib
                     {
                         el = er.ReadHistory<T>(begNo, LoopCnt);
                     }
+                    
                 }
                 if (el == null)
                 {

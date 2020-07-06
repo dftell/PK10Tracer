@@ -183,6 +183,10 @@ namespace WolfInv.com.Strags
                     {
                         continue;
                     }
+                    if(reduceChar.Length>0 && !currColInfo.ContainsKey(int.Parse(reduceChar)))//长度不够
+                    {
+                        continue;
+                    }
                     if(reduceChar.Length>0 && currColInfo[int.Parse(reduceChar)].Long<MinHoldTimes)//爆出的并不是长龙的数字，照样忽略
                     {
                         continue;
