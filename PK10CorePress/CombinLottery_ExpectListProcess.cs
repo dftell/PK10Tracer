@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using WolfInv.com.BaseObjectsLib;
+using System.Data;
 namespace WolfInv.com.PK10CorePress
 {
     public class ExpectListProcessBuilder<T> where T : TimeSerialData
@@ -17,41 +18,57 @@ namespace WolfInv.com.PK10CorePress
         public CommExpectListProcess<T> getProcess()
         {
             CommExpectListProcess<T> ret = null;
+
             if (dtp.IsSecurityData == 1)
             {
                 //ret = new SecurityListProcess<T>(data);
             }
             else
             {
+                DataTable dt = new DataTable();
+                ExpectList el = new ExpectList();
+                lock (data)
+                {
+                    dt = data.Table.Copy();
+                    el = new ExpectList(dt);
+                }
                 switch (dtp.DataType)
                 {
                     case "PK10":
                     case "XYFT":
 
                         {
-                            ret = new ExpectListProcess(new ExpectList(data.Table.Copy())) as CommExpectListProcess<T>;// ConvertionExtensions.CopyTo<CommExpectListProcess<T>>(new ExpectListProcess(new ExpectList(data.Table)));
+                            
+                                ret = new ExpectListProcess(el) as CommExpectListProcess<T>;// ConvertionExtensions.CopyTo<CommExpectListProcess<T>>(new ExpectListProcess(new ExpectList(data.Table)));
+                                ret.AllNums = 10;
+                                ret.SelectNums = 10;
+                            
                             break;
                         }
                     case "SCKL12":
                     case "NLKL12":
                         {
-                            ret = new CombinLottery_ExpectListProcess(new ExpectList(data.Table)) as CommExpectListProcess<T>;
-                            (ret as CombinLottery_ExpectListProcess).AllNums = dtp.AllNums;
-                            (ret as CombinLottery_ExpectListProcess).SelectNums = dtp.SelectNums;
-                            (ret as CombinLottery_ExpectListProcess).strAllTypeOdds = dtp.strAllTypeOdds;
-                            (ret as CombinLottery_ExpectListProcess).strCombinTypeOdds = dtp.strCombinTypeOdds;
-                            (ret as CombinLottery_ExpectListProcess).strPermutTypeOdds = dtp.strPermutTypeOdds;
-
+                            
+                                ret = new CombinLottery_ExpectListProcess(el) as CommExpectListProcess<T>;
+                                ret.AllNums = dtp.AllNums;
+                                ret.SelectNums = dtp.SelectNums;
+                                (ret as CombinLottery_ExpectListProcess).strAllTypeOdds = dtp.strAllTypeOdds;
+                                (ret as CombinLottery_ExpectListProcess).strCombinTypeOdds = dtp.strCombinTypeOdds;
+                                (ret as CombinLottery_ExpectListProcess).strPermutTypeOdds = dtp.strPermutTypeOdds;
+                           
                             break;
                         }
                     case "GDKL11":
                         {
-                            ret = new CombinLottery_ExpectListProcess(new ExpectList(data.Table)) as CommExpectListProcess<T>;
-                            (ret as CombinLottery_ExpectListProcess).AllNums = dtp.AllNums;
-                            (ret as CombinLottery_ExpectListProcess).SelectNums = dtp.SelectNums;
-                            (ret as CombinLottery_ExpectListProcess).strAllTypeOdds = dtp.strAllTypeOdds;
-                            (ret as CombinLottery_ExpectListProcess).strCombinTypeOdds = dtp.strCombinTypeOdds;
-                            (ret as CombinLottery_ExpectListProcess).strPermutTypeOdds = dtp.strPermutTypeOdds;
+                            lock (data.Table)
+                            {
+                                ret = new CombinLottery_ExpectListProcess(el) as CommExpectListProcess<T>;
+                                ret.AllNums = dtp.AllNums;
+                                ret.SelectNums = dtp.SelectNums;
+                                (ret as CombinLottery_ExpectListProcess).strAllTypeOdds = dtp.strAllTypeOdds;
+                                (ret as CombinLottery_ExpectListProcess).strCombinTypeOdds = dtp.strCombinTypeOdds;
+                                (ret as CombinLottery_ExpectListProcess).strPermutTypeOdds = dtp.strPermutTypeOdds;
+                            }
                             break;
                         }
                     default:
@@ -70,14 +87,7 @@ namespace WolfInv.com.PK10CorePress
     public class CombinLottery_ExpectListProcess : BaseObjectsLib.CommExpectListProcess<TimeSerialData>
     {
 
-        /// <summary>
-        /// 所有数字数
-        /// </summary>
-        public int AllNums { get; set; }
-        /// <summary>
-        /// 开出奖数字数
-        /// </summary>
-        public int SelectNums { get; set; }
+        
         public string AllNumModel { get; set; }
         public string SelectNumModel { get; set; }
         public string strAllTypeOdds { get; set; }
@@ -322,6 +332,8 @@ namespace WolfInv.com.PK10CorePress
 
             return ret;
         }
+
+        
 
         public virtual Dictionary<int, RepeatInfo> getRepeatInfo(int frm, int cnt, bool byNo)
         {

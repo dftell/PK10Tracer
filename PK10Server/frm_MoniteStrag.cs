@@ -12,9 +12,9 @@ using WolfInv.com.ExchangeLib;
 using WolfInv.com.Strags;
 using System.Reflection;
 using WolfInv.com.SecurityLib;
-using DataRecSvr;
 using System.ServiceProcess;
 using WolfInv.com.PK10CorePress;
+using DataRecSvr;
 
 namespace PK10Server
 {
@@ -28,7 +28,9 @@ namespace PK10Server
         StragRunPlanClass<TimeSerialData> spr = null;
         BaseStragClass<TimeSerialData> runstg = null;
         string lastExpect = null;
-        
+        delegate void SetCtrlDelegate(string ctrlId, object obj);
+
+
         private void frm_MoniteStrag_Load(object sender, EventArgs e)
         {
             Program.AllGlobalSetting.wxlog.Log("单策略监控","启用", string.Format(GlobalClass.LogUrl, GlobalClass.WXLogHost));
@@ -62,7 +64,13 @@ namespace PK10Server
                     return;
                 }
                 runstg.ReviewExpectCnt = int.Parse(this.txt_reviewcnt.Text);
-                DataTypePoint dtp = GlobalClass.TypeDataPoints.First().Value;
+                var dtps = GlobalClass.TypeDataPoints.Where(a => a.Key == this.txt_DtpName.Text.Trim());
+                if(dtps.Count() == 0)
+                {
+                    MessageBox.Show("Dtp不存在");
+                    return;
+                }
+                DataTypePoint dtp = dtps.First().Value;
                 AmoutSerials amt = new AmoutSerials();
                 ChanceClass<TimeSerialData> cc = new ChanceClass<TimeSerialData>();
                 cc.ChanceCode = "C3/1,2,3";
@@ -78,10 +86,9 @@ namespace PK10Server
 
                 ExpectListProcessBuilder<TimeSerialData> elp = new ExpectListProcessBuilder<TimeSerialData>(dtp, ViewDataList);
                 BaseCollection<TimeSerialData> sc = elp.getProcess().getSerialData(ViewDataList.Count, true);
-
-
                 CalcService<TimeSerialData> calc = new CalcService<TimeSerialData>();
                 calc.DataPoint = dtp;
+                calc.IsTestBack = true;
                 calc.CurrData = ViewDataList;
                 Dictionary<string, CalcStragGroupClass<TimeSerialData>> allgroups = new Dictionary<string, CalcStragGroupClass<TimeSerialData>>();
                 foreach(string key in Program.AllGlobalSetting.AllRunningPlanGrps.Keys)//备份计划组
@@ -93,14 +100,44 @@ namespace PK10Server
                 csg.UseSPlans.Add(spr);
                 csg.UseStrags.Add(spr.PlanStrag.GUID, spr.PlanStrag);
                 csg.UseSerial = spr.PlanStrag.BySer;
+                csg.UseAssetUnits.Add(spr.AssetUnitInfo.UnitId, spr.AssetUnitInfo);
                 Program.AllGlobalSetting.AllRunningPlanGrps.Add(spr.GUID,csg);
                 calc.setGlobalClass(Program.gc);
                 calc.setAllSettingConfig(Program.AllGlobalSetting);//测试只使用单一计划组
-                calc.OnFinishedCalc = (d) => {
-                    MessageBox.Show(dtp.DataType + "执行完毕！");
+                calc.OnFinishedCalc = (d) =>
+                {
+                    //MessageBox.Show(dtp.DataType + "执行完毕！");
+
+                    foreach (string key in Program.AllGlobalSetting.AllNoClosedChanceList.Keys)
+                    {
+                        ChanceClass<TimeSerialData> nc = Program.AllGlobalSetting.AllNoClosedChanceList[key];
+
+                        List<string> currLines = this.Txt_Chances.Lines.ToList();
+                        currLines.Add(string.Format("{0}/{1}", nc.ChanceCode, nc.UnitCost));
+                        Txt_Chances.Invoke(new SetCtrlDelegate(SetCtrlById), new object[]{this.Txt_Chances.Name,currLines.ToArray()});
+
+                    }
+                    this.Txt_Chances.Refresh();
                 };
                 calc.Calc();
                 Program.AllGlobalSetting.AllRunningPlanGrps = allgroups;//恢复原有的计划组
+                allgroups.Values.ToList().ForEach(
+                    grp =>
+                    {
+                        lock (Program.AllGlobalSetting.AllStragIndexs)
+                            foreach (var kv in grp.grpIndexs)
+                            {
+                                if (Program.AllGlobalSetting.AllStragIndexs.ContainsKey(kv.Key))
+                                {
+                                    Program.AllGlobalSetting.AllStragIndexs[kv.Key] = kv.Value;
+                                }
+                                else
+                                {
+                                    Program.AllGlobalSetting.AllStragIndexs.Add(kv.Key, kv.Value);
+                                }
+                            }
+                    }
+                    );
                 return;
 
                 List<ChanceClass<TimeSerialData>> cs = runstg.getChances(sc, ViewDataList.LastData);
@@ -138,6 +175,31 @@ namespace PK10Server
             }
         }
 
+        void setChances(Control ctrl)
+        {
+
+        }
+
+        void SetCtrlById(string id,object val)
+        {
+            Control[] ctrls = this.Controls.Find(id,false);
+            if(ctrls.Length!=1)
+            {
+                return;
+            }
+            (ctrls[0] as TextBox).Lines =(string[]) val;
+        }
+
+        void SetCtrlById(string id, Action<Control> act)
+        {
+            Control[] ctrls = this.Controls.Find(id, false);
+            if (ctrls.Length != 1)
+            {
+                return;
+            }
+            act(ctrls[0]);
+        }
+
         private void btn_startMonite_Click(object sender, EventArgs e)
         {
             StragRunPlanClass<TimeSerialData>[] srps =  runPlanPicker1.Plans;
@@ -149,6 +211,10 @@ namespace PK10Server
             spr = srps[0];
             if(!Running)
             {
+                if(!spr.AssetUnitInfo.Running)
+                {
+                    spr.AssetUnitInfo.Run();
+                }
                 Running = true;
                 this.btn_startMonite.Text = "停止";
                 Timer1_Tick(null, null);

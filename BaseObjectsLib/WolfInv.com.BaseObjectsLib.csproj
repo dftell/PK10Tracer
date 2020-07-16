@@ -72,6 +72,7 @@
     <Compile Include="BaseDataType\ExpectData.cs" />
     <Compile Include="BaseDataType\ExpectList.cs" />
     <Compile Include="BaseDataType\IExpectList.cs" />
+    <Compile Include="BaseDataType\IndexExpectData.cs" />
     <Compile Include="BaseDataType\InitData.cs" />
     <Compile Include="BaseDataType\ITraceable.cs" />
     <Compile Include="BaseDataType\MongoData.cs" />

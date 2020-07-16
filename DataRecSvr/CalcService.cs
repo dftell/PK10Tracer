@@ -185,6 +185,25 @@ namespace DataRecSvr
                     Dictionary<string, CalcStragGroupClass<TimeSerialData>> allGrps = Program.AllServiceConfig.AllRunningPlanGrps as Dictionary<string, CalcStragGroupClass<TimeSerialData>>;
                     //加入后续启动的计划
                     Program.AllServiceConfig.AllRunningPlanGrps = InitServerClass.InitCalcStrags<TimeSerialData>(DataPoint, ref allGrps, Program.AllServiceConfig.AllStrags as Dictionary<string, BaseStragClass<TimeSerialData>>, Program.AllServiceConfig.AllRunPlannings, Program.AllServiceConfig.AllAssetUnits, false, this.IsTestBack);
+                    //从系统数据中取得对应的索引数据
+                    allGrps.Values.ToList().ForEach(
+                        grp =>
+                        {
+                            lock (grp)
+                            {
+                                if (grp.grpIndexs != null)
+                                {
+                                    foreach (var kv in grp.grpIndexs)
+                                    {
+                                        if (Program.AllServiceConfig.AllStragIndexs.ContainsKey(kv.Key))
+                                        {
+                                            grp.grpIndexs[kv.Key] = Program.AllServiceConfig.AllStragIndexs[kv.Key];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        );
                 }
                 foreach (string key in Program.AllServiceConfig.AllRunningPlanGrps.Keys)//再次为计划组分配资源，保证策略和计划一直在内存。
                 {
@@ -226,7 +245,7 @@ namespace DataRecSvr
                 //强制设置完成线程等于线程数，再检查是否完成，保证最后更新文件标志
                 FinishedThreads = RunThreads;
                 CheckFinished();
-                Log(ce.Message, ce.StackTrace, true);
+                Log(ce.Message, ce.StackTrace, !IsTestBack);
                 runErrorMsg = ce.Message;
                 ErrorStackTrace = ce.StackTrace;
                 return false;
@@ -396,7 +415,7 @@ namespace DataRecSvr
             }
 
             Dictionary<string, ChanceClass<T>> rl = new Dictionary<string, ChanceClass<T>>();
-            if(cl.Count>0)
+            if(cl.Count>0 && !IsTestBack)
                 Log("未关闭机会列表数量为", string.Format("{0}",cl.Count));
             //2019/4/22日出现错过732497，732496两期记录错过，但是732498却收到的情况，同时，正好在732498多次重复策略正好开出结束，因错过2期导致一直未归零，
             //一直长时间追号开出近60期

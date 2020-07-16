@@ -13,6 +13,7 @@ using WolfInv.com.BaseObjectsLib;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
 using WolfInv.com.Strags.KLXxY;
+using WolfInv.com.Strags.MLStragClass;
 namespace WolfInv.com.Strags
 {
     public interface IFindChance<T> where T : TimeSerialData
@@ -39,6 +40,9 @@ namespace WolfInv.com.Strags
     [XmlInclude(typeof(Strag_SingleBayesClass))]
     [XmlInclude(typeof(Strag_SimpleMaxEntryClass))]
     [XmlInclude(typeof(StragClass))]
+    [XmlInclude(typeof(strag_MarkovClass))]
+    [XmlInclude(typeof(Strag_SimpleShiftClass))]
+    [XmlInclude(typeof(ReferIndexStragClass))]
     public abstract class BaseStragClass<T> : DisplayAsTableClass, IFindChance<T>, ISelfSetting where T : TimeSerialData
     {
         string _guid;
@@ -368,6 +372,7 @@ namespace WolfInv.com.Strags
             return dt;
         }
 
+        public bool IsBackTest;
 
         public object RunningPlan;
 

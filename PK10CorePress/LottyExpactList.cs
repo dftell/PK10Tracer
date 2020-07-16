@@ -146,6 +146,8 @@ namespace WolfInv.com.PK10CorePress
                 return ret;
             }
         }
+
+
         public long LExpectNo
         {
             get { return long.Parse(Expect); }
@@ -195,6 +197,16 @@ namespace WolfInv.com.PK10CorePress
 
     public class Combin_ExpectData: ExpectData
     {
+        public Combin_ExpectData()
+        {
+
+        }
+        public Combin_ExpectData(ExpectData ed)
+        {
+            this.OpenCode = ed.OpenCode;
+            this.Expect = ed.Expect;
+            this.OpenTime = ed.OpenTime;
+        }
         public override string[] ValueList
         {
             get

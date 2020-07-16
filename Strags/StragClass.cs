@@ -12,6 +12,7 @@ using System.Drawing.Design;
 using System.Windows.Forms.Design;
 using WolfInv.com.ProbMathLib;
 using WolfInv.com.Strags.KLXxY;
+using WolfInv.com.Strags.MLStragClass;
 namespace WolfInv.com.Strags
 {
     public interface IFindChance
@@ -40,6 +41,10 @@ namespace WolfInv.com.Strags
     [XmlInclude(typeof(Strag_KLXxY_Combin_All8_All3))]
     [XmlInclude(typeof(Strag_KLXxY_ExData_Missed))]
     [XmlInclude(typeof(Strag_LongHoldStartReduceClass))]
+    [XmlInclude(typeof(strag_MarkovClass))]
+    [XmlInclude(typeof(Strag_SimpleShiftClass))]
+    [XmlInclude(typeof(ReferIndexStragClass))]    
+
     public abstract class StragClass : BaseStragClass<TimeSerialData>, iDbFile,IFindChance, ITraceChance, WolfInv.com.BaseObjectsLib.ISpecAmount
     {
         
@@ -286,6 +291,7 @@ namespace WolfInv.com.Strags
 
         public bool IsTracing { get; set; }
         #endregion
+
 
 
 

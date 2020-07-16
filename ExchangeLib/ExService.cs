@@ -114,7 +114,7 @@ namespace WolfInv.com.ExchangeLib
         //////}
 
 
-        public bool Push<T>(ref ExchangeChance<T> ec) where T : TimeSerialData
+        public bool Push<T>(ref ExchangeChance<T> ec,bool debugOrTest = false) where T : TimeSerialData
         {
             lock (ed)
             {
@@ -160,7 +160,8 @@ namespace WolfInv.com.ExchangeLib
                 }
                 if (ec.ExchangeAmount * ec.OwnerChance.ChipCount * 10 > CurrMoney)//记录投入资金超出10%的记录
                 {
-                    LogableClass.ToLog("风险",string.Format("大投入组合[{0}]", (double)100 * ec.ExchangeAmount * ec.OccurStrag.ChipCount / CurrMoney), ec.OwnerChance.ToDetailString());
+                    if(!debugOrTest)
+                        LogableClass.ToLog("风险",string.Format("大投入组合[{0}]", (double)100 * ec.ExchangeAmount * ec.OccurStrag.ChipCount / CurrMoney), ec.OwnerChance.ToDetailString());
                 }
                 ec = ed.AddAChance(ec);
                 CurrMoney -= ec.ExchangeAmount * ec.OwnerChance.ChipCount;

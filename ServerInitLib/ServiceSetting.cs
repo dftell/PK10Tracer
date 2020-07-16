@@ -35,7 +35,7 @@ namespace WolfInv.com.ServerInitLib
         static List<ExchangeChance<T>> _AllExchangeChances;
         static Dictionary<string, ChanceClass<T>> _AllNoClosedChances;
         static Dictionary<string, List<double>> _AllStdDevs = new Dictionary<string, List<double>>();
-
+        static Dictionary<string,List<IndexExpectData>> _AllStragIndexs;
         public bool haveReceiveData
         {
             get
@@ -102,6 +102,12 @@ namespace WolfInv.com.ServerInitLib
         {
             get { return _AllStdDevs; }
             set { _AllStdDevs = value; }
+        }
+
+        public Dictionary<string,List<IndexExpectData>> AllStragIndexs
+        {
+            get { return _AllStragIndexs; }
+            set { _AllStragIndexs = value; }
         }
         //public Dictionary<string, ChanceClass> NoCloseChances
         //{
@@ -172,6 +178,7 @@ namespace WolfInv.com.ServerInitLib
             wxlog.Log("初始化服务器设置", "初始资产单元列表");
             this.AllAssetUnits = InitServerClass.Init_AssetUnits();
             this.AllNoClosedChanceList = new Dictionary<string, ChanceClass<T>>();
+            this.AllStragIndexs = new Dictionary<string, List<IndexExpectData>>();
             InitSecurity();
 
 
@@ -227,6 +234,22 @@ namespace WolfInv.com.ServerInitLib
             //Log("初始化服务器设置","分组准备运行计划列表");
             Dictionary<string,CalcStragGroupClass<T>> outret = null;
             this.AllRunningPlanGrps = InitServerClass.InitCalcStrags(UseDataPoint,ref outret, this.AllStrags, this.AllRunPlannings, this.AllAssetUnits, true, IsBackTest);
+            if(this.AllStragIndexs == null)
+            {
+                this.AllStragIndexs = new Dictionary<string, List<IndexExpectData>>();
+            }
+            this.AllRunningPlanGrps.Values.ToList().ForEach(grp => {
+                if (grp.grpIndexs != null)
+                {
+                    foreach (var kv in grp.grpIndexs)
+                    {
+                        if (!this.AllStragIndexs.ContainsKey(kv.Key))
+                        {
+                            this.AllStragIndexs.Add(kv.Key, kv.Value);
+                        }
+                    }
+                }
+            });
         }
 
         public bool SetPlanStatus(string PGUID, bool Running)

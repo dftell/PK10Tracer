@@ -13,8 +13,9 @@ using WolfInv.com.Strags;
 using System.IO;
 using System.Threading;
 using WolfInv.com.SecurityLib;
+using System.Threading.Tasks;
 
-namespace BackTestSystem
+namespace BackTestSys
 {
     delegate void SetDataGridCallback(string id, DataTable dt,int currRow);
     public partial class frm_TrainForm<T> : Form where T:TimeSerialData
@@ -32,6 +33,8 @@ namespace BackTestSystem
             this.ddl_categryFunc.DataSource = dt_categery;
             this.ddl_categryFunc.DisplayMember = "text";
             this.ddl_categryFunc.ValueMember = "value";
+
+            BackTestFrm<T>.LoadDataSrc(this.ddl_dataSource);
         }
 
         Type MLType;
@@ -39,13 +42,23 @@ namespace BackTestSystem
         Thread RunningThread = null;
         List<MachineLearnClass<int, int>> SelectFuncs = new List<MachineLearnClass<int, int>>();
         int ThreadCnt = 0;
+        List<Task> Tasks = new List<Task>();
         int FinishedCnt = 0;
+
         private void btn_Train_Click(object sender, EventArgs e)
         {
+            Tasks = new List<Task>();
             //return;//暂时不支持训练集回测
             long len = long.Parse(this.txt_DataLength.Text);
             int deep = int.Parse(this.txt_LearnDeep.Text);
-            DataTypePoint dtp = GlobalClass.TypeDataPoints.First().Value;
+            var dtps = GlobalClass.TypeDataPoints.Where(a => a.Key == this.ddl_dataSource.SelectedValue);
+            
+            if(dtps == null || dtps.Count()==0)
+            {
+                MessageBox.Show("数据源不存在");
+                return;
+            }
+            var dtp = dtps.First().Value;
             DataReader er = DataReaderBuild.CreateReader(dtp.DataType, dtp.HistoryTable, dtp.RuntimeInfo.SecurityCodes); //支持所有数据
             ExpectList<TimeSerialData> el = null;
             int maxCnt = 5;
@@ -58,15 +71,20 @@ namespace BackTestSystem
                 repcnt++;
                 if(repcnt>maxCnt)
                 {
-                    break;
+                    MessageBox.Show("访问数据失败！");
+                    return;
                 }
             }
+            ThreadCnt = int.Parse(txt_threadCnt.Text);
+            DataTable dtview = null;
+            initDataTable(ref dtview);
+            this.SetDataGridDataTable(this.dataGridView1, dtview, -1);
             //MLDataFactory mldf = new MLDataFactory(ExpectList.getExpectList(el));
             DataCategroyType = (Type)this.ddl_categryFunc.SelectedValue;
             MLType = (Type)this.ddl_MLFunc.SelectedValue;
             MLDataCategoryFactoryClass mldf = (MLDataCategoryFactoryClass)ClassOperateTool.getInstanceByType(DataCategroyType);
             mldf.Init(ExpectList.getExpectList(el));
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < ThreadCnt; i++)
             {
                 //MLInstances<int, int> TrainSet = mldf.getAllSpecColRoundLabelAndFeatures(i,deep, chkb_AllUseShift.Checked ? 1 : 0);
                 MLInstances<int, int> TrainSet = mldf.getCategoryData(i, deep, chkb_AllUseShift.Checked ? 1 : 0);
@@ -80,12 +98,19 @@ namespace BackTestSystem
                 SelectFunc.FillTrainData(TrainSet);
                 SelectFunc.InitTrain();
                 SelectFunc.TrainIterorCnt = int.Parse(txt_IteratCnt.Text);
+                SelectFunc.SelectCnt = int.Parse(txt_featureCnt.Text);
+                SelectFunc.TopN = int.Parse(this.txt_TopN.Text);
                 SelectFuncs.Add(SelectFunc);
                 this.txt_begT.Text = DateTime.Now.ToLongTimeString();
                 this.Cursor = Cursors.WaitCursor;
-                RunningThread = new Thread(SelectFunc.Train);
-                RunningThread.Start();
-                ThreadCnt++;
+                //RunningThread = new Thread(SelectFunc.Train);
+                //RunningThread.Start();
+                Task tk = new Task(()=> {
+                    SelectFunc.Train();
+                });
+                Tasks.Add(tk);
+                tk.Start();
+                
             }
             
         }
@@ -148,7 +173,7 @@ namespace BackTestSystem
         {
             dt = new DataTable();
             dt.Columns.Add("项目");
-            for(int i=0;i<10;i++)
+            for(int i=0;i<ThreadCnt;i++)
             {
                 string strcol = string.Format("{0}", (i + 1) % 10);
                 //string colName = string.Format("列{0}", strcol);
@@ -240,7 +265,8 @@ namespace BackTestSystem
             {
                 try
                 {
-                    RunningThread.Abort();
+                   // CancellationTokenSource.
+                   //Tasks.ForEach(a=>a.)
                 }
                 catch(Exception ce)
                 {
@@ -298,9 +324,9 @@ namespace BackTestSystem
 
         private void frm_TrainForm_Load(object sender, EventArgs e)
         {
-            DataTable dtview = null;
-            initDataTable(ref dtview);
-            this.SetDataGridDataTable(this.dataGridView1, dtview, -1);
+            
+            //initDataTable(ref dtview);
+            //this.SetDataGridDataTable(this.dataGridView1, dtview, -1);
         }
     }
 }

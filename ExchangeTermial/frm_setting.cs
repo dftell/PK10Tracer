@@ -44,6 +44,7 @@ namespace ExchangeTermial
                     int.TryParse(dt.Rows[i]["cnt"]?.ToString(), out aic.value);
                     //int.TryParse(dt.Rows[i]["needSelectTime"]?.ToString(), out aic.NeedSelectTimes);
                     aic.NeedSelectTimes = (bool)dt.Rows[i]["needSelectTime"]==true ? 1 : 0;
+                    int.TryParse(dt.Rows[i]["SelectFuncId"]?.ToString(),out aic.SelectFuncId);
                     int.TryParse(dt.Rows[i]["currTimes"]?.ToString(), out aic.CurrTimes);
                     int.TryParse(dt.Rows[i]["DefaultReturnTimes"]?.ToString(), out aic.DefaultReturnTimes);
                     int.TryParse(dt.Rows[i]["AutoTraceMinChips"]?.ToString(), out aic.AutoTraceMinChips);
@@ -118,6 +119,7 @@ namespace ExchangeTermial
             dt.Columns.Add("StopStepLen");
             dt.Columns.Add("StopPower");
             dt.Columns.Add("needSelectTime",typeof(bool));
+            dt.Columns.Add("SelectFuncId");
             dt.Columns.Add("NeedStopGained", typeof(bool));
             dt.Columns.Add("gainedUbound");
             foreach(string key in aul.Keys)
@@ -137,6 +139,7 @@ namespace ExchangeTermial
                 dr["StopStepLen"] = aus.ContainsKey(key) ? aus[key].StopStepLen : 0;
                 dr["StopPower"] = aus.ContainsKey(key) ? aus[key].StopPower : 0;
                 dr["needSelectTime"] = aus.ContainsKey(key) ? aus[key].NeedSelectTimes : 0;
+                dr["SelectFuncId"] = aus.ContainsKey(key)?aus[key].SelectFuncId:0;
                 dr["NeedStopGained"] = aus.ContainsKey(key) ? aus[key].NeedStopGained : 0;
                 dr["gainedUbound"] = aus.ContainsKey(key) ? aus[key].maxStopGainedValue : 0;
                 dt.Rows.Add(dr);

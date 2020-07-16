@@ -10,8 +10,7 @@ namespace WolfInv.com.PK10CorePress
     public class CommCollection_KLXxY : PK10CorePress.CommCollection
     {
         DataTable _dt;
-        public int AllNums { get; set; }
-        public int SelNums { get; set; }
+        
 
         public string strAllTypeOdds { get; set; }
         public string strCombinTypeOdds { get; set; }
@@ -77,14 +76,14 @@ namespace WolfInv.com.PK10CorePress
                 {
                     for (int i = 0; i < SelNums; i++)
                     {
-                        _CarTable.Columns.Add(string.Format("{0}", (i + 1) % 10).PadLeft(2,'0'));
+                        _CarTable.Columns.Add(string.Format("{0}", (i + 1)));
                     }
                 }
                 else
                 {
-                    for (int i = 1; i < AllNums; i++)
+                    for (int i = 1; i <= AllNums; i++)
                     {
-                        _CarTable.Columns.Add(i.ToString());
+                        _CarTable.Columns.Add(i.ToString().PadLeft(2, '0'));
                     }
 
                 }
@@ -92,26 +91,27 @@ namespace WolfInv.com.PK10CorePress
                 for (int i = 0; i < Data[0].Count; i++)
                 {
                     DataRow dr = _CarTable.NewRow();
+                    Combin_ExpectData ed = new Combin_ExpectData(this.orgData[i]);
                     if (isByNo)
                     {
                         for (int j = 0; j < SelNums; j++)
                         {
-                            dr[j] = (this.orgData[i]).ValueList[j];
+                            dr[(j+1).ToString()] = ed.ValueList[j];
                         }
                     }
                     else
                     {
                         for (int j = 0; j < AllNums; j++)
                         {
-                            for (int c = 0; c < this.orgData[i].ValueList.Length; c++)
+                            for (int c = 0; c < ed.ValueList.Length; c++)
                             {
-                                if(int.Parse(this.orgData[i].ValueList[c])-1 == j)
+                                if(int.Parse(ed.ValueList[c])-1 == j)
                                 {
-                                    dr[this.orgData[i].ValueList[c].PadLeft(2,'0')] = 1;
+                                    dr[ed.ValueList[c].PadLeft(2,'0')] = 1;
                                 }
                                 else
                                 {
-                                    dr[this.orgData[i].ValueList[c].PadLeft(2, '0')] = 0;
+                                    dr[ed.ValueList[c].PadLeft(2, '0')] = 0;
                                 }
                             }
                         }
@@ -132,12 +132,15 @@ namespace WolfInv.com.PK10CorePress
 
         public override int FindLastDataExistCount(int StartPos, int lng, string StrKey, string val)
         {
-            throw new NotImplementedException();
+            DataTableEx dt = this.CarTable;
+            int Cnt = dt.Rows.Count;
+            string sql = string.Format("([Id]>={3} and [Id]<={2}+{3}) and [{0}]={1}", StrKey, val, lng, StartPos);
+            return dt.Select(sql).Length;
         }
 
         public override int FindLastDataExistCount(int lng, string StrPos, string key)
         {
-            throw new NotImplementedException();
+            return FindLastDataExistCount(0, lng, StrPos, key);
         }
 
         public override string FindSpecColumnValue(int id, string strKey)
@@ -442,6 +445,20 @@ namespace WolfInv.com.PK10CorePress
                 sum += serial[i - 1] * chips;
             }
             return sum;
+        }
+
+        public override Dictionary<string, T1> getFeatureDic<T1>(bool bySer, string strModel = "{0}/{1}")
+        {
+            Dictionary<string, T1> ret = new Dictionary<string, T1>();
+            for (int i = 1; i <= this.SelNums; i++)
+            {
+                string col = string.Format("{0}", i);
+                for (int j = 1; j <= this.AllNums; j++)
+                {
+                    ret.Add(string.Format(strModel, col, j.ToString().PadLeft(2,'0')), default(T1));
+                }
+            }
+            return ret;
         }
     }
 

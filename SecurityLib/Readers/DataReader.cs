@@ -63,31 +63,42 @@ namespace WolfInv.com.SecurityLib
         {
             int DateLong = dtp.ExpectCodeDateLong;
             int CounterMax = dtp.ExpectCodeCounterMax;
+            int CounterLong = dtp.ExpectCodeCounterLen;
             string dateFmt = dtp.ExpectCodeDateFormate;
             //if(DateLong==0)
             //    return string.Format("{0}", long.Parse(expect) + 1);
             string strDate = expect.Substring(0, DateLong);
             string strCounter = expect.Substring(DateLong);
-            int CounterLong = expect.Length - strDate.Length;
+            if(CounterLong<=0)//如果默认值为0
+                CounterLong = expect.Length - strDate.Length;
             long counterValue = long.Parse(strCounter);
             DateTime currDate;
-            if (!DateTime.TryParseExact(strDate, dateFmt,
-                System.Globalization.CultureInfo.InvariantCulture,
-                System.Globalization.DateTimeStyles.AdjustToUniversal,
-                out currDate))//不是日期，继续合上
+            try
             {
-                return string.Format("{0}{1}", strDate, string.Format("{0}", counterValue + 1).PadLeft(CounterLong, '0'));
-            }
-            else
-            {
-                if (counterValue < CounterMax)
+                if (!DateTime.TryParseExact(strDate, dateFmt,
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.DateTimeStyles.AdjustToUniversal,
+                    out currDate))//不是日期，继续合上
                 {
                     return string.Format("{0}{1}", strDate, string.Format("{0}", counterValue + 1).PadLeft(CounterLong, '0'));
                 }
                 else
                 {
-                    return string.Format("{0}{1}", currDate.AddDays(1).ToString(dateFmt), "1".PadLeft(CounterLong, '0'));
+                    if (counterValue < CounterMax)
+                    {
+                        return string.Format("{0}{1}", strDate, string.Format("{0}", counterValue + 1).PadLeft(CounterLong, '0'));
+                    }
+                    else
+                    {
+                        return string.Format("{0}{1}", currDate.AddDays(1).ToString(dateFmt), "1".PadLeft(CounterLong, '0'));
+                    }
                 }
+            }
+            catch(Exception ce)
+            {
+                ToLog(ce.Message, strDate);
+                throw ce;
+                return string.Format("{0}{1}", strDate, string.Format("{0}", counterValue + 1).PadLeft(CounterLong, '0'));
             }
         }
 
@@ -106,6 +117,7 @@ namespace WolfInv.com.SecurityLib
             while(true)
             {
                 currExpect = getNextExpectNo(currExpect, dtp);
+                //ToLog("循环获得的当前期号", currExpect);
                 if(currExpect.Trim() == expectTo.Trim())
                 {
                     return ret;
@@ -118,6 +130,31 @@ namespace WolfInv.com.SecurityLib
             }
         }
         public abstract void updateExpectInfo(string dataType, string nextExpect, string currExpect,string openCode,string openTime);
+
+        public static string getStdExpect(string strExpect, DataTypePoint dtp)
+        {
+            int len = dtp.ExpectCodeCounterLen;
+            if (len ==0)
+            {
+                len = dtp.ExpectCodeCounterMax.ToString().Length;
+            }
+            int currLen = strExpect.Trim().Length;
+            if(currLen == dtp.ExpectCodeDateLong+len)
+            {
+                return strExpect;
+            }
+            if(currLen>dtp.ExpectCodeDateLong+len)
+            {
+                string strDate = strExpect.Substring(0, dtp.ExpectCodeDateLong);
+                string strCount = strExpect.Substring(dtp.ExpectCodeDateLong);
+                return strDate + strCount.Substring(strCount.Length - len);//取右边的，最后的len位
+            }
+            else
+            {
+                throw new Exception("期号长度小于标准长度，请检查！");
+            }
+            return strExpect;
+        }
     }
 
 }

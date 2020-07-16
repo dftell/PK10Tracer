@@ -6,6 +6,7 @@ namespace WolfInv.com.BaseObjectsLib
     {
         public int value = 0; //当前金额
         public int NeedSelectTimes = 0;//需要择时
+        public int SelectFuncId = 0;//0 二项分布择时， 1 凌波微步择时
         public int CurrTimes = 0;
         //public int MaxTracingTimes = 0;//最大追踪次数
         public int NeedStopGained = 0;//需要止盈
@@ -65,6 +66,10 @@ namespace WolfInv.com.BaseObjectsLib
             {
                 int.TryParse(vals["NeedSelectTimes"], out NeedSelectTimes);
             }
+            if(vals.ContainsKey("SelectFuncId"))
+            {
+                int.TryParse(vals["SelectFuncId"], out SelectFuncId);
+            }
             if (vals.ContainsKey("maxStopGainedValue"))
             {
                 double.TryParse(vals["maxStopGainedValue"], out maxStopGainedValue);
@@ -108,6 +113,7 @@ namespace WolfInv.com.BaseObjectsLib
             Dictionary<string, string> ret = new Dictionary<string, string>();
             ret.Add("value",value.ToString());
             ret.Add("NeedSelectTimes", NeedSelectTimes.ToString());
+            ret.Add("SelectFuncId", SelectFuncId.ToString());
             ret.Add("NeedStopGained", NeedStopGained.ToString());
             ret.Add("maxStopGainedValue", maxStopGainedValue.ToString());
             ret.Add("DefaultReturnTimes", DefaultReturnTimes.ToString());

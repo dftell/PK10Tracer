@@ -23,13 +23,13 @@ using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.SecurityLib;
 namespace BackTestSys
 {
-    public partial class BackTestFrm<T> : Form where T:TimeSerialData
+    public partial class BackTestFrm<T> : Form where T : TimeSerialData
     {
         BackgroundWorker bw;
-        BackTestReturnClass<T> ret=null;
+        BackTestReturnClass<T> ret = null;
         BackTestClass<T> btc = null;
-        MainForm  CheckFrm;
-        ExchangeService es;
+        MainForm CheckFrm;
+        Dictionary<string, ExchangeService> ess;
         BaseStragClass<T> sc;
         Thread th = null;
         GlobalClass globalSetting = new GlobalClass();
@@ -46,7 +46,7 @@ namespace BackTestSys
             set
             {
                 _RunVirExchange = value;
-                if (_RunVirExchange&& this.chart1.Series.Count > 0)
+                if (_RunVirExchange && this.chart1.Series.Count > 0)
                 {
                     this.chart1.Series[0].Points.Clear();//DataBindXY(moneyLines, "id", moneyLines, "val");
                     this.dataGridView_ExchangeDetail.DataSource = null;
@@ -59,7 +59,7 @@ namespace BackTestSys
                 this.timer_Tip.Enabled = _RunVirExchange;
             }
         }
-        
+
         public BackTestFrm()
         {
             InitializeComponent();
@@ -96,7 +96,7 @@ namespace BackTestSys
             }
             this.listView2.Columns.Clear();
             this.listView2.Columns.Add("", 0);
-            this.listView2.Columns.Add("持续次数",200);
+            this.listView2.Columns.Add("持续次数", 200);
             this.listView2.Columns.Add("机会数", 200);
             this.listView2.Columns.Add("命中数", 200);
             this.listView2.Columns.Add("投入个数", 200);
@@ -120,32 +120,32 @@ namespace BackTestSys
             this.listView1.ContextMenuStrip = contextMenuStrip_ForListView;
             this.dataGridView_ExchangeDetail.ContextMenuStrip = contextMenuStrip_ForListView;
             CheckForIllegalCrossThreadCalls = false;
-            LoadDataSrc();
+            LoadDataSrc(this.ddl_DataSource);
         }
 
-        void LoadDataSrc()
+        public static void LoadDataSrc(ComboBox ddl_DataSource)
         {
-            this.ddl_DataSource.Items.Clear();
+            ddl_DataSource.Items.Clear();
             DataTable dt = new DataTable();
             dt.Columns.Add("value");
             dt.Columns.Add("text");
-            foreach(string key in GlobalClass.DataTypes.Keys)
+            foreach (string key in GlobalClass.DataTypes.Keys)
             {
                 DataRow dr = dt.NewRow();
                 dr["value"] = key;
                 dr["text"] = GlobalClass.DataTypes[key];
                 dt.Rows.Add(dr);
             }
-            this.ddl_DataSource.DataSource = dt;
-            this.ddl_DataSource.DisplayMember = "text";
-            this.ddl_DataSource.ValueMember = "value";
-        
+            ddl_DataSource.DataSource = dt;
+            ddl_DataSource.DisplayMember = "text";
+            ddl_DataSource.ValueMember = "value";
+
         }
 
         void tsmi_ExportExcel_Click(object sender, EventArgs e)
         {
             object src = ((sender as ToolStripMenuItem).Owner as ContextMenuStrip).SourceControl;
-            if (src == null) return ;
+            if (src == null) return;
             //ListView lv = ((sender as ToolStripMenuItem).Owner as ContextMenuStrip).SourceControl as ListView;
             //if (lv == null) return;
             CExcel ce = new CExcel();
@@ -180,14 +180,25 @@ namespace BackTestSys
         void Finished()
         {
             this.timer_Tip.Enabled = false;
-            AssetUnitClass auc = SCList[0].AssetUnitInfo;
-            auc.SaveDataToFile();
+            if (checkBox_MixAll.Checked)
+            {
+                AssetUnitClass auc = SCList[0].AssetUnitInfo;
+                auc.SaveDataToFile();
+            }
+            else
+            {
+                SCList.ForEach(a =>
+                {
+                    AssetUnitClass auc = a.AssetUnitInfo;
+                    auc.SaveDataToFile();
+                });
+            }
             MessageBox.Show("执行完毕！");
         }
         Thread thrd = null;
         private void DoSomething(BackgroundWorker worker, DoWorkEventArgs e)
         {
-            
+
             SettingClass setting = new SettingClass();
             setting.GrownMaxVal = int.Parse(this.txt_GrownMaxVal.Text);
             setting.GrownMinVal = int.Parse(this.txt_GrownMinVal.Text);
@@ -231,7 +242,7 @@ namespace BackTestSys
             ////////////////////////    return;
             ////////////////////////}
             #endregion
-            btc = new BackTestClass<T>(GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()],long.Parse(txt_begExpNo.Text), long.Parse(txt_LoopCnt.Text), setting);
+            btc = new BackTestClass<T>(GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()], long.Parse(txt_begExpNo.Text), long.Parse(txt_LoopCnt.Text), setting);
             this.listView1.Items.Clear();
             this.listView2.Items.Clear();
             this.listView3.Items.Clear();
@@ -245,12 +256,23 @@ namespace BackTestSys
             SCList.ForEach(p => p.AutoRunning = true);
             SCList.ForEach(p => p.FixAmt = 1);
             SCList.ForEach(p => p.FixRate = 0.01);
+            if(ckb_useCondition.Checked)
+            {
+                SCList.ForEach(a=> {
+                    a.PlanStrag.BySer = this.chkb_bySer.Checked;
+                    a.PlanStrag.ReviewExpectCnt = int.Parse(this.txt_reviewExpCnt.Text);
+                    a.PlanStrag.ChipCount = int.Parse(this.txt_ChipCnt.Text);
+                    a.PlanStrag.FixChipCnt = this.txt_FixChipCnt.Text.Trim() == "1";
+                    a.PlanStrag.InputMinTimes = int.Parse(this.txt_minInputTimes.Text);
+                    a.PlanStrag.InputMaxTimes = int.Parse(this.txt_maxInputTimes.Text);
+                });
+            }
             sc = SCList[0].PlanStrag;
             this.Cursor = Cursors.WaitCursor;
             timer_Tip.Tick += new EventHandler(RefreshList);
             this.timer_Tip.Interval = int.Parse(txt_Timer_Interval.Text) * 1000;
             this.timer_Tip.Enabled = true;
-            
+
             try
             {
 
@@ -258,7 +280,7 @@ namespace BackTestSys
                 btc.teststrag = sc;
                 thrd = new Thread(new ThreadStart(btc.Run));
                 thrd.Start();
-                
+
             }
             catch (Exception ce)
             {
@@ -269,10 +291,10 @@ namespace BackTestSys
                 MessageBox.Show(ce.Message);
             }
 
-            
+
             //this.RunVirExchange = true;
 
-            
+
             this.Cursor = Cursors.Default;
             ////if (!ret.succ)
             ////    MessageBox.Show(ret.Msg);
@@ -310,11 +332,11 @@ namespace BackTestSys
             //////    return;
             //////}
             ret = btc.ret;
-            if (ret == null) 
+            if (ret == null)
                 return;
-            if(!ret.succ && ret.Msg!= null)
+            if (!ret.succ && ret.Msg != null)
             {
-                
+
                 this.timer_Tip.Enabled = false;
                 MessageBox.Show(ret.Msg);
                 return;
@@ -338,13 +360,13 @@ namespace BackTestSys
                         li.SubItems.Add(ret.ChanceList[i].MatchChips.ToString());
                         li.SubItems.Add(ret.ChanceList[i].CreateTime.ToString());
                         li.SubItems.Add(ret.ChanceList[i].UpdateTime.ToString());
-                        
+
                         this.listView1.Items.Add(li);
-                        
-                        
+
+
                     }
                 }
-                this.listView1.Items[this.listView1.Items.Count-1].Selected = true;
+                this.listView1.Items[this.listView1.Items.Count - 1].Selected = true;
                 //this.listView1.SelectedItems;
             }
             this.listView2.Items.Clear();
@@ -406,7 +428,7 @@ namespace BackTestSys
             {
                 if (MessageBox.Show("确定停止回测？", "确认", MessageBoxButtons.YesNo) == DialogResult.No)
                 {
-                    
+
                     return;
                 }
                 thrd.Abort();
@@ -417,27 +439,27 @@ namespace BackTestSys
             bw.DoWork += new DoWorkEventHandler(bw_DoWork);
             bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
             bw.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
-            DoSomething(bw,null);
+            DoSomething(bw, null);
         }
-           
+
 
         private void listView_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             System.Windows.Forms.ListView lv = sender as System.Windows.Forms.ListView;
-              // 检查点击的列是不是现在的排序列.
+            // 检查点击的列是不是现在的排序列.
             if (e.Column == (lv.ListViewItemSorter as ListViewItemComparer).SortColumn)
-              {
-                  // 重新设置此列的排序方法.
-                  if ((lv.ListViewItemSorter as ListViewItemComparer).Order == System.Windows.Forms.SortOrder.Ascending)
-                 {
-                     (lv.ListViewItemSorter as ListViewItemComparer).Order = System.Windows.Forms.SortOrder.Descending;
-                 }
-                 else
-                 {
-                     (lv.ListViewItemSorter as ListViewItemComparer).Order = System.Windows.Forms.SortOrder.Ascending;
+            {
+                // 重新设置此列的排序方法.
+                if ((lv.ListViewItemSorter as ListViewItemComparer).Order == System.Windows.Forms.SortOrder.Ascending)
+                {
+                    (lv.ListViewItemSorter as ListViewItemComparer).Order = System.Windows.Forms.SortOrder.Descending;
                 }
-             }
-           else
+                else
+                {
+                    (lv.ListViewItemSorter as ListViewItemComparer).Order = System.Windows.Forms.SortOrder.Ascending;
+                }
+            }
+            else
             {
                 // 设置排序列，默认为正向排序
                 (lv.ListViewItemSorter as ListViewItemComparer).SortColumn = e.Column;
@@ -463,6 +485,12 @@ namespace BackTestSys
             ////string strFileName = ofd.FileName;
             CExcel ce = new CExcel();
             ce.ExportExcel(this.listView1);
+        }
+
+        private void tsmi_ExportCSV_Click(object sender, EventArgs e)
+        {
+            CExcel ce = new CExcel();
+            ce.ExportCSV(this.listView1);
         }
 
         private void listView2_ColumnClick(object sender, ColumnClickEventArgs e)
@@ -530,7 +558,7 @@ namespace BackTestSys
             }
             listView3.Items.Clear();
             List<float> wins = rbtr.RoundWinRate;
-            for (int i = 0;i< rbtr.RoundData.Count; i++)
+            for (int i = 0; i < rbtr.RoundData.Count; i++)
             {
                 ListViewItem lvi = new ListViewItem();
                 lvi.Text = (i + 1).ToString();
@@ -559,9 +587,9 @@ namespace BackTestSys
         {
             //if (CheckFrm == null)
             //{
-                CheckFrm = new MainForm();
-                CheckFrm.Show();
-                return;
+            CheckFrm = new MainForm();
+            CheckFrm.Show();
+            return;
             //}
             ////CheckFrm.ReLoad();
             ////CheckFrm.Show();
@@ -578,14 +606,14 @@ namespace BackTestSys
             //MessageBox.Show(strExpect);
             ////if (CheckFrm == null)
             ////{
-                CheckFrm = new MainForm();
+            CheckFrm = new MainForm();
             ////    CheckFrm.InputExpect = int.Parse(strExpect);
             ////    CheckFrm.Show();
             ////    return;
             ////}
             CheckFrm.InputExpect = long.Parse(strExpect);
             CheckFrm.Show();
-            
+
         }
 
         /// <summary>
@@ -599,8 +627,8 @@ namespace BackTestSys
             {
                 MessageBox.Show("请选择回测数据源！");
                 return;
-            } 
-            if(runPlanPicker1 == null || this.runPlanPicker1.Plans == null)
+            }
+            if (runPlanPicker1 == null || this.runPlanPicker1.Plans == null)
             {
                 MessageBox.Show("请选择回测策略");
                 return;
@@ -627,7 +655,7 @@ namespace BackTestSys
                     if (th.ThreadState == ThreadState.Running)
                     {
                         th.Abort();
-                        
+
                     }
                 }
                 catch
@@ -650,28 +678,80 @@ namespace BackTestSys
             setting.minColTimes = new int[10];
             setting.UseLocalWaveData = this.checkBox_UseBuffRsult.Checked;
             AssetUnitClass auc = new AssetUnitClass();
-            if(Program.AllSettings.AllAssetUnits.Count>0)//如果存在资产管理单元，所有计划均绑定到第一个上进行测试
+            if (Program.AllSettings.AllAssetUnits.Count > 0)//如果存在资产管理单元，所有计划均绑定到第一个上进行测试
             {
                 auc = Program.AllSettings.AllAssetUnits.Values.Last();
-                
+
             }
             auc.TotalAsset = double.Parse(this.txt_InitCash.Text);
-            es = auc.getCurrExchangeServer();
-            if (es != null)
-            {
-                es.Reset();
-            }
+            //es = auc.getCurrExchangeServer();
+            //if (es != null)
+            //{
+            //    es.Reset();
+            //}
             //设置所有默认值
-            SCList.ForEach(p => p.PlanStrag.CommSetting = setting);
-            SCList.ForEach(p => p.AssetUnitInfo = auc);
-            SCList.ForEach(p => p.Running = true);
-            SCList.ForEach(p => p.AutoRunning = true);
-            SCList.ForEach(p => p.PlanStrag.ReviewExpectCnt = int.Parse(this.txt_reviewExpCnt.Text));
+            if (ess == null)
+                ess = new Dictionary<string, ExchangeService>();
+            if (checkBox_MixAll.Checked)
+            {
+                SCList.ForEach(p => p.AssetUnitInfo = auc);
+                ess.Add(SCList[0].AssetUnitInfo.UnitId, new ExchangeService());
+            }
+            else
+            {
+                //Series s = this.chart1.Series[0];
+                //this.chart1.Series.Clear();
+                SCList.ForEach(
+                    a =>
+                    {
+                        AssetUnitClass ac = new AssetUnitClass();
+                        ac.UnitName = a.Plan_Name;
+                        ac.UnitId = Guid.NewGuid().ToString();
+                        ac.TotalAsset = double.Parse(this.txt_InitCash.Text);
+                        if (!Program.AllSettings.AllAssetUnits.ContainsKey(ac.UnitId))
+                        {
+                            Program.AllSettings.AllAssetUnits.Add(ac.UnitId, ac);
+                        }
+                        a.AssetUnitInfo = ac;
+                        ExchangeService es = ac.getCurrExchangeServer();
+                        if (es != null)
+                        {
+                            es.Reset();
+                        }
+                        ess.Add(ac.UnitId, new ExchangeService());
+                        //Series cs = new Series(ac.UnitName);
+                        //cs.ChartType = s.ChartType;
+                        //cs.BorderWidth = new Random().Next(10);
+                        //this.chart1.Series.Add(cs);
+                        //ac.Run();
+                    });
+            }
+            SCList.ForEach(p =>
+            {
+                p.PlanStrag.CommSetting = setting;
+                p.Running = true;
+                p.AutoRunning = true;
+                //p.PlanStrag.ReviewExpectCnt = int.Parse(this.txt_reviewExpCnt.Text);
+            });
+            if(this.ckb_useCondition.Checked)
+            {
+                SCList.ForEach(a=> {
+                    a.PlanStrag.ReviewExpectCnt = int.Parse(this.txt_reviewExpCnt.Text);
+                    a.PlanStrag.GetRev = this.chkb_getRev.Checked;
+                    a.PlanStrag.InputMinTimes = int.Parse(this.txt_minInputTimes.Text);
+                    a.PlanStrag.InputMaxTimes = int.Parse(this.txt_maxInputTimes.Text);
+                    a.PlanStrag.FixChipCnt = (this.txt_FixChipCnt.Text.Trim() == "1");
+                    a.PlanStrag.ChipCount = int.Parse(this.txt_ChipCnt.Text);
+                });
+            }
+            //SCList.ForEach(p => p.Running = true);
+            //SCList.ForEach(p => p.AutoRunning = true);
+            //SCList.ForEach(p => p.PlanStrag.ReviewExpectCnt = int.Parse(this.txt_reviewExpCnt.Text));
             //if (SCList.Count == 1)
             //{
             //    //SCList[0].PlanStrag = sc;
             //////SCList.ForEach(p=>p.IncreamType = this.checkBox_CreamModel.Checked ? InterestType.CompoundInterest : InterestType.SimpleInterest);
-            
+
             //////////SCList.ForEach(p=>p.FixAmt = 1);
             //////////SCList.ForEach(p=>p.FixRate = 0.01);
             //////SCList.ForEach(p => p.AllowMaxHoldTimeCnt = int.Parse(txt_AllowMaxHoldTimeCnt.Text));
@@ -692,8 +772,8 @@ namespace BackTestSys
             ////////////////Assembly asmb = typeof(StragClass).Assembly;// Assembly.LoadFrom("EnterpriseServerBase.dll");
             ////////////////btc = new BackTestClass(long.Parse(txt_begExpNo.Text), long.Parse(txt_LoopCnt.Text), setting);
             ////////////////////Type sct = asmb.GetType(ddl_StragName.SelectedValue.ToString());
-            
-            
+
+
             ////////////////if (!checkBox_MixAll.Checked)
             ////////////////{
             ////////////////    ////sc = Activator.CreateInstance(sct) as StragClass;
@@ -726,7 +806,7 @@ namespace BackTestSys
             ////////////////    sc.StagSetting = sc.getInitStagSetting();
             ////////////////    ////sc.StagSetting.BaseType.ChipRate = (p * b - q) / b;
             ////////////////    //sc.StagSetting.BaseType.IncrementType = this.checkBox_CreamModel.Checked ? InterestType.CompoundInterest : InterestType.SimpleInterest;
-                
+
             ////////////////    if (setting.UseLocalWaveData && sc is ProbWaveSelectStragClass)//是长期概率分布类
             ////////////////    {
             ////////////////        DataTable dt = new PK10ProbWaveDataInterface().GetProWaveResult(long.Parse(txt_begExpNo.Text));
@@ -778,7 +858,7 @@ namespace BackTestSys
             //this.Cursor = Cursors.WaitCursor;
             this.chart1.Series.Clear();
             //this.chart1.DataSource = null;
-            this.timer_Tip.Interval = int.Parse(txt_Timer_Interval.Text)*1000;
+            this.timer_Tip.Interval = int.Parse(txt_Timer_Interval.Text) * 1000;
             timer_Tip.Tick += new EventHandler(timer_Tip_Tick);
             //this.timer_Tip.Enabled = true;
             this.timer_Tip.Enabled = true;
@@ -788,8 +868,8 @@ namespace BackTestSys
             //////{
             long BegT = 0;
             long EndT = 0;
-            
-            if(ddl_DataSource.SelectedValue.ToString().Equals("CN_Stock_A"))
+
+            if (ddl_DataSource.SelectedValue.ToString().Equals("CN_Stock_A"))
             {
                 DateTime dtbeg = DateTime.Parse(this.txt_begExpNo.Text);
                 DateTime dtend = DateTime.Parse(this.txt_endExpNo.Text);
@@ -802,7 +882,7 @@ namespace BackTestSys
                 EndT = long.Parse(this.txt_endExpNo.Text);
             }
             if (btc == null)
-                btc  = new BackTestClass<T>(GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()],BegT, long.Parse(txt_LoopCnt.Text), setting,EndT);
+                btc = new BackTestClass<T>(GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()], BegT, long.Parse(txt_LoopCnt.Text), setting, EndT);
             th = new Thread(RunVirtual);
             th.Start();
             return;
@@ -823,11 +903,11 @@ namespace BackTestSys
                 Dictionary<string, CalcStragGroupClass<TimeSerialData>> rest = null;
                 Program.AllSettings.AllRunningPlanGrps = InitServerClass.InitCalcStrags<TimeSerialData>(GlobalClass.TypeDataPoints[this.ddl_DataSource.SelectedValue.ToString()], ref rest, Program.AllSettings.AllStrags, SCList.ToDictionary(p => p.GUID, p => p as StragRunPlanClass<TimeSerialData>), Program.AllSettings.AllAssetUnits, true, true);//注入plans
                 btc.FinishedProcess = new SuccEvent(Finished);
-                ret = btc.VirExchange(Program.AllSettings as ServiceSetting<T>, ref es, SCList.ToArray());
+                ret = btc.VirExchange(Program.AllSettings as ServiceSetting<T>, ref ess, SCList.ToArray());
             }
             catch (Exception ce)
             {
-                MessageBox.Show(ce.Message);
+                MessageBox.Show(ce.StackTrace, ce.Message);
             }
 
             //MessageBox.Show(es.summary.ToString());
@@ -887,91 +967,101 @@ namespace BackTestSys
                     this.dg_forStdDev.Refresh();
                 }
 
-                lock (es.MoneyIncreamLine)
+                lock (ess)
                 {
-                    
-                    this.toolStripStatusLabel1.Text = string.Format("第{2}次,{0}/{1}", es.CurrIndex.ToString(), es.ExpectCnt, btc.testIndex);
-                    this.toolStripStatusLabel2.Text = string.Format("{0}% 最大值:[{1}%]   最小值:[{2}%] ", es.GainedRate.ToString(), es.MaxRate, es.MinRate);
-                    DataTable copyDt = es.MoneyIncreamLine.Copy();
-                    copyDt.Columns.Add("point", typeof(string));
-                    for(int i= 0;i<copyDt.Rows.Count;i++)
+                    int ci = 0;
+                    foreach (string key in ess.Keys)
                     {
-                        if (this.ddl_DataSource.SelectedValue.ToString() != "PK10")
-                            copyDt.Rows[i]["point"] = copyDt.Rows[i]["id"].ToString().Substring(0, 8);
-                        else
-                            copyDt.Rows[i]["point"] = copyDt.Rows[i]["id"];
-                    }
-                    DataView moneyLines =new DataView(copyDt);
-                    if (this.chart1.Series.Count == 0)
-                    {
-                        Series ss = new Series();
-                        ss.ChartType = SeriesChartType.Line;
-                        this.chart1.Series.Add(ss);
-                    }
-                    this.chart1.Series[0].Points.DataBindXY(moneyLines, "point", moneyLines, "val");
-                    this.chart1.Series[0].Name = SCList[0].AssetUnitInfo.UnitName;
-                }
-                lock (es.ExchangeDetail)
-                {
-                    DataView vExchangeDetail = new DataView(es.ExchangeDetail);
-                    //vExchangeDetail.Sort = "id desc";
-                    this.dataGridView_ExchangeDetail.DataSource = vExchangeDetail;
-                    this.dataGridView_ExchangeDetail.Refresh();
-                    if (SCList.Count > 0)
-                    {
-                        if (SCList[0].PlanStrag.StagSetting.BaseType.traceType == TraceType.WaveTrace)
+                        ExchangeService es = ess[key];
+                        this.toolStripStatusLabel1.Text = string.Format("第{2}次,{0}/{1}", es.CurrIndex.ToString(), es.ExpectCnt, btc.testIndex);
+                        this.toolStripStatusLabel2.Text = string.Format("{0}% 最大值:[{1}%]   最小值:[{2}%] ", es.GainedRate.ToString(), es.MaxRate, es.MinRate);
+                        DataTable copyDt = es.MoneyIncreamLine.Copy();
+                        copyDt.Columns.Add("point", typeof(string));
+                        for (int i = 0; i < copyDt.Rows.Count; i++)
                         {
-                            ProbWaveSelectStragClass pss = SCList[0].PlanStrag as ProbWaveSelectStragClass;
-                            if (pss.BaseWaves().Tables.Count == 0)
-                            {
-                                return;
-                            }
-                            GuideResult gs = pss.BaseWaves().Tables[0] as GuideResult;
-                            GuideResultSet gss = pss.GuideWaves();
-                            Int32 rcnt = gs.Rows.Count;
-                            if (!checkBox_UseBuffRsult.Checked)//如果不用本地数据
-                            {
-                                if (rcnt > 0 && (rcnt % 100) < 20 && rcnt > lastSaveCnt + 50)
-                                {
-                                    //保存一次数据
-                                    retData = gs;
-                                    lastSaveCnt = rcnt;
-                                    new Thread(SaveWaveTable).Start();
-                                }
-                            }
-                            DataView dvWv = new DataView(gs);
-                            //this.chart_ForProb.ChartAreas[0].AxisY.MaximumAutoSize = false;
-
-                            this.chart_ForProb.ChartAreas[0].AxisY.Maximum = gs.High;
-                            this.chart_ForProb.ChartAreas[0].AxisY.Minimum = gs.Low;
-                            this.chart_ForProb.Series[0].Points.DataBindXY(dvWv, "Id", dvWv, "val");
-                            if (this.chart_ForProb.Series.Count < gss.Tables.Count + 1)
-                            {
-                                for (int i = this.chart_ForProb.Series.Count; i <= gss.Tables.Count; i++)
-                                {
-                                    Series si = new Series(string.Format("指标{0}", i));
-                                    si.ChartType = SeriesChartType.Line;
-                                    this.chart_ForProb.Series.Add(si);
-
-                                }
-                            }
-                            for (int i = 0; i < gss.Tables.Count; i++)
-                            {
-
-                                DataView dv = new DataView(gss.Tables[i]);
-                                this.chart_ForProb.Series[1 + i].Points.DataBindXY(dv, "Id", dv, "val");
-                            }
-                            this.dataGridView_ProbData.DataSource = dvWv;
-
+                            if (this.ddl_DataSource.SelectedValue.ToString() != "PK10")
+                                copyDt.Rows[i]["point"] = copyDt.Rows[i]["id"].ToString().Substring(0, 8);
+                            else
+                                copyDt.Rows[i]["point"] = copyDt.Rows[i]["id"];
                         }
+                        DataView moneyLines = new DataView(copyDt);
+                        if (this.chart1.Series.Count < ci + 1)
+                        {
+                            Series ss = new Series();
+                            ss.Name = es.getCurrAsset().UnitName;
+                            ss.ChartType = SeriesChartType.Line;
+                            ss.BorderWidth = (ci+1);
+                            this.chart1.Series.Add(ss);
+                        }
+                        this.chart1.Series[ci].Points.DataBindXY(moneyLines, "point", moneyLines, "val");
+                        //this.chart1.Series[ci].Name = SCList[0].AssetUnitInfo.UnitName;
+                        ci++;
+                        loadTableData(es);
                     }
                 }
-
 
             }
-            catch(Exception ce)
+            catch (Exception ce)
             {
                 string msg = ce.Message;
+            }
+        }
+        void loadTableData(ExchangeService es)
+        {
+            lock (es.ExchangeDetail)
+            {
+                DataView vExchangeDetail = new DataView(es.ExchangeDetail);
+                //vExchangeDetail.Sort = "id desc";
+                this.dataGridView_ExchangeDetail.DataSource = vExchangeDetail;
+                this.dataGridView_ExchangeDetail.Refresh();
+                if (SCList.Count > 0)
+                {
+                    if (SCList[0].PlanStrag.StagSetting.BaseType.traceType == TraceType.WaveTrace)
+                    {
+                        ProbWaveSelectStragClass pss = SCList[0].PlanStrag as ProbWaveSelectStragClass;
+                        if (pss.BaseWaves().Tables.Count == 0)
+                        {
+                            return;
+                        }
+                        GuideResult gs = pss.BaseWaves().Tables[0] as GuideResult;
+                        GuideResultSet gss = pss.GuideWaves();
+                        Int32 rcnt = gs.Rows.Count;
+                        if (!checkBox_UseBuffRsult.Checked)//如果不用本地数据
+                        {
+                            if (rcnt > 0 && (rcnt % 100) < 20 && rcnt > lastSaveCnt + 50)
+                            {
+                                //保存一次数据
+                                retData = gs;
+                                lastSaveCnt = rcnt;
+                                new Thread(SaveWaveTable).Start();
+                            }
+                        }
+                        DataView dvWv = new DataView(gs);
+                        //this.chart_ForProb.ChartAreas[0].AxisY.MaximumAutoSize = false;
+
+                        this.chart_ForProb.ChartAreas[0].AxisY.Maximum = gs.High;
+                        this.chart_ForProb.ChartAreas[0].AxisY.Minimum = gs.Low;
+                        this.chart_ForProb.Series[0].Points.DataBindXY(dvWv, "Id", dvWv, "val");
+                        if (this.chart_ForProb.Series.Count < gss.Tables.Count + 1)
+                        {
+                            for (int i = this.chart_ForProb.Series.Count; i <= gss.Tables.Count; i++)
+                            {
+                                Series si = new Series(string.Format("指标{0}", i));
+                                si.ChartType = SeriesChartType.Line;
+                                this.chart_ForProb.Series.Add(si);
+
+                            }
+                        }
+                        for (int i = 0; i < gss.Tables.Count; i++)
+                        {
+
+                            DataView dv = new DataView(gss.Tables[i]);
+                            this.chart_ForProb.Series[1 + i].Points.DataBindXY(dv, "Id", dv, "val");
+                        }
+                        this.dataGridView_ProbData.DataSource = dvWv;
+
+                    }
+                }
             }
         }
 
@@ -987,7 +1077,7 @@ namespace BackTestSys
             }
             if (sr != null)
             {
-                e.Text = string.Format("第{0}道:{1}",sr.Name,sr.Points[Result.PointIndex].YValues[0]);
+                e.Text = string.Format("第{0}道:{1}", sr.Name, sr.Points[Result.PointIndex].YValues[0]);
             }
             ////Result.Series;// 就是点击获得的Series
             ////Result.Series.Points[Result.PointIndex].XValue;// 为点击Series X坐标
@@ -1001,10 +1091,10 @@ namespace BackTestSys
             //this.txt_InitCash.Text = int.MaxValue.ToString();
         }
 
-           
+
         private void contextMenuStrip_ForListView_Opening(object sender, CancelEventArgs e)
         {
-            
+
         }
 
         void SaveWaveTable()
@@ -1079,7 +1169,7 @@ namespace BackTestSys
         {
             frm_TrainForm<TimeSerialData> frm = new frm_TrainForm<TimeSerialData>();
             frm.ShowDialog();
-            
+
         }
 
         private void ddl_DataSource_SelectedIndexChanged(object sender, EventArgs e)
@@ -1087,7 +1177,7 @@ namespace BackTestSys
             if (ddl_DataSource.SelectedIndex < 0)
                 return;
             string txtsrc = ddl_DataSource.SelectedValue.ToString();
-            if(txtsrc.Equals("CN_Stock_A"))
+            if (txtsrc.Equals("CN_Stock_A"))
             {
                 this.txt_begExpNo.Text = "2008-1-1";
                 this.txt_endExpNo.Text = "2018-12-31";
@@ -1103,7 +1193,7 @@ namespace BackTestSys
                 this.timer_Tip.Enabled = false;
                 this.timer_Tip = null;
             }
-            catch(Exception ce)
+            catch (Exception ce)
             {
 
             }
@@ -1113,39 +1203,40 @@ namespace BackTestSys
         
     }
 
-    public class ListViewItemComparer : System.Collections.IComparer 
- {
-            public int SortColumn;
-            public SortOrder OrderOfSort;
-            private System.Collections.CaseInsensitiveComparer ObjectCompare;
-            public ListViewItemComparer()
+
+    public class ListViewItemComparer : System.Collections.IComparer
+    {
+        public int SortColumn;
+        public SortOrder OrderOfSort;
+        private System.Collections.CaseInsensitiveComparer ObjectCompare;
+        public ListViewItemComparer()
+        {
+            ObjectCompare = new System.Collections.CaseInsensitiveComparer();
+        }
+
+        /// <summary>
+        /// 获取或设置排序方式.
+        /// </summary>
+        public System.Windows.Forms.SortOrder Order
+        {
+            set
             {
-                ObjectCompare = new System.Collections.CaseInsensitiveComparer();
+                OrderOfSort = value;
             }
+            get
+            {
+                return OrderOfSort;
+            }
+        }
 
-            /// <summary>
-         /// 获取或设置排序方式.
-         /// </summary>
-         public System.Windows.Forms.SortOrder Order
-         {
-             set
-             {
-                 OrderOfSort = value;
-             }
-             get
-             {
-                 return OrderOfSort;
-             }
-         }
-
-        public int Compare(object x, object y) 
+        public int Compare(object x, object y)
         {
             int returnVal = -1;
-            DateTime xtime,ytime;
-            long xlong,ylong;
-            string xin,yin;
-            xin= ((ListViewItem)x).SubItems[SortColumn].Text;
-            yin= ((ListViewItem)y).SubItems[SortColumn].Text;
+            DateTime xtime, ytime;
+            long xlong, ylong;
+            string xin, yin;
+            xin = ((ListViewItem)x).SubItems[SortColumn].Text;
+            yin = ((ListViewItem)y).SubItems[SortColumn].Text;
             if (DateTime.TryParse(xin, out xtime) && DateTime.TryParse(yin, out ytime))
             {
                 returnVal = DateTime.Compare(xtime, ytime);

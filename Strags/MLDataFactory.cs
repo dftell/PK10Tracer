@@ -261,8 +261,9 @@ namespace WolfInv.com.Strags
             MLInstances<int, int> ret = new MLInstances<int, int>();
             for(int i=0;i<this.Data.Count;i++)
             {
-                ExpectData ed = Data[i];
+                ExpectData ed = AllowUseShift==0? Data[i]:new Combin_ExpectData(Data[i]);
                 ret.Add(new MLInstance<int, int>(new int[] { int.Parse(ed.ValueList[col]) }.ToList()));
+                
             }
             return ret;
         }

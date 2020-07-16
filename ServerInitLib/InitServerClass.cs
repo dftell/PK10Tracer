@@ -180,6 +180,15 @@ namespace WolfInv.com.ServerInitLib
                         ToLog("计划资产单元不匹配", "计划所属资产单元不存在");
                     }
                 }
+                if(spc.PlanStrag is ReferIndexStragClass)//如果是引用索引策略，需要初始化索引数据
+                {
+                    if (csg.grpIndexs == null)
+                        csg.grpIndexs = new Dictionary<string, List< IndexExpectData>>();
+                    if(!csg.grpIndexs.ContainsKey(spc.PlanStrag.GUID))
+                    {
+                        csg.grpIndexs.Add(spc.PlanStrag.GUID, new List<IndexExpectData>());
+                    }
+                }
                 //csg = AllStatusStrags[strKey];
                 csg.UseSPlans.Add(spc);
                 ToLog("加入计划" + strKey, spc.StragDescript);

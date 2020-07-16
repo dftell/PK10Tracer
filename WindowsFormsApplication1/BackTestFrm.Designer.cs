@@ -59,6 +59,9 @@ namespace BackTestSys
             System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.runPlanPicker1 = new WolfInv.com.ExchangeLib.RunPlanPicker();
+            this.label3 = new System.Windows.Forms.Label();
             this.btn_trainPlan = new System.Windows.Forms.Button();
             this.btn_DistrCheck = new System.Windows.Forms.Button();
             this.btn_CalcEr = new System.Windows.Forms.Button();
@@ -98,8 +101,8 @@ namespace BackTestSys
             this.label7 = new System.Windows.Forms.Label();
             this.txt_reviewExpCnt = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ckb_useCondition = new System.Windows.Forms.CheckBox();
             this.txt_endExpNo = new System.Windows.Forms.TextBox();
             this.label33 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
@@ -148,6 +151,7 @@ namespace BackTestSys
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.contextMenuStrip_ForListView = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmi_ExportExcel = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi_ExportCSV = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.listView2 = new System.Windows.Forms.ListView();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -172,13 +176,11 @@ namespace BackTestSys
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
-            this.runPlanPicker1 = new WolfInv.com.ExchangeLib.RunPlanPicker();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -222,6 +224,7 @@ namespace BackTestSys
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.groupBox5);
             this.splitContainer1.Panel1.Controls.Add(this.btn_trainPlan);
             this.splitContainer1.Panel1.Controls.Add(this.btn_DistrCheck);
             this.splitContainer1.Panel1.Controls.Add(this.btn_CalcEr);
@@ -242,6 +245,38 @@ namespace BackTestSys
             this.splitContainer1.SplitterDistance = 244;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 1;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.runPlanPicker1);
+            this.groupBox5.Controls.Add(this.label3);
+            this.groupBox5.Location = new System.Drawing.Point(476, 12);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(418, 54);
+            this.groupBox5.TabIndex = 12;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "回测策略";
+            // 
+            // runPlanPicker1
+            // 
+            this.runPlanPicker1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.runPlanPicker1.Location = new System.Drawing.Point(108, 21);
+            this.runPlanPicker1.Margin = new System.Windows.Forms.Padding(6);
+            this.runPlanPicker1.Name = "runPlanPicker1";
+            this.runPlanPicker1.Plans = null;
+            this.runPlanPicker1.Size = new System.Drawing.Size(288, 21);
+            this.runPlanPicker1.TabIndex = 31;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(13, 25);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(77, 12);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "策略运行计划";
             // 
             // btn_trainPlan
             // 
@@ -407,7 +442,6 @@ namespace BackTestSys
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.runPlanPicker1);
             this.groupBox2.Controls.Add(this.txt_LearnCnt);
             this.groupBox2.Controls.Add(this.label31);
             this.groupBox2.Controls.Add(this.txt_AllowMaxHoldTimeCnt);
@@ -432,19 +466,18 @@ namespace BackTestSys
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.txt_reviewExpCnt);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Location = new System.Drawing.Point(476, 12);
+            this.groupBox2.Location = new System.Drawing.Point(476, 75);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox2.Size = new System.Drawing.Size(419, 228);
+            this.groupBox2.Size = new System.Drawing.Size(419, 165);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "回测策略设置";
+            this.groupBox2.Text = "回测策略条件";
             // 
             // txt_LearnCnt
             // 
-            this.txt_LearnCnt.Location = new System.Drawing.Point(78, 36);
+            this.txt_LearnCnt.Location = new System.Drawing.Point(77, 19);
             this.txt_LearnCnt.Margin = new System.Windows.Forms.Padding(2);
             this.txt_LearnCnt.Name = "txt_LearnCnt";
             this.txt_LearnCnt.Size = new System.Drawing.Size(35, 21);
@@ -454,7 +487,7 @@ namespace BackTestSys
             // label31
             // 
             this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(12, 40);
+            this.label31.Location = new System.Drawing.Point(11, 23);
             this.label31.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(53, 12);
@@ -463,7 +496,7 @@ namespace BackTestSys
             // 
             // txt_AllowMaxHoldTimeCnt
             // 
-            this.txt_AllowMaxHoldTimeCnt.Location = new System.Drawing.Point(213, 143);
+            this.txt_AllowMaxHoldTimeCnt.Location = new System.Drawing.Point(212, 126);
             this.txt_AllowMaxHoldTimeCnt.Margin = new System.Windows.Forms.Padding(2);
             this.txt_AllowMaxHoldTimeCnt.Name = "txt_AllowMaxHoldTimeCnt";
             this.txt_AllowMaxHoldTimeCnt.Size = new System.Drawing.Size(35, 21);
@@ -473,7 +506,7 @@ namespace BackTestSys
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(157, 148);
+            this.label29.Location = new System.Drawing.Point(156, 131);
             this.label29.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(53, 12);
@@ -521,7 +554,7 @@ namespace BackTestSys
             // chkb_getRev
             // 
             this.chkb_getRev.AutoSize = true;
-            this.chkb_getRev.Location = new System.Drawing.Point(162, 132);
+            this.chkb_getRev.Location = new System.Drawing.Point(161, 115);
             this.chkb_getRev.Margin = new System.Windows.Forms.Padding(2);
             this.chkb_getRev.Name = "chkb_getRev";
             this.chkb_getRev.Size = new System.Drawing.Size(48, 16);
@@ -532,7 +565,7 @@ namespace BackTestSys
             // chkb_onlyBS
             // 
             this.chkb_onlyBS.AutoSize = true;
-            this.chkb_onlyBS.Location = new System.Drawing.Point(162, 114);
+            this.chkb_onlyBS.Location = new System.Drawing.Point(161, 97);
             this.chkb_onlyBS.Margin = new System.Windows.Forms.Padding(2);
             this.chkb_onlyBS.Name = "chkb_onlyBS";
             this.chkb_onlyBS.Size = new System.Drawing.Size(84, 16);
@@ -543,7 +576,7 @@ namespace BackTestSys
             // chkb_onlySD
             // 
             this.chkb_onlySD.AutoSize = true;
-            this.chkb_onlySD.Location = new System.Drawing.Point(162, 94);
+            this.chkb_onlySD.Location = new System.Drawing.Point(161, 77);
             this.chkb_onlySD.Margin = new System.Windows.Forms.Padding(2);
             this.chkb_onlySD.Name = "chkb_onlySD";
             this.chkb_onlySD.Size = new System.Drawing.Size(84, 16);
@@ -554,7 +587,7 @@ namespace BackTestSys
             // chkb_exclueBS
             // 
             this.chkb_exclueBS.AutoSize = true;
-            this.chkb_exclueBS.Location = new System.Drawing.Point(162, 74);
+            this.chkb_exclueBS.Location = new System.Drawing.Point(161, 57);
             this.chkb_exclueBS.Margin = new System.Windows.Forms.Padding(2);
             this.chkb_exclueBS.Name = "chkb_exclueBS";
             this.chkb_exclueBS.Size = new System.Drawing.Size(72, 16);
@@ -565,7 +598,7 @@ namespace BackTestSys
             // chkb_exclueSD
             // 
             this.chkb_exclueSD.AutoSize = true;
-            this.chkb_exclueSD.Location = new System.Drawing.Point(162, 53);
+            this.chkb_exclueSD.Location = new System.Drawing.Point(161, 36);
             this.chkb_exclueSD.Margin = new System.Windows.Forms.Padding(2);
             this.chkb_exclueSD.Name = "chkb_exclueSD";
             this.chkb_exclueSD.Size = new System.Drawing.Size(72, 16);
@@ -575,7 +608,7 @@ namespace BackTestSys
             // 
             // txt_maxInputTimes
             // 
-            this.txt_maxInputTimes.Location = new System.Drawing.Point(78, 146);
+            this.txt_maxInputTimes.Location = new System.Drawing.Point(77, 129);
             this.txt_maxInputTimes.Margin = new System.Windows.Forms.Padding(2);
             this.txt_maxInputTimes.Name = "txt_maxInputTimes";
             this.txt_maxInputTimes.Size = new System.Drawing.Size(35, 21);
@@ -585,7 +618,7 @@ namespace BackTestSys
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 152);
+            this.label5.Location = new System.Drawing.Point(11, 135);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(53, 12);
@@ -598,7 +631,7 @@ namespace BackTestSys
             this.chkb_bySer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chkb_bySer.Checked = true;
             this.chkb_bySer.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkb_bySer.Location = new System.Drawing.Point(159, 36);
+            this.chkb_bySer.Location = new System.Drawing.Point(158, 19);
             this.chkb_bySer.Margin = new System.Windows.Forms.Padding(2);
             this.chkb_bySer.Name = "chkb_bySer";
             this.chkb_bySer.Size = new System.Drawing.Size(84, 16);
@@ -608,7 +641,7 @@ namespace BackTestSys
             // 
             // txt_minInputTimes
             // 
-            this.txt_minInputTimes.Location = new System.Drawing.Point(78, 124);
+            this.txt_minInputTimes.Location = new System.Drawing.Point(77, 107);
             this.txt_minInputTimes.Margin = new System.Windows.Forms.Padding(2);
             this.txt_minInputTimes.Name = "txt_minInputTimes";
             this.txt_minInputTimes.Size = new System.Drawing.Size(35, 21);
@@ -618,7 +651,7 @@ namespace BackTestSys
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(12, 128);
+            this.label22.Location = new System.Drawing.Point(11, 111);
             this.label22.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(53, 12);
@@ -627,7 +660,7 @@ namespace BackTestSys
             // 
             // txt_ChipCnt
             // 
-            this.txt_ChipCnt.Location = new System.Drawing.Point(78, 102);
+            this.txt_ChipCnt.Location = new System.Drawing.Point(77, 85);
             this.txt_ChipCnt.Margin = new System.Windows.Forms.Padding(2);
             this.txt_ChipCnt.Name = "txt_ChipCnt";
             this.txt_ChipCnt.Size = new System.Drawing.Size(35, 21);
@@ -637,7 +670,7 @@ namespace BackTestSys
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(12, 105);
+            this.label8.Location = new System.Drawing.Point(11, 88);
             this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(29, 12);
@@ -646,7 +679,7 @@ namespace BackTestSys
             // 
             // txt_FixChipCnt
             // 
-            this.txt_FixChipCnt.Location = new System.Drawing.Point(78, 80);
+            this.txt_FixChipCnt.Location = new System.Drawing.Point(77, 63);
             this.txt_FixChipCnt.Margin = new System.Windows.Forms.Padding(2);
             this.txt_FixChipCnt.Name = "txt_FixChipCnt";
             this.txt_FixChipCnt.Size = new System.Drawing.Size(35, 21);
@@ -656,7 +689,7 @@ namespace BackTestSys
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 84);
+            this.label7.Location = new System.Drawing.Point(11, 67);
             this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(53, 12);
@@ -665,7 +698,7 @@ namespace BackTestSys
             // 
             // txt_reviewExpCnt
             // 
-            this.txt_reviewExpCnt.Location = new System.Drawing.Point(78, 58);
+            this.txt_reviewExpCnt.Location = new System.Drawing.Point(77, 41);
             this.txt_reviewExpCnt.Margin = new System.Windows.Forms.Padding(2);
             this.txt_reviewExpCnt.Name = "txt_reviewExpCnt";
             this.txt_reviewExpCnt.Size = new System.Drawing.Size(35, 21);
@@ -675,27 +708,18 @@ namespace BackTestSys
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 62);
+            this.label4.Location = new System.Drawing.Point(11, 45);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(53, 12);
             this.label4.TabIndex = 4;
             this.label4.Text = "回览期数";
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 20);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(77, 12);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "策略运行计划";
-            // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox1.Controls.Add(this.ckb_useCondition);
             this.groupBox1.Controls.Add(this.txt_endExpNo);
             this.groupBox1.Controls.Add(this.label33);
             this.groupBox1.Controls.Add(this.label32);
@@ -749,6 +773,17 @@ namespace BackTestSys
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "回测数据设置";
+            // 
+            // ckb_useCondition
+            // 
+            this.ckb_useCondition.AutoSize = true;
+            this.ckb_useCondition.Location = new System.Drawing.Point(107, 198);
+            this.ckb_useCondition.Margin = new System.Windows.Forms.Padding(2);
+            this.ckb_useCondition.Name = "ckb_useCondition";
+            this.ckb_useCondition.Size = new System.Drawing.Size(96, 16);
+            this.ckb_useCondition.TabIndex = 43;
+            this.ckb_useCondition.Text = "使用指定条件";
+            this.ckb_useCondition.UseVisualStyleBackColor = true;
             // 
             // txt_endExpNo
             // 
@@ -1175,7 +1210,7 @@ namespace BackTestSys
             this.txt_begExpNo.Name = "txt_begExpNo";
             this.txt_begExpNo.Size = new System.Drawing.Size(78, 21);
             this.txt_begExpNo.TabIndex = 1;
-            this.txt_begExpNo.Text = "20140101001";
+            this.txt_begExpNo.Text = "233049";
             this.txt_begExpNo.Click += new System.EventHandler(this.txt_begExpNo_Click);
             this.txt_begExpNo.DoubleClick += new System.EventHandler(this.txt_begExpNo_DoubleClick);
             // 
@@ -1213,16 +1248,24 @@ namespace BackTestSys
             // 
             this.contextMenuStrip_ForListView.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.contextMenuStrip_ForListView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmi_ExportExcel});
+            this.tsmi_ExportExcel,
+            this.tsmi_ExportCSV});
             this.contextMenuStrip_ForListView.Name = "contextMenuStrip_ForListView";
-            this.contextMenuStrip_ForListView.Size = new System.Drawing.Size(101, 26);
+            this.contextMenuStrip_ForListView.Size = new System.Drawing.Size(124, 48);
             this.contextMenuStrip_ForListView.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_ForListView_Opening);
             // 
             // tsmi_ExportExcel
             // 
             this.tsmi_ExportExcel.Name = "tsmi_ExportExcel";
-            this.tsmi_ExportExcel.Size = new System.Drawing.Size(100, 22);
+            this.tsmi_ExportExcel.Size = new System.Drawing.Size(123, 22);
             this.tsmi_ExportExcel.Text = "导出";
+            // 
+            // tsmi_ExportCSV
+            // 
+            this.tsmi_ExportCSV.Name = "tsmi_ExportCSV";
+            this.tsmi_ExportCSV.Size = new System.Drawing.Size(123, 22);
+            this.tsmi_ExportCSV.Text = "导出CSV";
+            this.tsmi_ExportCSV.Click += new System.EventHandler(this.tsmi_ExportCSV_Click);
             // 
             // tabPage2
             // 
@@ -1531,9 +1574,7 @@ namespace BackTestSys
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.toolStripStatusLabel2,
-            this.toolStripProgressBar1,
-            this.toolStripDropDownButton1,
-            this.toolStripSplitButton1});
+            this.toolStripProgressBar1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 639);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 7, 0);
@@ -1560,33 +1601,6 @@ namespace BackTestSys
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
             this.toolStripProgressBar1.Size = new System.Drawing.Size(250, 37);
             // 
-            // toolStripDropDownButton1
-            // 
-            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(13, 41);
-            this.toolStripDropDownButton1.Text = "toolStripDropDownButton1";
-            // 
-            // toolStripSplitButton1
-            // 
-            this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripSplitButton1.Name = "toolStripSplitButton1";
-            this.toolStripSplitButton1.Size = new System.Drawing.Size(16, 41);
-            this.toolStripSplitButton1.Text = "toolStripSplitButton1";
-            // 
-            // runPlanPicker1
-            // 
-            this.runPlanPicker1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.runPlanPicker1.Location = new System.Drawing.Point(160, 10);
-            this.runPlanPicker1.Margin = new System.Windows.Forms.Padding(6);
-            this.runPlanPicker1.Name = "runPlanPicker1";
-            this.runPlanPicker1.Plans = null;
-            this.runPlanPicker1.Size = new System.Drawing.Size(190, 21);
-            this.runPlanPicker1.TabIndex = 31;
-            // 
             // BackTestFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1604,6 +1618,8 @@ namespace BackTestSys
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -1753,7 +1769,8 @@ namespace BackTestSys
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
-        private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
+        private System.Windows.Forms.ToolStripMenuItem tsmi_ExportCSV;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.CheckBox ckb_useCondition;
     }
 }

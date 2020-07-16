@@ -5,6 +5,7 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\obj\Debug\WolfInv.c
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\obj\Debug\WolfInv.com.ServerInitLib.csproj.CopyComplete
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\obj\Debug\WolfInv.com.ServerInitLib.dll
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\ServerInitLib\obj\Debug\WolfInv.com.ServerInitLib.pdb
+E:\github\project\PK10Tracer\WolfInv.com.ServerInitLib.dll.config
 E:\github\project\PK10Tracer\WolfInv.com.ServerInitLib.dll
 E:\github\project\PK10Tracer\WolfInv.com.ServerInitLib.pdb
 E:\github\source\dftell\PK10Tracer\ServerInitLib\obj\Debug\WolfInv.com.ServerInitLib.csprojAssemblyReference.cache
@@ -12,4 +13,3 @@ E:\github\source\dftell\PK10Tracer\ServerInitLib\obj\Debug\WolfInv.com.ServerIni
 E:\github\source\dftell\PK10Tracer\ServerInitLib\obj\Debug\WolfInv.com.ServerInitLib.csproj.CopyComplete
 E:\github\source\dftell\PK10Tracer\ServerInitLib\obj\Debug\WolfInv.com.ServerInitLib.dll
 E:\github\source\dftell\PK10Tracer\ServerInitLib\obj\Debug\WolfInv.com.ServerInitLib.pdb
-E:\github\project\PK10Tracer\WolfInv.com.ServerInitLib.dll.config

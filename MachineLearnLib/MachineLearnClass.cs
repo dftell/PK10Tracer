@@ -42,6 +42,8 @@ namespace WolfInv.com.MachineLearnLib
         }
         public int LearnDeep;
         public int TrainIterorCnt ;
+        public int SelectCnt;
+        public int TopN;
         public  PredictResultClass PredictResult;
         public static MLFeatureFunctionsSummary<LabelT, FeatureT> FeatureSummary;//= new MLFeatureFunctionsSummary<LabelT, FeatureT>();
         protected MLInstances<LabelT, FeatureT> TrainData;
@@ -165,6 +167,7 @@ namespace WolfInv.com.MachineLearnLib
             /// 做出过预测的个数
             /// </summary>
             public int PreDictCnt;
+            public long ChipCnt;
             /// <summary>
             /// 成功次数
             /// </summary>
@@ -187,6 +190,11 @@ namespace WolfInv.com.MachineLearnLib
         }
 
         public abstract void FillStructBySummary(int n);
+
+        public virtual List<KeyValuePair<int, double>> getPredictResult(int key)
+        {
+            return new List<KeyValuePair<int, double>>();
+        }
     }
 
     

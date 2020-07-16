@@ -117,7 +117,7 @@ namespace ExchangeTermial
                          &StopPower={8}";
             */
             ////CommResult cs = cts.getRequestInsts<SelectTimeInstClass>(string.Format("{0}/{1}", dtp.InstHost, string.Format(selectTimeAmtUrlModel, dp, ec, cnt,defaultReturnValue,AutoResumeDefaultValue)));
-            string selectTimeAmtUrlModel = "pk10/app/getwaveselecttimeamount.asp?type={0}&expect={1}&cnt={2}&defaultReturnValue={3}&AutoResumeDefaultValue={4}&EmergencyStop={5}&StopIgnoreLength={6}&StopStepLen={7}&StopPower={8}";
+            string selectTimeAmtUrlModel = "pk10/app/getwaveselecttimeamount.asp?type={0}&expect={1}&cnt={2}&defaultReturnValue={3}&AutoResumeDefaultValue={4}&EmergencyStop={5}&StopIgnoreLength={6}&StopStepLen={7}&StopPower={8}&SelectFuncId={9}";
             CommResult cs = cts.getRequestInsts<SelectTimeInstClass>(string.Format("{0}/{1}", dtp.InstHost, string.Format(
                 selectTimeAmtUrlModel,
                 dp,
@@ -128,7 +128,8 @@ namespace ExchangeTermial
                 aic.EmergencyStop,
                 aic.StopIgnoreLength,
                 aic.StopStepLen,
-                aic.StopPower
+                aic.StopPower,
+                aic.SelectFuncId
                 )));
             if (!cs.Succ)
             {

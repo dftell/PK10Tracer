@@ -30,8 +30,8 @@ namespace WolfInv.com.Strags.KLXxY
             for (int i = 0; i < restComb.Count; i++)
             {
                 ChanceClass_ForCombinXxY cc = new ChanceClass_ForCombinXxY();
-                cc.AllNums = 11;
-                cc.SelectNums = 5;
+                cc.AllNums = sc.AllNums;
+                cc.SelectNums = sc.SelNums;
                 cc.strAllTypeBaseOdds = sc.strAllTypeOdds;
                 cc.strCombinTypeBaseOdds = sc.strCombinTypeOdds;
                 cc.strPermutTypeBaseOdds = sc.strPermutTypeOdds;

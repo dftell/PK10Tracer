@@ -111,15 +111,25 @@ namespace WolfInv.com.BaseObjectsLib
             catch(Exception ce)
             {
                 LogableClass.ToLog("载入Xml错误！", ce.Message);
+                return null;
             }
             
-            XmlSerializer mySerializer = new XmlSerializer(tp);
-            using (MemoryStream ms = new MemoryStream(encoding.GetBytes(s)))
+            
+            try
             {
-                using (StreamReader sr = new StreamReader(ms, encoding))
+                XmlSerializer mySerializer = new XmlSerializer(tp);
+                using (MemoryStream ms = new MemoryStream(encoding.GetBytes(s)))
                 {
-                    return mySerializer.Deserialize(sr);
+                    using (StreamReader sr = new StreamReader(ms, encoding))
+                    {
+                        return mySerializer.Deserialize(sr);
+                    }
                 }
+            }
+            catch(Exception ce)
+            {
+                LogableClass.ToLog("载入Xml错误！", ce.Message);
+                return null;
             }
         }
 

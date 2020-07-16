@@ -68,10 +68,22 @@ namespace WolfInv.com.BackTestLib
             ExpectList<T> testData = null;
             Dictionary<string, ChanceClass<T>> NoCloseChances = new Dictionary<string, ChanceClass<T>>();
             Dictionary<string, ChanceClass<T>> tmpChances = new Dictionary<string, ChanceClass<T>>();
+            int maxLoopCnt = 5;
             
             while (el == null || el.Count > 0) //如果取到的数据长度大于0
             {
                 el = er.ReadHistory<T>(begNo, LoopCnt);
+                int ri = 0;
+                while(el==null)
+                {
+                    if(ri>maxLoopCnt)
+                    {
+                        break;
+                    }
+                    Thread.Sleep(1 * 1000);
+                    el = er.ReadHistory<T>(begNo, LoopCnt);
+                    ri++;
+                }
                 if (el == null)
                 {
                     ret.LoopCnt = (cnt+1) * LoopCnt;
@@ -234,6 +246,10 @@ namespace WolfInv.com.BackTestLib
                         break;
                     teststrag.SetLastUserData(testData);
                     teststrag.setDataTypePoint(dtp);
+                    if(teststrag is ReferIndexStragClass)
+                    {
+                        (teststrag as ReferIndexStragClass).ClearTmpData();
+                    }
                     List<ChanceClass<T>> cs = teststrag.getChances(sc,testData.LastData);//获取所有机会
                     if (ret.ChanceList == null)
                     {
@@ -279,14 +295,34 @@ namespace WolfInv.com.BackTestLib
         /// <param name="es"></param>
         /// <param name="teststragplans"></param>
         /// <returns></returns>
-        public BackTestReturnClass<T> VirExchange(ServiceSetting<T> sc,ref ExchangeService es, StragRunPlanClass<T>[] teststragplans)
+        public BackTestReturnClass<T> VirExchange(ServiceSetting<T> sc,ref Dictionary<string,ExchangeService> ess, StragRunPlanClass<T>[] teststragplans)
         {
             //LoopCnt = 0;
             testIndex = 0;
             //调用计算服务进行计算
-            if (!teststragplans[0].AssetUnitInfo.Running) //如果资产单元没有启动，启动资产单元
-                teststragplans[0].AssetUnitInfo.Run(false);
-             es = teststragplans[0].AssetUnitInfo.getCurrExchangeServer();//设置资产单元的模拟交易器
+            //if (!teststragplans[0].AssetUnitInfo.Running) //如果资产单元没有启动，启动资产单元
+            //    teststragplans[0].AssetUnitInfo.Run(false);
+            bool mergeAsset = false;
+            if(ess.Count == 1 && teststragplans.Length>ess.Count)
+            {
+                mergeAsset = true;
+            }
+            if (mergeAsset)
+            {
+                ess[teststragplans[0].AssetUnitInfo.UnitId] = teststragplans[0].AssetUnitInfo.getCurrExchangeServer();
+            }
+            else
+            {
+                for (int i = 0; i < teststragplans.Length; i++)
+                {
+                    if (!teststragplans[i].AssetUnitInfo.Running)
+                    {
+                        teststragplans[i].AssetUnitInfo.Run(false);
+                    }
+                    ess[teststragplans[i].AssetUnitInfo.UnitId] = teststragplans[i].AssetUnitInfo.getCurrExchangeServer();
+                }
+            }
+            // es = teststragplans[0].AssetUnitInfo.getCurrExchangeServer();//设置资产单元的模拟交易器
             CalcService<T> cs = new CalcService<T>(true,sc,teststragplans.ToDictionary(t=>t.GUID,t=>t));
             cs.DataPoint = dtp;
             if (dtp.IsSecurityData==1)
@@ -381,7 +417,7 @@ namespace WolfInv.com.BackTestLib
                 {
                     int CurrExpectClose = 0;
                     AllCnt++;
-                    es.UpdateExpectCnt(AllCnt);
+                    //ess.First().Value.UpdateExpectCnt(AllCnt);
                     if (testData == null)
                     {
                         //testData = AllData.getSubArray(0, teststrag.ReviewExpectCnt);
@@ -755,7 +791,7 @@ namespace WolfInv.com.BackTestLib
                             }
 
                         }
-                        bool Suc = es.Push(ref ec);
+                        bool Suc = es.Push(ref ec,true);
                         if (Suc)
                             NewExchangeRecord.Add(ec.Id, ec);
                         

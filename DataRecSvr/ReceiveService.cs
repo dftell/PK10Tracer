@@ -449,10 +449,11 @@ namespace DataRecSvr
                     if (NewList.Count > 0)
                     {
                         string lastExpect = currEl?.LastData?.Expect;
-                        string newestExpect = el.LastData.Expect;
+                        string newestExpect = el.LastData?.Expect;
                         int interExpect = 1;//间隔数量
                         if(lastExpect!= null)
                         {
+                            Log("获取间隔期数",string.Format("最后期号:{0}，当前期号:{1}", lastExpect, newestExpect));
                             interExpect = (int) DataReader.getInterExpectCnt(lastExpect, newestExpect, dtp);
                         }
                         if (currEl.Count>0)

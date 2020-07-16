@@ -96,6 +96,11 @@ namespace WolfInv.com.SecurityLib
             throw new NotImplementedException();
         }
 
+        public override Dictionary<string, T1> getFeatureDic<T1>(bool bySer, string strModel = "{0}/{1}")
+        {
+            throw new NotImplementedException();
+        }
+
         public override AmoutSerials getOptSerials(DataTypePoint dtp, string type, int len, double odds, long MaxValue, int FirstAmt, bool NeedAddFirst)
         {
             throw new NotImplementedException();

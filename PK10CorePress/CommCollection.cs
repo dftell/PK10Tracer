@@ -13,6 +13,7 @@ namespace WolfInv.com.PK10CorePress
 {
     public class CommCollection : PK10CorePress.BaseCollection
     {
+
         //机器学习-上期训练数据
         static Dictionary<string, int[,]> LastTrainInstances;
         //机器学习-上期回顾数据
@@ -522,6 +523,20 @@ namespace WolfInv.com.PK10CorePress
         public override AmoutSerials getOptSerials(DataTypePoint dtp, string type, int len, double odds, long MaxValue, int FirstAmt, bool NeedAddFirst)
         {
             return GlobalClass.getOptSerials(odds, MaxValue, FirstAmt);
+        }
+
+        public override Dictionary<string, T1> getFeatureDic<T1>(bool bySer,string strModel = "{0}/{1}")
+        {
+            Dictionary<string, T1> ret = new Dictionary<string, T1>();
+            for (int i = 0; i < this.SelNums; i++)
+            {
+                string col = string.Format("{0}", (i + 1) % 10);
+                for (int j = 0; j < this.AllNums; j++)
+                {
+                    ret.Add(string.Format(strModel, col, j), default(T1));
+                }
+            }
+            return ret;
         }
     }
 

@@ -8,6 +8,14 @@ namespace WolfInv.com.BaseObjectsLib
 {
     public abstract class CommExpectListProcess<T> : ICommExpectListProcess<T> where T:TimeSerialData
     {
+        /// <summary>
+        /// 所有数字数
+        /// </summary>
+        public int AllNums { get; set; }
+        /// <summary>
+        /// 开出奖数字数
+        /// </summary>
+        public int SelectNums { get; set; }
         protected ExpectList<T> Parent_data;
         protected CommExpectListProcess(ExpectList<T> _data)
         {

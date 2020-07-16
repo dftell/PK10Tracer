@@ -38,6 +38,7 @@ namespace WolfInv.com.ExchangeLib
         public List<ExchangeChance<T>> AllExchance = new List<ExchangeChance<T>>();
         public Dictionary<string, ChanceClass<T>> AllNoClosedChances = new Dictionary<string, ChanceClass<T>>();
         protected Dictionary<string, List<double>> grpTotolStdDic = null;
+        public Dictionary<string, List<IndexExpectData>> grpIndexs = null;
 
         ////public List<StragClass> UseStrags
         ////{
@@ -124,7 +125,8 @@ namespace WolfInv.com.ExchangeLib
             try
             {
                 ExecRun(data);
-                Log("计算服务", "运行完成", "触发回调");
+                if(!IsBackTest)
+                    Log("计算服务", "运行完成", "触发回调");
                 GetNoClosedChances(AllNoClosedChances);
             }
             catch (Exception e)
@@ -166,7 +168,7 @@ namespace WolfInv.com.ExchangeLib
             int maxViewCnt = 2;
             if(this.UseStrags.Count>0)
                 maxViewCnt = Math.Max((int)this.UseStrags.Max(t => t.Value?.ReviewExpectCnt),el.Count);
-            Log("计算服务", "最大回览期数", maxViewCnt.ToString());
+            //Log("计算服务", "最大回览期数", maxViewCnt.ToString());
             if(dtp.IsSecurityData == 1)
             {
                 cc = new WolfInv.com.ExchangeLib.ExpectListProcessBuilderForAll<T>(dtp, el).getProcess().getSerialData(maxViewCnt, this.UseSerial);//获取连续数据，可能是外部数据，这个的内部处理必须要改。 2020.6.18
@@ -181,14 +183,14 @@ namespace WolfInv.com.ExchangeLib
             //Log("计算服务", "遍历所有策略", string.Format("策略数量:{0}",this.UseStrags.Count));
             CloseAllExchance(el);//清空所有可视化机会
             #region 遍历每个计划
-            Log("计算服务", string.Format("遍历当前分组",this.GrpName), string.Format("包含计划:{0}",string.Join(";",this.UseSPlans.Select(a=>a.Plan_Name))));
+            //Log("计算服务", string.Format("遍历当前分组",this.GrpName), string.Format("包含计划:{0}",string.Join(";",this.UseSPlans.Select(a=>a.Plan_Name))));
             for (int i = 0; i < this.UseSPlans.Count; i++)
             {
                 StragRunPlanClass<T> currPlan = UseSPlans[i];//当前计划
-                Log("计算服务", "处理计划。", currPlan.Plan_Name);
+                //Log("计算服务", "处理计划。", currPlan.Plan_Name);
                 if (currPlan.PlanStrag == null)//如果计划所执行的策略为空，只在chance上执行tracer
                 {
-                    Log("计算服务", "计划所执行的策略为空,为客户端人工指定计划准备。", currPlan.Plan_Name);
+                    //Log("计算服务", "计划所执行的策略为空,为客户端人工指定计划准备。", currPlan.Plan_Name);
                     currPlan.PlanStrag.allowInvestmentMaxValue = currPlan.MaxLostAmount;
                     List<ChanceClass<T>> emptycs = CurrExistChanceList.Values.Where(p => p.StragId == null).ToList<ChanceClass<T>>();
                     for (int c = 0; c < emptycs.Count; c++)
@@ -209,25 +211,56 @@ namespace WolfInv.com.ExchangeLib
                     continue;
                 }
                 BaseStragClass<T> currStrag = UseStrags[currPlan.PlanStrag.GUID];
+                if(currStrag is ReferIndexStragClass)//附加索引数据
+                {
+                    if (this.grpIndexs.ContainsKey(currStrag.GUID))
+                    {
+                        (currStrag as ReferIndexStragClass).Indexs = this.grpIndexs[currStrag.GUID];
+                    }
+                    else
+                    {
+                        (currStrag as ReferIndexStragClass).Indexs = new List<IndexExpectData>();
+                    }
+                    (currStrag as ReferIndexStragClass).ClearTmpData();
+                }
                 currStrag.SetLastUserData(el);//必须给策略填充数据
                 currStrag.setDataTypePoint(dtp);
                 ////////////////////////////////////////////////////////////////////
                 ///
                 ///
                 ///////////////////////////////////////////////////////////////////
+                currStrag.IsBackTest = IsBackTest;
                 List<ChanceClass<T>> cs = currStrag.getChances(cc, el.LastData);//获取该策略的机会
+                if (currStrag is ReferIndexStragClass)
+                {
+                    if (grpIndexs == null)
+                    {
+                        grpIndexs = new Dictionary<string, List<IndexExpectData>>();
+                    }
+                    lock (grpIndexs)
+                    {
+                        if (grpIndexs.ContainsKey(currStrag.GUID))
+                        {
+                            grpIndexs[currStrag.GUID] = (currStrag as ReferIndexStragClass).Indexs;
+                        }
+                        else
+                        {
+                            grpIndexs.Add(currStrag.GUID, (currStrag as ReferIndexStragClass).Indexs);
+                        }
+                    }
+                }
                 if (currStrag is TotalStdDevTraceStragClass)//如果是整体标准差类，记录所有的标准差数据
                 {
                     grpTotolStdDic = (currStrag as TotalStdDevTraceStragClass).getAllStdDev();
                 }
                 if (cs.Count > 0 && !IsBackTest)
                 {
-                    Log("计算服务", string.Format("策略[{0}/{1}]", currStrag.GUID, currStrag.StragScript), string.Format("取得机会数量为:{0}", cs.Count));
+                    //Log("计算服务", string.Format("策略[{0}/{1}]", currStrag.GUID, currStrag.StragScript), string.Format("取得机会数量为:{0}", cs.Count));
                     //wxl.Log("计算服务", string.Format("策略[{0}/{1}]", currStrag.GUID, currStrag.StragScript), string.Format("取得机会数量为:{0}", cs.Count));
                 }
                 
                 Dictionary<string, ChanceClass<T>> StragChances = CurrExistChanceList.Where(p => p.Value.StragId == currStrag.GUID).ToDictionary(p => p.Value.ChanceCode, p => p.Value);
-                Log("计算服务", string.Format("当前策略:{0}", currStrag.StragScript), string.Format("当前策略对应的未关闭机会:{0}", string.Join(";",StragChances.Select(a=>a.Key).ToArray())));
+                //Log("计算服务", string.Format("当前策略:{0}", currStrag.StragScript), string.Format("当前策略对应的未关闭机会:{0}", string.Join(";",StragChances.Select(a=>a.Key).ToArray())));
                 AmoutSerials amts = GlobalClass.getOptSerials(CurrSetting.Odds,currPlan.InitCash,1);
                 Int64 restAmt = currStrag.CommSetting.GetGlobalSetting().DefMaxLost;//初始资金
                 if (currPlan.AssetUnitInfo != null)
@@ -274,11 +307,11 @@ namespace WolfInv.com.ExchangeLib
                             CurrCc.HoldTimeCnt = (int)DataReader.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp)+1;
                             CurrCc.UnitCost = 0;
                             NeedUseOldData = true;
-                            Log("计算服务", "相同处理", string.Format("出现相同的机会{0},持有次数增1->{1}", CurrCc.ChanceCode, CurrCc.HoldTimeCnt));
+                            //Log("计算服务", "相同处理", string.Format("出现相同的机会{0},持有次数增1->{1}", CurrCc.ChanceCode, CurrCc.HoldTimeCnt));
                         }
                         else
                         {
-                            Log("计算服务", "策略允许重复！", currStrag.StragClassName);
+                            //Log("计算服务", "策略允许重复！", currStrag.StragClassName);
                         }
                     }
                     else
@@ -306,7 +339,7 @@ namespace WolfInv.com.ExchangeLib
                     {
                         if (CurrCc.IsTracer == 1)//如果是自我追踪机会
                         {
-                            Log("计算服务", "自我跟踪机会，当前持有次数", string.Format("HoldTimes:{0}", CurrCc.HoldTimeCnt));
+                            //Log("计算服务", "自我跟踪机会，当前持有次数", string.Format("HoldTimes:{0}", CurrCc.HoldTimeCnt));
                             TraceChance<T> useCc = Convert.ChangeType(CurrCc, currStrag.getTheChanceType()) as TraceChance<T>;
                             //Log("计算服务", "使用的机会持有次数", string.Format("HoldTimes:{0}", useCc.HoldTimeCnt));
                             if (useCc == null) //获得的类型并非跟踪类型
@@ -320,14 +353,14 @@ namespace WolfInv.com.ExchangeLib
                         }
                         else//默认为ChanceTraceStragClass,其实是不可能触发的，而且会出错，因为ChanceTraceStragClass本身就是ispaceamount
                         {
-                            Log("计算服务", "非跟踪机会，持有次数", string.Format("HoldTimes:{0}", CurrCc.HoldTimeCnt));
+                            //Log("计算服务", "非跟踪机会，持有次数", string.Format("HoldTimes:{0}", CurrCc.HoldTimeCnt));
                             CurrCc.UnitCost = (currStrag as ISpecAmount).getChipAmount(restAmt, CurrCc, amts);
                         }
                     }
                     //Log("计算服务", "再二次检查数据", string.Format("出现相同的机会{0},持有次数增1->{1}", CurrCc.ChanceCode, CurrCc.HoldTimeCnt));
                     if (NeedUseOldData)//未关闭的及机会列表中存在该机会
                     {
-                        Log("计算服务", "策略不可以出现重复", string.Format("策略编号:{0};code:{1}", CurrCc.StragId,CurrCc.ChanceCode));
+                        //Log("计算服务", "策略不可以出现重复", string.Format("策略编号:{0};code:{1}", CurrCc.StragId,CurrCc.ChanceCode));
                         CurrCc.Cost += CurrCc.UnitCost * CurrCc.ChipCount;
                         CurrCc.UpdateTime = DateTime.Now;
                         if (!OldList.ContainsKey(CurrCc.GUID))
@@ -398,7 +431,7 @@ namespace WolfInv.com.ExchangeLib
                                     if (!OldDbList.ContainsKey(CurrCc.ChanceIndex))
                                         OldDbList.Add(CurrCc.ChanceIndex, CurrCc);
                                 }
-                                Log("计算服务", "当前机会是可指定金额的策略", string.Format("策略名:{0};机会:{1},持有次数:{2},单位金额:{3}", currStrag.StragScript, CurrCc.ChanceCode, CurrCc.HoldTimeCnt, CurrCc.UnitCost));
+                                //Log("计算服务", "当前机会是可指定金额的策略", string.Format("策略名:{0};机会:{1},持有次数:{2},单位金额:{3}", currStrag.StragScript, CurrCc.ChanceCode, CurrCc.HoldTimeCnt, CurrCc.UnitCost));
                                 continue;
                             }
                             else
@@ -525,7 +558,7 @@ namespace WolfInv.com.ExchangeLib
                 
                 ec.ExchangeAmount = cc.UnitCost;
                 ec.ExchangeRate = cc.UnitCost / uu.getCurrExchangeServer().summary;
-                if (uu.getCurrExchangeServer().Push(ref ec))
+                if (uu.getCurrExchangeServer().Push(ref ec,IsBackTest))
                 {
                     AllExchance.Add(ec);
                 }
@@ -589,13 +622,13 @@ namespace WolfInv.com.ExchangeLib
                 }
                 else
                 {
-                    Log("计算服务", "当前机会是本策略产生的，但本策略不是有能指定金额的策略，无法指定金额！", string.Format("策略名:{0};机会:{1}", currStrag.StragScript, CurrCc.ChanceCode));
+                    //Log("计算服务", "当前机会是本策略产生的，但本策略不是有能指定金额的策略，无法指定金额！", string.Format("策略名:{0};机会:{1}", currStrag.StragScript, CurrCc.ChanceCode));
                     return 0;
                 }
             }
             if (CurrCc.Tracerable)//再检查机会级
             {
-                Log("计算服务", "当前机会是跟踪策略", string.Format("策略名:{0};机会:{1}", currStrag.StragScript, CurrCc.ChanceCode));
+                //Log("计算服务", "当前机会是跟踪策略", string.Format("策略名:{0};机会:{1}", currStrag.StragScript, CurrCc.ChanceCode));
                 ////CurrCc.HoldTimeCnt++;
                 //CurrCc.HoldTimeCnt = (int)DataReader.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp) + 1;
                 TraceChance<T> testCc = (TraceChance<T>)CurrCc;
@@ -604,7 +637,7 @@ namespace WolfInv.com.ExchangeLib
             }
             else
             {
-                Log("计算服务", "当前机会是非跟踪策略，无需跟踪，但是我们还是跟踪了", string.Format("策略名:{0};机会:{1}", currStrag.StragScript, CurrCc.ChanceCode));
+                //Log("计算服务", "当前机会是非跟踪策略，无需跟踪，但是我们还是跟踪了", string.Format("策略名:{0};机会:{1}", currStrag.StragScript, CurrCc.ChanceCode));
                 ISpecAmount Strag = (ISpecAmount)currStrag;
                 return Strag.getChipAmount(restAmt, CurrCc, amts);
             }

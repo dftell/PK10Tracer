@@ -8,6 +8,8 @@ namespace WolfInv.com.BaseObjectsLib
 {
     public abstract class BaseCollection<T> : IBaseCollection where T : TimeSerialData
     {
+        public int AllNums;
+        public int SelNums;
         public abstract AmoutSerials getOptSerials(DataTypePoint dtp, string type, int len, double odds, Int64 MaxValue, int FirstAmt, bool NeedAddFirst);
         public abstract DataTable getTableFromSpecCondition(DataTypePoint dtp,string currExpect, int Period, string strPos, string strTaget, params object[] others);
         /// <summary>
@@ -33,6 +35,8 @@ namespace WolfInv.com.BaseObjectsLib
         public abstract List<double> getEntropyList(int reviewCnt);
 
         public abstract bool isMatch(string code, string currCode);
+
+        public abstract Dictionary<string,T1> getFeatureDic<T1>(bool bySer,string strModel="{0}/{1}");
     }
 
     public interface IBaseCollection

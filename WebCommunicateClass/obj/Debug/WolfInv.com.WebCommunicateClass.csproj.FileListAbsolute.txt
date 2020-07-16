@@ -12,3 +12,4 @@ E:\github\source\dftell\PK10Tracer\WebCommunicateClass\obj\Debug\WolfInv.com.Web
 E:\github\source\dftell\PK10Tracer\WebCommunicateClass\obj\Debug\WolfInv.com.WebCommunicateClass.csproj.CopyComplete
 E:\github\source\dftell\PK10Tracer\WebCommunicateClass\obj\Debug\WolfInv.com.WebCommunicateClass.dll
 E:\github\source\dftell\PK10Tracer\WebCommunicateClass\obj\Debug\WolfInv.com.WebCommunicateClass.pdb
+E:\github\project\PK10Tracer\WolfInv.com.WebCommunicateClass.dll.config

@@ -258,6 +258,7 @@ namespace WolfInv.com.BaseObjectsLib
         {
             get
             {
+                
                 bool needRewrite = false;
                 if (_table == null)
                 {

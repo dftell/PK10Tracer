@@ -77,7 +77,6 @@ E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\Window
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTestSys.frm_CalcEr.resources
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTestSystem.frm_DistrCheck.resources
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTestSystem.frm_SecBackTest.resources
-E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTestSystem.frm_TrainForm.resources
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.loginFrm.resources
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.NetSelectFrm.resources
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTestSystem.Properties.Resources.resources
@@ -87,3 +86,4 @@ E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTe
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTestSys.csproj.CopyComplete
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\PK10BackTestSystem.exe
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\PK10BackTestSystem.pdb
+E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTestSys.frm_TrainForm.resources

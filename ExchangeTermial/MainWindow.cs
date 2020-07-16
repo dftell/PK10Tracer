@@ -2019,7 +2019,7 @@ ClearMyTracksByProcess 255
         public int StopStepLen = 4;//刹车降速步长
         public int StopPower = 2;//刹车力度，0为立即刹车，其他为降速倒数
                  */
-                string selectTimeAmtUrlModel = "pk10/app/getwaveselecttimeamount.asp?type={0}&expect={1}&cnt={2}&defaultReturnValue={3}&AutoResumeDefaultValue={4}&EmergencyStop={5}&StopIgnoreLength={6}&StopStepLen={7}&StopPower={8}";
+                string selectTimeAmtUrlModel = "pk10/app/getwaveselecttimeamount.asp?type={0}&expect={1}&cnt={2}&defaultReturnValue={3}&AutoResumeDefaultValue={4}&EmergencyStop={5}&StopIgnoreLength={6}&StopStepLen={7}&StopPower={8}&SelectFuncId={9}";
                 RequestClass ic = cr.Result[0] as RequestClass;
                 if (ic == null)
                 {
@@ -2158,12 +2158,12 @@ ClearMyTracksByProcess 255
                                     aic.StopIgnoreLength,
                                     aic.StopStepLen,
                                     aic.StopPower,
-                                    strTestExpect
+                                    aic.SelectFuncId
                                     )));
                                 if (!cs.Succ)
                                 {
                                     this.statusStrip1.Items[0].Text = cr.Message;
-                                    WXMsgBox(dtpName, "接收择时指令异常:" + cr.Message);
+                                    WXMsgBox(dtpName, string.Format("Func:{0}接收择时指令异常:{1} ",aic.SelectFuncId, cr.Message));
                                     return null;
                                 }
                                 if (cs.Cnt != 1)

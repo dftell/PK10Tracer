@@ -32,17 +32,34 @@ namespace WolfInv.com.SecurityLib
                     htmltxt = new StreamReader(wr.GetResponseStream(), Encoding.GetEncoding("utf-8")).ReadToEnd();
                     wr.Close();
                 }
+
                 switch (UseDataType)
                 {
                     case "XML":
-                        return getXmlData<T>(htmltxt);
+                        {
+                            ret = getXmlData<T>(htmltxt);
+                            break;
+                        }
                     case "JSON":
-                        return getJsonData<T>(htmltxt);
+                        {
+                            ret = getJsonData<T>(htmltxt);
+                            break;
+                        }
                     case "TXT":
-                        return getTextData<T>(htmltxt);
+                        {
+                            ret = getTextData<T>(htmltxt);
+                            break;
+                        }
                     case "HTML":
                     default:
-                        return getData<T>(htmltxt);
+                        {
+                            ret = getData<T>(htmltxt);
+                            break;
+                        }
+                }
+                for (int i = 0; i < ret.Count; i++)//期号标准化
+                {
+                    ret[i].Expect = DataReader.getStdExpect(ret[i].Expect, dtp);
                 }
             }
             catch(Exception ce)

@@ -44,7 +44,7 @@ namespace WolfInv.com.MachineLearnLib.BPNeuralNetwork
      * @author RenaQiu
      * 
      */
-    public class BP
+    public class BPNN
     {
         /**
          * 
@@ -123,7 +123,7 @@ namespace WolfInv.com.MachineLearnLib.BPNeuralNetwork
          * @param momentum
          * @param epoch
          */
-        public BP(int inputSize, int hiddenSize, int outputSize, double eta,
+        public BPNN(int inputSize, int hiddenSize, int outputSize, double eta,
                 double momentum)
         {
             Init(inputSize, hiddenSize, outputSize, eta, momentum);
@@ -155,7 +155,7 @@ namespace WolfInv.com.MachineLearnLib.BPNeuralNetwork
             this.momentum = momentum;
         }
 
-        public BP(int inputSize, int hiddenSize, int outputSize)
+        public BPNN(int inputSize, int hiddenSize, int outputSize)
         {
             Init(inputSize, hiddenSize, outputSize, 0.998, 0.001);
         }
@@ -165,7 +165,7 @@ namespace WolfInv.com.MachineLearnLib.BPNeuralNetwork
                 for (int j = 0, len2 = matrix.GetLength(1); j < len2; j++)
                 {
                     double real = random.NextDouble();
-                    matrix[i, j] = random.NextDouble() > 0.5 ? real : -real;
+                    matrix[i, j] = random.NextDouble() > 0.5 ? real : -real;//初始化权重为-0.5~0.5
                 }
         }
 
@@ -387,7 +387,7 @@ namespace WolfInv.com.MachineLearnLib.BPNeuralNetwork
         /**
          * BP神经网络元
          */
-        private static BP bp;
+        private static BPNN bp;
 
         /**
          * 初始化一个全新的bp神经网络
@@ -397,7 +397,7 @@ namespace WolfInv.com.MachineLearnLib.BPNeuralNetwork
          */
         public static void initialization(int inputSize, int hiddenSize, int outputSize)
         {
-            bp = new BP(inputSize, hiddenSize, outputSize);
+            bp = new BPNN(inputSize, hiddenSize, outputSize);
         }
 
         ///////**
