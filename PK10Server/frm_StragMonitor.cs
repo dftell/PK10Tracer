@@ -628,13 +628,14 @@ namespace PK10Server
                         }
                         DataView dv = new DataView(DispDt);
                         dv.Sort = "id asc";
-                        chrt.Series[i].Points.DataBindY(dv, "val");
+                        
                         if(chrt.Series.Count<i+1)
                         {
                             Series sr = new Series();
                             sr.ChartType = SeriesChartType.Line;
                             chrt.Series.Add(sr);
                         }
+                        chrt.Series[i].Points.DataBindY(dv, "val");
                         if (dt.Rows.Count > 0)
                         {
                             if (strName.Trim().StartsWith("C")||strName.IndexOf("_C")>0)
