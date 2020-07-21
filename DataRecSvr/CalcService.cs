@@ -393,6 +393,7 @@ namespace DataRecSvr
                     else
                     {
                         BaseStragClass<TimeSerialData> sc = Program.AllServiceConfig.AllStrags[dc.StragId];
+                        sc.setDataTypePoint(DataPoint);
                         Type ct = sc.getTheChanceType();
                         
                         object tmp = Activator.CreateInstance(ct);

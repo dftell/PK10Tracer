@@ -220,6 +220,10 @@ namespace WolfInv.com.Strags.MLStragClass
 
         public override Type getTheChanceType()
         {
+            if(UsingDpt?.DataType == "GDKL11")
+            {
+                return typeof(ChanceClass_ForCombinXxY);
+            }
             return typeof(NolimitTraceChance);
         }
     }
