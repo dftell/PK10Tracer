@@ -61,6 +61,8 @@
             this.ddl_MLFunc = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.txt_FilterCnt = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -89,7 +91,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.dataGridView1);
             this.splitContainer1.Size = new System.Drawing.Size(959, 605);
-            this.splitContainer1.SplitterDistance = 217;
+            this.splitContainer1.SplitterDistance = 268;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -108,7 +110,7 @@
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox2.Size = new System.Drawing.Size(444, 197);
+            this.groupBox2.Size = new System.Drawing.Size(444, 248);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "数据集";
@@ -197,12 +199,13 @@
             this.panel1.Location = new System.Drawing.Point(708, 17);
             this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(237, 190);
+            this.panel1.Size = new System.Drawing.Size(237, 241);
             this.panel1.TabIndex = 1;
             // 
             // btn_CheckResult
             // 
-            this.btn_CheckResult.Location = new System.Drawing.Point(148, 133);
+            this.btn_CheckResult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btn_CheckResult.Location = new System.Drawing.Point(140, 217);
             this.btn_CheckResult.Margin = new System.Windows.Forms.Padding(2);
             this.btn_CheckResult.Name = "btn_CheckResult";
             this.btn_CheckResult.Size = new System.Drawing.Size(64, 22);
@@ -213,7 +216,8 @@
             // 
             // btn_stopTrain
             // 
-            this.btn_stopTrain.Location = new System.Drawing.Point(78, 133);
+            this.btn_stopTrain.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btn_stopTrain.Location = new System.Drawing.Point(72, 217);
             this.btn_stopTrain.Margin = new System.Windows.Forms.Padding(2);
             this.btn_stopTrain.Name = "btn_stopTrain";
             this.btn_stopTrain.Size = new System.Drawing.Size(64, 22);
@@ -264,7 +268,8 @@
             // 
             // btn_Train
             // 
-            this.btn_Train.Location = new System.Drawing.Point(7, 133);
+            this.btn_Train.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btn_Train.Location = new System.Drawing.Point(4, 217);
             this.btn_Train.Margin = new System.Windows.Forms.Padding(2);
             this.btn_Train.Name = "btn_Train";
             this.btn_Train.Size = new System.Drawing.Size(64, 22);
@@ -277,6 +282,8 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox1.Controls.Add(this.txt_FilterCnt);
+            this.groupBox1.Controls.Add(this.label13);
             this.groupBox1.Controls.Add(this.txt_TopN);
             this.groupBox1.Controls.Add(this.label12);
             this.groupBox1.Controls.Add(this.txt_threadCnt);
@@ -295,14 +302,14 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(245, 197);
+            this.groupBox1.Size = new System.Drawing.Size(245, 248);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "训练方法";
             // 
             // txt_TopN
             // 
-            this.txt_TopN.Location = new System.Drawing.Point(92, 169);
+            this.txt_TopN.Location = new System.Drawing.Point(92, 194);
             this.txt_TopN.Margin = new System.Windows.Forms.Padding(2);
             this.txt_TopN.Name = "txt_TopN";
             this.txt_TopN.Size = new System.Drawing.Size(139, 21);
@@ -312,7 +319,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(12, 172);
+            this.label12.Location = new System.Drawing.Point(12, 197);
             this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(53, 12);
@@ -443,8 +450,27 @@
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 37;
-            this.dataGridView1.Size = new System.Drawing.Size(959, 386);
+            this.dataGridView1.Size = new System.Drawing.Size(959, 335);
             this.dataGridView1.TabIndex = 0;
+            // 
+            // txt_FilterCnt
+            // 
+            this.txt_FilterCnt.Location = new System.Drawing.Point(92, 169);
+            this.txt_FilterCnt.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_FilterCnt.Name = "txt_FilterCnt";
+            this.txt_FilterCnt.Size = new System.Drawing.Size(139, 21);
+            this.txt_FilterCnt.TabIndex = 14;
+            this.txt_FilterCnt.Text = "5";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(12, 172);
+            this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(53, 12);
+            this.label13.TabIndex = 13;
+            this.label13.Text = "过滤个数";
             // 
             // frm_TrainForm
             // 
@@ -506,5 +532,7 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox txt_TopN;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox txt_FilterCnt;
+        private System.Windows.Forms.Label label13;
     }
 }

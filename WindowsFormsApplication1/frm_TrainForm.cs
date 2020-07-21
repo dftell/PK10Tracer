@@ -84,10 +84,43 @@ namespace BackTestSys
             MLType = (Type)this.ddl_MLFunc.SelectedValue;
             MLDataCategoryFactoryClass mldf = (MLDataCategoryFactoryClass)ClassOperateTool.getInstanceByType(DataCategroyType);
             mldf.Init(ExpectList.getExpectList(el));
+            if (1 == 0)
+            {
+                for (int i = 0; i < ThreadCnt; i++)
+                {
+                    //MLInstances<int, int> TrainSet = mldf.getAllSpecColRoundLabelAndFeatures(i,deep, chkb_AllUseShift.Checked ? 1 : 0);
+                    MLInstances<int, int> TrainSet = mldf.getCategoryData(i, deep, chkb_AllUseShift.Checked ? 1 : 0);
+                    MachineLearnClass<int, int> SelectFunc = (MachineLearnClass<int, int>)ClassOperateTool.getInstanceByType(MLType);//获取机器学习类型
+
+                    SelectFunc.OnTrainFinished += OnTrainFinished;
+                    SelectFunc.OnPeriodEvent += OnPeriodEvent;
+                    SelectFunc.OnSaveEvent += SaveData;
+                    SelectFunc.GroupId = i;
+                    SelectFunc.LearnDeep = deep;
+                    SelectFunc.FillTrainData(TrainSet);
+                    SelectFunc.InitTrain();
+                    SelectFunc.TrainIterorCnt = int.Parse(txt_IteratCnt.Text);
+                    SelectFunc.SelectCnt = int.Parse(txt_featureCnt.Text);
+                    SelectFunc.FilterCnt = int.Parse(txt_FilterCnt.Text);
+                    SelectFunc.TopN = int.Parse(this.txt_TopN.Text);
+                    SelectFuncs.Add(SelectFunc);
+                    this.txt_begT.Text = DateTime.Now.ToLongTimeString();
+                    this.Cursor = Cursors.WaitCursor;
+                    //RunningThread = new Thread(SelectFunc.Train);
+                    //RunningThread.Start();
+                    Task tk = new Task(() =>
+                    {
+                        SelectFunc.Train();
+                    });
+                    Tasks.Add(tk);
+                    tk.Start();
+
+                }
+            }
             for (int i = 0; i < ThreadCnt; i++)
             {
                 //MLInstances<int, int> TrainSet = mldf.getAllSpecColRoundLabelAndFeatures(i,deep, chkb_AllUseShift.Checked ? 1 : 0);
-                MLInstances<int, int> TrainSet = mldf.getCategoryData(i, deep, chkb_AllUseShift.Checked ? 1 : 0);
+                MLInstances<int, int> TrainSet = mldf.getCategoryData(0, deep, chkb_AllUseShift.Checked ? 1 : 0);
                 MachineLearnClass<int, int> SelectFunc = (MachineLearnClass<int, int>)ClassOperateTool.getInstanceByType(MLType);//获取机器学习类型
 
                 SelectFunc.OnTrainFinished += OnTrainFinished;
@@ -97,24 +130,25 @@ namespace BackTestSys
                 SelectFunc.LearnDeep = deep;
                 SelectFunc.FillTrainData(TrainSet);
                 SelectFunc.InitTrain();
-                SelectFunc.TrainIterorCnt = int.Parse(txt_IteratCnt.Text);
+                SelectFunc.TrainIterorCnt = int.Parse(txt_IteratCnt.Text)+i;
                 SelectFunc.SelectCnt = int.Parse(txt_featureCnt.Text);
+                SelectFunc.FilterCnt = int.Parse(txt_FilterCnt.Text);
                 SelectFunc.TopN = int.Parse(this.txt_TopN.Text);
                 SelectFuncs.Add(SelectFunc);
                 this.txt_begT.Text = DateTime.Now.ToLongTimeString();
                 this.Cursor = Cursors.WaitCursor;
                 //RunningThread = new Thread(SelectFunc.Train);
                 //RunningThread.Start();
-                Task tk = new Task(()=> {
+                Task tk = new Task(() => {
                     SelectFunc.Train();
                 });
                 Tasks.Add(tk);
                 tk.Start();
-                
+
             }
-            
+
         }
-        
+
 
         void OnPeriodEvent(params object[] objs)
         {

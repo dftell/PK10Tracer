@@ -707,6 +707,10 @@ namespace BackTestSys
                         AssetUnitClass ac = new AssetUnitClass();
                         ac.UnitName = a.Plan_Name;
                         ac.UnitId = Guid.NewGuid().ToString();
+                        if(chkb_useOdds.Checked)
+                        {
+                            ac.Odds = double.Parse(txt_Odds.Text);
+                        }
                         ac.TotalAsset = double.Parse(this.txt_InitCash.Text);
                         if (!Program.AllSettings.AllAssetUnits.ContainsKey(ac.UnitId))
                         {
@@ -881,8 +885,9 @@ namespace BackTestSys
                 BegT = long.Parse(this.txt_begExpNo.Text);
                 EndT = long.Parse(this.txt_endExpNo.Text);
             }
+            DataTypePoint dtp = GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()];
             if (btc == null)
-                btc = new BackTestClass<T>(GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()], BegT, long.Parse(txt_LoopCnt.Text), setting, EndT);
+                btc = new BackTestClass<T>(dtp, BegT, long.Parse(txt_LoopCnt.Text), setting, EndT);
             th = new Thread(RunVirtual);
             th.Start();
             return;
@@ -996,7 +1001,8 @@ namespace BackTestSys
                         this.chart1.Series[ci].Points.DataBindXY(moneyLines, "point", moneyLines, "val");
                         //this.chart1.Series[ci].Name = SCList[0].AssetUnitInfo.UnitName;
                         ci++;
-                        loadTableData(es);
+                        if(!this.chkb_noDetailTable.Checked)
+                            loadTableData(es);
                     }
                 }
 

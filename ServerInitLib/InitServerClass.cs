@@ -151,7 +151,7 @@ namespace WolfInv.com.ServerInitLib
                 {
                     if (GlobalClass.TypeDataPoints.ContainsKey(spc.UseDataSource) || IsBackTest)//如果计划不属于数据源，不加载
                     {
-                        csg = new CalcStragGroupClass<T>(GlobalClass.TypeDataPoints[spc.UseDataSource]);
+                        csg = new CalcStragGroupClass<T>(dpt);// GlobalClass.TypeDataPoints[spc.UseDataSource]);
                         if (!AllStatusStrags.ContainsKey(strKey))
                         {
                             csg.GrpName = strKey; //增加名称，供后面调试使用。

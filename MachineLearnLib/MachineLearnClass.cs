@@ -42,8 +42,9 @@ namespace WolfInv.com.MachineLearnLib
         }
         public int LearnDeep;
         public int TrainIterorCnt ;
-        public int SelectCnt;
-        public int TopN;
+        public int SelectCnt;//参数个数
+        public int FilterCnt;//预选个数
+        public int TopN;//最终选择数
         public  PredictResultClass PredictResult;
         public static MLFeatureFunctionsSummary<LabelT, FeatureT> FeatureSummary;//= new MLFeatureFunctionsSummary<LabelT, FeatureT>();
         protected MLInstances<LabelT, FeatureT> TrainData;

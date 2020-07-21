@@ -232,10 +232,10 @@ namespace WolfInv.com.Strags
             {
                 return false;
             }
-            if (currLCVal< features[1].Min() && currLCVal < lastAvg - 3 * lastStdDev)// && currRCVal<AllAvg-3*AllStdDev)//this.InputMinTimes)//当前大周期值小于历史大周期平均值-N倍历史大周期标准差
+            if (currLCVal< features[1].Min() && currLCVal < lastAvg - 2 * lastStdDev)// && currRCVal<AllAvg-3*AllStdDev)//this.InputMinTimes)//当前大周期值小于历史大周期平均值-N倍历史大周期标准差
             {
                 
-                if (currRCVal<features[0].Min() && currRCVal<AllAvg-3* AllStdDev)//&& currLCVal < lastAvg - 3 * lastStdDev)//this.InputMinTimes)//小周期当前值也小于小周期历史平均值-N倍小周期历史标准差
+                if (currRCVal<features[0].Min() && currRCVal<AllAvg-1* AllStdDev)//&& currLCVal < lastAvg - 3 * lastStdDev)//this.InputMinTimes)//小周期当前值也小于小周期历史平均值-N倍小周期历史标准差
                 {
                     TargetList = new double[4].ToList();
                     TargetList[0] = AllAvg;

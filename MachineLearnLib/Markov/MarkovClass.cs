@@ -59,24 +59,24 @@ namespace WolfInv.com.MachineLearnLib.Markov
             rsc.reviewCnt = this.LearnDeep;
             rsc.len = len;
             rsc.TopN = TopN;
+            rsc.FilterCnt = FilterCnt;
             rsc.selectCnt = this.SelectCnt;
             rsc.Data = allCols;
+            rsc.MoveCnt = this.TrainIterorCnt;
             //new Task(rsc.run).Start();
             rsc.run();
-
-
             this.OnTrainFinished();
         }
 
         public override List<KeyValuePair<int,double>> getPredictResult(int key)
         {
             List<KeyValuePair<int, double>> ret = new List<KeyValuePair<int, double>>();
-            DiscreteMarkov dm = new DiscreteMarkov(allCols.ToList(), this.SelectCnt, 5,TopN);
+            DiscreteMarkov dm = new DiscreteMarkov(allCols.ToList(), this.SelectCnt, this.TrainIterorCnt,FilterCnt);
             if (dm.predictResult.Count >= 0)
             {
                 for (int i = 0; i < dm.predictResult.Count; i++)
                 {
-                    KeyValuePair<int, double> kv = new KeyValuePair<int, double>(dm.predictResult[i].Value, dm.PredictValue[i]);
+                    KeyValuePair<int, double> kv = new KeyValuePair<int, double>(dm.predictResult[i].Value, dm.predValue[i]);
                     ret.Add(kv);
                 }
             }
@@ -90,7 +90,9 @@ namespace WolfInv.com.MachineLearnLib.Markov
             public int len = 0;
             public int selectCnt = 10;
             public int TopN;
+            public int FilterCnt;
             public int[] Data;
+            public int MoveCnt;
             public MarkovClass mk;
             public void run()
             {
@@ -98,11 +100,10 @@ namespace WolfInv.com.MachineLearnLib.Markov
                 {
                     int[] useList = new int[reviewCnt];
                     Array.Copy(Data, j, useList, 0, reviewCnt);
-                    DiscreteMarkov dm = new DiscreteMarkov(useList.ToList(),selectCnt, 5,TopN);
-                    List<int> res = dm.predictResult.Select(a=>a.Value).ToList();
+                    DiscreteMarkov dm = new DiscreteMarkov(useList.ToList(),selectCnt, MoveCnt, FilterCnt);
+                    List<int> res = dm.predictResult.Select(a=>a.Value).Take(TopN).ToList();
                     mk.PredictResult.TrainCnt++;
-
-                    if (res.Count <= 0)
+                    if (res.Count < TopN)
                     {
                         notice();
                         continue;
@@ -163,6 +164,7 @@ namespace WolfInv.com.MachineLearnLib.Markov
         /// <summary>滞时期，K/summary>
         public int LagPeriod { get; set; }
         static int NeedShift = 0;
+        public int useFreeCnt = 0;
 
         /// <summary>预测概率</summary>
         public Dictionary<int,double> PredictValue { get; set; }
@@ -191,12 +193,17 @@ namespace WolfInv.com.MachineLearnLib.Markov
                 var temp = ProbMatrix[i - 1] * t0;//ck方程计算后概率
                 ProbMatrix.Add(temp);//n步转移后的矩阵,理论的
             }
+            if (predictResult == null)
+            {
+                predictResult = new List<int?>();
+                predValue = new List<double>();
+            }
             if (ValidateMarkov())
             {
-                CorrCoefficient_miss();
+                //CorrCoefficient_miss();
                 CorrCoefficient();
                 TimeWeight();
-                TimeWeight_miss();
+                //TimeWeight_miss();
                 PredictProb(TopN);
             }
             else
@@ -233,11 +240,41 @@ namespace WolfInv.com.MachineLearnLib.Markov
                         gm += 2 * CountStatic[i][j] * Math.Abs(Math.Log(ProbMatrix[0][i, j] / cp[j], Math.E));
                 }
             }
+            double testRes = 101.88;
+            Dictionary<int, double> testDic = new Dictionary<int, double>();
+            testDic.Add(10, 18.31);
+            testDic.Add(15, 25);
+            testDic.Add(20,31.43);
+            testDic.Add(25, 37.65);
+            testDic.Add(30, 43.77);
+            testDic.Add(40, 55.76);
+            testDic.Add(50, 67.5);
+            testDic.Add(60, 79.08);
+            testDic.Add(70, 90.53);
+            testDic.Add(80, 101.88);
+            testDic.Add(90, 113.14);
+            testDic.Add(100, 124.34);
+            if (useFreeCnt==0)
+            {
+                int freeCnt = (this.Count - 1) * (this.LagPeriod - 1);
+                Dictionary<int, double> InterLen = new Dictionary<int, double>();
+                foreach (int cnt in testDic.Keys)
+                {
+                    InterLen.Add(cnt, (double)Math.Abs(cnt - freeCnt) /(double) freeCnt);
+                }
+                useFreeCnt = InterLen.OrderBy(a => a.Value).First().Key;
+            }
+            if(!testDic.ContainsKey(useFreeCnt))
+            {
+                return false;
+            }
+            return gm >= testDic[useFreeCnt];
             //查表求a = 0.05时，伽马分布的临界值F(m-1)^2,如果实际的gm值大于差别求得的值，则满足
             //查表要自己做表，这里只演示0.05的情况  卡方分布
             //自由度设为100，对应0.05为124.34
             //return gm >= 37.65;
-            return gm > 124.34;
+            //return gm > 124.34;
+            
         }
 
         /// <summary>计算相关系数</summary>
@@ -290,7 +327,7 @@ namespace WolfInv.com.MachineLearnLib.Markov
         public void PredictProb(int firstN)
         {
             PredictValue = new Dictionary<int, double>();
-            PredictValue_miss = new Dictionary<int, double>();
+            //PredictValue_miss = new Dictionary<int, double>();
             //这里很关键，权重和滞时的关系要颠倒，循环计算的时候要注意
             //另外，要根据最近几期的出现数，确定概率的状态，必须取出最后几期的数据
 
@@ -300,30 +337,26 @@ namespace WolfInv.com.MachineLearnLib.Markov
             for (int i = 0; i < Count; i++)
             {
                 PredictValue.Add(i, 0);
-                PredictValue_miss.Add(i, 0);
+                //PredictValue_miss.Add(i, 0);
                 for (int j = 0; j < LagPeriod; j++)
                 {
                     //滞时期j的数据状态
                    var state = last[last.Count - 1 - j]-NeedShift ; 
                     PredictValue[i] += Wk[j] * ProbMatrix[j][state, i];
-                    PredictValue_miss[i] += wk_miss[j] * ProbMatrix[j][state, i];
+                    //PredictValue_miss[i] += wk_miss[j] * ProbMatrix[j][state, i];
                 }
             }
             var res = PredictValue.OrderByDescending(a => a.Value).Take(firstN);
-            var res_miss = PredictValue_miss.OrderByDescending(a => a.Value).Take(firstN);
-            if (predictResult == null)
-            {
-                predictResult = new List<int?>();
-                predValue = new List<double>();
-            }
+            //var res_miss = PredictValue_miss.OrderByDescending(a => a.Value).Take(firstN);
+            
             foreach (var key in res)
             {
-                if (res_miss.Select(b => b.Key).Contains(key.Key))
-                {
+                //if (res_miss.Select(b => b.Key).Contains(key.Key))
+                //{
                     
                     predictResult.Add(key.Key+NeedShift);
                     predValue.Add(key.Value);
-                }
+                //}
             }
         }
         #endregion

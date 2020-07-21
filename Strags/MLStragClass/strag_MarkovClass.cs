@@ -37,11 +37,11 @@ namespace WolfInv.com.Strags.MLStragClass
             mcf.Init(this.LastUseData());
             List<string> useResList = new List<string>();
             Dictionary<int,List<KeyValuePair<int, double>>> allColList = new Dictionary<int,List<KeyValuePair<int, double>>>();
-            Task[] tks = new Task[sc.SelNums];
+            Task[] tks = new Task[(isXxY ? 1 : sc.SelNums)];
             //Log("任务数", sc.SelectNums.ToString());
             try
             {
-                for (int i = 0; i < sc.SelNums; ++i)
+                for (int i = 0; i < (isXxY?1:sc.SelNums); ++i)
                 {
 
                     int col = (i + 1) % 10;
@@ -51,7 +51,10 @@ namespace WolfInv.com.Strags.MLStragClass
                     rc.i = i;
                     rc.col = col;
                     rc.SelectNums = sc.AllNums;
-                    rc.TopN = ChipCount;
+                    rc.FilterCnt = ChipCount;
+                    rc.TopN = InputMinTimes;
+                    
+                    rc.MoveCnt = this.InputMaxTimes;
                     rc.ReviewExpectCnt = ReviewExpectCnt;
                     rc.allColList = allColList;
                     Task tk = new Task(() =>
@@ -91,7 +94,7 @@ namespace WolfInv.com.Strags.MLStragClass
             {
                 foreach (var res in useRes)
                 {
-                    useResList.Add(string.Format("{0}/{1}", res.Value.Keys.First(), res.Key));
+                    useResList.Add(string.Format("{0}/{1}", res.Key, res.Value.Keys.First()));
                 }
                 strChanceCode = string.Join("+", useResList);
             }
@@ -99,10 +102,10 @@ namespace WolfInv.com.Strags.MLStragClass
             {
                 foreach(var res in useRes)
                 {
-                    useResList.Add(string.Format("{0}", res.Key));
+                    useResList.Add(string.Format("{0}", res.Value.Keys.First()));
                 }
-                string[] strRev = CombinClass.getReconvertString(CombinClass.CreateNumArr(sc.AllNums),useResList.ToArray());
-                strChanceCode = string.Format("A{0}/{1}", chipCnt,string.Join("", strRev));
+                string[] strRev = useResList.ToArray();
+                strChanceCode = string.Format("C{0}/{1}", 1,string.Join("", strRev));
             }
             if (useResList.Count>0)
             {
@@ -143,6 +146,8 @@ namespace WolfInv.com.Strags.MLStragClass
             public Dictionary<int, List<KeyValuePair<int, double>>> allColList;
             public int SelectNums;
             public int TopN;
+            public int MoveCnt;
+            public int FilterCnt;
             public int col;
             public int i;
             public int ReviewExpectCnt;
@@ -156,8 +161,9 @@ namespace WolfInv.com.Strags.MLStragClass
                     MarkovClass SelectFunc = new MarkovClass();
                     SelectFunc.GroupId = col;
                     SelectFunc.LearnDeep = ReviewExpectCnt;
-
+                    SelectFunc.TrainIterorCnt = MoveCnt;
                     SelectFunc.SelectCnt = SelectNums;
+                    SelectFunc.FilterCnt = FilterCnt;
                     SelectFunc.TopN = TopN;
                     SelectFunc.FillTrainData(TrainSet);
                     SelectFunc.InitTrain();
@@ -168,6 +174,10 @@ namespace WolfInv.com.Strags.MLStragClass
                         {
                             allColList.Add(col, res.Take(firstN).ToList());
                         }
+                    }
+                    else
+                    {
+
                     }
                 }
                 catch(Exception ce)

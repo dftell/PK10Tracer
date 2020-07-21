@@ -13,14 +13,14 @@ namespace WolfInv.com.Strags
     [Serializable]
     public class Strag_Optimize_BinomialDistrClass : ChanceTraceStragClass
     { 
-        int StepCnt = 5;
+        int StepCnt = 10;
         int MinFilterCnt = 20;//为什么要从20开始，为什么不从10开始
-        int MaxFilterCnt = 100;
+        int MaxFilterCnt = 200;
         static Dictionary<string, List<int>> AllBinomPeaks = new Dictionary<string, List<int>>();
         public Strag_Optimize_BinomialDistrClass()
             : base()
         {
-            _StragClassName = "优化二项分布选号策略";
+            _StragClassName = "二项分布优化选号策略";
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace WolfInv.com.Strags
                 return;
             }
             Dictionary<int, double> AllProbs = new Dictionary<int, double>();
-            for (int i = 1; i <= K; i++)
+            for (int i = 1; i <= K; i++)//以step为长度，滚动看
             {
                 AllProbs.Add(i,ProbMath.GetBinomial(N, i, p));
             }
@@ -72,14 +72,16 @@ namespace WolfInv.com.Strags
                 {
                     ValCntItems.Add(val, 0);
                     string strVal = string.Format("{0}", val);
+                    int si = 0;
                     foreach (string key in AllBinomPeaks.Keys)//遍历所有峰值清单
                     {
                         int ViewCnt = int.Parse(key.Split('_')[0]);//获得峰值清单对应的实验次数
-                        int ExistCnt = sc.FindLastDataExistCount(ViewCnt, strCol, strVal);//获得前N-1次该车次出现的次数
+                        int ExistCnt = sc.FindLastDataExistCount(ViewCnt+si*StepCnt,StepCnt, strCol, strVal);//获得前N-1次该车次出现的次数
                         if (AllBinomPeaks[key].Contains(ExistCnt + 1))//如果该二项分布检查的峰值是7，8，9，值出现的次数是6，7，8,匹配，+1
                         {
                             ValCntItems[val] = ValCntItems[val] + 1;
                         }
+                        si++;
                     }
                 }
                 //满足所有二项分布的才入选

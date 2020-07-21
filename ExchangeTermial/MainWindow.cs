@@ -2090,7 +2090,7 @@ ClearMyTracksByProcess 255
                         }
                         string strProbModel = "概率(%)100期:当前[{0}]/安全[{1}];300期:当前[{2}]/安全[{3}];1000期:当前[{4}]/安全[{5}];持续{6}次机会未出双响！";
                         string strProb = string.Format(strProbModel, currProb100, safeProb100, currProb300, safeProb300, currProb1000, safeProb1000, No2MatchCnt);
-                        strList = string.Format("[{0}期提示:[机会:{1};数量:{2}]];{3}最近5轮出现的组合信息为:{4}", CurrExpectNo,cc.ChanceCode,cc.UnitCost, strProb,string.Join(",", c.List.Select(curr =>string.Format("{0}次{1}个组合",curr.times, curr.chipCount)).Take(5).ToArray()));
+                        strList = string.Format("[{0}期提示:资产单元{5}[机会:{1};数量:{2}]];{3}最近5轮出现的组合信息为:{4}", CurrExpectNo,cc.ChanceCode,cc.UnitCost, strProb,string.Join(",", c.List.Select(curr =>string.Format("{0}次{1}个组合",curr.times, curr.chipCount)).Take(5).ToArray()), AssetUnitList[a]);
                         string strDiff = "";
                         if(Program.gc.AssetUnits[a].AutoEmergencyStop == 1 && judgeAutoABS(c))//如果需要自动计算刹车
                         {

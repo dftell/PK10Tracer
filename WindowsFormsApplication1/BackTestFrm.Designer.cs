@@ -102,6 +102,7 @@ namespace BackTestSys
             this.txt_reviewExpCnt = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkb_useOdds = new System.Windows.Forms.CheckBox();
             this.ckb_useCondition = new System.Windows.Forms.CheckBox();
             this.txt_endExpNo = new System.Windows.Forms.TextBox();
             this.label33 = new System.Windows.Forms.Label();
@@ -126,7 +127,9 @@ namespace BackTestSys
             this.label20 = new System.Windows.Forms.Label();
             this.txt_minColTimes6 = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
+            this.txt_Odds = new System.Windows.Forms.TextBox();
             this.txt_minColTimes5 = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.txt_minColTimes4 = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
@@ -142,8 +145,6 @@ namespace BackTestSys
             this.label10 = new System.Windows.Forms.Label();
             this.txt_MinCols = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.txt_Odds = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.txt_LoopCnt = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txt_begExpNo = new System.Windows.Forms.TextBox();
@@ -176,6 +177,7 @@ namespace BackTestSys
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.chkb_noDetailTable = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -719,6 +721,8 @@ namespace BackTestSys
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox1.Controls.Add(this.chkb_noDetailTable);
+            this.groupBox1.Controls.Add(this.chkb_useOdds);
             this.groupBox1.Controls.Add(this.ckb_useCondition);
             this.groupBox1.Controls.Add(this.txt_endExpNo);
             this.groupBox1.Controls.Add(this.label33);
@@ -743,7 +747,9 @@ namespace BackTestSys
             this.groupBox1.Controls.Add(this.label20);
             this.groupBox1.Controls.Add(this.txt_minColTimes6);
             this.groupBox1.Controls.Add(this.label21);
+            this.groupBox1.Controls.Add(this.txt_Odds);
             this.groupBox1.Controls.Add(this.txt_minColTimes5);
+            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label16);
             this.groupBox1.Controls.Add(this.txt_minColTimes4);
             this.groupBox1.Controls.Add(this.label15);
@@ -759,8 +765,6 @@ namespace BackTestSys
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.txt_MinCols);
             this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Controls.Add(this.txt_Odds);
-            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.txt_LoopCnt);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txt_begExpNo);
@@ -773,6 +777,17 @@ namespace BackTestSys
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "回测数据设置";
+            // 
+            // chkb_useOdds
+            // 
+            this.chkb_useOdds.AutoSize = true;
+            this.chkb_useOdds.Location = new System.Drawing.Point(228, 197);
+            this.chkb_useOdds.Margin = new System.Windows.Forms.Padding(2);
+            this.chkb_useOdds.Name = "chkb_useOdds";
+            this.chkb_useOdds.Size = new System.Drawing.Size(96, 16);
+            this.chkb_useOdds.TabIndex = 44;
+            this.chkb_useOdds.Text = "使用指定赔率";
+            this.chkb_useOdds.UseVisualStyleBackColor = true;
             // 
             // ckb_useCondition
             // 
@@ -1013,6 +1028,15 @@ namespace BackTestSys
             this.label21.TabIndex = 22;
             this.label21.Text = "6码";
             // 
+            // txt_Odds
+            // 
+            this.txt_Odds.Location = new System.Drawing.Point(365, 98);
+            this.txt_Odds.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_Odds.Name = "txt_Odds";
+            this.txt_Odds.Size = new System.Drawing.Size(55, 21);
+            this.txt_Odds.TabIndex = 5;
+            this.txt_Odds.Text = "9.75";
+            // 
             // txt_minColTimes5
             // 
             this.txt_minColTimes5.Location = new System.Drawing.Point(59, 116);
@@ -1021,6 +1045,16 @@ namespace BackTestSys
             this.txt_minColTimes5.Size = new System.Drawing.Size(36, 21);
             this.txt_minColTimes5.TabIndex = 21;
             this.txt_minColTimes5.Text = "16";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(297, 100);
+            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(29, 12);
+            this.label6.TabIndex = 4;
+            this.label6.Text = "赔率";
             // 
             // label16
             // 
@@ -1164,25 +1198,6 @@ namespace BackTestSys
             this.label9.Size = new System.Drawing.Size(53, 12);
             this.label9.TabIndex = 6;
             this.label9.Text = "隐藏期数";
-            // 
-            // txt_Odds
-            // 
-            this.txt_Odds.Location = new System.Drawing.Point(365, 99);
-            this.txt_Odds.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_Odds.Name = "txt_Odds";
-            this.txt_Odds.Size = new System.Drawing.Size(55, 21);
-            this.txt_Odds.TabIndex = 5;
-            this.txt_Odds.Text = "9.75";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(298, 101);
-            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(29, 12);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "赔率";
             // 
             // txt_LoopCnt
             // 
@@ -1601,6 +1616,17 @@ namespace BackTestSys
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
             this.toolStripProgressBar1.Size = new System.Drawing.Size(250, 37);
             // 
+            // chkb_noDetailTable
+            // 
+            this.chkb_noDetailTable.AutoSize = true;
+            this.chkb_noDetailTable.Location = new System.Drawing.Point(348, 195);
+            this.chkb_noDetailTable.Margin = new System.Windows.Forms.Padding(2);
+            this.chkb_noDetailTable.Name = "chkb_noDetailTable";
+            this.chkb_noDetailTable.Size = new System.Drawing.Size(84, 16);
+            this.chkb_noDetailTable.TabIndex = 45;
+            this.chkb_noDetailTable.Text = "不显示明细";
+            this.chkb_noDetailTable.UseVisualStyleBackColor = true;
+            // 
             // BackTestFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1772,5 +1798,7 @@ namespace BackTestSys
         private System.Windows.Forms.ToolStripMenuItem tsmi_ExportCSV;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.CheckBox ckb_useCondition;
+        private System.Windows.Forms.CheckBox chkb_useOdds;
+        private System.Windows.Forms.CheckBox chkb_noDetailTable;
     }
 }

@@ -190,6 +190,7 @@ namespace WolfInv.com.ExchangeLib
                 //Log("计算服务", "处理计划。", currPlan.Plan_Name);
                 if (currPlan.PlanStrag == null)//如果计划所执行的策略为空，只在chance上执行tracer
                 {
+                    
                     //Log("计算服务", "计划所执行的策略为空,为客户端人工指定计划准备。", currPlan.Plan_Name);
                     currPlan.PlanStrag.allowInvestmentMaxValue = currPlan.MaxLostAmount;
                     List<ChanceClass<T>> emptycs = CurrExistChanceList.Values.Where(p => p.StragId == null).ToList<ChanceClass<T>>();
@@ -211,7 +212,11 @@ namespace WolfInv.com.ExchangeLib
                     continue;
                 }
                 BaseStragClass<T> currStrag = UseStrags[currPlan.PlanStrag.GUID];
-                if(currStrag is ReferIndexStragClass)//附加索引数据
+                if (IsBackTest)
+                {
+                    currStrag.CommSetting.Odds = currPlan.AssetUnitInfo.Odds;//如果回测，可以用使用计划的赔率
+                }
+                if (currStrag is ReferIndexStragClass)//附加索引数据
                 {
                     if (this.grpIndexs.ContainsKey(currStrag.GUID))
                     {
@@ -380,6 +385,7 @@ namespace WolfInv.com.ExchangeLib
                     CurrCc.ExecDate = DateTime.Today;
                     CurrCc.CreateTime = DateTime.Now;
                     CurrCc.UpdateTime = CurrCc.CreateTime;
+                    CurrCc.Odds = currStrag.CommSetting.Odds;// CurrCc.getRealOdds();
                     CurrCc.StragId = currStrag.GUID;
                     CurrCc.ExpectCode = el.LastData.Expect;
                     CurrCc.AllowMaxHoldTimeCnt = currPlan.AllowMaxHoldTimeCnt;
