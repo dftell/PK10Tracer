@@ -36,7 +36,7 @@ namespace WolfInv.com.StrategyLibForWD
             return (int)ret.GetTable().Rows[0][0];
         }
 
-        public static DateTime Offset(WindAPI w, DateTime  endt,int N,Cycle cyc)
+        public static DateTime Offset(WindAPI w, DateTime  endt,int N,Cycle cyc= Cycle.Day)
         {
             TDaysGuidClas tgc = new TDaysGuidClas();
             tgc.cycle = cyc;

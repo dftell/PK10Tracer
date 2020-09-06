@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
+using System.Linq;
 namespace WolfInv.com.SecurityLib
 {
     
@@ -259,6 +260,11 @@ namespace WolfInv.com.SecurityLib
         {
             Web52CP_KL12_DataClass dc = new Web52CP_KL12_DataClass();
             dc = dc.FromJson(strXml);
+            int SelectNums = 10;
+            if(dtp.SelectNums>0)
+            {
+                SelectNums = dtp.SelectNums;
+            }
             ExpectList<T> ret = new ExpectList<T>();
             if(dc.result!=null)
             {
@@ -271,7 +277,9 @@ namespace WolfInv.com.SecurityLib
                     data.OpenCode = obj.num;
                     if(string.IsNullOrEmpty(obj.num))
                     {
-
+                        Type t = obj.GetType();
+                        string[] arr = new string[SelectNums];
+                        /*
                         if (string.IsNullOrEmpty(obj.num10))
                         {
                             data.OpenCode = string.Format("{0},{1},{2},{3},{4}", obj.num1, obj.num2, obj.num3, obj.num4, obj.num5);
@@ -279,7 +287,18 @@ namespace WolfInv.com.SecurityLib
                         else
                         {
                             data.OpenCode = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}", obj.num1, obj.num2, obj.num3, obj.num4, obj.num5,obj.num6,obj.num7,obj.num8,obj.num9,obj.num10);
+                        }*/
+                        //修改为按指定选择个数来获取准确的个数
+                        for (int s=0;s<SelectNums;s++)
+                        {
+                            FieldInfo fi = t.GetField(string.Format("num{0}", s + 1));
+                            if (fi != null)
+                            {
+                                arr[s] = string.Format("{0}",fi.GetValue(obj));
+                            }
                         }
+                        data.OpenCode = string.Join(",",arr);
+                        
                     }
                     data.OpenTime = new DateTime(1970,1,1).ToLocalTime().AddSeconds(obj.opentime);
                     data.ExpectSerialByType = 2;
@@ -287,7 +306,21 @@ namespace WolfInv.com.SecurityLib
                     ret.Add(data);
                 }
             }
-            return ret;
+            ExpectList<T> res = new ExpectList<T>();
+            //强制按时间倒序排列
+            bool orderByAsc = false;
+            if(ret.FirstData.LExpectNo<ret.LastData.LExpectNo)//如果是顺序排列
+            {
+                orderByAsc = true;
+            }
+            if (orderByAsc)
+                return ret;
+            //顺序
+            foreach (var a in ret )
+            {
+                res.Insert(0, a);
+            }
+            return res;
         }
 
         public override ExpectList<T> getTextData<T>(string strXml)

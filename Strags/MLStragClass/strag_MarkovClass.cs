@@ -30,7 +30,16 @@ namespace WolfInv.com.Strags.MLStragClass
 
         public override List<ChanceClass> getChances(BaseCollection sc, ExpectData ed)
         {
-            bool isXxY = (sc is CommCollection_KLXxY);
+            bool needShift = false;
+            bool isXxY = false;
+            if(sc is CommCollection_KLXxY)
+            {
+                isXxY = true;
+                if(!(sc as CommCollection_KLXxY).TenToZero)
+                {
+                    needShift = true;
+                }
+            }
             List <ChanceClass> ret = new List<ChanceClass>();
             Dictionary<int, List<int>> useList = new Dictionary<int, List<int>>();
             MarkovCategoryFactioryClass mcf = new MarkovCategoryFactioryClass();
@@ -47,16 +56,16 @@ namespace WolfInv.com.Strags.MLStragClass
                     int col = (i + 1) % 10;
                     runningClass rc = new runningClass();
                     rc.Log = Log;
-                    rc.TrainSet = mcf.getCategoryData(i, ReviewExpectCnt, isXxY ? 1:0);
+                    rc.TrainSet = mcf.getCategoryData(i, ReviewExpectCnt, needShift ? 1:0);
                     rc.i = i;
                     rc.col = col;
                     rc.SelectNums = sc.AllNums;
                     rc.FilterCnt = ChipCount;
                     rc.TopN = InputMinTimes;
-                    
                     rc.MoveCnt = this.InputMaxTimes;
                     rc.ReviewExpectCnt = ReviewExpectCnt;
                     rc.allColList = allColList;
+                    rc.NeedShift = needShift;
                     Task tk = new Task(() =>
                     {
                         //runningTask(mcf, allColList, sc.SelectNums, col, i);
@@ -105,7 +114,7 @@ namespace WolfInv.com.Strags.MLStragClass
                     useResList.Add(string.Format("{0}", res.Value.Keys.First()));
                 }
                 string[] strRev = useResList.ToArray();
-                strChanceCode = string.Format("C{0}/{1}", 1,string.Join("", strRev));
+                strChanceCode = string.Format("E{0}/{1}", 1,string.Join("", strRev));
             }
             if (useResList.Count>0)
             {
@@ -151,6 +160,7 @@ namespace WolfInv.com.Strags.MLStragClass
             public int col;
             public int i;
             public int ReviewExpectCnt;
+            public bool NeedShift;
             public Action<string, string> Log;
             public MLInstances<int, int> TrainSet;
             public int firstN=1;
@@ -165,6 +175,7 @@ namespace WolfInv.com.Strags.MLStragClass
                     SelectFunc.SelectCnt = SelectNums;
                     SelectFunc.FilterCnt = FilterCnt;
                     SelectFunc.TopN = TopN;
+                    SelectFunc.NeedShift = NeedShift;
                     SelectFunc.FillTrainData(TrainSet);
                     SelectFunc.InitTrain();
                     List<KeyValuePair<int, double>> res = SelectFunc.getPredictResult(col);

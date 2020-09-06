@@ -697,7 +697,7 @@ namespace WolfInv.com.WXMsgCom
                             atlist.Add(mcs[mi].Value.Trim().Replace("@", ""));
                         }
                         wmsg.AtMemberNikeName = atlist.ToArray();
-                        if (wmsg.AtMemberNikeName != null && wmsg.AtMemberNikeName.Length == 1)
+                        if (wmsg.AtMemberNikeName != null && wmsg.AtMemberNikeName.Length == 1 && wmsg.AtMemberNikeName[0].Replace("@","").Trim().Length>0)//防止变态人的昵称是@
                         {
                             var matchnicks = AllUsers[fromName].MemberDict.Where(a => a.Value.DisplayName == wmsg.AtMemberNikeName[0] || a.Value.NickName == wmsg.AtMemberNikeName[0]);
                             foreach (var mem in matchnicks)

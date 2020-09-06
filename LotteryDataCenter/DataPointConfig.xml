@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <Lottery>
+    
+  </Lottery>
+  <Datapoint id="52cp" title="52彩票">
+    <item key="needNavigateAccess" value="0"/>
+    <item key="needLogin" value="0"/>
+    <item key="loginPageUrl" value="/Account/Login" />
+    <item key="userAuthUrl" value="/Account/Auth" />
+    <item key="dataFormat" value="json"/>
+    <item key="host" value="https://www.52cp.cn"/>
+    <item key="urlModel" value=""/>
+    <item key="paramsModel" value=""/>
+    <item key="period" value="100"/>
+    <item key="useFixUrl" value="0"/>
+    <item key="lotteryList">
+      <item key="PK10" value="pk10"/>
+      <item key="GDKL11" value="gdkl11"/>
+      <item key="CQSSC" value="https://www.52cp.cn/cqssc/api/trend?period=2&amp;pos=1&amp;type=1"/>
+      <item key="JSK3" value="https://www.52cp.cn/jsk3/api/history?period=100"/>
+    </item>
+  </Datapoint>
+  <Datapoint id="jhc" title="金皇朝">
+    <item key="needNavigateAccess" value="true"/>
+    <item key="needLogin" value="true"/>
+    <item key="loginId" value="sunecho"/>
+    <item key="loginPwd" value="sun666888"/>
+    <item key="loginPageUrl" value="{0}/Account/Login" />
+    <item key="userAuthUrl" value="{0}/Account/Auth" />
+    <item key="LotteryPage" value="{0}/Bet/Index" />
+    <item key="userModel" value="LoginID={0}&amp;Password={1}" />
+    <item key="hostKey" value="input|name|LoginID" />
+    <item key="dataFormat" value="json"/>
+    <item key="host" value="https://h.jhc3666.com"/>
+    <item key="urlModel"  value="{0}/bet/GameInfo"/>
+    <item key="useFixUrl" value="0"/>
+    <item key="method" value="Post"/>
+    <item key="paramsModel" value="lotteryGameId={0}"/>
+    <item key="period" value="100"/>
+    <item key="lotteryList">
+      <item key="CQSSC" value="1"/>
+      <item key="PK10" value="19"/>
+      <item key="GDKL11" value="10"/>
+      <item key="JSK3" value="22"/>
+    </item>
+  </Datapoint>
+</root>

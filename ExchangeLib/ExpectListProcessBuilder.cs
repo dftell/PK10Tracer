@@ -39,6 +39,8 @@ namespace WolfInv.com.ExchangeLib
                             ret = new CombinLottery_ExpectListProcess(new ExpectList(data.Table)) as CommExpectListProcess<T>;
                             ret.AllNums = dtp.AllNums;
                             ret.SelectNums = dtp.SelectNums;
+                            ret.TenToZero = false;
+                            
                             (ret as CombinLottery_ExpectListProcess).strAllTypeOdds = dtp.strAllTypeOdds;
                             (ret as CombinLottery_ExpectListProcess).strCombinTypeOdds = dtp.strCombinTypeOdds;
                             (ret as CombinLottery_ExpectListProcess).strPermutTypeOdds = dtp.strPermutTypeOdds;
@@ -46,19 +48,18 @@ namespace WolfInv.com.ExchangeLib
                             break;
                         }
                     case "GDKL11":
+                    default:
                         {
                             ret = new CombinLottery_ExpectListProcess(new ExpectList(data.Table)) as CommExpectListProcess<T>;
                             ret.AllNums = dtp.AllNums;
                             ret.SelectNums = dtp.SelectNums;
+                            ret.TenToZero = dtp.TenToZero;
                             (ret as CombinLottery_ExpectListProcess).strAllTypeOdds = dtp.strAllTypeOdds;
                             (ret as CombinLottery_ExpectListProcess).strCombinTypeOdds = dtp.strCombinTypeOdds;
                             (ret as CombinLottery_ExpectListProcess).strPermutTypeOdds = dtp.strPermutTypeOdds;
                             break;
                         }
-                    default:
-                        {
-                            break;
-                        }
+                   
                 }
             }
             return ret;
@@ -113,8 +114,29 @@ namespace WolfInv.com.ExchangeLib
                             ret = new XYFT_ExpectReader();
                             break;
                         }
+                    case "CQSSC":
+                        {
+                            ret = new CQSSC_ExpectReader();
+                            break;
+                        }
+                    case "XJSSC":
+                        {
+                            ret = new XJSSC_ExpectReader();
+                            break;
+                        }
+                    case "TJSSC":
+                        {
+                            ret = new TJSSC_ExpectReader();
+                            break;
+                        }
+                    case "JSK3":
+                        {
+                            ret = new JSK3_ExpectReader();
+                            break;
+                        }
                     default:
                         {
+                            ret = new KL11_ExpectReader(dtp.DataType);
                             break;
                         }
                 }

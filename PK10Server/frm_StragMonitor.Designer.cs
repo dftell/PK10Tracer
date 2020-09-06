@@ -76,16 +76,16 @@
             this.dg_AssetUnits = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tabControl3 = new System.Windows.Forms.TabControl();
-            this.tabPage9 = new System.Windows.Forms.TabPage();
-            this.dg_PlanGrps = new System.Windows.Forms.DataGridView();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.dg_stragStatus = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip_OperatePlan = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tmi_refreshPlans = new System.Windows.Forms.ToolStripMenuItem();
             this.tmi_StartPlan = new System.Windows.Forms.ToolStripMenuItem();
             this.tmi_StopPlan = new System.Windows.Forms.ToolStripMenuItem();
             this.tmi_Edit = new System.Windows.Forms.ToolStripMenuItem();
             this.tmi_Delete = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.dg_PlanGrps = new System.Windows.Forms.DataGridView();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.dg_stragStatus = new System.Windows.Forms.DataGridView();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.dg_StragList = new System.Windows.Forms.DataGridView();
             this.tabPage8 = new System.Windows.Forms.TabPage();
@@ -121,11 +121,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.dg_AssetUnits)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.tabControl3.SuspendLayout();
+            this.contextMenuStrip_OperatePlan.SuspendLayout();
             this.tabPage9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg_PlanGrps)).BeginInit();
             this.tabPage6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg_stragStatus)).BeginInit();
-            this.contextMenuStrip_OperatePlan.SuspendLayout();
             this.tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg_StragList)).BeginInit();
             this.tabPage8.SuspendLayout();
@@ -329,6 +329,8 @@
             this.chart_ForGuide.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            chartArea1.CursorX.IsUserEnabled = true;
+            chartArea1.CursorX.IsUserSelectionEnabled = true;
             chartArea1.Name = "ChartArea1";
             this.chart_ForGuide.ChartAreas.Add(chartArea1);
             legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
@@ -391,6 +393,54 @@
             this.tabControl3.SelectedIndex = 0;
             this.tabControl3.Size = new System.Drawing.Size(367, 315);
             this.tabControl3.TabIndex = 1;
+            // 
+            // contextMenuStrip_OperatePlan
+            // 
+            this.contextMenuStrip_OperatePlan.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.contextMenuStrip_OperatePlan.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tmi_refreshPlans,
+            this.tmi_StartPlan,
+            this.tmi_StopPlan,
+            this.tmi_Edit,
+            this.tmi_Delete});
+            this.contextMenuStrip_OperatePlan.Name = "contextMenuStrip_OperatePlan";
+            this.contextMenuStrip_OperatePlan.Size = new System.Drawing.Size(149, 114);
+            this.contextMenuStrip_OperatePlan.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_OperatePlan_Opening);
+            // 
+            // tmi_refreshPlans
+            // 
+            this.tmi_refreshPlans.Name = "tmi_refreshPlans";
+            this.tmi_refreshPlans.Size = new System.Drawing.Size(148, 22);
+            this.tmi_refreshPlans.Text = "刷新";
+            this.tmi_refreshPlans.Click += new System.EventHandler(this.tsmi_refreshPlans_Click);
+            // 
+            // tmi_StartPlan
+            // 
+            this.tmi_StartPlan.Name = "tmi_StartPlan";
+            this.tmi_StartPlan.Size = new System.Drawing.Size(148, 22);
+            this.tmi_StartPlan.Text = "开始运行计划";
+            this.tmi_StartPlan.Click += new System.EventHandler(this.tmi_StartPlan_Click);
+            // 
+            // tmi_StopPlan
+            // 
+            this.tmi_StopPlan.Name = "tmi_StopPlan";
+            this.tmi_StopPlan.Size = new System.Drawing.Size(148, 22);
+            this.tmi_StopPlan.Text = "停止运行计划";
+            this.tmi_StopPlan.Click += new System.EventHandler(this.tmi_StopPlan_Click);
+            // 
+            // tmi_Edit
+            // 
+            this.tmi_Edit.Name = "tmi_Edit";
+            this.tmi_Edit.Size = new System.Drawing.Size(148, 22);
+            this.tmi_Edit.Text = "修改";
+            this.tmi_Edit.Click += new System.EventHandler(this.tmi_Edit_Click);
+            // 
+            // tmi_Delete
+            // 
+            this.tmi_Delete.Name = "tmi_Delete";
+            this.tmi_Delete.Size = new System.Drawing.Size(148, 22);
+            this.tmi_Delete.Text = "删除";
+            this.tmi_Delete.Click += new System.EventHandler(this.tmi_Delete_Click);
             // 
             // tabPage9
             // 
@@ -484,54 +534,6 @@
             this.dg_stragStatus.Size = new System.Drawing.Size(353, 283);
             this.dg_stragStatus.TabIndex = 0;
             this.dg_stragStatus.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dg_stragStatus_MouseUp);
-            // 
-            // contextMenuStrip_OperatePlan
-            // 
-            this.contextMenuStrip_OperatePlan.ImageScalingSize = new System.Drawing.Size(32, 32);
-            this.contextMenuStrip_OperatePlan.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tmi_refreshPlans,
-            this.tmi_StartPlan,
-            this.tmi_StopPlan,
-            this.tmi_Edit,
-            this.tmi_Delete});
-            this.contextMenuStrip_OperatePlan.Name = "contextMenuStrip_OperatePlan";
-            this.contextMenuStrip_OperatePlan.Size = new System.Drawing.Size(149, 114);
-            this.contextMenuStrip_OperatePlan.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_OperatePlan_Opening);
-            // 
-            // tmi_refreshPlans
-            // 
-            this.tmi_refreshPlans.Name = "tmi_refreshPlans";
-            this.tmi_refreshPlans.Size = new System.Drawing.Size(148, 22);
-            this.tmi_refreshPlans.Text = "刷新";
-            this.tmi_refreshPlans.Click += new System.EventHandler(this.tsmi_refreshPlans_Click);
-            // 
-            // tmi_StartPlan
-            // 
-            this.tmi_StartPlan.Name = "tmi_StartPlan";
-            this.tmi_StartPlan.Size = new System.Drawing.Size(148, 22);
-            this.tmi_StartPlan.Text = "开始运行计划";
-            this.tmi_StartPlan.Click += new System.EventHandler(this.tmi_StartPlan_Click);
-            // 
-            // tmi_StopPlan
-            // 
-            this.tmi_StopPlan.Name = "tmi_StopPlan";
-            this.tmi_StopPlan.Size = new System.Drawing.Size(148, 22);
-            this.tmi_StopPlan.Text = "停止运行计划";
-            this.tmi_StopPlan.Click += new System.EventHandler(this.tmi_StopPlan_Click);
-            // 
-            // tmi_Edit
-            // 
-            this.tmi_Edit.Name = "tmi_Edit";
-            this.tmi_Edit.Size = new System.Drawing.Size(148, 22);
-            this.tmi_Edit.Text = "修改";
-            this.tmi_Edit.Click += new System.EventHandler(this.tmi_Edit_Click);
-            // 
-            // tmi_Delete
-            // 
-            this.tmi_Delete.Name = "tmi_Delete";
-            this.tmi_Delete.Size = new System.Drawing.Size(148, 22);
-            this.tmi_Delete.Text = "删除";
-            this.tmi_Delete.Click += new System.EventHandler(this.tmi_Delete_Click);
             // 
             // tabPage7
             // 
@@ -824,11 +826,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.dg_AssetUnits)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.tabControl3.ResumeLayout(false);
+            this.contextMenuStrip_OperatePlan.ResumeLayout(false);
             this.tabPage9.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dg_PlanGrps)).EndInit();
             this.tabPage6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dg_stragStatus)).EndInit();
-            this.contextMenuStrip_OperatePlan.ResumeLayout(false);
             this.tabPage7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dg_StragList)).EndInit();
             this.tabPage8.ResumeLayout(false);

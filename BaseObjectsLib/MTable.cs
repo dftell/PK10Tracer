@@ -467,7 +467,11 @@ namespace WolfInv.com.BaseObjectsLib
         #region 属性
         public int Count
         {
-            get { return this.tTable.Rows.Count; }
+            get
+            {
+                if (this.tTable == null)
+                    return 0;
+                return this.tTable.Rows.Count; }
         }
         #endregion
 

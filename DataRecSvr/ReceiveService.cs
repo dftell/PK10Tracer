@@ -37,6 +37,7 @@ namespace DataRecSvr
                     //{
                     //    continue;
                     //}
+                    Log("初始化定时器", string.Format("品种:{0}", key));
                     self_Timer tm = new self_Timer();
                     tm.Name = key;
                     tm.Enabled = false;
@@ -85,13 +86,20 @@ namespace DataRecSvr
         {
             self_Timer tm = sender as self_Timer;
             string key = tm.Name;
-            try
+            if (key == null)
+                return;
+            lock (key)
             {
-                ReceiveData(key, tm, null, null, true);
-            }
-            catch(Exception ce)
-            {
-                Log(string.Format("接收{0}数据错误",key), string.Format("{0}：{1}", ce.Message, ce.StackTrace), true);
+                try
+                {
+
+                    ReceiveData(key, tm, null, null, true);
+
+                }
+                catch (Exception ce)
+                {
+                    Log(string.Format("接收{0}数据错误", key), string.Format("{0}：{1}", ce.Message, ce.StackTrace), true);
+                }
             }
         }
 
@@ -385,8 +393,9 @@ namespace DataRecSvr
             lock (rd)
             {
                 HtmlDataClass hdc = null;
+                Log("接收数据", string.Format("准备接收{0}数据", DataType));
                 DataTypePoint dtp = GlobalClass.TypeDataPoints[DataType];
-                Log("接收数据", "准备接收数据");
+                
                 int DiffHours = 0;
                 int DiffMinutes = 0;
                 if (dtp.DiffHours != 0)

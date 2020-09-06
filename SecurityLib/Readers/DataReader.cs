@@ -42,6 +42,7 @@ namespace WolfInv.com.SecurityLib
         public abstract ExpectList<T> ReadHistory<T>() where T : TimeSerialData;
         public abstract ExpectList<T> ReadHistory<T>(long buffs) where T : TimeSerialData;
         public abstract ExpectList<T> ReadHistory<T>(long From, long buffs) where T : TimeSerialData;
+        public abstract ExpectList<T> ReadHistory<T>(long cnt, string endExpect) where T : TimeSerialData;
         public abstract ExpectList<T> ReadHistory<T>(long From, long buffs, bool desc) where T : TimeSerialData;
         public abstract ExpectList<T> ReadHistory<T>(string begt, string endt) where T : TimeSerialData;
         public abstract ExpectList<T> ReadNewestData<T>(DateTime fromdate) where T : TimeSerialData;
@@ -106,8 +107,12 @@ namespace WolfInv.com.SecurityLib
         {
             long lFrom = long.Parse(expectFrom);
             long lTo = long.Parse(expectTo);
-            if (lTo <= lFrom) //
+            if (lTo <= lFrom ) //
                 return lFrom-lTo;
+            if(dtp.DataType == "PK10")
+            {
+                return lTo - lFrom;
+            }
             if(lTo-lFrom<dtp.ExpectCodeCounterMax)
             {
                 return Math.Max(1,lTo - lFrom);
@@ -133,6 +138,8 @@ namespace WolfInv.com.SecurityLib
 
         public static string getStdExpect(string strExpect, DataTypePoint dtp)
         {
+            if (dtp.DataType == "PK10")
+                return strExpect;
             int len = dtp.ExpectCodeCounterLen;
             if (len ==0)
             {

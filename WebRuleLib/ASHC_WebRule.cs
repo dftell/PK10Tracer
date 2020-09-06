@@ -12,7 +12,7 @@ namespace WolfInv.com.WebRuleLib
     {
         
 
-        public ASHC_WebRule(string name,GlobalClass setting):base(name,setting)
+        public ASHC_WebRule(string name,IWebFlags setting, GlobalClass _gb) :base(name,setting,_gb)
         {
 
         }

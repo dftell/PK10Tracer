@@ -121,17 +121,17 @@ namespace WolfInv.com.SecurityLib
                         ret = new CAN28_HtmlDataClass(dtp);
                         break;
                     }
-                case "SCKL12":
+                case "SCKL12"://四川快乐12
                     {
                         ret = new SCKL12_HtmlDataClass(dtp);
                         break;
                     }
-                case "NLKL12":
+                case "NLKL12"://辽宁快乐12
                     {
                         ret = new NLKL12_HtmlDataClass(dtp);
                         break;
                     }
-                case "GDKL11":
+                case "GDKL11"://广东快乐11
                     {
                         ret = new GDKL11_HtmlDataClass(dtp);
                         break;
@@ -141,8 +141,27 @@ namespace WolfInv.com.SecurityLib
                         ret = new XYFT_HtmlDataClass(dtp);
                         break;
                     }
-                case "PK10":
-                
+                case "CQSSC"://重庆时时彩
+                    {
+                        ret = new CQSSC_HtmlDataClass(dtp);
+                        break;
+                    }
+                case "XJSSC"://新疆时时彩
+                    {
+                        ret = new XJSSC_HtmlDataClass(dtp);
+                        break;
+                    }
+                case "TJSSC"://天津时时彩
+                    {
+                        ret = new TJSSC_HtmlDataClass(dtp);
+                        break;
+                    }
+                case "JSK3"://江苏快三
+                    {
+                        ret = new JSK3_HtmlDataClass(dtp);
+                        break;
+                    }
+                case "PK10":                
                 default:
                     {
                         //ret = new PK10_HtmlDataClass(dtp);

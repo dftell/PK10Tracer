@@ -985,7 +985,7 @@ namespace BackTestSys
                         for (int i = 0; i < copyDt.Rows.Count; i++)
                         {
                             if (this.ddl_DataSource.SelectedValue.ToString() != "PK10")
-                                copyDt.Rows[i]["point"] = copyDt.Rows[i]["id"].ToString().Substring(0, 8);
+                                copyDt.Rows[i]["point"] = copyDt.Rows[i]["id"];//.ToString().Substring(0, 8);
                             else
                                 copyDt.Rows[i]["point"] = copyDt.Rows[i]["id"];
                         }
@@ -999,11 +999,13 @@ namespace BackTestSys
                             this.chart1.Series.Add(ss);
                         }
                         this.chart1.Series[ci].Points.DataBindXY(moneyLines, "point", moneyLines, "val");
+                        this.chart1.Series[ci].ToolTip = "期号:#VALX;当前值:#VAL";
                         //this.chart1.Series[ci].Name = SCList[0].AssetUnitInfo.UnitName;
                         ci++;
                         if(!this.chkb_noDetailTable.Checked)
                             loadTableData(es);
                     }
+                    chart1.ChartAreas[0].AxisY.IsStartedFromZero = false;
                 }
 
             }
@@ -1065,7 +1067,7 @@ namespace BackTestSys
                             this.chart_ForProb.Series[1 + i].Points.DataBindXY(dv, "Id", dv, "val");
                         }
                         this.dataGridView_ProbData.DataSource = dvWv;
-
+                        
                     }
                 }
             }
@@ -1118,7 +1120,7 @@ namespace BackTestSys
 
         private void txt_begExpNo_DoubleClick(object sender, EventArgs e)
         {
-            txt_begExpNo.Text = string.Format("{0}", Int64.Parse(txt_begExpNo.Text) + 10000);
+            txt_begExpNo.Text = "20140101001";
         }
 
         private void txt_begExpNo_Click(object sender, EventArgs e)
@@ -1206,7 +1208,11 @@ namespace BackTestSys
 
         }
 
-        
+        private void btn_singleTest_Click(object sender, EventArgs e)
+        {
+            frm_MoniteStrag frm = new frm_MoniteStrag();
+            frm.Show();
+        }
     }
 
 

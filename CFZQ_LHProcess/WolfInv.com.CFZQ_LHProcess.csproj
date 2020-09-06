@@ -59,6 +59,17 @@
     <Compile Include="WDDataAccess.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="WDDataAdapter.cs" />
+    <Compile Include="WSDClass.cs" />
+    <Compile Include="WSETClass.cs" />
+    <Compile Include="WSETCommIndexClass.cs" />
+    <Compile Include="WSETIndexClass.cs" />
+    <Compile Include="WSETMarketClass.cs" />
+    <Compile Include="WSSClass.cs" />
+    <Compile Include="WSSProcess.cs" />
+    <Compile Include="WTDaysClass.cs" />
+    <Compile Include="WTDaysCountClass.cs" />
+    <Compile Include="WTDaysOffsetClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

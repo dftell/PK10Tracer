@@ -59,7 +59,7 @@ namespace WolfInv.com.BaseObjectsLib
 
         #region X选Y
         public int IsXxY = 0;
-
+        public bool TenToZero = false;
         public int AllNums;
         public int SelectNums;
         public string strAllTypeOdds;

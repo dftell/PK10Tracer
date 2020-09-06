@@ -112,7 +112,7 @@ namespace WolfInv.com.StrategyLibForWD
 
         public static BaseDataTable GetBaseSerialData(WindAPI w, string code, DateTime begt, DateTime endt)
         {
-            return GetBaseSerialData(w, code, begt, endt, Cycle.Day, PriceAdj.Beyond);
+            return GetBaseSerialData(w, code, begt, endt, Cycle.Day, PriceAdj.Fore);
         }
 
 

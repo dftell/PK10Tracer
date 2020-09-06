@@ -144,6 +144,11 @@ namespace WolfInv.com.SecurityLib
 */
         }
 
+        public override ExpectList<T> ReadHistory<T>(long cnt, string endExpect)
+        {
+            throw new NotImplementedException();
+        }
+
         public override ExpectList<T> ReadNewestData<T>(DateTime fromdate)
         {
             throw new NotImplementedException();

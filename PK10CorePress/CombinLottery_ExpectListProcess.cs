@@ -42,7 +42,7 @@ namespace WolfInv.com.PK10CorePress
                                 ret = new ExpectListProcess(el) as CommExpectListProcess<T>;// ConvertionExtensions.CopyTo<CommExpectListProcess<T>>(new ExpectListProcess(new ExpectList(data.Table)));
                                 ret.AllNums = 10;
                                 ret.SelectNums = 10;
-                            
+                            ret.TenToZero = true;
                             break;
                         }
                     case "SCKL12":
@@ -59,21 +59,20 @@ namespace WolfInv.com.PK10CorePress
                             break;
                         }
                     case "GDKL11":
+                    default:
                         {
                             lock (data.Table)
                             {
                                 ret = new CombinLottery_ExpectListProcess(el) as CommExpectListProcess<T>;
                                 ret.AllNums = dtp.AllNums;
                                 ret.SelectNums = dtp.SelectNums;
+                                ret.TenToZero = dtp.TenToZero;
                                 (ret as CombinLottery_ExpectListProcess).strAllTypeOdds = dtp.strAllTypeOdds;
                                 (ret as CombinLottery_ExpectListProcess).strCombinTypeOdds = dtp.strCombinTypeOdds;
                                 (ret as CombinLottery_ExpectListProcess).strPermutTypeOdds = dtp.strPermutTypeOdds;
                             }
                             break;
-                        }
-                    default:
-                        {
-                            break;
+                        
                         }
                 }
             }
@@ -106,10 +105,10 @@ namespace WolfInv.com.PK10CorePress
         {
             if (splitor == null)
             {
-                if (AllNums > 10)//默认使用逗号分隔
-                {
+                //if (AllNums > 10)//默认使用逗号分隔
+                //{
                     splitor = ",";
-                }
+                //}
             }
             if (AllNumModel == null)
             {
@@ -236,6 +235,7 @@ namespace WolfInv.com.PK10CorePress
             ret.isByNo = ByNo;
             ret.AllNums = this.AllNums;
             ret.SelNums = this.SelectNums;
+            ret.TenToZero = this.TenToZero;
             ret.strAllTypeOdds = this.strAllTypeOdds;
             ret.strCombinTypeOdds = this.strCombinTypeOdds;
             ret.strPermutTypeOdds = this.strPermutTypeOdds;

@@ -151,9 +151,9 @@ namespace PK10Server
                 Application.DoEvents();
                 RefreshLogData();
             }
-            catch
+            catch(Exception ce)
             {
-
+                LogableClass.ToLog("监控终端", "刷新数据错误", ce.Message);
             }
             this.Cursor = Cursors.Default;
         }
@@ -626,16 +626,31 @@ namespace PK10Server
                         {
                             DispDt.Rows.Add(drs[di].ItemArray);
                         }
-                        DataView dv = new DataView(DispDt);
+                        DataTable copyDt = DispDt.Copy();
+                        copyDt.Columns.Add("point", typeof(string));
+                        for (int r = 0; r < copyDt.Rows.Count; r++)
+                        {
+                            string strId = copyDt.Rows[r]["id"].ToString();
+                            if (dtp.DataType != "PK10")
+                            {
+                                copyDt.Rows[r]["point"] = string.Format("{0}-{1}", strId.Substring(0, dtp.ExpectCodeDateLong), strId.Substring(dtp.ExpectCodeDateLong));
+                            }
+                            else
+                                copyDt.Rows[r]["point"] = strId;
+                        }
+                        DataView dv = new DataView(copyDt);
                         dv.Sort = "id asc";
                         
                         if(chrt.Series.Count<i+1)
                         {
                             Series sr = new Series();
                             sr.ChartType = SeriesChartType.Line;
+                            sr.Name = assetUnits[strName].UnitName;
                             chrt.Series.Add(sr);
                         }
-                        chrt.Series[i].Points.DataBindY(dv, "val");
+                        //chrt.Series[i].Points.DataBindY(dv, "val");
+                        chrt.Series[i].Points.DataBindXY(dv, "point", dv, "val");
+                        chrt.Series[i].ToolTip = string.Format("{0}期号:#VALX;当前值:#VAL",chrt.Series[i].Name);
                         if (dt.Rows.Count > 0)
                         {
                             if (strName.Trim().StartsWith("C")||strName.IndexOf("_C")>0)

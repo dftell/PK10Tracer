@@ -311,6 +311,12 @@ namespace WolfInv.com.PK10CorePress
             int iTarget = int.Parse(strTaget);
             switch(strType)
             {
+                case "E":
+                    {
+                        iMatch = 1;
+                        allprob = AllNums;
+                        break;
+                    }
                 case "P":
                     {
                         iMatch = 1;

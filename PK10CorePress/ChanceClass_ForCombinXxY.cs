@@ -338,6 +338,18 @@ namespace WolfInv.com.PK10CorePress
                             }
                             break;
                         }
+                    case CombinBetType.Target:
+                        {                            
+                            int point = ci.betChipCnt - 1;
+                            string strNums = ci.betCode;
+                            List<string> alllist = strNums.Split(',').ToList();
+                            string pnum = int.Parse(strOrgArr[point]).ToString();
+                            if (alllist.Contains(pnum))
+                            {
+                                MatchCnt += 4;
+                            }                            
+                            break;
+                        }
                     case CombinBetType.All:
                     default:
                         {
@@ -381,6 +393,7 @@ namespace WolfInv.com.PK10CorePress
                 }
                 if (ci.betChipCnt >= SelectNums && MatchCnt > 0)//只要有一个子长机会命中，就不再检查其他子机会
                 {
+
                     break;
                 }
             }
@@ -421,7 +434,7 @@ namespace WolfInv.com.PK10CorePress
             public CombinBetType betType;
             public string betCode;
             /// <summary>
-            /// 投注数目，此变量只对Ａ，Ｃ，Ｐ　（１～８）有效，对趣味玩法全部无效
+            /// 投注数目，此变量只对Ａ，Ｃ，Ｐ,T　（１～８）有效，对趣味玩法全部无效
             /// </summary>
             public int betChipCnt;
             
@@ -434,13 +447,17 @@ namespace WolfInv.com.PK10CorePress
                 string[] arr = code.ToUpper().Split('/');
                 betCode = arr[1];
                 betType = arr[0][0] == 'A' ? CombinBetType.All : (arr[0][0] == 'C' ? CombinBetType.Combin : CombinBetType.Permut);
+                if(arr[0][0]=='E')
+                {
+                    betType = CombinBetType.Target;
+                }
                 betChipCnt = int.Parse(arr[0].Substring(1));//只对ACP（1~8有效）
             }
         }
 
         public override double getRealOdds()
         {
-            double LastOdds = this.MatchChips * 11.0 / 2.0 / 2.0 * Odds / 10;//翻了2倍，然后还要除以最小投注倍数2，最后要乘以整体赔率9.50-9.78/10
+            double LastOdds = this.MatchChips * AllNums / 2.0 / 2.0 * Odds / 10;//翻了2倍，然后还要除以最小投注倍数2，最后要乘以整体赔率9.50-9.78/10
             return LastOdds;
         }
     }
@@ -449,6 +466,7 @@ namespace WolfInv.com.PK10CorePress
     {
         All,
         Combin,
-        Permut
+        Permut,
+        Target
     }
 }

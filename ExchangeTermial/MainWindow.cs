@@ -175,7 +175,7 @@ namespace ExchangeTermial
                 //return;
                 //ce.Login(Program.gc.ClientUserName, Program.gc.ClientPassword, null);
             }
-            wr = WebRuleBuilder.Create(Program.gc);
+            wr = WebRuleBuilder.Create(Program.gc.InstFormat,Program.gc, Program.gc);
             InitWebBrowser();
             initMenuItems();            
             
@@ -1981,7 +1981,7 @@ ClearMyTracksByProcess 255
                 int ruleid = 0;
                 if (rule == null)
                 {
-                    rule = WebRuleBuilder.Create(Program.gc);
+                    rule = WebRuleBuilder.Create(Program.gc.InstFormat,Program.gc, Program.gc);
                 }
                 if (rule.config != null)
                     int.TryParse(rule.config.lotteryTypes.ContainsKey(dtpName) ? rule.config.lotteryTypes[dtpName].ruleId : "0", out ruleid);
@@ -2454,7 +2454,7 @@ ClearMyTracksByProcess 255
                 //string strText = dicExistInsts[dtpName].Last().Value;
                 if (rule == null)
                 {
-                    rule = WebRuleBuilder.Create(Program.gc);
+                    rule = WebRuleBuilder.Create(Program.gc.InstFormat, Program.gc, Program.gc);
                     webBrowser1.ObjectForScripting = wr;
                 }
                 //if (!ScriptLoaded)
@@ -2589,7 +2589,7 @@ ClearMyTracksByProcess 255
                 return;
             }
             if (rule==null)
-                rule = WebRuleBuilder.Create(Program.gc);
+                rule = WebRuleBuilder.Create(Program.gc.InstFormat, Program.gc, Program.gc);
             string strHost = string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost);
             string lotterUrl = string.Format(Program.gc.LotteryPage,strHost);
             try

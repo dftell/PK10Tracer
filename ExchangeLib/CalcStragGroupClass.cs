@@ -385,7 +385,8 @@ namespace WolfInv.com.ExchangeLib
                     CurrCc.ExecDate = DateTime.Today;
                     CurrCc.CreateTime = DateTime.Now;
                     CurrCc.UpdateTime = CurrCc.CreateTime;
-                    CurrCc.Odds = currStrag.CommSetting.Odds;// CurrCc.getRealOdds();
+                    if(currStrag.CommSetting.Odds>0)
+                        CurrCc.Odds = currStrag.CommSetting.Odds;// CurrCc.getRealOdds();
                     CurrCc.StragId = currStrag.GUID;
                     CurrCc.ExpectCode = el.LastData.Expect;
                     CurrCc.AllowMaxHoldTimeCnt = currPlan.AllowMaxHoldTimeCnt;

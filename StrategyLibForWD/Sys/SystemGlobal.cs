@@ -11,13 +11,18 @@ using WolfInv.com.GuideLib;
 
 namespace WolfInv.com.StrategyLibForWD
 {
+    public class GlobalObj
+    {
+        public WindAPI w;
+        public SystemGlobal Sys;
+    }
     public class SystemGlobal
     {
         public delegate void barDelegate(int no);
         public static DateTime OnMarketDate;//最早上市时间
         public static WindAPI w;
         public static int GroupCnt;
-        public static int EquitCnt;
+        public static int EquitiesCnt;
         public static Dictionary<SecType, Dictionary<string,SecurityInfo>> AllSecSet;
         public static int FinishedQquitCnt;
 
@@ -58,7 +63,7 @@ namespace WolfInv.com.StrategyLibForWD
                 PriceAdj.Beyond,
                 new object[0] { });//获得所有股票的基本信息
             OnMarketDate = bdt[BaseDataPoint.ipo_date.ToString().ToUpper()].ToList<DateTime>().Min<DateTime>();//所有股票中的最早的IPO日期
-            EquitCnt = bdt.Count;
+            EquitiesCnt = bdt.Count;
             Dictionary<string, SecurityInfo> alllist = new Dictionary<string, SecurityInfo>();
             Dictionary<int, List<SecurityInfo>> grps = new Dictionary<int,List<SecurityInfo>>();
             for (int i = 0; i < bdt.Count; i++)

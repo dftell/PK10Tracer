@@ -8,3 +8,4 @@ E:\github\source\dftell\PK10Tracer\ProbMathLib\bin\Debug\WolfInv.com.ProbMathLib
 E:\github\source\dftell\PK10Tracer\ProbMathLib\obj\Debug\WolfInv.com.ProbMathLib.csproj.CoreCompileInputs.cache
 E:\github\source\dftell\PK10Tracer\ProbMathLib\obj\Debug\WolfInv.com.ProbMathLib.dll
 E:\github\source\dftell\PK10Tracer\ProbMathLib\obj\Debug\WolfInv.com.ProbMathLib.pdb
+E:\github\source\dftell\PK10Tracer\ProbMathLib\obj\Debug\WolfInv.com.ProbMathLib.csprojAssemblyReference.cache

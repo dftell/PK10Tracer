@@ -10,13 +10,16 @@ namespace WolfInv.com.WebRuleLib
         protected string Name;
         protected WebRule wr;
         public LotteryTypes rules;
+        public IWebFlags setting;
+        public GlobalClass gb;
         protected LotteryConfigClass(WebRule we, LotteryTypes rs,string name)
         {
             rules = rs;
             wr = we;
             Name = name;
         }
-        public GlobalClass setting;
+        //public GlobalClass setting;
+        
         protected String Array2String(string[] arr)
         {
             String ret = string.Join(",", arr);

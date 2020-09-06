@@ -147,7 +147,7 @@ namespace WolfInv.com.WebRuleLib
                 ic.fullSelNums = Array2String(fArr).Replace(", ", ",");
                 ic.itemTimes = String.Format("{0:N2}", unitVal * ccUnitCost);
                 ic.itemUnitTimes = ccUnitCost.ToString();
-                ic.jsOdds = String.Format("{0:N2}", setting.Odds);
+                ic.jsOdds = String.Format("{0:N2}", gb.Odds);
                 ic.priceMode = unit;
                 //ic.Unit = unitVal;
                 if (sArrCnt > 0)

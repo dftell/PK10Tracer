@@ -82,7 +82,10 @@ namespace WolfInv.com.ExchangeLib
             }
                 
             DataRow dr = drs[0];
-            ec.OwnerChance.Odds = double.Parse(dr["Odds"].ToString());
+            if (ec.OwnerChance.Odds == 0)
+            {
+                ec.OwnerChance.Odds = double.Parse(dr["Odds"].ToString());
+            }
             double CurrOdds = ec.OwnerChance.getRealOdds(); //double.Parse(dr["Odds"].ToString());
             double dGained = CurrOdds * ec.ExchangeAmount;
             double dCost = (double)ec.Cost;

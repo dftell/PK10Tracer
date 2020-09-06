@@ -45,6 +45,7 @@ namespace WolfInv.com.MachineLearnLib
         public int SelectCnt;//参数个数
         public int FilterCnt;//预选个数
         public int TopN;//最终选择数
+        public bool NeedShift;//
         public  PredictResultClass PredictResult;
         public static MLFeatureFunctionsSummary<LabelT, FeatureT> FeatureSummary;//= new MLFeatureFunctionsSummary<LabelT, FeatureT>();
         protected MLInstances<LabelT, FeatureT> TrainData;

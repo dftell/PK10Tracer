@@ -38,6 +38,7 @@ namespace PK10Server
             gobj = new GlobalClass();
             dtp = GlobalClass.TypeDataPoints.First().Value;
             er = DataReaderBuild.CreateReader(dtp.DataType, null, null);
+            this.Text = string.Format("{0}服务端", dtp.DataType);
             if(Program.optFunc == null)
             {
                 Program.optFunc = new operateClass();

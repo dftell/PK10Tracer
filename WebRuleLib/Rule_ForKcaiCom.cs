@@ -44,9 +44,9 @@ namespace WolfInv.com.WebRuleLib
     [System.Runtime.InteropServices.ComVisibleAttribute(true)]
     public class Rule_ForKcaiCom : WebRule
     {
-        GlobalClass gsetting;
-        public Rule_ForKcaiCom(string name,GlobalClass setting)
-            : base(name,setting)
+        //GlobalClass gsetting;
+        public Rule_ForKcaiCom(string name,IWebFlags setting, GlobalClass _gb)
+            : base(name,setting,_gb)
         {
             
             
@@ -87,6 +87,7 @@ namespace WolfInv.com.WebRuleLib
             if (lcc == null)
                 return null;
             lcc.setting = GobalSetting;
+            lcc.gb = gb;
             return lcc.IntsToJsonString(ccs, unit);
         }
 

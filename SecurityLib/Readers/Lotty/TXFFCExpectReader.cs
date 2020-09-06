@@ -67,7 +67,15 @@
     //全国快乐11彩种
     public class KL11_ExpectReader: CommExpectReader
     {
-        
+        public KL11_ExpectReader()
+        {
+        }
+
+        public KL11_ExpectReader(string name)
+        {
+            strDataType = name;
+            InitTables();
+        }
     }
 
     public class GDKL11_ExpectReader : KL11_ExpectReader
@@ -78,6 +86,43 @@
             InitTables();
         }
     }
+
+    public class CQSSC_ExpectReader : KL11_ExpectReader
+    {
+        public CQSSC_ExpectReader()
+        {
+            strDataType = "CQSSC";
+            InitTables();
+        }
+    }
+    public class XJSSC_ExpectReader : KL11_ExpectReader
+    {
+        public XJSSC_ExpectReader()
+        {
+            strDataType = "XJSSC";
+            InitTables();
+        }
+    }
+
+    public class TJSSC_ExpectReader : KL11_ExpectReader
+    {
+        public TJSSC_ExpectReader() 
+        {
+            strDataType = "TJSSC";
+            InitTables();
+        }
+    }
+
+    public class JSK3_ExpectReader : KL11_ExpectReader
+    {
+        public JSK3_ExpectReader()
+        {
+            strDataType = "JSK3";
+            InitTables();
+        }
+    }
+
+    
 
     public class XYFT_ExpectReader: CommExpectReader
     {

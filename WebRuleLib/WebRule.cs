@@ -136,18 +136,23 @@ namespace WolfInv.com.WebRuleLib
     [System.Runtime.InteropServices.ComVisibleAttribute(true)]
     public abstract class WebRule : ILotteryRule
     {
+        public IWebFlags GobalSetting;
+        public WebConfig config;
+        public GlobalClass gb;
         public string webName;
         //public abstract string IntsListToJsonString(List<InstClass> Insts);
         public virtual string IntsToJsonString(string LotteryName,String ccs, int unit)
         {
             return ccs;
         }
-        public GlobalClass GobalSetting;
-        public WebConfig config;
-        protected WebRule(string name,GlobalClass setting)
+        //IWebFlags
+        //public GlobalClass GobalSetting;
+        
+        protected WebRule(string name,IWebFlags setting,GlobalClass _gb)
         {
             webName = name;
             GobalSetting = setting;
+            gb = _gb;
             if(!Load("rule.xml", string.Format("config\\{0}\\Rules\\", name)))
             {
                 Load("rule.xm", "config\\Rules");
@@ -591,26 +596,26 @@ namespace WolfInv.com.WebRuleLib
 
     public class WebRuleBuilder
     {
-        public static WebRule Create(GlobalClass gc)
+        public static WebRule Create(string webId,IWebFlags webflag, GlobalClass gc)
         {
-            string val = gc.InstFormat.ToLower().Trim();
+            string val = webId;// gc.InstFormat.ToLower().Trim();
             WebRule ret = null;
             switch(val)
             {
                 case "kcai":
                     {
-                        ret = new Rule_ForKcaiCom(gc.InstFormat, gc);
+                        ret = new Rule_ForKcaiCom(webId, webflag, gc);
                         break;
                     }
                 case "ashc": //傲视皇朝
                 case "jhc"://金皇朝
                     {
-                        ret = new ASHC_WebRule(gc.InstFormat, gc);
+                        ret = new ASHC_WebRule(webId, webflag, gc);
                         break;
                     }
                 default:
                     {
-                        ret = new JsProcessRuleClass(gc.InstFormat, gc); 
+                        ret = new JsProcessRuleClass(webId, webflag, gc); 
                         break;
                     }
             }

@@ -318,6 +318,11 @@ namespace WolfInv.com.SecurityLib
             throw new NotImplementedException();
         }
 
+        public override ExpectList<T> ReadHistory<T>(long cnt, string endExpect)
+        {
+            throw new NotImplementedException();
+        }
+
         Func<StockMongoData, XDXRData> func = delegate (StockMongoData ac)
         {
             return ac.ExtentData as XDXRData;

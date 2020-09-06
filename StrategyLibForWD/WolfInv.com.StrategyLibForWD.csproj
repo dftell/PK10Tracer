@@ -23,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -57,10 +58,13 @@
     <Compile Include="CommPressor\MACDCommTool.cs" />
     <Compile Include="CommPressor\MutliValueGuidProcess_ForWD.cs" />
     <Compile Include="CommPressor\WDDayClass.cs" />
+    <Compile Include="ExecSubscriptClass.cs" />
+    <Compile Include="ExpectList.cs" />
     <Compile Include="Filters\FilterLogicClass.cs" />
     <Compile Include="Filters\StrategyFilters\FirestPointFilter.cs" />
     <Compile Include="GLClass.cs" />
     <Compile Include="GLClassUpdater.cs" />
+    <Compile Include="Guides\GuideClass.cs" />
     <Compile Include="Strategies\iBalanceMethod.cs" />
     <Compile Include="Strategies\iBreachMethod.cs" />
     <Compile Include="Strategies\IndustryClass.cs" />
@@ -75,10 +79,14 @@
     <Compile Include="Strategies\StrategyCycleType.cs" />
     <Compile Include="Strategies\StrategyInClass.cs" />
     <Compile Include="Strategies\StrategyLogicType.cs" />
+    <Compile Include="subScriptClass.cs" />
     <Compile Include="Sys\SecurityBuildClass.cs" />
     <Compile Include="Sys\SystemGlobal.cs" />
     <Compile Include="CommPressor\TDayGuildBuilder.cs" />
+    <Compile Include="Tools\WDTool_NCountClass.cs" />
+    <Compile Include="Tools\WDTool_SplitAreaClass.cs" />
     <Compile Include="WDBasic.cs" />
+    <Compile Include="WD_SubscriptTimeDataClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BaseObjectsLib\WolfInv.com.BaseObjectsLib.csproj">
@@ -92,6 +100,10 @@
     <ProjectReference Include="..\GuideLib\WolfInv.com.GuideLib.csproj">
       <Project>{2c724db7-59a5-41cd-8274-c0acb18fcc1a}</Project>
       <Name>WolfInv.com.GuideLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogLib\WolfInv.com.LogLib.csproj">
+      <Project>{182084e4-c48b-4585-9221-4a54caf7448f}</Project>
+      <Name>WolfInv.com.LogLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\SecurityLib\WolfInv.com.SecurityLib.csproj">
       <Project>{aa6cd329-d212-4998-be10-2a4728175f53}</Project>

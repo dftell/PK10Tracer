@@ -61,6 +61,7 @@ namespace WolfInv.com.MachineLearnLib.Markov
             rsc.TopN = TopN;
             rsc.FilterCnt = FilterCnt;
             rsc.selectCnt = this.SelectCnt;
+            rsc.needShift = this.NeedShift;
             rsc.Data = allCols;
             rsc.MoveCnt = this.TrainIterorCnt;
             //new Task(rsc.run).Start();
@@ -71,7 +72,7 @@ namespace WolfInv.com.MachineLearnLib.Markov
         public override List<KeyValuePair<int,double>> getPredictResult(int key)
         {
             List<KeyValuePair<int, double>> ret = new List<KeyValuePair<int, double>>();
-            DiscreteMarkov dm = new DiscreteMarkov(allCols.ToList(), this.SelectCnt, this.TrainIterorCnt,FilterCnt);
+            DiscreteMarkov dm = new DiscreteMarkov(allCols.ToList(), this.SelectCnt, this.TrainIterorCnt,FilterCnt,NeedShift);
             if (dm.predictResult.Count >= 0)
             {
                 for (int i = 0; i < dm.predictResult.Count; i++)
@@ -93,6 +94,7 @@ namespace WolfInv.com.MachineLearnLib.Markov
             public int FilterCnt;
             public int[] Data;
             public int MoveCnt;
+            public bool needShift;
             public MarkovClass mk;
             public void run()
             {
@@ -100,7 +102,7 @@ namespace WolfInv.com.MachineLearnLib.Markov
                 {
                     int[] useList = new int[reviewCnt];
                     Array.Copy(Data, j, useList, 0, reviewCnt);
-                    DiscreteMarkov dm = new DiscreteMarkov(useList.ToList(),selectCnt, MoveCnt, FilterCnt);
+                    DiscreteMarkov dm = new DiscreteMarkov(useList.ToList(),selectCnt, MoveCnt, FilterCnt,needShift);
                     List<int> res = dm.predictResult.Select(a=>a.Value).Take(TopN).ToList();
                     mk.PredictResult.TrainCnt++;
                     if (res.Count < TopN)
@@ -172,9 +174,9 @@ namespace WolfInv.com.MachineLearnLib.Markov
         #endregion
 
         #region 构造函数
-        public DiscreteMarkov(List<int> data, int count, int K = 5,int TopN =1)
+        public DiscreteMarkov(List<int> data, int count, int K = 5,int TopN =1,bool needShift=false)
         {
-            if(count>10)
+            if(needShift)
             {
                 NeedShift = 1;
             }
@@ -371,7 +373,8 @@ namespace WolfInv.com.MachineLearnLib.Markov
             for (int i = 0; i < statusCount; i++) res[i] = new int[statusCount];
 
             //for (int i = 0; i < data.Count - 1; i++) res[data[i] - 1][data[i + 1] - 1]++;　１０，１，２，３．．．
-            for (int i = 0; i < data.Count - stepCnt; i++) res[data[i]- NeedShift][data[i + stepCnt]- NeedShift]++;//支持多步,我们的标签从0开始，所以不要减1
+            for (int i = 0; i < data.Count - stepCnt; i++)
+                res[data[i]- NeedShift][data[i + stepCnt]- NeedShift]++;//支持多步,我们的标签从0开始，所以不要减1
             return res;
         }
         /// <summary>根据频数，计算转移概率矩阵</summary>

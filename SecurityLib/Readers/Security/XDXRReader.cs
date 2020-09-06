@@ -47,6 +47,11 @@ namespace WolfInv.com.SecurityLib
                     throw new NotImplementedException();
         }
 
+        public override ExpectList<T> ReadHistory<T>(long cnt, string endExpect)
+        {
+            throw new NotImplementedException();
+        }
+
         public Func<string, string, MongoReturnDataList<XDXRData>> getXDXRList = delegate (string DataType, string code)
         {
             DataTypePoint dtp = GlobalClass.TypeDataPoints[DataType];

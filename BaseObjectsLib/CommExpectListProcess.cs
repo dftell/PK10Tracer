@@ -16,6 +16,10 @@ namespace WolfInv.com.BaseObjectsLib
         /// 开出奖数字数
         /// </summary>
         public int SelectNums { get; set; }
+        /// <summary>
+        /// 10转为0
+        /// </summary>
+        public bool TenToZero { get; set; }
         protected ExpectList<T> Parent_data;
         protected CommExpectListProcess(ExpectList<T> _data)
         {

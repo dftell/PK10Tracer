@@ -10,6 +10,7 @@ namespace WolfInv.com.BaseObjectsLib
     {
         public int AllNums;
         public int SelNums;
+        public bool TenToZero;
         public abstract AmoutSerials getOptSerials(DataTypePoint dtp, string type, int len, double odds, Int64 MaxValue, int FirstAmt, bool NeedAddFirst);
         public abstract DataTable getTableFromSpecCondition(DataTypePoint dtp,string currExpect, int Period, string strPos, string strTaget, params object[] others);
         /// <summary>

@@ -73,6 +73,7 @@ namespace WolfInv.com.BaseObjectsLib
             }
         }
 
+        
         public ExpectData<T> LastData
         {
             get

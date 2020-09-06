@@ -97,6 +97,7 @@
     <Compile Include="GlobalClass.cs" />
     <Compile Include="GroupBuilder.cs" />
     <Compile Include="iListFillable.cs" />
+    <Compile Include="IWebFlags.cs" />
     <Compile Include="JsonableClass.cs" />
     <Compile Include="Matrix.cs" />
     <Compile Include="MatrixTableCell.cs" />

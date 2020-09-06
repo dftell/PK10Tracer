@@ -27,6 +27,16 @@ namespace WolfInv.com.SecurityLib
             return new ExpectList<T>(ds.Tables[0]);
         }
 
+        public override ExpectList<T> ReadHistory<T>( long buffs, string endExpect)
+        {
+            bool desc = false;
+            DbClass db = GlobalClass.getCurrDb(strDataType);
+            string sql = string.Format("select * from (select top {0} * from {2} where expect<='{1}'  order by expect desc) a order by expect {3}", buffs, endExpect, strHistoryTable, desc ? "desc" : "");//modify by zhouys 2019/1/8
+            DataSet ds = db.Query(new ConditionSql(sql));
+            if (ds == null) return null;
+            return new ExpectList<T>(ds.Tables[0]);
+        }
+
 
         public override ExpectList<T> ReadHistory<T>(long buffs)
         {

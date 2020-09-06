@@ -83,10 +83,34 @@ namespace WolfInv.com.SecurityLib
                         ret = new XYFT_ExpectReader();
                         break;
                     }
+                case "CQSSC":
+                    {
+                        ret = new CQSSC_ExpectReader();
+                        break;
+                    }
+                case "XJSSC":
+                    {
+                        ret = new XJSSC_ExpectReader();
+                        break;
+                    }
+                case "TJSSC":
+                    {
+                        ret = new TJSSC_ExpectReader();
+                        break;
+                    }
+                case "JSK3":
+                    {
+                        ret = new JSK3_ExpectReader();
+                        break;
+                    }
                 case "PK10":
-                default:
                     {
                         ret = new ExpectReader();
+                        break;
+                    }
+                default:
+                    {
+                        ret = new KL11_ExpectReader(strType);
                         break;
                     }
             }

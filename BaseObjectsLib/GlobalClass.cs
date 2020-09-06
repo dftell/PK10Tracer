@@ -9,7 +9,7 @@ using WolfInv.com.ProbMathLib;
 namespace WolfInv.com.BaseObjectsLib
 {
     [Serializable]
-    public class GlobalClass : DetailStringClass,iLog
+    public class GlobalClass : DetailStringClass,iLog, IWebFlags
     {
         static GlobalClass()
         {
@@ -1435,7 +1435,7 @@ namespace WolfInv.com.BaseObjectsLib
             return ret;
         }
         
-        static string ReadFile(string filename)
+        public static string ReadFile(string filename)
         {
             StreamReader sr = null;
             string strContent = null;

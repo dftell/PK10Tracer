@@ -26,7 +26,7 @@ namespace WolfInv.com.WebRuleLib
                 {
                     return t_AllRules;
                 }
-                t_AllRules = this.ToDictionary(a => a.BetRule, b=>b);
+                t_AllRules = this.ToDictionary(a =>  (a.BetType??"").Length>a.BetRule.Length?a.BetType:a.BetRule, b=>b);//取两个中长度较长的那个
                 return t_AllRules;
             }
         }

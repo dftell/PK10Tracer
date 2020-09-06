@@ -51,6 +51,46 @@ namespace WolfInv.com.SecurityLib
 
     }
 
+    public class CQSSC_HtmlDataClass : KL11_HtmlDataClass
+    {
+        public CQSSC_HtmlDataClass(DataTypePoint dp) : base(dp)
+        {
+            //dataUrl = GlobalClass.TXFFC_url;
+            //this.dataUrl = dtp.RuntimeInfo.DefaultDataUrl;
+        }
+
+    }
+
+    public class XJSSC_HtmlDataClass : KL11_HtmlDataClass
+    {
+        public XJSSC_HtmlDataClass(DataTypePoint dp) : base(dp)
+        {
+            //dataUrl = GlobalClass.TXFFC_url;
+            //this.dataUrl = dtp.RuntimeInfo.DefaultDataUrl;
+        }
+
+    }
+
+    public class TJSSC_HtmlDataClass : KL11_HtmlDataClass
+    {
+        public TJSSC_HtmlDataClass(DataTypePoint dp) : base(dp)
+        {
+            //dataUrl = GlobalClass.TXFFC_url;
+            //this.dataUrl = dtp.RuntimeInfo.DefaultDataUrl;
+        }
+
+    }
+
+    public class JSK3_HtmlDataClass : KL11_HtmlDataClass
+    {
+        public JSK3_HtmlDataClass(DataTypePoint dp) : base(dp)
+        {
+            //dataUrl = GlobalClass.TXFFC_url;
+            //this.dataUrl = dtp.RuntimeInfo.DefaultDataUrl;
+        }
+
+    }
+
     public class NewPK10_HtmlDataClass:KL11_HtmlDataClass
     {
         public NewPK10_HtmlDataClass(DataTypePoint dp) : base(dp)

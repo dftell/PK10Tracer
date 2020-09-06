@@ -96,6 +96,7 @@ namespace WolfInv.com.PK10CorePress
             }
             ret.AllNums = this.AllNums;
             ret.SelNums = this.SelectNums;
+            ret.TenToZero = this.TenToZero;
             //LogableClass.ToLog("获取视图集合时赋值原始数据", string.Format("到底做什么用的真忘记了{0}", reviewCnt));
             ret.orgData = this.data.LastDatas(Math.Min(reviewCnt, data.Count),false);//as ExpectList<TimeSerialData>;// new ExpectList(this.data.LastDatas(Math.Min(reviewCnt, data.Count)).Table);//？为什么要指定长度？因为回测时输入的原始数据太长？
             return ret;

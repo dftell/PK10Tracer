@@ -45,15 +45,17 @@
             this.label4 = new System.Windows.Forms.Label();
             this.txt_lastExpect = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.chkb_useTargeExpect = new System.Windows.Forms.CheckBox();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_startMonite
             // 
             this.btn_startMonite.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_startMonite.Location = new System.Drawing.Point(1260, 23);
+            this.btn_startMonite.Location = new System.Drawing.Point(722, 12);
+            this.btn_startMonite.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btn_startMonite.Name = "btn_startMonite";
-            this.btn_startMonite.Size = new System.Drawing.Size(116, 43);
+            this.btn_startMonite.Size = new System.Drawing.Size(58, 22);
             this.btn_startMonite.TabIndex = 0;
             this.btn_startMonite.Text = "开始";
             this.btn_startMonite.UseVisualStyleBackColor = true;
@@ -61,36 +63,38 @@
             // 
             // runPlanPicker1
             // 
-            this.runPlanPicker1.Location = new System.Drawing.Point(262, 34);
-            this.runPlanPicker1.Margin = new System.Windows.Forms.Padding(6);
+            this.runPlanPicker1.Location = new System.Drawing.Point(131, 17);
             this.runPlanPicker1.Name = "runPlanPicker1";
             this.runPlanPicker1.Plans = null;
-            this.runPlanPicker1.Size = new System.Drawing.Size(223, 32);
+            this.runPlanPicker1.Size = new System.Drawing.Size(112, 16);
             this.runPlanPicker1.TabIndex = 2;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(205, 39);
+            this.label1.Location = new System.Drawing.Point(102, 20);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(58, 24);
+            this.label1.Size = new System.Drawing.Size(29, 12);
             this.label1.TabIndex = 3;
             this.label1.Text = "策略";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(34, 34);
+            this.label2.Location = new System.Drawing.Point(17, 17);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(58, 24);
+            this.label2.Size = new System.Drawing.Size(29, 12);
             this.label2.TabIndex = 4;
             this.label2.Text = "彩种";
             // 
             // txt_DtpName
             // 
-            this.txt_DtpName.Location = new System.Drawing.Point(98, 31);
+            this.txt_DtpName.Location = new System.Drawing.Point(49, 16);
+            this.txt_DtpName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txt_DtpName.Name = "txt_DtpName";
-            this.txt_DtpName.Size = new System.Drawing.Size(101, 35);
+            this.txt_DtpName.Size = new System.Drawing.Size(52, 21);
             this.txt_DtpName.TabIndex = 5;
             // 
             // Txt_Chances
@@ -98,11 +102,12 @@
             this.Txt_Chances.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Txt_Chances.Location = new System.Drawing.Point(12, 83);
+            this.Txt_Chances.Location = new System.Drawing.Point(6, 42);
+            this.Txt_Chances.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Txt_Chances.Multiline = true;
             this.Txt_Chances.Name = "Txt_Chances";
             this.Txt_Chances.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.Txt_Chances.Size = new System.Drawing.Size(1363, 905);
+            this.Txt_Chances.Size = new System.Drawing.Size(776, 454);
             this.Txt_Chances.TabIndex = 6;
             // 
             // statusStrip1
@@ -111,9 +116,10 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.toolStripStatusLabel2});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 1005);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 484);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1388, 38);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 7, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(786, 38);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -131,60 +137,77 @@
             // 
             // txt_intersec
             // 
-            this.txt_intersec.Location = new System.Drawing.Point(558, 34);
+            this.txt_intersec.Location = new System.Drawing.Point(279, 17);
+            this.txt_intersec.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txt_intersec.Name = "txt_intersec";
-            this.txt_intersec.Size = new System.Drawing.Size(105, 35);
+            this.txt_intersec.Size = new System.Drawing.Size(54, 21);
             this.txt_intersec.TabIndex = 9;
             this.txt_intersec.Text = "60";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(494, 39);
+            this.label3.Location = new System.Drawing.Point(247, 20);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 24);
+            this.label3.Size = new System.Drawing.Size(29, 12);
             this.label3.TabIndex = 8;
             this.label3.Text = "秒数";
             // 
             // txt_reviewcnt
             // 
-            this.txt_reviewcnt.Location = new System.Drawing.Point(744, 31);
+            this.txt_reviewcnt.Location = new System.Drawing.Point(372, 16);
+            this.txt_reviewcnt.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txt_reviewcnt.Name = "txt_reviewcnt";
-            this.txt_reviewcnt.Size = new System.Drawing.Size(76, 35);
+            this.txt_reviewcnt.Size = new System.Drawing.Size(40, 21);
             this.txt_reviewcnt.TabIndex = 11;
             this.txt_reviewcnt.Text = "50";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(680, 36);
+            this.label4.Location = new System.Drawing.Point(340, 18);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(58, 24);
+            this.label4.Size = new System.Drawing.Size(29, 12);
             this.label4.TabIndex = 10;
             this.label4.Text = "次数";
             // 
             // txt_lastExpect
             // 
-            this.txt_lastExpect.Location = new System.Drawing.Point(894, 31);
+            this.txt_lastExpect.Location = new System.Drawing.Point(447, 16);
+            this.txt_lastExpect.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txt_lastExpect.Name = "txt_lastExpect";
-            this.txt_lastExpect.Size = new System.Drawing.Size(173, 35);
+            this.txt_lastExpect.Size = new System.Drawing.Size(88, 21);
             this.txt_lastExpect.TabIndex = 13;
             this.txt_lastExpect.Text = "50";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(830, 36);
+            this.label5.Location = new System.Drawing.Point(415, 18);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(58, 24);
+            this.label5.Size = new System.Drawing.Size(29, 12);
             this.label5.TabIndex = 12;
             this.label5.Text = "期号";
             // 
+            // chkb_useTargeExpect
+            // 
+            this.chkb_useTargeExpect.AutoSize = true;
+            this.chkb_useTargeExpect.Location = new System.Drawing.Point(549, 20);
+            this.chkb_useTargeExpect.Name = "chkb_useTargeExpect";
+            this.chkb_useTargeExpect.Size = new System.Drawing.Size(72, 16);
+            this.chkb_useTargeExpect.TabIndex = 15;
+            this.chkb_useTargeExpect.Text = "特定期号";
+            this.chkb_useTargeExpect.UseVisualStyleBackColor = true;
+            // 
             // frm_MoniteStrag
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1388, 1043);
+            this.ClientSize = new System.Drawing.Size(786, 522);
+            this.Controls.Add(this.chkb_useTargeExpect);
             this.Controls.Add(this.txt_lastExpect);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txt_reviewcnt);
@@ -198,6 +221,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.runPlanPicker1);
             this.Controls.Add(this.btn_startMonite);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "frm_MoniteStrag";
             this.Text = "策略监控";
             this.Load += new System.EventHandler(this.frm_MoniteStrag_Load);
@@ -226,5 +250,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txt_lastExpect;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox chkb_useTargeExpect;
     }
 }

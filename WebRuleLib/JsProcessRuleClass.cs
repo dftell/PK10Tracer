@@ -9,7 +9,7 @@ namespace WolfInv.com.WebRuleLib
 {
     public class JsProcessRuleClass : WebRule
     {
-        public JsProcessRuleClass(string name,GlobalClass setting):base(name,setting)
+        public JsProcessRuleClass(string name,IWebFlags wf, GlobalClass setting):base(name,wf,setting)
         {
             
         }
