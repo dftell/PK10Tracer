@@ -43,7 +43,8 @@ namespace WolfInv.com.Strags.MLStragClass
             List <ChanceClass> ret = new List<ChanceClass>();
             Dictionary<int, List<int>> useList = new Dictionary<int, List<int>>();
             MarkovCategoryFactioryClass mcf = new MarkovCategoryFactioryClass();
-            mcf.Init(this.LastUseData());
+            ExpectList data = this.LastUseData().LastDatas(ReviewExpectCnt,false);
+            mcf.Init(data);
             List<string> useResList = new List<string>();
             Dictionary<int,List<KeyValuePair<int, double>>> allColList = new Dictionary<int,List<KeyValuePair<int, double>>>();
             Task[] tks = new Task[(isXxY ? 1 : sc.SelNums)];
@@ -66,15 +67,17 @@ namespace WolfInv.com.Strags.MLStragClass
                     rc.ReviewExpectCnt = ReviewExpectCnt;
                     rc.allColList = allColList;
                     rc.NeedShift = needShift;
+                    rc.runningTask();
+                    /*
                     Task tk = new Task(() =>
                     {
                         //runningTask(mcf, allColList, sc.SelectNums, col, i);
                         rc.runningTask();
                     });
                     tks[i] = tk;
-                    tk.Start();
+                    tk.Start();*/
                 }
-                Task.WaitAll(tks);
+                //Task.WaitAll(tks);
             }
             catch (Exception ce)
             {
@@ -94,6 +97,8 @@ namespace WolfInv.com.Strags.MLStragClass
                         noReptRes[key].Add(a.Key, a.Value);
                 });
             }
+            string[] allRpt = noReptRes.Select(a => string.Format("{0}/{1}/{2}", a.Key, a.Value.First().Key, a.Value.First().Value)).ToArray();
+            Log(string.Format("{0}期所有机会[{1}=>{2}]",ed.Expect,data.FirstData.Expect,data.LastData.Expect), string.Join(";",allRpt));
             var Res =this.GetRev?noReptRes.OrderBy(a=>a.Value.Values.First()):noReptRes.OrderByDescending(a => a.Value.Values.First());//按最大的排序           
             //var Res = noReptRes.Select(a => a.OrderByDescending(b => b.Value).First().Value).ToDictionary(a=>a.Key,a=>a);
             var useRes = Res.Take(this.InputMinTimes);
@@ -178,6 +183,7 @@ namespace WolfInv.com.Strags.MLStragClass
                     SelectFunc.NeedShift = NeedShift;
                     SelectFunc.FillTrainData(TrainSet);
                     SelectFunc.InitTrain();
+                    //Log("getPredictResult执行", string.Format("参数:col={0},ReviewExpectCnt={1},MoveCnt={2},SelectNums={3},FilterCnt={4},TopN={5},NeedShift={6}", col,ReviewExpectCnt,MoveCnt,SelectNums,FilterCnt,TopN,NeedShift));
                     List<KeyValuePair<int, double>> res = SelectFunc.getPredictResult(col);
                     if (res.Count > 0)
                     {

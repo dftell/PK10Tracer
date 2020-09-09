@@ -259,7 +259,7 @@ namespace WolfInv.com.Strags
         public override MLInstances<int, int> getCategoryData(int col, int Deep, int AllowUseShift)
         {
             MLInstances<int, int> ret = new MLInstances<int, int>();
-            for(int i=0;i<this.Data.Count;i++)
+            for(int i=this.Data.Count-Deep;i<this.Data.Count;i++)
             {
                 ExpectData ed = AllowUseShift==0? Data[i]:new Combin_ExpectData(Data[i]);
                 ret.Add(new MLInstance<int, int>(new int[] { int.Parse(ed.ValueList[col]) }.ToList()));

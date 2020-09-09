@@ -214,6 +214,7 @@ namespace WolfInv.com.ExchangeLib
                 BaseStragClass<T> currStrag = UseStrags[currPlan.PlanStrag.GUID];
                 if (IsBackTest)
                 {
+                    currStrag.IsBackTest = IsBackTest;
                     currStrag.CommSetting.Odds = currPlan.AssetUnitInfo.Odds;//如果回测，可以用使用计划的赔率
                 }
                 if (currStrag is ReferIndexStragClass)//附加索引数据
@@ -260,7 +261,7 @@ namespace WolfInv.com.ExchangeLib
                 }
                 if (cs.Count > 0 && !IsBackTest)
                 {
-                    //Log("计算服务", string.Format("策略[{0}/{1}]", currStrag.GUID, currStrag.StragScript), string.Format("取得机会数量为:{0}", cs.Count));
+                    Log("计算服务", string.Format("策略[{0}/{1}/第{2}期]", currStrag.GUID, currStrag.StragScript,el.LastData.Expect), string.Format("取得机会数量为:{0}", cs.Count));
                     //wxl.Log("计算服务", string.Format("策略[{0}/{1}]", currStrag.GUID, currStrag.StragScript), string.Format("取得机会数量为:{0}", cs.Count));
                 }
                 
@@ -299,7 +300,7 @@ namespace WolfInv.com.ExchangeLib
                         CurrCc.FixAmt = currPlan.FixAmt;
                     }
                     //该语句存在机会重复的风险
-                    if (StragChances.ContainsKey(CurrCc.ChanceCode))//未关闭的及机会列表中存在该机会
+                    if (StragChances.ContainsKey(CurrCc.ChanceCode))//未关闭的同策略id机会列表中存在该机会
                     {
                         ChanceClass<T> OldCc = StragChances[CurrCc.ChanceCode];
                         //Log("计算服务", "老机会信息", string.Format("idx:{0};holdcnt:{1}", OldCc.ChanceIndex, OldCc.HoldTimeCnt));
@@ -321,7 +322,7 @@ namespace WolfInv.com.ExchangeLib
                     }
                     else
                     {
-                        //Log("计算服务", string.Format("上期相同未关闭的机会数{0},{1}", string.Join(";",CurrExistChanceList.Select(a=>a.Value.ChanceCode)), CurrCc.ChanceCode), "本期未出现");
+                        Log("计算服务", string.Format("上期相同未关闭的机会数{0},{1}", string.Join(";",CurrExistChanceList.Select(a=>a.Value.ChanceCode)), CurrCc.ChanceCode), "本期未出现");
                     }
                     
                     

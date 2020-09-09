@@ -210,12 +210,15 @@ namespace WolfInv.com.MachineLearnLib.Markov
             }
             else
             {
-                Console.WriteLine("马氏性 检验失败,无法进行下一步预测");
+                LogLib.LogableClass.ToLog("马尔可夫选号策略", string.Format("选择{0}个，其中取前{1}条记录,K={2}。", count, TopN,K), "马氏性 检验失败,无法进行下一步预测");
+                return;
+                //Console.WriteLine("马氏性 检验失败,无法进行下一步预测");
             }
+            //LogLib.LogableClass.ToLog("马尔可夫选号策略", string.Format("选择{0}个，其中取前{1}条记录,K={2}。", count, TopN,K), "马氏性 检验成功！");
         }
         #endregion
 
-        
+
 
         #region 验证
         /// <summary>验证是否满足马氏性,默认的显著性水平是0.05，自由度25</summary>

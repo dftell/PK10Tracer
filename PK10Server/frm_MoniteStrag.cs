@@ -263,7 +263,26 @@ namespace PK10Server
                 runstg.allowInvestmentMaxValue = spr.MaxLostAmount;
                 runstg.setDataTypePoint(dtp);
                 DataReader er = DataReaderBuild.CreateReader(dtp.DataType, null, null);
-                ExpectList<TimeSerialData> ViewDataList = er.ReadHistory<TimeSerialData>( runstg.ReviewExpectCnt +20, this.txt_lastExpect.Text);
+                //ExpectList<TimeSerialData> ViewDataList = er.ReadHistory<TimeSerialData>( runstg.ReviewExpectCnt +20, this.txt_lastExpect.Text);
+                long revCnt = runstg.ReviewExpectCnt;
+                if(dtp.DataType != "PK10")
+                {
+                    long currLng = long.Parse(txt_lastExpect.Text);
+                    string strDate = this.txt_lastExpect.Text.Substring(0,dtp.ExpectCodeDateLong);
+                    DateTime currDate;
+                    if (!DateTime.TryParseExact(strDate, dtp.ExpectCodeDateFormate,
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.DateTimeStyles.AdjustToUniversal,
+                    out currDate))
+                    {
+                        MessageBox.Show(strDate + "非正常日期格式！");
+                        return;
+                    }
+                    int days = (int)Math.Ceiling((double)(revCnt / dtp.ExpectCodeCounterMax));//需要提前的数据长度除以单日最大数=日期数
+                    long calcLng = long.Parse(currDate.AddDays(-1 * days).ToString(dtp.ExpectCodeDateFormate));
+                    revCnt = currLng - calcLng;
+                }
+                ExpectList<TimeSerialData> ViewDataList = er.ReadNewestData<TimeSerialData>(long.Parse(this.txt_lastExpect.Text),(int)(revCnt + 20),false);
                 string strexpect = ViewDataList.LastData.Expect;
                 //this.txt_lastExpect.Text = strexpect;
                 this.lastExpect = strexpect;

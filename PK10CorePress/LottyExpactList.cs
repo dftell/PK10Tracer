@@ -93,11 +93,14 @@ namespace WolfInv.com.PK10CorePress
             ////for (int i = 0; i < tmp.Count; i++)
             ////    ret.Add(tmp[i]);
             ////return ret;
-            ExpectList ret = new ExpectList();
-            if (RecLng == this.Count) return this;
+            
+            if (RecLng >= this.Count) return this;
             if (RecLng > this.Count)
+            {
                 throw new Exception("请求长度超出目标列表长度！");
-            for (int i = this.Count - RecLng; i < this.Count; i++)
+            }
+            ExpectList ret = new ExpectList();
+            for (int i = Math.Max(0,this.Count - RecLng); i < this.Count; i++)
             {
                 ret.Add(this[i]);
             }
