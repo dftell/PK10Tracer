@@ -100,7 +100,7 @@ namespace WolfInv.com.ServerInitLib
                 StragRunPlanClass<T> spc = list[key];
                 if (AllStatusStrags.SelectMany(t => t.Value.UseSPlans.Select(a => a.GUID)).Contains(key))//支持后续加入计划，只要状态合适都可以加入
                 {
-                    ToLog("所有计划列表中根据GUID",string.Format("存在重复的计划",spc.Plan_Name));
+                    //ToLog("所有计划列表中根据GUID",string.Format("存在重复的计划",spc.Plan_Name));
                     continue;
                 }
                 if (!AllStrags.ContainsKey(spc.PlanStrag.GUID))

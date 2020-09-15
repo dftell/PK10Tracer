@@ -261,7 +261,7 @@ namespace WolfInv.com.ExchangeLib
                 }
                 if (cs.Count > 0 && !IsBackTest)
                 {
-                    Log("计算服务", string.Format("策略[{0}/{1}/第{2}期]", currStrag.GUID, currStrag.StragScript,el.LastData.Expect), string.Format("取得机会数量为:{0}", cs.Count));
+                    Log("计算服务", string.Format("策略[{0}/{1}/第{2}期]", currStrag.GUID, currStrag.StragScript,el.LastData.Expect), string.Format("取得机会数量为:{0};{1}", cs.Count,string.Join(",",cs.Select(a=>string.Format("{0}/{1}",a.ChanceCode,a.UnitCost)))));
                     //wxl.Log("计算服务", string.Format("策略[{0}/{1}]", currStrag.GUID, currStrag.StragScript), string.Format("取得机会数量为:{0}", cs.Count));
                 }
                 

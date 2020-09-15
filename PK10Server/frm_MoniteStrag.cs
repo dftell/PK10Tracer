@@ -278,9 +278,9 @@ namespace PK10Server
                         MessageBox.Show(strDate + "非正常日期格式！");
                         return;
                     }
-                    int days = (int)Math.Ceiling((double)(revCnt / dtp.ExpectCodeCounterMax));//需要提前的数据长度除以单日最大数=日期数
+                    int days = (int)Math.Ceiling((double)(revCnt / dtp.ExpectCodeCounterMax))+1;//需要提前的数据长度除以单日最大数=日期数
                     long calcLng = long.Parse(currDate.AddDays(-1 * days).ToString(dtp.ExpectCodeDateFormate));
-                    revCnt = currLng - calcLng;
+                    revCnt = currLng - calcLng*(long)Math.Pow(10,dtp.ExpectCodeCounterLen);
                 }
                 ExpectList<TimeSerialData> ViewDataList = er.ReadNewestData<TimeSerialData>(long.Parse(this.txt_lastExpect.Text),(int)(revCnt + 20),false);
                 string strexpect = ViewDataList.LastData.Expect;

@@ -2280,7 +2280,7 @@ ClearMyTracksByProcess 255
                         MySleep(10*1000);//暂停，等发送消息
                         //reLoadWebBrowser();//开百度网页，睡觉
                         timers_RequestInst[tm.dtp.DataType].Interval = tm.Interval;//实际把计时器间隔往后推
-                        WXMsgBox(string.Format("下次启动时间！"), nextTime.ToString("yyyyMMdd HH:mm:ss"));
+                        WXMsgBox(string.Format("{0}下次启动时间！",dtp.DataType), nextTime.ToString("yyyyMMdd HH:mm:ss"));
                     }
                     else
                     {
@@ -2459,7 +2459,7 @@ ClearMyTracksByProcess 255
                 }
                 //if (!ScriptLoaded)
                 AddScript(lotteryDocIE ?? HomeDocIE, lotteryDocFireFox ?? HomeDocFireFox);
-                string msg = rule.IntsToJsonString(dtpName, strText, Program.gc.ChipUnit);
+                string msg = rule.IntsToJsonString(dtp,dtpName, strText, Program.gc.ChipUnit);
                 double lastval = this.CurrVal;
                 //SendMsg
                 int maxCnt = 10;
@@ -2588,6 +2588,7 @@ ClearMyTracksByProcess 255
                 MessageBox.Show("未获得对应的数据类型，可能是还没接收到任何数据！请手动选择要发送数据类型！");
                 return;
             }
+            DataTypePoint dtp = GlobalClass.TypeDataPoints[dtpName];
             if (rule==null)
                 rule = WebRuleBuilder.Create(Program.gc.InstFormat, Program.gc, Program.gc);
             string strHost = string.Format(Program.gc.LoginUrlModel, Program.gc.LoginDefaultHost);
@@ -2626,7 +2627,7 @@ ClearMyTracksByProcess 255
                 string msg = null;
                 try
                 {
-                    msg = rule.IntsToJsonString(dtpName, this.txt_Insts.Text, Program.gc.ChipUnit);
+                    msg = rule.IntsToJsonString(dtp,dtpName, this.txt_Insts.Text, Program.gc.ChipUnit);
                 }
                 catch (Exception ce)
                 {
@@ -2847,7 +2848,8 @@ ClearMyTracksByProcess 255
                     int.Parse(ruleid),
                     string.Format(Program.gc.LoginUrlModel,Program.gc.LoginDefaultHost),
                     dtpName,
-                    expectNo
+                    expectNo,
+                    dtp.ClientNoNeedZero
                             });
                 }
                 else

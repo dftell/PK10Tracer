@@ -20,6 +20,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.SecurityLib;
 using System.Drawing.Imaging;
+using WolfInv.com.GuideLib;
 namespace PK10Server
 {
     delegate void SetDataGridCallback(string id,DataTable dt,string sort=null);
@@ -36,7 +37,7 @@ namespace PK10Server
         DataReader exread = null;
         GlobalClass glb = new GlobalClass();
         SetDataGridCallback DgInvokeEvent;
-        
+        int sers = 0;
         Dictionary<string, long> AssetTimeSummary = new Dictionary<string, long>();
 
         ServiceSetting<TimeSerialData> _UseSetting = null;//供后面调用一切服务内容用
@@ -733,7 +734,7 @@ namespace PK10Server
             try
             {
                 this.chart_ForGuide.SaveImage(fullFileName, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
-                Program.wxlog.LogImageUrl(string.Format("{0}/chartImgs/chart.png",GlobalClass.TypeDataPoints.First().Value.InstHost), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                Program.wxlog.LogImageUrl(string.Format("{0}/chartImgs_{1}/chart.png",GlobalClass.TypeDataPoints.First().Value.InstHost,dtp.DataType), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
             }
             catch(Exception ce)
             {
@@ -1174,6 +1175,33 @@ namespace PK10Server
         private void contextMenuStrip_OperatePlan_Opening(object sender, CancelEventArgs e)
         {
 
+        }
+
+        private void chart_ForGuide_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (sers == 0)
+                sers = this.chart_ForGuide.Series.Count;
+            System.Windows.Forms.DataVisualization.Charting.HitTestResult Result = new System.Windows.Forms.DataVisualization.Charting.HitTestResult();
+            Result = chart_ForGuide.HitTest(e.X, e.Y);
+            if (Result.Series != null)
+            {
+                DataPointCollection dpc = Result.Series.Points;
+                double[] arr = dpc.Select(a => a.YValues[0]).ToArray();
+                if(chart_ForGuide.Series.Count == sers)
+                {
+                    Series ser = new Series("MACD");
+                    ser.ChartType = SeriesChartType.Column;
+                    chart_ForGuide.Series.Add(ser);
+                }
+                double min = arr.ToList().Min();
+                double max = arr.ToList().Max();
+                double center = (min + max) / 2;
+                double range = (max - min) ;
+                double[] macds = arr.MACD();
+                double macddiff = macds.ToList().Max() - macds.ToList().Min();
+                double times = range / macddiff;
+                chart_ForGuide.Series[sers].Points.DataBindY(macds.Times(times));
+            }
         }
     }
 

@@ -137,7 +137,7 @@ namespace WolfInv.com.Strags
                 AllCodes.Add(StrCode,strCodeList.Count);
                 
             }
-            Log("所有选出来的记录",string.Join("+",AllCodes.Keys.ToArray()));
+            Log(string.Format("{0}第{1}期:所有选出来的记录",this.StragScript,ed.Expect),string.Join("+",AllCodes.Keys.ToArray()));
             if (AllCodes.Count ==0)
                 return ret;
             if (RetMutliChances)

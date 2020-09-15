@@ -20,7 +20,7 @@ namespace WolfInv.com.WebRuleLib
     {
         public string cRuleId_S = "8140101";// '前5位定胆
         public string cRuleId_B = "8140102";// '后5位定胆
-        protected FHPLotteryConfigClass(WebRule we, LotteryTypes rs,string name) : base(we, rs,name)
+        protected FHPLotteryConfigClass(WebRule we,DataTypePoint dtp, LotteryTypes rs,string name) : base(we, dtp,rs,name)
         {
         }
     }
@@ -32,7 +32,7 @@ namespace WolfInv.com.WebRuleLib
         public string g01_00 = "8010101";//猜冠军
         public string g0102_00 = "8020101";//猜冠亚军
         public string g0102_01 = "8020201";//猜冠亚军单式
-        protected F2LotteryyConfigClass(WebRule we, LotteryTypes rs,string name) : base(we, rs,name)
+        protected F2LotteryyConfigClass(WebRule we, DataTypePoint dtp, LotteryTypes rs,string name) : base(we,dtp, rs,name)
         {
         }
     }
@@ -53,7 +53,7 @@ namespace WolfInv.com.WebRuleLib
 
         }
         
-        public override string IntsToJsonString(string lotteryName, String ccs, int unit)
+        public override string IntsToJsonString(DataTypePoint dtp, string lotteryName, String ccs, int unit)
         {
             LotteryConfigClass lcc = null;
             WebConfig wc = this.config;
@@ -66,23 +66,22 @@ namespace WolfInv.com.WebRuleLib
                 
                 case "XYFT":
                     {
-                        lcc = new LotteryConfigClass_XYFT(this,lt,lotteryName); 
+                        lcc = new LotteryConfigClass_XYFT(this,dtp,lt,lotteryName); 
                         break;
                     }
+                case "PK10":
+                    {
+                        lcc = new PK10KindLotteryConfigClass(this,dtp, lt, lotteryName);
+                        break;
+                    }
+                default:
                 case "GDKL11":
                     {
-                        lcc = new LotteryConfigClass_GDKL11(this, lt,lotteryName);
+                        lcc = new LotteryConfigClass_GDKL11(this,dtp, lt, lotteryName);
                         break;
                     }
-                
-                case "PK10":
-                default:
-                    {
-                        lcc = new PK10KindLotteryConfigClass(this, lt,lotteryName);
-                        break;
-                    }
-                    
-                    
+
+
             }
             if (lcc == null)
                 return null;

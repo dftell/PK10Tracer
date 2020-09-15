@@ -61,6 +61,7 @@
     <Compile Include="GuideResultSet.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="GuideToolClass.cs" />
     <Compile Include="KDJGuidClass.cs" />
     <Compile Include="LinkGuid\BaseLinkGuideClass.cs" />
     <Compile Include="LinkGuid\EMA.cs" />

@@ -567,7 +567,7 @@ namespace PK10Server
                 string fullFileName = string.Format("{0}\\imgs\\{1}", AppDomain.CurrentDomain.BaseDirectory, GR_Path);// GR_Path + "\\" + fileName + ".png";
                 image.Save(fullFileName, fmt);
                 string filename = string.Format("chartImg");
-                Program.wxlog.LogImageUrl(string.Format("{0}/chartImgs/{1}", GlobalClass.TypeDataPoints.First().Value.InstHost, GR_Path), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                Program.wxlog.LogImageUrl(string.Format("{0}/chartImgs_{2}/{1}", GlobalClass.TypeDataPoints.First().Value.InstHost, GR_Path, GlobalClass.TypeDataPoints.First().Value.DataType), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
 
             }
             catch(Exception ce)

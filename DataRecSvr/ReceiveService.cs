@@ -413,7 +413,7 @@ namespace DataRecSvr
                     
                     useTimer.Interval = RepeatSeconds / 20 * 1000;
 
-                    Log("尝试接收数据", "未接收到数据,数据源错误！", glb.ExceptNoticeFlag);
+                    Log("尝试接收数据", DataType+"未接收到数据,数据源错误！", glb.ExceptNoticeFlag);
                     return;
                 }
                 ExpectList el = new ExpectList(tmp.Table);

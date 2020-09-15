@@ -7,16 +7,18 @@ namespace WolfInv.com.WebRuleLib
 {
     public abstract class LotteryConfigClass
     {
+        protected DataTypePoint dtp;
         protected string Name;
         protected WebRule wr;
         public LotteryTypes rules;
         public IWebFlags setting;
         public GlobalClass gb;
-        protected LotteryConfigClass(WebRule we, LotteryTypes rs,string name)
+        protected LotteryConfigClass(WebRule we,DataTypePoint _dtp, LotteryTypes rs,string name)
         {
             rules = rs;
             wr = we;
             Name = name;
+            dtp = _dtp;
         }
         //public GlobalClass setting;
         

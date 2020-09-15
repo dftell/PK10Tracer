@@ -237,7 +237,7 @@ namespace WolfInv.com.Strags.MLStragClass
 
         public override Type getTheChanceType()
         {
-            if(UsingDpt?.DataType == "GDKL11")
+            if(UsingDpt?.IsXxY==1)
             {
                 return typeof(ChanceClass_ForCombinXxY);
             }

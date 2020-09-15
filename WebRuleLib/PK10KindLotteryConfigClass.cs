@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.WebCommunicateClass;
 //using WolfInv.com.SecurityLib;
 namespace WolfInv.com.WebRuleLib
@@ -7,7 +8,7 @@ namespace WolfInv.com.WebRuleLib
 
     public class LotteryConfigClass_XYFT : PK10KindLotteryConfigClass
     {
-        public LotteryConfigClass_XYFT(WebRule we, LotteryTypes rs,string name) : base(we, rs,name)
+        public LotteryConfigClass_XYFT(WebRule we, DataTypePoint dtp, LotteryTypes rs,string name) : base(we,dtp, rs,name)
         {
             if (rules.AllRules.ContainsKey("34140101"))
             {
@@ -62,7 +63,7 @@ namespace WolfInv.com.WebRuleLib
                 //cRuleId_B = rules.AllRules["34140102"].BetRule;
             }
         }
-        public PK10KindLotteryConfigClass(WebRule we, LotteryTypes rs,string name) : base(we, rs,name)
+        public PK10KindLotteryConfigClass(WebRule we, DataTypePoint dtp, LotteryTypes rs,string name) : base(we,dtp, rs,name)
         {
         
             g01_00 = "8010101";//猜冠军

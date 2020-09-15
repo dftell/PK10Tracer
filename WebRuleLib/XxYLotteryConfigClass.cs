@@ -5,6 +5,7 @@ using WolfInv.com.WebCommunicateClass;
 using System.Linq;
 using WolfInv.com.ProbMathLib;
 using System.Security.Permissions;
+using WolfInv.com.BaseObjectsLib;
 
 namespace WolfInv.com.WebRuleLib
 {
@@ -16,7 +17,7 @@ namespace WolfInv.com.WebRuleLib
     public  class XxYLotteryConfigClass : LotteryConfigClass
     {
 
-        public XxYLotteryConfigClass(WebRule we, LotteryTypes rs,string name) : base(we, rs,name)
+        public XxYLotteryConfigClass(WebRule we, DataTypePoint dtp, LotteryTypes rs,string name) : base(we,dtp, rs,name)
         {
             
             
@@ -105,6 +106,7 @@ namespace WolfInv.com.WebRuleLib
 
         string ToStdFmt(string strInput,bool isP,int AllArrLen = 1,string strPoint=null)
         {
+            
             string str = strInput;
             if(strPoint!=null)
             {
@@ -121,13 +123,14 @@ namespace WolfInv.com.WebRuleLib
                     string[] pArr = arr[i].Split('-');
                     for(int p=0;p<pArr.Length;p++)
                     {
-                        pArr[p] = pArr[p].Trim().PadLeft(2, '0');
+                        if(!dtp.ClientNoNeedZero)
+                            pArr[p] =  pArr[p].Trim().PadLeft(2,'0');
                     }
                     arr[i] = string.Join(" ", pArr);
                 }
                 else
                 {
-                    arr[i] = string.IsNullOrEmpty(arr[i])?"":arr[i].Trim().PadLeft(2, '0');
+                    arr[i] = string.IsNullOrEmpty(arr[i])?"": dtp.ClientNoNeedZero?arr[i]:arr[i].Trim().PadLeft(2, '0');
                 }
             }
             return string.Join((isP|| strPoint!=null) ? "," : " ", arr);
@@ -225,7 +228,7 @@ namespace WolfInv.com.WebRuleLib
 
     public class LotteryConfigClass_GDKL11 : XxYLotteryConfigClass
     {
-        public LotteryConfigClass_GDKL11(WebRule we, LotteryTypes rs,string name) : base(we, rs,name)
+        public LotteryConfigClass_GDKL11(WebRule we, DataTypePoint dtp, LotteryTypes rs,string name) : base(we,dtp, rs,name)
         {
             //cRuleId_S = rules.AllRules["34140101"].BetRule;
             //cRuleId_B = rules.AllRules["34140102"].BetRule;
