@@ -25,7 +25,7 @@ namespace Test_Win
         {
             this.Cursor = Cursors.WaitCursor;
             string indexcode = new SIIIClass().SummaryCode; //必须先主动获取
-            MTable mt = CommWDToolClass.getBkList(this.gb.w, indexcode, this.txt_EndT.Value);
+            MTable mt = CommWSSToolClass.getBkList(this.gb.w, indexcode, this.txt_EndT.Value);
             if (mt == null)
             {
                 MessageBox.Show("股票池数据为空");
@@ -42,7 +42,7 @@ namespace Test_Win
             }
             MTable secTab = mt["wind_code"];
             string[] sectors = secTab.ToList<string>().ToArray();
-            MTable tmp = CommWDToolClass.GetMutliSetData(this.gb.w, 
+            MTable tmp = CommWSSToolClass.GetMutliSetData(this.gb.w, 
                 sectors, 
                 this.txt_EndT.Value,
                 (Cycle)this.ddl_cycle.SelectedIndex,
@@ -51,7 +51,7 @@ namespace Test_Win
                 "KDJ.J");
             mt.AddColumnByArray("CurrCycleValue", tmp, "J");
             DateTime preDate = WDDayClass.Offset(this.gb.w, this.txt_EndT.Value, -1, (Cycle)this.ddl_cycle.SelectedIndex);
-            tmp = CommWDToolClass.GetMutliSetData(this.gb.w,
+            tmp = CommWSSToolClass.GetMutliSetData(this.gb.w,
                 sectors,
                 preDate,
                 (Cycle)this.ddl_cycle.SelectedIndex,
@@ -62,7 +62,7 @@ namespace Test_Win
             //高一频度周期数据
             if (this.ddl_cycle.SelectedIndex > 0)
             {
-                tmp = CommWDToolClass.GetMutliSetData(this.gb.w,
+                tmp = CommWSSToolClass.GetMutliSetData(this.gb.w,
                 sectors,
                 this.txt_EndT.Value,
                 (Cycle)(this.ddl_cycle.SelectedIndex-1),
@@ -71,7 +71,7 @@ namespace Test_Win
                 "KDJ.K,KDJ.J");
                 mt.AddColumnByArray("LowCycleValue", tmp, "J");
                 mt.AddColumnByArray("LowCycleK", tmp, "K");
-                tmp = CommWDToolClass.GetMutliSetData(this.gb.w,
+                tmp = CommWSSToolClass.GetMutliSetData(this.gb.w,
                 sectors,
                 preDate,
                 (Cycle)(this.ddl_cycle.SelectedIndex-1),

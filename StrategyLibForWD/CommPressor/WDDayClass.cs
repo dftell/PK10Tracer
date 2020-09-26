@@ -18,7 +18,7 @@ namespace WolfInv.com.StrategyLibForWD
 
         public static DateTime[] getTradeDates(WindAPI w, string SecCode, DateTime begt, DateTime endt, Cycle cyc)
         {
-            BaseDataTable tb = CommWDToolClass.GetBaseSerialData(w, SecCode, begt, endt, cyc, PriceAdj.UnDo, BaseDataPoint.trade_status, BaseDataPoint.sec_type, BaseDataPoint.close);
+            BaseDataTable tb = CommWSSToolClass.GetBaseSerialData(w, SecCode, begt, endt, cyc, PriceAdj.UnDo, BaseDataPoint.trade_status, BaseDataPoint.sec_type, BaseDataPoint.close);
             BaseDataTable ttb = tb.AvaliableData;
             return ttb["DateTime"].ToList<DateTime>().ToArray();
         }
@@ -90,10 +90,8 @@ namespace WolfInv.com.StrategyLibForWD
             if(begt.CompareTo(SecItem.Ipo_date)<0)//任何情况（index的ipo日期为1899-12-31）如果开始日期小于ipo日期，开始日期设置为Ipo日期。
             {
                 begt = SecItem.Ipo_date;
-            }
-
-            
-            BaseDataTable tb = CommWDToolClass.GetBaseSerialData(
+            }            
+            BaseDataTable tb = CommWSSToolClass.GetBaseSerialData(
                 w, 
                 SecItem.WindCode,
                 begt,
@@ -129,7 +127,7 @@ namespace WolfInv.com.StrategyLibForWD
 
         public static DateTime LastTradeDay(WindAPI w, string SecCode, DateTime dt)
         {
-            BaseDataTable tb =  CommWDToolClass.GetBaseSerialData(w, SecCode, dt.AddDays(-1000), dt, Cycle.Day, PriceAdj.UnDo,BaseDataPoint.trade_status,BaseDataPoint.sec_type,BaseDataPoint.close);
+            BaseDataTable tb = CommWSSToolClass.GetBaseSerialData(w, SecCode, dt.AddDays(-1000), dt, Cycle.Day, PriceAdj.UnDo,BaseDataPoint.trade_status,BaseDataPoint.sec_type,BaseDataPoint.close);
             BaseDataTable ttb = tb.AvaliableData;
             if (ttb.Count == 0) return DateTime.MinValue;
             return ((BaseDataItemClass)ttb[ttb.Count - 1]).DateTime;

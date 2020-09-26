@@ -52,6 +52,8 @@ namespace WolfInv.com.BaseObjectsLib
                 return _fullcode;
             }
         }
+
+        public string ipo_date { get; set; }
     }
 
     public class ExchangeMongoData : TimeSerialData, IExchangeData
@@ -117,6 +119,14 @@ namespace WolfInv.com.BaseObjectsLib
         }
     }
 
+    public class FinanceMongoData
+    {
+        public string code;
+        public string ipo_date;
+        public double zongguben;
+        public int industry;
+        public double jinglirun;
+    }
     public interface IOHLCData
     {
         double open { get; set; }

@@ -213,7 +213,10 @@ namespace WolfInv.com.BaseObjectsLib
         //public int DefaultUseXmlModel;
         public string DefaultUseDataType;//HTML,XML,JSON,TXT
         public string DefaultDataDecode;
-        
+        public void setDataPointType(DataTypePoint _dtp)
+        {
+            parent = _dtp;
+        }
     }
 
     public class ExDataConfigClass

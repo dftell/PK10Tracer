@@ -52,11 +52,11 @@ namespace WolfInv.com.StrategyLibForWD
         static void InitEquites()
         {
             AllMarketEquitClass aec = new AllMarketEquitClass();
-            MTable dt =  CommWDToolClass.getBkList(w, aec.SummaryCode, DateTime.Today,false);
+            MTable dt = CommWSSToolClass.getBkList(w, aec.SummaryCode, DateTime.Today,false);
             if (dt == null || dt.Count == 0)
                 return;
             string[] equitcodes = dt["WIND_CODE"].ToList<string>().ToArray();
-            BaseDataTable bdt = CommWDToolClass.GetBaseData(w,
+            BaseDataTable bdt = CommWSSToolClass.GetBaseData(w,
                 equitcodes,
                 DateTime.Today,
                 Cycle.Day,

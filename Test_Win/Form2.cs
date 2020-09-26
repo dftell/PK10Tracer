@@ -67,7 +67,7 @@ namespace Test_Win
             //BaseDataTable dt = CommWDToolClass.GetBaseData(gb.w, "000613.SZ,300369.SZ,002512.SZ,600721.SH,300344.SZ,000100.SZ", Convert.ToDateTime("2018/3/10"), Cycle.Day, PriceAdj.Beyond);
             
             string code = new SIIIClass().SummaryCode;
-            BaseDataTable bdt = CommWDToolClass.GetMarketsStocks(this.gb.w,
+            BaseDataTable bdt = CommWSSToolClass.GetMarketsStocks(this.gb.w,
                 "000300.SH",
                 DateTime.Today,
                 200,
@@ -121,8 +121,9 @@ namespace Test_Win
             CommMarketClass cmc = new CommMarketClass(dtp);
             string strendT = this.txt_endT.Text;
             string strbegT = this.txt_begT.Text;
+            int[] omds;
             if(useCodes == null)
-                useCodes =  cmc.GetMarketsStocks("000001", strendT, 500,true, true, false);
+                useCodes =  cmc.GetMarketsStocks("000001", strendT, 500, true, out omds, true, false);
             string[] currCodes = new string[useCodes.Length];
             
             try

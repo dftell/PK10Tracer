@@ -88,7 +88,7 @@ namespace WolfInv.com.StrategyLibForWD
         public RunNoticeClass BaseFilter()
         {
             RunNoticeClass ret = new RunNoticeClass();
-            BaseDataTable sectab = CommWDToolClass.GetMarketsStocks(w, InParam.SecIndex, InParam.EndT, InParam.OnMarketDays, InParam.CalcLastData, InParam.IsExcludeST, InParam.IsMAFilter, InParam.ExcludeSecList);
+            BaseDataTable sectab = CommWSSToolClass.GetMarketsStocks(w, InParam.SecIndex, InParam.EndT, InParam.OnMarketDays, InParam.CalcLastData, InParam.IsExcludeST, InParam.IsMAFilter, InParam.ExcludeSecList);
             this.SelectTable = sectab;
             this.SelectTable.AddColumnByArray<bool>("Enable", false);
             return ret;

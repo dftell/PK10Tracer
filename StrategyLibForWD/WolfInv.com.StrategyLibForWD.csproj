@@ -52,7 +52,8 @@
     <Compile Include="CommPressor\CommDataBuilder_ForWD.cs" />
     <Compile Include="CommPressor\CommDataInterface_ForWD.cs" />
     <Compile Include="CommPressor\CommGuidProcess_ForWD.cs" />
-    <Compile Include="CommPressor\CommWDToolClass.cs" />
+    <Compile Include="CommPressor\CommWSDToolClass.cs" />
+    <Compile Include="CommPressor\CommWSSToolClass.cs" />
     <Compile Include="CommPressor\DateSerialGuidBuilder_ForWD.cs" />
     <Compile Include="CommPressor\GuidBuilder_ForWD.cs" />
     <Compile Include="CommPressor\MACDCommTool.cs" />

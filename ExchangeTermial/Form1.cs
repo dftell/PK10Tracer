@@ -143,6 +143,12 @@ namespace ExchangeTermial
                     }
                     if (scc.DefaultNavHost != null)
                         Program.gc.NavHost = scc.DefaultNavHost;
+                    scc.Serices?.ForEach(a => {
+                        if(GlobalClass.TypeDataPoints.ContainsKey(a.dtp))
+                        {
+                            GlobalClass.TypeDataPoints[a.dtp].InstHost = a.host;
+                        }
+                    });                    
                 }
             }
             try
@@ -177,14 +183,15 @@ namespace ExchangeTermial
             }
         }
 
-        
 
 
-        class SvrConfigClass:iSerialJsonClass<SvrConfigClass>
+
+        class SvrConfigClass : iSerialJsonClass<SvrConfigClass>
         {
             public string WXSvrHost { get; set; }
             public string DefaultExchangeHost { get; set; }
             public string DefaultNavHost { get; set; }
+            public List<DataHost> Serices { get;set;}
 
             public SvrConfigClass getObjectByJsonString(string str)
             {
@@ -192,6 +199,12 @@ namespace ExchangeTermial
                 JavaScriptSerializer js = new JavaScriptSerializer();
                 ret = js.Deserialize<SvrConfigClass>(str);
                 return ret;
+            }
+
+            public class DataHost
+            {
+                public string dtp;
+                public string host;
             }
         }
 

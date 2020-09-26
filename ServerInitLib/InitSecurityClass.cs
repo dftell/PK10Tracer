@@ -99,7 +99,19 @@ namespace WolfInv.com.ServerInitLib
             MongoReturnDataList<StockInfoMongoData> mdl =  reader.GetAllCodeDataList< StockInfoMongoData>(true);
             if (mdl == null)
                 return null;
-            return mdl.ToDictionary(p => (p as ICodeData).code, p => (p as StockInfoMongoData));
+            Dictionary<string, StockInfoMongoData> res = new Dictionary<string, StockInfoMongoData>();
+            foreach(var key in mdl)
+            {
+                if(res.ContainsKey(key.code))
+                {
+
+                }
+                else
+                {
+                    res.Add(key.code, key);
+                }
+            }
+            return res;// mdl.ToDictionary(p => (p as ICodeData).code, p => (p as StockInfoMongoData));
         }
 
         public static List<string> getStockIndexAllDateList(string DataType)

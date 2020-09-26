@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+
 namespace WolfInv.com.BaseObjectsLib
 {
     public class AssetInfoConfig:DetailStringClass
@@ -51,6 +54,7 @@ namespace WolfInv.com.BaseObjectsLib
         }
         void loadFromStringDic(Dictionary<string,string> vals)
         {
+            
             if(vals.ContainsKey("value"))
             {
                 int.TryParse(vals["value"], out value);
@@ -62,6 +66,7 @@ namespace WolfInv.com.BaseObjectsLib
                     int.TryParse(vals.Keys.First(), out value);
                 }
             }
+            /*
             if (vals.ContainsKey("NeedSelectTimes"))
             {
                 int.TryParse(vals["NeedSelectTimes"], out NeedSelectTimes);
@@ -105,12 +110,31 @@ namespace WolfInv.com.BaseObjectsLib
             if(vals.ContainsKey("AutoTraceMinChips"))
             {
                 int.TryParse(vals["AutoTraceMinChips"], out AutoTraceMinChips);
+            }*/
+            Type t = this.GetType();
+            FieldInfo[] fls = t.GetFields(BindingFlags.Public | BindingFlags.Instance);
+            for(int i=0;i<fls.Length;i++)
+            {
+                if (vals.ContainsKey(fls[i].Name))
+                {
+                    int outval = 0;
+                    bool succ = int.TryParse(vals[fls[i].Name], out outval);
+                    try
+                    {
+                        fls[i].SetValue(this, outval);
+                    }
+                    catch
+                    {
+
+                    }
+                }
             }
         }
 
         public Dictionary<string,string> getStringDic()
         {
             Dictionary<string, string> ret = new Dictionary<string, string>();
+            /*
             ret.Add("value",value.ToString());
             ret.Add("NeedSelectTimes", NeedSelectTimes.ToString());
             ret.Add("SelectFuncId", SelectFuncId.ToString());
@@ -123,6 +147,15 @@ namespace WolfInv.com.BaseObjectsLib
             ret.Add("AutoEmergencyStop", AutoEmergencyStop.ToString());
             ret.Add("AutoTraceMinChips", AutoTraceMinChips.ToString());
             ret.Add("currTimes", CurrTimes.ToString());
+            */
+            Type t = this.GetType();
+            FieldInfo[] fls = t.GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            for(int i=0;i<fls.Length;i++)
+            {
+                object obj = fls[i].GetValue(this);
+                ret.Add(fls[i].Name,obj==null?"":obj.ToString());
+            }
+
             return ret;
         }
     }

@@ -93,6 +93,7 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cancelBetRecToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshBetRecToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.webBrowser_charge = new System.Windows.Forms.WebBrowser();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -103,7 +104,7 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
-            chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.OCExchangeChartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -131,10 +132,10 @@
             this.tabPage9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_betRecs)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -195,7 +196,8 @@
             this.switchWebBrowserToolStripMenuItem,
             this.switchPlatformToolStripMenuItem,
             this.refreshBetRecToolStripMenuItem,
-            this.setLoginedToolStripMenuItem});
+            this.setLoginedToolStripMenuItem,
+            this.OCExchangeChartToolStripMenuItem});
             this.tsmi_Operate.Name = "tsmi_Operate";
             this.tsmi_Operate.Size = new System.Drawing.Size(44, 21);
             this.tsmi_Operate.Text = "操作";
@@ -203,90 +205,90 @@
             // mnuRefreshWebToolStripMenuItem
             // 
             this.mnuRefreshWebToolStripMenuItem.Name = "mnuRefreshWebToolStripMenuItem";
-            this.mnuRefreshWebToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.mnuRefreshWebToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.mnuRefreshWebToolStripMenuItem.Text = "睡觉";
             this.mnuRefreshWebToolStripMenuItem.Click += new System.EventHandler(this.mnuRefreshWebToolStripMenuItem_Click);
             // 
             // reLoadToolStripMenuItem
             // 
             this.reLoadToolStripMenuItem.Name = "reLoadToolStripMenuItem";
-            this.reLoadToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.reLoadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.reLoadToolStripMenuItem.Text = "醒来";
             this.reLoadToolStripMenuItem.Click += new System.EventHandler(this.reLoadToolStripMenuItem_Click);
             // 
             // tsmi_knockTheEgg
             // 
             this.tsmi_knockTheEgg.Name = "tsmi_knockTheEgg";
-            this.tsmi_knockTheEgg.Size = new System.Drawing.Size(177, 22);
+            this.tsmi_knockTheEgg.Size = new System.Drawing.Size(180, 22);
             this.tsmi_knockTheEgg.Text = "砸蛋";
             this.tsmi_knockTheEgg.Click += new System.EventHandler(this.tsmi_knockTheEgg_Click);
             // 
             // switchChanleToolStripMenuItem
             // 
             this.switchChanleToolStripMenuItem.Name = "switchChanleToolStripMenuItem";
-            this.switchChanleToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.switchChanleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.switchChanleToolStripMenuItem.Text = "切换通道";
             this.switchChanleToolStripMenuItem.Click += new System.EventHandler(this.switchChanleToolStripMenuItem_Click);
             // 
             // chargeMoneyToolStripMenuItem
             // 
             this.chargeMoneyToolStripMenuItem.Name = "chargeMoneyToolStripMenuItem";
-            this.chargeMoneyToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.chargeMoneyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.chargeMoneyToolStripMenuItem.Text = "ChargeMoney";
             this.chargeMoneyToolStripMenuItem.Click += new System.EventHandler(this.chargeMoneyToolStripMenuItem_Click);
             // 
             // hideTheFloatWindowToolStripMenuItem
             // 
             this.hideTheFloatWindowToolStripMenuItem.Name = "hideTheFloatWindowToolStripMenuItem";
-            this.hideTheFloatWindowToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.hideTheFloatWindowToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.hideTheFloatWindowToolStripMenuItem.Text = "隐藏/显示充值窗口";
             this.hideTheFloatWindowToolStripMenuItem.Click += new System.EventHandler(this.hideTheFloatWindowToolStripMenuItem_Click);
             // 
             // loadTheNavigateWindowToolStripMenuItem
             // 
             this.loadTheNavigateWindowToolStripMenuItem.Name = "loadTheNavigateWindowToolStripMenuItem";
-            this.loadTheNavigateWindowToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.loadTheNavigateWindowToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadTheNavigateWindowToolStripMenuItem.Text = "载入导航";
             this.loadTheNavigateWindowToolStripMenuItem.Click += new System.EventHandler(this.loadTheNavigateWindowToolStripMenuItem_Click);
             // 
             // userLoginToolStripMenuItem
             // 
             this.userLoginToolStripMenuItem.Name = "userLoginToolStripMenuItem";
-            this.userLoginToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.userLoginToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.userLoginToolStripMenuItem.Text = "用户登录";
             this.userLoginToolStripMenuItem.Click += new System.EventHandler(this.userLoginToolStripMenuItem_Click);
             // 
             // inLotteryHomeToolStripMenuItem
             // 
             this.inLotteryHomeToolStripMenuItem.Name = "inLotteryHomeToolStripMenuItem";
-            this.inLotteryHomeToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.inLotteryHomeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.inLotteryHomeToolStripMenuItem.Text = "进入游戏厅";
             this.inLotteryHomeToolStripMenuItem.Click += new System.EventHandler(this.inLotteryHomeToolStripMenuItem_Click);
             // 
             // switchWebBrowserToolStripMenuItem
             // 
             this.switchWebBrowserToolStripMenuItem.Name = "switchWebBrowserToolStripMenuItem";
-            this.switchWebBrowserToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.switchWebBrowserToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.switchWebBrowserToolStripMenuItem.Text = "切换浏览器";
             this.switchWebBrowserToolStripMenuItem.Click += new System.EventHandler(this.switchWebBrowserToolStripMenuItem_Click);
             // 
             // switchPlatformToolStripMenuItem
             // 
             this.switchPlatformToolStripMenuItem.Name = "switchPlatformToolStripMenuItem";
-            this.switchPlatformToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.switchPlatformToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.switchPlatformToolStripMenuItem.Text = "切换平台";
             // 
             // refreshBetRecToolStripMenuItem
             // 
             this.refreshBetRecToolStripMenuItem.Name = "refreshBetRecToolStripMenuItem";
-            this.refreshBetRecToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.refreshBetRecToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.refreshBetRecToolStripMenuItem.Text = "刷新投注记录";
             this.refreshBetRecToolStripMenuItem.Click += new System.EventHandler(this.refreshBetRecToolStripMenuItem_Click);
             // 
             // setLoginedToolStripMenuItem
             // 
             this.setLoginedToolStripMenuItem.Name = "setLoginedToolStripMenuItem";
-            this.setLoginedToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.setLoginedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.setLoginedToolStripMenuItem.Text = "手动设置登录成功";
             this.setLoginedToolStripMenuItem.Click += new System.EventHandler(this.setLoginedToolStripMenuItem_Click);
             // 
@@ -342,7 +344,7 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(chart1);
+            this.splitContainer1.Panel2.Controls.Add(this.chart1);
             this.splitContainer1.Panel2.Controls.Add(this.webBrowser1);
             this.splitContainer1.Size = new System.Drawing.Size(1289, 637);
             this.splitContainer1.SplitterDistance = 242;
@@ -687,6 +689,22 @@
             this.refreshBetRecToolStripMenuItem1.Text = "刷新下注信息";
             this.refreshBetRecToolStripMenuItem1.Click += new System.EventHandler(this.refreshBetRecToolStripMenuItem1_Click);
             // 
+            // chart1
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
+            this.chart1.Location = new System.Drawing.Point(79, 0);
+            this.chart1.Name = "chart1";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
+            this.chart1.Size = new System.Drawing.Size(671, 363);
+            this.chart1.TabIndex = 1;
+            this.chart1.Text = "chart1";
+            // 
             // webBrowser1
             // 
             this.webBrowser1.CausesValidation = false;
@@ -785,21 +803,12 @@
             this.toolStripStatusLabel3.Size = new System.Drawing.Size(500, 17);
             this.toolStripStatusLabel3.Text = "toolStripStatusLabel3";
             // 
-            // chart1
+            // OCExchangeChartToolStripMenuItem
             // 
-            chartArea1.Name = "ChartArea1";
-            chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            chart1.Legends.Add(legend1);
-            chart1.Location = new System.Drawing.Point(79, 0);
-            chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            chart1.Series.Add(series1);
-            chart1.Size = new System.Drawing.Size(671, 363);
-            chart1.TabIndex = 1;
-            chart1.Text = "chart1";
+            this.OCExchangeChartToolStripMenuItem.Name = "OCExchangeChartToolStripMenuItem";
+            this.OCExchangeChartToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.OCExchangeChartToolStripMenuItem.Text = "开启/屏蔽交易曲线";
+            this.OCExchangeChartToolStripMenuItem.Click += new System.EventHandler(this.OCExchangeChartToolStripMenuItem_Click);
             // 
             // MainWindow
             // 
@@ -843,11 +852,11 @@
             this.tabPage9.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_betRecs)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(chart1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -923,6 +932,7 @@
         private System.Windows.Forms.ToolStripMenuItem refreshBetRecToolStripMenuItem1;
         private System.Windows.Forms.ComboBox ddl_datatype;
         private System.Windows.Forms.ToolStripMenuItem setLoginedToolStripMenuItem;
-        private static System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.ToolStripMenuItem OCExchangeChartToolStripMenuItem;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
     }
 }

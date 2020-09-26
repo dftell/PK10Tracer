@@ -45,7 +45,7 @@ namespace ExchangeTermial
                     //int.TryParse(dt.Rows[i]["needSelectTime"]?.ToString(), out aic.NeedSelectTimes);
                     aic.NeedSelectTimes = (bool)dt.Rows[i]["needSelectTime"]==true ? 1 : 0;
                     int.TryParse(dt.Rows[i]["SelectFuncId"]?.ToString(),out aic.SelectFuncId);
-                    int.TryParse(dt.Rows[i]["currTimes"]?.ToString(), out aic.CurrTimes);
+                    int.TryParse(dt.Rows[i]["CurrTimes"]?.ToString(), out aic.CurrTimes);
                     int.TryParse(dt.Rows[i]["DefaultReturnTimes"]?.ToString(), out aic.DefaultReturnTimes);
                     int.TryParse(dt.Rows[i]["AutoTraceMinChips"]?.ToString(), out aic.AutoTraceMinChips);
                     aic.AutoResumeDefaultReturnValue = (bool)dt.Rows[i]["AutoResumeDefaultReturnValue"] ? 1 : 0;
@@ -107,7 +107,7 @@ namespace ExchangeTermial
             dt.Columns.Add("id");
             dt.Columns.Add("name");
             dt.Columns.Add("cnt");
-            dt.Columns.Add("currTimes");
+            dt.Columns.Add("CurrTimes");
             dt.Columns.Add("DefaultReturnTimes");
             dt.Columns.Add("AutoResumeDefaultReturnValue",typeof(bool));
             dt.Columns.Add("ZeroCloseResume", typeof(bool));
@@ -128,7 +128,7 @@ namespace ExchangeTermial
                 dr["id"] = key;
                 dr["name"] = aul[key];
                 dr["cnt"] = aus.ContainsKey(key) ? aus[key].value : 1;
-                dr["currTimes"] = aus.ContainsKey(key) ? aus[key].CurrTimes : 0;
+                dr["CurrTimes"] = aus.ContainsKey(key) ? aus[key].CurrTimes : 0;
                 dr["DefaultReturnTimes"] = aus.ContainsKey(key) ? aus[key].DefaultReturnTimes : 0;
                 dr["AutoResumeDefaultReturnValue"] = aus.ContainsKey(key) ? aus[key].AutoResumeDefaultReturnValue : 0;
                 dr["ZeroCloseResume"] = aus.ContainsKey(key) ? aus[key].ZeroCloseResume : 0;

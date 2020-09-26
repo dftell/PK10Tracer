@@ -189,8 +189,10 @@ namespace WolfInv.com.ServerInitLib
             foreach(string key in GlobalClass.TypeDataPoints.Keys)
             {
                 DataTypePoint dtp = GlobalClass.TypeDataPoints[key];
-                if(dtp.RuntimeInfo == null)
+                if (dtp.RuntimeInfo == null)
                     dtp.RuntimeInfo = new DataPointBuff(dtp);
+                else
+                    dtp.RuntimeInfo.setDataPointType(dtp);
                 dtp.RuntimeInfo.DefaultDataUrl = dtp.MainDataUrl;
                 //dtp.RuntimeInfo.DefaultUseXmlModel = dtp.SrcUseXml;
                 dtp.RuntimeInfo.DefaultUseDataType = dtp.MainDataType;
@@ -217,8 +219,8 @@ namespace WolfInv.com.ServerInitLib
                 LogableClass.ToLog(string.Format("准备获取[{0}]除权除息数据", key), "开始");
                 DateTime now = DateTime.Now;
                 List<string[]> test = new List<string[]>();
-                //List<string[]> codeGrp = GroupBuilder.ToGroup<string>(codes, dtp.CodeGrpCnt);
                 test.Add(new string[] { "000001" });
+                List<string[]> codeGrp = GroupBuilder.ToGroup<string>(codes, dtp.CodeGrpCnt);
                 //dtp.RuntimeInfo.XDXRList = InitSecurityClass.getAllXDXRDataAsync(key,dtp.RuntimeInfo.getGrpCodes);
                 dtp.RuntimeInfo.XDXRList = InitSecurityClass.getAllXDXRDataAsync(key, test);
                 //dtp.RuntimeInfo.XDXRList = new MongoDataDictionary<XDXRData>();//用时再取

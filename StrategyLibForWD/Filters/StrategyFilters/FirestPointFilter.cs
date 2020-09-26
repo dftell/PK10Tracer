@@ -30,7 +30,7 @@ namespace WolfInv.com.StrategyLibForWD.Filters.StrategyFilters
             WindAPI wa = this.ExecStrategy.w;
             MACDTable data = new MACDTable();
 
-            CommWDToolClass.GetMutliSerialData(wa,
+            CommWSDToolClass.GetMutliSerialData(wa,
                 this.secCode,
                 WDDayClass.Offset(wa,Endt,this.PassViewDays,this.Cycle),
                 this.Endt,

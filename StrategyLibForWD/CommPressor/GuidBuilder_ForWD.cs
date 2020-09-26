@@ -18,7 +18,7 @@ namespace WolfInv.com.StrategyLibForWD
             if (gbc == null) return null;
             gbc.tradeDate = dt;
             WSSClass wsetobj;
-            wsetobj = new WSSClass(w, string.Join(",", Sectors), gbc.GuidName, string.Format(strParamsStyle, dt.ToShortDateString().Replace("-", ""), gbc.strParam, gbc.priceAdj.ToString().Substring(0, 1), gbc.cycle.ToString().Substring(0, 1)));
+            wsetobj = new WSSClass(w, string.Join(",", Sectors), gbc.GuidName, string.Format(strParamsStyle, dt.ToString("yyyy-MM-dd"), gbc.strParam, gbc.priceAdj.ToString().Substring(0, 1), gbc.cycle.ToString().Substring(0, 1)));
             return WDDataAdapter.getTable(wsetobj.getDataSet(), gbc.GuidName, typeof(decimal));
         }
     }

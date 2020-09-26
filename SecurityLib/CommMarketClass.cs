@@ -13,7 +13,7 @@ namespace WolfInv.com.SecurityLib
         {
             dtp = _dtp;
         }
-        public string[] GetMarketsStocks(string indexname, string endt, int MinOnMarketDays, bool NextDay, bool ExcludeST, bool MAFilter)
+        public string[] GetMarketsStocks(string indexname, string endt, int MinOnMarketDays, bool NextDay, out int[] onMarketDays, bool ExcludeST=false, bool MAFilter=false)
         {
             string[] ret = new string[1] { indexname };
             if(indexname == null || indexname.Trim().Length==0) throw new Exception("市场，板块，指数不能为空！");
@@ -29,7 +29,9 @@ namespace WolfInv.com.SecurityLib
                     insql[2] = "{$match:{OnMarketDays:{$gt:{0}}}}".Replace("{0}",MinOnMarketDays.ToString());
                     insql[3] = "{$project:{_id:0,code:'$_id',OnMarketDays:1}}";
                     MongoReturnDataList<StockInfoMongoData> datas = secreader.GetAllVaildList<StockInfoMongoData>(insql);
-                    return datas.ToList(a => a.code).ToArray();
+                    string[] res = datas.ToList(a => a.code).ToArray();
+                    onMarketDays = datas.ToList(a => a.OnMarketDays).ToArray();
+                    return res;
                 }
                 else//单个个股
                 {
@@ -40,6 +42,7 @@ namespace WolfInv.com.SecurityLib
                     insql[2] = "{$match:{OnMarketDays:{$gt:{0}}}}".Replace("{0}", MinOnMarketDays.ToString());
                     insql[3] = "{$project:{_id:0,code:'$_id',OnMarketDays:1}}";
                     MongoReturnDataList<StockInfoMongoData> datas = secreader.GetAllVaildList<StockInfoMongoData>(insql);
+                    onMarketDays = datas.ToList(a => a.OnMarketDays).ToArray();
                     return datas.ToList(a => a.code).ToArray();
                 }
             }
@@ -53,9 +56,22 @@ namespace WolfInv.com.SecurityLib
                 insql[2] = "{$match:{OnMarketDays:{$gt:{0}},code:{$in:'{1}'}}}".Replace("{0}", MinOnMarketDays.ToString()).Replace("{1}", codes); ;
                 insql[3] = "{$project:{_id:0,code:'$_id',OnMarketDays:1}}";
                 MongoReturnDataList<StockInfoMongoData> datas = secreader.GetAllVaildList<StockInfoMongoData>(insql);
+                onMarketDays = datas.ToList(a => a.OnMarketDays).ToArray();
                 return datas.ToList(a => a.code).ToArray();
             }
             return ret;
+        }
+
+        public DateTime[] getMarketCalendar(string indexName,DateTime endt)
+        {
+            SecurityReader secreader = new SecurityReader(dtp.DataType, dtp.HistoryTable);
+            string[] insql = new string[4];
+            insql[0] = "{$match:{date:{$lt:'{0}'}}}".Replace("{0}", endt.ToString("yyyy-MM-dd")); ;
+            insql[1] = "{$match:{code:'{0}'}}".Replace("{0}", indexName);
+            insql[2] = "{$sort:{date:1}}";
+            insql[3] = "{$project:{date:1}}";
+            MongoReturnDataList<ExchangeMongoData> datas = secreader.GetAllVaildList<ExchangeMongoData>(insql);
+            return datas.ToList(a => DateTime.Parse(a.date)).ToArray();
         }
     }
 }

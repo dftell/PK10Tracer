@@ -46,6 +46,7 @@ namespace Test_Win
             GlobalObj gb = new GlobalObj();
             ////gb.w = new WindAPI();
             ////gb.w.start();
+            ///
             ReceiveService<TimeSerialData> rc = new ReceiveService<TimeSerialData>();
             rc.setGlobalClass(AllServiceConfig.gc);
             rc.CalcProcess = new CalcService<TimeSerialData>();
@@ -94,8 +95,8 @@ namespace Test_Win
         /// </summary>
         static void Main2()
         {
-            splitFile("share", "function", '}');
-            return;
+            //splitFile("share", "function", '}');
+            //return;
             try
             {
                 ////DateTime dt = new DateTime(1991,4,3,12,0,1,12);
@@ -161,7 +162,7 @@ namespace Test_Win
             ////    mcc = mcc.getAdd(i%10==0?1:0);
             ////}
             //return;
-            Main1();
+            Main2();
             return;
             Application.Run(new frm_ImageTextRead());
             return;

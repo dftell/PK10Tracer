@@ -376,8 +376,9 @@ ClearMyTracksByProcess 255
         {
             if(brec.Succ)
             {
+                string cols = "序号,关键字,彩种,投注期号,规则,内容,状态,投注容,返奖,盈利,时间";
                 DataTable dt = new DataTable();
-                dt.Columns.Add("序号");
+                /*dt.Columns.Add("序号");
                 dt.Columns.Add("关键字");
                 dt.Columns.Add("彩种");
                 dt.Columns.Add("规则");
@@ -386,7 +387,9 @@ ClearMyTracksByProcess 255
                 dt.Columns.Add("成本");
                 dt.Columns.Add("返奖");
                 dt.Columns.Add("盈利");
-                dt.Columns.Add("时间");
+                dt.Columns.Add("时间");*/
+                string[] arr = cols.Split(',');
+                arr.ToList().ForEach(a => dt.Columns.Add(a));
                 brec.Data.ForEach(
                     a =>
                     {
@@ -394,6 +397,7 @@ ClearMyTracksByProcess 255
                             a.ID,
                             a.Key,
                             a.GameName,
+                            a.SerialNo,
                             a.BetType,
                             a.Nums,
                             
@@ -1905,7 +1909,11 @@ ClearMyTracksByProcess 255
                 if (RefreshTimes > 0 && !inWorkTimeRange(dtpName))
                 {
                     DateTime TargetTime = DateTime.Today.AddHours(dtp.ReceiveStartTime.Hour).AddMinutes(dtp.ReceiveStartTime.Minute);
-                    tm.Interval = Math.Max(30*1000,(int)TargetTime.Subtract(CurrTime).TotalMilliseconds) + rndtime;
+                    if(DateTime.Now.TimeOfDay<(dtp.ReceiveEndTime == DateTime.MinValue?DateTime.Parse("23:59:00"):dtp.ReceiveEndTime).TimeOfDay)
+                    {
+                        TargetTime = DateTime.Today.AddDays(1).AddHours(dtp.ReceiveStartTime.Hour).AddMinutes(dtp.ReceiveStartTime.Minute);
+                    }
+                    tm.Interval = Math.Max(20*60*1000,(int)TargetTime.Subtract(CurrTime).TotalMilliseconds) + rndtime;
                     DateTime nextTime = DateTime.Now.AddMilliseconds(tm.Interval);
                     KnockEgg();//敲蛋
                     Application.DoEvents();
@@ -2280,7 +2288,7 @@ ClearMyTracksByProcess 255
                         MySleep(10*1000);//暂停，等发送消息
                         //reLoadWebBrowser();//开百度网页，睡觉
                         timers_RequestInst[tm.dtp.DataType].Interval = tm.Interval;//实际把计时器间隔往后推
-                        WXMsgBox(string.Format("{0}下次启动时间！",dtp.DataType), nextTime.ToString("yyyyMMdd HH:mm:ss"));
+                        WXMsgBox(string.Format("{0}下次启动时间1！",dtp.DataType), nextTime.ToString("yyyyMMdd HH:mm:ss"));
                     }
                     else
                     {
@@ -2355,8 +2363,8 @@ ClearMyTracksByProcess 255
                 DataTable dt = ret.SamplestTable();
                 if (IsAdmin)
                 {
-                    WXMsgBox(dt, "Weight", "Net");
-                    WXMsgBox(string.Format("{0}[{1}]最后一个波段信息", sti.DataType, sti.Expect), ret.LastArea?.Descript());
+                    //WXMsgBox(dt, "Weight", "Net");
+                    //WXMsgBox(string.Format("{0}[{1}]最后一个波段信息", sti.DataType, sti.Expect), ret.LastArea?.Descript());
                 }
                 if (!ret.LastArea.IsRaise)//如果是向下的，直接跳过，不可能止盈
                 {
@@ -3401,12 +3409,12 @@ ClearMyTracksByProcess 255
             Program.wxl.LogImage(msg, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
         }
 
-        public static string getImage64String(DataTable data,string XVal,string YVal)
+        public static string getImage64String(DataTable data,string XVal,string YVal)//作废
         {
             MemoryStream ms = new MemoryStream();
             try
             {
-                Chart chart = chart1;// new Chart();
+                Chart chart = null;// chart1;// new Chart();
                 chart.Dock = DockStyle.Fill;
                 //chart.Width = 800;
                 //chart.Height = 600;
@@ -3471,6 +3479,11 @@ ClearMyTracksByProcess 255
             }
 
             return strbaser64;
+        }
+
+        private void OCExchangeChartToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.chart1.Visible = !this.chart1.Visible;
         }
     }
 

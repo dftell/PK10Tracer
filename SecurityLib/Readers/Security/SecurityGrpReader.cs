@@ -29,7 +29,7 @@ namespace WolfInv.com.SecurityLib
 
         public MongoDataDictionary<T> GetResult(List<string[]> codes, Func<string[],MongoDataDictionary<T>> func,int MaxThreadCnt=20,int InterValMilSecs=1000)
         {
-            CheckEvent(codes.Select(a=>a.Length).Sum(), codes.Count, 0, 0,0);
+            CheckEvent?.Invoke(codes.Select(a=>a.Length).Sum(), codes.Count, 0, 0,0);
             List<string[]> codelist = codes;
             ExeFunc = func;
             GroupResult = new MongoDataDictionary<T>();
@@ -60,7 +60,7 @@ namespace WolfInv.com.SecurityLib
                         PoolCnt++;
                         Thread.Sleep(InterValMilSecs);
                     }
-                    CheckEvent(codes.Select(a => a.Length).Sum(),codes.Count, finished, PoolCnt, GroupResult.Count);
+                    CheckEvent?.Invoke(codes.Select(a => a.Length).Sum(),codes.Count, finished, PoolCnt, GroupResult.Count);
                     continue;
                 }
                 System.Threading.Thread.Sleep(InterValMilSecs);
@@ -70,7 +70,7 @@ namespace WolfInv.com.SecurityLib
 
         public MongoDataDictionary<T> GetResult(List<MongoDataDictionary<T>> codes, Func<MongoDataDictionary<T>, MongoDataDictionary<T>> func, int MaxThreadCnt = 20, int InterValMilSecs = 1000)
         {
-            CheckEvent(codes.Count, codes.Count, 0, 0, 0);
+            CheckEvent.Invoke(codes.Count, codes.Count, 0, 0, 0);
             List<MongoDataDictionary<T>> mongoCodeList = codes;
             ExecMongoFunc = func;
             GroupResult = new MongoDataDictionary<T>();
@@ -101,7 +101,7 @@ namespace WolfInv.com.SecurityLib
                         PoolCnt++;
                         Thread.Sleep(InterValMilSecs);
                     }
-                    CheckEvent(codes.Select(a=>a.Values.Count).Sum(), codes.Count, finished, PoolCnt, GroupResult.Count);
+                    CheckEvent.Invoke(codes.Select(a=>a.Values.Count).Sum(), codes.Count, finished, PoolCnt, GroupResult.Count);
                     continue;
                 }
                 System.Threading.Thread.Sleep(InterValMilSecs);
