@@ -11,20 +11,27 @@ using WolfInv.com.PK10CorePress;
 using WolfInv.com.BaseObjectsLib;
 namespace PK10Server
 {
-    public partial class frm_NewStrag : Form
+    public partial class frm_NewStrag<T>: Form where T:TimeSerialData
     {
         bool DllLoaded = false;
         public bool Saved;
-        public BaseStragClass<TimeSerialData> RetJson=null;
+        public BaseStragClass<T> RetJson=null;
         public frm_NewStrag()
         {
             InitializeComponent();
         }
-
+        Dictionary<string, Type> allTypes = null;
         private void frm_NewStrag_Load(object sender, EventArgs e)
         {
             //this.propertyGrid1.SelectedObject = new StragClass();
-            DataTable dt =StragClass.getAllStrags();
+            string key = null;
+            DataTypePoint dtp = GlobalClass.TypeDataPoints.First().Value;//.First().Key;
+            if(dtp.IsSecurityData == 1)
+            {
+                key = "Security";
+            }
+            
+            DataTable dt =BaseStragClass<T>.getAllStrags(key,ref allTypes);
             DataView dv = new DataView(dt);
             this.ddl_StragObjects.DataSource = dt;
             this.ddl_StragObjects.DisplayMember = "text";
@@ -42,8 +49,17 @@ namespace PK10Server
                 ////this.propertyGrid1.SelectedObject = StragClass.getStragByName(strName);
                 //this.propertyGrid1.SelectedObject = StragClass.getStragByName(strName);
                 string sc = this.ddl_StragObjects.SelectedValue.ToString();
-                StragClass scobj = StragClass.getStragByName(sc);
-                scobj.CommSetting.SetGlobalSetting(Program.AllGlobalSetting.gc);
+                //StragClass scobj = StragClass.getStragByName(sc);
+                Type sctype = allTypes[sc];
+
+                var t = sctype.MakeGenericType(typeof(T));
+                BaseStragClass<T>  scobj =   Activator.CreateInstance(t) as BaseStragClass<T>;
+                /*
+                BaseStragClass<T> scobj = Activator.CreateInstance(sctype) as BaseStragClass<T>;
+                */
+                if (scobj.CommSetting == null)
+                    scobj.CommSetting = new SettingClass();
+                scobj.CommSetting.SetGlobalSetting(Program<T>.AllGlobalSetting.gc);
                 this.propertyGrid1.SelectedObject = scobj;
                 this.propertyGrid1.Refresh();
             }
@@ -51,9 +67,9 @@ namespace PK10Server
 
         private void btn_Save_Click(object sender, EventArgs e)
         {
-            BaseStragClass<TimeSerialData> sc = this.propertyGrid1.SelectedObject as BaseStragClass<TimeSerialData>;
+            BaseStragClass<T> sc = this.propertyGrid1.SelectedObject as BaseStragClass<T>;
             if (sc == null) return;
-            //sc.CommSetting.SetGlobalSetting(Program.gc);
+            //sc.CommSetting.SetGlobalSetting(Program<T>.gc);
             RetJson = sc;
             Saved = true;
             this.Close();

@@ -25,7 +25,7 @@ namespace WolfInv.com.Strags
         {
             List<ChanceClass> ret = new List<ChanceClass>();
             CurrChancesCnt = 0;//置零，防止后面留存
-            ExpectList LastDataList = this.LastUseData();
+            ExpectList LastDataList = new ExpectList(this.LastUseData()?.Table);
             if(LastDataList == null)
             {
                 Log(this.StragClassName,"数据为空！");

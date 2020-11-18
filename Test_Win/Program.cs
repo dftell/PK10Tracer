@@ -14,6 +14,7 @@ using DataRecSvr;
 using WolfInv.com.BaseObjectsLib;
 using System.IO;
 using WolfInv.com.PK10CorePress;
+using WDDRecSvr;
 namespace Test_Win
 {
     public class GlobalObj
@@ -22,8 +23,17 @@ namespace Test_Win
         public SystemGlobal Sys;
     }
 
-   
     static class Program
+    {
+        [STAThread]
+        static void Main()
+        {
+            Program<TimeSerialData>.Main();
+        }
+    }
+
+
+    static class Program<T> where T:TimeSerialData
     {
         
         //public static ServiceSetting AllServiceConfig;
@@ -37,7 +47,7 @@ namespace Test_Win
             //splitFile("share", "function(", '}');
             //return;
             LogableClass.ToLog("初始化服务器全局设置", "开始");
-            InitSystem<TimeSerialData>();
+            InitSystem();
             LogableClass.ToLog("启动通道", "开始");
             new CommuniteClass().StartIPCServer();
             Application.EnableVisualStyles();
@@ -88,7 +98,7 @@ namespace Test_Win
             wr.Close();
         }
 
-        public static ServiceSetting<TimeSerialData> AllServiceConfig;
+        public static ServiceSetting<T> AllServiceConfig;
 
         /// <summary>
         /// 应用程序的主入口点。
@@ -112,15 +122,16 @@ namespace Test_Win
                 //    rs,sd
                 //};
                 LogableClass.ToLog("初始化服务器全局设置", "开始");
-                InitSystem<TimeSerialData>();
+                InitSystem();
                 LogableClass.ToLog("启动通道", "开始");
                 new CommuniteClass().StartIPCServer();
                 //ServiceBase.Run(ServicesToRun);
                 GlobalObj gb = new GlobalObj();
                 //gb.w = new WindAPI();
                 //gb.w.start();
-                //new ReceiveService().Start();
-
+                new ReceiveService<T>().Start();
+                //Service1<T> svr = new Service1<T>();
+                //svr.Start(true);
                 Form2 frm = new Form2(gb);
                 Application.Run(frm);
             }
@@ -133,7 +144,7 @@ namespace Test_Win
 
 
 
-        static void InitSystem<T>() where T : TimeSerialData
+        static void InitSystem()
         {
             LogableClass.ToLog("构建计算服务", "开始");
             //CalcService<T> cs = new CalcService<T>();
@@ -141,7 +152,7 @@ namespace Test_Win
             //ReceiveService<T> rs = new ReceiveService<T>();
             //SubscriptData sd = new SubscriptData();
             //rs.CalcProcess = cs;
-            AllServiceConfig = new ServiceSetting<TimeSerialData>();
+            AllServiceConfig = new ServiceSetting<T>();
             AllServiceConfig.Init(null);
             AllServiceConfig.GrpThePlan(false);
             AllServiceConfig.CreateChannel(GlobalClass.TypeDataPoints.First().Key);
@@ -149,11 +160,11 @@ namespace Test_Win
             AllServiceConfig.AllAssetUnits.Values.ToList<AssetUnitClass>().ForEach(p => p.Run());//打开各开关
             //RemoteCommClass<ServiceSetting>.SetRemoteInst(AllServiceConfig);
             //AllServiceConfig.AllLogs = new LogInfo().GetLogAfterDate(DateTime.Today.AddHours(-1));
-            DataRecSvr.Program.AllServiceConfig = AllServiceConfig;
+            DataRecSvr.Program<T>.AllServiceConfig = AllServiceConfig;
             //rs.Start();
         }
         [STAThread]
-        static void Main()
+        public static void Main()
         {
             ////MissDataSerial mcc = new MissDataSerial(300);
             ////mcc.OpList = new[] { 0, 2, 3, 1, 200, 90, 1, 1, 1, 1, 0 }.ToList();
@@ -176,7 +187,7 @@ namespace Test_Win
             splitFile("share", "function(", '}');
             //return;
             LogableClass.ToLog("初始化服务器全局设置", "开始");
-            InitSystem<TimeSerialData>();
+            InitSystem();
             LogableClass.ToLog("启动通道", "开始");
             new CommuniteClass().StartIPCServer();
             Application.EnableVisualStyles();

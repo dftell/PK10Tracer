@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<!--
+
+<DataSource Type="db" Src="Provider=sqloledb;data source=10.10.10.212;initial catalog=ITMS;user id=sa;password=bolts" />
+<DataSource id="itms" Type="db" Src="Provider=sqloledb;data source=10.10.10.212;initial catalog=ITMS;user id=sa;password=bolts" />
+<DataSource id="itms1" Type="db" Src="Provider=sqloledb;data source=CFZQ-ZHOUYS\SQLEXPRESS;initial catalog=ITMS;user id=sa;password=bolts" />
+-->
+	<DataSource id="itms" Type="db" Src="Provider=sqloledb;data source=share.wolfinv.com,1433;initial catalog=web;user id=sa;password=bolts"/>
+	<AppInfo title="深圳市武府投资管理系统" NoNeedLefTreeView="0" icon="wcs.ico" formtext="京东联盟系统" datasouce="fsms_userinfo" loginurl="https://sso.jdy.com/loginServlet?entityId=youshang-jdy&amp;assertHashType=3&amp;isJdy=true&amp;callback=jQuery111203353272857187357_1565442467301&amp;password={1}&amp;authCode=&amp;isProtocal=1&amp;isBind=false&amp;channelCode=&amp;name={0}&amp;mobile=&amp;_=1565442467303" entryurl="https://union.jd.com/overview" assemname="jdEBuy">
+		<UserInfos>
+			<f id="usercode" f="USR02" text="用户名"/>
+			<f id="password" f="USR07" text="密码"/>
+			<f id="username" f="USR03" text="姓名"/>
+			<f id="rolecode" f="USR06" text="职位代码"/>
+			<f id="rolename" f="ROL03" text="职位"/>
+			<f id="groupcode" f="USR04" text="公司代码"/>
+			<f id="groupname" f="GRP03" text="公司"/>
+			<f id="storecode" f="USR05" text="店面代码"/>
+			<f id="storename" f="STR03" text="店面"/>
+			<f id="curryear" f="CUI02" text="今年"/>
+			<f id="currmonth" f="CUI03" text="当月"/>
+			<f id="currday" f="CUI04" text="当日"/>
+			<f id="currdate" f="CUI05" text="今日"/>
+			
+		</UserInfos>
+		<Perm source="userfundperms" userpoint="USR02">
+			<f id="mapid" f="RPM01" text=""/>
+			<f id="funcid" f="RPM04" text="功能点"/>
+			<f id="permval" f="RPM03" text="权限值"/>
+		</Perm>
+		<Status>
+			<f id="username" f="IUI03" text="姓名"/>
+			<f id="groupname" f="深圳市武府投资发展有限公司" text="公司"/>
+			<f id="dptname" f="IUI06" text="服务部门"/>
+			<f id="rolename" f="管理员" text="职位"/>
+		</Status>
+	</AppInfo>
+</root>

@@ -3,12 +3,13 @@
 
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.GuideLib;
+using System.Collections.Generic;
 namespace WolfInv.com.SecurityLib
 {
     /// <summary>
     /// 选股策略基类
     /// </summary>
-    public abstract class CommStrategyBaseClass : CommDataBuilder, iCommBalanceMethod, iCommBreachMethod, iCommReverseMethod, iCommReadSecuritySerialData
+    public abstract class CommStrategyBaseClass<T> : CommDataBuilder, iCommBalanceMethod<T>, iCommBreachMethod<T>, iCommReverseMethod<T>, iCommReadSecuritySerialData where T:TimeSerialData
     {
         public CommStrategyBaseClass(CommDataIntface _w)
             : base(_w)
@@ -33,13 +34,14 @@ namespace WolfInv.com.SecurityLib
             {
                 if (this.SelectTable != null)
                 {
-                    return this.SelectTable[":", "Code"].ToList<string>().ToArray();
+                    return this.SelectTable.Keys.ToArray();
                 }
                 return new string[0];
             }
         }
-        protected BaseDataTable SelectTable;//证券清单
-        
+        //protected BaseDataTable SelectTable;//证券清单
+        protected MongoDataDictionary<T> SelectTable;//证券清单
+
         public RunResultClass Execute()
         {
             RunResultClass ret = new RunResultClass();
@@ -89,34 +91,38 @@ namespace WolfInv.com.SecurityLib
             RunNoticeClass ret = new RunNoticeClass();
             //BaseDataTable sectab = CommWDToolClass.GetMarketsStocks(w, InParam.SecIndex, InParam.EndT, InParam.OnMarketDays, InParam.CalcLastData, InParam.IsExcludeST, InParam.IsMAFilter, InParam.ExcludeSecList);
             //this.SelectTable = sectab;
-            this.SelectTable.AddColumnByArray<bool>("Enable", false);
+            //this.SelectTable;// AddColumnByArray<bool>("Enable", false);
             return ret;
         }
 
         public RunResultClass ExecSelect()
         {
             RunResultClass ret = new RunResultClass();
-            for (int i = 0; i < this.SelectTable.Count; i++)
+            foreach (string key in this.SelectTable.Keys)
             {
-                CommSecurityProcessClass spc = SingleSecPreProcess((BaseDataItemClass)this.SelectTable[i]);
-                this.SelectTable[i, "Enable"] = spc.Enable;
+                CommSecurityProcessClass<T> spc = SingleSecPreProcess(key,this.SelectTable[key]);
+                //this.SelectTable[i, "Enable"] = spc.Enable;
+                this.SelectTable[key].Disable = !spc.Enable;
             }
             return LastProcess(this.SelectTable);
         }
 
-        public CommSecurityProcessClass SingleSecPreProcess(BaseDataItemClass dr)
+        public CommSecurityProcessClass<T> SingleSecPreProcess(string key,MongoReturnDataList<T> dr)
         {
-            CommSecurityProcessClass ret = new CommSecurityProcessClass(dr);
+            CommSecurityProcessClass<T> ret = new CommSecurityProcessClass<T>(dr);
+            CommStrategyInClass OneIn = InParam;
+            OneIn.SecIndex = key;
+            OneIn.SecsPool = new List<string>();
             switch (LogicType)
             {
                 case CommStrategyLogicType.Reverse:
-                    ret = this.ReverseSelectSecurity(InParam);
+                    ret = this.ReverseSelectSecurity(OneIn);
                     break;
                 case CommStrategyLogicType.Breach:
-                    ret = this.BreachSelectSecurity(InParam);
+                    ret = this.BreachSelectSecurity(OneIn);
                     break;
                 case CommStrategyLogicType.Balance:
-                    ret = this.BalanceSelectSecurity(InParam);
+                    ret = this.BalanceSelectSecurity(OneIn);
                     break;
                 default:
                     break;
@@ -125,18 +131,18 @@ namespace WolfInv.com.SecurityLib
             return ret;
         }
 
-        public RunResultClass LastProcess(MTable mt)
+        public RunResultClass LastProcess(MongoDataDictionary<T> mt)
         {
             RunResultClass ret = new RunResultClass();
-            ret.Result = mt[string.Format(":{0}" ,InParam.TopN-1), "*"];
+            ret.Result = mt.Where(a=>!a.Value.Disable).Select(a=>a.Key).ToList();// mt[string.Format(":{0}" ,InParam.TopN-1), "*"];
             return ret;
         }
 
-        public abstract CommSecurityProcessClass BalanceSelectSecurity(CommStrategyInClass Input);
+        public abstract CommSecurityProcessClass<T> BalanceSelectSecurity(CommStrategyInClass Input);
 
-        public abstract CommSecurityProcessClass BreachSelectSecurity(CommStrategyInClass Input);
+        public abstract CommSecurityProcessClass<T> BreachSelectSecurity(CommStrategyInClass Input);
 
-        public abstract CommSecurityProcessClass ReverseSelectSecurity(CommStrategyInClass Input);
+        public abstract CommSecurityProcessClass<T> ReverseSelectSecurity(CommStrategyInClass Input);
 
         public abstract BaseDataTable ReadSecuritySerialData(string Code);
     }

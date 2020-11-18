@@ -48,3 +48,4 @@ E:\github\source\dftell\PK10Tracer\SecurityStragLib\obj\Debug\WolfInv.com.Securi
 E:\github\source\dftell\PK10Tracer\SecurityStragLib\obj\Debug\WolfInv.com.SecurityStragLib.csproj.CopyComplete
 E:\github\source\dftell\PK10Tracer\SecurityStragLib\obj\Debug\WolfInv.com.SecurityStragLib.dll
 E:\github\source\dftell\PK10Tracer\SecurityStragLib\obj\Debug\WolfInv.com.SecurityStragLib.pdb
+E:\github\project\PK10Tracer\WolfInv.com.SecurityStragLib.dll.config

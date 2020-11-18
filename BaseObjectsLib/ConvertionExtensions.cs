@@ -463,4 +463,108 @@ namespace WolfInv.com.BaseObjectsLib
         }
     }
 
+    public delegate T[] paramObjs<T>(T[] data, params object[] args);
+    public static class Extends
+    {
+        public static T[] fullFuncs<T>(paramObjs<T> func, T[] data, params object[] ars)
+        {
+            return func(data, ars);
+        }
+        public static T[] Get<T>(this T[] data, int N, paramObjs<T> func)
+        {
+            return func(data, N);
+        }
+
+        public static BaseDataTable NDay<T>(this ExpectList<T> data, int N, params object[] objs) where T:TimeSerialData
+        {
+            ExpectList<T> useData = data.LastDatas(data.LastData.Expect,N,true);
+            BaseDataTable ret = new BaseDataTable();
+            List<string> cols = new List<string>();
+            List<T[]> funcs = new List<T[]>();
+            int colcnt = 0;
+            for (int i = 0; i < objs.Length; i++)
+            {
+                if (objs[i] is string)
+                {
+                    cols.Add((string)objs[i]);
+                    colcnt++;
+                }
+                else
+                {
+                    if (i >= 2 * colcnt)
+                    {
+                        break;
+                    }
+                    funcs.Add(objs[i] as T[]);
+                }
+            }
+            List<Single[]> vals = new List<float[]>();
+            for (int i = 0; i < cols.Count; i++)
+            {
+                ret.GetTable().Columns.Add(cols[i]);
+
+            }
+
+            for (int i = 0; i < useData.Count; i++)
+            {
+                DataRow dr = ret.GetTable().NewRow();
+                for (int c = 0; c < cols.Count; c++)
+                {
+                    dr[c] = funcs[c][i];
+                }
+                ret.GetTable().Rows.Add(dr);
+            }
+            return ret;
+        }
+
+    }
+
+    public static class WDEquitCodeExtenel
+    {
+        public static string WDCode(this string code)
+        {
+            string ret = code;
+            if (code.Split('.').Length > 1)
+                return ret;
+            string flg = "SZ";
+            if (code.StartsWith("6"))
+            {
+                flg = "SH";
+            }
+            return string.Format("{0}.{1}", code, flg);
+        }
+
+        public static string WDDate(this string datetime, string srcFormat = "yyyy-MM-dd", string toFormat = "yyyy-MM-dd")
+        {
+            DateTime dt;
+            bool succ = DateTime.TryParseExact(datetime, srcFormat, null, System.Globalization.DateTimeStyles.None, out dt);
+            if (succ)
+                return dt.ToString(toFormat);
+            return datetime;
+        }
+
+        public static string WDDate(this DateTime datetime, string format = "yyyy-MM-dd")
+        {
+            return datetime.ToString(format);
+        }
+
+        public static DateTime ToDate(this string datetime, string format = "yyyy-MM-dd")
+        {
+            DateTime dt;
+            bool succ = DateTime.TryParseExact(datetime, format, null, System.Globalization.DateTimeStyles.None, out dt);
+            if (succ)
+                return dt;
+            return dt;
+        }
+
+        public static long ToLong(this string datetime,string toFormat = "yyyyMMddHHmmss",string fromFormat ="yyyy-MM-dd")
+        {
+            DateTime dt = ToDate(datetime,fromFormat);
+            long ret = 0;
+            long.TryParse(dt.WDDate(fromFormat), out ret);
+            return ret;
+        }
+    }
+
+
 }

@@ -3,6 +3,11 @@ using System.Text;
 namespace WolfInv.com.GuideLib
 {
 
+    public enum BasePriceAndVol
+    {
+        windcode, sec_name,   open, high, low, close, volume,amt
+    }
+
     public enum BaseDataPoint
     {
         windcode, sec_name, riskadmonition_date, ipo_date, open, high, low, close, volume, trade_status, susp_days, maxupordown, sec_type, pct_chg

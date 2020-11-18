@@ -12,12 +12,12 @@ using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.ExchangeLib;
 namespace WolfInv.com.ExchangeLib
 {
-    public partial class RunPlanPicker : UserControl
+    public partial class RunPlanPicker<T> : UserControl where T:TimeSerialData
     {
-        StragRunPlanClass<TimeSerialData>[] _Plans;
+        StragRunPlanClass<T>[] _Plans;
         [Description("策略运行计划")]
         [Editor(typeof(CommPickerEditor<StragRunPlanClass<TimeSerialData>>), typeof(UITypeEditor))] 
-        public StragRunPlanClass<TimeSerialData>[] Plans
+        public StragRunPlanClass<T>[] Plans
         {
             get
             {
@@ -38,9 +38,9 @@ namespace WolfInv.com.ExchangeLib
 
         private void btn_select_Click(object sender, EventArgs e)
         {
-            StragRunPlanClass<TimeSerialData> srp = new StragRunPlanClass<TimeSerialData>();
-            Dictionary<string,StragRunPlanClass<TimeSerialData>> list = srp.getAllListFromDb<StragRunPlanClass<TimeSerialData>>().ToDictionary(p=>p.GUID,p=>p);
-            CommSelectOjectDialog<StragRunPlanClass<TimeSerialData>> frm = new CommSelectOjectDialog<StragRunPlanClass<TimeSerialData>>(list,"GUID",true,"策略运行计划");
+            StragRunPlanClass<T> srp = new StragRunPlanClass<T>();
+            Dictionary<string,StragRunPlanClass<T>> list = srp.getAllListFromDb<StragRunPlanClass<T>>().ToDictionary(p=>p.GUID,p=>p);
+            CommSelectOjectDialog<StragRunPlanClass<T>> frm = new CommSelectOjectDialog<StragRunPlanClass<T>>(list,"GUID",true,"策略运行计划");
             frm.ShowDialog(this.Parent);
             _Plans = frm.SelectObjects;
             if (_Plans == null) return;
@@ -50,7 +50,7 @@ namespace WolfInv.com.ExchangeLib
 
         private void textBox1_DoubleClick(object sender, EventArgs e)
         {
-            this._Plans = new StragRunPlanClass<TimeSerialData>[]{};
+            this._Plans = new StragRunPlanClass<T>[]{};
             this.textBox1.Text = "";
         }
     }

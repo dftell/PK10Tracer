@@ -20,12 +20,12 @@ namespace DataRecSvr
         /// <param name="gc"></param>
         public void setGlobalClass(GlobalClass gc)
         {
-            Program.gc = gc;
+            Program<T>.gc = gc;
         }
 
-        public void setAllSettingConfig(WolfInv.com.ServerInitLib.ServiceSetting<TimeSerialData> setting)
+        public void setAllSettingConfig(WolfInv.com.ServerInitLib.ServiceSetting<T> setting)
         {
-            Program.AllServiceConfig = setting;
+            Program<T>.AllServiceConfig = setting;
         }
 
         //protected WXLogClass wxl = new WXLogClass("服务器管理员",GlobalClass.LogUser, GlobalClass.LogUrl);
@@ -46,7 +46,7 @@ namespace DataRecSvr
         {
             LogableClass.ToLog(this.ServiceName, topic, msg);
             if(ToWXMsg)
-                Program.AllServiceConfig.wxlog.Log(this.ServiceName, topic, msg, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                Program<T>.AllServiceConfig.wxlog.Log(this.ServiceName, topic, msg, string.Format(Program<T>.gc.WXLogUrl, Program<T>.gc.WXSVRHost));
         }
     }
 }

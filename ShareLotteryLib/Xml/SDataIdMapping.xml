@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flds type="db">
+	<!--china zhou-->
+	<f id="COL01" col="ColorID" type="int" len="4" tab="FSMS_CommonColors" iden="1"/>
+	<!--颜色编号-->
+	<f id="COL02" col="ColorCode" type="varchar" len="20" tab="FSMS_CommonColors"/>
+	<!--颜色代码-->
+	<f id="COL03" col="ColorName" type="varchar" len="50" tab="FSMS_CommonColors"/>
+	<!--颜色-->
+	<f id="COL04" col="ColorImage" type="varchar" len="250" tab="FSMS_CommonColors"/>
+	<!--颜色图像-->
+	<f id="CTA01" col="AddressID" type="int" len="4" tab="FSMS_CustomerAddress" iden="1"/>
+	<!--地址编号-->
+	<f id="CTA02" col="AddressCode" type="varchar" len="20" tab="FSMS_CustomerAddress"/>
+	<!--地址代码-->
+	<f id="CTA03" col="Address" type="varchar" len="250" tab="FSMS_CustomerAddress"/>
+	<!--地址-->
+	<f id="CTA04" col="CustomerCode" type="varchar" len="50" tab="FSMS_CustomerAddress"/>
+	<!--客户编码-->
+	<f id="CTA05" col="Floor" type="varchar" len="50" tab="FSMS_CustomerAddress"/>
+	<!--楼层-->
+	<f id="CTA06" col="Tel" type="varchar" len="50" tab="FSMS_CustomerAddress"/>
+	<!--电话-->
+	<f id="CTA07" col="CellPhone" type="varchar" len="50" tab="FSMS_CustomerAddress"/>
+	<!--手机-->
+	<f id="CTA08" col="Longitude" type="varchar" len="50" tab="FSMS_CustomerAddress"/>
+	<!--经度-->
+	<f id="CTA09" col="Latitude" type="varchar" len="50" tab="FSMS_CustomerAddress"/>
+	<!--纬度-->
+	<f id="CTA10" col="Remark" type="varchar" len="500" tab="FSMS_CustomerAddress"/>
+	<!--备注-->
+	<f id="CTA11" col="SaleNo" type="varchar" len="20" tab="FSMS_CustomerAddress"/>
+	<!--销售单号-->
+	<f id="CTB01" col="CustomerID" type="int" len="4" tab="FSMS_CustomerBase" iden="1"/>
+	<!--客户编号-->
+	<f id="CTB02" col="CustomerCode" type="varchar" len="20" tab="FSMS_CustomerBase"/>
+	<!--客户代码-->
+	<f id="CTB03" col="CustomerName" type="varchar" len="150" tab="FSMS_CustomerBase"/>
+	<!--客户姓名-->
+	<f id="CTB04" col="OwnerGroup" type="varchar" len="20" tab="FSMS_CustomerBase" ref=""/>
+	<!--所属公司-->
+	<f id="CTB05" col="OwnerStore" type="varchar" len="20" tab="FSMS_CustomerBase" ref=""/>
+	<!--所属店面-->
+	<f id="CTB06" col="Male" type="int" len="4" tab="FSMS_CustomerBase"/>
+	<!--性别-->
+	<f id="CTB07" col="CreatedDate" type="smalldatetime" len="4" tab="FSMS_CustomerBase"/>
+	<!--建立日期-->
+	<f id="CTB08" col="CreatedBy" type="varchar" len="20" tab="FSMS_CustomerBase"/>
+	<!--建立人-->
+	<f id="CTB09" col="SaleNo" type="varchar" len="20" tab="FSMS_CustomerBase" ref="SSB02"/>
+	<!--销售单号-->
+	<f id="PMS01" col="PermissionID" type="int" len="4" tab="FSMS_Permissions" iden="1"/>
+	<!--权限编号-->
+	<f id="PMS02" col="PermissionCode" type="varchar" len="20" tab="FSMS_Permissions"/>
+	<!--权限代码-->
+	<f id="PMS03" col="PermissionName" type="varchar" len="50" tab="FSMS_Permissions"/>
+	<!--权限名-->
+	<f id="PMS04" col="Remark" type="varchar" len="250" tab="FSMS_Permissions"/>
+	<!--备注-->
+	<f id="PMS05" col="ParentPerm" type="varchar" len="20" tab="FSMS_Permissions"/>
+	<!--父权限代码-->
+	<f id="PGM01" col="ProdGroupId" type="int" len="4" tab="FSMS_ProdGroupMapping" iden="1"/>
+	<!--产品组编号-->
+	<f id="PGM02" col="GroupCode" type="varchar" len="20" tab="FSMS_ProdGroupMapping" ref="PG001"/>
+	<!--产品组代码-->
+	<f id="PGM03" col="SubCode" type="varchar" len="50" tab="FSMS_ProdGroupMapping" ref="PP001"/>
+	<!--组成产品代码-->
+	<f id="PGM04" col="SubProdCount" type="int" len="4" tab="FSMS_ProdGroupMapping"/>
+	<!--组成产品件数-->
+	<f id="PDT01" col="TypeID" type="int" len="4" tab="FSMS_ProdType" iden="1"/>
+	<!--产品类型编号-->
+	<f id="PDT02" col="TypeCode" type="varchar" len="20" tab="FSMS_ProdType"/>
+	<!--产品类型代码-->
+	<f id="PDT03" col="TypeName" type="varchar" len="100" tab="FSMS_ProdType"/>
+	<!--产品类型名-->
+	<f id="PDT04" col="Series" type="varchar" len="20" tab="FSMS_ProdType" ref=""/>
+	<!--系列-->
+	<!--Table: FSMS_SerieProdTypes Alias Name:SPT-->
+	<f id="SPT01" col="ProdTypeMapId" tab="FSMS_SerieProdTypes" type="int" len="4" iden="1"/>
+	<f id="SPT02" col="ProdType" tab="FSMS_SerieProdTypes" type="varchar" len="20" ref="PDT02"/>
+	<f id="SPT03" col="SerieNo" tab="FSMS_SerieProdTypes" type="varchar" len="20" ref="SER02"/>
+	<f id="PRC01" col="ProdPriceId" type="int" len="4" tab="FSMS_ProducePrices" iden="1"/>
+	<!--产品价格编号-->
+	<f id="PRC02" col="ProdCode" type="varchar" len="20" tab="FSMS_ProducePrices" ref="PRD02"/>
+	<!--产品价格代码-->
+	<f id="PRC03" col="IsSpecPrice" type="int" len="4" tab="FSMS_ProducePrices"/>
+	<!--是否特价-->
+	<f id="PRC04" col="PurchasePrice" type="money" len="8" tab="FSMS_ProducePrices"/>
+	<!--采购价-->
+	<f id="PRC05" col="PurchaseAigoLimit" type="int" len="4" tab="FSMS_ProducePrices"/>
+	<!--最大折扣率-->
+	<f id="PRC06" col="PurPrice_Start" type="smalldatetime" len="4" tab="FSMS_ProducePrices"/>
+	<!--采购价开始时间-->
+	<f id="PRC07" col="PurPirce_End" type="smalldatetime" len="4" tab="FSMS_ProducePrices"/>
+	<!--采购价结束时间-->
+	<f id="PRC08" col="SalePrice" type="money" len="8" tab="FSMS_ProducePrices"/>
+	<!--销售价-->
+	<f id="PRC09" col="SaleAigoLimit" type="int" len="4" tab="FSMS_ProducePrices"/>
+	<!--销售最大折扣-->
+	<f id="PRC10" col="SalePrice_Start" type="smalldatetime" len="4" tab="FSMS_ProducePrices"/>
+	<!--销售价开始日期-->
+	<f id="PRC11" col="SalePrice_End" type="smalldatetime" len="4" tab="FSMS_ProducePrices"/>
+	<!--销售价结束日期-->
+	<f id="PRC12" col="ModifiedBy" type="varchar" len="20" tab="FSMS_ProducePrices"/>
+	<!--修改者-->
+	<f id="PRC13" col="ModifiedDate" type="smalldatetime" len="4" tab="FSMS_ProducePrices"/>
+	<!--修改日期-->
+	<f id="PRC14" col="IsPurchaseSpecPrice" type="int" len="4" tab="FSMS_ProducePrices"/>
+	<!--是否特价采购-->
+	<!--Table: vw_FSMS_PrdGroups Alias Name:PG-->
+	<f id="PG001" col="ProdCode" tab="vw_FSMS_PrdGroups" type="varchar" len="20" ref="PRD02"/>
+	<f id="PG002" col="ProdName" tab="vw_FSMS_PrdGroups" type="varchar" len="200"/>
+	<!--Table: vw_FSMS_PrdGroups Alias Name:PP-->
+	<f id="PP001" col="ProdCode" tab="vw_FSMS_PrdParts" type="varchar" len="20" ref="PRD02"/>
+	<f id="PP002" col="ProdName" tab="vw_FSMS_PrdParts" type="varchar" len="200"/>
+	<f id="PP003" col="TradeMark" tab="vw_FSMS_PrdParts" type="varchar" len="200" ref="TMK02"/>
+	<f id="PP004" col="purchaseprice" type="int" len="4" tab="vw_FSMS_PrdParts"/>
+	<!--组成产品价格-->
+	<!--{"id":129609327892386545,
+"productNumber":"0001",
+"productName":"立顿红茶茶包",
+"spec":"2g/包 100包/盒 ，单位：盒",
+"categoryId":129609327892386541,
+"categoryName":"立顿",
+"unit":129609327892386544,
+"unitName":"瓶",
+"unitType":0,
+"unitTypeName":"",
+"barcode":"",
+"primaryStock":"默认仓库",
+"invSku":[],"multiImg":[],
+"retailPrice":39.41,零售价
+"wholeSalePrice":0,批发价
+"vipPrice":0,
+"discount":0,
+"discount2":0,
+"elsPurPrice":33.5,采购价
+"isDeleted":false,
+"createTime":"2019-07-08 15:00:27",
+"updateTime":"2019-07-08 15:00:27",
+"isWarranty":false,
+"safeDays":0,
+"advanceDays":0,
+"isSerNum":0,"highQty":0,
+"lowQty":0,"warehouseWarning":0}-->
+	<f id="PRD01" col="ProdID" type="int" text="id" len="4" tab="FSMS_Produces" iden="1"/>
+	<!--产品编号-->
+	<f id="PRD02" col="ProdCode" type="varchar" len="20" tab="FSMS_Produces"/>
+	<!--产品代码-->
+	<f id="PRD03" col="ProdName" type="varchar" len="200" tab="FSMS_Produces"/>
+	<!--产品名-->
+	<f id="PRD04" col="TradeMark" type="varchar" len="20" tab="FSMS_Produces" ref="TMK02"/>
+	<!--品牌-->
+	<f id="PRD05" col="Series" type="varchar" len="20" tab="FSMS_Produces" ref="SER02"/>
+	<!--系列-->
+	<f id="PRD06" col="ProdType" type="varchar" len="20" tab="FSMS_Produces" ref="PDT02"/>
+	<!--产品类型-->
+	<f id="PRD07" col="Spac" type="varchar" len="50" tab="FSMS_Produces"/>
+	<!--规格-->
+	<f id="PRD08" col="TradeMarkColor" type="varchar" len="20" tab="FSMS_Produces" ref="TMC02"/>
+	<!--颜色-->
+	<f id="PRD09" col="TradeMarkMeterial" type="varchar" len="20" tab="FSMS_Produces" ref=""/>
+	<!--材料-->
+	<f id="PRD10" col="Remark" type="varchar" len="500" tab="FSMS_Produces"/>
+	<!--备注-->
+	<f id="PRD11" col="ImagePath" type="varchar" len="200" tab="FSMS_Produces"/>
+	<!--图片路径-->
+	<f id="PRD12" col="VrmlPath" type="varchar" len="250" tab="FSMS_Produces"/>
+	<!--虚拟文件路径-->
+	<f id="PRD13" col="StopProd" type="int" len="4" tab="FSMS_Produces"/>
+	<!--是否停产-->
+	<f id="PRD14" col="Disable" type="int" len="4" tab="FSMS_Produces"/>
+	<!--禁用-->
+	<f id="PRD15" col="ModifiedDate" type="varchar" len="12" tab="FSMS_Produces"/>
+	<!--修改日期-->
+	<f id="PRD16" col="ModifiedBy" type="varchar" len="50" tab="FSMS_Produces"/>
+	<!--修改者-->
+	<f id="PRD17" col="IsGroup" type="int" len="4" tab="FSMS_Produces"/>
+	<f id="PRD18" col="GroupId" type="varchar" len="40" tab="FSMS_Produces"/>
+	<!--组成-->
+	<f id="PSB01" col="PurchaseID" type="int" len="4" tab="FSMS_PurchaseSheetBase" iden="1"/>
+	<!--采购单编号-->
+	<f id="PSB02" col="PurchaseNo" type="varchar" len="20" tab="FSMS_PurchaseSheetBase"/>
+	<!--采购单代码-->
+	<f id="PSB03" col="OwnerGroup" type="varchar" len="20" tab="FSMS_PurchaseSheetBase"/>
+	<!--公司-->
+	<f id="PSB04" col="TradeMark" type="varchar" len="20" tab="FSMS_PurchaseSheetBase" ref="TMK02"/>
+	<!--品牌-->
+	<f id="PSB05" col="OwnerStore" type="varchar" len="20" tab="FSMS_PurchaseSheetBase" ref="STR02"/>
+	<!--店面-->
+	<f id="PSB06" col="PurchaseDate" type="smalldatetime" len="4" tab="FSMS_PurchaseSheetBase"/>
+	<!--采购日期-->
+	<f id="PSB07" col="SendBy" type="varchar" len="20" tab="FSMS_PurchaseSheetBase"/>
+	<!--下单人-->
+	<f id="PSB08" col="SendType" type="varchar" len="20" tab="FSMS_PurchaseSheetBase"/>
+	<!--下单类型-->
+	<f id="PSB09" col="CheckedBy" type="varchar" len="20" tab="FSMS_PurchaseSheetBase"/>
+	<!--审核人-->
+	<f id="PSB10" col="SendTo" type="varchar" len="20" tab="FSMS_PurchaseSheetBase"/>
+	<!--发送到-->
+	<f id="PSB11" col="ExpectRecDate" type="smalldatetime" len="4" tab="FSMS_PurchaseSheetBase"/>
+	<!--计划到货日-->
+	<f id="PSB12" col="CreatedDate" type="smalldatetime" len="4" tab="FSMS_PurchaseSheetBase"/>
+	<!--建立日期-->
+	<f id="PSB13" col="CreatedBy" type="varchar" len="20" tab="FSMS_PurchaseSheetBase"/>
+	<!--建立者-->
+	<f id="PSB14" col="ModifiedDate" type="smalldatetime" len="4" tab="FSMS_PurchaseSheetBase"/>
+	<!--修改日期-->
+	<f id="PSB15" col="ModifiedBy" type="varchar" len="20" tab="FSMS_PurchaseSheetBase"/>
+	<!--修改者-->
+	<f id="PSB16" col="Disable" type="int" len="4" tab="FSMS_PurchaseSheetBase"/>
+	<!--禁用-->
+	<f id="SAF01" col="AmountInfoID" type="int" len="4" tab="FSMS_SaleSheetAmountInfos" iden="1"/>
+	<!--金额编号-->
+	<f id="SAF02" col="SaleSheetNo" type="varchar" len="20" tab="FSMS_SaleSheetAmountInfos" ref="SSB02"/>
+	<!--销售单号-->
+	<f id="SAF03" col="OrigAmount" type="int" len="4" tab="FSMS_SaleSheetAmountInfos"/>
+	<!--折扣前价-->
+	<f id="SAF04" col="FinalAmount" type="int" len="4" tab="FSMS_SaleSheetAmountInfos"/>
+	<!--折扣后价-->
+	<f id="SAF05" col="CardPayAmount" type="int" len="4" tab="FSMS_SaleSheetAmountInfos"/>
+	<!--卡付金额-->
+	<f id="SAF06" col="CashPayAmount" type="int" len="4" tab="FSMS_SaleSheetAmountInfos"/>
+	<!--现付金额-->
+	<f id="SAF07" col="Aigo" type="numeric" len="9" tab="FSMS_SaleSheetAmountInfos"/>
+	<!--折扣率-->
+	<f id="SAF08" col="SumProduceCount" type="int" len="4" tab="FSMS_SaleSheetAmountInfos"/>
+	<!--总价-->
+	<f id="SAF09" col="AigoChecked" type="varchar" len="20" tab="FSMS_SaleSheetAmountInfos"/>
+	<!--折扣审核-->
+	<f id="SAF10" col="Checked" type="int" len="4" tab="FSMS_SaleSheetAmountInfos"/>
+	<!--通过审核-->
+	<f id="SAF11" col="Comment" type="varchar" len="500" tab="FSMS_SaleSheetAmountInfos"/>
+	<!--备注-->
+	<f id="SAF12" col="Balanced" type="int" len="500" tab="FSMS_SaleSheetAmountInfos"/>
+	<!--对帐-->
+	<f id="SAF13" col="SelfRecivedAmount" type="int" len="500" tab="FSMS_SaleSheetAmountInfos"/>
+	<!--自收金额-->
+	<f id="SSD01" col="SaleDetailID" type="int" len="4" tab="FSMS_SaleSheetDetails" iden="1"/>
+	<!--销售明细编号-->
+	<f id="SSD02" col="SaleSheetNo" type="varchar" len="20" tab="FSMS_SaleSheetDetails"/>
+	<f id="SSD03" col="Produce" type="varchar" len="20" tab="FSMS_SaleSheetDetails"/>
+	<f id="SSD04" col="Spac" type="varchar" len="200" tab="FSMS_SaleSheetDetails"/>
+	<f id="SSD05" col="Colour" type="varchar" len="20" tab="FSMS_SaleSheetDetails"/>
+	<f id="SSD06" col="Meterial" type="varchar" len="20" tab="FSMS_SaleSheetDetails"/>
+	<f id="SSD07" col="Style" type="varchar" len="250" tab="FSMS_SaleSheetDetails"/>
+	<f id="SSD08" col="ProdCount" type="int" len="4" tab="FSMS_SaleSheetDetails"/>
+	<f id="SSD10" col="SendPoint" type="varchar" len="50" tab="FSMS_SaleSheetDetails" ref="CTA02"/>
+	<f id="SSD11" col="Amount" type="varchar" len="50" tab="FSMS_SaleSheetDetails"/>
+	<f id="SSD12" col="mainQty" type="varchar" len="50" tab="FSMS_SaleSheetDetails"/>
+	<f id="SSD13" col="discRate" type="varchar" len="50" tab="FSMS_SaleSheetDetails"/>
+	<f id="SSD14" col="discAmt" type="varchar" len="50" tab="FSMS_SaleSheetDetails"/>
+	<f id="SSD15" col="sendstoge" type="varchar" len="50" tab="FSMS_SaleSheetDetails"/>
+	<!--数量-->
+	<f id="SFI01" col="FixInfoID" type="int" len="4" tab="FSMS_SaleSheetFixInfos" iden="1"/>
+	<!--安装编号-->
+	<f id="SFI02" col="SaleSheetNo" type="varchar" len="20" tab="FSMS_SaleSheetFixInfos" ref="SSB02"/>
+	<!--销售单号-->
+	<f id="SFI03" col="ExpectDate" type="smalldatetime" len="4" tab="FSMS_SaleSheetFixInfos"/>
+	<!--预计安装日期-->
+	<f id="SFI04" col="AddressInfo" type="varchar" len="20" tab="FSMS_SaleSheetFixInfos" ref="CTA02"/>
+	<!--地址代码-->
+	<f id="SFI05" col="FiXBy" type="varchar" len="20" tab="FSMS_SaleSheetFixInfos"/>
+	<!--安装工-->
+	<f id="SFI06" col="FixDate" type="smalldatetime" len="4" tab="FSMS_SaleSheetFixInfos"/>
+	<!--安装日期-->
+	<f id="SFI07" col="RecRestAmount" type="int" len="4" tab="FSMS_SaleSheetFixInfos"/>
+	<!--接收余款数-->
+	<f id="SFI08" col="RestAmount" type="int" len="4" tab="FSMS_SaleSheetFixInfos"/>
+	<!--剩余金额-->
+	<f id="SFI09" col="Fixed" type="int" len="4" tab="FSMS_SaleSheetFixInfos"/>
+	<!--是否安装-->
+	<f id="SFI10" col="Remark" type="varchar" len="500" tab="FSMS_SaleSheetFixInfos"/>
+	<!--备注-->
+	<f id="SSB01" col="SaleID" type="int" len="4" tab="FSMS_SaleSheetsBase" iden="1"/>
+	<!--销售单编号-->
+	<f id="SSB02" col="SelfCode" type="varchar" len="50" tab="FSMS_SaleSheetsBase"/>
+	<!--销售单号-->
+	<f id="SSB03" col="OwnerGroup" type="varchar" len="20" tab="FSMS_SaleSheetsBase"/>
+	<!--公司-->
+	<f id="SSB04" col="Store" type="varchar" len="20" tab="FSMS_SaleSheetsBase" ref="STR02"/>
+	<!--店面-->
+	<f id="SSB11" col="CustomerId" type="varchar" len="4" tab="FSMS_SaleSheetsBase"/>
+	<f id="SSB12" col="送货地" type="varchar" len="4" tab="FSMS_SaleSheetsBase"/>
+	<f id="SSB13" col="批次号" type="varchar" len="4" tab="FSMS_SaleSheetsBase"/>
+	<f id="SSB05" col="CreatedDate" type="varchar" len="4" tab="FSMS_SaleSheetsBase"/>
+	<!--建立时间-->
+	<f id="SSB06" col="CreatedBy" type="varchar" len="20" tab="FSMS_SaleSheetsBase" ref="USR02"/>
+	<!--建立人-->
+	<f id="SSB07" col="ModifiedDate" type="varchar" len="50" tab="FSMS_SaleSheetsBase"/>
+	<!--修改时间-->
+	<f id="SSB08" col="ModifiedBy" type="varchar" len="20" tab="FSMS_SaleSheetsBase"/>
+	<!--修改人-->
+	<f id="SSB09" col="IsProspects" type="int" len="4" tab="FSMS_SaleSheetsBase"/>
+	<!--意向单-->
+	<f id="SSB10" col="Disabled" type="int" len="4" tab="FSMS_SaleSheetsBase"/>
+	<!--禁用-->
+	<f id="SER01" col="SeriesID" type="int" len="4" tab="FSMS_Series" iden="1"/>
+	<!--系列编号-->
+	<f id="SER02" col="SeriesCode" type="varchar" len="20" tab="FSMS_Series"/>
+	<!--系列代码-->
+	<f id="SER03" col="SeriesName" type="varchar" len="50" tab="FSMS_Series"/>
+	<!--系列名-->
+	<f id="SER04" col="TradeMark" type="varchar" len="20" tab="FSMS_Series" ref="TMK02"/>
+	<!--品牌-->
+	<f id="SER05" col="Remark" type="varchar" len="500" tab="FSMS_Series"/>
+	<!--备注-->
+	<f id="STG01" col="StorageID" type="int" len="4" tab="FSMS_Storages" iden="1"/>
+	<!--仓库编号-->
+	<f id="STG02" col="StorageCode" type="varchar" len="50" tab="FSMS_Storages"/>
+	<!--仓库代码-->
+	<f id="STG03" col="StorageName" type="varchar" len="50" tab="FSMS_Storages"/>
+	<!--仓库名-->
+	<f id="STG04" col="OwnerGroup" type="varchar" len="50" tab="FSMS_Storages"/>
+	<!--公司-->
+	<f id="STG05" col="OwnerStore" type="varchar" len="50" tab="FSMS_Storages"/>
+	<!--店面-->
+	<f id="STG06" col="Position" type="varchar" len="50" tab="FSMS_Storages"/>
+	<!--位置-->
+	<f id="SGG01" col="StoreGroupID" type="int" len="4" tab="FSMS_StoreGroups" iden="1"/>
+	<!--公司店面编号-->
+	<f id="SGG02" col="StoreGroupCode" type="varchar" len="20" tab="FSMS_StoreGroups"/>
+	<!--公司代码-->
+	<f id="SGG03" col="StoreGroupName" type="varchar" len="50" tab="FSMS_StoreGroups"/>
+	<!--公司名-->
+	<f id="SGG04" col="Remark" type="varchar" len="250" tab="FSMS_StoreGroups"/>
+	<!--备注-->
+	<f id="STR01" col="StoreID" type="int" len="4" tab="FSMS_Stores" iden="1"/>
+	<!--店面编号-->
+	<f id="STR02" col="StoreCode" type="varchar" len="20" tab="FSMS_Stores"/>
+	<!--店面代码-->
+	<f id="STR03" col="StoreName" type="varchar" len="200" tab="FSMS_Stores"/>
+	<!--店面名-->
+	<f id="STR04" col="OwnerGroup" type="varchar" len="20" tab="FSMS_Stores" ref="SGG02"/>
+	<!--公司-->
+	<f id="STR05" col="TradeMark" type="varchar" len="20" tab="FSMS_Stores" ref=""/>
+	<!--品牌-->
+	<f id="STR06" col="Fax" type="varchar" len="25" tab="FSMS_Stores"/>
+	<!--传真-->
+	<f id="STR07" col="Tel" type="varchar" len="20" tab="FSMS_Stores"/>
+	<!--电话-->
+	<f id="STM01" col="StoreMarkID" type="int" len="4" tab="FSMS_StoreTradeMarks" iden="1"/>
+	<!--店内品牌编号-->
+	<f id="STM02" col="StoreCode" type="varchar" len="20" tab="FSMS_StoreTradeMarks" ref="STR02"/>
+	<!--店面-->
+	<f id="STM03" col="SeriesCode" type="varchar" len="20" tab="FSMS_StoreTradeMarks" ref="TMK02"/>
+	<!--品牌-->
+	<f id="STM04" col="OwnerGroup" type="varchar" len="20" tab="FSMS_StoreTradeMarks"/>
+	<!--公司-->
+	<f id="TMC01" col="ProdColorID" type="int" len="4" tab="FSMS_TradeMarkColors" iden="1"/>
+	<!--产品颜色编号-->
+	<f id="TMC02" col="Color" type="varchar" len="20" tab="FSMS_TradeMarkColors" ref=""/>
+	<!--颜色-->
+	<f id="TMC03" col="TradeMark" type="varchar" len="20" tab="FSMS_TradeMarkColors" ref="TMK02"/>
+	<!--品牌-->
+	<f id="TMC04" col="Disabled" type="int" len="4" tab="FSMS_TradeMarkColors"/>
+	<!--禁用-->
+	<f id="TMK01" col="TradeMarkID" type="int" len="4" tab="FSMS_TradeMarks" iden="1"/>
+	<!--品牌编号-->
+	<f id="TMK02" col="TradeMarkCode" type="varchar" len="20" tab="FSMS_TradeMarks"/>
+	<!--品牌代码-->
+	<f id="TMK03" col="TradeMarkName" type="varchar" len="50" tab="FSMS_TradeMarks"/>
+	<!--品牌名-->
+	<f id="USR01" col="UserID" type="int" len="4" tab="FSMS_Users" iden="1"/>
+	<!--用户编号-->
+	<f id="USR02" col="UserCode" type="varchar" len="20" tab="FSMS_Users"/>
+	<!--用户代码-->
+	<f id="USR03" col="UserName" type="varchar" len="150" tab="FSMS_Users"/>
+	<!--用户名-->
+	<f id="USR04" col="OwnerGroup" type="varchar" len="20" tab="FSMS_Users" ref="SSG02"/>
+	<!--公司-->
+	<f id="USR05" col="OwnerStore" type="varchar" len="20" tab="FSMS_Users" ref="STR02"/>
+	<!--店面-->
+	<f id="USR06" col="OwnerRole" type="varchar" len="20" tab="FSMS_Users" ref="ROL02"/>
+	<!--职能-->
+	<f id="USR07" col="PassWord" type="varchar" len="32" tab="FSMS_Users"/>
+	<!--密码-->
+	<f id="USR08" col="Disabled" type="int" len="4" tab="FSMS_Users"/>
+	<!--禁用-->
+	<!--Table: vw_FSMS_UserInfo Alias Name:CUI-->
+	<f id="CUI01" col="UserCode" tab="vw_FSMS_UserInfo" type="int" len="4" ref="USR02"/>
+	<f id="CUI02" col="CurrYear" tab="vw_FSMS_UserInfo" type="int" len="4"/>
+	<f id="CUI03" col="CurrMonth" tab="vw_FSMS_UserInfo" type="int" len="4"/>
+	<f id="CUI04" col="CurrDay" tab="vw_FSMS_UserInfo" type="int" len="4"/>
+	<f id="CUI05" col="CurrDate" tab="vw_FSMS_UserInfo" type="varchar" len="10"/>
+	<f id="CAP01" col="ProcName" type="nvarchar" len="256" tab="vw_Comm_AllProc"/>
+	<f id="CAP01" col="ProcName" type="sysname" len="256" tab="vw_Comm_AllProc"/>
+	<f id="CAP02" col="ParamName" type="nvarchar" len="256" tab="vw_Comm_AllProc"/>
+	<f id="CAP02" col="ParamName" type="sysname" len="256" tab="vw_Comm_AllProc"/>
+	<f id="CAP03" col="OutParam" type="int" len="4" tab="vw_Comm_AllProc"/>
+	<f id="CAP04" col="TypeName" type="nvarchar" len="256" tab="vw_Comm_AllProc"/>
+	<f id="CAP04" col="TypeName" type="sysname" len="256" tab="vw_Comm_AllProc"/>
+	<f id="CAP05" col="colid" type="smallint" len="2" tab="vw_Comm_AllProc"/>
+	<f id="PGL01" col="ProdID" type="int" len="4" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL02" col="ProdCode" type="varchar" len="20" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL03" col="ProdName" type="varchar" len="200" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL04" col="TradeMark" type="varchar" len="20" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL05" col="Series" type="varchar" len="20" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL06" col="ProdType" type="varchar" len="20" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL07" col="Spac" type="varchar" len="50" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL08" col="TradeMarkColor" type="varchar" len="20" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL09" col="TradeMarkMeterial" type="varchar" len="20" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL10" col="Remark" type="varchar" len="500" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL11" col="ImagePath" type="varchar" len="200" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL12" col="VrmlPath" type="varchar" len="250" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL13" col="StopProd" type="int" len="4" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL14" col="Disable" type="int" len="4" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL15" col="ModifiedDate" type="varchar" len="12" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL16" col="ModifiedBy" type="varchar" len="50" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL17" col="IsGroup" type="int" len="4" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL18" col="ProdPriceId" type="int" len="4" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL19" col="IsSpecPrice" type="int" len="4" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL20" col="PurchasePrice" type="money" len="8" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL21" col="PurchaseAigoLimit" type="int" len="4" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL22" col="PurPrice_Start" type="smalldatetime" len="4" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL23" col="PurPirce_End" type="smalldatetime" len="4" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL24" col="SalePrice" type="money" len="8" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL25" col="SaleAigoLimit" type="int" len="4" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL26" col="SalePrice_Start" type="smalldatetime" len="4" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL27" col="SalePrice_End" type="smalldatetime" len="4" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL28" col="IsPurchaseSpecPrice" type="int" len="4" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL29" col="StoreCode" type="varchar" len="20" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL30" col="SeriesID" type="int" len="4" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL31" col="SeriesName" type="varchar" len="50" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL32" col="SeriesCode" type="varchar" len="20" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL33" col="TypeID" type="int" len="4" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL34" col="TypeCode" type="varchar" len="20" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL35" col="TypeName" type="varchar" len="100" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL36" col="ColorCode" type="varchar" len="20" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL37" col="ColorName" type="varchar" len="50" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL38" col="ColorImage" type="varchar" len="250" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL39" col="SubProcCount" type="int" len="4" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PGL40" col="GroupCode" type="varchar" len="20" tab="vw_FSMS_ProduceGroupList"/>
+	<f id="PDP01" col="ProdID" type="int" len="4" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP02" col="ProdCode" type="varchar" len="20" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP03" col="ProdName" type="varchar" len="200" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP04" col="TradeMark" type="varchar" len="20" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP05" col="Series" type="varchar" len="20" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP06" col="ProdType" type="varchar" len="20" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP07" col="Spac" type="varchar" len="50" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP08" col="TradeMarkColor" type="varchar" len="20" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP09" col="TradeMarkMeterial" type="varchar" len="20" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP10" col="Remark" type="varchar" len="500" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP11" col="ImagePath" type="varchar" len="200" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP12" col="VrmlPath" type="varchar" len="250" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP13" col="StopProd" type="int" len="4" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP14" col="Disable" type="int" len="4" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP15" col="ModifiedDate" type="varchar" len="12" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP16" col="ModifiedBy" type="varchar" len="50" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP17" col="IsGroup" type="int" len="4" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP18" col="ProdPriceId" type="int" len="4" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP19" col="IsSpecPrice" type="int" len="4" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP20" col="PurchasePrice" type="money" len="8" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP21" col="PurchaseAigoLimit" type="int" len="4" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP22" col="PurPrice_Start" type="smalldatetime" len="4" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP23" col="PurPirce_End" type="smalldatetime" len="4" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP24" col="SalePrice" type="money" len="8" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP25" col="SaleAigoLimit" type="int" len="4" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP26" col="SalePrice_Start" type="smalldatetime" len="4" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP27" col="SalePrice_End" type="smalldatetime" len="4" tab="vw_FSMS_ProducePrice"/>
+	<f id="PDP28" col="IsPurchaseSpecPrice" type="int" len="4" tab="vw_FSMS_ProducePrice"/>
+	<f id="SPT01" col="StoreCode" type="varchar" len="20" tab="vw_FSMS_StoreProdTypes"/>
+	<f id="SPT02" col="SeriesID" type="int" len="4" tab="vw_FSMS_StoreProdTypes"/>
+	<f id="SPT03" col="SeriesCode" type="varchar" len="20" tab="vw_FSMS_StoreProdTypes"/>
+	<f id="SPT04" col="SeriesName" type="varchar" len="50" tab="vw_FSMS_StoreProdTypes"/>
+	<f id="SPT05" col="TradeMark" type="varchar" len="20" tab="vw_FSMS_StoreProdTypes"/>
+	<f id="SPT06" col="Remark" type="varchar" len="500" tab="vw_FSMS_StoreProdTypes"/>
+	<f id="SPT07" col="TypeID" type="int" len="4" tab="vw_FSMS_StoreProdTypes"/>
+	<f id="SPT08" col="TypeCode" type="varchar" len="20" tab="vw_FSMS_StoreProdTypes"/>
+	<f id="SPT09" col="TypeName" type="varchar" len="100" tab="vw_FSMS_StoreProdTypes"/>
+	<f id="SPD01" col="ProdID" type="int" len="4" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD02" col="ProdCode" type="varchar" len="20" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD03" col="ProdName" type="varchar" len="200" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD04" col="TradeMark" type="varchar" len="20" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD05" col="Series" type="varchar" len="20" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD06" col="ProdType" type="varchar" len="20" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD07" col="Spac" type="varchar" len="50" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD08" col="TradeMarkColor" type="varchar" len="20" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD09" col="TradeMarkMeterial" type="varchar" len="20" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD10" col="Remark" type="varchar" len="500" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD11" col="ImagePath" type="varchar" len="200" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD12" col="VrmlPath" type="varchar" len="250" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD13" col="StopProd" type="int" len="4" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD14" col="Disable" type="int" len="4" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD15" col="ModifiedDate" type="varchar" len="12" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD16" col="ModifiedBy" type="varchar" len="50" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD17" col="IsGroup" type="int" len="4" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD18" col="ProdPriceId" type="int" len="4" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD19" col="IsSpecPrice" type="int" len="4" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD20" col="PurchasePrice" type="money" len="8" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD21" col="PurchaseAigoLimit" type="int" len="4" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD22" col="PurPrice_Start" type="smalldatetime" len="4" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD23" col="PurPirce_End" type="smalldatetime" len="4" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD24" col="SalePrice" type="money" len="8" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD25" col="SaleAigoLimit" type="int" len="4" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD26" col="SalePrice_Start" type="smalldatetime" len="4" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD27" col="SalePrice_End" type="smalldatetime" len="4" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD28" col="IsPurchaseSpecPrice" type="int" len="4" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD29" col="StoreCode" type="varchar" len="20" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD30" col="SeriesID" type="int" len="4" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD31" col="SeriesName" type="varchar" len="50" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD32" col="SeriesCode" type="varchar" len="20" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD33" col="TypeID" type="int" len="4" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD34" col="TypeCode" type="varchar" len="20" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD35" col="TypeName" type="varchar" len="100" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD36" col="ColorCode" type="varchar" len="20" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD37" col="ColorName" type="varchar" len="50" tab="vw_FSMS_StoreProduces"/>
+	<f id="SPD38" col="ColorImage" type="varchar" len="250" tab="vw_FSMS_StoreProduces"/>
+	<f id="STS01" col="StoreCode" type="varchar" len="20" tab="vw_FSMS_StoreSeries"/>
+	<f id="STS02" col="SeriesID" type="int" len="4" tab="vw_FSMS_StoreSeries"/>
+	<f id="STS03" col="SeriesCode" type="varchar" len="20" tab="vw_FSMS_StoreSeries"/>
+	<f id="STS04" col="SeriesName" type="varchar" len="50" tab="vw_FSMS_StoreSeries"/>
+	<f id="STS05" col="TradeMark" type="varchar" len="20" tab="vw_FSMS_StoreSeries"/>
+	<f id="STS06" col="Remark" type="varchar" len="500" tab="vw_FSMS_StoreSeries"/>
+	<!--Table: vw_FSMS_Store_Sale_Cost_MonthSummary Alias Name:SMS-->
+	<f id="SMS01" col="store" tab="vw_FSMS_Store_Sale_Cost_MonthSummary" type="varchar" len="20" ref="STR02"/>
+	<f id="SMS02" col="month" tab="vw_FSMS_Store_Sale_Cost_MonthSummary" type="varchar" len="10"/>
+	<f id="SMS03" col="SaleSumm" tab="vw_FSMS_Store_Sale_Cost_MonthSummary" type="int" len="4"/>
+	<f id="SMS04" col="CostSumm" tab="vw_FSMS_Store_Sale_Cost_MonthSummary" type="money" len="8"/>
+	<f id="SMS05" col="AvgGain" tab="vw_FSMS_Store_Sale_Cost_MonthSummary" type="money" len="8"/>
+	<!--Table: vw_FSMS_Sale_Months Alias Name:SMTH-->
+	<f id="SMTH0" col="SelfCode" tab="vw_FSMS_Sale_Months" type="varchar" len="7" ref="SSB02"/>
+	<f id="SMTH1" col="SaleMonth" tab="vw_FSMS_Sale_Months" type="varchar" len="7"/>
+	<!--Table: FSMS_PermList Alias Name:pl-->
+	<f id="PL001" col="pmid" tab="FSMS_PermList" type="int" len="4" iden="1"/>
+	<f id="PL002" col="PermVal" tab="FSMS_PermList" type="int" len="4"/>
+	<f id="PL003" col="remark" tab="FSMS_PermList" type="varchar" len="50" key="1"/>
+	<f id="PL004" col="pm_View" tab="FSMS_PermList" type="int" len="4"/>
+	<f id="PL005" col="pm_List" tab="FSMS_PermList" type="int" len="4"/>
+	<f id="PL006" col="pm_Create" tab="FSMS_PermList" type="int" len="4"/>
+	<f id="PL007" col="pm_Edit" tab="FSMS_PermList" type="int" len="4"/>
+	<f id="PL008" col="pm_Delete" tab="FSMS_PermList" type="int" len="4"/>
+	<f id="PL009" col="pm_Share" tab="FSMS_PermList" type="int" len="4"/>
+	<f id="PL010" col="pm_View_Detail" tab="FSMS_PermList" type="int" len="4"/>
+	<f id="PL011" col="pm_List_Detail" tab="FSMS_PermList" type="int" len="4"/>
+	<f id="PL012" col="pm_Create_Detail" tab="FSMS_PermList" type="int" len="4"/>
+	<f id="PL013" col="pm_Edit_Detail" tab="FSMS_PermList" type="int" len="4"/>
+	<f id="PL014" col="pm_Delete_Detail" tab="FSMS_PermList" type="int" len="4"/>
+	<f id="PL015" col="pm_Share_Detail" tab="FSMS_PermList" type="int" len="4"/>
+	<f id="PL016" col="pm_Export" tab="FSMS_PermList" type="int" len="4"/>
+	<f id="PL017" col="pm_Export_Detail" tab="FSMS_PermList" type="int" len="4"/>
+	<!--Table: FSMS_RolePermMappings Alias Name:RPM-->
+	<f id="RPM01" col="RolePermMapId" tab="FSMS_RolePermMappings" type="int" len="4" iden="1"/>
+	<f id="RPM02" col="RoleId" tab="FSMS_RolePermMappings" type="int" len="4" ref="ROL01"/>
+	<f id="RPM03" col="PermId" tab="FSMS_RolePermMappings" type="int" len="4" ref="PL001"/>
+	<f id="RPM04" col="FuncId" tab="FSMS_RolePermMappings" type="int" len="4" ref="FPL01"/>
+	<!--Table: FSMS_Roles Alias Name:Rol-->
+	<f id="ROL01" col="RoleId" tab="FSMS_Roles" type="int" len="4" iden="1"/>
+	<f id="ROL02" col="RoleName" tab="FSMS_Roles" type="varchar" len="50" key="1"/>
+	<f id="ROL03" col="RoleDescript" tab="FSMS_Roles" type="varchar" len="50"/>
+	<!--Table: FSMS_UserRoleMapping Alias Name:urm-->
+	<f id="URM01" col="UserRoleMapId" tab="FSMS_UserRoleMapping" type="int" len="4" iden="1"/>
+	<f id="URM02" col="UserCode" tab="FSMS_UserRoleMapping" type="varchar" len="50" ref="USR01"/>
+	<f id="URM03" col="RoleId" tab="FSMS_UserRoleMapping" type="int" len="4" ref="ROL01"/>
+	<!--Table: FSMS_FunctionPoints Alias Name:fpl-->
+	<f id="FPL01" col="FuncId" tab="FSMS_FunctionPoints" type="int" len="4" iden="1"/>
+	<f id="FPL02" col="FunctionPointName" tab="FSMS_FunctionPoints" type="varchar" len="50" key="1"/>
+	<f id="FPL03" col="FunctionDescript" tab="FSMS_FunctionPoints" type="varchar" len="250"/>
+	<!---->
+	<!--Table: FSMS_Customer_PointsInfo Alias Name:CSP-->
+	<f id="CSP01" col="Id" tab="FSMS_Customer_PointsInfo" type="int" len="4" iden="1"/>
+	<f id="CSP02" col="PointName" tab="FSMS_Customer_PointsInfo" type="varchar" len="200" key="1"/>
+	<f id="CSP03" col="PointAddress" tab="FSMS_Customer_PointsInfo" type="varchar" len="500"/>
+	<f id="CSP04" col="CustomerId" tab="FSMS_Customer_PointsInfo" type="int" len="4"/>
+	<!--Table: FSMS_Customer_PointsInfo Alias Name:CSP-->
+	<f id="UNT01" col="Unit_Id" tab="FSMS_Units" type="int" len="4" iden="1"/>
+	<f id="UNT02" col="UnitCode" tab="FSMS_Units" type="varchar" len="50" key="1"/>
+	<f id="UNT03" col="UnitName" tab="FSMS_Units" type="varchar" len="50"/>
+	<f id="UNT04" col="GrpCode" tab="FSMS_Units" type="varchar" len="50"/>
+	<!--Table: jdUnion_GoodsTable Alias Name:JGD-->
+	<f id="JGD01" col="GoodsId" tab="jdUnion_GoodsTable" type="bigint" len="8" iden="1"/>
+	<f id="JGD02" col="skUID" tab="jdUnion_GoodsTable" type="bigint" len="8" key="1"/>
+	<f id="JGD03" col="skName" tab="jdUnion_GoodsTable" type="varchar" len="500"/>
+	<f id="JGD04" col="shopId" tab="jdUnion_GoodsTable" type="bigint" len="8"/>
+	<f id="JGD05" col="shopName" tab="jdUnion_GoodsTable" type="varchar" len="500"/>
+	<f id="JGD06" col="bestCoupon" tab="jdUnion_GoodsTable" type="money" len="8"/>
+	<f id="JGD07" col="couponLink" tab="jdUnion_GoodsTable" type="varchar" len="500"/>
+	<f id="JGD08" col="firstImgUrl" tab="jdUnion_GoodsTable" type="varchar" len="500"/>
+	<f id="JGD09" col="materialUrl" tab="jdUnion_GoodsTable" type="varchar" len="500"/>
+	<f id="JGD10" col="brankName" tab="jdUnion_GoodsTable" type="varchar" len="50"/>
+	<f id="JGD11" col="price" tab="jdUnion_GoodsTable" type="money" len="8"/>
+	<f id="JGD12" col="categorys" tab="jdUnion_GoodsTable" type="varchar" len="50"/>
+	<f id="JGD13" col="orgXml" tab="jdUnion_GoodsTable" type="xml" len="2000000"/>
+	<f id="JGD14" col="batchId" tab="jdUnion_GoodsTable" type="long" len="10" ref="JBTH1"/>
+	<f id="JGD15" col="eliteId" tab="jdUnion_GoodsTable" type="int" len="10" />
+	<f id="JGD16" col="isHot" tab="jdUnion_GoodsTable" type="int" len="10" />
+	<f id="JGD17" col="inOrderCount30Days" tab="jdUnion_GoodsTable" type="int" len="10" />
+	<f id="JGD18" col="seckillEndTime" tab="jdUnion_GoodsTable" type="varchar" len="50" />
+	<f id="JGD19" col="seckillOriPrice" tab="jdUnion_GoodsTable" type="varchar" len="50" />
+	<f id="JGD20" col="seckillPrice" tab="jdUnion_GoodsTable" type="varchar" len="50" />
+	<f id="JGD21" col="seckillStartTime" tab="jdUnion_GoodsTable" type="varchar" len="50" />
+	<!--虚拟的表-->
+	<f id="JBTH1" col="batchNo" tab="v_jdGoodsBatchTable" type="int" len="50"/>
+
+
+</flds>

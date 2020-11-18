@@ -29,12 +29,19 @@ namespace HappyShareLottery
            
             
             AllTabControls = new Dictionary<string, TabControls>();
+            GlobalShare.InitTextProcess = UpdateMsg;
             
         }
 
         private void frm_planMonitor_Load(object sender, EventArgs e)
         {
-            
+            string msg = null;
+            bool succ = GlobalShare.InitAndVirLogin(AppDomain.CurrentDomain.BaseDirectory,out msg);
+            if(!succ)
+            {
+                MessageBox.Show(msg);
+                return;
+            }
             this.tabControl1.TabPages.Clear();
             this.txt_ToMeMsgs.Lines = new string[] { };
             //JdGoodsQueryClass.LoadAllcommissionGoods = loadAllData;

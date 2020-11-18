@@ -19,7 +19,7 @@ namespace WolfInv.com.WinInterComminuteLib
     public class IPCService:LogableClass
     {
         static Dictionary<string,IpcServerChannel>  channels = new Dictionary<string,IpcServerChannel>();
-        public static bool CreateChannel<T>(string specName)
+        public bool CreateChannel<T>(string specName=null,string channelName= "WolfIPC_Channel")
         {
             string FullName = typeof(T).FullName;
             string[] NameArr = FullName.Split('.');
@@ -28,7 +28,8 @@ namespace WolfInv.com.WinInterComminuteLib
             {
                 ClassName = specName;
             }
-            string ChannelName = "WolfIPC_Channel";
+            //string channelName = "wolfin";
+            string ChannelName = channelName;// "WolfIPC_Channel";
             try
             {
                 ToLog("IPC服务端日志", "检查是否是管理员", WinComminuteClass.IsRoot().ToString());
@@ -124,7 +125,7 @@ namespace WolfInv.com.WinInterComminuteLib
     public class RemoteServerClass : LogableClass
     {
         protected Dictionary<string, IpcServerChannel> channels = new Dictionary<string, IpcServerChannel>();
-        public bool Success;
+        public bool Success=true;
         public string Message;
         public bool CreateChannel(string specName,bool useSingleton = false)
         {

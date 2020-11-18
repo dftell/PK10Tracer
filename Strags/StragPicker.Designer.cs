@@ -1,6 +1,6 @@
 ﻿namespace WolfInv.com.Strags
 {
-    partial class StragPicker
+    partial class StragPicker<T>
     {
         /// <summary>
         /// Required designer variable.

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using WolfInv.com.BaseObjectsLib;
 using System.Data;
+using WolfInv.com.SecurityLib;
+
 namespace WolfInv.com.PK10CorePress
 {
     public class ExpectListProcessBuilder<T> where T : TimeSerialData
@@ -22,6 +24,8 @@ namespace WolfInv.com.PK10CorePress
             if (dtp.IsSecurityData == 1)
             {
                 //ret = new SecurityListProcess<T>(data);
+                ret = new SecurityListProcess<T>(data) as CommExpectListProcess<T>;
+                
             }
             else
             {
@@ -34,6 +38,7 @@ namespace WolfInv.com.PK10CorePress
                 }
                 switch (dtp.DataType)
                 {
+                    
                     case "PK10":
                     case "XYFT":
 
@@ -144,7 +149,7 @@ namespace WolfInv.com.PK10CorePress
             string RestModel = this.AllNumModel;// "01，02，03，04，05，06，07，08，09，10，11，12，。。。。。。";
             for (int i = 0; i < Math.Min(reviewCnt, data.Count); i++)
             {
-                Combin_ExpectData currExpect = new Combin_ExpectData();
+                Combin_ExpectData< TimeSerialData> currExpect = new Combin_ExpectData<TimeSerialData>();
                 currExpect.Expect =  data[lastId - i].Expect;//  data[lastId - i].CopyTo<ExpectData>();
                 currExpect.OpenCode = data[lastId - i].OpenCode;
                 currExpect.OpenTime = data[lastId - i].OpenTime;
@@ -253,7 +258,7 @@ namespace WolfInv.com.PK10CorePress
             string RestModel = this.SelectNumModel;// "1234567890";
             for (int i = 0; i < Math.Min(reviewCnt, data.Count); i++)
             {
-                Combin_ExpectData currExpect = new Combin_ExpectData();
+                Combin_ExpectData<TimeSerialData> currExpect = new Combin_ExpectData<TimeSerialData>();
                 currExpect.OpenCode = data[lastId - i].OpenCode;
                 Dictionary<int, string> lastData = null;
                 Dictionary<int, string> newData = new Dictionary<int, string>();

@@ -44,7 +44,7 @@ namespace WolfInv.com.Strags
         public override List<ChanceClass> getChances(BaseCollection sc, ExpectData ed)
         {
             List<ChanceClass> ret = new List<ChanceClass>();
-            MLDataFactory pkdls = new MLDataFactory();// this.LastUseData());
+            MLDataFactory<TimeSerialData> pkdls = new MLDataFactory<TimeSerialData>();// this.LastUseData());
             //Dictionary<int, Dictionary<int, int>> res = pkdls.getAllShiftAndColMaxProbList(this.ReviewExpectCnt- this.InputMinTimes-1, this.InputMinTimes,true);
             List<MLFeature<int>> features = pkdls.getAllSpecRowRoundFeatures(this.LastUseData().Count - 1, this.InputMinTimes,0);
             Dictionary<string, int> AllCodes = new Dictionary<string, int>();

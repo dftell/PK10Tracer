@@ -54,7 +54,7 @@ namespace WolfInv.com.BackTestLib
             long begNo = BegExpect;
 
             //ExpectReader er = new ExpectReader();
-            DataReader er = DataReaderBuild.CreateReader(dtp.DataType, "", null);
+            DataReader<T> er = DataReaderBuild.CreateReader<T>(dtp.DataType, "", null);
             ExpectList<T> el = null;
             long cnt = 0;
             
@@ -72,7 +72,7 @@ namespace WolfInv.com.BackTestLib
             
             while (el == null || el.Count > 0) //如果取到的数据长度大于0
             {
-                el = er.ReadHistory<T>(begNo, LoopCnt);
+                el = er.ReadHistory(begNo, LoopCnt);
                 int ri = 0;
                 while(el==null)
                 {
@@ -81,7 +81,7 @@ namespace WolfInv.com.BackTestLib
                         break;
                     }
                     Thread.Sleep(1 * 1000);
-                    el = er.ReadHistory<T>(begNo, LoopCnt);
+                    el = er.ReadHistory(begNo, LoopCnt);
                     ri++;
                 }
                 if (el == null)
@@ -334,7 +334,7 @@ namespace WolfInv.com.BackTestLib
             
             long begNo = BegExpect;
             //ExpectReader er = new ExpectReader();
-            DataReader er = DataReaderBuild.CreateReader(dtp.DataType,dtp.HistoryTable,dtp.RuntimeInfo.SecurityCodes); //支持所有数据
+            DataReader<T> er = DataReaderBuild.CreateReader<T>(dtp.DataType,dtp.HistoryTable,dtp.RuntimeInfo.SecurityCodes); //支持所有数据
             ExpectList<T> el = null;
             long cnt = 0;
             BackTestReturnClass<T> ret = new BackTestReturnClass<T>();
@@ -358,11 +358,11 @@ namespace WolfInv.com.BackTestLib
 
                 if (dtp.IsSecurityData == 1)
                 {
-                    el = er.ReadHistory<T>(begNo, LoopCnt);
+                    el = er.ReadHistory(begNo, LoopCnt);
                 }
                 else
                 {
-                    el = er.ReadHistory<T>(begNo, LoopCnt);
+                    el = er.ReadHistory(begNo, LoopCnt);
                 }
                 int rptCnt = 0;
                 int maxRptCnt = 5;
@@ -376,11 +376,11 @@ namespace WolfInv.com.BackTestLib
                     }
                     if (dtp.IsSecurityData == 1)
                     {
-                        el = er.ReadHistory<T>(begNo, LoopCnt);
+                        el = er.ReadHistory(begNo, LoopCnt);
                     }
                     else
                     {
-                        el = er.ReadHistory<T>(begNo, LoopCnt);
+                        el = er.ReadHistory(begNo, LoopCnt);
                     }
                     
                 }
@@ -403,7 +403,7 @@ namespace WolfInv.com.BackTestLib
                 {
 
                     //begNo = el.LastData.LExpectNo + 1;//加一期
-                    begNo = long.Parse(DataReader.getNextExpectNo(el.LastData.Expect,dtp));
+                    begNo = long.Parse(DataReader<T>.getNextExpectNo(el.LastData.Expect,dtp));
                 }
                 else
                 {
@@ -442,7 +442,7 @@ namespace WolfInv.com.BackTestLib
                     //ToAdd:以下是内容
                     cs.CurrData = testData;
                     cs.OnFinishedCalc += OnCalcFinished;
-                    cs.setGlobalClass(Program.gc);
+                    cs.setGlobalClass(Program<T>.gc);
                     cs.Calc();
                     while (!cs.CalcFinished)
                     {
@@ -467,7 +467,7 @@ namespace WolfInv.com.BackTestLib
         public BackTestReturnClass<T> VirExchange_oldLogic(ExchangeService es, StragRunPlanClass<T>[] teststragplans)
         {
             long begNo = BegExpect;
-            ExpectReader er = new ExpectReader();
+            ExpectReader<T> er = new ExpectReader<T>();
             ExpectList<T> el = null;
             long cnt = 0;
             BackTestReturnClass<T> ret = new BackTestReturnClass<T>();
@@ -488,7 +488,7 @@ namespace WolfInv.com.BackTestLib
             int AllCnt = 0;
             while (el == null || el.Count > 0) //如果取到的数据长度大于0
             {
-                el = er.ReadHistory<T>(begNo, LoopCnt);
+                el = er.ReadHistory(begNo, LoopCnt);
                 if (el == null)
                 {
                     ret.LoopCnt = cnt * LoopCnt;
@@ -809,7 +809,7 @@ namespace WolfInv.com.BackTestLib
         {
             long begNo = BegExpect;
 
-            ExpectReader er = new ExpectReader();
+            ExpectReader<T> er = new ExpectReader<T>();
             ExpectList<T> el = null;
             long cnt = 0;
             RoundBackTestReturnClass<T> ret = new RoundBackTestReturnClass<T>();
@@ -826,7 +826,7 @@ namespace WolfInv.com.BackTestLib
             
             while (el == null || el.Count > 0) //如果取到的数据长度大于0
             {
-                el = er.ReadHistory<T>(begNo, LoopCnt);
+                el = er.ReadHistory(begNo, LoopCnt);
                 if (el == null)
                 {
                     ret.LoopCnt = cnt * LoopCnt;

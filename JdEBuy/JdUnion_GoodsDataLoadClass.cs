@@ -42,7 +42,17 @@ namespace JdEBuy
         {
             string datasourceName = "JdUnion_Goods_BatchIds";
             string msg = null;
-            DataSet ds = DataSource.InitDataSource(GlobalShare.UserAppInfos.First().Value.mapDataSource[datasourceName], new List<DataCondition>(), out msg);
+            DataSource dsr = null;
+            if(GlobalShare.mapDataSource.ContainsKey(datasourceName))
+            {
+                dsr = GlobalShare.mapDataSource[datasourceName];
+            }
+            if(dsr == null)
+            {
+
+                return null;
+            }
+            DataSet ds = DataSource.InitDataSource(dsr, new List<DataCondition>(), out msg);
             if (msg != null)
             {
                 UpdateText?.Invoke(msg);
@@ -66,6 +76,8 @@ namespace JdEBuy
 
         public void downloadData()
         {
+            bool dataConnected = false;
+            HashSet<string> allExistKeys = new HashSet<string>();
             Dictionary<string, UpdateData> newAddRec = new Dictionary<string, UpdateData>();
             try
             {
@@ -73,8 +85,12 @@ namespace JdEBuy
                 long? batchId = getCurrBatchNo();
                 if (batchId == null)
                 {
+                    
                     UpdateText?.Invoke(string.Format("无法获取到批次号！"));
-                    return;
+                }
+                else
+                {
+                    dataConnected = true;
                 }
                 if(batchId ==null)
                 {
@@ -88,33 +104,46 @@ namespace JdEBuy
                 dcc.value = string.Format("{0}", 100 * (batchId / 100));
                 currDayConditions.Add(dcc);
                 string msg = null;
-                DataSource dss = GlobalShare.UserAppInfos.First().Value.mapDataSource["JdUnion_Client_Goods_NoXml"];
-                DataSet currDayData = DataSource.InitDataSource(dss, currDayConditions, out msg);
-                if(currDayData == null)
+                if (dataConnected)//如果连接上了数据库
                 {
-                    UpdateText?.Invoke(string.Format("获取当日数据失败！"));
-                    return;
-                }
-                if (currDayData != null)
-                {
-                    for (int i = 0; i < currDayData.Tables[0].Rows.Count; i++)
+                    string dsName = "JdUnion_Client_Goods_NoXml";
+                    DataSource dss = null;
+                    if(GlobalShare.mapDataSource.ContainsKey(dsName))
+                        dss = GlobalShare.mapDataSource[dsName];
+                    if(dss == null)
                     {
-                        eliteData tmp = new eliteData();
-                        DataRow dr = currDayData.Tables[0].Rows[i];
-                        string eli = dr["JGD15"].ToString();
-                        tmp.eliteId = int.Parse(eli);
-
-                        tmp.data = new List<DataRow>();
-                        tmp.data.Add(dr);
-                        new Task(receiveData, tmp).Start();
+                        UpdateText?.Invoke(string.Format("数据源{0}不存在！",dsName));
+                        return;
                     }
-                }
-                //List<int> list = JdUnion_GlbObject.getElites();
-                //Dictionary<string, string> cols = null;
-                HashSet<string> allExistKeys = loadAllKeys();
-                if(allExistKeys == null)
-                {
-                    allExistKeys = new HashSet<string>();
+                    DataSet currDayData = DataSource.InitDataSource(dss, currDayConditions, out msg);
+                    if (currDayData == null)
+                    {
+                        UpdateText?.Invoke(string.Format("获取当日数据失败！"));
+                        return;
+                    }
+
+                    if (currDayData != null)
+                    {
+                        for (int i = 0; i < currDayData.Tables[0].Rows.Count; i++)
+                        {
+                            eliteData tmp = new eliteData();
+                            DataRow dr = currDayData.Tables[0].Rows[i];
+                            string eli = dr["JGD15"].ToString();
+                            tmp.eliteId = int.Parse(eli);
+
+                            tmp.data = new List<DataRow>();
+                            tmp.data.Add(dr);
+                            new Task(receiveData, tmp).Start();
+                        }
+                    }
+
+                    //List<int> list = JdUnion_GlbObject.getElites();
+                    //Dictionary<string, string> cols = null;
+                    allExistKeys = loadAllKeys();
+                    if (allExistKeys == null)
+                    {
+                        allExistKeys = new HashSet<string>();
+                    }
                 }
                 List<int> list = JdUnion_GlbObject.getElites();
                 UpdateText?.Invoke(string.Format("当前数据库存在记录数{0}条！", allExistKeys.Count));
@@ -129,10 +158,11 @@ namespace JdEBuy
                         bool isExtra = false;
                         List<DataCondition> dics = new List<DataCondition>();
                         DataCondition dc = new DataCondition();
+                        DataSource dsrc = GlobalShare.mapDataSource["JdUnion_Goods"];
                         dc.Datapoint = new DataPoint("goodsReq/eliteId");
                         dc.value = elit.ToString();
                         dics.Add(dc);
-                        DataSet ds = DataSource.InitDataSource("JdUnion_Goods", dics, Program.UserId, out msg, ref isExtra);
+                        DataSet ds = DataSource.InitDataSource(dsrc,dics, out msg);
                         //DataSet ds = new DataSet();
                         if (msg != null)
                         {
@@ -143,8 +173,13 @@ namespace JdEBuy
                         ed.eliteId = elit;
                         ed.data = new List<DataRow>();
 
-                        List<UpdateData> ups = DataSource.DataSet2UpdateData(ds, "jdUnion_BatchLoad", Program.UserId);
-                        UpdateText?.Invoke(string.Format("{1}类总共接收到{0}条记录", ups.Count, elit));
+                        List<UpdateData> ups = DataSource.DataSet2UpdateData(ds, "jdUnion_BatchLoad");
+                        if(ups == null)
+                        {
+                            UpdateText?.Invoke(string.Format("{0}类转换错误！",  elit));
+                            continue;
+                        }
+                        UpdateText?.Invoke(string.Format("{1}类总共接收到{0}条记录", ups.Count, Enum.GetName(typeof(goodsElite),elit)));
                         UpdateData batchData = new UpdateData();
                         batchData.keydpt = new DataPoint("JBTH1");
                         batchData.keyvalue = batchId.Value.ToString();

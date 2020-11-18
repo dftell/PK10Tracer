@@ -129,7 +129,7 @@ namespace WolfInv.com.StrategyLibForWD
         public RunResultClass LastProcess(MTable mt)
         {
             RunResultClass ret = new RunResultClass();
-            ret.Result = mt[string.Format(":{0}" ,InParam.TopN-1), "*"];
+            ret.Table = mt[string.Format(":{0}" ,InParam.TopN-1), "*"];
             return ret;
         }
 

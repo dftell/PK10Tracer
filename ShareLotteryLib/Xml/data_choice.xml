@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data_choices>
+	<combo id="yesno" def_index="0">
+		<option text="是" value="1"/>
+		<option text="否" value="0"/>
+	</combo>
+	
+	<combo id="truefalse" def_index="0">
+		<option text="是" value="true"/>
+		<option text="否" value="false"/>
+	</combo>
+	
+	<combo id="unitlist">
+		<option value="grpmanager" text="集团/公司管理员"/>
+		<option value="dptmanager" text="分公司/部门管理人员"/>
+		<option value="dealer" text="业务操作人员"/>
+	</combo>
+</data_choices>

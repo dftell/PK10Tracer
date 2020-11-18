@@ -198,6 +198,10 @@
       <Project>{ad1632c3-203d-4b8f-91b1-3474dddc1a49}</Project>
       <Name>WolfInv.com.StrategyLibForWD</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WDDRecSvr\WDDRecSvr.csproj">
+      <Project>{a1b25da9-f363-4008-99e2-cfb577aebaff}</Project>
+      <Name>WDDRecSvr</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WinInterComminuteLib\WolfInv.com.WinInterComminuteLib.csproj">
       <Project>{7859d79d-edd5-4b79-b3da-072432bc8fcc}</Project>
       <Name>WolfInv.com.WinInterComminuteLib</Name>

@@ -5,7 +5,7 @@ using System;
 
 namespace WolfInv.com.SecurityLib
 {
-    public abstract class MongoDataReader:DataReader
+    public abstract class MongoDataReader<T>:DataReader<T> where T:TimeSerialData
     {
         protected string DbTypeName;
         
@@ -28,26 +28,26 @@ namespace WolfInv.com.SecurityLib
 
     }
 
-    public interface IAllCodeDateSerialDataList
+    public interface IAllCodeDateSerialDataList<T> where T:TimeSerialData
     {
-        MongoDataDictionary<T> GetAllCodeDateSerialDataList<T>(bool DateAsc) where T : MongoData;
+        MongoDataDictionary<T> GetAllCodeDateSerialDataList(bool DateAsc);
     }
 
-    public interface IGetAllTimeSerialList
+    public interface IGetAllTimeSerialList<T> where T : TimeSerialData
     {
-        MongoReturnDataList<T> GetAllTimeSerialList<T>() where T : MongoData;
+        MongoReturnDataList<T> GetAllTimeSerialList() ;
     }
 
-    public interface ICodeDataList
+    public interface ICodeDataList<T> where T : TimeSerialData
     {
-        MongoReturnDataList<T> GetAllCodeDataList<T>(bool Stoped) where T : MongoData;
-        MongoReturnDataList<T> GetAllCodeDataList<T>() where T : MongoData;
+        MongoReturnDataList<T> GetAllCodeDataList(bool Stoped) ;
+        MongoReturnDataList<T> GetAllCodeDataList();
     }
     
-    public interface ICodeDateSerialDataList
+    public interface ICodeDateSerialDataList<T> where T : TimeSerialData
     {
-        MongoDataDictionary<T> GetAllCodeDateSerialDataList<T>(string begT,bool DateAsc) where T : MongoData;
-        MongoDataDictionary<T> GetAllCodeDateSerialDataList<T>(string begT,string EndT, bool DateAsc) where T : MongoData;
-        MongoDataDictionary<T> GetAllCodeDateSerialDataList<T>(string endT,int Cnt, bool DateAsc) where T : MongoData;
+        MongoDataDictionary<T> GetAllCodeDateSerialDataList(string begT,bool DateAsc);
+        MongoDataDictionary<T> GetAllCodeDateSerialDataList(string begT,string EndT, bool DateAsc);
+        MongoDataDictionary<T> GetAllCodeDateSerialDataList(string endT,int Cnt, bool DateAsc) ;
     }
 }

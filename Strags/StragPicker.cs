@@ -6,25 +6,25 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.Strags
 {
-    public partial class StragPicker : Form
+    public partial class StragPicker<T> : Form where T:TimeSerialData
     {
-        StragClass _SelectStrag = null;
-        Dictionary<string, StragClass> AllList;
-        public StragClass SelectedStrag
+        BaseStragClass<T> _SelectStrag = null;
+        Dictionary<string, BaseStragClass<T>> AllList;
+        public BaseStragClass<T> SelectedStrag
         {
             get
             {
                 return _SelectStrag;
             }
         }
-        public StragPicker(List<StragClass> strags)
+        public StragPicker(List<BaseStragClass<T>> strags)
         {
             InitializeComponent();
             AllList = strags.ToDictionary(t => t.GUID, t=>t);
-            DataTable dt = StragClass.GetTableByStragList(strags);
+            DataTable dt = BaseStragClass<T>.GetTableByStragList(strags);
             this.dataGridView1.DataSource = dt;
             this.dataGridView1.Refresh();
         }

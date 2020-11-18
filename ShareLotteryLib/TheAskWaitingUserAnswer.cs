@@ -6,6 +6,7 @@ namespace WolfInv.com.ShareLotteryLib
     [Serializable]
     public class TheAskWaitingUserAnswer
     {
+        public bool isOpenAsk;//是否是开放式问题
         public string roomName;
         public string userName;
         public string userNike;

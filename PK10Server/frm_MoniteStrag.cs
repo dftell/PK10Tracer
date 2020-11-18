@@ -18,25 +18,26 @@ using DataRecSvr;
 
 namespace PK10Server
 {
-    public partial class frm_MoniteStrag : Form
+    public partial class frm_MoniteStrag<T> : Form where T:TimeSerialData
     {
         public frm_MoniteStrag()
         {
             InitializeComponent();
         }
         bool Running = false;
-        StragRunPlanClass<TimeSerialData> spr = null;
-        BaseStragClass<TimeSerialData> runstg = null;
+        StragRunPlanClass<T> spr = null;
+        BaseStragClass<T> runstg = null;
         string lastExpect = null;
         delegate void SetCtrlDelegate(string ctrlId, object obj);
 
 
         private void frm_MoniteStrag_Load(object sender, EventArgs e)
         {
-            //Program.AllGlobalSetting.wxlog.Log("单策略监控","启用", string.Format(GlobalClass.LogUrl, GlobalClass.WXLogHost));
+            //Program<T>.AllGlobalSetting.wxlog.Log("单策略监控","启用", string.Format(GlobalClass.LogUrl, GlobalClass.WXLogHost));
             this.txt_DtpName.Text = GlobalClass.TypeDataPoints.First().Key;
             timer1.Interval = 1000 * int.Parse(this.txt_intersec.Text.Trim());
             timer1.Tick += Timer1_Tick;
+            this.txt_lastExpect.Text = DateTime.Today.AddDays(-1).WDDate("yyyyMMdd");
         }
 
         private void Timer1_Tick(object sender, EventArgs e)
@@ -55,7 +56,7 @@ namespace PK10Server
                 {
                     //Assembly ass = Assembly.GetAssembly(typeof(StragClass));
                     //Type t = ass.GetType(sname);
-                    //runstg = Activator.CreateInstance(t) as BaseStragClass<TimeSerialData>;
+                    //runstg = Activator.CreateInstance(t) as BaseStragClass<T>;
                     runstg = spr.PlanStrag;
                 }
 
@@ -72,45 +73,45 @@ namespace PK10Server
                 }
                 DataTypePoint dtp = dtps.First().Value;
                 AmoutSerials amt = new AmoutSerials();
-                ChanceClass<TimeSerialData> cc = new ChanceClass<TimeSerialData>();
+                ChanceClass<T> cc = new ChanceClass<T>();
                 cc.ChanceCode = "C3/1,2,3";
                 runstg.allowInvestmentMaxValue = spr.MaxLostAmount;
                 runstg.setDataTypePoint(dtp);
-                DataReader er = DataReaderBuild.CreateReader(dtp.DataType, null, null);
-                ExpectList<TimeSerialData> ViewDataList = er.ReadNewestData<TimeSerialData>(DateTime.Now.AddDays(-30 * dtp.CheckNewestDataDays));
+                DataReader<T> er = DataReaderBuild.CreateReader<T>(dtp.DataType, null, null);
+                ExpectList<T> ViewDataList = er.ReadNewestData(DateTime.Now.AddDays(-30 * dtp.CheckNewestDataDays));
                 string strexpect = ViewDataList.LastData.Expect;
                 this.txt_lastExpect.Text = strexpect;
                 this.lastExpect = strexpect;
 
                 
 
-                ExpectListProcessBuilder<TimeSerialData> elp = new ExpectListProcessBuilder<TimeSerialData>(dtp, ViewDataList);
-                BaseCollection<TimeSerialData> sc = elp.getProcess().getSerialData(ViewDataList.Count, true);
-                CalcService<TimeSerialData> calc = new CalcService<TimeSerialData>();
+                ExpectListProcessBuilder<T> elp = new ExpectListProcessBuilder<T>(dtp, ViewDataList);
+                BaseCollection<T> sc = elp.getProcess().getSerialData(ViewDataList.Count, true);
+                CalcService<T> calc = new CalcService<T>();
                 calc.DataPoint = dtp;
                 calc.IsTestBack = true;
                 calc.CurrData = ViewDataList;
-                Dictionary<string, CalcStragGroupClass<TimeSerialData>> allgroups = new Dictionary<string, CalcStragGroupClass<TimeSerialData>>();
-                foreach(string key in Program.AllGlobalSetting.AllRunningPlanGrps.Keys)//备份计划组
+                Dictionary<string, CalcStragGroupClass<T>> allgroups = new Dictionary<string, CalcStragGroupClass<T>>();
+                foreach(string key in Program<T>.AllGlobalSetting.AllRunningPlanGrps.Keys)//备份计划组
                 {
-                    allgroups.Add(key, Program.AllGlobalSetting.AllRunningPlanGrps[key]);
+                    allgroups.Add(key, Program<T>.AllGlobalSetting.AllRunningPlanGrps[key]);
                 }
-                Program.AllGlobalSetting.AllRunningPlanGrps = new Dictionary<string, CalcStragGroupClass<TimeSerialData>>();
-                CalcStragGroupClass<TimeSerialData> csg = new CalcStragGroupClass<TimeSerialData>(dtp);
+                Program<T>.AllGlobalSetting.AllRunningPlanGrps = new Dictionary<string, CalcStragGroupClass<T>>();
+                CalcStragGroupClass<T> csg = new CalcStragGroupClass<T>(dtp);
                 csg.UseSPlans.Add(spr);
                 csg.UseStrags.Add(spr.PlanStrag.GUID, spr.PlanStrag);
                 csg.UseSerial = spr.PlanStrag.BySer;
                 csg.UseAssetUnits.Add(spr.AssetUnitInfo.UnitId, spr.AssetUnitInfo);
-                Program.AllGlobalSetting.AllRunningPlanGrps.Add(spr.GUID,csg);
-                calc.setGlobalClass(Program.gc);
-                calc.setAllSettingConfig(Program.AllGlobalSetting);//测试只使用单一计划组
+                Program<T>.AllGlobalSetting.AllRunningPlanGrps.Add(spr.GUID,csg);
+                calc.setGlobalClass(Program<T>.gc);
+                calc.setAllSettingConfig(Program<T>.AllGlobalSetting);//测试只使用单一计划组
                 calc.OnFinishedCalc = (d) =>
                 {
                     //MessageBox.Show(dtp.DataType + "执行完毕！");
 
-                    foreach (string key in Program.AllGlobalSetting.AllNoClosedChanceList.Keys)
+                    foreach (string key in Program<T>.AllGlobalSetting.AllNoClosedChanceList.Keys)
                     {
-                        ChanceClass<TimeSerialData> nc = Program.AllGlobalSetting.AllNoClosedChanceList[key];
+                        ChanceClass<T> nc = Program<T>.AllGlobalSetting.AllNoClosedChanceList[key];
 
                         List<string> currLines = this.Txt_Chances.Lines.ToList();
                         currLines.Add(string.Format("{0}/{1}", nc.ChanceCode, nc.UnitCost));
@@ -120,27 +121,27 @@ namespace PK10Server
                     this.Txt_Chances.Refresh();
                 };
                 calc.Calc();
-                Program.AllGlobalSetting.AllRunningPlanGrps = allgroups;//恢复原有的计划组
+                Program<T>.AllGlobalSetting.AllRunningPlanGrps = allgroups;//恢复原有的计划组
                 allgroups.Values.ToList().ForEach(
                     grp =>
                     {
-                        lock (Program.AllGlobalSetting.AllStragIndexs)
+                        lock (Program<T>.AllGlobalSetting.AllStragIndexs)
                             foreach (var kv in grp.grpIndexs)
                             {
-                                if (Program.AllGlobalSetting.AllStragIndexs.ContainsKey(kv.Key))
+                                if (Program<T>.AllGlobalSetting.AllStragIndexs.ContainsKey(kv.Key))
                                 {
-                                    Program.AllGlobalSetting.AllStragIndexs[kv.Key] = kv.Value;
+                                    Program<T>.AllGlobalSetting.AllStragIndexs[kv.Key] = kv.Value;
                                 }
                                 else
                                 {
-                                    Program.AllGlobalSetting.AllStragIndexs.Add(kv.Key, kv.Value);
+                                    Program<T>.AllGlobalSetting.AllStragIndexs.Add(kv.Key, kv.Value);
                                 }
                             }
                     }
                     );
                 return;
 
-                List<ChanceClass<TimeSerialData>> cs = runstg.getChances(sc, ViewDataList.LastData);
+                List<ChanceClass<T>> cs = runstg.getChances(sc, ViewDataList.LastData);
                 long val = (runstg as StragClass).getChipAmount(runstg.allowInvestmentMaxValue, cc, amt);
                 
                 if (ViewDataList == null || ViewDataList.Count == 0)
@@ -165,7 +166,7 @@ namespace PK10Server
                 
                 
                 this.Txt_Chances.Text = string.Join("\r\n", cs.Select(a => a.ChanceCode)) ;
-                Program.AllGlobalSetting.wxlog.Log(string.Format("彩种{0}第{1}指令:\r\n{2}",dtp.DataType,this.lastExpect,this.Txt_Chances.Text));
+                Program<T>.AllGlobalSetting.wxlog.Log(string.Format("彩种{0}第{1}指令:\r\n{2}",dtp.DataType,this.lastExpect,this.Txt_Chances.Text));
             }
             catch (Exception ce)
             {
@@ -202,7 +203,7 @@ namespace PK10Server
 
         private void btn_startMonite_Click(object sender, EventArgs e)
         {
-            StragRunPlanClass<TimeSerialData>[] srps =  runPlanPicker1.Plans;
+            StragRunPlanClass<T>[] srps =  runPlanPicker1.Plans;
             if(srps == null || srps.Length == 0)
             {
                 MessageBox.Show("请选择监控策略");
@@ -241,7 +242,7 @@ namespace PK10Server
                 {
                     //Assembly ass = Assembly.GetAssembly(typeof(StragClass));
                     //Type t = ass.GetType(sname);
-                    //runstg = Activator.CreateInstance(t) as BaseStragClass<TimeSerialData>;
+                    //runstg = Activator.CreateInstance(t) as BaseStragClass<T>;
                     runstg = spr.PlanStrag;
                 }
 
@@ -258,12 +259,12 @@ namespace PK10Server
                 }
                 DataTypePoint dtp = dtps.First().Value;
                 AmoutSerials amt = new AmoutSerials();
-                ChanceClass<TimeSerialData> cc = new ChanceClass<TimeSerialData>();
+                ChanceClass<T> cc = new ChanceClass<T>();
                 cc.ChanceCode = "C3/1,2,3";
                 runstg.allowInvestmentMaxValue = spr.MaxLostAmount;
                 runstg.setDataTypePoint(dtp);
-                DataReader er = DataReaderBuild.CreateReader(dtp.DataType, null, null);
-                //ExpectList<TimeSerialData> ViewDataList = er.ReadHistory<TimeSerialData>( runstg.ReviewExpectCnt +20, this.txt_lastExpect.Text);
+                DataReader<T> er = DataReaderBuild.CreateReader<T>(dtp.DataType, null, null);
+                //ExpectList<T> ViewDataList = er.ReadHistory<T>( runstg.ReviewExpectCnt +20, this.txt_lastExpect.Text);
                 long revCnt = runstg.ReviewExpectCnt;
                 if(dtp.DataType != "PK10")
                 {
@@ -280,35 +281,36 @@ namespace PK10Server
                     }
                     int days = (int)Math.Ceiling((double)(revCnt / dtp.ExpectCodeCounterMax))+1;//需要提前的数据长度除以单日最大数=日期数
                     long calcLng = long.Parse(currDate.AddDays(-1 * days).ToString(dtp.ExpectCodeDateFormate));
-                    revCnt = currLng - calcLng*(long)Math.Pow(10,dtp.ExpectCodeCounterLen);
+                    if(dtp.IsSecurityData == 0)
+                        revCnt = currLng - calcLng*(long)Math.Pow(10,dtp.ExpectCodeCounterLen);
                 }
-                ExpectList<TimeSerialData> ViewDataList = er.ReadNewestData<TimeSerialData>(long.Parse(this.txt_lastExpect.Text),(int)(revCnt + 20),false);
+                ExpectList<T> ViewDataList = er.ReadNewestData(long.Parse(this.txt_lastExpect.Text),(int)(revCnt + 20),false);
                 string strexpect = ViewDataList.LastData.Expect;
                 //this.txt_lastExpect.Text = strexpect;
                 this.lastExpect = strexpect;
 
 
 
-                ExpectListProcessBuilder<TimeSerialData> elp = new ExpectListProcessBuilder<TimeSerialData>(dtp, ViewDataList);
-                BaseCollection<TimeSerialData> sc = elp.getProcess().getSerialData(ViewDataList.Count, true);
-                CalcService<TimeSerialData> calc = new CalcService<TimeSerialData>();
+                ExpectListProcessBuilder<T> elp = new ExpectListProcessBuilder<T>(dtp, ViewDataList);
+                BaseCollection<T> sc = elp.getProcess().getSerialData(ViewDataList.Count, true);
+                CalcService<T> calc = new CalcService<T>();
                 calc.DataPoint = dtp;
                 calc.IsTestBack = true;
                 calc.CurrData = ViewDataList;
-                Dictionary<string, CalcStragGroupClass<TimeSerialData>> allgroups = new Dictionary<string, CalcStragGroupClass<TimeSerialData>>();
-                if (Program.AllGlobalSetting != null)
+                Dictionary<string, CalcStragGroupClass<T>> allgroups = new Dictionary<string, CalcStragGroupClass<T>>();
+                if (Program<T>.AllGlobalSetting != null)
                 {
-                    foreach (string key in Program.AllGlobalSetting.AllRunningPlanGrps.Keys)//备份计划组
+                    foreach (string key in Program<T>.AllGlobalSetting.AllRunningPlanGrps.Keys)//备份计划组
                     {
-                        allgroups.Add(key, Program.AllGlobalSetting.AllRunningPlanGrps[key]);
+                        allgroups.Add(key, Program<T>.AllGlobalSetting.AllRunningPlanGrps[key]);
                     }
                 }
                 else
                 {
-                    Program.AllGlobalSetting = new WolfInv.com.ServerInitLib.ServiceSetting<TimeSerialData>();
+                    Program<T>.AllGlobalSetting = new WolfInv.com.ServerInitLib.ServiceSetting<T>();
                 }
-                Program.AllGlobalSetting.AllRunningPlanGrps = new Dictionary<string, CalcStragGroupClass<TimeSerialData>>();
-                CalcStragGroupClass<TimeSerialData> csg = new CalcStragGroupClass<TimeSerialData>(dtp);
+                Program<T>.AllGlobalSetting.AllRunningPlanGrps = new Dictionary<string, CalcStragGroupClass<T>>();
+                CalcStragGroupClass<T> csg = new CalcStragGroupClass<T>(dtp);
                 csg.UseSPlans.Add(spr);
                 csg.UseStrags.Add(spr.PlanStrag.GUID, spr.PlanStrag);
                 csg.UseSerial = spr.PlanStrag.BySer;
@@ -318,16 +320,16 @@ namespace PK10Server
                     spr.AssetUnitInfo.UnitId = "testSingleId";
                 }
                 csg.UseAssetUnits.Add(spr.AssetUnitInfo.UnitId, spr.AssetUnitInfo);
-                Program.AllGlobalSetting.AllRunningPlanGrps.Add(spr.GUID, csg);
-                calc.setGlobalClass(Program.gc);
-                calc.setAllSettingConfig(Program.AllGlobalSetting);//测试只使用单一计划组
+                Program<T>.AllGlobalSetting.AllRunningPlanGrps.Add(spr.GUID, csg);
+                calc.setGlobalClass(Program<T>.gc);
+                calc.setAllSettingConfig(Program<T>.AllGlobalSetting);//测试只使用单一计划组
                 calc.OnFinishedCalc = (d) =>
                 {
                     //MessageBox.Show(dtp.DataType + "执行完毕！");
 
-                    foreach (string key in Program.AllGlobalSetting.AllNoClosedChanceList.Keys)
+                    foreach (string key in Program<T>.AllGlobalSetting.AllNoClosedChanceList.Keys)
                     {
-                        ChanceClass<TimeSerialData> nc = Program.AllGlobalSetting.AllNoClosedChanceList[key];
+                        ChanceClass<T> nc = Program<T>.AllGlobalSetting.AllNoClosedChanceList[key];
 
                         List<string> currLines = this.Txt_Chances.Lines.ToList();
                         currLines.Add(string.Format("{2}=>{0}/{1}", nc.ChanceCode, nc.UnitCost,nc.ExpectCode));
@@ -337,20 +339,20 @@ namespace PK10Server
                     this.Txt_Chances.Refresh();
                 };
                 calc.Calc();
-                Program.AllGlobalSetting.AllRunningPlanGrps = allgroups;//恢复原有的计划组
+                Program<T>.AllGlobalSetting.AllRunningPlanGrps = allgroups;//恢复原有的计划组
                 allgroups.Values.ToList().ForEach(
                     grp =>
                     {
-                        lock (Program.AllGlobalSetting.AllStragIndexs)
+                        lock (Program<T>.AllGlobalSetting.AllStragIndexs)
                             foreach (var kv in grp.grpIndexs)
                             {
-                                if (Program.AllGlobalSetting.AllStragIndexs.ContainsKey(kv.Key))
+                                if (Program<T>.AllGlobalSetting.AllStragIndexs.ContainsKey(kv.Key))
                                 {
-                                    Program.AllGlobalSetting.AllStragIndexs[kv.Key] = kv.Value;
+                                    Program<T>.AllGlobalSetting.AllStragIndexs[kv.Key] = kv.Value;
                                 }
                                 else
                                 {
-                                    Program.AllGlobalSetting.AllStragIndexs.Add(kv.Key, kv.Value);
+                                    Program<T>.AllGlobalSetting.AllStragIndexs.Add(kv.Key, kv.Value);
                                 }
                             }
                     }

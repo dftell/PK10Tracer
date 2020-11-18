@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root AccessMethod="FileAccessMethod" SystemMode="Full" debug="1">
+<!--<root AccessMethod="FileAccessMethod" SystemMode="Plugin"><DataSource id="itms1" Type="web" Src="http://localhost:17275/WebSearchCenter.aspx"/>
+	<DataSource  id="itms" Type="client" Src="E:\WorkSpace\技术资料\ITMSVR\FSMS"/>Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\cfzqzhouys\thinkpad\数据\data\chinazhou.mdf;Integrated Security=True;Connect Timeout=30-->
+<DataSource id="WXDB" Type="web" Src="http://share.wolfinv.com/WCS/WebSearchCenter.aspx"/>		
+	<!--<DataSource  id="itms" Type="client" Src="E:\projects\WCS"/>-->
+</root>

@@ -8,8 +8,16 @@ namespace WolfInv.com.StrategyLibForWD.Guides
 {
     public static class GuideClass
     {
+        public static Single ToEquitPrice(this double price,int defaultDec=3)
+        {
+            return (Single)Math.Round(price,defaultDec);
+        }
         public static  T[] MA<T>(this T[] arr,int arg) 
         {
+            if(arr.Length<=arg)
+            {
+                return arr;
+            }
             int N = arg;
             T[] ret = new T[arr.Length];
             dynamic firstVal = arr[0];
@@ -35,7 +43,7 @@ namespace WolfInv.com.StrategyLibForWD.Guides
 
         public static T[] EMA<T>(this T[] arr,int N)
         {
-            if(arr.Length == 1)
+            if(arr.Length <= N)
             {
                 return arr;
             }

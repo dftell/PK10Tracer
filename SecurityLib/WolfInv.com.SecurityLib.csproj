@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="DnsClient, Version=1.2.0.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
       <HintPath>..\packages\DnsClient.1.2.0\lib\net45\DnsClient.dll</HintPath>
@@ -67,8 +70,6 @@
     <Compile Include="DataBuilders\DateSerialCodeDataBuilder.cs" />
     <Compile Include="DataBuilders\DateSerialDatabuilder.cs" />
     <Compile Include="DataBuilders\MongoDataBuilder.cs" />
-    <Compile Include="DataTypes\StockInfoMongoData.cs" />
-    <Compile Include="DataTypes\StockMongoData.cs" />
     <Compile Include="Filters\CommFilterLogicBaseClass.cs" />
     <Compile Include="Filters\CommFilterResult.cs" />
     <Compile Include="Filters\iCallBackable.cs" />
@@ -148,9 +149,20 @@
       <Project>{6af5544d-5b6b-40a9-9258-72cbe6ce207d}</Project>
       <Name>WolfInv.com.ProbMathLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WinInterComminuteLib\WolfInv.com.WinInterComminuteLib.csproj">
+      <Project>{7859D79D-EDD5-4B79-B3DA-072432BC8FCC}</Project>
+      <Name>WolfInv.com.WinInterComminuteLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WolfInv.com.WDDataInit\WolfInv.com.WDDataInit.csproj">
+      <Project>{c41de39d-26aa-4b41-b9a4-7d78aa1f78a5}</Project>
+      <Name>WolfInv.com.WDDataInit</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DataTypes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

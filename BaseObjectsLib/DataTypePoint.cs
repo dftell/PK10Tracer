@@ -17,7 +17,7 @@ namespace WolfInv.com.BaseObjectsLib
         //public int SrcUseXml = 1;
         public int AutoSwitchHost = 0;//是否自动切换主机
 
-        public int ExpectCodeDateLong = 0;
+        public int ExpectCodeDateLong = 8;
         public int ExpectCodeCounterMax = 180;
         public string ExpectCodeDateFormate = "yyyyMMdd";
         public int ExpectCodeCounterLen;//gd11x5突然改变长度，计数器长度42变为042三位数，为适应新的改变必须规范使用统一的长度做约束，不改变以前的数据

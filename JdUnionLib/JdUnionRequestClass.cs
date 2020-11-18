@@ -11,7 +11,7 @@ namespace WolfInv.com.JdUnionLib
         string code { get; set; }
         string msg { get; set; }
     }
-    public class JdUnion_ReturnClass : iReturnMsg
+    public class JdUnion_ReturnClass : JsonableClass<JdUnion_ReturnClass>, iReturnMsg
     {
         public string code { get; set; }
         public string msg { get; set; }
@@ -61,7 +61,8 @@ namespace WolfInv.com.JdUnionLib
             //https://open.jdy.com/doc/api/14/169
             strJsonName = Module.ModuleName;
             ReqBaseUrl = Module.AccessUrl;
-            string strJsonModel = this.getJsonContent(strJsonName);
+            //string strJsonModel = this.getJsonContent(strJsonName);//文件只有model文件，所以，应该要修改为model
+            string strJsonModel = this.getJsonContent(string.IsNullOrEmpty(Module.RequestModel) ?strJsonName:Module.RequestModel);
             if (strJsonModel == null)
             {
                 return false;

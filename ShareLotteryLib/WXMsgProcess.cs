@@ -10,6 +10,8 @@ using XmlProcess;
 using System.Runtime.Serialization;
 using WolfInv.com.LogLib;
 using System.Net;
+using WolfInv.Com.WCS_Process;
+using Group = WolfInv.Com.WCS_Process.Group;
 
 namespace WolfInv.com.ShareLotteryLib
 {
@@ -21,6 +23,11 @@ namespace WolfInv.com.ShareLotteryLib
         public Dictionary<string, Dictionary<string, TheAskWaitingUserAnswer>> historyAsk { get; set; }//所有群历史回复的问题
 
         public static Dictionary<string, ActionDefine> ActionDic;
+
+        public static Dictionary<string,bussinessConfigClass> bcDic;
+
+        public Action<string> LoginPress;
+
         #endregion
 
         public string RobotUnionId { get; set; }
@@ -35,7 +42,7 @@ namespace WolfInv.com.ShareLotteryLib
         public Func<string, string, string> SendImgMsg;
         public Func<string, string, string> SendUrlImgMsg;
         public ShareLotteryPlanCollection AllPlan { get; set; }
-        
+        public CITMSUser currChatUser;
         public string ProcessName { get; set; }
         public WXMsgProcess()
         {
@@ -85,8 +92,17 @@ namespace WolfInv.com.ShareLotteryLib
         ////    RefreshMsg(sender, msgs);
         ////}
 
-        public void RefreshMsg(object sender, List<wxMessageClass> msgs)
+        public void RefreshMsg(object sender, List<wxMessageClass> msgs,bool disableMutliTask=false)
         {
+
+            string msg = null;
+            bool sysValid = GlobalShare.InitAndVirLogin(string.IsNullOrEmpty(AppDomain.CurrentDomain.RelativeSearchPath)?AppDomain.CurrentDomain.BaseDirectory:AppDomain.CurrentDomain.RelativeSearchPath,out msg);
+            if(!sysValid)
+            {
+                for(int i=0;i<msgs.Count;i++)
+                    SendMsg?.Invoke(string.Format("{0}", msg), msgs[i].FromUserNam);
+                return;
+            }
             wxMessageClass wxmsg = null;
             try
             {
@@ -98,10 +114,13 @@ namespace WolfInv.com.ShareLotteryLib
                     //{
                     //    continue;
                     //}
-                    if(SystemSetting.saveMsg == "1")//如果保存记录
-                    Task.Run(()=> {
-                        saveMsg(wxmsg);
-                    });
+                    if (SystemSetting.saveMsg == "1")//如果保存记录
+                    {
+                        Task.Run(() =>
+                        {
+                            saveMsg(wxmsg);
+                        });
+                    }
                     if (!wxmsg.IsAtToMe)
                     {
                         if (wxmsg.ToUserName == RobotUserName && SystemSetting.allProviteChat == "1")//个人对我说的话，转入私聊
@@ -113,7 +132,7 @@ namespace WolfInv.com.ShareLotteryLib
                     }
                     MsgChanged?.Invoke(wxmsg.FromMemberNikeName, wxmsg);//更新消息
                     ShareLotteryPlanClass optPlan = null;
-                    if (!ProcessOneMsg(wxmsg, ref optPlan))//不是群内对我说的话
+                    if (!ProcessOneMsg(wxmsg, ref optPlan,disableMutliTask))//不是群内对我说的话
                     {   
                        
                         continue;
@@ -132,35 +151,57 @@ namespace WolfInv.com.ShareLotteryLib
         }
 
 
-        bool ProcessOneMsg(wxMessageClass wxmsg,ref ShareLotteryPlanClass optPlan)
+        bool ProcessOneMsg(wxMessageClass wxmsg,ref ShareLotteryPlanClass optPlan,bool disableMutliTask=false)
         {
             ActionDefine define = null;
             ActionType curraction = checkTheAction(wxmsg,ref define);
-            if(waitingAsk!= null)
+            currChatUser = GlobalShare.GlobalData?.getUserByWxId(wxmsg.FromUserNam,!disableMutliTask);
+            if(!define.noNeedLogin && currChatUser == null)//如果需要登录，但是该用户未有微信账号对应用户信息，那就证明没有登陆
+            {
+
+                string msg = string.Format(@"{0}此操作需要你的用户信息，请先登录!",disableMutliTask?"":"@"+wxmsg.FromMemberNikeName+" ");
+                SendMsg(msg, wxmsg.FromUserNam);
+                return false;
+            }
+            if(currChatUser != null)
+            {
+                this.LoginPress?.Invoke(currChatUser.wxOpenId);
+            }
+            ResponseActionClass rac = null;
+            bool isOpenAskResult = false;
+            if (waitingAsk!= null)
             {
                 if(waitingAsk.ContainsKey(wxmsg.FromUserNam) && waitingAsk[wxmsg.FromUserNam].ContainsKey(wxmsg.FromMemberUserName))
                 {
+                    TheAskWaitingUserAnswer askObj = waitingAsk[wxmsg.FromUserNam][wxmsg.FromMemberUserName];
                     //如果回复的人就是等待回答清单中的人，首先判断是否是回复，如果不是回复，宣布首先回答我的问题，其他问题无效，等下再问
-                    if(curraction!= ActionType.ValidateInfo)
+                    if ((curraction!= ActionType.ValidateInfo && curraction!= ActionType.Undefined) || (curraction == ActionType.Undefined && !askObj.isOpenAsk))//如果有非开放式问题
                     {
-                        TheAskWaitingUserAnswer askObj = waitingAsk[wxmsg.FromUserNam][wxmsg.FromMemberUserName];
+                        
                         string msg = string.Format(@"@{0} 请您先回答我刚才提出的问题！在回答之前我不会接受你其他任何请求.
 {1}",wxmsg.FromMemberNikeName,askObj.askMsg);
                         SendMsg(msg,wxmsg.FromUserNam);
                         return false;
                     }
+                    else //如果是不可识别的答案，只处理开放式问题,把最后一个问题提出来
+                    {
+                        rac = new ResponseAction_ValidateInfo(this,wxmsg);
+                        isOpenAskResult = true;
+                    }
                 }
             }
-
+            if(!isOpenAskResult)            
+                rac = ResponseActionClass.CreateAction(curraction, this, wxmsg);
             
-            ResponseActionClass rac = ResponseActionClass.CreateAction(curraction, this, wxmsg);
-            rac.actionDefine = define;
-            if(rac == null)
+            if (rac == null)
             {
+                SendMsg("系统已重置！", wxmsg.FromUserNam);
                 optPlan = null;
                 return false;
             }
-            if (curraction == ActionType.Undefined)
+            rac.DisableMultiTaskProcess = disableMutliTask;
+            rac.actionDefine = define;
+            if (curraction == ActionType.Undefined && !isOpenAskResult)
                 rac.currPlan = null;
             else
             {
@@ -183,6 +224,7 @@ namespace WolfInv.com.ShareLotteryLib
         {
 
             define = new ActionDefine();
+            define.noNeedLogin = true;
             string myname = string.Format("@{0}", wxmsg.AtMemberNikeName[0]);
             string msg = wxmsg.Msg.Replace(myname, "").Trim().Replace(" ", "");
             ////string strtest = @"\[[\s\S]*?]";
@@ -194,26 +236,55 @@ namespace WolfInv.com.ShareLotteryLib
             {
                 ActionDic = getActionDictionary();
             }
+            if(bcDic == null)
+            {
+                bussinessProcess.Load();
+                bcDic = bussinessProcess.bussinessList==null?new Dictionary<string, bussinessConfigClass>():bussinessProcess.bussinessList.configs.ToDictionary(a=>a.matchKey,a=>a);
+            }
+
             Type t = typeof(ActionType);
             Array arr = Enum.GetValues(t);
-            foreach (int myCode in arr)
+            Dictionary<string, int> actDic = new Dictionary<string, int>();
+            foreach (int i in arr)
             {
-                string strName = Enum.GetName(t, myCode);//获取名称
-                if(!ActionDic.ContainsKey(strName))
-                {
-                    continue;
-                }
+                string strName = Enum.GetName(t, i);
+                if (!actDic.ContainsKey(strName))
+                    actDic.Add(strName, i);
+            }
+            
+            foreach (string strName in ActionDic.Keys)
+            {
+                //string strName = Enum.GetName(t, myCode);//获取名称
                 ActionDefine dic = ActionDic[strName];
                 if(dic == null)
                 {
                     continue;
                 }
+                
+                string useActionType = dic.useActionType;
+                if(string.IsNullOrEmpty(useActionType))
+                {
+                    useActionType = dic.actionName;
+                }
+                if (!actDic.ContainsKey(useActionType))
+                {
+                    continue;
+                }
+                int myCode = actDic[useActionType];
                 for (int i = 0; i < dic.regConditions.Count; i++)
                 {
                     Regex regTr = new Regex(dic.regConditions[i]);
                     MatchCollection mcs = regTr.Matches(msg);
                     if (mcs.Count > 0)
                     {
+                        define = dic;
+                        if ((ActionType)myCode == ActionType.ValidateInfo)
+                        {
+                            if (mcs.Count > 1)
+                            {
+                                continue;
+                            }
+                        }
                         return (ActionType)myCode;
                     }
                 }
@@ -238,7 +309,18 @@ namespace WolfInv.com.ShareLotteryLib
                     ActionDefine ad = new ActionDefine();
                     
                     string type = XmlUtil.GetSubNodeText(node, "@type");
+                    ad.submitUrl = XmlUtil.GetSubNodeText(node, "@submitUrl");
+                    ad.useActionType = XmlUtil.GetSubNodeText(node, "@useActionType"); 
+                    ad.useBussinessType = XmlUtil.GetSubNodeText(node, "@useBussinessType"); 
+                    ad.isOpenAsk = XmlUtil.GetSubNodeText(node, "@isOpenAsk").ToLower().Trim() == "1" || XmlUtil.GetSubNodeText(node, "@isOpenAsk").ToLower().Trim() == "true";
+                    ad.noNeedLogin = XmlUtil.GetSubNodeText(node, "@noNeedLogin").ToLower().Trim() == "true"|| XmlUtil.GetSubNodeText(node, "@noNeedLogin").ToLower().Trim() == "1";
                     ad.actionName = type;
+                    ad.needAsk = XmlUtil.GetSubNodeText(node, "@needAsk").ToLower().Trim() == "1" || XmlUtil.GetSubNodeText(node, "@needAsk").ToLower().Trim() == "true";
+                    int.TryParse(XmlUtil.GetSubNodeText(node, "@typeIndex"), out ad.typeIndex);
+                    //int.TryParse(XmlUtil.GetSubNodeText(node, "@actionIndex"), out ad.actionIndex);
+                    if (ad.needAsk)
+                        getAskItems(node.SelectSingleNode("ask/item"),ref ad.AskDefine);
+                    ad.regRule = XmlUtil.GetSubNodeText(node, "@regRule");
                     List<string> slist = new List<string>();
                     XmlNodeList snodes = node.SelectNodes("item");
                     foreach(XmlNode snode in snodes)
@@ -271,6 +353,36 @@ namespace WolfInv.com.ShareLotteryLib
                 return ret;
             }
             return ret;
+        }
+
+        void getAskItems(XmlNode node,ref AskItemDefineClass pobj)
+        {
+            string msg = XmlUtil.GetSubNodeText(node, "@text");
+            if(string.IsNullOrEmpty(msg))
+            {
+                return;
+            }
+            string val = XmlUtil.GetSubNodeText(node, "@value");
+            bool isOpenAsk = XmlUtil.GetSubNodeText(node, "@isOpenAsk") == "1";
+            if(pobj == null)
+            {
+                pobj = new AskItemDefineClass();
+            }
+            pobj.text = msg;
+            pobj.value = val;
+            pobj.isOpenAsk = isOpenAsk;
+            XmlNodeList nodes = node.SelectNodes("item");
+            foreach(XmlNode snode in nodes)
+            {
+                AskItemDefineClass sobj = null;
+                getAskItems(snode,ref sobj);
+                if(sobj != null)
+                {
+                    if(pobj.subItems == null)
+                        pobj.subItems = new List<AskItemDefineClass>();
+                    pobj.subItems.Add(sobj);
+                }
+            }
         }
 
         public bool InjectAsk(TheAskWaitingUserAnswer ask)
@@ -424,19 +536,6 @@ namespace WolfInv.com.ShareLotteryLib
             {
 
             }
-        }
-    }
-
-    
-    public class ActionDefine
-    {
-        public string actionName { get; set; }
-        public List<string> regConditions { get; set; }
-        public Dictionary<string,ResponseProcessItem> responseGroup { get; set; }
-        public ActionDefine()
-        {
-            regConditions = new List<string>();
-            responseGroup = new Dictionary<string, ResponseProcessItem>();
         }
     }
 

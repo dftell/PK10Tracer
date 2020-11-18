@@ -30,10 +30,14 @@ namespace JdEBuy
                 }
                 if (!Program.WCS_Inited)
                 {
-                    GlobalShare.MainAssem = Assembly.GetExecutingAssembly();
-                    GlobalShare.AppDllPath = Application.StartupPath;
-                    GlobalShare.Init(Application.StartupPath);
-                    Program.ForceLogin();
+                    jdc.UpdateText("初始化wcs");
+                    string msg = null;
+                    bool succ = Program.Init_WCS(out msg);
+                    if(!succ)
+                    {
+                        jdc.UpdateText(msg);
+                    }
+                    jdc.UpdateText(string.Format("初始化wcs完毕,数据源数量为{0}!",GlobalShare.DataPointMappings?.Count));
                 }
             }
             catch (Exception ce)
@@ -42,7 +46,15 @@ namespace JdEBuy
                 return;
             }
             currJdc = jdc;
-            bool inited = JdUnion_GlbObject.Inited;
+            bool inited = false;
+            try
+            {
+                inited = JdUnion_GlbObject.Inited;
+            }
+            catch(Exception ce)
+            {
+                return;
+            }
             //JdGoodsQueryClass.LoadAllcommissionGoods = loadAllData;
             downloadTimer = new System.Windows.Forms.Timer();
             downloadTimer.Interval = 6 * 60 * 60 * 1000;//6小时
@@ -165,7 +177,15 @@ namespace JdEBuy
         {
             this.Cursor = Cursors.WaitCursor;
             JdGoodsQueryClass.LoadPromotionGoodsinfo = getInfoBySukIds;
-             Dictionary<string,JdGoodSummayInfoItemClass> ret = JdGoodsQueryClass.QueryWeb(this.txt_ask.Text,10);
+            string msg = null;
+            this.txt_answer.Text = "";
+             Dictionary<string,JdGoodSummayInfoItemClass> ret = JdGoodsQueryClass.QueryFromLocal(this.txt_ask.Text,out msg);
+            if(msg != null)
+            {
+                this.txt_answer.Text = msg;
+                this.Cursor = Cursors.Default;
+                return;
+            }
             List<string> retStrs = ret.OrderBy(a=>a.Value.price).Select(a => {
                 //a.Value.commissionUrl = a.Value.getMyUrl(null);
                 if (a.Value?.materialUrl == null)
@@ -174,8 +194,11 @@ namespace JdEBuy
                 return a.Value.getFullContent(true) + a.Value.getShortLink("1969838238");
                 //return a.Value.getFullContent(!string.IsNullOrEmpty(a.Value?.commissionUrl)) ;
             }).ToList();
-            string strRet = string.Join("\r\n",retStrs.Where(a=>string.IsNullOrEmpty(a)==false));
-            this.txt_answer.Text  = strRet;
+            if (retStrs.Count > 0)
+            {
+                string strRet = string.Join("\r\n", retStrs.Where(a => string.IsNullOrEmpty(a) == false));
+                this.txt_answer.Text = strRet;
+            }
             this.Cursor = Cursors.Default;
 
         }

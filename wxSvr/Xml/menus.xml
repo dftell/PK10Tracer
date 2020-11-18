@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<menus>
+  <menu grpid="gndq">
+    <menu id="power_calc" answer="1" title="电力测算" url="http://www.wolfinv.com/lsi/power_calc.html"/>
+    <menu id="customerList" answer="2" title="客户信息" url="http://www.wolfinv.com/lsi/wxMainFrame.aspx?type=customerList"/>
+    <menu id="" title="" url=""/>
+  </menu>
+</menus>

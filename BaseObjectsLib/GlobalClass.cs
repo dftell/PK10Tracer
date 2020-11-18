@@ -243,6 +243,31 @@ namespace WolfInv.com.BaseObjectsLib
                 SysParams["System"]["WXSVRHost"] = value;
             }
         }
+        static string _VipDocRootPath;
+        public string VipDocRootPath
+        {
+            get
+            {
+                if (_VipDocRootPath != null)
+                {
+                    return _VipDocRootPath;
+                }
+                if (SysParams.ContainsKey("System"))
+                {
+                    if (SysParams["System"].ContainsKey("VipDocRootPath"))
+                    {
+                        _VipDocRootPath = SysParams["System"]["VipDocRootPath"];
+                        return _VipDocRootPath;
+                    }
+                }
+                return null;
+            }
+            set
+            {
+                _VipDocRootPath = value;
+                SysParams["System"]["VipDocRootPath"] = value;
+            }
+        }
         public string WXLogNoticeUser
         {
             get

@@ -1,6 +1,7 @@
-﻿namespace WolfInv.com.SecurityLib
+﻿using WolfInv.com.BaseObjectsLib;
+namespace WolfInv.com.SecurityLib
 {
-    public class TXFFCExpectReader : CommExpectReader
+    public class TXFFCExpectReader<T> : CommExpectReader<T> where T : TimeSerialData
     {
         public TXFFCExpectReader()
         {
@@ -16,7 +17,7 @@
         
     }
 
-    public class CAN28ExpectReader : CommExpectReader
+    public class CAN28ExpectReader<T> : CommExpectReader<T> where T : TimeSerialData
     {
         public CAN28ExpectReader()
         {
@@ -32,7 +33,7 @@
         
     }
 
-    public class SCKL12_ExpectReader : CommExpectReader
+    public class SCKL12_ExpectReader<T> : CommExpectReader<T> where T : TimeSerialData
     {
         public SCKL12_ExpectReader()
         {
@@ -48,7 +49,7 @@
         
     }
 
-    public class NLKL12_ExpectReader : CommExpectReader
+    public class NLKL12_ExpectReader<T> : CommExpectReader<T> where T : TimeSerialData
     {
         public NLKL12_ExpectReader()
         {
@@ -65,7 +66,7 @@
     }
 
     //全国快乐11彩种
-    public class KL11_ExpectReader: CommExpectReader
+    public class KL11_ExpectReader<T>: CommExpectReader<T> where T : TimeSerialData
     {
         public KL11_ExpectReader()
         {
@@ -78,7 +79,7 @@
         }
     }
 
-    public class GDKL11_ExpectReader : KL11_ExpectReader
+    public class GDKL11_ExpectReader<T> : KL11_ExpectReader<T> where T : TimeSerialData
     {
         public GDKL11_ExpectReader()
         {
@@ -87,7 +88,7 @@
         }
     }
 
-    public class CQSSC_ExpectReader : KL11_ExpectReader
+    public class CQSSC_ExpectReader<T> : KL11_ExpectReader<T> where T : TimeSerialData
     {
         public CQSSC_ExpectReader()
         {
@@ -95,7 +96,7 @@
             InitTables();
         }
     }
-    public class XJSSC_ExpectReader : KL11_ExpectReader
+    public class XJSSC_ExpectReader<T> : KL11_ExpectReader<T> where T : TimeSerialData
     {
         public XJSSC_ExpectReader()
         {
@@ -104,7 +105,7 @@
         }
     }
 
-    public class TJSSC_ExpectReader : KL11_ExpectReader
+    public class TJSSC_ExpectReader<T> : KL11_ExpectReader<T> where T : TimeSerialData
     {
         public TJSSC_ExpectReader() 
         {
@@ -113,7 +114,7 @@
         }
     }
 
-    public class JSK3_ExpectReader : KL11_ExpectReader
+    public class JSK3_ExpectReader<T> : KL11_ExpectReader<T> where T : TimeSerialData
     {
         public JSK3_ExpectReader()
         {
@@ -124,7 +125,7 @@
 
     
 
-    public class XYFT_ExpectReader: CommExpectReader
+    public class XYFT_ExpectReader<T> : CommExpectReader<T> where T : TimeSerialData
     {
         public XYFT_ExpectReader()
         {

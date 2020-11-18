@@ -64,6 +64,10 @@ namespace WolfInv.com.BaseObjectsLib
             {
                 throw (new Exception("联合的表行数需要一致！"));
             }
+            if(tb.GetTable() == null)
+            {
+                return;
+            }
             for (int i = 0; i < tb.GetTable().Columns.Count; i++)
             {
                 DataColumn dc = tb.GetTable().Columns[i];
@@ -174,10 +178,28 @@ namespace WolfInv.com.BaseObjectsLib
             return;
         }
 
+        void initList()
+        {
+            tList = new List<Dictionary<string, object>>();
+            for(int i=0;i<Count;i++)
+            {
+                Dictionary<string, object> objs = new Dictionary<string, object>();
+                for(int c=0;c<Table.Columns.Count;c++)
+                {
+                    objs.Add(Table.Columns[c].ColumnName, Table.Rows[i][Table.Columns[c].ColumnName]);
+                }
+                tList.Add(objs);
+            }
+        }
+
         public object this[int index, string colname]
         {
             get
             {
+                if(Count>0 && tList.Count!= Count)
+                {
+                    initList();
+                }
                 TableUpdateFlag = false;
                 if (tList[index] != null && tList[index].ContainsKey(colname))
                     return tList[index][colname];

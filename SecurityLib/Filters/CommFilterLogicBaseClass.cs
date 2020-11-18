@@ -5,9 +5,9 @@ namespace WolfInv.com.SecurityLib
     /// <summary>
     /// 过滤逻辑基类
     /// </summary>
-    public abstract class CommFilterLogicBaseClass : iCommCallBackable
+    public abstract class CommFilterLogicBaseClass<T> : iCommCallBackable where T:TimeSerialData
     {
-        public CommStrategyBaseClass ExecStrategy { get; set; }
+        public CommStrategyBaseClass<T> ExecStrategy { get; set; }
         public BaseDataItemClass BaseInfo;
         public string secCode;
         public DateTime Endt;
@@ -17,7 +17,7 @@ namespace WolfInv.com.SecurityLib
         /// 是否右侧选证券
         /// </summary>
         public bool IsRightSelect;
-        public CommSecurityProcessClass SecObj;
+        public CommSecurityProcessClass<T> SecObj;
         public string FilterSubFunc;
         /// <summary>
         /// 回览视窗周期数
@@ -28,7 +28,7 @@ namespace WolfInv.com.SecurityLib
         /// </summary>
         public int BuffDays;
 
-        public CommFilterLogicBaseClass(CommSecurityProcessClass secinfo)
+        public CommFilterLogicBaseClass(CommSecurityProcessClass<T> secinfo)
         {
             SecObj = secinfo;
         }
@@ -40,7 +40,7 @@ namespace WolfInv.com.SecurityLib
         }
 
 
-        public virtual CommSecurityProcessClass ExecFilter()
+        public virtual CommSecurityProcessClass<T> ExecFilter()
         {
             return SecObj;
         }

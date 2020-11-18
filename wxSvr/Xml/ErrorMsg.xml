@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<errormsgs>
+	
+	<errmsg id="00001" msg="无法连接服务器!"/>
+	<errmsg id="00002" msg="无法连接到数据库!"/>
+	<errmsg id="00003" msg="无法登陆!"/>
+</errormsgs>

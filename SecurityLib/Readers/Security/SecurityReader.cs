@@ -5,11 +5,18 @@ using MongoDB.Driver;
 using System;
 using WolfInv.com.ProbMathLib;
 using System.Data;
-
+using WolfInv.com.WDDataInit;
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.SecurityLib
 {
     public delegate void CheckFinishedCnt(int total,int grpcnt,int FinishedGrpCnt,int InPoolCnt,int FinishedCnt); 
-    public class SecurityReader: DateSerialCodeDataReader,ICodeDataList, IGetAllTimeSerialList
+
+    public class StockReader: SecurityReader<StockMongoData>
+    {
+        public StockReader(string type) : base(type)
+        { }
+    }
+    public class SecurityReader<T>: DateSerialCodeDataReader<T>,ICodeDataList<T>, IGetAllTimeSerialList<T> where T:TimeSerialData
     {
         public SecurityReader(string type):base(type)
         { }
@@ -17,40 +24,40 @@ namespace WolfInv.com.SecurityLib
         {
         }
 
-        public MongoReturnDataList<T> GetAllCodeDataList<T>(bool IncludeStoped=false) where T : MongoData
+        public MongoReturnDataList<T> GetAllCodeDataList(bool IncludeStoped=false)
         {
             builder = new CodeDataBuilder(this.DbTypeName,this.TableName, null);
             MongoReturnDataList<T> ret = (builder as CodeDataBuilder).getData<T>(IncludeStoped);
             return ret;
         }
 
-        public MongoReturnDataList<T> GetAllCodeDataList<T>() where T : MongoData
+        public MongoReturnDataList<T> GetAllCodeDataList()
         {
-            return GetAllCodeDataList<T>(false);
+            return GetAllCodeDataList(false);
         }
 
-        public override MongoDataDictionary<T> GetAllCodeDateSerialDataList<T>(bool DateAsc= true)
+        public override MongoDataDictionary<T> GetAllCodeDateSerialDataList(bool DateAsc= true)
         {
             MongoDataDictionary<T> ret = new MongoDataDictionary<T>();
-            MongoReturnDataList<T> list = (builder as DateSerialCodeDataBuilder).getData<T>(DateAsc);   //.getData<T>(DateAsc);
+            MongoReturnDataList<T> list = (builder as DateSerialCodeDataBuilder).getData<T>(DateAsc);   //.getData(DateAsc);
             return DataListConverter<T>.ToDirectionary(list, "code");
         }
 
-        public override MongoDataDictionary<T> GetAllCodeDateSerialDataList<T>(string begT, bool DateAsc = true)
+        public override MongoDataDictionary<T> GetAllCodeDateSerialDataList(string begT, bool DateAsc = true)
         {
             MongoDataDictionary<T> ret = new MongoDataDictionary<T>();
             MongoReturnDataList<T> list = (builder as DateSerialCodeDataBuilder).getData<T>(begT, DateAsc);
             return DataListConverter<T>.ToDirectionary(list, "code");
         }
 
-        public override MongoDataDictionary<T> GetAllCodeDateSerialDataList<T>(string begT, string EndT, bool DateAsc = true) 
+        public override MongoDataDictionary<T> GetAllCodeDateSerialDataList(string begT, string EndT, bool DateAsc = true) 
         {
             MongoDataDictionary<T> ret = new MongoDataDictionary<T>();
             MongoReturnDataList<T> list = (builder as DateSerialCodeDataBuilder).getData<T>(begT, EndT, DateAsc);
             return DataListConverter<T>.ToDirectionary(list, "code");
         }
 
-        public override MongoDataDictionary<T> GetAllCodeDateSerialDataList<T>(string endT, int Cnt, bool DateAsc = true)
+        public override MongoDataDictionary<T> GetAllCodeDateSerialDataList(string endT, int Cnt, bool DateAsc = true)
         {
             MongoDataDictionary<T> ret = new MongoDataDictionary<T>();
             MongoReturnDataList<T> list = (builder as DateSerialCodeDataBuilder).getData<T>(endT, Cnt, DateAsc);
@@ -58,13 +65,13 @@ namespace WolfInv.com.SecurityLib
         }
 
 
-        public MongoReturnDataList<T> GetAllTimeSerialList<T>() where T : MongoData
+        public MongoReturnDataList<T> GetAllTimeSerialList() 
         {
             MongoReturnDataList<T> list = (builder as DateSerialCodeDataBuilder).getFullTimeSerial<T>();
             return list;
         }
 
-        public MongoReturnDataList<T> GetAllVaildList<T>(string[] sqls) where T : MongoData
+        public MongoReturnDataList<T> GetAllVaildList(string[] sqls)
         {
             string[] ret = null;
             MongoReturnDataList<T> retdata = (builder as DateSerialCodeDataBuilder).getDataGroupBy<T>(sqls);
@@ -123,7 +130,7 @@ namespace WolfInv.com.SecurityLib
 2、所谓复权就是对股价和成交量进行权息修复，按照股票的实际涨跌绘制股价走势图,并把成交量调整为相同的股本口径。 
              */
             if (org_bfq_data == null)
-                org_bfq_data = new SecurityReader(base.DbTypeName, base.TableName, new string[] { code }).GetAllCodeDateSerialDataList<StockMongoData>()?[code];
+                org_bfq_data = new SecurityReader<StockMongoData>(base.DbTypeName, base.TableName, new string[] { code }).GetAllCodeDateSerialDataList()?[code];
             if (org_xdxr_data == null)
                 org_xdxr_data = new XDXRReader().getXDXRList(DbTypeName, code);
             MongoReturnDataList<XDXRData> xdxr_data = org_xdxr_data.Copy(false);
@@ -143,7 +150,7 @@ namespace WolfInv.com.SecurityLib
                     a=>a.date,
                     a=>a.date,
                     (s,a,b)=> {
-                    XDXRData ExObj = s.ExtentData as XDXRData;
+                    XDXRData ExObj = s.ExtentData() as XDXRData;
                     if(ExObj== null)
                         ExObj = new XDXRData();
                     if(b)
@@ -151,22 +158,22 @@ namespace WolfInv.com.SecurityLib
                         ExObj.date = s.date;
                         ExObj.category = a.category;
                     }
-                    s.ExtentData = ExObj;
+                    s.setExtentData(ExObj);
                 });
                 var testlist = list;
                 //retList = new MongoReturnDataList<StockMongoData>(list);
 
                 list = Pandas.FillNa<StockMongoData,string, XDXRData>(list,
-                    a => a.ExtentData as XDXRData,
-                a => (a.ExtentData as XDXRData).date,
+                    a => a.ExtentData() as XDXRData,
+                a => (a.ExtentData() as XDXRData).date,
                 (a, b, c) => 
                 {
-                    XDXRData data = a.ExtentData as XDXRData;
+                    XDXRData data = a.ExtentData() as XDXRData;
                     if(data == null)
                        data = new XDXRData();
                     //data.date = a.date;
                     data.category = b.category??0;
-                    a.ExtentData = data;
+                    a.setExtentData ( data);
                 }
                 ,FillType.FFill);
                 //retList = new MongoReturnDataList<StockMongoData>(list);
@@ -178,7 +185,7 @@ namespace WolfInv.com.SecurityLib
                     a=>a.date,
                     a=>a.date,
                     (s, a, b) => {
-                    XDXRData ExObj = s.ExtentData as XDXRData;
+                    XDXRData ExObj = s.ExtentData() as XDXRData;
                     if (ExObj == null)
                         ExObj = new XDXRData();
                     //ExObj.date = s.date;
@@ -190,7 +197,7 @@ namespace WolfInv.com.SecurityLib
                         ExObj.peigujia = a.peigujia;
                         ExObj.songzhuangu = a.songzhuangu;
                     }
-                    s.ExtentData = ExObj;
+                    s.setExtentData ( ExObj);
                 });
                 //ret.FillNa({ return a => a.ExtentData; }, "category", FillType.FFill);
                 //retList = new MongoReturnDataList<StockMongoData>(list);
@@ -203,7 +210,7 @@ namespace WolfInv.com.SecurityLib
                     a => a.date,
                     a => a.date,
                     (s, a, b) => {
-                        XDXRData ExObj = s.ExtentData as XDXRData;
+                        XDXRData ExObj = s.ExtentData() as XDXRData;
                         if (ExObj == null)
                             ExObj = new XDXRData();
                         //ExObj.date = s.date;
@@ -216,16 +223,16 @@ namespace WolfInv.com.SecurityLib
                             ExObj.peigujia = a.peigujia;
                             ExObj.songzhuangu = a.songzhuangu;
                         }
-                        s.ExtentData = ExObj;
+                        s.setExtentData( ExObj);
                     });
             }
             #endregion
             list = Pandas.FillNa<StockMongoData,string, XDXRData>(list,
-                    a => a.ExtentData as XDXRData,
-                a => (a.ExtentData as XDXRData).date,
+                    a => a.ExtentData() as XDXRData,
+                a => (a.ExtentData() as XDXRData).date,
                 (a, b, c) =>
                 {
-                    XDXRData ExObj = a.ExtentData as XDXRData;
+                    XDXRData ExObj = a.ExtentData() as XDXRData;
                     if (ExObj == null)
                         ExObj = new XDXRData();
                     ExObj.date = a.date;
@@ -242,7 +249,7 @@ namespace WolfInv.com.SecurityLib
             List<double?> xdxrcloses = new List<double?>();
             for(int i=0;i<ret.Count;i++)
             {
-                XDXRData xdata = ret[i].ExtentData as XDXRData;
+                XDXRData xdata = ret[i].ExtentData() as XDXRData;
                 
                 double midval = ((closes[i]??0) * 10 - xdata.fenhong.Value*Lbase + xdata.peigu.Value * xdata.peigujia.Value*Lbase)/(10+xdata.peigu.Value+xdata.songzhuangu.Value);
                 //long xdprice = Math.Round(midval);
@@ -318,17 +325,19 @@ namespace WolfInv.com.SecurityLib
             throw new NotImplementedException();
         }
 
-        public override ExpectList<T> ReadHistory<T>(long cnt, string endExpect)
+        public override ExpectList<T> ReadHistory(long cnt, string endExpect)
         {
             throw new NotImplementedException();
         }
 
         Func<StockMongoData, XDXRData> func = delegate (StockMongoData ac)
         {
-            return ac.ExtentData as XDXRData;
+            return ac.ExtentData() as XDXRData;
          };
 
         
+
+
         /*
          def _QA_data_stock_to_fq(bfq_data, xdxr_data, fqtype):
     '使用数据库数据进行复权'

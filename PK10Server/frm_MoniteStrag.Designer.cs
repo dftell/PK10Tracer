@@ -1,6 +1,6 @@
 ﻿namespace PK10Server
 {
-    partial class frm_MoniteStrag
+    partial class frm_MoniteStrag<T>
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.btn_startMonite = new System.Windows.Forms.Button();
-            this.runPlanPicker1 = new WolfInv.com.ExchangeLib.RunPlanPicker();
+            this.runPlanPicker1 = new WolfInv.com.ExchangeLib.RunPlanPicker<T>();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txt_DtpName = new System.Windows.Forms.TextBox();
@@ -235,7 +235,7 @@
         #endregion
 
         private System.Windows.Forms.Button btn_startMonite;
-        private WolfInv.com.ExchangeLib.RunPlanPicker runPlanPicker1;
+        private WolfInv.com.ExchangeLib.RunPlanPicker<T> runPlanPicker1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txt_DtpName;

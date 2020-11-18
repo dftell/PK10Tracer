@@ -8,12 +8,12 @@ using System.Windows.Forms.Design;
 using WolfInv.com.Strags;
 namespace WolfInv.com.ExchangeLib
 {
-    public class StagPickerEditor : UITypeEditor
+    public class StagPickerEditor<T> : UITypeEditor where T:TimeSerialData
     {
-        List<BaseStragClass<TimeSerialData>> AllList;
-        Dictionary<string,StragRunPlanClass<TimeSerialData>> AllPlans;
+        List<BaseStragClass<T>> AllList;
+        Dictionary<string,StragRunPlanClass<T>> AllPlans;
         IWindowsFormsEditorService editorService;
-        StragPicker picker ;
+        StragPicker<T> picker ;
         public StagPickerEditor()
         {
             
@@ -30,17 +30,17 @@ namespace WolfInv.com.ExchangeLib
 	        }
             if (this.editorService != null)
             {
-                AllList = BaseStragClass<TimeSerialData>.getObjectListByXml<BaseStragClass<TimeSerialData>>(GlobalClass.ReReadStragList());
-                AllPlans = StragRunPlanClass<TimeSerialData>.getObjectListByXml<StragRunPlanClass<TimeSerialData>>(GlobalClass.getStragRunningPlan(true)).ToDictionary(t => t.GUID, t => t);
-                List<BaseStragClass<TimeSerialData>> list = AllList.Where(t => AllPlans.ContainsKey(t.GUID) == false).ToList<BaseStragClass<TimeSerialData>>();
-                List<StragClass> list1 = new List<StragClass>();
-
+                AllList = BaseStragClass<T>.getObjectListByXml<BaseStragClass<T>>(GlobalClass.ReReadStragList());
+                AllPlans = StragRunPlanClass<T>.getObjectListByXml<StragRunPlanClass<T>>(GlobalClass.getStragRunningPlan(true)).ToDictionary(t => t.GUID, t => t);
+                List<BaseStragClass<T>> list = AllList.Where(t => AllPlans.ContainsKey(t.GUID) == false).ToList<BaseStragClass<T>>();
+                List<BaseStragClass<T>> list1 = new List<BaseStragClass<T>>();
+                /*
                 list.ForEach(a=> {
                     //list1.Add(ConvertionExtensions.ConvertTo<StragClass>(a as IConvertible));
-                    StragClass sc = a as StragClass;
-                    list1.Add(sc);
-                    });
-                picker = new StragPicker(list1);//支持一组合对多相同策略
+                    //BaseStragClass<T> sc = a as BaseStragClass<T>;
+                    list1.Add(a);
+                    });*/
+                picker = new StragPicker<T>(list);//支持一组合对多相同策略
                 editorService.ShowDialog(picker);
                 if (picker.SelectedStrag == null)
                 {

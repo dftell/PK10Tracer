@@ -18,6 +18,10 @@ namespace WolfInv.com.ShareLotteryLib
 
         public KeyText AddSub(KeyText key,MutliLevelData val)
         {
+            if(SubList == null)
+            {
+                SubList = new Dictionary<KeyText, MutliLevelData>();
+            }
             if (!SubList.ContainsKey(key))
             {
                 SubList.Add(key, val);

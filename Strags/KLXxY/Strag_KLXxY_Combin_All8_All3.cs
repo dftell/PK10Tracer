@@ -224,7 +224,7 @@ namespace WolfInv.com.Strags.KLXxY
 
         public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
-            ExpectList data = LastUseData();
+            ExpectList data = new ExpectList(LastUseData()?.Table);
             if(data == null)
             {
                 return 0;

@@ -1,0 +1,23 @@
+<config>
+	<bussiness matchKey="客户" title="客户信息" reqtable="custom_table" noNeedLogin="false">
+		
+		<item id="1" regIndex="1" title="公司" reqInfo="cid" noNull ="1" dataType="string" defaultValue="{userinfo.compid}" />
+		<item id="2" regIndex="2" title="信息类型" reqInfo="infoType" noNull="0" />
+		<item id="3" regIndex="3" title="内容" reqInfo="" noNull="0" splitString=","/>
+		<item id="4" regIndex="4" title="计划拜访日期" reqInfo="plandate" noNull="1"/>
+		<item regIndex="0" refIndex="3" title="客户名称" reqInfo="customer" dataType="string" maxLen="60" minLen="1"  noNull="0"/> 
+		<item regIndex="1" refIndex="3" title="联系人" reqInfo="" type="string" maxLen="60" minLen="1"  noNull="0"/> 
+		<item regIndex="2" refIndex="3" title="联系电话" reqInfo="" type="string" maxLen="60" minLen="1"  noNull="0"/> 
+		<item regIndex="3" refIndex="3" title="备注" reqInfo="remark" type="string" maxLen="60" minLen="1"  noNull="0"/> 
+	</bussiness>
+	<bussiness matchKey="用户" title="用户信息" reqtable="userinfo_table" noNeedLogin="true">
+		
+		<item id="1" regIndex="1" title="公司" reqInfo="compId" noNull ="1" dataType="string"  minLen="4"/>
+		<item id="2" regIndex="2" title="信息类型" reqInfo="infoType" noNull="0" hiden="true"/>
+		<item id="3" regIndex="3" title="用户名" reqInfo="userCode" dataType="string" noNull="1" maxLen="20" minLen="6"/> 
+		<item id="4" regIndex="4" title="用户密码" reqInfo="userPwd" dataType="string" noNull="1" maxLen="50" minLen="6"/> 
+		<item id="3" regIndex="6" title="姓名" reqInfo="userName" noNull="1" maxLen="20" minLen="2"/>
+		<item id="4" regIndex="5" title="电话号码" reqInfo="userTel" noNull="1" maxLen="12" minLen="7"/>
+		<item id="5" regIndex="7"  title="微信id" reqInfo="wxId" defaultValue="{userinfo.wxId}" dataType="string" maxLen="60" minLen="1"  noNull="0" hiden="true"/> 
+	</bussiness>
+</config>

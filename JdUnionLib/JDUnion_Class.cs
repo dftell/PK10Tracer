@@ -37,6 +37,13 @@ namespace WolfInv.com.JdUnionLib
         public string skuIds { get; set; }
     }
 
+    public class JdUnion_Goods_Goodsinfo_Class : JdUnion_Bussiness_Class
+    {
+        //jd.union.open.goods.query
+        public string skuIds { get; set; }
+        public string keyword { get; set; }
+    }
+
     /// <summary>
     /// 示例
     /// </summary>

@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root maskAllOtherAction="1">
+	<DefaultSetting>
+		<newNumberMsg>你好，{0}!欢迎您加入【乐享智购京东内购优惠群】请您花1分钟了解一下【群规】：1）群内都是相信京东购物品质的亲朋好友，大家和睦相处相亲相爱；2）群主每天会定时为家人们推荐京东内购价和超底价促销的商品福利信息；3）亲友们如果有指定商品可以以有格力空调的券吗的格式@{1} ，{1}会找到相应的的优惠券；您也可以关注我们的公众号【武府乐享智购】或者我们的官网http://share.wolfinv.com更加全面的了解和查询商品和优惠券信息。4）如果您觉得信息会打扰正常工作，可以点击群右上角进入设置，设置为【消息免打扰】，但是强烈建议设置为【置顶聊天】，让优惠购物的入口更醒目一些，群主也会定期组织群活动发福利；5）同时也恳请各位亲友不要乱发广告和无用信息，维护好咱们自己的群，做相亲相爱的一家人。如果您对我们的方式感到满意，请关注我们的【武府乐享智能】加盟。
+		</newNumberMsg>
+		<newServer>http://share.wolfinv.com/pushServer/other/</newServer>
+		<!--推送消息服务器-->
+		<startTime>8:00</startTime>
+		<!--默认每日开始时间-->
+		<endTime>22:00</endTime>
+		<!--默认每日结束时间-->
+		<interMinutes>30</interMinutes>
+		<!--默认推送间隔分钟数-->
+		<picsOneTime>1</picsOneTime>
+		<!--默认每次推送条数-->
+		<pushType>好券商品|9.9专区|今日必推|热销爆品</pushType>
+		<pushNewsWhenStart>1</pushNewsWhenStart>
+		<!--是否在推送前推送当日新闻，默认为否-->
+		<newsUrl>getNews.asp</newsUrl>
+		<!--默认推送前推送当日新闻内容链接-->
+		<newsType>生活</newsType>
+		<!--默认推送类型-->
+		<pushKnowledgeInMid>1</pushKnowledgeInMid>
+		<!--推送过程中推送知识，默认为否-->
+		<knowledgeUrl>getKnowedge.asp</knowledgeUrl>
+		<!--默认推送前推送知识链接-->
+		<pushGeetingAtEnd>1</pushGeetingAtEnd>
+		<!--是否在推送结束后推送问候语，默认为是-->
+		<geetingWords>getEndGeetingWords.asp</geetingWords>
+		<!--是否在推送结束后推送问候语，默认为是-->
+		<maxPrice>0</maxPrice>
+	</DefaultSetting>
+	<elites>
+		<!--频道id：1-好券商品,
+        2-超级大卖场,
+        10-9.9专区,
+        22-热销爆品,
+        24-数码家电,
+        25-超市,
+        26-母婴玩具,
+        27-家具日用,
+        28-美妆穿搭,
+        29-医药保健,
+        30-图书文具,
+        31-今日必推,
+        32-王牌好货,
+        33-秒杀商品,
+        34-拼购商品
+        -->
+		<elite id="1" name="好券商品"/>
+		<elite id="2" name="超级大卖场"/>
+		<elite id="10" name="9.9专区"/>
+		<elite id="22" name="热销爆品"/>
+		<elite id="24" name="数码家电"/>
+		<elite id="25" name="超市"/>
+		<elite id="26" name="母婴玩具"/>
+		<elite id="27" name="家具日用"/>
+		<elite id="28" name="美妆穿搭"/>
+		<elite id="29" name="医药保健"/>
+		<elite id="30" name="图书文具"/>
+		<elite id="31" name="今日必推"/>
+		<elite id="32" name="王牌好货"/>
+		<elite id="33" name="秒杀商品"/>
+		<elite id="34" name="拼购商品"/>
+	</elites>
+	<toWxChats>
+		
+<chatPoint name="老周家新群" subUnionId="1969838238" maxPrice="30" chartMgr="" startTime="9:00" endTime="22:30" interMinutes="25" newNumberMsg="欢迎亲人入群！" newsType="生活" knowledgeType="养生" pushType="好券商品|9.9专区|母婴玩具|今日必推" picsOneTime="1" disabled="0"/>
+		
+<chatPoint name="乐享智购京东内购群001" subUnionId="1969838238" chartMgr="" startTime="9:00" endTime="23:59" interMinutes="25" newNumberMsg="欢迎新盘友入群！" newsType="生活" knowledgeType="养生" pushType="王牌好货|超市|好券商品|9.9专区|今日必推" picsOneTime="1"/>
+		
+<chatPoint name="HapplyLottery" subUnionId="1969838238" chartMgr="" maxPrice="50" startTime="9:00" endTime="22:59" interMinutes="25" newNumberMsg="欢迎新盘友入群！" newsType="生活" knowledgeType="养生" pushType="拼购商品|数码家电|超级大卖场|好券商品" picsOneTime="1" disabled="0"/>
+		
+<chatPoint name="乐享智购京东内购群003" subUnionId="1969838238" maxPrice="30" chartMgr="" startTime="9:00" endTime="23:59" interMinutes="30" newNumberMsg="欢迎新盘友入群！" newsType="生活" knowledgeType="养生" pushType="王牌好货|超市|好券商品" picsOneTime="1" disabled="0"/>
+		
+<chatPoint name="章家一家人" subUnionId="1969838238" chartMgr="" maxPrice="10" startTime="9:00" endTime="23:59" interMinutes="30" newNumberMsg="欢迎新盘友入群！" newsType="生活" knowledgeType="养生" pushType="王牌好货|超市|好券商品" picsOneTime="1" disabled="1"/>
+		
+<chatPoint name="乐享智购京东内购群002" subUnionId="1969838238" maxPrice="50" chartMgr="" startTime="9:00" endTime="23:59" interMinutes="120" newNumberMsg="欢迎新盘友入群！" newsType="生活" knowledgeType="养生" pushType="王牌好货|超市|好券商品" picsOneTime="0"/>
+		
+<chatPoint name="吃喝玩乐一条龙" subUnionId="1969838238" maxPrice="50" chartMgr="" startTime="9:00" endTime="23:59" interMinutes="120" newNumberMsg="欢迎新盘友入群！" newsType="生活" knowledgeType="养生" pushType="王牌好货|超市|好券商品" picsOneTime="1"/>
+		
+<chatPoint name="乐享智购合作体验中心" subUnionId="1969838238" maxPrice="30" chartMgr="" startTime="9:00" endTime="23:59" interMinutes="20" newNumberMsg="欢迎新盘友入群！" newsType="生活" knowledgeType="养生" pushType="王牌好货|超市|好券商品|9.9专区" picsOneTime="1"/>
+	</toWxChats>
+	
+</root>

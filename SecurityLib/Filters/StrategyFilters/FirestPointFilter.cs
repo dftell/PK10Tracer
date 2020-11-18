@@ -9,9 +9,9 @@ using WolfInv.com.GuideLib;
 
 namespace WolfInv.com.SecurityLib
 {
-    public class FirstPointFilter:CommFilterLogicBaseClass
+    public class FirstPointFilter<T> : CommFilterLogicBaseClass<T> where T:TimeSerialData
     {
-        public FirstPointFilter(CommSecurityProcessClass secinfo):base(secinfo)
+        public FirstPointFilter(CommSecurityProcessClass<T> secinfo):base(secinfo)
         {
 
         }

@@ -24,6 +24,7 @@ namespace WolfInv.com.Strags
     /// 交易策略
     /// </summary>
     [Serializable]
+
     [XmlInclude(typeof(strag_CommCombOldClass))]
     [XmlInclude(typeof(strag_CommLongMissBackBalanceClass))]
     [XmlInclude(typeof(strag_CommLongTimeBalanceForOldCombClass))]
@@ -43,9 +44,8 @@ namespace WolfInv.com.Strags
     [XmlInclude(typeof(Strag_LongHoldStartReduceClass))]
     [XmlInclude(typeof(strag_MarkovClass))]
     [XmlInclude(typeof(Strag_SimpleShiftClass))]
-    [XmlInclude(typeof(ReferIndexStragClass))]    
-
-    public abstract class StragClass : BaseStragClass<TimeSerialData>, iDbFile,IFindChance, ITraceChance, WolfInv.com.BaseObjectsLib.ISpecAmount
+    [XmlInclude(typeof(ReferIndexStragClass))]
+    public abstract class StragClass : BaseStragClass<TimeSerialData>, iDbFile,IFindChance, ITraceChance, WolfInv.com.BaseObjectsLib.ISpecAmount 
     {
         
         public StragClass():base()
@@ -65,57 +65,7 @@ namespace WolfInv.com.Strags
 
         
 
-        public static DataTable getAllStrags()
-        {
-            Assembly ass = typeof(StragClass).Assembly;
-            Assembly[] assArr = new Assembly[1] { ass };
-            List<Type> types = new List<Type>();
-            //var types = AppDomain.CurrentDomain.GetAssemblies()
-    ////        var types = assArr
-    ////.SelectMany(a => a.GetTypes().Where(t => (t.IsAbstract == false
-    ////                                && (
-    ////                                t.BaseType == typeof(StragClass)
-    ////                                || (t.BaseType.BaseType != null && t.BaseType.BaseType == typeof(StragClass))
-    ////                                || (t.BaseType.BaseType != null && t.BaseType.BaseType.BaseType != null && t.BaseType.BaseType.BaseType == typeof(StragClass))
-    ////                                ))))
-    ////.ToArray();
-            Type[] AllType = ass.GetTypes();
-            for (int i = 0; i < AllType.Length; i++)
-            {
-                Type t = AllType[i];
-                while (t.BaseType != null)//寻找基类是stragclass的所有非抽象类
-                {
-                    if (t.BaseType.Equals(typeof(StragClass)))
-                    {
-                        if (!AllType[i].IsAbstract)
-                        {
-                            types.Add(AllType[i]);
-                            break;
-                        }
-                    }
-                    t = t.BaseType;
-                }
-            }
-            DataTable dt = new DataTable();
-            dt.Columns.Add("text");
-            dt.Columns.Add("value", typeof(string));
-            dt.Columns.Add("class", typeof(Type));
-            for (int i = 0; i < types.Count; i++)
-            {
-                DataRow dr = dt.NewRow();
-                DisplayNameAttribute attribute = Attribute.GetCustomAttribute(types[i], typeof(DisplayNameAttribute),false) as DisplayNameAttribute;
-                string[] names =  types[i].FullName.Split('.');
-                if (attribute != null)
-                {
-                    names = new string[] { attribute.DisplayName };
-                }
-                dr["text"] = names[names.Length - 1];
-                dr["value"] = types[i].ToString();
-                dr["class"] = types[i];
-                dt.Rows.Add(dr);
-            }
-            return dt;
-        }
+        
 
         public static StragClass getStragByName(string className)
         {
@@ -153,10 +103,12 @@ namespace WolfInv.com.Strags
 
 
 
-        public ExpectList LastUseData() 
+        public ExpectList<T> LastUseData<T>() where T:TimeSerialData
         {
-            return new ExpectList(_LastUseData.Table);
+            return new ExpectList<T>(_LastUseData.Table);
         }
+        
+       
 
 
         #region  支持propertygrid默认信息
@@ -213,7 +165,7 @@ namespace WolfInv.com.Strags
         {
             //return null;//            
             BaseCollection inBc = sc as BaseCollection;
-            ExpectData inData = ed.CopyTo<ExpectData>();
+            ExpectData inData = ed as ExpectData;
             try
             {
                 List<ChanceClass> ret = getChances(inBc, inData);

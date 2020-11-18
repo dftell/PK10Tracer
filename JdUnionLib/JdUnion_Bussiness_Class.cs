@@ -273,7 +273,7 @@ namespace WolfInv.com.JdUnionLib
                     {
                         if (msg != null)
                         {
-
+                            return false;
                         }
                         continue;
                     }
@@ -330,6 +330,12 @@ namespace WolfInv.com.JdUnionLib
                 }
                 jdyreq.InitRequestJson();
                 ret = jdyreq.GetRequest();
+                JdUnion_ReturnClass jsret = new JsonableClass<string>().GetFromJson<JdUnion_ReturnClass>(ret);
+                if(!string.IsNullOrEmpty(jsret.msg))
+                {
+                    msg = jsret.msg;
+                    return false;
+                }
                 xmlschemaDoc = jdyreq.getRequestSchema();
                 XmlSchemaClass xmlSchema = new XmlSchemaClass(xmlschemaDoc);
                 //string strXml = XML_JSON.Json2XML(ret);
@@ -473,20 +479,41 @@ namespace WolfInv.com.JdUnionLib
                 if (retXml == null)
                     return null;
                 ret.LoadXml(retXml);
-                XmlNode root = ret.SelectSingleNode(".");
-                XmlNode code = root.FirstChild.SelectSingleNode("code");
-                if (code.InnerText != "0")
+                XmlNode root = ret.FirstChild;
+                XmlNode code = root.SelectSingleNode("code");
+                if(code == null)
                 {
-                    msg = code.InnerText;
+                    code = root.FirstChild.SelectSingleNode("code");
+                }
+                XmlNode message = root.SelectSingleNode("message");
+                if(message == null)
+                {
+                    message = root.FirstChild.SelectSingleNode("message");
+                }
+                if (!string.IsNullOrEmpty(code?.InnerText) && code.InnerText != "0" && code.InnerText.Trim() != "200")
+                {
+                    msg = message?.InnerText;
                     return null;
                 }
-                XmlNode message = root.FirstChild.SelectSingleNode("message");
-                
-                XmlNode result = ret.FirstChild.SelectSingleNode("result");
-                
-                string res = "{\"root\":{0}}".Replace("{0}", result.InnerText.Trim());
-                string strResult = XML_JSON.Json2XML(res);
-                ret.LoadXml(strResult);
+
+
+                XmlNode result = root.SelectSingleNode("result");
+                if(result == null)
+                {
+                    msg = "无法转换为自定义架构！";
+                    return null;
+                }
+                string res = "<root>{0}</root>".Replace("{0}", result?.InnerXml.Trim());
+                //string strResult = XML_JSON.Json2XML(res);
+                try
+                {
+                    ret.LoadXml(res);
+                }
+                catch
+                {
+                    msg = "非正常数据！";
+                    return null;
+                }
                 return ret;
             }
             catch (Exception ce)

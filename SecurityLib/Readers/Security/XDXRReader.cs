@@ -6,7 +6,7 @@ using System.Data;
 
 namespace WolfInv.com.SecurityLib
 {
-    public class XDXRReader : DateSerialCodeDataReader
+    public class XDXRReader : DateSerialCodeDataReader<XDXRData>
     {
         public XDXRReader() 
         {
@@ -14,28 +14,28 @@ namespace WolfInv.com.SecurityLib
         public XDXRReader(string db, string docname, string[] codes) : base(db, docname, codes)
         {
         }
-        public override MongoDataDictionary<XDXRData> GetAllCodeDateSerialDataList<XDXRData>(bool DateAsc)
+        public override MongoDataDictionary<XDXRData> GetAllCodeDateSerialDataList(bool DateAsc)
         {
             MongoDataDictionary<XDXRData> ret = new MongoDataDictionary<XDXRData>();
             MongoReturnDataList<XDXRData> list = (builder as DateSerialCodeDataBuilder).getData<XDXRData>(DateAsc);
             return DataListConverter<XDXRData>.ToDirectionary(list, "code");
         }
 
-        public override MongoDataDictionary<XDXRData> GetAllCodeDateSerialDataList<XDXRData>(string begT, bool DateAsc)
+        public override MongoDataDictionary<XDXRData> GetAllCodeDateSerialDataList(string begT, bool DateAsc)
         {
             MongoDataDictionary<XDXRData> ret = new MongoDataDictionary<XDXRData>();
             MongoReturnDataList<XDXRData> list = (builder as DateSerialCodeDataBuilder).getData<XDXRData>(begT,DateAsc);
             return DataListConverter<XDXRData>.ToDirectionary(list, "code");
         }
 
-        public override MongoDataDictionary<XDXRData> GetAllCodeDateSerialDataList<XDXRData>(string begT, string EndT, bool DateAsc)
+        public override MongoDataDictionary<XDXRData> GetAllCodeDateSerialDataList(string begT, string EndT, bool DateAsc)
         {
             MongoDataDictionary<XDXRData> ret = new MongoDataDictionary<XDXRData>();
             MongoReturnDataList<XDXRData> list = (builder as DateSerialCodeDataBuilder).getData<XDXRData>(begT, EndT, DateAsc);
             return DataListConverter<XDXRData>.ToDirectionary(list, "code");
         }
 
-        public override MongoDataDictionary<XDXRData> GetAllCodeDateSerialDataList<XDXRData>(string endT, int Cnt, bool DateAsc)
+        public override MongoDataDictionary<XDXRData> GetAllCodeDateSerialDataList(string endT, int Cnt, bool DateAsc)
         {
             MongoDataDictionary<XDXRData> ret = new MongoDataDictionary<XDXRData>();
             MongoReturnDataList<XDXRData> list = (builder as DateSerialCodeDataBuilder).getData<XDXRData>(endT,Cnt,DateAsc);
@@ -47,7 +47,7 @@ namespace WolfInv.com.SecurityLib
                     throw new NotImplementedException();
         }
 
-        public override ExpectList<T> ReadHistory<T>(long cnt, string endExpect)
+        public override ExpectList<XDXRData> ReadHistory(long cnt, string endExpect)
         {
             throw new NotImplementedException();
         }
@@ -63,7 +63,7 @@ namespace WolfInv.com.SecurityLib
                     return list;
             }
             XDXRReader reader = new XDXRReader(DataType, dtp.XDXRTable, new string[] { code });
-            list = reader.GetAllCodeDateSerialDataList<XDXRData>(true)?[code];
+            list = reader.GetAllCodeDateSerialDataList(true)?[code];
             if (list == null)
             {
                 LogableClass.ToLog("获取除权除息数据错误");

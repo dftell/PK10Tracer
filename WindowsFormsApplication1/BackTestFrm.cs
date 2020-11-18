@@ -28,7 +28,7 @@ namespace BackTestSys
         BackgroundWorker bw;
         BackTestReturnClass<T> ret = null;
         BackTestClass<T> btc = null;
-        MainForm CheckFrm;
+        MainForm<T> CheckFrm;
         Dictionary<string, ExchangeService> ess;
         BaseStragClass<T> sc;
         Thread th = null;
@@ -536,7 +536,7 @@ namespace BackTestSys
             sc.BySer = this.chkb_bySer.Checked;
             sc.OnlyBS = this.chkb_onlyBS.Checked;
             sc.OnlySD = this.chkb_onlySD.Checked;
-            this.runPlanPicker1.Plans[0].PlanStrag = sc as BaseStragClass<TimeSerialData>;
+            this.runPlanPicker1.Plans[0].PlanStrag = sc as BaseStragClass<T>;
             RoundBackTestReturnClass<T> rbtr = null;
             try
             {
@@ -587,7 +587,7 @@ namespace BackTestSys
         {
             //if (CheckFrm == null)
             //{
-            CheckFrm = new MainForm();
+            CheckFrm = new MainForm<T>();
             CheckFrm.Show();
             return;
             //}
@@ -606,7 +606,7 @@ namespace BackTestSys
             //MessageBox.Show(strExpect);
             ////if (CheckFrm == null)
             ////{
-            CheckFrm = new MainForm();
+            CheckFrm = new MainForm<T>();
             ////    CheckFrm.InputExpect = int.Parse(strExpect);
             ////    CheckFrm.Show();
             ////    return;
@@ -1108,7 +1108,7 @@ namespace BackTestSys
         void SaveWaveTable()
         {
             if (retData == null) return;
-            PK10ProbWaveDataInterface pwinter = new PK10ProbWaveDataInterface();
+            PK10ProbWaveDataInterface<T> pwinter = new PK10ProbWaveDataInterface<T>();
             pwinter.SaveProbWaveResult(retData);
         }
 
@@ -1144,7 +1144,7 @@ namespace BackTestSys
             //MessageBox.Show(strExpect);
             ////if (CheckFrm == null)
             ////{
-            CheckFrm = new MainForm();
+            CheckFrm = new MainForm<T>();
             ////    CheckFrm.InputExpect = int.Parse(strExpect);
             ////    CheckFrm.Show();
             ////    return;
@@ -1164,7 +1164,7 @@ namespace BackTestSys
             //MessageBox.Show(strExpect);
             ////if (CheckFrm == null)
             ////{
-            CheckFrm = new MainForm();
+            CheckFrm = new MainForm<T>();
             ////    CheckFrm.InputExpect = int.Parse(strExpect);
             ////    CheckFrm.Show();
             ////    return;
@@ -1210,7 +1210,7 @@ namespace BackTestSys
 
         private void btn_singleTest_Click(object sender, EventArgs e)
         {
-            frm_MoniteStrag frm = new frm_MoniteStrag();
+            frm_MoniteStrag<T> frm = new frm_MoniteStrag<T>();
             frm.Show();
         }
     }

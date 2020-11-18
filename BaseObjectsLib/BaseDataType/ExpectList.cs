@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using WolfInv.com.BaseObjectsLib;
+using System.Threading.Tasks;
+
 namespace WolfInv.com.BaseObjectsLib
 {
 
@@ -27,7 +29,7 @@ namespace WolfInv.com.BaseObjectsLib
                 {
                     if (_MyData[i].Keys == null || _MyData[i].Count == 0)//对彩票
                     {
-                        T val = _MyData[i].CopyTo<T>();
+                        T val = _MyData[i] as T;
                         _Data[val.Key].Add(val);
                     }
                     else
@@ -54,7 +56,11 @@ namespace WolfInv.com.BaseObjectsLib
         public DataTypePoint UseType;
         public Cycle Cyc = Cycle.Expect;
         List<ExpectData<T>> _MyData= new List<ExpectData<T>>();
-        
+        public ExpectList()
+        {
+            Data = new Dictionary<string, MongoReturnDataList<T>>();
+            _MyData = new List<ExpectData<T>>();
+        }
         protected List<ExpectData<T>> MyData
         {
             get
@@ -90,11 +96,7 @@ namespace WolfInv.com.BaseObjectsLib
         }
 
         
-        public ExpectList()
-        {
-            Data = new Dictionary<string, MongoReturnDataList<T>>();
-            _MyData = new List<ExpectData<T>>();
-        }
+        
 
         public ExpectData<T> FirstData
         {
@@ -326,18 +328,45 @@ namespace WolfInv.com.BaseObjectsLib
             return new ExpectList<T>(ret,false);
         }
 
-        public ExpectList<T> LastDatas(int RecLng,bool ResortTime)
+        public ExpectList<T> LastDatas(string expect,int RecLng,bool ResortTime,int threadCnt = 10)
         {
-            Dictionary<string, MongoReturnDataList<T>> ret = new Dictionary<string, MongoReturnDataList<T>>();
-            int cnt = Data.Select(a => a.Value.Count).Min();
-            if (RecLng > cnt)
-                throw new Exception("请求长度超出目标列表长度！");
-            foreach (string key in Data.Keys)
+            MongoDataDictionary<T> ret = new MongoDataDictionary<T>();
+            /*            int cnt = Data.Select(a => a.Value.Count).Min();
+                        if (RecLng > cnt)
+                            throw new Exception("请求长度超出目标列表长度！");*/
+            int grpCnt = Data.Keys.Count / threadCnt + 1;
+            List<Task> tasks = new List<Task>();
+            List<string[]> grps = new List<string[]>();
+            var allDatas = Data.Keys;
+            int index = 0;
+            for (int i=0;i<threadCnt;i++)
             {
-                ret.Add(key, Data[key].GetLastData(RecLng));
+                string[] datas = allDatas.Skip(index).Take(grpCnt).ToArray();
+                index += datas.Length;
+                Task task = Task.Factory.StartNew(
+                    (obj) => {
+                        string[] list = obj as string[];
+                        for(int m=0;m<list.Length;m++)
+                        {
+                            MongoReturnDataList<T> res = Data[list[m]].GetLastData(RecLng, expect);
+                            ret.Add(list[m],res);
+                        }
+                    },
+                    datas
+                    );
+                tasks.Add(task);
             }
-            return new ExpectList<T>(ret, ResortTime);
+            Task.WaitAll(tasks.ToArray());
+            return ret.ToExpectList();
         }
+
+        public ExpectList<T> LastDatas(int RecLng, bool ResortTime)
+        {
+            if (this.Count == 0)
+                return this;
+            return LastDatas(this.LastData.Expect,RecLng,ResortTime);
+        }
+
 
         public int IndexOf(string ExpectNo)
         {
@@ -407,7 +436,7 @@ namespace WolfInv.com.BaseObjectsLib
             for (int n = 0; n < ds.Tables.Count; n++)
             {
                 OneCycleData ocd = new OneCycleData();
-                List<OneCycleData> list = ocd.FillByTable<OneCycleData>(ds.Tables[n]);
+                List<OneCycleData> list = new DisplayAsTableClass().FillByTable<OneCycleData>(ds.Tables[n]);
                 Tables.Add(ds.Tables[n].TableName, list.ToDictionary(p => p.date, p => p));
             }
             for (int i = 0; i < MaxCnt; i++)

@@ -12,6 +12,7 @@ using ShootSeg;
 using WolfInv.Com.AccessWebLib;
 using WolfInv.Com.MetaDataCenter;
 using WolfInv.Com.WCS_Process;
+using XmlProcess;
 
 namespace WolfInv.com.JdUnionLib
 {
@@ -41,79 +42,235 @@ namespace WolfInv.com.JdUnionLib
             }
         }
 
-        public static Dictionary<string,JdGoodSummayInfoItemClass> Query(string name,int defaultReturnCnt = 3)
+        public static Dictionary<string, JdGoodSummayInfoItemClass> QueryWeb(string keyWord, int defaultReturnCnt = 10)
         {
+            //AccessWebServerClass awc = new AccessWebServerClass();
             Dictionary<string, JdGoodSummayInfoItemClass> ret = new Dictionary<string, JdGoodSummayInfoItemClass>();
-            if(!Inited)//先判断有没有初始化完成
+            try
             {
-                LoadAllcommissionGoods?.Invoke();
+                string url = "https://union.jd.com/api/goods/search";
+
+                string strJson = JdUnion_GlbObject.getJsonText("jd.union.search.model");
+                if (string.IsNullOrEmpty(strJson))
+                {
+                    return ret;
+                }
+                string strPostData = strJson.Replace("{0}", keyWord);
+                string retJson = AccessWebServerClass.PostData(url, strPostData, Encoding.UTF8);
+                JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+                searchReturnData returnResult = javaScriptSerializer.Deserialize<searchReturnData>(retJson);
+                if (returnResult.code != 200)
+                {
+                    return ret;
+                }
+                List<string> noMatchedList = new List<string>();
+                for (int i = 0; i < returnResult.data.unionGoods.Count; i++)
+                {
+                    string id = returnResult.data.unionGoods[i][0].skuId;
+                    JdSearchGoods jsg = returnResult.data.unionGoods[i][0];
+                    JdGoodSummayInfoItemClass ji = new JdGoodSummayInfoItemClass();
+                    if (AllcommissionGoods == null)
+                        AllcommissionGoods = new Dictionary<string, JdGoodSummayInfoItemClass>();
+                    if (AllcommissionGoods.ContainsKey(id))
+                    {
+                        ji = AllcommissionGoods[id];
+
+                        if (ret.Count > defaultReturnCnt)
+                        {
+                            break;
+                        }
+                        ret.Add(id, ji);
+                    }
+                    else
+                    {
+                        if (jsg.hasCoupon == 0)
+                        {
+                            if (noMatchedList.Count < defaultReturnCnt)
+                                noMatchedList.Add(id);
+                        }
+                        else //如果显示有优惠券，直接用搜到的信息
+                        {
+                            ji = jsg;
+                            ret.Add(id, ji);
+                        }
+                    }
+
+                }
+                List<JdGoodSummayInfoItemClass> res = null;
+                if (noMatchedList.Count > 0)
+                {
+                    if (LoadPromotionGoodsinfo != null)
+                    {
+                        res = LoadPromotionGoodsinfo(noMatchedList);
+
+                    }
+                    else
+                    {
+                        res = getInfoBySukIds(noMatchedList);
+                    }
+                }
+                res.ForEach(a =>
+                {
+                    if (!ret.ContainsKey(a.skuId))
+                    {
+                        ret.Add(a.skuId, a);
+                    }
+                });
+                return ret;
             }
-            if(AllcommissionGoods == null)
+            catch (Exception ce)
+            {
+
+            }
+            return ret;
+        }
+
+
+        public static Dictionary<string,JdGoodSummayInfoItemClass> Query(string name,out string msg,int defaultReturnCnt = 3)
+        {
+            msg = null;
+            Dictionary<string, JdGoodSummayInfoItemClass> ret = new Dictionary<string, JdGoodSummayInfoItemClass>();
+            List<DataCondition> dics = new List<DataCondition>();
+            DataCondition dc = new DataCondition();
+            dc.Datapoint = new DataPoint("goodsReqDTO/keyword"); //JdUnion_Goods  goodsReq/eliteId
+            //JDUnion_Goodsinfo goodsReqDTO/keyword
+            dc.value = name;
+            dics.Add(dc);
+            dc = new DataCondition();
+            dc.Datapoint = new DataPoint("goodsReqDTO/pageSize"); //JdUnion_Goods  goodsReq/eliteId
+            //JDUnion_Goodsinfo goodsReqDTO/keyword
+            dc.value = defaultReturnCnt.ToString();
+            dics.Add(dc);
+            bool isExtra = false;
+            string strSrc = "JDUnion_Goodsinfo";
+            if (!GlobalShare.mapDataSource.ContainsKey(strSrc))
+            {
+                msg = "源文件不存在！";
+                return ret;
+            }
+            DataSource dsr = GlobalShare.mapDataSource[strSrc];
+            DataSet ds = DataSource.InitDataSource(strSrc, dics, GlobalShare.DefaultUser, out msg, ref isExtra);
+            if(ds == null)
             {
                 return ret;
             }
-            List<string> woldKeys = splitTheWords(name, true);
-            int maxWight = 0;
-            for(int i=0;i<woldKeys.Count;i++)
+            List<UpdateData> ups = DataSource.DataSet2UpdateData(ds, strSrc, GlobalShare.DefaultUser);
+            if(ups == null)
             {
-                int weight = (int)Math.Pow(2, i);
-                if (woldKeys[i].Length == 1)//单字全重为0
-                {
-                    weight = 1;
-                }
-                if(woldKeys[i] == "\r\n")
-                {
-                    weight = 0;
-                }
-                maxWight += weight;
+                msg = "原始转换为用户数据失败！";
+                return ret;
             }
-            Dictionary<string, int> matchWeights = new Dictionary<string, int>();
-
-            foreach(string key in AllKeys.Keys)
+            for(int i=0;i<ups.Count;i++)
             {
-                List<string> keys = AllKeys[key];
-                int sum = 0;
-                for (int k = 0; k < keys.Count; k++)
+                JdGoodSummayInfoItemClass jii = new JdGoodSummayInfoItemClass();
+                jii = ups[i].Inject<JdGoodSummayInfoItemClass>(dsr.extradataconvertconfigObject?.Mappings);
+                if(!ret.ContainsKey(jii.skuId))
+                    ret.Add(jii.skuId, jii);
+            }
+            return ret;
+
+            
+        }
+
+        public static Dictionary<string, JdGoodSummayInfoItemClass> QueryFromLocal(string name,out string msg, int defaultReturnCnt = 3)
+        {
+            msg = null;
+            Dictionary<string, JdGoodSummayInfoItemClass> ret = new Dictionary<string, JdGoodSummayInfoItemClass>();
+            try
+            {
+
+                if (!Inited)//先判断有没有初始化完成
                 {
-                    
-                    for (int i = 0; i < woldKeys.Count; i++) //关键词匹配次数 权重,前低后高,按2倍增
+                    LoadAllcommissionGoods?.Invoke();
+                }
+                if (AllcommissionGoods == null)
+                {
+                    msg = "商品信息为空！";
+                    return ret;
+                }
+                List<string> woldKeys = splitTheWords(name, true);
+                int maxWight = 0;
+                for (int i = 0; i < woldKeys.Count; i++)
+                {
+                    int weight = (int)Math.Pow(2, i);
+                    if (woldKeys[i].Length == 1)//单字全重为0
                     {
-                        int weight = (int)Math.Pow(2, i);
-                        if (woldKeys[i].Length == 1)//单字全重为0
+                        weight = 1;
+                    }
+                    if (woldKeys[i] == "\r\n")
+                    {
+                        weight = 0;
+                    }
+                    maxWight += weight;
+                }
+                Dictionary<string, int> matchWeights = new Dictionary<string, int>();
+                if(AllKeys == null)
+                {
+                    AllKeys = new Dictionary<string, List<string>>();
+                    AllcommissionGoods.Values.ToList().ForEach(
+                        a =>
                         {
-                            weight = 1;
+                            List<string> keys = JdGoodsQueryClass.splitTheWords(a.skuName, true);
+                            if(!AllKeys.ContainsKey(a.skuId))
+                                AllKeys.Add(a.skuId, keys);
                         }
-                        if (woldKeys[i] == "\r\n")
+                        );
+                }
+                foreach (string key in AllKeys.Keys)
+                {
+                    List<string> keys = AllKeys[key];
+                    int sum = 0;
+                    for (int k = 0; k < keys.Count; k++)
+                    {
+
+                        for (int i = 0; i < woldKeys.Count; i++) //关键词匹配次数 权重,前低后高,按2倍增
                         {
-                            weight = 0;
-                        }
-                        if (keys[k] == woldKeys[i])
-                        {
-                            sum += weight;
-                            break;
+                            int weight = (int)Math.Pow(2, i);
+                            if (woldKeys[i].Length == 1)//单字全重为0
+                            {
+                                weight = 1;
+                            }
+                            if (woldKeys[i] == "\r\n")
+                            {
+                                weight = 0;
+                            }
+                            if (keys[k] == woldKeys[i])
+                            {
+                                sum += weight;
+                                break;
+                            }
                         }
                     }
+                    matchWeights.Add(key, sum);
                 }
-                matchWeights.Add(key, sum);
-            }
-            var items = matchWeights.OrderByDescending(a => a.Value);
-            if(items.First().Value == maxWight)
-            {
-                int i = 0;
-                foreach (var val in items.Where(a => a.Value == maxWight))
+                var items = matchWeights.OrderByDescending(a => a.Value);
+                if(items.Count()==0)
+                {
+                    return ret;
+                }
+                if (items.First().Value == maxWight)
+                {
+                    int i = 0;
+                    foreach (var val in items.Where(a => a.Value == maxWight))
+                    {
+                        JdGoodSummayInfoItemClass item = AllcommissionGoods[val.Key];
+                        ret.Add(item.skuId, item);
+                        i++;
+                        if (i >= defaultReturnCnt)
+                            break;
+                    }
+                    return ret;
+                }
+                foreach (var val in items.Where(a => a.Value > 0).Take(defaultReturnCnt))
                 {
                     JdGoodSummayInfoItemClass item = AllcommissionGoods[val.Key];
                     ret.Add(item.skuId, item);
-                    i++;
-                    if (i >= defaultReturnCnt)
-                        break;
                 }
-                return ret;
             }
-            foreach(var val in items.Where(a=>a.Value>0).Take(defaultReturnCnt))
+            catch(Exception ce)
             {
-                JdGoodSummayInfoItemClass item = AllcommissionGoods[val.Key];
-                ret.Add(item.skuId, item);
+                msg = string.Format("{0}:{1}", ce.Message, ce.StackTrace);
+                return ret;
             }
             return ret;
         }
@@ -133,6 +290,7 @@ namespace WolfInv.com.JdUnionLib
             }
             seg.Separator = "/";
             string retArr = seg.SegmentText(words, true);
+            retArr = retArr.Replace("\r", "").Replace("\n","");
             string[] arr = retArr.Split('/');
             if (!noRepeat)
             {
@@ -140,6 +298,10 @@ namespace WolfInv.com.JdUnionLib
             }
             for(int i=0;i<arr.Length;i++)
             {
+                if(string.IsNullOrEmpty(arr[i])||string.IsNullOrWhiteSpace(arr[i]))
+                {
+                    continue;
+                }
                 if(!ret.Contains(arr[i]))
                 {
                     ret.Add(arr[i]);
@@ -179,89 +341,7 @@ namespace WolfInv.com.JdUnionLib
             }
         }
 
-        public static Dictionary<string,JdGoodSummayInfoItemClass> QueryWeb(string keyWord,int defaultReturnCnt=10)
-        {
-            //AccessWebServerClass awc = new AccessWebServerClass();
-            Dictionary<string, JdGoodSummayInfoItemClass> ret = new Dictionary<string, JdGoodSummayInfoItemClass>();
-            try
-            {
-                string url = "https://union.jd.com/api/goods/search";
-                
-                string strJson = JdUnion_GlbObject.getJsonText("jd.union.search.model");
-                if (string.IsNullOrEmpty(strJson))
-                {
-                    return ret;
-                }
-                string strPostData = strJson.Replace("{0}", keyWord);
-                string retJson = AccessWebServerClass.PostData(url, strPostData, Encoding.UTF8);
-                JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
-                searchReturnData returnResult = javaScriptSerializer.Deserialize<searchReturnData>(retJson);
-                if (returnResult.code != 200)
-                {
-                    return ret;
-                }
-                List<string> noMatchedList = new List<string>();
-                for(int i=0;i<returnResult.data.unionGoods.Count;i++)
-                {
-                    string id = returnResult.data.unionGoods[i][0].skuId;
-                    JdSearchGoods jsg = returnResult.data.unionGoods[i][0];
-                    JdGoodSummayInfoItemClass ji = new JdGoodSummayInfoItemClass();
-                    if (AllcommissionGoods == null)
-                        AllcommissionGoods = new Dictionary<string, JdGoodSummayInfoItemClass>();
-                    if (AllcommissionGoods.ContainsKey(id))
-                    {
-                        ji = AllcommissionGoods[id];
-                        
-                        if(ret.Count>defaultReturnCnt)
-                        {
-                            break;
-                        }
-                        ret.Add(id, ji);
-                    }
-                    else
-                    {
-                        if (jsg.hasCoupon == 0)
-                        {
-                            if (noMatchedList.Count < defaultReturnCnt)
-                                noMatchedList.Add(id);
-                        }
-                        else //如果显示有优惠券，直接用搜到的信息
-                        {
-                            ji = jsg;
-                            ret.Add(id, ji);
-                        }
-                    }
-                    
-                }
-                List<JdGoodSummayInfoItemClass> res = null;
-                if (noMatchedList.Count > 0)
-                {
-                    if (LoadPromotionGoodsinfo != null)
-                    {
-                        res = LoadPromotionGoodsinfo(noMatchedList);
-
-                    }
-                    else
-                    {
-                        res = getInfoBySukIds(noMatchedList);
-                    }
-                }
-                res.ForEach(a =>
-                {
-                    if (!ret.ContainsKey(a.skuId))
-                    {
-                        ret.Add(a.skuId, a);
-                    }
-                });
-                return ret;
-            }
-            catch(Exception ce)
-            {
-                
-            }
-            return ret;
-        }
-
+        
         public static List<JdGoodSummayInfoItemClass> getInfoBySukIds(List<string> skids)
         {
             //JdUnion_Goods_PromotionGoodsinfo_Class

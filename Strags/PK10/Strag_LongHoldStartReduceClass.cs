@@ -106,7 +106,7 @@ namespace WolfInv.com.Strags
 
         public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
-            int holdTimes = (int)DataReader.getInterExpectCnt(cc.ExpectCode, this.LastUseData().LastData.Expect,this.UsingDpt);
+            int holdTimes = (int)DataReader<TimeSerialData>.getInterExpectCnt(cc.ExpectCode, this.LastUseData().LastData.Expect,this.UsingDpt);
             if (holdTimes > 0)
                 return 0;
             if(cc.IncrementType == InterestType.CompoundInterest)

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using WolfInv.com.LogLib;
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.SecurityLib
 {
-    public class EquitDayExpectReader : CommExpectReader
+    public class EquitDayExpectReader<T> : CommExpectReader<T> where T:TimeSerialData
     {
         public EquitDayExpectReader()
             : base()
@@ -17,7 +18,7 @@ namespace WolfInv.com.SecurityLib
         
     }
 
-    public class EquitTimeExpectReader : CommExpectReader
+    public class EquitTimeExpectReader<T>: CommExpectReader<T> where T : TimeSerialData
     {
         public EquitTimeExpectReader()
             : base()

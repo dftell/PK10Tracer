@@ -41,7 +41,7 @@ namespace WolfInv.com.BaseObjectsLib
 
         
 
-        public DataSet ToDataSet<T>(List<T> list) where T:MongoData
+        public DataSet ToDataSet<T>(List<T> list) where T: TimeSerialData
         {
             return DataListConverter<T>.ToDataSet(list, "code");
         }

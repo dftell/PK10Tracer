@@ -15,18 +15,18 @@ using System.Drawing.Imaging;
 namespace PK10Server
 {
     
-    public partial class MainForm:BaseForm_DESIGN
+    public partial class MainForm<T>:Form where T:TimeSerialData
     {
         
         DataTypePoint dtp = null;
-        ExpectList<TimeSerialData> _ViewDataList ;
-        ExpectList<TimeSerialData> ViewDataList
+        ExpectList<T> _ViewDataList ;
+        ExpectList<T> ViewDataList
         {
             get { return _ViewDataList; }
             set { _ViewDataList = value; }
         }
         //PK10ExpectReader er = new PK10ExpectReader();
-        DataReader er = null;
+        DataReader<T> er = null;
         long NewestExpectNo = 0;
         public long InputExpect;
         GlobalClass gobj;
@@ -37,27 +37,27 @@ namespace PK10Server
             
             gobj = new GlobalClass();
             dtp = GlobalClass.TypeDataPoints.First().Value;
-            er = DataReaderBuild.CreateReader(dtp.DataType, null, null);
-            this.Text = string.Format("{0}服务端", dtp.DataType);
-            if(Program.optFunc == null)
+            er = DataReaderBuild.CreateReader<T>(dtp.DataType, null, null);
+            this.Text = string.Format("{0}量化投资系统服务端", GlobalClass.DataTypes[dtp.DataType]);
+            if(Program<T>.optFunc == null)
             {
-                Program.optFunc = new operateClass();
+                Program<T>.optFunc = new operateClass();
             }
-            Program.optFunc.RefreshMainWindow += refreshData;
+            Program<T>.optFunc.RefreshMainWindow += refreshData;
         }
 
 
         void refreshData()
         {
-            //Program.AllGlobalSetting.wxlog.Log("退出服务", "意外停止服务", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+            //Program<T>.AllGlobalSetting.wxlog.Log("退出服务", "意外停止服务", string.Format(Program<T>.gc.WXLogUrl, Program<T>.gc.WXSVRHost));
             timer_For_NewestData_Tick(null, null);
         }
 
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            InitListView(listView_forSerial, "名");
-            InitListView(listView_ForCar, "车");
+            InitListView(listView_forSerial, "排");
+            InitListView(listView_ForCar, "列");
 
             InitListView(listView_TXFFCData);
             InitListView(listView_PK10Data);
@@ -90,7 +90,7 @@ namespace PK10Server
             }
             else
             {
-                ViewDataList = er.ReadNewestData<TimeSerialData>(DateTime.Today.AddDays(-1* dtp.CheckNewestDataDays));
+                ViewDataList = er.ReadNewestData(DateTime.Today.AddDays(-1* dtp.CheckNewestDataDays));
             }
         }
 
@@ -128,10 +128,14 @@ namespace PK10Server
             {
 
 
-                ExpectList<TimeSerialData> el = ViewDataList; ;
+                ExpectList<T> el = ViewDataList; ;
 
-                ExpectListProcessBuilder<TimeSerialData> elp = new ExpectListProcessBuilder<TimeSerialData>(dtp, el);
-                BaseCollection<TimeSerialData> sc = elp.getProcess().getSerialData(180, byNo);
+                ExpectListProcessBuilder<T> elp = new ExpectListProcessBuilder<T>(dtp, el);
+                BaseCollection<T> sc = elp.getProcess()?.getSerialData(180, byNo);
+                if(sc == null || sc.Table == null)
+                {
+                    return;
+                }
                 sc.isByNo = byNo;
                 lv.Items.Clear();
                 for (int i = minRow - 1; i < sc.Table.Rows.Count; i++)
@@ -178,7 +182,7 @@ namespace PK10Server
                     lv.Items.Add(lvi);
                 }
                 string GR_Path = string.Format("lv_{0}.jpg", byNo ? 0 : 1);
-                imageLogClass.SaveImage(lv,GR_Path,ImageFormat.Jpeg);
+                imageLogClass<T>.SaveImage(lv,GR_Path,ImageFormat.Jpeg);
                 /*
                 Bitmap image = new Bitmap(lv.Width, lv.Height);//初始化一个相同大小的窗口
                 lv.DrawToBitmap(image, new Rectangle(0, 0, lv.Width, lv.Height));
@@ -186,7 +190,7 @@ namespace PK10Server
                 string fullFileName = string.Format("{0}\\imgs\\{1}", AppDomain.CurrentDomain.BaseDirectory, GR_Path);// GR_Path + "\\" + fileName + ".png";
                 image.Save(fullFileName,System.Drawing.Imaging.ImageFormat.Jpeg);
                     string filename = string.Format("chartImg");
-                Program.wxlog.LogImageUrl(string.Format("{0}/chartImgs/{1}", GlobalClass.TypeDataPoints.First().Value.InstHost,GR_Path), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                Program<T>.wxlog.LogImageUrl(string.Format("{0}/chartImgs/{1}", GlobalClass.TypeDataPoints.First().Value.InstHost,GR_Path), string.Format(Program<T>.gc.WXLogUrl, Program<T>.gc.WXSVRHost));
                 */
             }
             catch (Exception ce)
@@ -218,7 +222,7 @@ namespace PK10Server
         {
             this.timer_For_NewestData.Enabled = false;
             long NextNo = long.Parse(this.txt_NewestExpect.Text.Trim());
-            ViewDataList = er.ReadNewestData<TimeSerialData>(NextNo+1,180,true);
+            ViewDataList = er.ReadNewestData(NextNo+1,180,true);
             if (ViewDataList == null || ViewDataList.Count == 0)
                 return;
             RefreshGrid();
@@ -232,22 +236,22 @@ namespace PK10Server
             this.txt_NewestExpect.Text = ViewDataList.LastData.Expect;
             this.txt_NewestOpenCode.Text = ViewDataList.LastData.OpenCode;
             this.txt_NewestOpenTime.Text = ViewDataList.LastData.OpenTime.ToString();
-            this.txt_NextExpectNo.Text = string.Format("{0}", long.Parse(ViewDataList.LastData.Expect) + 1);
+            this.txt_NextExpectNo.Text = string.Format("{0}", ViewDataList.LastData.Expect.ToLong() + 1);
             FillOrgData(listView_PK10Data, ViewDataList);
         }
 
         void RefreshNewestTXFFCData()
         {
-            TXFFCExpectReader rd = new TXFFCExpectReader();
-            ExpectList<TimeSerialData> currEl = rd.ReadNewestData<TimeSerialData>(DateTime.Now.AddDays(-1));
+            TXFFCExpectReader<T> rd = new TXFFCExpectReader<T>();
+            ExpectList<T> currEl = rd.ReadNewestData(DateTime.Now.AddDays(-1));
             FillOrgData(listView_TXFFCData, currEl);
         }
 
         private void btn_Subtract_Click(object sender, EventArgs e)
         {
             this.timer_For_NewestData.Enabled = false;
-            long NextNo = long.Parse(this.txt_NewestExpect.Text.Trim());
-            ViewDataList = er.ReadNewestData<TimeSerialData>(NextNo - 1, 180,true);
+            long NextNo = this.txt_NewestExpect.Text.Trim().ToLong();
+            ViewDataList = er.ReadNewestData(NextNo - 1, 180,true);
             RefreshGrid();
             RefreshNewestData();
         }
@@ -256,12 +260,12 @@ namespace PK10Server
         {
             timer_For_NewestData.Enabled = true;
             DateTime CurrTime = DateTime.Now;
-            ViewDataList = er.ReadNewestData<TimeSerialData>(DateTime.Now.AddDays(-1* dtp.CheckNewestDataDays));
+            ViewDataList = er.ReadNewestData(DateTime.Now.AddDays(-1* dtp.CheckNewestDataDays));
             if(ViewDataList== null ||ViewDataList.LastData == null)
             {
                 return;
             }
-            long CurrExpectNo = long.Parse(ViewDataList.LastData.Expect);
+            long CurrExpectNo = ViewDataList.LastData.Expect.ToLong();
             if (CurrExpectNo > this.NewestExpectNo)
             {
                 this.timer_For_NewestData.Interval = 5*60*1000;//5分钟以后见
@@ -336,12 +340,12 @@ namespace PK10Server
         {
             lv.Columns.Clear();
             lv.Columns.Add("次序", 50);
-            lv.Columns.Add("期号",200);
-            lv.Columns.Add("开奖号码",200);
-            lv.Columns.Add("开奖时间",200);
+            lv.Columns.Add("代码",200);
+            lv.Columns.Add("号码",200);
+            lv.Columns.Add("时间",200);
         }
 
-        void FillOrgData(ListView lv, ExpectList<TimeSerialData> el)
+        void FillOrgData(ListView lv, ExpectList<T> el)
         {
             lv.Items.Clear();
             if (el == null||el.Count == 0) return;
@@ -351,7 +355,7 @@ namespace PK10Server
                 ListViewItem lvi = new ListViewItem();
                 lvi.Text = string.Format("{0}", el.Count-i );
                 lvi.SubItems.Add(el[i].Expect.ToString());
-                lvi.SubItems.Add(el[i].OpenCode.ToString());
+                lvi.SubItems.Add(el[i].OpenCode?.ToString());
                 lvi.SubItems.Add(el[i].OpenTime.ToString());
                 lv.Items.Add(lvi);
             }
@@ -359,7 +363,7 @@ namespace PK10Server
 
         private void tsmi_getTXFFCHistoryTxtData_Click(object sender, EventArgs e)
         {
-            TXFFCExpectReader er = new TXFFCExpectReader();
+            TXFFCExpectReader<T> er = new TXFFCExpectReader<T>();
             TXFFC_HtmlDataClass rder = new TXFFC_HtmlDataClass(GlobalClass.TypeDataPoints["TXFFC"]);
             string strFolder = @"C:\Users\zhouys\Desktop\TXFFC";
             string fileType = "txt";
@@ -373,9 +377,9 @@ namespace PK10Server
                 {
                     continue;//非指定类型跳过
                 }
-                ExpectList<TimeSerialData> el = rder.getFileData<TimeSerialData>(f.FullName);
-                TXFFCExpectReader rd = new TXFFCExpectReader();
-                ExpectList<TimeSerialData> currEl = rd.ReadHistory<TimeSerialData>();
+                ExpectList<T> el = rder.getFileData<T>(f.FullName);
+                TXFFCExpectReader<T> rd = new TXFFCExpectReader<T>();
+                ExpectList<T> currEl = rd.ReadHistory();
                 rd.SaveHistoryData(rd.getNewestData(el, currEl));
                 //currEl = rd.ReadNewestData(DateTime.Now.AddDays(-1));
                 //FillOrgData(listView_TXFFCData, currEl);
@@ -389,12 +393,12 @@ namespace PK10Server
         {
             Application.DoEvents();
             TXFFC_HtmlDataClass rder = new TXFFC_HtmlDataClass(GlobalClass.TypeDataPoints["TXFFC"]);
-            TXFFCExpectReader er = new TXFFCExpectReader();
+            TXFFCExpectReader<T> er = new TXFFCExpectReader<T>();
             string StrBegDate = "2018-08-25";
-            ExpectList<TimeSerialData> el = er.GetMissedData<TimeSerialData>(true, StrBegDate);
+            ExpectList<T> el = er.GetMissedData(true, StrBegDate);
             for (int i = 0; i < el.Count; i++)
             {
-                ExpectList<TimeSerialData> tmpList = new ExpectList<TimeSerialData>();
+                ExpectList<T> tmpList = new ExpectList<T>();
                 DateTime endT = el[i].OpenTime;
                 DateTime begT = el[i].OpenTime.AddMinutes(-1 * el[i].MissedCnt-1);
                 DateTime tt = DateTime.Parse(begT.ToShortDateString());
@@ -404,14 +408,14 @@ namespace PK10Server
                     string strTt = tt.ToString("yyyy-MM-dd");
                     for (int j = 1; j <= 29; j++)
                     {
-                        ExpectList<TimeSerialData> wlist = rder.getHistoryData<TimeSerialData>(strTt, j);//取到web
-                        tmpList = ExpectList<TimeSerialData>.Concat(tmpList, wlist);
+                        ExpectList<T> wlist = rder.getHistoryData<T>(strTt, j);//取到web
+                        tmpList = ExpectList<T>.Concat(tmpList, wlist);
                         Application.DoEvents();
                         Thread.Sleep(800);
                     }
                     tt=tt.AddDays(1);
                 }
-                ExpectList<TimeSerialData> currEl = er.ReadHistory<TimeSerialData>(begT0.ToString(),endT.AddDays(1).ToString());
+                ExpectList<T> currEl = er.ReadHistory(begT0.ToString(),endT.AddDays(1).ToString());
                 er.SaveHistoryData(er.getNewestData(tmpList, currEl));
             }
         }
@@ -433,35 +437,35 @@ namespace PK10Server
 
         private void toolStripMenuItem_StragManager_Click(object sender, EventArgs e)
         {
-            frm_StragManager frm = new frm_StragManager();
+            frm_StragManager<T> frm = new frm_StragManager<T>();
             frm.ShowDialog();
         }
 
         public void tsmi_RunMonitor_Click(object sender, EventArgs e)
         {
-            frm_StragMonitor<TimeSerialData> frm = new frm_StragMonitor<TimeSerialData>();
+            frm_StragMonitor<T> frm = new frm_StragMonitor<T>();
             frm.Show();
         }
 
         private void ToolStripMenuItem_StragRunPlan_Click(object sender, EventArgs e)
         {
             //frm_StragPlanSetting frm = new frm_StragPlanSetting();
-            frm_CommDBObjectsSetting<StragRunPlanClass<TimeSerialData>> frm = new frm_CommDBObjectsSetting<StragRunPlanClass<TimeSerialData>>();
-            frm.OuterList = Program.AllGlobalSetting.AllRunPlannings as Dictionary<string, StragRunPlanClass<TimeSerialData>>;
+            frm_CommDBObjectsSetting<StragRunPlanClass<T>> frm = new frm_CommDBObjectsSetting<StragRunPlanClass<T>>();
+            frm.OuterList = Program<T>.AllGlobalSetting.AllRunPlannings as Dictionary<string, StragRunPlanClass<T>>;
             frm.Show();
         }
 
         private void tsmi_AssetUnitMgr_Click(object sender, EventArgs e)
         {
             frm_CommDBObjectsSetting<AssetUnitClass> frm = new frm_CommDBObjectsSetting<AssetUnitClass>();
-            frm.OuterList = Program.AllGlobalSetting.AllAssetUnits;
+            frm.OuterList = Program<T>.AllGlobalSetting.AllAssetUnits;
             frm.Show();
         }
 
         private void ToolStripMenuItem_TestDataSrc_Click(object sender, EventArgs e)
         {
             PK10_HtmlDataClass hdc = new PK10_HtmlDataClass(GlobalClass.TypeDataPoints.First().Value);
-            ExpectList<TimeSerialData> tmp = hdc.getExpectList<TimeSerialData>();
+            ExpectList<T> tmp = hdc.getExpectList<T>();
             if(tmp == null)
             {
                 MessageBox.Show("数据源错误！");
@@ -472,7 +476,7 @@ namespace PK10Server
                 MessageBox.Show("数据长度为0！");
                 return;
             }
-            MessageBox.Show(tmp.LastData.ToDetailString());
+            //MessageBox.Show(tmp.LastData.ToDetailString());
         }
 
         private void tsmi_getHistoryData_Click(object sender, EventArgs e)
@@ -482,32 +486,32 @@ namespace PK10Server
             int begi = int.Parse(pages[0].Trim());
             int endi = int.Parse(pages[1].Trim());
             HtmlDataClass rder = HtmlDataClass.CreateInstance(GlobalClass.TypeDataPoints.First().Value);
-            CommExpectReader er = DataReaderBuild.CreateReader(GlobalClass.TypeDataPoints.First().Key, null, null) as CommExpectReader;
+            CommExpectReader<T> er = DataReaderBuild.CreateReader<T>(GlobalClass.TypeDataPoints.First().Key, null, null) as CommExpectReader<T>;
             Application.DoEvents();
             
-            ExpectList<TimeSerialData> tmpList = new ExpectList<TimeSerialData>();
+            ExpectList<T> tmpList = new ExpectList<T>();
             for (int i=begi;i<=endi;i++)
             {
                 
-                ExpectList<TimeSerialData> wlist = new ExpectList<TimeSerialData>();
-                wlist = rder.getHistoryData<TimeSerialData>(null, i);//取到web
-                ExpectList<TimeSerialData> wtrue = new ExpectList<TimeSerialData>();
+                ExpectList<T> wlist = new ExpectList<T>();
+                wlist = rder.getHistoryData<T>(null, i);//取到web
+                ExpectList<T> wtrue = new ExpectList<T>();
                 wtrue = er.getNewestData(wlist, tmpList);// 
-                tmpList = ExpectList<TimeSerialData>.Concat(tmpList, wtrue);
+                tmpList = ExpectList<T>.Concat(tmpList, wtrue);
                 this.tssl_Count.Text = string.Format("访问第{1}页，共计获取到{0}条记录",tmpList.Count,i );
                 if(tmpList.Count>=100)
                 {
-                    ExpectList<TimeSerialData> currEl = er.ReadHistory<TimeSerialData>(tmpList.MinExpect, 10000);
-                    ExpectList<TimeSerialData> NewEl = er.getNewestData(tmpList, currEl);
+                    ExpectList<T> currEl = er.ReadHistory(tmpList.MinExpect, 10000);
+                    ExpectList<T> NewEl = er.getNewestData(tmpList, currEl);
                     long res1 = er.SaveHistoryData(NewEl);
-                    tmpList = new ExpectList<TimeSerialData>();
+                    tmpList = new ExpectList<T>();
                     this.tssl_Count.Text = string.Format("访问第{1}页，共计成功保存了{0}条记录", res1, i);
                 }
                 Application.DoEvents();
                 Thread.Sleep(10000);
             }
-            ExpectList<TimeSerialData> currEl1 = er.ReadHistory<TimeSerialData>(tmpList.MinExpect, 10000);
-            ExpectList<TimeSerialData> NewEl1 = er.getNewestData(tmpList, currEl1);
+            ExpectList<T> currEl1 = er.ReadHistory(tmpList.MinExpect, 10000);
+            ExpectList<T> NewEl1 = er.getNewestData(tmpList, currEl1);
             long res = er.SaveHistoryData(NewEl1);
             if(res>0)
             {
@@ -518,10 +522,10 @@ namespace PK10Server
                 MessageBox.Show(string.Format("保存{0}条历史记录失败！",NewEl1.Count));
             }
             ////string StrBegDate = "2018-08-25";
-            ////ExpectList<TimeSerialData> el = er.GetMissedData<TimeSerialData>(true, StrBegDate);
+            ////ExpectList<T> el = er.GetMissedData<T>(true, StrBegDate);
             ////for (int i = 0; i < el.Count; i++)
             ////{
-            ////    ExpectList<TimeSerialData> tmpList = new ExpectList<TimeSerialData>();
+            ////    ExpectList<T> tmpList = new ExpectList<T>();
             ////    DateTime endT = el[i].OpenTime;
             ////    DateTime begT = el[i].OpenTime.AddMinutes(-1 * el[i].MissedCnt - 1);
             ////    DateTime tt = DateTime.Parse(begT.ToShortDateString());
@@ -531,14 +535,14 @@ namespace PK10Server
             ////        string strTt = tt.ToString("yyyy-MM-dd");
             ////        for (int j = 1; j <= 29; j++)
             ////        {
-            ////            ExpectList<TimeSerialData> wlist = rder .getHistoryData<TimeSerialData>(strTt, j);//取到web
-            ////            tmpList = ExpectList<TimeSerialData>.Concat(tmpList, wlist);
+            ////            ExpectList<T> wlist = rder .getHistoryData<T>(strTt, j);//取到web
+            ////            tmpList = ExpectList<T>.Concat(tmpList, wlist);
             ////            Application.DoEvents();
             ////            Thread.Sleep(800);
             ////        }
             ////        tt = tt.AddDays(1);
             ////    }
-            ////    ExpectList<TimeSerialData> currEl = er.ReadHistory<TimeSerialData>(begT0.ToString(), endT.AddDays(1).ToString());
+            ////    ExpectList<T> currEl = er.ReadHistory<T>(begT0.ToString(), endT.AddDays(1).ToString());
             ////    er.SaveHistoryData(er.getNewestData(tmpList, currEl));
             ////}
 
@@ -546,17 +550,17 @@ namespace PK10Server
 
         private void ToolStripMenuItem_SingleStragMonitor_Click(object sender, EventArgs e)
         {
-            frm_MoniteStrag frm = new frm_MoniteStrag();
+            frm_MoniteStrag<T> frm = new frm_MoniteStrag<T>();
             frm.ShowDialog();
         }
 
         private void refreshAllDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Program.optFunc.RefreshData(this);
+            Program<T>.optFunc.RefreshData(this);
         }
     }
 
-    public class imageLogClass                                       
+    public class imageLogClass<T> where T:TimeSerialData                                       
     {
         public static void SaveImage(Control lv,string GR_Path, ImageFormat fmt)
         {
@@ -567,12 +571,12 @@ namespace PK10Server
                 string fullFileName = string.Format("{0}\\imgs\\{1}", AppDomain.CurrentDomain.BaseDirectory, GR_Path);// GR_Path + "\\" + fileName + ".png";
                 image.Save(fullFileName, fmt);
                 string filename = string.Format("chartImg");
-                Program.wxlog.LogImageUrl(string.Format("{0}/chartImgs_{2}/{1}", GlobalClass.TypeDataPoints.First().Value.InstHost, GR_Path, GlobalClass.TypeDataPoints.First().Value.DataType), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                Program<T>.wxlog.LogImageUrl(string.Format("{0}/chartImgs_{2}/{1}", GlobalClass.TypeDataPoints.First().Value.InstHost, GR_Path, GlobalClass.TypeDataPoints.First().Value.DataType), string.Format(Program<T>.gc.WXLogUrl, Program<T>.gc.WXSVRHost));
 
             }
             catch(Exception ce)
             {
-                Program.wxlog.Log(ce.Message,ce.StackTrace, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                Program<T>.wxlog.Log(ce.Message,ce.StackTrace, string.Format(Program<T>.gc.WXLogUrl, Program<T>.gc.WXSVRHost));
             }
         }
     }

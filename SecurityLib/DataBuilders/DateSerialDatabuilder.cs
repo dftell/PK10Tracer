@@ -11,11 +11,11 @@ namespace WolfInv.com.SecurityLib
         }
         public string DateFieldName { get ; set ; }
 
-        public abstract MongoReturnDataList<T> getData<T>(bool Asc) where T :MongoData;
-        public abstract MongoReturnDataList<T> getData<T>(string begT, bool Asc) where T : MongoData;
-        public abstract MongoReturnDataList<T> getData<T>(string begT, string endT, bool Asc) where T : MongoData;
-        public abstract MongoReturnDataList<T> getData<T>(string endt, int Cycs, bool Asc) where T : MongoData;
-        public abstract MongoReturnDataList<T1> getDataGroupBy<T1>(string[] sqls) where T1 : MongoData;
-        public abstract MongoReturnDataList<T> getFullTimeSerial<T>() where T : MongoData;
+        public abstract MongoReturnDataList<T> getData<T>(bool Asc) where T : TimeSerialData;
+        public abstract MongoReturnDataList<T> getData<T>(string begT, bool Asc) where T : TimeSerialData;
+        public abstract MongoReturnDataList<T> getData<T>(string begT, string endT, bool Asc) where T : TimeSerialData;
+        public abstract MongoReturnDataList<T> getData<T>(string endt, int Cycs, bool Asc) where T : TimeSerialData;
+        public abstract MongoReturnDataList<T1> getDataGroupBy<T1>(string[] sqls) where T1 : TimeSerialData;
+        public abstract MongoReturnDataList<T> getFullTimeSerial<T>() where T : TimeSerialData;
     }
 }

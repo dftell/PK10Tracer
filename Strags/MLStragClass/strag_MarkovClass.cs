@@ -15,7 +15,7 @@ namespace WolfInv.com.Strags.MLStragClass
     [DescriptionAttribute("马尔可夫选号策略"),
         DisplayName("马尔可夫选号策略")]
     [Serializable]
-    public class strag_MarkovClass : StragClass
+    public class strag_MarkovClass : StragClass 
     {
         public strag_MarkovClass()
             : base()
@@ -42,8 +42,8 @@ namespace WolfInv.com.Strags.MLStragClass
             }
             List <ChanceClass> ret = new List<ChanceClass>();
             Dictionary<int, List<int>> useList = new Dictionary<int, List<int>>();
-            MarkovCategoryFactioryClass mcf = new MarkovCategoryFactioryClass();
-            ExpectList data = this.LastUseData().LastDatas(ReviewExpectCnt,false);
+            MarkovCategoryFactioryClass<TimeSerialData> mcf = new MarkovCategoryFactioryClass<TimeSerialData>();
+            ExpectList<TimeSerialData> data = this.LastUseData().LastDatas(ReviewExpectCnt,false);
             mcf.Init(data);
             List<string> useResList = new List<string>();
             Dictionary<int,List<KeyValuePair<int, double>>> allColList = new Dictionary<int,List<KeyValuePair<int, double>>>();
@@ -243,5 +243,7 @@ namespace WolfInv.com.Strags.MLStragClass
             }
             return typeof(NolimitTraceChance);
         }
+
+        
     }
 }

@@ -44,8 +44,8 @@ namespace WolfInv.com.StrategyLibForWD
             GuidBuilder_ForWD gb = new GuidBuilder_ForWD(w, gd);
             gd.cycle = this.cycle;
             gd.priceAdj = this.prcAdj;
-            ret.Result = gb.getRecords(secCodes, EndT);
-            ret.Result.AddColumnByArray<DateTime>("DateTime", EndT);
+            ////////ret.Result = gb.getRecords(secCodes, EndT);
+            ////////ret.Result.AddColumnByArray<DateTime>("DateTime", EndT);
             ret.Notice.Success = true;
             return ret;
         }
@@ -65,7 +65,7 @@ namespace WolfInv.com.StrategyLibForWD
             gd.priceAdj = this.prcAdj;
             DateSerialGuidBuilder_ForWD gb = new DateSerialGuidBuilder_ForWD(w, gd);
             tab = gb.getRecords(secCode, begt, endt);
-            ret.Result = tab;
+            ret.Table = tab;
             ret.Notice.Success = true;
             return ret;
         }

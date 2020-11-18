@@ -27,7 +27,15 @@ namespace WolfInv.com.BaseObjectsLib
 
         public DetailStringClass()
         {
-            SetDefaultValueAttribute();
+            //SetDefaultValueAttribute();
+            if(1==1)
+                SetDefaultValueAttribute();
+        }
+
+        public DetailStringClass(bool setDefaultVal)
+        {
+            if (setDefaultVal)
+                SetDefaultValueAttribute();
         }
 
         public static List<T> getObjectListByXml<T>(string strXml)
@@ -40,7 +48,7 @@ namespace WolfInv.com.BaseObjectsLib
             innerObj = (InnerClass<T>)GetObjectByXml(strXml, innerObj.GetType());
             if (ret == null)
                 return null;
-            ret = innerObj.list;
+            ret = innerObj?.list;
             ////}
             ////catch(Exception e)
             ////{
@@ -134,19 +142,27 @@ namespace WolfInv.com.BaseObjectsLib
 
         protected void SetDefaultValueAttribute()
         {
-            PropertyInfo[] pps = this.GetType().GetProperties();
+            PropertyInfo[] pps = this.GetType().GetProperties(BindingFlags.Public|BindingFlags.Instance);
             for (int i = 0; i < pps.Length; i++)
             {
                 PropertyInfo pi = pps[i];
                 //Attribute[] atts = Attribute.GetCustomAttributes(
-                DefaultValueAttribute att = Attribute.GetCustomAttribute(pi as MemberInfo, typeof(DefaultValueAttribute), true) as DefaultValueAttribute;
-                if (att != null)
+                try
                 {
-                    if (pi.CanWrite)
+                    DefaultValueAttribute att = Attribute.GetCustomAttribute(pi as MemberInfo, typeof(DefaultValueAttribute), true) as DefaultValueAttribute;
+                    if (att != null)
                     {
-                        object val = ConvertionExtensions.ConvertTo((IConvertible)att.Value, pi.PropertyType);
-                        pi.SetValue(this, val, null);
+                        if (pi.CanWrite)
+                        {
+                            object val = ConvertionExtensions.ConvertTo((IConvertible)att.Value, pi.PropertyType);
+                            pi.SetValue(this, val, null);
+                        }
                     }
+                }
+                catch(Exception ce)
+                {
+                    string msg = ce.Message;
+                    string txt = pi.Name;
                 }
             }
         }

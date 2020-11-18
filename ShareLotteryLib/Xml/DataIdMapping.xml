@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<flds>
+	<!--china zhou -->
+	<f i="COL01" udlbl="颜色编号" width="100" type="text" celltype="0"/>
+	<f i="COL02" udlbl="颜色代码" width="100" type="text" celltype="0"/>
+	<f i="COL03" udlbl="颜色" width="100" type="text" celltype="0"/>
+	<f i="COL04" udlbl="颜色图像" width="100" type="text" celltype="0"/>
+	<f i="CTA01" udlbl="地址编号" width="100" type="text" celltype="0"/>
+	<f i="CTA02" udlbl="地址代码" width="100" type="text" celltype="0"/>
+	<f i="CTA03" udlbl="地址" width="100" type="text" celltype="0"/>
+	<f i="CTA04" udlbl="是否有电梯" width="100" type="text" combo="yesno" celltype="0"/>
+	<f i="CTA05" udlbl="楼层" width="100" type="text" celltype="0"/>
+	<f i="CTA06" udlbl="电话" width="100" type="text" celltype="0"/>
+	<f i="CTA07" udlbl="手机" width="100" type="int" celltype="0"/>
+	<f i="CTA08" udlbl="经度" width="100" type="text" celltype="0"/>
+	<f i="CTA09" udlbl="纬度" width="100" type="text" celltype="0"/>
+	<f i="CTA10" udlbl="备注" width="100" type="text" celltype="0"/>
+	<f i="CTA11" udlbl="单号" width="100" type="int" celltype="0"/>
+	<f i="CTB01" udlbl="客户编号" width="100" type="text" celltype="0"/>
+	<f i="CTB02" udlbl="客户代码" width="100" type="text" celltype="0"/>
+	<f i="CTB03" udlbl="客户姓名" width="100" type="text" celltype="0"/>
+	<f i="CTB04" udlbl="所属公司" width="100" type="text" celltype="0"/>
+	<f i="CTB05" udlbl="所属店面" width="100" type="text" celltype="0"/>
+	<f i="CTB06" udlbl="性别" width="100" type="text" celltype="0"/>
+	<f i="CTB07" udlbl="建立日期" width="100" type="date" celltype="0"/>
+	<f i="CTB08" udlbl="建立人" width="100" type="text" celltype="0"/>
+	<f i="CTB09" udlbl="销售单号" width="100" type="int" celltype="0"/>
+	<f i="CTB11" udlbl="客户代码" width="100" type="string" celltype="0"/>
+	<f i="PMS01" udlbl="权限编号" width="100" type="text" celltype="0"/>
+	<f i="PMS02" udlbl="权限代码" width="100" type="text" celltype="0"/>
+	<f i="PMS03" udlbl="权限名" width="100" type="text" celltype="0"/>
+	<f i="PMS04" udlbl="备注" width="100" type="text" celltype="0"/>
+	<f i="PMS05" udlbl="父权限代码" width="100" type="text" celltype="0"/>
+	<f i="PGM01" udlbl="产品组编号" width="100" type="text" celltype="0"/>
+	<f i="PGM02" udlbl="产品组代码" width="100" type="text" celltype="0"/>
+	<f i="PGM03" udlbl="组成产品代码" width="100" type="text" celltype="0"/>
+	<f i="PGM04" udlbl="组成产品件数" width="100" type="text" celltype="0"/>
+	<f i="PGM05" udlbl="组成产品价格" width="100" type="int" celltype="0"/>
+	<f i="PDT01" udlbl="产品类型编号" width="100" type="text" celltype="0"/>
+	<f i="PDT02" udlbl="产品类型代码" width="100" type="text" celltype="0"/>
+	<f i="PDT03" udlbl="产品类型名" width="100" type="text" celltype="0"/>
+	<f i="PDT04" udlbl="系列" width="100" type="text" celltype="0"/>
+	<!--Table: FSMS_SerieProdTypes Alias Name:SPT-->
+	<f i="SPT01" udlbl="ProdTypeMapId" width="50" type="int"/>
+	<f i="SPT02" udlbl="产品类型" width="100" type="varchar"/>
+	<f i="SPT03" udlbl="系列" width="100" type="varchar"/>
+	<f i="PRC01" udlbl="产品价格编号" width="100" type="text" celltype="0"/>
+	<f i="PRC02" udlbl="产品价格代码" width="100" type="text" celltype="0"/>
+	<f i="PRC03" udlbl="是否特价" width="100" type="text" celltype="0" combo="yesno"/>
+	<f i="PRC04" udlbl="采购价" width="100" type="text" celltype="0"/>
+	<f i="PRC05" udlbl="最大折扣率" width="100" type="text" celltype="0"/>
+	<f i="PRC06" udlbl="采购价开始时间" width="100" type="text" celltype="0"/>
+	<f i="PRC07" udlbl="采购价结束时间" width="100" type="text" celltype="0"/>
+	<f i="PRC08" udlbl="销售价" width="100" type="text" celltype="0"/>
+	<f i="PRC09" udlbl="销售最大折扣" width="100" type="text" celltype="0"/>
+	<f i="PRC10" udlbl="销售价开始日期" width="100" type="text" celltype="0"/>
+	<f i="PRC11" udlbl="销售价结束日期" width="100" type="text" celltype="0"/>
+	<f i="PRC12" udlbl="修改者" width="100" type="text" celltype="0"/>
+	<f i="PRC13" udlbl="修改日期" width="100" type="text" celltype="0"/>
+	<f i="PRC14" udlbl="是否特价采购" width="100" type="text" celltype="0"/>
+	<!--Table: vw_FSMS_PrdGroups Alias Name:PG-->
+	<f i="PG001" udlbl="组合编码" width="100" type="varchar"/>
+	<f i="PG002" udlbl="组合名" width="200" type="varchar"/>
+	<!--Table: vw_FSMS_PrdGroups Alias Name:PG-->
+	<f i="PP001" udlbl="部件编码" width="100" type="varchar"/>
+	<f i="PP002" udlbl="部件名" width="200" type="varchar"/>
+	<f i="PP003" udlbl="品牌代码" width="200" type="varchar" ref="TMK02"/>
+	<f i="PP004" udlbl="单价" width="200" type="int"/>
+	<f i="PRD01" udlbl="产品编号" width="100" type="text" celltype="0"/>
+	<f i="PRD02" udlbl="产品代码" width="100" type="text" celltype="0"/>
+	<f i="PRD03" udlbl="产品名" width="100" type="text" celltype="0"/>
+	<f i="PRD04" udlbl="品牌" width="100" type="text" celltype="0" combo="trademarket"/>
+	<f i="PRD05" udlbl="系列" width="100" type="text" celltype="0" combo="series"/>
+	<f i="PRD06" udlbl="产品类型" width="100" type="text" celltype="0"/>
+	<f i="PRD07" udlbl="规格" width="100" type="text" celltype="0"/>
+	<f i="PRD08" udlbl="颜色" width="100" type="text" celltype="0"/>
+	<f i="PRD09" udlbl="材料" width="100" type="text" celltype="0"/>
+	<f i="PRD10" udlbl="备注" width="100" type="text" celltype="0"/>
+	<f i="PRD11" udlbl="图片路径" width="100" type="text" celltype="0"/>
+	<f i="PRD12" udlbl="虚拟文件路径" width="100" type="text" celltype="0"/>
+	<f i="PRD13" udlbl="是否停产" width="100" type="text" combo="yesno" celltype="0"/>
+	<f i="PRD14" udlbl="禁用" width="100" type="text" combo="yesno" celltype="0"/>
+	<f i="PRD15" udlbl="修改日期" width="100" type="text" celltype="0"/>
+	<f i="PRD16" udlbl="修改者" width="100" type="text" celltype="0"/>
+	<f i="PRD17" udlbl="组成" width="100" type="text" celltype="0"/>
+	<f i="PRD18" udlbl="公司代码" width="100" type="text" celltype="0"/>
+	<f i="PSB01" udlbl="采购单编号" width="100" type="text" celltype="0"/>
+	<f i="PSB02" udlbl="采购单代码" width="100" type="text" celltype="0"/>
+	<f i="PSB03" udlbl="公司" width="100" type="text" celltype="0"/>
+	<f i="PSB04" udlbl="品牌" width="100" type="text" celltype="0" combo="trademarket"/>
+	<f i="PSB05" udlbl="店面" width="100" type="text" celltype="0"/>
+	<f i="PSB06" udlbl="采购日期" width="100" type="text" celltype="0"/>
+	<f i="PSB07" udlbl="下单人" width="100" type="text" celltype="0"/>
+	<f i="PSB08" udlbl="下单类型" width="100" type="text" celltype="0"/>
+	<f i="PSB09" udlbl="审核人" width="100" type="text" celltype="0"/>
+	<f i="PSB10" udlbl="发送到" width="100" type="text" celltype="0"/>
+	<f i="PSB11" udlbl="计划到货日" width="100" type="text" celltype="0"/>
+	<f i="PSB12" udlbl="建立日期" width="100" type="text" celltype="0"/>
+	<f i="PSB13" udlbl="建立者" width="100" type="text" celltype="0"/>
+	<f i="PSB14" udlbl="修改日期" width="100" type="text" celltype="0"/>
+	<f i="PSB15" udlbl="修改者" width="100" type="text" celltype="0"/>
+	<f i="PSB16" udlbl="禁用" width="100" type="text" celltype="0"/>
+	<f i="RPM01" udlbl="职能权限编号" width="100" type="text" celltype="0"/>
+	<f i="RPM02" udlbl="职能代码" width="100" type="text" celltype="0"/>
+	<f i="RPM03" udlbl="权限代码" width="100" type="text" celltype="0"/>
+	<f i="RPM04" udlbl="允许新建" width="100" type="text" celltype="0"/>
+	<f i="RPM05" udlbl="允许浏览" width="100" type="text" celltype="0"/>
+	<f i="RPM06" udlbl="允许更新" width="100" type="text" celltype="0"/>
+	<f i="RPM07" udlbl="允许删除" width="100" type="text" celltype="0"/>
+	<f i="RPM08" udlbl="允许导出" width="100" type="text" celltype="0"/>
+	<f i="ROL01" udlbl="职能编号" width="100" type="text" celltype="0"/>
+	<f i="ROL02" udlbl="职能代码" width="100" type="text" celltype="0"/>
+	<f i="ROL03" udlbl="职能名" width="100" type="text" celltype="0"/>
+	<f i="ROL04" udlbl="备注" width="100" type="text" celltype="0"/>
+	<f i="SAF01" udlbl="金额编号" width="100" type="text" celltype="0"/>
+	<f i="SAF02" udlbl="销售单号" width="100" type="text" celltype="0"/>
+	<f i="SAF03" udlbl="待收款" width="100" type="money" celltype="0"/>
+	<f i="SAF04" udlbl="折扣后价" width="100" type="money" celltype="0"/>
+	<f i="SAF05" udlbl="卡付金额" width="100" type="money" celltype="0"/>
+	<f i="SAF06" udlbl="现付金额" width="100" type="money" celltype="0"/>
+	<f i="SAF07" udlbl="折扣率" width="100" type="float" celltype="0"/>
+	<f i="SAF08" udlbl="总价" width="100" type="money" celltype="0"/>
+	<f i="SAF09" udlbl="折扣审核" width="100" type="text" celltype="0"/>
+	<f i="SAF10" udlbl="通过审核" width="100" type="combo" combo="yesno" celltype="0"/>
+	<f i="SAF11" udlbl="备注" width="100" type="text" celltype="0"/>
+	<f i="SAF12" udlbl="已对帐" width="100" type="combo" combo="yesno" celltype="0"/>
+	<f i="SAF13" udlbl="自收金额" width="100" type="money" celltype="0"/>
+	<f i="SSD01" udlbl="销售明细编号" width="100" type="text" celltype="0"/>
+	<f i="SSD02" udlbl="销售单号" width="100" type="text" celltype="0"/>
+	<f i="SSD03" udlbl="产品" width="100" type="text" celltype="0"/>
+	<f i="SSD04" udlbl="规格" width="100" type="text" celltype="0"/>
+	<f i="SSD05" udlbl="颜色" width="100" type="text" celltype="0"/>
+	<f i="SSD06" udlbl="材料" width="100" type="text" celltype="0"/>
+	<f i="SSD07" udlbl="样式" width="100" type="text" celltype="0"/>
+	<f i="SSD08" udlbl="数量" width="100" type="int" celltype="0"/>
+	<f i="SSD10" udlbl="规格" width="100" type="text" celltype="0"/>
+	<f i="SSD11" udlbl="颜色" width="100" type="text" celltype="0"/>
+	<f i="SSD12" udlbl="材料" width="100" type="text" celltype="0"/>
+	<f i="SSD13" udlbl="样式" width="100" type="text" celltype="0"/>
+	<f i="SSD14" udlbl="数量" width="100" type="int" celltype="0"/>
+	<f i="SSD15" udlbl="数量" width="100" type="int" celltype="0"/>
+	<f i="SFI01" udlbl="安装编号" width="100" type="text" celltype="0"/>
+	<f i="SFI02" udlbl="销售单号" width="100" type="text" celltype="0"/>
+	<f i="SFI03" udlbl="预计安装日期" width="100" type="date" celltype="0"/>
+	<f i="SFI04" udlbl="地址代码" width="100" type="text" celltype="0"/>
+	<f i="SFI05" udlbl="安装工" width="100" type="text" celltype="0"/>
+	<f i="SFI06" udlbl="安装日期" width="100" type="date" celltype="0"/>
+	<f i="SFI07" udlbl="接收余款数" width="100" type="money" celltype="0"/>
+	<f i="SFI08" udlbl="扣押金额" width="100" type="money" celltype="0"/>
+	<f i="SFI09" udlbl="是否安装" width="100" type="combo" combo="yesno" celltype="0"/>
+	<f i="SFI10" udlbl="备注" width="100" type="text" celltype="0"/>
+	<f i="SSB01" udlbl="销售单编号" width="100" type="text" celltype="0"/>
+	<f i="SSB02" udlbl="销售单号" width="100" type="text" celltype="0"/>
+	<f i="SSB03" udlbl="公司" width="100" type="text" celltype="0" combo="group"/>
+	<f i="SSB04" udlbl="店面" width="100" type="text" celltype="0" combo="stores"/>
+	<f i="SSB05" udlbl="建立时间" width="100" type="text" celltype="0"/>
+	<f i="SSB06" udlbl="建立人" width="100" type="text" celltype="0"/>
+	<f i="SSB07" udlbl="修改时间" width="100" type="text" celltype="0"/>
+	<f i="SSB08" udlbl="修改人" width="100" type="text" celltype="0"/>
+	<f i="SSB09" udlbl="意向单" width="100" type="text" combo="yesno" celltype="0"/>
+	<f i="SSB10" udlbl="禁用" width="100" type="text" combo="yesno" celltype="0"/>
+	<f i="SSB11" udlbl="客户" width="100" type="text" celltype="0"/>
+	<f i="SSB12" udlbl="客户" width="100" type="text" celltype="0"/>
+	<f i="SSB13" udlbl="客户" width="100" type="text" celltype="0"/>
+	<f i="SER01" udlbl="系列编号" width="100" type="text" celltype="0"/>
+	<f i="SER02" udlbl="系列代码" width="100" type="text" celltype="0"/>
+	<f i="SER03" udlbl="系列名" width="100" type="text" celltype="0"/>
+	<f i="SER04" udlbl="品牌" width="100" type="text" celltype="0" combo="trademarket"/>
+	<f i="SER05" udlbl="备注" width="100" type="text" celltype="0"/>
+	<f i="STG01" udlbl="仓库编号" width="100" type="text" celltype="0"/>
+	<f i="STG02" udlbl="仓库代码" width="100" type="text" celltype="0"/>
+	<f i="STG03" udlbl="仓库名" width="100" type="text" celltype="0"/>
+	<f i="STG04" udlbl="公司" width="100" type="text" celltype="0" combo="group"/>
+	<f i="STG05" udlbl="店面" width="100" type="text" celltype="0" combo="stores"/>
+	<f i="STG06" udlbl="位置" width="100" type="text" celltype="0"/>
+	<f i="SGG01" udlbl="公司编号" width="100" type="text" celltype="0"/>
+	<f i="SGG02" udlbl="公司代码" width="100" type="text" celltype="0"/>
+	<f i="SGG03" udlbl="公司名" width="100" type="text" celltype="0"/>
+	<f i="SGG04" udlbl="备注" width="100" type="text" celltype="0"/>
+	<f i="STR01" udlbl="店面编号" width="100" type="text" celltype="0"/>
+	<f i="STR02" udlbl="店面代码" width="100" type="text" celltype="0"/>
+	<f i="STR03" udlbl="店面名" width="100" type="text" celltype="0"/>
+	<f i="STR04" udlbl="公司" width="100" type="text" celltype="0"/>
+	<f i="STR05" udlbl="品牌" width="100" type="text" celltype="0" combo="trademarket"/>
+	<f i="STR06" udlbl="传真" width="100" type="text" celltype="0"/>
+	<f i="STR07" udlbl="电话" width="100" type="text" celltype="0"/>
+	<f i="STM01" udlbl="店内品牌编号" width="100" type="text" celltype="0"/>
+	<f i="STM02" udlbl="店面" width="100" type="text" celltype="0" combo=""/>
+	<f i="STM03" udlbl="品牌" width="100" type="text" celltype="0" combo=""/>
+	<f i="STM04" udlbl="公司" width="100" type="text" celltype="0"/>
+	<f i="TMC01" udlbl="产品颜色编号" width="100" type="text" celltype="0"/>
+	<f i="TMC02" udlbl="颜色" width="100" type="text" celltype="0"/>
+	<f i="TMC03" udlbl="品牌" width="100" type="text" celltype="0" combo="trademarket"/>
+	<f i="TMC04" udlbl="禁用" width="100" type="text" celltype="0"/>
+	<f i="TMK01" udlbl="品牌编号" width="100" type="text" celltype="0"/>
+	<f i="TMK02" udlbl="品牌代码" width="100" type="text" celltype="0"/>
+	<f i="TMK03" udlbl="品牌名" width="100" type="text" celltype="0"/>
+	<f i="USR01" udlbl="用户编号" width="100" type="text" celltype="0"/>
+	<f i="USR02" udlbl="用户代码" width="100" type="text" celltype="0"/>
+	<f i="USR03" udlbl="用户名" width="100" type="text" celltype="0"/>
+	<f i="USR04" udlbl="公司" width="100" type="text" celltype="0"/>
+	<f i="USR05" udlbl="店面" width="100" type="text" celltype="0"/>
+	<f i="USR06" udlbl="职能" width="100" type="text" celltype="0"/>
+	<f i="USR07" udlbl="密码" width="100" type="text" celltype="0"/>
+	<f i="USR08" udlbl="禁用" width="100" type="text" celltype="0"/>
+	<!--Table: vw_FSMS_UserInfo Alias Name:CUI-->
+	<f i="CUI01" udlbl="用户代码" width="100" type="varchar"/>
+	<f i="CUI02" udlbl="今年" width="50" type="int"/>
+	<f i="CUI03" udlbl="当月" width="50" type="int"/>
+	<f i="CUI04" udlbl="今日" width="50" type="int"/>
+	<f i="CUI05" udlbl="日期" width="100" type="varchar"/>
+	<!--Table: vw_FSMS_Store_Sale_Cost_MonthSummary Alias Name:SMS-->
+	<f i="SMS01" udlbl="店面" width="100" type="varchar"/>
+	<f i="SMS02" udlbl="月份" width="100" type="varchar"/>
+	<f i="SMS03" udlbl="总销售额" width="50" type="int"/>
+	<f i="SMS04" udlbl="总成本" width="50" type="money"/>
+	<f i="SMS05" udlbl="平均利润" width="50" type="money"/>
+	<f i="SMTH0" udlbl="单号" width="120" type="varchar"/>
+	<f i="SMTH1" udlbl="月份" width="100" type="varchar"/>
+	<!--Table: ITMS_PermList Alias Name:pl-->
+	<f i="PL001" udlbl="pmid" width="50" type="int"/>
+	<f i="PL002" udlbl="PermVal" width="50" type="int"/>
+	<f i="PL003" udlbl="remark" width="100" type="varchar"/>
+	<f i="PL004" udlbl="pm_View" width="50" type="int"/>
+	<f i="PL005" udlbl="pm_List" width="50" type="int"/>
+	<f i="PL006" udlbl="pm_Create" width="50" type="int"/>
+	<f i="PL007" udlbl="pm_Edit" width="50" type="int"/>
+	<f i="PL008" udlbl="pm_Delete" width="50" type="int"/>
+	<f i="PL009" udlbl="pm_Share" width="50" type="int"/>
+	<f i="PL010" udlbl="pm_View_Detail" width="50" type="int"/>
+	<f i="PL011" udlbl="pm_List_Detail" width="50" type="int"/>
+	<f i="PL012" udlbl="pm_Create_Detail" width="50" type="int"/>
+	<f i="PL013" udlbl="pm_Edit_Detail" width="50" type="int"/>
+	<f i="PL014" udlbl="pm_Delete_Detail" width="50" type="int"/>
+	<f i="PL015" udlbl="pm_Share_Detail" width="50" type="int"/>
+	<f i="PL016" udlbl="pm_Export" width="50" type="int"/>
+	<f i="PL017" udlbl="pm_Export_Detail" width="50" type="int"/>
+	<!--Table: ITMS_RolePermMappings Alias Name:RPM-->
+	<f i="RPM01" udlbl="RolePermMapId" width="50" type="int"/>
+	<f i="RPM02" udlbl="RoleId" width="50" type="int"/>
+	<f i="RPM03" udlbl="PermId" width="50" type="int"/>
+	<f i="RPM04" udlbl="funcId" width="50" type="int"/>
+	<!--Table: ITMS_Roles Alias Name:Rol-->
+	<f i="ROL01" udlbl="RoleId" width="50" type="int"/>
+	<f i="ROL02" udlbl="RoleName" width="100" type="varchar"/>
+	<f i="ROL03" udlbl="RoleDescript" width="100" type="varchar"/>
+	<!--Table: ITMS_UserRoleMapping Alias Name:urm-->
+	<f i="URM01" udlbl="UserRoleMapId" width="50" type="int"/>
+	<f i="URM02" udlbl="UserCode" width="100" type="varchar"/>
+	<f i="URM03" udlbl="RoleId" width="50" type="int"/>
+	<!--Table: ITMS_FunctionPoints Alias Name:fpl-->
+	<f i="FPL01" udlbl="FuncId" width="50" type="int"/>
+	<f i="FPL02" udlbl="FunctionPointName" width="100" type="varchar"/>
+	<f i="FPL03" udlbl="FunctionDescript" width="200" type="varchar"/>
+	<f i="OS070" width="90" align="r" udlbl="Bid Price (Daily)" type="float" celltype="0">
+		<s op="combo_operator2" val="combo_number"/>
+		<general dec="2"/>
+		<source freq="d"/>
+	</f>
+	<f i="OS071" width="90" align="l" udlbl="Pricing Frequency" type="text" celltype="0" maxversion="3.6">
+		<s op="combo_operator1" val="combo_PriceFrequency"/>
+	</f>
+	<f i="OS075" width="90" align="l" udlbl="Pricing Frequency" type="text" celltype="0">
+  </f>
+	<f i="LS075" width="90" align="l" udlbl="Pricing Frequency" type="text" celltype="0" spv="0">
+		<s op="combo_operator1" val="combo_PriceFrequency"/>
+	</f>
+	<f i="OS072" width="90" align="l" udlbl="Pricing Delay" type="int" celltype="0">
+		<s op="combo_operator2" val="combo_number"/>
+	</f>
+	<f i="OS073" width="150" align="l" udlbl="Local Name" type="text" celltype="0">
+		<s op="combo_operator0" val="text"/>
+	</f>
+	<f i="OS074" width="90" align="l" udlbl="Legal Structure" type="text" celltype="0">
+		<s op="combo_operator0" val="text"/>
+	</f>
+	<f i="OS076" width="90" align="l" udlbl="2 Year Morningstar Rating" type="float" fixformat="1" celltype="0">
+		<s op="combo_operator2" val="combo_starrating"/>
+	</f>
+	<f i="OS077" width="90" align="r" udlbl="Reopen Date" type="datetime" celltype="0">
+		<s op="combo_operator2" val="calendar"/>
+	</f>
+	<f i="OS079" width="150" align="l" udlbl="Local Name - CN" type="text" celltype="0">
+		<s op="combo_operator0" val="text"/>
+	</f>
+	<f i="OF039" width="250" align="l" udlbl="Firm/Family" type="text" celltype="0">
+		<s op="combo_operator0" val="find" caller="Firm/Family"/>
+	</f>
+	<f i="OS00M" width="95" align="r" udlbl="Annual Report \nNet Expense \nRatio" type="float" celltype="0">
+		<s op="combo_operator2" val="combo_catplusnumber"/>
+		<general dec="2"/>
+		<calculation aggregationtype="WeightedAverage"/>
+	</f>
+	<f i="PM526" width="85" align="r" udlbl="Total Ret \nAnnlzd 3 Yr \n(Qtr-End)" type="float" additionalreqid="PM538" celltype="0">
+		<s op="combo_operator2" val="combo_catplusnumber"/>
+		<general cur="OS05M" dec="2"/>
+		<source id="HP010"/>
+		<calculation ann="1" curtype="Return" enddateid="DT015" trailingperiod="36" id="42"/>
+	</f>
+	<f i="UC045" width="90" align="l" udlbl="Latest Close Date" type="datetime" celltype="0">
+		<s op="combo_operator2" val="calendar"/>
+	</f>
+	<f i="UNT01" udlbl="unitid" type="int"/>
+	<f i="UNT02" udlbl="UnitCode" type="text"/>
+	<f i="UNT03" udlbl="UnitName" type="text"/>
+	<f i="UNT04" udlbl="GrpCode" type="text"/>
+	<!--Table: jdUnion_GoodsTable Alias Name:JGD-->
+	<f i="JGD01" udlbl="GoodsId" width="100" type="bigint"/>
+	<f i="JGD02" udlbl="skUID" width="100" type="bigint"/>
+	<f i="JGD03" udlbl="skName" width="200" type="varchar"/>
+	<f i="JGD04" udlbl="shopId" width="100" type="bigint"/>
+	<f i="JGD05" udlbl="shopName" width="200" type="varchar"/>
+	<f i="JGD06" udlbl="bestCoupon" width="50" type="money"/>
+	<f i="JGD07" udlbl="couponLink" width="200" type="varchar"/>
+	<f i="JGD08" udlbl="firstImgUrl" width="200" type="varchar"/>
+	<f i="JGD09" udlbl="materialUrl" width="200" type="varchar"/>
+	<f i="JGD10" udlbl="brankName" width="100" type="varchar"/>
+	<f i="JGD11" udlbl="price" width="50" type="money"/>
+	<f i="JGD12" udlbl="categorys" width="100" type="varchar"/>
+	<f i="JGD13" udlbl="orgXml" width="100" type="xml"/>
+	<f i="JGD14" udlbl="batchId" width="100" type="int"/>
+	<f i="JGD15" udlbl="eliteId" width="100" type="int"/>
+	<f i="JGD16" udlbl="eliteId" width="100" type="int"/>
+	<f i="JGD17" udlbl="eliteId" width="100" type="int"/>
+	<f i="JGD18" udlbl="seckillEndTime" width="100"  type="varchar" />
+	<f i="JGD19" udlbl="seckillOriPrice" width="100" type="varchar" />
+	<f i="JGD20" udlbl="seckillPrice" width="100" type="varchar"  />
+	<f i="JGD21" udlbl="seckillStartTime" width="100" type="varchar"/>
+	<f i="JBTH1" udlbl="batchNo" tab="v_jdGoodsBatchTable" type="int"/>
+</flds>

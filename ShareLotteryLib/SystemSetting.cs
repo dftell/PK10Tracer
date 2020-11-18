@@ -5,11 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using XmlProcess;
 using System.Xml;
+using System.Reflection;
+using WolfInv.Com.WCS_Process;
 //using WolfInv.com.WinInterComminuteLib;
 namespace WolfInv.com.ShareLotteryLib
 {
     public class SystemSetting
     {
+
         public static string allProviteChat
         {
             get
@@ -75,5 +78,19 @@ namespace WolfInv.com.ShareLotteryLib
             return ret;
         }
 
+        public static Dictionary<string, CITMSUser> UserInfos_del = new Dictionary<string, CITMSUser>();
+
+        
+    }
+
+
+
+    public class UserInfo_del:WolfInv.Com.WCS_Process.CITMSUser
+    {
+        public string wxOpenId;
+        public string Tel;
+        public string wxUId;
+
+        
     }
 }

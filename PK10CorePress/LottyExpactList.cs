@@ -21,11 +21,14 @@ namespace WolfInv.com.PK10CorePress
         {
         }
 
-        public static ExpectList getExpectList(ExpectList<TimeSerialData> el)
+        public static ExpectList getExpectList<T>(ExpectList<T> el) where T:TimeSerialData
         {
             ExpectList ret = new ExpectList();
             for (int i = 0; i < el.Count; i++)
-                ret.Add(el[i]);
+            {
+                ExpectData ed = new ExpectData().GetExpectData(el[i]);
+                ret.Add(ed);
+            }
             return ret;
         }
         
@@ -40,13 +43,17 @@ namespace WolfInv.com.PK10CorePress
                 ret.Expect = base[i].Expect;
                 return ret;
                 return base[i]  as ExpectData;
-                return base[i].CopyTo<ExpectData>();
+                //return base[i].CopyTo<ExpectData>();
             }
             set
             {
                 if (value == null)
                     return;
-                base[i] = value.CopyTo<ExpectData>();
+                base[i].Expect = value.Expect;
+                base[i].OpenTime = value.OpenTime;
+                base[i].OpenCode = value.OpenCode;
+                //base[i] = value.CopyTo<ExpectData>();
+                //base[i] = new ExpectData().GetExpectData(value);
             }
         }
 
@@ -54,7 +61,8 @@ namespace WolfInv.com.PK10CorePress
         {
             get
             {
-                return base.LastData.CopyTo<ExpectData>();
+                // return base.LastData.CopyTo<ExpectData>();
+                return  new ExpectData().GetExpectData(base.LastData);
             }
         }
 
@@ -64,7 +72,8 @@ namespace WolfInv.com.PK10CorePress
             ExpectList<TimeSerialData> tmp = base.getSubArray(FromIndex, len);
             foreach (ExpectData<TimeSerialData> a in tmp)
             {
-                ret.Add(a.CopyTo<ExpectData>());
+                ExpectData<TimeSerialData> item = a as ExpectData<TimeSerialData>;
+                ret.Add(new ExpectData().GetExpectData<TimeSerialData>(item));
             }
             return ret;// as ExpectList;
         }
@@ -128,11 +137,18 @@ namespace WolfInv.com.PK10CorePress
         {
 
         }
-        
 
-        public ExpectData GetExpectData<T>(ExpectData<T> data) where T:TimeSerialData
+        public ExpectData GetExpectData<T>(ExpectData<T> data) where T : TimeSerialData
         {
-            return ConvertionExtensions.Clone(data) as ExpectData;
+            return getData<T>(data);
+        }
+        public static ExpectData getData<T>(ExpectData<T> data) where T:TimeSerialData
+        {
+            ExpectData ret = new ExpectData();
+            ret.Expect = data.Expect;
+            ret.OpenCode = data.OpenCode;
+            ret.OpenTime = data.OpenTime;
+            return ret;
         }
     
 
@@ -198,19 +214,19 @@ namespace WolfInv.com.PK10CorePress
         
     }
 
-    public class Combin_ExpectData: ExpectData
+    public class Combin_ExpectData<T>: ExpectData<T> where T:TimeSerialData
     {
         public Combin_ExpectData()
         {
 
         }
-        public Combin_ExpectData(ExpectData ed)
+        public Combin_ExpectData(ExpectData<T> ed)
         {
             this.OpenCode = ed.OpenCode;
             this.Expect = ed.Expect;
             this.OpenTime = ed.OpenTime;
         }
-        public override string[] ValueList
+        public string[] ValueList
         {
             get
             {

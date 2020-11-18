@@ -10,21 +10,21 @@ namespace WolfInv.com.SecurityLib
     /// <summary>
     /// 多周期行业选股策略类
     /// </summary>
-    public class CommIndustryMutliCycleStrategy : CommIndustryStrategy
+    public class CommIndustryMutliCycleStrategy<T> : CommIndustryStrategy<T> where T : TimeSerialData
     {
         public CommIndustryMutliCycleStrategy(CommDataIntface _w) : base(_w) { }
-        public override CommSecurityProcessClass ReverseSelectSecurity(CommStrategyInClass Input)
+        public override CommSecurityProcessClass<T> ReverseSelectSecurity(CommStrategyInClass Input)
         {
             CommMutliCycleIndustryStrategyInParams InParam = null;
             return null;
         }
 
-        public override CommSecurityProcessClass BreachSelectSecurity(CommStrategyInClass Input)
+        public override CommSecurityProcessClass<T> BreachSelectSecurity(CommStrategyInClass Input)
         {
             throw new NotImplementedException();
         }
 
-        public override CommSecurityProcessClass BalanceSelectSecurity(CommStrategyInClass Input)
+        public override CommSecurityProcessClass<T> BalanceSelectSecurity(CommStrategyInClass Input)
         {
             throw new NotImplementedException();
         }

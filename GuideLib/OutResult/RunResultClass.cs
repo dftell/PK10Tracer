@@ -1,5 +1,6 @@
 ﻿//using CFZQ_JRGCDB;
 using WolfInv.com.BaseObjectsLib;
+using System.Collections.Generic;
 namespace WolfInv.com.GuideLib
 {
     /// <summary>
@@ -8,11 +9,12 @@ namespace WolfInv.com.GuideLib
     public class RunResultClass
     {
         public RunNoticeClass Notice;
-        public MTable Result;
+        public MTable Table;
+        public List<string> Result;
         public RunResultClass()
         {
             Notice = new RunNoticeClass();
-            Result = new MTable();
+            Result = new List<string>();
         }
     }
 }

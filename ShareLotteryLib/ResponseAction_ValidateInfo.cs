@@ -38,7 +38,7 @@ namespace WolfInv.com.ShareLotteryLib
             MutliLevelData mld = lastAsk.askData;
             if (!mld.SubList.Keys.Select(a => a.key).ToList().Contains(answers[0]))
             {
-                if (mld != null && mld.Parent.SubList.Keys.Select(a => a.key).ToList().Contains(answers[0]))//返回上级
+                if (mld != null && mld.Parent!= null && mld.Parent.SubList.Keys.Select(a => a.key).ToList().Contains(answers[0]))//返回上级
                 {
                     MutliLevelData parent = mld.Parent?.Parent;
                     mld = mld.Parent;

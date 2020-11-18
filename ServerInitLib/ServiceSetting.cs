@@ -186,8 +186,15 @@ namespace WolfInv.com.ServerInitLib
 
         public void InitSecurity()
         {
-            foreach(string key in GlobalClass.TypeDataPoints.Keys)
+            //Update by zhouys 2020 / 11 / 14
+            WDDataInit.WDDataInit<T>.Init();
+            WDDataInit.WDDataInit<T>.vipDocRoot = gc.VipDocRootPath;
+            Dictionary<string, string> allsecs = WDDataInit.WDDataInit<T>.AllSecurities;
+            //WDDataInit.WDDataInit<T>.loadAllEquitSerials(10, true, true, true);
+            //MongoDataDictionary<T> initDatas = WDDataInit.WDDataInit<T>.getAllSerialData();
+            foreach (string key in GlobalClass.TypeDataPoints.Keys)
             {
+                
                 DataTypePoint dtp = GlobalClass.TypeDataPoints[key];
                 if (dtp.RuntimeInfo == null)
                     dtp.RuntimeInfo = new DataPointBuff(dtp);
@@ -204,7 +211,8 @@ namespace WolfInv.com.ServerInitLib
                 }
                 
                 LogableClass.ToLog(string.Format("准备获取[{0}]股票清单",key), "开始");
-                dtp.RuntimeInfo.SecurityInfoList = InitSecurityClass.getAllCodes(key);
+
+                dtp.RuntimeInfo.SecurityInfoList = InitSecurityClass.getAllCodes<T>(key);
                 if (dtp.RuntimeInfo.SecurityInfoList == null)
                 {
                     LogableClass.ToLog(string.Format("准备获取[{0}]股票清单", key), "失败");
@@ -214,7 +222,7 @@ namespace WolfInv.com.ServerInitLib
                 string[] codes = dtp.RuntimeInfo.SecurityInfoList.Keys.ToArray();
                 dtp.RuntimeInfo.SecurityCodes = codes;
                 LogableClass.ToLog(string.Format("准备获取[{0}]日期数据", key), "开始");
-                dtp.RuntimeInfo.HistoryDateList = InitSecurityClass.getStockIndexAllDateList(key);
+                dtp.RuntimeInfo.HistoryDateList = InitSecurityClass.getStockIndexAllDateList<T>(key);
                 LogableClass.ToLog(string.Format("获取[{0}]日期数据", key), string.Format("日期数量:{0}", dtp.RuntimeInfo.HistoryDateList.Count));
                 LogableClass.ToLog(string.Format("准备获取[{0}]除权除息数据", key), "开始");
                 DateTime now = DateTime.Now;

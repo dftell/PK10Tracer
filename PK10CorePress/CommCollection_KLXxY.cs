@@ -91,7 +91,7 @@ namespace WolfInv.com.PK10CorePress
                 for (int i = 0; i < Data[0].Count; i++)
                 {
                     DataRow dr = _CarTable.NewRow();
-                    Combin_ExpectData ed = new Combin_ExpectData(this.orgData[i]);
+                    Combin_ExpectData<TimeSerialData> ed = new Combin_ExpectData<TimeSerialData>(this.orgData[i]);
                     if (isByNo)
                     {
                         for (int j = 0; j < SelNums; j++)

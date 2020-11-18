@@ -105,6 +105,10 @@
     <Content Include="XMLFile1.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LogLib\WolfInv.com.LogLib.csproj">
+      <Project>{182084e4-c48b-4585-9221-4a54caf7448f}</Project>
+      <Name>WolfInv.com.LogLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WCS\AccessWebLib\AccessWebLib.csproj">
       <Project>{45457e13-75a5-420c-b761-3b485be4c527}</Project>
       <Name>AccessWebLib</Name>

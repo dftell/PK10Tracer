@@ -10,20 +10,20 @@ namespace WolfInv.com.SecurityLib
     /// <summary>
     /// 申万二级行业选股
     /// </summary>
-    public class CommSI2IndustryStrategy:CommIndustryStrategy
+    public class CommSI2IndustryStrategy<T> : CommIndustryStrategy<T> where T:TimeSerialData
     {
         public CommSI2IndustryStrategy(CommDataIntface _w) : base(_w) { }
-        public override CommSecurityProcessClass ReverseSelectSecurity(CommStrategyInClass Input)
+        public override CommSecurityProcessClass<T> ReverseSelectSecurity(CommStrategyInClass Input)
         {
             throw new NotImplementedException();
         }
 
-        public override CommSecurityProcessClass BreachSelectSecurity(CommStrategyInClass Input)
+        public override CommSecurityProcessClass<T> BreachSelectSecurity(CommStrategyInClass Input)
         {
             throw new NotImplementedException();
         }
 
-        public override CommSecurityProcessClass BalanceSelectSecurity(CommStrategyInClass Input)
+        public override CommSecurityProcessClass<T> BalanceSelectSecurity(CommStrategyInClass Input)
         {
             throw new NotImplementedException();
         }

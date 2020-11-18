@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using WolfInv.Com.JsLib;
-
+using WolfInv.com.LogLib;
 namespace WolfInv.com.JdUnionLib
 {
     public abstract class JdUnion_JsonClass : JsonableClass<JdUnion_JsonClass>
@@ -16,6 +16,10 @@ namespace WolfInv.com.JdUnionLib
             if (File.Exists(strPath))
             {
                 return strPath;
+            }
+            else
+            {
+                LogableClass.ToLog("文件访问", "不存在。",strPath);
             }
             return null;
         }
@@ -36,7 +40,9 @@ namespace WolfInv.com.JdUnionLib
         {
             string strPath = getJsonPath(name);
             if (strPath == null)
+            {
                 return null;
+            }
             using (TextReader tr = File.OpenText(strPath))
             {
                 return tr.ReadToEnd();
@@ -93,7 +99,7 @@ namespace WolfInv.com.JdUnionLib
             }
             
             this.params_360buy.Clear();
-            ret.Params.ForEach(a => {
+            ret.Params?.ForEach(a => {
                 string txt = a.ToJson();
                 this.params_360buy.Add(a.name,txt);
             });

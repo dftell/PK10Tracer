@@ -33,7 +33,7 @@ namespace WolfInv.com.CFZQ_LHProcess
         {
             InitConnect();
             WindData wd = w.wsd(_SecCodes, _Fields, _BegT.ToString("yyyy-MM-dd"), _EndT.ToString("yyyy-MM-dd"),_Params);
-            if (wd.errorCode != 0) throw (new WDErrorException(w, wd.errorCode));
+            //if (wd.errorCode != 0) throw (new WDErrorException(w, wd.errorCode));
             return wd;
         }
 

@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\project\PK10Tracer\</OutputPath>
+    <OutputPath>debug\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -42,8 +45,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WAPIWrapperCSharp">
-      <HintPath>..\..\..\..\..\..\..\cfzqzhouys\公司\量化\金工\万得\Wind量化平台-接口库文件-C#\WAPIWrapperCSharp\WAPIWrapperCSharp.dll</HintPath>
+    <Reference Include="WAPIWrapperCSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\projects\PK10Tracer\WAPIWrapperCSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

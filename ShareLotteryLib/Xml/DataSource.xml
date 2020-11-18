@@ -1,0 +1,1373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datasrcs>
+	<!--fsms-->
+	<ds id="SaleOrderBase" isextradata="1" subsource="fsms_saleorderdetail" mainkey="SSB02" refkey="SSD02" extradataassembly="WolfInv.Com.jdyInterfaceLib" extradatatype="Xml" extradataclass="JdyOutDataClass" readonly="1" allowinmemory="1">
+		<extradatagetconfig>
+			<module name="JDYSCM_SaleOrder_List_Class"/>
+		</extradatagetconfig>
+		<extradataconvertconfig>
+			<Maps>
+				<!--Query condition-->
+				<Map from="beginDate" to="SSB05_b"/>
+				<Map from="endDate" to="SSB05_e"/>
+				<!--Main data-->
+				<Map from="date" to="SSB05"/>
+				<Map from="number" to="SSB02"/>
+				<Map from="customerNumber" to="SSB04"/>
+				<Map from="discRate" to="SB007"/>
+				<Map from="discAmount" to="SB009"/>
+				<Map from="creator" to="SSB06"/>
+				<Map from="checker" to="SSB08"/>
+				<Map from="checkStatus" to="SSB09"/>
+				<Map from="totalQty" to="SSB03"/>
+				<Map from="totalAmount" to="SSB11"/>
+				<!---->
+				<Map from="items_number" to="SSB02"/>
+				<!--虚拟的-->
+				<Map from="productNumber" to="SSD03"/>
+				<Map from="location" to="SSD15"/>
+				<Map from="qty" to="SSD08"/>
+				<Map from="unit" to="SSD04"/>
+				<Map from="productname" to="PRD03"/>
+				<Map from="price" to="SSD06"/>
+				<Map from="discRate" to="SSD13"/>
+				<Map from="amount" to="SSD11"/>
+				<Map from="remark" to="SSD10"/>
+			</Maps>
+			<attatchinfo>
+				<cols ti="1">
+					<!--<evt method="math" expr="{0}-{1}-{2}-{3},SAF04,SAF05,SAF06,SAF13"/>-->
+					<f i="SSD15" type="datacombo" combo="fsms_STGlist" valmember="STG03" txtmember="STG02" membersplitor="|" defaultindex="0"/>
+					<!--
+					<f i="CTA03" type="datacombo" combo="customeraddresslist" txtmember ="CTA03" valmember="CTA02" membersplitor="|" ref="SSD10" defaultindex="0"/>-->
+				</cols>
+			</attatchinfo>
+		</extradataconvertconfig>
+		<req>
+			<f i="SSB01"/>
+			<f i="SSB02"/>
+			<f i="SSB03"/>
+			<f i="SSB04"/>
+			<f i="SSB05"/>
+			<f i="SSB06"/>
+			<f i="SSB07"/>
+			<f i="SSB08"/>
+			<f i="SSB09"/>
+			<f i="SSB10"/>
+			<f i="SSB11"/>
+		</req>
+		<condition>
+			<c/>
+		</condition>
+	</ds>
+	<ds id="SaleDelivery" isextradata="1" subsource="fsms_saleorderdetail" mainkey="SSB02" refkey="SSD02" extradataassembly="WolfInv.Com.jdyInterfaceLib" extradatatype="Xml" extradataclass="JdyOutDataClass" readonly="1" allowinmemory="1">
+		<extradatagetconfig>
+			<module name="JDYSCM_SaleDelivery_List_Class"/>
+		</extradatagetconfig>
+		<extradataconvertconfig>
+			<Maps>
+				<!--Query condition-->
+				<Map from="beginDate" to="SSB05_b"/>
+				<Map from="endDate" to="SSB05_e"/>
+				<!--Main data-->
+				<Map from="date" to="SSB05"/>
+				<Map from="number" to="SSB02"/>
+				<Map from="customerNumber" to="SSB04"/>
+				<Map from="discRate" to="SB007"/>
+				<Map from="receivedAmt" to="SB013"/>
+				<Map from="creator" to="SSB06"/>
+				<Map from="checker" to="SSB08"/>
+				<Map from="checkStatus" to="SSB09"/>
+				<Map from="totalQty" to="SSB03"/>
+				<Map from="totalAmount" to="SSB11"/>
+				<Map from="sourceOrder" to="SSB10"/>
+				<Map from="remark" to="SSB12"/>
+				<!--<Map from="日批次号" to="SSB13"/>-->
+				<!---->
+				<Map from="items_number" to="SSB02"/>
+				<Map from="items_remark" to="SSB12"/>
+				<!--<Map from="items_日批次号" to="SSB13"/>-->
+				<!--虚拟的,供view直接使用下级使用-->
+				<Map from="productNumber" to="SSD03"/>
+				<Map from="location" to="SSD15"/>
+				<Map from="qty" to="SSD08"/>
+				<Map from="unit" to="SSD04"/>
+				<Map from="productname" to="PRD03"/>
+				<Map from="price" to="SSD06"/>
+				<Map from="discRate" to="SSD13"/>
+				<Map from="amount" to="SSD11"/>
+				<Map from="remark" to="SSD10"/>
+			</Maps>
+			<attatchinfo>
+				<cols ti="1">
+					<!--<evt method="math" expr="{0}-{1}-{2}-{3},SAF04,SAF05,SAF06,SAF13"/>-->
+					<f i="SSD15" type="datacombo" combo="fsms_STGlist" valmember="STG03" txtmember="STG02" membersplitor="|" defaultindex="0"/>
+					<f i="PRD04" udlbl="规格" width="100" type="datacombo" combo="ProduceSummary" valmember="PRD02" txtmember="PRD04" membersplitor="|" ref="SSD03"/>
+					<f i="TMK03" udlbl="品牌" width="80" type="datacombo" combo="ProduceSummary" valmember="PRD02" txtmember="TMK03" membersplitor="|" ref="SSD03"/>
+					<f i="SSD06" type="datacombo" combo="ProduceSummary" valmember="PRD02" txtmember="PRD07" membersplitor="|" ref="SSD03"/>
+					<f i="UNT03" type="datacombo" combo="unitlist" width="50" valmember="UNT02" txtmember="UNT03" ref="SSD04"/>
+					<!--
+					<f i="CTA03" type="datacombo" combo="customeraddresslist" txtmember ="CTA03" valmember="CTA02" membersplitor="|" ref="SSD10" defaultindex="0"/>-->
+				</cols>
+			</attatchinfo>
+		</extradataconvertconfig>
+		<req>
+			<f i="SSB01"/>
+			<f i="SSB02"/>
+			<f i="SSB03"/>
+			<f i="SSB04"/>
+			<f i="SSB05"/>
+			<f i="SSB06"/>
+			<f i="SSB07"/>
+			<f i="SSB08"/>
+			<f i="SSB09"/>
+			<f i="SSB10"/>
+			<f i="SSB11"/>
+			<f i="SSB12"/>
+			<f i="SSB13"/>
+		</req>
+		<condition>
+			<c/>
+		</condition>
+	</ds>
+	<ds id="SaleSummary">
+		<req>
+			<f i="SSB01"/>
+			<f i="SSB02"/>
+			<f i="SSB03"/>
+			<f i="SSB04"/>
+			<f i="SSB05"/>
+			<f i="SSB06"/>
+			<f i="SSB07"/>
+			<f i="SSB08"/>
+			<f i="SSB09"/>
+			<f i="SSB10"/>
+			<f i="SSB11"/>
+			<f i="SMTH1"/>
+			<f i="STR03" r="1"/>
+			<f i="USR03" r="1"/>
+			<f i="SAF03"/>
+			<f i="SAF04"/>
+			<f i="SAF05"/>
+			<f i="SAF06"/>
+			<f i="SAF12"/>
+			<f i="SAF13"/>
+			<f i="SFI04"/>
+			<f i="SFI06"/>
+			<f i="SFI08"/>
+			<f i="SFI09"/>
+			<f i="CTA04"/>
+			<f i="CTA03"/>
+			<f i="CTA05"/>
+			<f i="CTA06"/>
+			<f i="CTA07"/>
+			<f i="CTA08"/>
+			<f i="CTA09"/>
+			<f i="CTA10"/>
+			<f i="CTB03"/>
+		</req>
+		<condition>
+			<c>
+				<c i="STR02" v="{storecode}"/>
+				<c i="SSB10" v="0"/>
+			</c>
+		</condition>
+		<order>
+			<f i="SSB05" d="desc"/>
+			<f i="SSB02" d="desc"/>
+		</order>
+	</ds>
+	<ds id="CurrMonthSaleSummary">
+		<req>
+			<f i="SSB01"/>
+			<f i="SSB02"/>
+			<f i="SSB03"/>
+			<f i="SSB04"/>
+			<f i="SSB05"/>
+			<f i="SSB06"/>
+			<f i="SSB07"/>
+			<f i="SSB08"/>
+			<f i="SSB09"/>
+			<f i="SSB10"/>
+			<f i="STR03" r="1"/>
+			<f i="USR03" r="1"/>
+			<f i="SAF03"/>
+			<f i="SAF04"/>
+			<f i="SAF05"/>
+			<f i="SAF06"/>
+			<f i="SAF12"/>
+			<f i="SAF13"/>
+			<f i="SFI04"/>
+			<f i="SFI06"/>
+			<f i="SFI08"/>
+			<f i="SFI09"/>
+			<f i="CTA04"/>
+			<f i="CTA03"/>
+			<f i="CTA05"/>
+			<f i="CTA06"/>
+			<f i="CTA07"/>
+			<f i="CTA08"/>
+			<f i="CTA09"/>
+			<f i="CTA10"/>
+			<f i="CTB03"/>
+		</req>
+		<condition>
+			<c>
+				<c i="STR02" v="{storecode}"/>
+				<c i="SSB10" v="0"/>
+				<c i="SSB05" v="{curryear}-{currmonth}" o="like"/>
+			</c>
+		</condition>
+		<order>
+			<f i="SSB05" d="desc"/>
+			<f i="SSB02" d="desc"/>
+		</order>
+	</ds>
+	<ds id="ProduceSummary" isextradata="1" extradataassembly="WolfInv.Com.jdyInterfaceLib" extradatatype="Xml" extradataclass="JdyOutDataClass" readonly="1" allowinmemory="1">
+		<extradatagetconfig>
+			<module name="JDYSCM_Product_List_Class"/>
+		</extradatagetconfig>
+		<extradataconvertconfig>
+			<Maps>
+				<Map from="id" to="PRD01"/>
+				<Map from="productNumber" to="PRD02"/>
+				<Map from="productName" to="PRD03"/>
+				<Map from="spec" to="PRD04"/>
+				<Map from="categoryId" to="PRD05"/>
+				<Map from="categoryName" to="TMK03"/>
+				<Map from="unit" to="PRD06"/>
+				<Map from="unitTypeName" to="UNT03"/>
+				<Map from="primaryStock" to="STG03"/>
+				<Map from="retailPrice" to="PRD07"/>
+				<Map from="wholeSalePrice" to="PRD08"/>
+				<Map from="vipPrice" to="PRD09"/>
+				<Map from="elsPurPrice" to="PRD10"/>
+				<Map from="isDeleted" to="PRD14"/>
+			</Maps>
+		</extradataconvertconfig>
+		<req>
+			<f i="PRD01"/>
+			<f i="PRD02"/>
+			<f i="PRD03"/>
+			<f i="TMK03" r="1"/>
+			<f i="TMK04" r="1"/>
+			<f i="STG03" r="1"/>
+			<f i="STM02" r="1"/>
+			<f i="STR02" r="1"/>
+			<f i="SER03" r="1"/>
+			<f i="PDT03"/>
+			<f i="PRD04"/>
+			<f i="PRD05"/>
+			<f i="PRD06"/>
+			<f i="PRD07"/>
+			<f i="PRD08"/>
+			<f i="PRD09"/>
+			<f i="PRD10"/>
+			<f i="PRD11"/>
+			<f i="PRD12"/>
+			<f i="PRD13"/>
+			<f i="PRD14"/>
+			<f i="PRD15"/>
+			<f i="PRD16"/>
+			<f i="PRD17"/>
+			<f i="PRD18"/>
+			<f i="PRC01"/>
+			<f i="PRC02"/>
+			<f i="PRC03"/>
+			<f i="PRC04"/>
+			<f i="PRC05"/>
+			<f i="PRC06"/>
+			<f i="PRC07"/>
+			<f i="PRC08"/>
+			<f i="PRC09"/>
+			<f i="PRC10"/>
+			<f i="PRC11"/>
+			<f i="PRC12"/>
+			<f i="PRC13"/>
+			<f i="PRC14"/>
+		</req>
+		<condition>
+			<c>
+				<c i="PRD14" v="false"/>
+			</c>
+		</condition>
+	</ds>
+	<ds id="PartSummary">
+		<req>
+			<f i="PP001"/>
+			<f i="PRD01"/>
+			<f i="PRD02"/>
+			<f i="PRD03"/>
+			<f i="TMK03" r="1"/>
+			<f i="STM02" r="1"/>
+			<f i="STR02" r="1"/>
+			<f i="SER03" r="1"/>
+			<f i="PDT03"/>
+			<f i="PRD04"/>
+			<f i="PRD05"/>
+			<f i="PRD06"/>
+			<f i="PRD07"/>
+			<f i="PRD08"/>
+			<f i="PRD09"/>
+			<f i="PRC01"/>
+			<f i="PRC02"/>
+			<f i="PRC03"/>
+			<f i="PRC04"/>
+			<f i="PRC05"/>
+			<f i="PRC06"/>
+			<f i="PRC07"/>
+			<f i="PRC08"/>
+			<f i="PRC09"/>
+			<f i="PRC10"/>
+			<f i="PRC11"/>
+			<f i="PRC12"/>
+			<f i="PRC13"/>
+			<f i="PRC14"/>
+		</req>
+		<condition>
+			<c>
+				<c i="STM02" v="{storecode}"/>
+			</c>
+		</condition>
+	</ds>
+	<ds id="GroupSummary">
+		<req>
+			<f i="PG001"/>
+			<f i="PRD01"/>
+			<f i="PRD02"/>
+			<f i="PRD03"/>
+			<f i="TMK03" r="1"/>
+			<f i="STM02" r="1"/>
+			<f i="STR02" r="1"/>
+			<f i="SER03" r="1"/>
+			<f i="PDT03"/>
+			<f i="PRD04"/>
+			<f i="PRD05"/>
+			<f i="PRD06"/>
+			<f i="PRD07"/>
+			<f i="PRD08"/>
+			<f i="PRD09"/>
+			<f i="PRC01"/>
+			<f i="PRC02"/>
+			<f i="PRC03"/>
+			<f i="PRC04"/>
+			<f i="PRC05"/>
+			<f i="PRC06"/>
+			<f i="PRC07"/>
+			<f i="PRC08"/>
+			<f i="PRC09"/>
+			<f i="PRC10"/>
+			<f i="PRC11"/>
+			<f i="PRC12"/>
+			<f i="PRC13"/>
+			<f i="PRC14"/>
+		</req>
+		<condition>
+			<c>
+				<c i="STM02" v="{storecode}"/>
+			</c>
+		</condition>
+	</ds>
+	<ds id="fsms_storelist" isextradata="1" extradataassembly="WolfInv.Com.jdyInterfaceLib" extradatatype="Xml" extradataclass="JdyOutDataClass" readonly="1" allowinmemory="1">
+		<extradatagetconfig>
+			<module name="JDYSCM_WareHouse_List_Class"/>
+		</extradatagetconfig>
+		<extradataconvertconfig>
+			<Maps>
+				<Map from="number" to="STR02"/>
+				<Map from="name" to="STR03"/>
+				<Map from="id" to="STR01"/>
+				<Map from="isDeleted" to="STR07"/>
+			</Maps>
+		</extradataconvertconfig>
+		<req>
+			<f i="STR02"/>
+			<f i="STR03"/>
+			<f i="STR04"/>
+			<f i="STR05"/>
+			<f i="STR06"/>
+			<f i="STR07"/>
+			<f i="STR01"/>
+			<f i="SGG02" r="1"/>
+			<f i="SGG03" r="1"/>
+		</req>
+		<condition>
+			<c>
+				<c i="STR02" v="{storecode}"/>
+			</c>
+		</condition>
+	</ds>
+	<ds id="fsms_storemarket">
+		<req>
+			<f i="STM01"/>
+			<f i="STM02"/>
+			<f i="STM03"/>
+			<f i="STM04"/>
+			<f i="SER03"/>
+			<f i="STR03"/>
+		</req>
+		<condition>
+			<c>
+				<c i="STR02" v="{storecode}"/>
+			</c>
+		</condition>
+	</ds>
+	<ds id="fsms_marketlist" isextradata="1" extradataassembly="WolfInv.Com.jdyInterfaceLib" extradatatype="Xml" extradataclass="JdyOutDataClass" readonly="1" allowinmemory="1">
+		<extradatagetconfig>
+			<module name="JDYSCM_Category_List_Class"/>
+		</extradatagetconfig>
+		<extradataconvertconfig>
+			<Maps>
+				<Map from="id" to="TMK01"/>
+				<Map from="name" to="TMK03"/>
+				<Map from="parentId" to="TMK02"/>
+			</Maps>
+		</extradataconvertconfig>
+		<req>
+			<f i="TMK01"/>
+			<f i="TMK03"/>
+			<f i="TMK02"/>
+		</req>
+		<condition>
+			<c>
+
+			</c>
+		</condition>
+	</ds>
+	<ds id="fsms_STGlist" isextradata="1" extradataassembly="WolfInv.Com.jdyInterfaceLib" extradatatype="Xml" extradataclass="JdyOutDataClass" readonly="1" allowinmemory="1">
+		<extradatagetconfig>
+			<module name="JDYSCM_WareHouse_List_Class"/>
+		</extradatagetconfig>
+		<extradataconvertconfig>
+			<Maps>
+				<Map from="id" to="STG01"/>
+				<Map from="name" to="STG03"/>
+				<Map from="number" to="STG02"/>
+				<Map from="isDelete" to="STG04"/>
+			</Maps>
+		</extradataconvertconfig>
+		<req>
+			<f i="STG01"/>
+			<f i="STG02"/>
+			<f i="STG03"/>
+			<f i="STG04"/>
+		</req>
+		<condition>
+			<c>
+
+			</c>
+		</condition>
+	</ds>
+	<ds id="fsms_Serielist">
+		<req>
+			<f i="SER02"/>
+			<f i="SER03"/>
+			<f i="SER04"/>
+			<f i="SER05"/>
+			<f i="SER01"/>
+			<f i="TMK02" r="1"/>
+			<f i="TMK03" r="1"/>
+			<f i="STM03" r="1"/>
+			<f i="STR02" r="1"/>
+		</req>
+		<condition>
+			<c>
+				<c i="STR02" v="{storecode}"/>
+			</c>
+		</condition>
+	</ds>
+	<ds id="fsms_prdgrouplist">
+		<req>
+			<f i="PG001"/>
+			<f i="PG002"/>
+			<f i="PRD01"/>
+			<f i="PRD02"/>
+			<f i="PRD03"/>
+			<f i="TMK03" r="1"/>
+			<f i="STM02" r="1"/>
+			<f i="STR02" r="1"/>
+			<f i="SER03" r="1"/>
+			<f i="PDT03"/>
+			<f i="PRD04"/>
+			<f i="PRD05"/>
+			<f i="PRD06"/>
+			<f i="PRD07"/>
+			<f i="PRD08"/>
+			<f i="PRD09"/>
+			<f i="PRC01"/>
+			<f i="PRC02"/>
+			<f i="PRC03"/>
+			<f i="PRC04"/>
+			<f i="PRC05"/>
+			<f i="PRC06"/>
+			<f i="PRC07"/>
+			<f i="PRC08"/>
+			<f i="PRC09"/>
+			<f i="PRC10"/>
+			<f i="PRC11"/>
+			<f i="PRC12"/>
+			<f i="PRC13"/>
+			<f i="PRC14"/>
+		</req>
+		<condition>
+			<c>
+				<c i="STM02" v="{storecode}"/>
+			</c>
+		</condition>
+	</ds>
+	<ds id="fsms_prdgroupsublist">
+		<req>
+			<f i="PGM01"/>
+			<f i="PGM02"/>
+			<f i="PGM03"/>
+			<f i="PGM04"/>
+			<f i="PP004" fmt="{0}*{1}" flds="PP004,PGM04"/>
+			<f i="PP001" r="1"/>
+			<f i="PP002" r="1"/>
+			<f i="PP003" r="1"/>
+			<f i="TMK03" r="1"/>
+			<f i="STM02" r="1"/>
+			<f i="PG001" r="1"/>
+			<f i="PG002" r="1"/>
+			<f i="PRD04" r="1"/>
+		</req>
+		<condition>
+			<c>
+				<c i="STM02" v="{storecode}"/>
+				<c i="GP001"/>
+			</c>
+		</condition>
+	</ds>
+	<ds id="fsms_prodtypelist">
+		<req>
+			<f i="PDT02"/>
+			<f i="PDT03"/>
+			<f i="PDT04"/>
+			<f i="PDT01"/>
+		</req>
+		<condition>
+			<c>
+				<c i="PDT02"/>
+			</c>
+		</condition>
+	</ds>
+	<ds id="fsms_serieprodtypelist">
+		<req>
+			<f i="SPT02"/>
+			<f i="PDT03" r="1"/>
+			<f i="SPT03"/>
+			<f i="SPT01"/>
+			<f i="SER02" r="1"/>
+			<f i="SER03" r="1"/>
+		</req>
+		<condition>
+			<c>
+				<c i="SPT01"/>
+			</c>
+		</condition>
+	</ds>
+	<ds id="fsms_saleorderdetail">
+		<!--
+"productName":"牛奶榛子巧克力威化饼干",
+"productNumber":"0533",
+"skuId":0, 可以不要
+"unit":129609327892386655,
+"location":"默认仓库",
+"qty":13,
+"mainQty":13,
+"price":45.8,
+"discRate":0, 可以不要
+"discAmt":0,  可以不要
+"amount":595.4
+
+productNumber=SSD02
+unit:SSD03
+qty:SSD04
+mainQty:SSD05
+Price:SSD06
+amount:SSD07
+
+location=SSD11
+
+-->
+		<req>
+			<f i="SSD01"/>
+			<f i="SSD02"/>
+			<f i="SSD03"/>
+			<f i="SSD04"/>
+			<f i="SSD05"/>
+			<f i="SSD06"/>
+			<f i="SSD07"/>
+			<f i="SSD08"/>
+			<f i="SSD10"/>
+			<f i="SSD11"/>
+			<f i="SSD12"/>
+			<f i="SSD13"/>
+			<f i="SSD14"/>
+			<f i="SSD15"/>
+			<f i="SSB02" r="1"/>
+			<f i="SSB01" r="1"/>
+			<f i="SSB12"/>
+			<f i="SSB13"/>
+			<f i="SSB10"/>
+			<f i="PRD02" r="1"/>
+			<f i="PRD03" r="1"/>
+			<f i="PRD04" r="1"/>
+			<f i="PRD05" r="1"/>
+			<f i="PRD06" r="1"/>
+			<f i="PRD07" r="1"/>
+			<f i="PRD08" r="1"/>
+			<f i="PRD09" r="1"/>
+			<f i="PRD10" r="1"/>
+			<f i="PRD11" r="1"/>
+			<f i="CTB02" r="1"/>
+			<f i="CTB03" r="1"/>
+			<f i="CTA02" r="1"/>
+			<f i="CTA03" r="1"/>
+			<f i="CTA04" r="1"/>
+			<f i="CTA05" r="1"/>
+			<f i="TMK03" r="1"/>
+			<f i="TMK02" r="1"/>
+			<f i="STR03" r="1"/>
+			<f i="STR02" r="1"/>
+		</req>
+		<condition>
+			<c>
+
+			</c>
+		</condition>
+	</ds>
+	<ds id="fsms_saledetail">
+		<!--
+"productName":"牛奶榛子巧克力威化饼干",
+"productNumber":"0533",
+"skuId":0, 可以不要
+"unit":129609327892386655,
+"location":"默认仓库",
+"qty":13,
+"mainQty":13,
+"price":45.8,
+"discRate":0, 可以不要
+"discAmt":0,  可以不要
+"amount":595.4
+
+productNumber=SSD02
+unit:SSD03
+qty:SSD04
+mainQty:SSD05
+Price:SSD06
+amount:SSD07
+
+location=SSD11
+
+-->
+		<req>
+			<f i="SSD01"/>
+			<f i="SSD02"/>
+			<f i="SSD03"/>
+			<f i="SSD04"/>
+			<f i="SSD05"/>
+			<f i="SSD06"/>
+			<f i="SSD07"/>
+			<f i="SSD08"/>
+			<f i="SSD10"/>
+			<f i="SSD11"/>
+			<f i="SSD12"/>
+			<f i="SSD13"/>
+			<f i="SSD14"/>
+			<f i="SSD15"/>
+			<f i="SSB02" r="1"/>
+			<f i="SSB01" r="1"/>
+			<f i="SSB11" r="1"/>
+			<f i="PRD02" r="1"/>
+			<f i="PRD03" r="1"/>
+			<f i="PRD04" r="1"/>
+			<f i="PRD05" r="1"/>
+			<f i="PRD06" r="1"/>
+			<f i="PRD07" r="1"/>
+			<f i="PRD08" r="1"/>
+			<f i="PRD09" r="1"/>
+			<f i="PRD10" r="1"/>
+			<f i="PRD11" r="1"/>
+			<f i="CTA04" r="1"/>
+			<f i="CTA02" r="1"/>
+			<f i="CTA03" r="1"/>
+			<f i="CTA04" r="1"/>
+			<f i="CTA05" r="1"/>
+			<f i="TMK03" r="1"/>
+			<f i="TMK02" r="1"/>
+			<f i="STR03" r="1"/>
+			<f i="STR02" r="1"/>
+		</req>
+		<condition>
+			<c>
+
+			</c>
+		</condition>
+	</ds>
+	<ds id="fsms_storeserielist">
+		<req>
+			<f i="STM03"/>
+			<f i="STM02"/>
+			<f i="STM01"/>
+			<f i="STM04"/>
+			<f i="TMK03" r="1"/>
+			<f i="STR03" r="1"/>
+		</req>
+		<condition>
+			<c>
+				<c i="STR02" v="{storecode}"/>
+			</c>
+		</condition>
+	</ds>
+	<ds id="fsms_currstoreserie">
+		<req>
+			<f i="STM01"/>
+			<f i="STM02"/>
+			<f i="STM03"/>
+			<f i="STM04"/>
+			<f i="SER03"/>
+			<f i="STR03"/>
+		</req>
+		<condition>
+			<c>
+				<c i="STM02" v="{storecode}"/>
+			</c>
+		</condition>
+	</ds>
+	<ds id="fsms_userinfo">
+		<req>
+			<f i="CUI01"/>
+			<f i="CUI02"/>
+			<f i="CUI03"/>
+			<f i="CUI04"/>
+			<f i="CUI05"/>
+			<f i="USR01"/>
+			<f i="USR02"/>
+			<f i="USR03"/>
+			<f i="USR04"/>
+			<f i="USR05"/>
+			<f i="USR06"/>
+			<f i="USR07"/>
+			<f i="USR08"/>
+			<f i="STR03" r="1"/>
+			<f i="SGG03" r="1"/>
+		</req>
+		<condition>
+			<c>
+				<c i="USR08" v="0"/>
+			</c>
+		</condition>
+	</ds>
+	<ds id="fsms_currmonth_storesalesummary">
+		<req>
+			<f i="SMS01"/>
+			<f i="SMS02"/>
+			<f i="SMS03"/>
+			<f i="SMS04"/>
+			<f i="SMS05"/>
+			<f i="STR03"/>
+		</req>
+		<condition>
+			<c>
+				<c i="STR02" v="{storecode}"/>
+			</c>
+		</condition>
+	</ds>
+	<ds id="fsms_fixinfo">
+		<req>
+			<f i="SSB01" r="1"/>
+			<f i="SSB02" r="1"/>
+			<f i="SSB03" r="1"/>
+			<f i="SSB04" r="1"/>
+			<f i="SSB05" r="1"/>
+			<f i="SSB06" r="1"/>
+			<f i="SSB07" r="1"/>
+			<f i="SSB08" r="1"/>
+			<f i="SSB09" r="1"/>
+			<f i="SSB10" r="1"/>
+			<f i="CTB03" r="1"/>
+			<f i="CTA03" r="1"/>
+			<f i="STR03" r="1"/>
+			<f i="USR03" r="1"/>
+			<f i="SFI01"/>
+			<f i="SFI02"/>
+			<f i="SFI03"/>
+			<f i="SFI04"/>
+			<f i="SFI05"/>
+			<f i="SFI06"/>
+			<f i="SFI07"/>
+			<f i="SFI08"/>
+			<f i="SFI09"/>
+			<f i="SFI10"/>
+		</req>
+		<condition>
+			<c>
+				<c i="STR02" v="{storecode}"/>
+				<c i="SSB10" v="0"/>
+			</c>
+		</condition>
+		<order>
+			<f i="SFI03" d="desc"/>
+		</order>
+	</ds>
+	<ds id="fsms_finaceinfo">
+		<req>
+			<f i="SSB01" r="1"/>
+			<f i="SSB02" r="1"/>
+			<f i="SSB03" r="1"/>
+			<f i="SSB04" r="1"/>
+			<f i="SSB05" r="1"/>
+			<f i="SSB06" r="1"/>
+			<f i="SSB07" r="1"/>
+			<f i="SSB08" r="1"/>
+			<f i="SSB09" r="1"/>
+			<f i="SSB10" r="1"/>
+			<f i="CTB03" r="1"/>
+			<f i="CTA03" r="1"/>
+			<f i="STR03" r="1"/>
+			<f i="USR03" r="1"/>
+			<f i="SAF01"/>
+			<f i="SAF02"/>
+			<f i="SAF03"/>
+			<f i="SAF04"/>
+			<f i="SAF05"/>
+			<f i="SAF06"/>
+			<f i="SAF07"/>
+			<f i="SAF08"/>
+			<f i="SAF09"/>
+			<f i="SAF10"/>
+			<f i="SAF11"/>
+			<f i="SAF12"/>
+			<f i="SAF13"/>
+			<f i="SFI07"/>
+			<f i="SFI08"/>
+			<f i="SFI09"/>
+		</req>
+		<condition>
+			<c>
+				<c i="STR02" v="{storecode}"/>
+				<c i="SSB10" v="0"/>
+				<c i="SAF12" v="0"/>
+			</c>
+		</condition>
+		<order>
+			<f i="SSB05" d="desc"/>
+			<f i="SSB02" d="desc"/>
+		</order>
+	</ds>
+	<ds id="fsms_salemonths">
+		<req>
+			<f i="SMTH1"/>
+		</req>
+		<groupby>
+			<f i="SMTH1"/>
+		</groupby>
+		<condition>
+			<c>
+				<c i="SMTH1"/>
+			</c>
+		</condition>
+		<order>
+			<f i="SMTH1" d="desc"/>
+		</order>
+	</ds>
+	<ds id="fsms_salemonthsSummary">
+		<req>
+			<f i="SSB04"/>
+			<f i="SMTH" fmt="count({0}" flds="SMTH0"/>
+			<f i="SMTH1"/>
+			<f i="SAF04" fmt="sum({0}" flds="SAF04"/>
+			<f i="SAF03" fmt="sum({0}" flds="SAF03"/>
+			<f i="SSB04"/>
+		</req>
+		<groupby>
+			<f i="SMTH1"/>
+			<f i="SSB04"/>
+		</groupby>
+		<condition>
+			<c>
+				<c i="SMTH1"/>
+				<c i="SSB04" v="{storecode}"/>
+			</c>
+		</condition>
+		<order>
+			<f i="SMTH1" d="desc"/>
+		</order>
+	</ds>
+	<ds id="fsms_prodseries">
+		<req>
+			<f i="TMK03"/>
+			<f i="STM03"/>
+			<f i="TMK02"/>
+			<!--<f i="STR03"/>-->
+		</req>
+		<groupby>
+			<f i="TMK03"/>
+			<f i="STM03"/>
+			<f i="TMK02"/>
+		</groupby>
+		<condition>
+			<c>
+				<c i="STM02" v=""/>
+			</c>
+		</condition>
+		<order>
+			<f i="STM03" d=""/>
+		</order>
+	</ds>
+	<ds id="rolelist">
+		<req>
+			<f i="ROL01"/>
+			<f i="ROL02"/>
+			<f i="ROL03"/>
+		</req>
+		<condition>
+			<c/>
+		</condition>
+	</ds>
+	<ds id="roledetail">
+		<req>
+			<f i="RPM01"/>
+			<f i="RPM02"/>
+			<f i="RPM03"/>
+			<f i="RPM04"/>
+			<f i="ROL02" r="1"/>
+			<f i="PL002" r="1"/>
+			<f i="PL003" r="1"/>
+			<f i="FPL02" r="1"/>
+			<f i="FPL03" r="1"/>
+		</req>
+		<condition>
+			<c/>
+		</condition>
+	</ds>
+	<ds id="permlist">
+		<req>
+			<f i="PL001"/>
+			<f i="PL002" r="1"/>
+			<f i="PL003"/>
+			<f i="PL004"/>
+			<f i="PL005"/>
+			<f i="PL006"/>
+			<f i="PL007"/>
+			<f i="PL008"/>
+			<f i="PL009"/>
+			<f i="PL010"/>
+			<f i="PL011"/>
+			<f i="PL012"/>
+			<f i="PL013"/>
+			<f i="PL014"/>
+			<f i="PL015"/>
+			<f i="PL016"/>
+			<f i="PL017"/>
+		</req>
+		<condition>
+			<c/>
+		</condition>
+	</ds>
+	<ds id="funclist">
+		<req>
+			<f i="FPL01"/>
+			<f i="FPL02"/>
+			<f i="FPL03"/>
+		</req>
+		<condition>
+			<c/>
+		</condition>
+	</ds>
+	<ds id="systemuserinfo">
+		<req>
+			<f i="USR02"/>
+			<f i="USR03"/>
+			<f i="USR04"/>
+			<f i="USR05"/>
+			<f i="USR06"/>
+			<f i="USR07"/>
+			<f i="USR01"/>
+		</req>
+		<condition>
+			<c/>
+		</condition>
+	</ds>
+	<ds id="userroles">
+		<req>
+			<f i="URM01"/>
+			<f i="URM02"/>
+			<f i="URM03"/>
+			<f i="USR01" r="1"/>
+		</req>
+		<condition>
+			<c/>
+		</condition>
+	</ds>
+	<ds id="userfundperms">
+		<req>
+			<f i="RPM01"/>
+			<f i="RPM02"/>
+			<f i="RPM03"/>
+			<f i="RPM04"/>
+			<f i="ROL02"/>
+			<f i="URM01"/>
+			<f i="USR01"/>
+		</req>
+		<condition>
+			<c/>
+		</condition>
+	</ds>
+	<ds id="grouplist">
+		<req>
+			<f i="SGG02"/>
+			<f i="SGG03"/>
+			<f i="SGG04"/>
+			<f i="SGG05"/>
+		</req>
+		<condition>
+			<c>
+				<c i="SGG02" v="{groupcode}"/>
+			</c>
+		</condition>
+	</ds>
+	<ds id="storelist">
+		<req>
+			<f i="STR02"/>
+			<f i="STR03"/>
+			<f i="STR04"/>
+		</req>
+		<condition>
+			<c>
+				<c i="STR04" v="{groupcode}"/>
+			</c>
+		</condition>
+	</ds>
+	<ds id="userlist">
+		<req>
+			<f i="USR02"/>
+			<f i="USR03"/>
+			<f i="USR04"/>
+		</req>
+		<condition>
+			<c>
+				<c i="USR04" v="{groupcode}"/>
+			</c>
+		</condition>
+	</ds>
+	<ds id="customerlist" isextradata="1" extradataassembly="WolfInv.Com.jdyInterfaceLib" extradatatype="Xml" extradataclass="JdyOutDataClass" readonly="1" allowinmemory="1" subsource="customeraddresslist">
+		<extradatagetconfig>
+			<module name="JDYSCM_Customer_List_Class"/>
+		</extradatagetconfig>
+		<extradataconvertconfig>
+			<Maps>
+				<Map from="number" to="CTB02"/>
+				<Map from="name" to="CTB03"/>
+			</Maps>
+		</extradataconvertconfig>
+		<req>
+			<f i="CTB02"/>
+			<f i="CTB03"/>
+			<f i="CTB04"/>
+			<f i="CTB05"/>
+			<f i="CTB06"/>
+			<f i="CTB07"/>
+			<f i="CTB08"/>
+			<f i="CTB01"/>
+		</req>
+		<condition>
+			<c>
+				
+			</c>
+		</condition>
+	</ds>
+	<ds id="customeraddresslist">
+		<req>
+			<f i="CTA02"/>
+			<f i="CTA05"/>
+			<f i="CTA03"/>
+			<f i="CTA04"/>
+			<f i="CTA01"/>
+			<f i="CTA06"/>
+			<f i="CTA07"/>
+			<f i="CTA08"/>
+			<f i="CTA09"/>
+			<f i="CTA10"/>
+			<f i="CTB02"/>
+			<f i="CTB03"/>
+			<f i="CTB04"/>
+			<f i="CTB05"/>
+		</req>
+		<condition>
+			<c>
+				
+			</c>
+		</condition>
+	</ds>
+	<ds id="unitlist" isextradata="1" extradataassembly="WolfInv.Com.jdyInterfaceLib" extradatatype="Xml" extradataclass="JdyOutDataClass" readonly="1" allowinmemory="1">
+		<extradatagetconfig>
+			<module name="JDYSCM_Product_Unit_List_Class"/>
+		</extradatagetconfig>
+		<extradataconvertconfig>
+			<Maps>
+				<Map from="ID" to="UNT02"/>
+				<Map from="name" to="UNT03"/>
+			</Maps>
+		</extradataconvertconfig>
+		<req>
+			<f i="UNT02"/>
+			<f i="UNT03"/>
+			<f i="UNT04"/>
+			<f i="UNT01"/>
+		</req>
+		<condition>
+			<c>
+				<c i="UNT04" v="{groupcode}"/>
+			</c>
+		</condition>
+	</ds>
+	<ds id="JdUnion_Goods" isextradata="1" subsource="" mainkey="JGD02" refkey="" extradataassembly="WolfInv.com.JdUnionLib" extradatatype="Xml" extradataclass="JdUnion_OutDataClass" readonly="1" allowinmemory="1">
+		<extradatagetconfig>
+			<module name="JdUnion_Goods_List_Class"/>
+		</extradatagetconfig>
+		<extradataconvertconfig>
+			<Maps>
+				<!--Query condition-->
+				<Map to="JGD02" from="skuId" width="100" type="bigint"/>
+				<Map to="JGD03" from="skuName" width="200" type="varchar"/>
+				<Map to="JGD04" from="shopId" width="100" type="bigint"/>
+				<Map to="JGD05" from="shopName" width="200" type="varchar"/>
+				<Map to="JGD06" from="discount" width="50" type="money"/>
+				<Map to="JGD07" from="couponLink" width="200" type="varchar"/>
+				<Map to="JGD08" from="imageUrl" width="200" type="varchar"/>
+				<Map to="JGD09" from="materialUrl" width="200" type="varchar"/>
+				<Map to="JGD10" from="brandName" width="100" type="varchar"/>
+				<Map to="JGD11" from="price" width="50" type="money"/>
+				<Map to="JGD12_1" from="cid1"/>
+				<Map to="JGD12_2" from="cid2"/>
+				<Map to="JGD12_3" from="cid3"/>
+				<Map to="JGD13" from="orgXml"/>
+				<Map to="JGD15" from="eliteId"/>
+				<Map to="JGD16" from="isHot"/>
+				<Map to="JGD17" from="inOrderCount30Days"/>
+				<Map to="JGD18" from="seckillEndTime"/>
+				<Map to="JGD19" from="seckillOriPrice"/>
+				<Map to="JGD20" from="seckillPrice"/>
+				<Map to="JGD21" from="seckillStartTime"/>
+				<!---->
+				<!--虚拟的-->
+			</Maps>
+			<attatchinfo>
+				<cols ti="1">
+					<!--<evt method="math" expr="{0}-{1}-{2}-{3},SAF04,SAF05,SAF06,SAF13"/>-->
+					<!--
+					<f i="CTA03" type="datacombo" combo="customeraddresslist" txtmember ="CTA03" valmember="CTA02" membersplitor="|" ref="SSD10" defaultindex="0"/>-->
+				</cols>
+			</attatchinfo>
+		</extradataconvertconfig>
+		<req>
+			<f i="JGD01"/>
+			<f i="JGD02"/>
+			<f i="JGD03"/>
+			<f i="JGD04"/>
+			<f i="JGD05"/>
+			<f i="JGD06"/>
+			<f i="JGD07"/>
+			<f i="JGD08"/>
+			<f i="JGD09"/>
+			<f i="JGD10"/>
+			<f i="JGD11"/>
+			<f i="JGD12"/>
+			<f i="JGD13"/>
+			<f i="JGD14"/>
+			<f i="JGD15"/>
+			<f i="JGD16"/>
+			<f i="JGD17"/>
+			<f i="JGD18"/>
+			<f i="JGD19"/>
+			<f i="JGD20"/>
+			<f i="JGD21"/>
+		</req>
+		<condition>
+			<c>
+				
+			</c>
+		</condition>
+	</ds>
+	<ds id="JdUnion_Client_Goods_Coupon_NoXml" >
+		<req>
+			<f i="JGD01"/>
+			<f i="JGD02"/>
+			<f i="JGD03"/>
+			<f i="JGD04"/>
+			<f i="JGD05"/>
+			<f i="JGD06"/>
+			<f i="JGD07"/>
+			<f i="JGD08"/>
+			<f i="JGD09"/>
+			<f i="JGD10"/>
+			<f i="JGD11"/>
+			<f i="JGD12"/>
+			<f i="JGD14"/>
+			<f i="JGD15"/>
+			<f i="JGD16"/>
+			<f i="JGD17"/>
+			<f i="JGD18"/>
+			<f i="JGD19"/>
+			<f i="JGD20"/>
+			<f i="JGD21"/>
+		</req>
+		<condition>
+			<c>
+				<c i="JGD06" o="is not" v="null"/>
+			</c>
+		</condition>
+	</ds>
+	<ds id="JdUnion_Client_Goods_NoXml" >
+		<req>
+			<f i="JGD01"/>
+			<f i="JGD02"/>
+			<f i="JGD03"/>
+			<f i="JGD04"/>
+			<f i="JGD05"/>
+			<f i="JGD06"/>
+			<f i="JGD07"/>
+			<f i="JGD08"/>
+			<f i="JGD09"/>
+			<f i="JGD10"/>
+			<f i="JGD11"/>
+			<f i="JGD12"/>
+			<f i="JGD14"/>
+			<f i="JGD15"/>
+			<f i="JGD16"/>
+			<f i="JGD17"/>
+			<f i="JGD18"/>
+			<f i="JGD19"/>
+			<f i="JGD20"/>
+			<f i="JGD21"/>
+		</req>
+		<condition>
+			<c>
+			</c>
+		</condition>
+	</ds>
+	<ds id="JdUnion_Client_Goods_Full" >
+		<req>
+			<f i="JGD01"/>
+			<f i="JGD02"/>
+			<f i="JGD03"/>
+			<f i="JGD04"/>
+			<f i="JGD05"/>
+			<f i="JGD06"/>
+			<f i="JGD07"/>
+			<f i="JGD08"/>
+			<f i="JGD09"/>
+			<f i="JGD10"/>
+			<f i="JGD11"/>
+			<f i="JGD12"/>
+			<f i="JGD13"/>
+			<f i="JGD14" r="0"/>
+			<f i="JGD15"/>
+			<f i="JGD16"/>
+			<f i="JGD17"/>
+			<f i="JGD18"/>
+			<f i="JGD19"/>
+			<f i="JGD20"/>
+			<f i="JGD21"/>
+			<f i="JBTH1" r="1"/>
+		</req>
+		<condition>
+			<c>
+			</c>
+		</condition>
+	</ds>
+	<ds id="JdUnion_Goods_BatchIds" >
+		<req>
+			<f i="JBTH1"/>
+		</req>
+		<condition>
+			<c>
+			</c>
+		</condition>
+	</ds>
+	<ds id="JdUnion_Goods_Keys" >
+		<req>
+			<f i="JGD02"/>
+		</req>
+		<condition>
+			<c>
+			</c>
+		</condition>
+	</ds>
+	<ds id="jdUnion_BatchLoad" subsource="JdUnion_Client_Goods_Full">
+		<req>
+			<f i="JBTH1"/>
+		</req>
+		<condition>
+			<c/>
+		</condition>
+	</ds>
+	<ds id="JDUnion_PromotionGoodsinfo" isextradata="1" subsource="" mainkey="JGD02" refkey="" extradataassembly="WolfInv.com.JdUnionLib" extradatatype="Xml" extradataclass="JdUnion_OutDataClass" readonly="1" allowinmemory="1">
+		<extradatagetconfig>
+			<module name="JdUnion_Goods_PromotionGoodsinfo_Class"/>
+		</extradatagetconfig>
+		<extradataconvertconfig>
+			<Maps>
+				<!--Query condition-->
+				<Map to="JGD02" from="skuId" width="100" type="bigint"/>
+				<Map to="JGD03" from="skuName" width="200" type="varchar"/>
+				<Map to="JGD04" from="shopId" width="100" type="bigint"/>
+				<Map to="JGD05" from="shopName" width="200" type="varchar"/>
+				<Map to="JGD06" from="discount" width="50" type="money"/>
+				<Map to="JGD07" from="couponLink" width="200" type="varchar"/>
+				<Map to="JGD08" from="imageUrl" width="200" type="varchar"/>
+				<Map to="JGD09" from="materialUrl" width="200" type="varchar"/>
+				<Map to="JGD10" from="brandName" width="100" type="varchar"/>
+				<Map to="JGD11" from="price" width="50" type="money"/>
+				<Map to="JGD12_1" from="cid1"/>
+				<Map to="JGD12_2" from="cid2"/>
+				<Map to="JGD12_3" from="cid3"/>
+
+				<Map to="JGD15" from="eliteId"/>
+				<Map to="JGD16" from="isHot"/>
+				<Map to="JGD17" from="inOrderCount30Days"/>
+				<Map to="JGD18" from="seckillEndTime"/>
+				<Map to="JGD19" from="seckillOriPrice"/>
+				<Map to="JGD20" from="seckillPrice"/>
+				<Map to="JGD21" from="seckillStartTime"/>
+				<!---->
+				<!--虚拟的-->
+			</Maps>
+			<attatchinfo>
+				<cols ti="1">
+					<!--<evt method="math" expr="{0}-{1}-{2}-{3},SAF04,SAF05,SAF06,SAF13"/>-->
+					<!--
+					<f i="CTA03" type="datacombo" combo="customeraddresslist" txtmember ="CTA03" valmember="CTA02" membersplitor="|" ref="SSD10" defaultindex="0"/>-->
+				</cols>
+			</attatchinfo>
+		</extradataconvertconfig>
+		<req>
+			<f i="JGD01"/>
+			<f i="JGD02"/>
+			<f i="JGD03"/>
+			<f i="JGD04"/>
+			<f i="JGD05"/>
+			<f i="JGD06"/>
+			<f i="JGD07"/>
+			<f i="JGD08"/>
+			<f i="JGD09"/>
+			<f i="JGD10"/>
+			<f i="JGD11"/>
+			<f i="JGD12"/>
+			<f i="JGD13"/>
+			<f i="JGD17"/>
+			<f i="JGD18"/>
+			<f i="JGD19"/>
+			<f i="JGD20"/>
+			<f i="JGD21"/>
+		</req>
+		<condition>
+			<c>
+				
+			</c>
+		</condition>
+	</ds>
+	
+</datasrcs>

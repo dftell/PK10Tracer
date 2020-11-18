@@ -33,6 +33,7 @@ namespace WolfInv.com.ServerInitLib
 
         public static MongoDataDictionary<XDXRData> getAllXDXRDataAsync(string DataType,List<string[]> codeGrp)
         {
+            return new MongoDataDictionary<XDXRData>();
             if(GlobalClass.TypeDataPoints[DataType].NeedLoadAllXDXR==0)
             {
                 return null;
@@ -45,7 +46,7 @@ namespace WolfInv.com.ServerInitLib
             MongoDataDictionary<XDXRData> data = sgr.GetResult(codeGrp, (a) =>
             {
                 XDXRReader reader = new XDXRReader(GlobalClass.TypeDataPoints[DataType].DataType, GlobalClass.TypeDataPoints[DataType].XDXRTable, a);
-                MongoDataDictionary<XDXRData> res = reader.GetAllCodeDateSerialDataList<XDXRData>(true);
+                MongoDataDictionary<XDXRData> res = reader.GetAllCodeDateSerialDataList(true);
                 return res;
             }, GlobalClass.TypeDataPoints[DataType].MaxThreadCnt, 1);
 
@@ -78,7 +79,7 @@ namespace WolfInv.com.ServerInitLib
             //Func<XDXRReader,MongoDataDictionary<XDXRData>> action = delegate (XDXRReader rd)
             Func<MongoDataDictionary<XDXRData>> action = delegate ()
             {
-                MongoDataDictionary<XDXRData> list = reader.GetAllCodeDateSerialDataList<XDXRData>(true);
+                MongoDataDictionary<XDXRData> list = reader.GetAllCodeDateSerialDataList(true);
                 LogableClass.ToLog("获取到除权除息数据", string.Format("股票数：{0}；总条数：{1}", list.Count, list.Sum(p => p.Value.Count)));
                 return list;
             };
@@ -88,15 +89,27 @@ namespace WolfInv.com.ServerInitLib
 
 
 
-        public static Dictionary<string,StockInfoMongoData> getAllCodes(string DataType)
+        public static Dictionary<string,StockInfoMongoData> getAllCodes<T>(string DataType) where T:TimeSerialData
         {
+            Dictionary<string, StockInfoMongoData> res1 = new Dictionary<string, StockInfoMongoData>();
+            Dictionary<string, string> allcodes = WDDataInit.WDDataInit<T>.AllSecurities;
+            if(allcodes ==null || allcodes.Count == 0)
+            {
+                return res1;
+            }
+            allcodes.Keys.ToList().ForEach(a => {
+                StockInfoMongoData item = new StockInfoMongoData();
+                item.code = a;
+                res1.Add(a, item);
+            });
+            return res1;
             if (GlobalClass.TypeDataPoints[DataType].NeedLoadAllCodes == 0)
             {
                 return null;
             }
             List<string> ret = new List<string>();
-            SecurityReader reader = new SecurityReader(DataType, GlobalClass.TypeDataPoints[DataType].StockListTable, null);
-            MongoReturnDataList<StockInfoMongoData> mdl =  reader.GetAllCodeDataList< StockInfoMongoData>(true);
+            SecurityReader<StockInfoMongoData> reader = new SecurityReader<StockInfoMongoData>(DataType, GlobalClass.TypeDataPoints[DataType].StockListTable, null);
+            MongoReturnDataList<StockInfoMongoData> mdl =  reader.GetAllCodeDataList(true);
             if (mdl == null)
                 return null;
             Dictionary<string, StockInfoMongoData> res = new Dictionary<string, StockInfoMongoData>();
@@ -114,15 +127,21 @@ namespace WolfInv.com.ServerInitLib
             return res;// mdl.ToDictionary(p => (p as ICodeData).code, p => (p as StockInfoMongoData));
         }
 
-        public static List<string> getStockIndexAllDateList(string DataType)
+        public static List<string> getStockIndexAllDateList<T>(string DataType) where T:TimeSerialData
         {
+            MongoDataDictionary<T> alldatas = WDDataInit.WDDataInit<T>.getAllSerialData();
+            if(alldatas != null)
+            {
+                return alldatas.getAllDates();
+            }
+            return new List<string>();
             if (GlobalClass.TypeDataPoints[DataType].NeedLoadAllCodes == 0)
             {
                 return null;
             }
             List<string> ret = new List<string>();
             SecurityIndexReader reader = new SecurityIndexReader(DataType, GlobalClass.TypeDataPoints[DataType].IndexDayTable, new string[] { GlobalClass.TypeDataPoints[DataType].DateIndex });
-            MongoReturnDataList<StockIndexMongoData> mdl = reader.GetAllTimeSerialList<StockIndexMongoData>();
+            MongoReturnDataList<StockIndexMongoData> mdl = reader.GetAllTimeSerialList();
             if (mdl == null)
                 return null;
             return mdl.Select(p => p.date).ToList();
@@ -136,7 +155,7 @@ namespace WolfInv.com.ServerInitLib
             }
             List<string> ret = new List<string>();
             SecurityIndexReader reader = new SecurityIndexReader(DataType, GlobalClass.TypeDataPoints[DataType].IndexDayTable, new string[] { GlobalClass.TypeDataPoints[DataType].DateIndex });
-            MongoReturnDataList<StockMongoData> mdl = reader.GetAllTimeSerialList<StockMongoData>();
+            MongoReturnDataList<StockIndexMongoData> mdl = reader.GetAllTimeSerialList();
             if (mdl == null)
                 return null;
             return mdl.Select(p => p.date).ToList();

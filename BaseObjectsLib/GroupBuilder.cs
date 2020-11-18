@@ -35,7 +35,7 @@ namespace WolfInv.com.BaseObjectsLib
             return ret;
         }
 
-        public static List<MongoDataDictionary<T>> ToGroup<T>(MongoDataDictionary<T> orgArr,int grpCnt=0) where T:MongoData
+        public static List<MongoDataDictionary<T>> ToGroup<T>(MongoDataDictionary<T> orgArr,int grpCnt=0) where T:TimeSerialData
         {
             List<MongoDataDictionary<T>> ret = new List<MongoDataDictionary<T>>();
             int realcnt = grpCnt;

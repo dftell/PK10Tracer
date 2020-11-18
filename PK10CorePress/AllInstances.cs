@@ -19,6 +19,27 @@ namespace WolfInv.com.PK10CorePress
         {
 
         }
+
+
+        public static ChanceClass getData<T>(ChanceClass<T> cc) where T:TimeSerialData
+        {
+            ChanceClass ret = new ChanceClass();
+            /*
+            ret.ChanceCode = cc.ChanceCode;
+            ret.ChanceIndex = cc.ChanceIndex;
+            ret.ExpectCode = cc.ExpectCode;
+            ret.ExecDate = cc.ExecDate;
+            ret.IsEnd = cc.IsEnd;
+            ret.MatchChips = cc.MatchChips;
+            ret.CreateTime = cc.CreateTime;
+            ret.UnitCost = cc.UnitCost;
+            ret.Cost = cc.Cost;
+            ret.EndExpectNo = cc.EndExpectNo;
+            ret.CurrTimes = cc.CurrTimes;
+            ret.HoldTimeCnt = cc.HoldTimeCnt;*/
+            ret = cc.CopyTo<ChanceClass>();
+            return ret;
+        }
     }
     public abstract class TraceChance : ChanceClass, ITraceChance, ISpecAmount
     {

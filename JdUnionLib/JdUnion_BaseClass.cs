@@ -12,21 +12,29 @@ namespace WolfInv.com.JdUnionLib
 
         static JdUnion_BaseClass()
         {
-            string txt = JdUnion_GlbObject.getJsonText("system.config.keys");
-            string[] keys = txt.Split(';');
-            if(keys.Length<2)
+            try
             {
-                throw new Exception("请设置好系统配置文件。");
+                string txt = JdUnion_GlbObject.getJsonText("system.config.keys");
+                string[] keys = txt.Split(';');
+                if (keys.Length < 2)
+                {
+                    throw new Exception("请设置好系统配置文件。");
+                }
+                _app_key = keys[0];
+                _app_secret = keys[1];
+                if (keys.Length > 2)
+                {
+                    _access_token = keys[2];
+                }
+                if (keys.Length > 3)
+                {
+                    _siteId = keys[3];
+                }
             }
-            _app_key = keys[0];
-            _app_secret = keys[1];
-            if(keys.Length > 2)
+            catch(Exception ce)
             {
-                _access_token = keys[2];
-            }
-            if(keys.Length>3)
-            {
-                _siteId = keys[3];
+                Inited = false;
+                return;
             }
             Inited = true;
             

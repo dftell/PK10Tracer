@@ -101,11 +101,13 @@ namespace WolfInv.com.ShareLotteryLib
                     try
                     {
                         
-                        
+                        if(!DisableMultiTaskProcess)
                             Task.Run(() => {
                                 submitData(Buffs[0] as string, Buffs[1] as string);
                             });
-                       
+                        else
+                            submitData(Buffs[0] as string, Buffs[1] as string);
+
 
                     }
                     catch (Exception ce)
@@ -129,13 +131,13 @@ namespace WolfInv.com.ShareLotteryLib
 
         void submitData(string lname,string content)
         {
-            string urlM = "http://www.wolfinv.com/pk10/app/submitInstructs.asp?";
-            string req = "lottery={0}&reqInsts={1}";
-            string urlReq = string.Format(req,
-                lname,
-                HttpUtility.UrlEncode(content)
-                );
-            string url = string.Format("{0}{1}", urlM, urlReq);
+            string urlM = "http://www.wolfinv.com/pk10/app/submitInstructs.asp?lottery={0}&reqInsts={1}";
+            if (!string.IsNullOrEmpty(actionDefine.submitUrl))
+            {
+                urlM = actionDefine.submitUrl;
+            }
+            string urlReq = string.Format(urlM,lname,HttpUtility.UrlEncode(content));
+            string url = urlReq;
             string ret = new WebClient().DownloadString(url);
             answerMsg(ret);
             

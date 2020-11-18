@@ -137,8 +137,8 @@ namespace Test_Win
                 sgr.CheckEvent = DisplayCnt;
                 MongoDataDictionary<StockMongoData> data = sgr.GetResult(codeGrps,(a)=>
                     {
-                        SecurityReader sr = new SecurityReader(dtp.DataType,dtp.HistoryTable,a);
-                        MongoDataDictionary<StockMongoData> res = sr.GetAllCodeDateSerialDataList<StockMongoData>(strbegT, strendT);
+                        SecurityReader<StockMongoData> sr = new SecurityReader<StockMongoData>(dtp.DataType,dtp.HistoryTable,a);
+                        MongoDataDictionary<StockMongoData> res = sr.GetAllCodeDateSerialDataList(strbegT, strendT);
                         return res;
                     }, dtp.MaxThreadCnt, 1);
                 DisplayCnt(currCodes.Length, codeGrps.Count, MaxThrdCnt, 0,data.Count);
@@ -148,8 +148,9 @@ namespace Test_Win
 
                 data = sgr.GetResult(datalist, (a) =>
                 {
-                    return new SecurityReader(dtp.DataType).FQ(a, dtp.RuntimeInfo.XDXRList);
-                },dtp.MaxThreadCnt, 1);
+                    return new SecurityReader<StockMongoData>(dtp.DataType).FQ(a, dtp.RuntimeInfo.XDXRList);
+                },
+                dtp.MaxThreadCnt, 1);
                 DisplayCnt(currCodes.Length, codeGrps.Count, MaxThrdCnt, 0, data.Count);
                 ////    reader.GetAllCodeDateSerialDataList<StockMongoData>("2015-07-15", "2019-03-27");
                 ////data = reader.Stock_FQ(data, dtp.RuntimeInfo.XDXRList);

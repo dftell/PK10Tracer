@@ -9,7 +9,7 @@ using System.Data;
 using MongoDB.Driver.Core;
 namespace WolfInv.com.SecurityLib
 {
-    public class NoSqlDataReader : DataReader 
+    public class NoSqlDataReader<T> : DataReader<T> where T:TimeSerialData
     {
         string datatype;
         string[] secCodes;
@@ -43,17 +43,17 @@ namespace WolfInv.com.SecurityLib
         ////    this.strNewestTable = string.Format("{0}_{1}",DataTable,DataCycle);
         ////    this.strHistoryTable = DataTable;
         ////}
-        public override ExpectList<T> GetMissedData<T>(bool IsHistoryData, string strBegT)
+        public override ExpectList<T> GetMissedData(bool IsHistoryData, string strBegT)
         {
             throw new NotImplementedException();
         }
 
-        public override ExpectList<T> getNewestData<T>(ExpectList<T> NewestData, ExpectList<T> ExistData)
+        public override ExpectList<T> getNewestData(ExpectList<T> NewestData, ExpectList<T> ExistData)
         {
             throw new NotImplementedException();
         }
 
-        public override DbChanceList<T> getNoCloseChances<T>(string strDataOwner)
+        public override DbChanceList<T> getNoCloseChances(string strDataOwner)
         {
             throw new NotImplementedException();
         }
@@ -63,29 +63,29 @@ namespace WolfInv.com.SecurityLib
             throw new NotImplementedException();
         }
 
-        public override ExpectList<T> ReadHistory<T>()
+        public override ExpectList<T> ReadHistory()
         {
             return null;
         }
              
         
 
-        public override ExpectList<T> ReadHistory<T>(long buffs)
+        public override ExpectList<T> ReadHistory(long buffs)
         {
             return null;
         }
 
-        public override ExpectList<T> ReadHistory<T>(long From, long buffs)
+        public override ExpectList<T> ReadHistory(long From, long buffs)
         {
             throw new NotImplementedException();
         }
 
-        public override ExpectList<T> ReadHistory<T>(long From, long buffs, bool desc)
+        public override ExpectList<T> ReadHistory(long From, long buffs, bool desc)
         {
             throw new NotImplementedException();
         }
 
-        public override ExpectList<T> ReadHistory<T>(string begt, string endt)
+        public override ExpectList<T> ReadHistory(string begt, string endt)
         {
             return null;
             ///
@@ -144,42 +144,42 @@ namespace WolfInv.com.SecurityLib
 */
         }
 
-        public override ExpectList<T> ReadHistory<T>(long cnt, string endExpect)
+        public override ExpectList<T> ReadHistory(long cnt, string endExpect)
         {
             throw new NotImplementedException();
         }
 
-        public override ExpectList<T> ReadNewestData<T>(DateTime fromdate)
+        public override ExpectList<T> ReadNewestData(DateTime fromdate)
         {
             throw new NotImplementedException();
         }
 
-        public override ExpectList<T> ReadNewestData<T>(int LastLng)
+        public override ExpectList<T> ReadNewestData(int LastLng)
         {
             throw new NotImplementedException();
         }
 
-        public override ExpectList<T> ReadNewestData<T>(long ExpectNo, int Cnt)
+        public override ExpectList<T> ReadNewestData(long ExpectNo, int Cnt)
         {
             throw new NotImplementedException();
         }
 
-        public override ExpectList<T> ReadNewestData<T>(long ExpectNo, int Cnt, bool FromHistoryTable)
+        public override ExpectList<T> ReadNewestData(string ExpectNo, int Cnt, bool FromHistoryTable)
         {
             throw new NotImplementedException();
         }
 
-        public override int SaveChances<T>(List<ChanceClass<T>> list, string strDataOwner)
+        public override int SaveChances(List<ChanceClass<T>> list, string strDataOwner)
         {
             throw new NotImplementedException();
         }
 
-        public override int SaveHistoryData<T>(ExpectList<T> InData)
+        public override int SaveHistoryData(ExpectList<T> InData)
         {
             throw new NotImplementedException();
         }
 
-        public override int SaveNewestData<T>(ExpectList<T> InData)
+        public override int SaveNewestData(ExpectList<T> InData)
         {
             throw new NotImplementedException();
         }

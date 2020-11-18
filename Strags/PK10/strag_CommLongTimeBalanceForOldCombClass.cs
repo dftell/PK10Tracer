@@ -44,7 +44,7 @@ namespace WolfInv.com.Strags
             }
             if (sucrate == double.NaN)//如果数据异常，继续去寻找
             {
-                sucrate = 100*getSucRate(this.LastUseData(), coc, cc.AllowMaxHoldTimeCnt == 1 ? true : false);
+                sucrate = 100*getSucRate(this.LastUseData<TimeSerialData>(), coc, cc.AllowMaxHoldTimeCnt == 1 ? true : false);
             }
             if (!this.RateDic.ContainsKey(this.LastUseData().LastData.Expect))
             {
@@ -123,7 +123,7 @@ namespace WolfInv.com.Strags
             return ret;
         }
 
-        double getSucRate(ExpectList el,strag_CommOldClass coc,bool OnlyOnceChance)
+        double getSucRate<T>(ExpectList<T> el,strag_CommOldClass coc,bool OnlyOnceChance) where T:TimeSerialData
         {
             
             
@@ -133,14 +133,14 @@ namespace WolfInv.com.Strags
             int AllTimes = 0;
             for (int i = this.InputMaxTimes; i < el.Count; i++)//因为最后一次数据如果下注就不知道结果，所以最后一次排除下注，只做验证上次结果用
             {
-                ExpectList useList = el.getSubArray(i-this.InputMinTimes, this.InputMinTimes);
-                ExpectData CurrData = useList.LastData;
+                ExpectList<T> useList = el.getSubArray(i-this.InputMinTimes, this.InputMinTimes);
+                ExpectData<T> CurrData = useList.LastData;
                 TmpChances = new Dictionary<string, ChanceClass>();
                 foreach (string key in NoEndChances.Keys)
                 {
                     ChanceClass cc = NoEndChances[key];
                     int MatchCnt = 0;
-                    bool Matched = cc.Matched(CurrData, out MatchCnt, false);
+                    bool Matched = cc.Matched(ExpectData.getData<T>(CurrData), out MatchCnt, false);
                     if (Matched)
                     {
                         if (OnlyOnceChance)//如果是一次性机会
@@ -178,13 +178,13 @@ namespace WolfInv.com.Strags
                 {
                     NoEndChances.Add(key, TmpChances[key]);
                 }
-                BaseCollection scc = new ExpectListProcess(useList).getSerialData(InputMinTimes, BySer) as BaseCollection;
-                List<ChanceClass> ccs = coc.getChances(scc, CurrData);
+                BaseCollection scc = new ExpectListProcess(ExpectList.getExpectList(useList)).getSerialData(InputMinTimes, BySer) as BaseCollection;
+                List<ChanceClass> ccs = coc.getChances(scc,new ExpectData().GetExpectData(CurrData));
                 for (int j = 0; j < ccs.Count; j++)//新增机会
                 {
                     if (!NoEndChances.ContainsKey(ccs[j].ChanceCode))
                     {
-                        NoEndChances.Add(ccs[j].ChanceCode, ccs[j]);
+                        NoEndChances.Add(ccs[j].ChanceCode,ccs[j]);
                         AllTimes++;
                     }
                 }

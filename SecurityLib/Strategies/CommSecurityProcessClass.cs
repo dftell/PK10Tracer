@@ -2,16 +2,16 @@
 using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.SecurityLib
 {
-    public class CommSecurityProcessClass
+    public class CommSecurityProcessClass<T> where T:TimeSerialData
     {
 
-        public BaseDataItemClass SecInfo;
+        public MongoReturnDataList<T> SecInfo;
         public bool Enable;
         public CommSecurityProcessClass()
         {
         }
 
-        public CommSecurityProcessClass(BaseDataItemClass dr)
+        public CommSecurityProcessClass(MongoReturnDataList<T> dr)
         {
             if (dr == null) return;
             SecInfo = dr;

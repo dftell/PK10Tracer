@@ -12,3 +12,4 @@ E:\github\source\dftell\PK10Tracer\CoreCalcClass\obj\Debug\WolfInv.com.CoreCalcC
 E:\github\source\dftell\PK10Tracer\CoreCalcClass\obj\Debug\WolfInv.com.CoreCalcClass.csproj.CopyComplete
 E:\github\source\dftell\PK10Tracer\CoreCalcClass\obj\Debug\CoreCalcClass.dll
 E:\github\source\dftell\PK10Tracer\CoreCalcClass\obj\Debug\CoreCalcClass.pdb
+E:\github\project\PK10Tracer\CoreCalcClass.dll.config

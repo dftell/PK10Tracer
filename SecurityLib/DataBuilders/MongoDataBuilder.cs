@@ -13,8 +13,8 @@ namespace WolfInv.com.SecurityLib
 
     public interface IFindCodeListData
     {
-        MongoReturnDataList<T1> getData<T1>(bool StopExchange) where T1 : MongoData;
-        MongoReturnDataList<T1> getData<T1>() where T1 : MongoData;
+        MongoReturnDataList<T1> getData<T1>(bool StopExchange) where T1 : TimeSerialData;
+        MongoReturnDataList<T1> getData<T1>() where T1 : TimeSerialData;
     }
 
     public interface IFindDateSerialData
@@ -25,14 +25,14 @@ namespace WolfInv.com.SecurityLib
     //日期序列数据构造器
     public interface IDateSerialDatabuilder: IFindDateSerialData
     {
-        MongoReturnDataList<T1> getData<T1>(bool Asc) where T1 : MongoData;
-        MongoReturnDataList<T1> getData<T1>(string begT,bool Asc) where T1 : MongoData;
-        MongoReturnDataList<T1> getData<T1>(string begT,string endT, bool Asc) where T1 : MongoData;
-        MongoReturnDataList<T1> getData<T1>(string endt,int Cycs, bool Asc) where T1 : MongoData;
+        MongoReturnDataList<T1> getData<T1>(bool Asc) where T1 : TimeSerialData;
+        MongoReturnDataList<T1> getData<T1>(string begT,bool Asc) where T1 : TimeSerialData;
+        MongoReturnDataList<T1> getData<T1>(string begT,string endT, bool Asc) where T1 : TimeSerialData;
+        MongoReturnDataList<T1> getData<T1>(string endt,int Cycs, bool Asc) where T1 : TimeSerialData;
 
-        MongoReturnDataList<T1> getFullTimeSerial<T1>() where T1 : MongoData;
+        MongoReturnDataList<T1> getFullTimeSerial<T1>() where T1 : TimeSerialData;
 
-        MongoReturnDataList<T1> getDataGroupBy<T1>(string[] sqls) where T1 : MongoData;
+        MongoReturnDataList<T1> getDataGroupBy<T1>(string[] sqls) where T1 : TimeSerialData;
     }
     public abstract class MongoDataBuilder 
     {

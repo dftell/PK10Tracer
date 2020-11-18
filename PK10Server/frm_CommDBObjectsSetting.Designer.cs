@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_StragPlanSetting));
+            //System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_StragPlanSetting));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.btn_Add = new System.Windows.Forms.ToolStripButton();
@@ -75,7 +75,7 @@
             // 
             // btn_Add
             // 
-            this.btn_Add.Image = ((System.Drawing.Image)(resources.GetObject("btn_Add.Image")));
+            //this.btn_Add.Image = ((System.Drawing.Image)(resources.GetObject("btn_Add.Image")));
             this.btn_Add.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_Add.Name = "btn_Add";
             this.btn_Add.Size = new System.Drawing.Size(52, 22);
@@ -84,7 +84,7 @@
             // 
             // btn_delete
             // 
-            this.btn_delete.Image = ((System.Drawing.Image)(resources.GetObject("btn_delete.Image")));
+            //this.btn_delete.Image = ((System.Drawing.Image)(resources.GetObject("btn_delete.Image")));
             this.btn_delete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_delete.Name = "btn_delete";
             this.btn_delete.Size = new System.Drawing.Size(52, 22);
@@ -93,7 +93,7 @@
             // 
             // btn_Save
             // 
-            this.btn_Save.Image = ((System.Drawing.Image)(resources.GetObject("btn_Save.Image")));
+            //this.btn_Save.Image = ((System.Drawing.Image)(resources.GetObject("btn_Save.Image")));
             this.btn_Save.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_Save.Name = "btn_Save";
             this.btn_Save.Size = new System.Drawing.Size(52, 22);

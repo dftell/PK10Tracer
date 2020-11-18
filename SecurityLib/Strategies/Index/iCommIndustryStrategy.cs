@@ -1,9 +1,10 @@
-﻿namespace WolfInv.com.SecurityLib
+﻿using WolfInv.com.BaseObjectsLib;
+namespace WolfInv.com.SecurityLib
 {
    
 
 
-    public interface iCommIndustryStrategy:iCommReverseMethod,iCommBreachMethod,iCommBalanceMethod
+    public interface iCommIndustryStrategy<T>:iCommReverseMethod<T>, iCommBreachMethod<T>, iCommBalanceMethod<T> where T:TimeSerialData
     {
         
     }

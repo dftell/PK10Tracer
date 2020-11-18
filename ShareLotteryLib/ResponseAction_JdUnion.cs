@@ -108,11 +108,12 @@ namespace WolfInv.com.ShareLotteryLib
                     try
                     {
                         
-                        
+                        if(!DisableMultiTaskProcess)
                             Task.Run(() => {
                                 submitData(Buffs[0] as string, Buffs[1] as string);
                             });
-                       
+                        else
+                            submitData(Buffs[0] as string, Buffs[1] as string);
 
                     }
                     catch (Exception ce)
@@ -195,11 +196,12 @@ namespace WolfInv.com.ShareLotteryLib
             ////    answerMsg("很抱歉，尚未完成初始化！请稍候再提交请求！");
             ////    return;
             ////}
-            Dictionary<string, JdGoodSummayInfoItemClass> ret = JdGoodsQueryClass.QueryWeb(lname,5);
+            string msg = null;
+            Dictionary<string, JdGoodSummayInfoItemClass> ret = JdGoodsQueryClass.QueryFromLocal(lname,out msg,5);
             //string strRet = string.Join("\r\n", ret.Select(a => a.Value.getFullContent()));
-            if(ret == null || ret.Count==0)
+            if(msg!= null)
             {
-                answerMsg("很抱歉，无法找到您要查找的券！请尝试修改下其他条件查找！");
+                answerMsg(msg);
                 return;
             }
             foreach(JdGoodSummayInfoItemClass ji in ret.Values)

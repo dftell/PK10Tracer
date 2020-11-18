@@ -1,12 +1,13 @@
-﻿namespace WolfInv.com.SecurityLib
+﻿using WolfInv.com.BaseObjectsLib;
+namespace WolfInv.com.SecurityLib
 {
-    public interface iCommReverseMethod
+    public interface iCommReverseMethod<T> where T : TimeSerialData
     {
         /// <summary>
         /// 反转选股
         /// </summary>
         /// <param name="Input"></param>
         /// <returns></returns>
-        CommSecurityProcessClass ReverseSelectSecurity(CommStrategyInClass Input);
+        CommSecurityProcessClass<T> ReverseSelectSecurity(CommStrategyInClass Input);
     }
 }

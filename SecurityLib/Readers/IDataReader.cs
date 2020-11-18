@@ -4,24 +4,25 @@ using System.Data;
 using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.SecurityLib
 {
-    public interface IDataReader
+    public interface IDataReader<T> where T:TimeSerialData
     {
-        ExpectList<T> GetMissedData<T>(bool IsHistoryData, string strBegT) where T : TimeSerialData;
-        ExpectList<T> getNewestData<T>(ExpectList<T> NewestData, ExpectList<T> ExistData) where T : TimeSerialData;
-        DbChanceList<T> getNoCloseChances<T>(string strDataOwner) where T : TimeSerialData;
-        DbChanceList<T> getClosedChances<T>(string strDataOwner, int PassedDays) where T : TimeSerialData;
-        ExpectList<T> ReadHistory<T>() where T : TimeSerialData;
-        ExpectList<T> ReadHistory<T>(long buffs) where T : TimeSerialData;
-        ExpectList<T> ReadHistory<T>(long From, long buffs) where T : TimeSerialData;
-        ExpectList<T> ReadHistory<T>(long From, long buffs, bool desc) where T : TimeSerialData;
-        ExpectList<T> ReadHistory<T>(string begt, string endt) where T : TimeSerialData;
-        ExpectList<T> ReadNewestData<T>(DateTime fromdate) where T : TimeSerialData;
-        ExpectList<T> ReadNewestData<T>(int LastLng) where T : TimeSerialData;
-        ExpectList<T> ReadNewestData<T>(long ExpectNo, int Cnt) where T : TimeSerialData;
-        ExpectList<T> ReadNewestData<T>(long ExpectNo, int Cnt, bool FromHistoryTable) where T : TimeSerialData;
-        int SaveChances<T>(List<ChanceClass<T>> list, string strDataOwner) where T : TimeSerialData;
-        int SaveHistoryData<T>(ExpectList<T> InData) where T : TimeSerialData;
-        int SaveNewestData<T>(ExpectList<T> InData) where T : TimeSerialData;
+        ExpectList<T> GetMissedData(bool IsHistoryData, string strBegT);
+        ExpectList<T> getNewestData(ExpectList<T> NewestData, ExpectList<T> ExistData);
+        DbChanceList<T> getNoCloseChances(string strDataOwner);
+        DbChanceList<T> getClosedChances(string strDataOwner, int PassedDays);
+        ExpectList<T> ReadHistory();
+        ExpectList<T> ReadHistory(long buffs);
+        ExpectList<T> ReadHistory(long From, long buffs);
+        ExpectList<T> ReadHistory(long From, long buffs, bool desc);
+        ExpectList<T> ReadHistory(string begt, string endt) ;
+        ExpectList<T> ReadNewestData(DateTime fromdate) ;
+        ExpectList<T> ReadNewestData(int LastLng) ;
+        ExpectList<T> ReadNewestData(long ExpectNo, int Cnt) ;
+        ExpectList<T> ReadNewestData(long ExpectNo, int Cnt, bool FromHistoryTable) ;
+        ExpectList<T> ReadNewestData(string ExpectNo, int Cnt, bool FromHistoryTable) ;
+        int SaveChances(List<ChanceClass<T>> list, string strDataOwner) ;
+        int SaveHistoryData(ExpectList<T> InData) ;
+        int SaveNewestData(ExpectList<T> InData) ;
 
         /// <summary>
         /// 专门针对外部中间数据用，此类序列数据均来源与外部，已初步计算出中间结果，最后提供给本系统策略最终使用

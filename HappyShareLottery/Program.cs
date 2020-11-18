@@ -21,6 +21,7 @@ namespace HappyShareLottery
         public static Timer Heart_Timer;
         static int Heart_minutes = 5;
         public static string UserId = "testUser";
+        
         public static Dictionary<string, string> allContacts = new Dictionary<string, string>();
         /// <summary>
         /// 应用程序的主入口点。
@@ -45,6 +46,7 @@ namespace HappyShareLottery
                 WinComminuteClass comm = new WinComminuteClass();
                 try
                 {
+                    
                     wif = comm.GetServerObject<WebInterfaceClass>(url, false);
                     Heart_Timer.Start();
                     Heart_Timer_Tick(null, null);

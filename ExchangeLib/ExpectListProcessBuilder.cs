@@ -18,7 +18,7 @@ namespace WolfInv.com.ExchangeLib
             CommExpectListProcess<T> ret = null;
             if (dtp.IsSecurityData == 1)
             {
-                //ret = new SecurityListProcess<T>(data);
+                ret = new SecurityListProcess<T>(data);
             }
             else
             {
@@ -67,7 +67,7 @@ namespace WolfInv.com.ExchangeLib
     }
 
 
-    public class ReaderBuilder
+    public class ReaderBuilder<T> where T:TimeSerialData
     {
         DataTypePoint dtp;
         string[] codes;
@@ -77,12 +77,12 @@ namespace WolfInv.com.ExchangeLib
             codes = _codes;
         }
 
-        public DataReader getReader()
+        public DataReader<T> getReader()
         {
-            DataReader ret = null;
+            DataReader<T> ret = null;
             if(dtp.IsSecurityData==1)
             {
-                ret = new SecurityReader(dtp.DataType, dtp.NewestTable, codes);
+                ret = new SecurityReader<T>(dtp.DataType, dtp.NewestTable, codes);
             }
             else
             {
@@ -91,52 +91,52 @@ namespace WolfInv.com.ExchangeLib
                 {
                     case "PK10":
                         {
-                            ret = new ExpectReader();
+                            ret = new ExpectReader<T>();
                             break;
                         }
                     case "SCKL12":
                         {
-                            ret = new SCKL12_ExpectReader();
+                            ret = new SCKL12_ExpectReader<T>();
                             break;
                         }
                     case "NLKL12":
                         {
-                            ret = new NLKL12_ExpectReader();
+                            ret = new NLKL12_ExpectReader<T>();
                             break;
                         }
                     case "GDKL11":
                         {
-                            ret = new GDKL11_ExpectReader();
+                            ret = new GDKL11_ExpectReader<T>();
                             break;
                         }
                     case "XYFT":
                         {
-                            ret = new XYFT_ExpectReader();
+                            ret = new XYFT_ExpectReader<T>();
                             break;
                         }
                     case "CQSSC":
                         {
-                            ret = new CQSSC_ExpectReader();
+                            ret = new CQSSC_ExpectReader<T>();
                             break;
                         }
                     case "XJSSC":
                         {
-                            ret = new XJSSC_ExpectReader();
+                            ret = new XJSSC_ExpectReader<T>();
                             break;
                         }
                     case "TJSSC":
                         {
-                            ret = new TJSSC_ExpectReader();
+                            ret = new TJSSC_ExpectReader<T>();
                             break;
                         }
                     case "JSK3":
                         {
-                            ret = new JSK3_ExpectReader();
+                            ret = new JSK3_ExpectReader<T>();
                             break;
                         }
                     default:
                         {
-                            ret = new KL11_ExpectReader(dtp.DataType);
+                            ret = new KL11_ExpectReader<T>(dtp.DataType);
                             break;
                         }
                 }

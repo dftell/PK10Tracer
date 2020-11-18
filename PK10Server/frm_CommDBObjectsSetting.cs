@@ -82,9 +82,9 @@ namespace PK10Server
                 MessageBox.Show(string.Format("请先双击列表选择需要修改的{0}或点击新增按钮新建{0}！",strClassName));
                 return;
             }
-            ////if (Program.AllGlobalSetting.AllStrags.ContainsKey(srp))
+            ////if (Program<T>.AllGlobalSetting.AllStrags.ContainsKey(srp))
             ////{
-            ////    StragClass sc = Program.AllGlobalSetting.AllStrags[srp.GUID];
+            ////    StragClass sc = Program<T>.AllGlobalSetting.AllStrags[srp.GUID];
             ////    ////srp.StragName = sc.StragClassName;
             ////    ////srp.StragDescript = sc.StragScript;
             ////}
@@ -112,7 +112,7 @@ namespace PK10Server
         bool SaveData()
         {
 
-            //bool suc = GlobalClass.setStragRunningPlan(StragRunPlanClass.getXmlByObjectList<StragRunPlanClass<T>>(Program.AllGlobalSetting.AllRunPlannings.Values.ToList<StragRunPlanClass<T>>()));
+            //bool suc = GlobalClass.setStragRunningPlan(StragRunPlanClass.getXmlByObjectList<StragRunPlanClass<T>>(Program<T>.AllGlobalSetting.AllRunPlannings.Values.ToList<StragRunPlanClass<T>>()));
             bool suc = UseObject.SaveDBFile(OuterList.Values.ToList<T>());
             if (!suc)
             {

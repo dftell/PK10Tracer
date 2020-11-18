@@ -15,7 +15,11 @@ namespace WolfInv.com.BaseObjectsLib
 
         public BaseDataTable(MTable tb)
         {
-            if (tb == null || tb.GetTable() == null) throw (new Exception("数据异常！"));
+            if (tb == null || tb.GetTable() == null)
+            {
+                return;
+                throw (new Exception("数据异常！"));
+            }
             this.Table = tb.GetTable().Copy();
         }
 

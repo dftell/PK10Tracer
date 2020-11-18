@@ -45,7 +45,7 @@ namespace WolfInv.com.StrategyLibForWD
                 tab.AddColumnByArray(ValueNames[i], tmp, GuildName);
             }
             ret.Notice.Success = true;
-            ret.Result = tab;
+            ret.Table = tab;
             return ret;
         }
 
@@ -84,7 +84,7 @@ namespace WolfInv.com.StrategyLibForWD
                 tab.AddColumnByArray(ValueNames[i], tmp, GuildName);
             }
             ret.Notice.Success = true;
-            ret.Result = tab;
+            ret.Table = tab;
             return ret;
         }
     }

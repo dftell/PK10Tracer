@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading;
 namespace WolfInv.com.SecurityLib
 {
-    public class SecurityGrpReader<T> where T: MongoData
+    public class SecurityGrpReader<T> where T: TimeSerialData
     {
         string DataType;
         string DocumentTable;

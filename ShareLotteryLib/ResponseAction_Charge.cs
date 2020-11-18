@@ -133,9 +133,12 @@ namespace WolfInv.com.ShareLotteryLib
                                     cr.imgData, 
                                     cr.chargeAccount)));
                             }*/
-                            Task.Run(() => {
+                            if(!DisableMultiTaskProcess)
+                                Task.Run(() => {
                                 submitData(cr);
                             });
+                            else
+                                submitData(cr);
                         }
                         else
                         {
@@ -183,6 +186,10 @@ namespace WolfInv.com.ShareLotteryLib
               provider: 'littleFunction'    
                          */
             string urlM = "http://www.wolfinv.com/pk10/app/submitCharge.asp?reqId={0}&wxId={1}&wxName={2}&chargeAmt={3}&chargeAcount={4}&orderNum={5}&provider={6}&imgData={7}";
+            if (!string.IsNullOrEmpty(actionDefine.submitUrl))
+            {
+                urlM = actionDefine.submitUrl;
+            }
             string url = string.Format(urlM,
                 cr.reqId,
                 roomName,

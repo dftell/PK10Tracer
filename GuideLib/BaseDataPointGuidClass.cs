@@ -37,7 +37,7 @@ namespace WolfInv.com.GuideLib
 
         public BaseDataPointGuidClass(bool AllBasePoint)
         {
-            Type t = typeof(BaseDataPoint);
+            Type t = typeof(BasePriceAndVol);
             FieldInfo[] flds = t.GetFields(BindingFlags.Public | BindingFlags.Static);
             this.Fields = new HashSet<string>();
             for (int i = 0; i < flds.Length; i++)

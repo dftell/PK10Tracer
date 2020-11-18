@@ -14,6 +14,7 @@ using System.Drawing.Design;
 using System.Windows.Forms.Design;
 using WolfInv.com.Strags.KLXxY;
 using WolfInv.com.Strags.MLStragClass;
+using WolfInv.com.Strags.Security;
 namespace WolfInv.com.Strags
 {
     public interface IFindChance<T> where T : TimeSerialData
@@ -43,6 +44,7 @@ namespace WolfInv.com.Strags
     [XmlInclude(typeof(strag_MarkovClass))]
     [XmlInclude(typeof(Strag_SimpleShiftClass))]
     [XmlInclude(typeof(ReferIndexStragClass))]
+    [XmlInclude(typeof(FirstBuyPoint_StragClass<TimeSerialData>))]
     public abstract class BaseStragClass<T> : DisplayAsTableClass, IFindChance<T>, ISelfSetting where T : TimeSerialData
     {
         string _guid;
@@ -287,8 +289,9 @@ namespace WolfInv.com.Strags
         ////}
 
 
-        public static DataTable getAllStrags()
+        public static DataTable getAllStrags(string filterKey,ref Dictionary<string,Type> outTypes)
         {
+            outTypes = new Dictionary<string, Type>();
             Assembly ass = typeof(BaseStragClass<T>).Assembly;
             Assembly[] assArr = new Assembly[1] { ass };
             List<Type> types = new List<Type>();
@@ -305,12 +308,22 @@ namespace WolfInv.com.Strags
             for (int i = 0; i < AllType.Length; i++)
             {
                 Type t = AllType[i];
+                string[] arr;
+                if (!string.IsNullOrEmpty(filterKey))
+                {
+                    arr = t.FullName.Split('.');
+                    if(!arr.ToList().Contains(filterKey))//没有包含关键字
+                    {
+                        continue;
+                    }
+                }
                 while (t.BaseType != null)//寻找基类是stragclass的所有非抽象类
                 {
-                    if (t.BaseType.Equals(typeof(StragClass)))
+                    if (t.BaseType.Name.Equals(typeof(BaseStragClass<T>).Name))
                     {
                         if (!AllType[i].IsAbstract)
                         {
+                            outTypes.Add(AllType[i].FullName,AllType[i]);
                             types.Add(AllType[i]);
                             break;
                         }
@@ -332,7 +345,7 @@ namespace WolfInv.com.Strags
                     names = new string[] { attribute.DisplayName };
                 }
                 dr["text"] = names[names.Length - 1];
-                dr["value"] = types[i].ToString();
+                dr["value"] = types[i].FullName.ToString();
                 dr["class"] = types[i];
                 dt.Rows.Add(dr);
             }
@@ -364,7 +377,7 @@ namespace WolfInv.com.Strags
                 dr[0] = jcls.GUID;
                 dr[1] = jcls.StragScript;
                 dr[2] = jcls.BySer;
-                dr[3] = jcls.StagSetting.ToString();
+                dr[3] = jcls.StagSetting?.ToString();
                 dr[4] = jcls.StragClassName;
                 dr[5] = jcls.StragTypeName;
                 dt.Rows.Add(dr);
@@ -379,5 +392,7 @@ namespace WolfInv.com.Strags
         public long allowInvestmentMaxValue;
 
         public abstract Type getTheChanceType();
+
+
     }
 }

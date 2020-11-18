@@ -31,7 +31,7 @@ namespace WolfInv.com.JdUnionLib
             return null;
         }
 
-        public bool getXmlData(XmlNode config, ref XmlDocument doc,ref XmlDocument xmlschemaDoc,ref string msg,XmlNode condition=null)
+        public bool getXmlData(XmlNode config, ref XmlDocument doc,ref XmlDocument xmlschemaDoc,ref string msg,XmlNode condition=null, string plusIn = "")
         {
             string strDefaultName = "DataTable1";
             string strRootName = "NewDataSet";
@@ -60,6 +60,11 @@ namespace WolfInv.com.JdUnionLib
                 }
 
                 JdUnion_Bussiness_Class jgl = JdUnion_GlbObject.CreateBusinessClass(t) as JdUnion_Bussiness_Class;
+                if(jgl == null)
+                {
+                    msg = "未正确载入模块信息！";
+                    return false;
+                }
                 JdUnion_ModuleClass jm = JdUnion_GlbObject.modules.Modules.FindLast(a => a.ClassName == strName);
                 if(jm == null)
                 {
@@ -82,7 +87,7 @@ namespace WolfInv.com.JdUnionLib
 
        
        
-        public bool writeXmlData(XmlNode config, DataSet data,ref XmlDocument doc, ref XmlDocument xmlschema,ref string msg, string writetype = "Add")
+        public bool writeXmlData(XmlNode config, DataSet data,ref XmlDocument doc, ref XmlDocument xmlschema,ref string msg, string writetype = "Add", string plusIn = "")
         {
             doc = null;
             string strDefaultName = "DataTable1";
@@ -147,25 +152,25 @@ namespace WolfInv.com.JdUnionLib
             return null;
         }
 
-        public bool getJsonData(XmlNode config, ref string strJson, ref string msg, XmlNode condition = null)
+        public bool getJsonData(XmlNode config, ref string strJson, ref string msg, XmlNode condition = null, string plusIn = "")
         {
             msg = "方法未实现！";
             return false;
         }
 
-        public bool getDataSet(XmlNode config, ref DataSet ds, ref string msg, XmlNode condition = null)
+        public bool getDataSet(XmlNode config, ref DataSet ds, ref string msg, XmlNode condition = null, string plusIn = "")
         {
             msg = "方法未实现！";
             return false;
         }
 
-        public bool writeJsonData(XmlNode config, DataSet data, ref string strJson, ref string msg, string writetype = "Add")
+        public bool writeJsonData(XmlNode config, DataSet data, ref string strJson, ref string msg, string writetype = "Add", string plusIn = "")
         {
             msg = "方法未实现！";
             return false;
         }
 
-        public bool writeDataSet(XmlNode config, DataSet data, ref DataSet ret, ref string msg, string writetype = "Add")
+        public bool writeDataSet(XmlNode config, DataSet data, ref DataSet ret, ref string msg, string writetype = "Add", string plusIn = "")
         {
             msg = "方法未实现！";
             return false;

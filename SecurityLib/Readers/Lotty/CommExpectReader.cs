@@ -8,17 +8,17 @@ using System.Net;
 namespace WolfInv.com.SecurityLib
 {
     //Sql data reader
-    public abstract class CommExpectReader : DataReader
+    public abstract class CommExpectReader<T> : DataReader<T> where T:TimeSerialData 
     {
         
         
-        public override ExpectList<T> ReadHistory<T>(long From, long buffs)
+        public override ExpectList<T> ReadHistory(long From, long buffs)
         {
-            return ReadHistory<T>(From, buffs, false);
+            return ReadHistory(From, buffs, false);
         }
 
 
-        public override ExpectList<T> ReadHistory<T>(long From,long buffs,bool desc)
+        public override ExpectList<T> ReadHistory(long From,long buffs,bool desc)
         {
             DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select top {0} * from {2} where expect>='{1}'  order by expect {3}", buffs, From,strHistoryTable,desc?"desc":"");//modify by zhouys 2019/1/8
@@ -27,7 +27,7 @@ namespace WolfInv.com.SecurityLib
             return new ExpectList<T>(ds.Tables[0]);
         }
 
-        public override ExpectList<T> ReadHistory<T>( long buffs, string endExpect)
+        public override ExpectList<T> ReadHistory( long buffs, string endExpect)
         {
             bool desc = false;
             DbClass db = GlobalClass.getCurrDb(strDataType);
@@ -38,7 +38,7 @@ namespace WolfInv.com.SecurityLib
         }
 
 
-        public override ExpectList<T> ReadHistory<T>(long buffs)
+        public override ExpectList<T> ReadHistory(long buffs)
         {
             DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select top {0} * from {2}  order by expect desc", buffs,  strHistoryTable);
@@ -47,7 +47,7 @@ namespace WolfInv.com.SecurityLib
             return new ExpectList<T>(ds.Tables[0]);
         }
 
-        public override ExpectList<T> ReadHistory<T>()
+        public override ExpectList<T> ReadHistory()
         {
             DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select  * from {0}  order by expect", strHistoryTable);
@@ -56,7 +56,7 @@ namespace WolfInv.com.SecurityLib
             return new ExpectList<T>(ds.Tables[0]);
         }
 
-        public override ExpectList<T> ReadHistory<T>(string begt,string endt)
+        public override ExpectList<T> ReadHistory(string begt,string endt)
         {
             DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select  * from {0}  where opentime between '{1}' and '{2}'", strHistoryTable,begt,endt);
@@ -65,7 +65,7 @@ namespace WolfInv.com.SecurityLib
             return new ExpectList<T>(ds.Tables[0]);
         }
 
-        public override ExpectList<T> ReadNewestData<T>(DateTime fromdate)
+        public override ExpectList<T> ReadNewestData(DateTime fromdate)
         {
             DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select * from {1} where opentime>='{0}' order by expect", fromdate.ToShortDateString(),strNewestTable);
@@ -74,7 +74,7 @@ namespace WolfInv.com.SecurityLib
             return new ExpectList<T>(ds.Tables[0]);
         }
 
-        public override ExpectList<T> ReadNewestData<T>(int LastLng)
+        public override ExpectList<T> ReadNewestData(int LastLng)
         {
             DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select * from (select top {0} * from {1} order by expect desc) a order by expect", LastLng, strNewestTable);
@@ -83,12 +83,12 @@ namespace WolfInv.com.SecurityLib
             return new ExpectList<T>(ds.Tables[0]);
         }
 
-        public override ExpectList<T> ReadNewestData<T>(long ExpectNo, int Cnt)
+        public override ExpectList<T> ReadNewestData(long ExpectNo, int Cnt)
         {
-            return ReadNewestData<T>(ExpectNo, Cnt, false);
+            return ReadNewestData(ExpectNo, Cnt, false);
         }
 
-        public override ExpectList<T> ReadNewestData<T>(long ExpectNo, int Cnt,bool FromHistoryTable)
+        public override ExpectList<T> ReadNewestData(string ExpectNo, int Cnt,bool FromHistoryTable)
         {
             DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select * from {2} where Expect<='{0}' and Expect>({0}-{1}) order by expect", ExpectNo, Cnt, FromHistoryTable?strHistoryTable:strNewestTable);
@@ -97,14 +97,14 @@ namespace WolfInv.com.SecurityLib
             return new ExpectList<T>(ds.Tables[0]);
         }
 
-        public override int SaveNewestData<T>(ExpectList<T> InData)
+        public override int SaveNewestData(ExpectList<T> InData)
         {
             DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select top 0 * from {0}", strNewestTable);
             return db.SaveList(new ConditionSql(sql), InData.Table);
         }
 
-        public override ExpectList<T> GetMissedData<T>(bool IsHistoryData,string strBegT)
+        public override ExpectList<T> GetMissedData(bool IsHistoryData,string strBegT)
         {
             DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select * from {1} where opentime>='{0}'", strBegT, IsHistoryData?strMissHistoryTable:strMissNewestTable);
@@ -114,7 +114,7 @@ namespace WolfInv.com.SecurityLib
         }
 
 
-        public override int SaveHistoryData<T>(ExpectList<T> InData)
+        public override int SaveHistoryData(ExpectList<T> InData)
         {
             DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select top 0 * from {0}", strHistoryTable);
@@ -138,7 +138,7 @@ namespace WolfInv.com.SecurityLib
             return ds.Tables[0];
         }
 
-        public override ExpectList<T> getNewestData<T>(ExpectList<T> NewestData, ExpectList<T> ExistData)
+        public override ExpectList<T> getNewestData(ExpectList<T> NewestData, ExpectList<T> ExistData)
         {
             DataTable dt = null;
             ExpectList<T> ret = new ExpectList<T>(dt);
@@ -163,7 +163,7 @@ namespace WolfInv.com.SecurityLib
             return ret;
         }
 
-        public override DbChanceList<T> getNoCloseChances<T>(string strDataOwner)
+        public override DbChanceList<T> getNoCloseChances(string strDataOwner)
         {
            DbChanceList<T> ret = new DbChanceList<T>();
             DbClass db = GlobalClass.getCurrDb(strDataType);
@@ -179,7 +179,7 @@ namespace WolfInv.com.SecurityLib
             return ret;
         }
 
-        public override DbChanceList<T> getClosedChances<T>(string strDataOwner, int PassedDays)
+        public override DbChanceList<T> getClosedChances(string strDataOwner, int PassedDays)
         {
             DbChanceList<T> ret = new DbChanceList<T>();
             DbClass db = GlobalClass.getCurrDb(strDataType);
@@ -196,7 +196,7 @@ namespace WolfInv.com.SecurityLib
             return ret;
         }
 
-        public override int SaveChances<T>(List<ChanceClass<T>> list,string strDataOwner=null)
+        public override int SaveChances(List<ChanceClass<T>> list,string strDataOwner=null)
         {
             if (list.Count == 0)
                 return 0;

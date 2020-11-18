@@ -9,13 +9,17 @@ using WolfInv.com.SecurityLib;
 using WolfInv.com.Strags;
 using WolfInv.com.SecurityLib;
 using WolfInv.com.SecurityLib.Strategies.Bussyniess;
-
-namespace WolfInv.com.SecurityStragLib.Strags.GuildTypes
+using System.ComponentModel;
+using WolfInv.com.GuideLib.Filter;
+using WolfInv.com.GuideLib;
+namespace WolfInv.com.Strags.Security
 {
     /// <summary>
     /// 第一买点选股策略
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [DescriptionAttribute("第一买点选股策略"),
+        DisplayName("第一买点选股策略")]
     [Serializable]
     public class FirstBuyPoint_StragClass<T> : BaseSecurityStragClass<T> , ITraceChance where T : TimeSerialData
     {
@@ -41,9 +45,22 @@ namespace WolfInv.com.SecurityStragLib.Strags.GuildTypes
         public override List<ChanceClass<T>> getChances(BaseCollection<T> sc, ExpectData<T> ed)
         {
             List<ChanceClass<T>> ret = new List<ChanceClass<T>>();
-            FirstPointFilter_Logic_Strategy fpf = new FirstPointFilter_Logic_Strategy(new CommDataIntface());
+            FirstPointFilter_Logic_Strategy<T> fpf = new FirstPointFilter_Logic_Strategy<T>(new CommDataIntface());
+
             fpf.InParam = new CommStrategyInClass();
-            
+            RunResultClass rrc = fpf.ExecSelect();
+
+            ////MongoDataDictionary<T> useData = new MongoDataDictionary<T>(this.LastUseData());
+
+            ////foreach(string key in useData.Keys)
+            ////{
+            ////    MongoReturnDataList<T> stockData = useData[key];
+            ////    FirstPointClass<T> fc = new FirstPointClass<T>(stockData);
+            ////    if(!fc.matched())
+            ////    {
+            ////        continue;
+            ////    }
+            ////}
             return ret;
          }
 

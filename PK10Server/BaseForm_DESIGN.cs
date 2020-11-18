@@ -13,7 +13,7 @@ using System.Drawing;
 
 namespace PK10Server
 {
-    public class BaseForm_DESIGN:BaseTForm<WolfInv.com.BaseObjectsLib.TimeSerialData>
+    public class BaseForm_DESIGN:BaseTForm<TimeSerialData> 
     {
         public BaseForm_DESIGN():base()
         {

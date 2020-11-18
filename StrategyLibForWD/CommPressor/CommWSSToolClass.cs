@@ -115,7 +115,8 @@ namespace WolfInv.com.StrategyLibForWD
             {
                 return new BaseDataTable();
             }
-            return new BaseDataTable(bret.Result);
+            return new BaseDataTable();
+            //////return new BaseDataTable(bret.Result);
         }
 
         public static BaseDataTable GetBaseSerialData(WindAPI w, string code, DateTime begt, DateTime endt, Cycle cyc, PriceAdj prcAdj)
@@ -140,7 +141,7 @@ namespace WolfInv.com.StrategyLibForWD
             {
                 return new BaseDataTable();
             }
-            return new BaseDataTable(bret.Result);
+            return new BaseDataTable(bret.Table);
         }
         
         public static ExpectList GetBaseData(string[] codes, DateTime endt, Cycle cyc=Cycle.Day, PriceAdj prcAdj=PriceAdj.Fore, params object[] args)
@@ -157,7 +158,34 @@ namespace WolfInv.com.StrategyLibForWD
             {
                 return new ExpectList();
             }
+            rewriteDate(res,endt);
             return ExpectList.getList(res);
+        }
+
+        public static void rewriteDate(MTable mt, DateTime dt)
+        {
+            try
+            {
+                DataTable tab = mt.GetTable();
+                if (tab == null)
+                    return;
+                if (!tab.Columns.Contains("DateTime"))
+                    return;
+                for (int i = 0; i < tab.Rows.Count; i++)
+                {
+                    string strDate = tab.Rows[i]["DateTime"]?.ToString();
+                    DateTime tdt;
+                    bool succ = DateTime.TryParse(strDate, out tdt);
+                    if (!succ)
+                        tdt = dt;
+                    tab.Rows[i]["DateTime"] = tdt.ToString("yyyy-MM-dd");
+                }
+                mt = new MTable(tab);
+            }
+            catch(Exception ce)
+            {
+
+            }
         }
 
         public static ExpectList GetBaseData(string code, DateTime endt, Cycle cyc = Cycle.Day, PriceAdj prcAdj = PriceAdj.Fore, params object[] args)
@@ -181,29 +209,37 @@ namespace WolfInv.com.StrategyLibForWD
             {
                 BaseDataProcess bp = new BaseDataProcess_ForWD(w, cyc, prcAdj);
                 RunResultClass bret = bp.getSetDataResult(code,  endt, new object[0] { });
-                if (!bret.Notice.Success)
+                if (bret.Notice.Success)
                 {
-                    mtab.Union(bret.Result);
+                    mtab.Union(bret.Table);
                     //return new BaseDataTable();
                 }
             }
-            Dictionary<string, HashSet<string>> guids = getMutliValueGuid(args.Split(','));
-            foreach (string key in guids.Keys)
+            if (!string.IsNullOrEmpty(args))
             {
-                MutliValueGuidProcess_ForWD cgp = new MutliValueGuidProcess_ForWD(w, key, guids[key].ToArray<string>());
-                cgp.cycle = cyc;
-                cgp.prcAdj = prcAdj;
-                RunResultClass cret = cgp.getSetDataResult(code,  endt, new object[0] { });
-                mtab.Union(cret.Result);
+                Dictionary<string, HashSet<string>> guids = getMutliValueGuid(args.Split(','));
+                foreach (string key in guids.Keys)
+                {
+                    MutliValueGuidProcess_ForWD cgp = new MutliValueGuidProcess_ForWD(w, key, guids[key].ToArray<string>());
+                    cgp.cycle = cyc;
+                    cgp.prcAdj = prcAdj;
+                    RunResultClass cret = cgp.getSetDataResult(code, endt, new object[0] { });
+                    mtab.Union(cret.Table);
+                }
             }
+            CommWSSToolClass.rewriteDate(mtab, endt);
             return mtab;
         }
 
+        public static MTable getBkList(string sec, DateTime dt)
+        {
+            return getBkList(null, sec, dt);
+        }
         public static MTable getBkList(WindAPI w, string sec, DateTime dt)
         {
             return getBkList(w, sec, dt, true);
         }
-        public static MTable getBkList(WindAPI w, string sec, DateTime dt,bool FilterTheNoPrice)
+        public static MTable getBkList(WindAPI w, string sec, DateTime dt, bool FilterTheNoPrice)
         {
 
             SecIndexClass sic = new SecIndexClass(sec);
@@ -211,16 +247,22 @@ namespace WolfInv.com.StrategyLibForWD
             MTable mt = sib.getBkList(dt);
             if (mt == null || mt.Count == 0)
                 return mt;
+            if (!FilterTheNoPrice)
+            {
+                return mt;
+            }
             BaseDataProcess_ForWD bdp = new BaseDataProcess_ForWD(w);
             string[] seccodes = mt["wind_code"].ToList<string>().ToArray();
             RunResultClass rc = bdp.getSetDataResult(seccodes, "close", dt);
             MTable ret = new MTable();
             List<DataRow> NewDrs = new List<DataRow>();
+
             for (int i = 0; i < rc.Result.Count; i++)
             {
                 DataRow retdr = mt.GetTable().Rows[i];
-                DataRow dr = rc.Result.GetTable().Rows[i];
-                if (dr.IsNull("CLOSE") && FilterTheNoPrice) 
+                //////DataRow dr = rc.Result.GetTable().Rows[i];
+                DataRow dr = null;
+                if (dr.IsNull("CLOSE") && FilterTheNoPrice)
                     continue;
                 NewDrs.Add(retdr);
             }

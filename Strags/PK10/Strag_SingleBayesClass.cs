@@ -34,7 +34,7 @@ namespace WolfInv.com.Strags
         public override List<ChanceClass> getChances(BaseCollection sc, ExpectData ed)
         {
             List<ChanceClass> ret = new List<ChanceClass>();
-            PKDataListSetFactory pkdls = new PKDataListSetFactory(this.LastUseData());
+            PKDataListSetFactory pkdls = new PKDataListSetFactory(new ExpectList(this.LastUseData<TimeSerialData>()?.Table));
             Dictionary<int, Dictionary<int, int>> res = pkdls.OccurrSpecLengthShiftProbList(this.ReviewExpectCnt, 1,0,10);
             Dictionary<string,int> AllCodes = new Dictionary<string, int>();
             foreach (int key in res.Keys)
@@ -138,7 +138,7 @@ namespace WolfInv.com.Strags
     
     }
 
-    public class PKDataListSetFactory:MLDataFactory
+    public class PKDataListSetFactory:MLDataFactory<TimeSerialData>
     {
         ExpectList Data;
         public PKDataListSetFactory(ExpectList el)

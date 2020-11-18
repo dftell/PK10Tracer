@@ -59,7 +59,7 @@
       <Name>WolfInv.com.BaseObjectsLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\ExchangeLib\WolfInv.com.ExchangeLib.csproj">
-      <Project>{BE222046-7D38-4E42-BCB5-CE4CCC5AB4CD}</Project>
+      <Project>{be222046-7d38-4e42-bcb5-ce4ccc5ab4cd}</Project>
       <Name>WolfInv.com.ExchangeLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\LogLib\WolfInv.com.LogLib.csproj">
@@ -81,6 +81,10 @@
     <ProjectReference Include="..\WinInterComminuteLib\WolfInv.com.WinInterComminuteLib.csproj">
       <Project>{7859D79D-EDD5-4B79-B3DA-072432BC8FCC}</Project>
       <Name>WolfInv.com.WinInterComminuteLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WolfInv.com.WDDataInit\WolfInv.com.WDDataInit.csproj">
+      <Project>{c41de39d-26aa-4b41-b9a4-7d78aa1f78a5}</Project>
+      <Name>WolfInv.com.WDDataInit</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

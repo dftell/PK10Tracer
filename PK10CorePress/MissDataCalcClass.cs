@@ -239,7 +239,7 @@ namespace WolfInv.com.PK10CorePress
             else
             {
                 mdb = AllBuffs[key];
-                string strNext = ExpectReader.getNextExpectNo(mdb.LastExpect, dtp);
+                string strNext = ExpectReader<TimeSerialData>.getNextExpectNo(mdb.LastExpect, dtp);
                 string lastExpect = data.LastData.Expect.Trim();
                 string openCode = data.LastData.OpenCode;
                 if(mdb.LastExpect.Trim().Equals(lastExpect))

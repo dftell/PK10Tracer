@@ -1,6 +1,6 @@
 ﻿namespace PK10Server
 {
-    partial class frm_NewStrag
+    partial class frm_NewStrag<T>
     {
         /// <summary>
         /// Required designer variable.

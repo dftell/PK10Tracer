@@ -4,15 +4,15 @@ using WolfInv.com.LogLib;
 using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.SecurityLib
 {
-    public abstract class DataReader :LogableClass, IDataReader
+    public abstract class DataReader<T> : LogableClass, IDataReader<T> where T:TimeSerialData
     {
         protected string strDataType;
         protected string strChanceTable;
         protected string strResultTable;
         protected string strNewestTable;
         protected string strHistoryTable;
-        protected string strMissHistoryTable ;
-        protected string strMissNewestTable ;
+        protected string strMissHistoryTable;
+        protected string strMissNewestTable;
         protected DataTypePoint dtp = null;
 
         protected void InitTables()
@@ -29,29 +29,33 @@ namespace WolfInv.com.SecurityLib
 
         //public abstract string getNextExpectNo(string expect);
 
-        public abstract ExpectList<T> GetMissedData<T>(bool IsHistoryData, string strBegT) where T : TimeSerialData;
-        public abstract ExpectList<T> getNewestData<T>(ExpectList<T> NewestData, ExpectList<T> ExistData) where T : TimeSerialData;
-        public virtual DbChanceList<T> getNoCloseChances<T>(string strDataOwner) where T : TimeSerialData
+        public abstract ExpectList<T> GetMissedData(bool IsHistoryData, string strBegT) ;
+        public abstract ExpectList<T> getNewestData(ExpectList<T> NewestData, ExpectList<T> ExistData) ;
+        public virtual DbChanceList<T> getNoCloseChances(string strDataOwner) 
         {
             return null;
         }
-        public virtual DbChanceList<T> getClosedChances<T>(string strDataOwner,int PassedDays) where T : TimeSerialData
+        public virtual DbChanceList<T> getClosedChances(string strDataOwner, int PassedDays) 
         {
             return null;
         }
-        public abstract ExpectList<T> ReadHistory<T>() where T : TimeSerialData;
-        public abstract ExpectList<T> ReadHistory<T>(long buffs) where T : TimeSerialData;
-        public abstract ExpectList<T> ReadHistory<T>(long From, long buffs) where T : TimeSerialData;
-        public abstract ExpectList<T> ReadHistory<T>(long cnt, string endExpect) where T : TimeSerialData;
-        public abstract ExpectList<T> ReadHistory<T>(long From, long buffs, bool desc) where T : TimeSerialData;
-        public abstract ExpectList<T> ReadHistory<T>(string begt, string endt) where T : TimeSerialData;
-        public abstract ExpectList<T> ReadNewestData<T>(DateTime fromdate) where T : TimeSerialData;
-        public abstract ExpectList<T> ReadNewestData<T>(int LastLng) where T : TimeSerialData;
-        public abstract ExpectList<T> ReadNewestData<T>(long ExpectNo, int Cnt) where T : TimeSerialData;
-        public abstract ExpectList<T> ReadNewestData<T>(long ExpectNo, int Cnt, bool FromHistoryTable) where T : TimeSerialData;
-        public abstract int SaveChances<T>(List<ChanceClass<T>> list, string strDataOwner=null) where T : TimeSerialData;
-        public abstract int SaveHistoryData<T>(ExpectList<T> InData) where T : TimeSerialData;
-        public abstract int SaveNewestData<T>(ExpectList<T> InData) where T : TimeSerialData;
+        public abstract ExpectList<T> ReadHistory() ;
+        public abstract ExpectList<T> ReadHistory(long buffs) ;
+        public abstract ExpectList<T> ReadHistory(long From, long buffs) ;
+        public abstract ExpectList<T> ReadHistory(long cnt, string endExpect) ;
+        public abstract ExpectList<T> ReadHistory(long From, long buffs, bool desc) ;
+        public abstract ExpectList<T> ReadHistory(string begt, string endt) ;
+        public abstract ExpectList<T> ReadNewestData(DateTime fromdate) ;
+        public abstract ExpectList<T> ReadNewestData(int LastLng) ;
+        public abstract ExpectList<T> ReadNewestData(long ExpectNo, int Cnt) ;
+        public ExpectList<T> ReadNewestData(long ExpectNo, int Cnt, bool FromHistoryTable) 
+        {
+            return ReadNewestData(ExpectNo.ToString(),Cnt,FromHistoryTable);
+        }
+        public abstract ExpectList<T> ReadNewestData(string ExpectNo, int Cnt, bool FromHistoryTable) ;
+        public abstract int SaveChances(List<ChanceClass<T>> list, string strDataOwner=null) ;
+        public abstract int SaveHistoryData(ExpectList<T> InData) ;
+        public abstract int SaveNewestData(ExpectList<T> InData) ;
 
         public abstract System.Data.DataSet ReadExData(DataTypePoint dtp, string expectNo, Func<DataTypePoint, string, System.Data.DataSet> ConvertFunc);
 

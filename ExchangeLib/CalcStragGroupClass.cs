@@ -147,10 +147,13 @@ namespace WolfInv.com.ExchangeLib
             //判断是否错过了期数，如果错过期数，将所有追踪策略归零，不再追号,也不再执行选号程序，
             //是否要连续停几期？执行完后，在接收策略里面发现前10期有不连续的情况，直接跳过，只接收数据不执行选号。
             bool MissExpects = false;
-            if ( el.MissExpectCount() > 1)//期号不连续
+            if (dtp.IsSecurityData == 0)
             {
-                if(dtp.DataType == "PK10" && IsBackTest == false)
-                    MissExpects = true;
+                if (el.MissExpectCount() > 1)//期号不连续
+                {
+                    if (dtp.DataType == "PK10" && IsBackTest == false)
+                        MissExpects = true;
+                }
             }
             DbChanceList<T> OldDbList = new DbChanceList<T>();
             Dictionary<string, ChanceClass<T>> OldList = new Dictionary<string, ChanceClass<T>>();
@@ -171,7 +174,7 @@ namespace WolfInv.com.ExchangeLib
             //Log("计算服务", "最大回览期数", maxViewCnt.ToString());
             if(dtp.IsSecurityData == 1)
             {
-                cc = new WolfInv.com.ExchangeLib.ExpectListProcessBuilderForAll<T>(dtp, el).getProcess().getSerialData(maxViewCnt, this.UseSerial);//获取连续数据，可能是外部数据，这个的内部处理必须要改。 2020.6.18
+                cc = new WolfInv.com.ExchangeLib.ExpectListProcessBuilderForAll<T>(dtp, el).getProcess()?.getSerialData(maxViewCnt, this.UseSerial);//获取连续数据，可能是外部数据，这个的内部处理必须要改。 2020.6.18
             }
             else
                 cc = new WolfInv.com.PK10CorePress.ExpectListProcessBuilder<T>(dtp,el).getProcess().getSerialData(maxViewCnt, this.UseSerial);//获取连续数据，可能是外部数据，这个的内部处理必须要改。 2020.3.30
@@ -200,7 +203,7 @@ namespace WolfInv.com.ExchangeLib
                         TraceChance<T> tcc = CurrCc as TraceChance<T>;
                         CurrCc.UnitCost = tcc.getChipAmount(GlobalClass.DefaultMaxLost,CurrCc,GlobalClass._DefaultHoldAmtSerials.Value);
                         //CurrCc.HoldTimeCnt = CurrCc.HoldTimeCnt + 1;
-                        CurrCc.HoldTimeCnt = (int)DataReader.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp)+1;
+                        CurrCc.HoldTimeCnt = (int)DataReader<T>.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp)+1;
                         CurrCc.Cost += CurrCc.ChipCount * CurrCc.UnitCost;
                         CurrCc.UpdateTime = CurrCc.CreateTime;
                         OldList.Add(CurrCc.GUID, CurrCc);
@@ -310,7 +313,7 @@ namespace WolfInv.com.ExchangeLib
                         {
                             CurrCc = OldCc;
                             //CurrCc.HoldTimeCnt = CurrCc.HoldTimeCnt + 1;
-                            CurrCc.HoldTimeCnt = (int)DataReader.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp)+1;
+                            CurrCc.HoldTimeCnt = (int)DataReader<T>.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp)+1;
                             CurrCc.UnitCost = 0;
                             NeedUseOldData = true;
                             //Log("计算服务", "相同处理", string.Format("出现相同的机会{0},持有次数增1->{1}", CurrCc.ChanceCode, CurrCc.HoldTimeCnt));
@@ -409,7 +412,7 @@ namespace WolfInv.com.ExchangeLib
                     if (1 == 0)
                     {
                         long unitCost = getAmount(currStrag, CurrCc, el.LastData.Expect, restAmt, amts);
-                        CurrCc.HoldTimeCnt = (int)DataReader.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp) + 1;
+                        CurrCc.HoldTimeCnt = (int)DataReader<T>.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp) + 1;
                         CurrCc.UnitCost = unitCost;
                         CurrCc.Cost = CurrCc.ChipCount * CurrCc.UnitCost;
                         CurrCc.UpdateTime = DateTime.Now;
@@ -428,7 +431,7 @@ namespace WolfInv.com.ExchangeLib
                             if (specStrag != null)//如果没有方法，再从机会级检查
                             {
                                 //CurrCc.HoldTimeCnt++;
-                                CurrCc.HoldTimeCnt = (int)DataReader.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp) + 1;
+                                CurrCc.HoldTimeCnt = (int)DataReader<T>.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp) + 1;
                                 CurrCc.UnitCost = specStrag.getChipAmount(restAmt, CurrCc, amts);
                                 CurrCc.Cost += CurrCc.ChipCount * CurrCc.UnitCost;
                                 CurrCc.UpdateTime = DateTime.Now;
@@ -451,7 +454,7 @@ namespace WolfInv.com.ExchangeLib
                         {
                             Log("计算服务", "当前机会是跟踪策略", string.Format("策略名:{0};机会:{1}", currStrag.StragScript, CurrCc.ChanceCode));
                             //CurrCc.HoldTimeCnt++;
-                            CurrCc.HoldTimeCnt = (int)DataReader.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp) + 1;
+                            CurrCc.HoldTimeCnt = (int)DataReader<T>.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp) + 1;
                             TraceChance<T> testCc = (TraceChance<T>)CurrCc;
                             if (testCc == null)
                             {
@@ -475,7 +478,7 @@ namespace WolfInv.com.ExchangeLib
                         {
                             Log("计算服务", "当前机会是非跟踪策略，无需跟踪，但是我们还是跟踪了", string.Format("策略名:{0};机会:{1}", currStrag.StragScript, CurrCc.ChanceCode));
                             //CurrCc.HoldTimeCnt++;
-                            CurrCc.HoldTimeCnt = (int)DataReader.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp) + 1;
+                            CurrCc.HoldTimeCnt = (int)DataReader<T>.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp) + 1;
                             ISpecAmount Strag = (ISpecAmount)currStrag;
                             if (Strag == null)
                             {
@@ -502,7 +505,7 @@ namespace WolfInv.com.ExchangeLib
             if (!IsBackTest)//额外保存
             {
                 Log("计算服务", "保存机会", "开始！");
-                DataReader rd = DataReaderBuild.CreateReader(this.dtp.DataType, null, null);
+                DataReader<T> rd = DataReaderBuild.CreateReader<T>(this.dtp.DataType, null, null);
                 int savecnt = rd.SaveChances(OldDbList.Values.ToList<ChanceClass<T>>(), null);
                 //int savecnt = new PK10ExpectReader().SaveChances(OldDbList.Values.ToList<ChanceClass<T>>(), null);// OldDbList.Save(null);
                 if (OldList.Count > 0)

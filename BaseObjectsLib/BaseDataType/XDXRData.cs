@@ -25,7 +25,7 @@ namespace WolfInv.com.BaseObjectsLib
 */
     /// </summary>
 
-    public class XDXRData:MongoData,ICodeData,IDateData,IDateStampData
+    public class XDXRData:TimeSerialData,ICodeData,IDateData,IDateStampData
     {
         public int? category { get; set; }
         public string category_meaning { get; set; }

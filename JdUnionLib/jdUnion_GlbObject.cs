@@ -124,56 +124,69 @@ namespace WolfInv.com.JdUnionLib
 
         static JdUnion_GlbObject()
         {
-            Type t = typeof(JdUnion_ModuleProcessClass);
-            List<Type> subList = getAllSubClass(t);
-            modules = new JdUnion_Modules();
-            subList.ForEach(a => {
-                JdUnion_ModuleClass mdl = new JdUnion_ModuleClass();
-                mdl.ClassName = a.Name;
-                mdl.AccessUrl = "";
-                mdl.ModuleName = a.Name;
-                mdl.RequestModel = "";
-                modules.Modules.Add(mdl);
-            });
-            string json = modules.ToJson();
-            string path = new JdUnion_SystemClass().getJsonPath("system.config.modules");
-            
-            if (!File.Exists(path))
+            try
             {
-                SaveFile(path, json);
-            }
-            else
-            {
-                
-                string strJson = File.OpenText(path).ReadToEnd();
-                modules = modules.GetFromJson<JdUnion_Modules>(strJson);
-            }
-            modules.Modules.ForEach(a => mlist.Add(a.ClassName, a));
-            subList.ForEach(a => {
-                if (mlist.ContainsKey(a.Name))
+                Type t = typeof(JdUnion_ModuleProcessClass);
+                List<Type> subList = getAllSubClass(t);
+                modules = new JdUnion_Modules();
+                subList.ForEach(a =>
                 {
-                    AllModuleClass.Add(a.Name, a);
-                    JdUnion_ModuleProcessClass obj = Activator.CreateInstance(a) as JdUnion_ModuleProcessClass;
-                    if (obj != null)
-                        obj.InitClass(mlist[a.Name]);
-                    //if(obj is AccessTokenClass)
-                    //{
-                    //    AccessObj = obj as AccessTokenClass;
-                    //    AccessObj.InitRequestJson();
-                    //}
-                    if (obj is JdUnion_RequestClass)
-                    {
-                        (obj as JdUnion_RequestClass).InitRequestJson();
-                    }
+                    JdUnion_ModuleClass mdl = new JdUnion_ModuleClass();
+                    mdl.ClassName = a.Name;
+                    mdl.AccessUrl = "";
+                    mdl.ModuleName = a.Name;
+                    mdl.RequestModel = "";
+                    modules.Modules.Add(mdl);
+                });
+                string json = modules.ToJson();
+                string path = new JdUnion_SystemClass().getJsonPath("system.config.modules");
 
+                if (!File.Exists(path))
+                {
+                    SaveFile(path, json);
                 }
-            });
-            //string strtest = Access_token;
+                else
+                {
+
+                    string strJson = File.OpenText(path).ReadToEnd();
+                    modules = modules.GetFromJson<JdUnion_Modules>(strJson);
+                }
+                modules.Modules.ForEach(a => mlist.Add(a.ClassName, a));
+                subList.ForEach(a =>
+                {
+                    if (mlist.ContainsKey(a.Name))
+                    {
+                        AllModuleClass.Add(a.Name, a);
+                        JdUnion_ModuleProcessClass obj = Activator.CreateInstance(a) as JdUnion_ModuleProcessClass;
+                        if (obj != null)
+                            obj.InitClass(mlist[a.Name]);
+                        //if(obj is AccessTokenClass)
+                        //{
+                        //    AccessObj = obj as AccessTokenClass;
+                        //    AccessObj.InitRequestJson();
+                        //}
+                        if (obj is JdUnion_RequestClass)
+                        {
+                            (obj as JdUnion_RequestClass).InitRequestJson();
+                        }
+
+                    }
+                });
+                //string strtest = Access_token;
+            }
+            catch(Exception ce)
+            {
+
+            }
         }
         
         public static JdUnion_Bussiness_Class CreateBusinessClass(Type t)
         {
-            Type cls = JdUnion_GlbObject.AllModuleClass[t.Name];
+            Type cls = null;
+            if (JdUnion_GlbObject.AllModuleClass.ContainsKey(t.Name))
+                cls = JdUnion_GlbObject.AllModuleClass[t.Name];
+            if (cls == null)
+                return null;
             object obj = Activator.CreateInstance(cls);// as
             JdUnion_Bussiness_Class jdy = obj as JdUnion_Bussiness_Class;// as
             jdy.InitClass(mlist[t.Name]);

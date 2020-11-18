@@ -9,68 +9,78 @@ using System.Linq;
 using DataRecSvr;
 namespace PK10Server
 {
-    //////static class Program
-    //////{
-    //////    [STAThread]
-    //////    static void Main()
-    //////    {
 
-    //////        Application.EnableVisualStyles();
-    //////        Application.SetCompatibleTextRenderingDefault(false);
+    public static class Program
+    {
+        [STAThread]
+        static void Main()
+        {
+            Program<TimeSerialData>.Main();
+        }
+    }
 
-    //////        /**
-    //////         * 当前用户是管理员的时候，直接启动应用程序
-    //////         * 如果不是管理员，则使用启动对象启动程序，以确保使用管理员身份运行
-    //////         */
-    //////        //获得当前登录的Windows用户标示
-    //////        System.Security.Principal.WindowsIdentity identity = System.Security.Principal.WindowsIdentity.GetCurrent();
-    //////        System.Security.Principal.WindowsPrincipal principal = new System.Security.Principal.WindowsPrincipal(identity);
-    //////        //判断当前登录用户是否为管理员
-    //////        if (principal.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator))
-    //////        {
-    //////            //如果是管理员，则直接运行
-    //////            Application.Run(new MainForm());
-    //////        }
-    //////        else
-    //////        {
-    //////            //创建启动对象
-    //////            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-    //////            startInfo.UseShellExecute = true;
-    //////            startInfo.WorkingDirectory = Environment.CurrentDirectory;
-    //////            startInfo.FileName = Application.ExecutablePath;
-    //////            //设置启动动作,确保以管理员身份运行
-    //////            startInfo.Verb = "runas";
-    //////            try
-    //////            {
-    //////                System.Diagnostics.Process.Start(startInfo);
-    //////            }
-    //////            catch
-    //////            {
-    //////                return;
-    //////            }
-    //////            //退出
-    //////            Application.Exit();
-    //////        }
-    //////    }
-    //////}
-    static class Program
+        //////static class Program
+        //////{
+        //////    [STAThread]
+        //////    static void Main()
+        //////    {
+
+        //////        Application.EnableVisualStyles();
+        //////        Application.SetCompatibleTextRenderingDefault(false);
+
+        //////        /**
+        //////         * 当前用户是管理员的时候，直接启动应用程序
+        //////         * 如果不是管理员，则使用启动对象启动程序，以确保使用管理员身份运行
+        //////         */
+        //////        //获得当前登录的Windows用户标示
+        //////        System.Security.Principal.WindowsIdentity identity = System.Security.Principal.WindowsIdentity.GetCurrent();
+        //////        System.Security.Principal.WindowsPrincipal principal = new System.Security.Principal.WindowsPrincipal(identity);
+        //////        //判断当前登录用户是否为管理员
+        //////        if (principal.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator))
+        //////        {
+        //////            //如果是管理员，则直接运行
+        //////            Application.Run(new MainForm());
+        //////        }
+        //////        else
+        //////        {
+        //////            //创建启动对象
+        //////            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+        //////            startInfo.UseShellExecute = true;
+        //////            startInfo.WorkingDirectory = Environment.CurrentDirectory;
+        //////            startInfo.FileName = Application.ExecutablePath;
+        //////            //设置启动动作,确保以管理员身份运行
+        //////            startInfo.Verb = "runas";
+        //////            try
+        //////            {
+        //////                System.Diagnostics.Process.Start(startInfo);
+        //////            }
+        //////            catch
+        //////            {
+        //////                return;
+        //////            }
+        //////            //退出
+        //////            Application.Exit();
+        //////        }
+        //////    }
+        //////}
+        public static class Program<T> where T:TimeSerialData
     {
         ////public static GlobalClass gc;
         ////public static Dictionary<string, StragClass> AllStragList;
         ////public static Dictionary<string, StragRunPlanClass<T>> AllRunPlans;
-        public static ServiceSetting<TimeSerialData> AllGlobalSetting;
+        public static ServiceSetting<T> AllGlobalSetting;
  
-        public static frm_StragMonitor<TimeSerialData> frm_Monitor;
+        public static frm_StragMonitor<T> frm_Monitor;
         public static WXLogClass wxlog;
         public static GlobalClass gc;
         public static operateClass optFunc;
         static Timer tm_heart;
-        static MainForm frm;
+        static MainForm<T> frm;
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
         [STAThread]
-        static void Main()
+        public static void Main()
         {
             ////new c1().printName();
             ////new c2().printName();
@@ -101,7 +111,7 @@ namespace PK10Server
                 }
                 else
                 {
-                    frm = new MainForm();
+                    frm = new MainForm<T>();
                     tm_heart = new Timer();
                     tm_heart.Enabled = true;
                     tm_heart.Interval = 800;
@@ -157,8 +167,8 @@ namespace PK10Server
             optFunc.RefreshData(frm);
         }
 
-        static ServiceSetting<TimeSerialData> _UseSetting = null;//供后面调用一切服务内容用
-        public static ServiceSetting<TimeSerialData> UseSetting
+        static ServiceSetting<T> _UseSetting = null;//供后面调用一切服务内容用
+        public static ServiceSetting<T> UseSetting
         {
             get
             {
@@ -168,10 +178,10 @@ namespace PK10Server
                     {
 
                         WinComminuteClass wc = new WinComminuteClass();
-                        string strclassname = typeof(ServiceSetting<TimeSerialData>).Name.Split('\'')[0];
+                        string strclassname = typeof(ServiceSetting<T>).Name.Split('\'')[0];
                         string url = string.Format("ipc://IPC_{0}/{1}", GlobalClass.TypeDataPoints.First().Key, strclassname);
                         LogableClass.ToLog("监控终端", "刷新数据", url);
-                        _UseSetting = wc.GetServerObject<ServiceSetting<TimeSerialData>>(url, false);
+                        _UseSetting = wc.GetServerObject<ServiceSetting<T>>(url, false);
                     }
                     catch (Exception ce)
                     {
@@ -189,7 +199,7 @@ namespace PK10Server
 
         static void InitSystem()
         {
-            AllGlobalSetting = new ServiceSetting<TimeSerialData>();
+            AllGlobalSetting = new ServiceSetting<T>();
             AllGlobalSetting.Init(null);
             AllGlobalSetting.GrpThePlan(false);
             
@@ -241,29 +251,29 @@ namespace PK10Server
         public Action RefreshMainWindow;
         public Action RefreshMonitorWindow;
 
-        public void RefreshData(MainForm frm)
+        public void RefreshData<T>(MainForm<T> frm) where T:TimeSerialData
         {
             System.Threading.Thread.Sleep(1000);
             if (this.RefreshMainWindow == null)
             {
-                Program.wxlog.Log("无法刷新","主数据窗口事件未初始化！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                Program<T>.wxlog.Log("无法刷新","主数据窗口事件未初始化！", string.Format(Program<T>.gc.WXLogUrl, Program<T>.gc.WXSVRHost));
             }
             else
             {
 
-                Program.wxlog.Log("刷新主数据", "主数据刷新！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                Program<T>.wxlog.Log("刷新主数据", "主数据刷新！", string.Format(Program<T>.gc.WXLogUrl, Program<T>.gc.WXSVRHost));
                 this.RefreshMainWindow();
                 
             }
             //System.Threading.Thread.Sleep(1000);
             if (this.RefreshMonitorWindow == null)
             {
-                Program.wxlog.Log("无法刷新", "主监控窗口事件未初始化！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                Program<T>.wxlog.Log("无法刷新", "主监控窗口事件未初始化！", string.Format(Program<T>.gc.WXLogUrl, Program<T>.gc.WXSVRHost));
                 frm.tsmi_RunMonitor_Click(null,null);
             }
             else
             {
-                Program.wxlog.Log("刷新监控数据", "主监控窗口数据刷新！", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                Program<T>.wxlog.Log("刷新监控数据", "主监控窗口数据刷新！", string.Format(Program<T>.gc.WXLogUrl, Program<T>.gc.WXSVRHost));
                 this.RefreshMonitorWindow();
             }
         }

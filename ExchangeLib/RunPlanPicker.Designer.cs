@@ -1,6 +1,6 @@
 ﻿namespace WolfInv.com.ExchangeLib
 {
-    partial class RunPlanPicker
+    partial class RunPlanPicker<T>
     {
         /// <summary> 
         /// 必需的设计器变量。

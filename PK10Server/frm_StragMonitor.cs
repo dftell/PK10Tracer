@@ -34,18 +34,18 @@ namespace PK10Server
         System.Timers.Timer LogTimer = new System.Timers.Timer();
         //PK10ExpectReader exread = new PK10ExpectReader();
         DataTypePoint dtp = null;
-        DataReader exread = null;
+        DataReader<T> exread = null;
         GlobalClass glb = new GlobalClass();
         SetDataGridCallback DgInvokeEvent;
         int sers = 0;
         Dictionary<string, long> AssetTimeSummary = new Dictionary<string, long>();
 
-        ServiceSetting<TimeSerialData> _UseSetting = null;//供后面调用一切服务内容用
-        ServiceSetting<TimeSerialData> UseSetting
+        ServiceSetting<T> _UseSetting = null;//供后面调用一切服务内容用
+        ServiceSetting<T> UseSetting
         {
             get
             {
-                return Program.UseSetting;
+                return Program<T>.UseSetting;
             }
         }
         public frm_StragMonitor()
@@ -53,7 +53,7 @@ namespace PK10Server
             InitializeComponent();
             //chart_ForGuide_Paint
             dtp = GlobalClass.TypeDataPoints.First().Value;
-            exread = DataReaderBuild.CreateReader(dtp.DataType, null, null);
+            exread = DataReaderBuild.CreateReader<T>(dtp.DataType, null, null);
             PK10DataTimer.Interval = GlobalClass.TypeDataPoints.First().Value.ReceiveSeconds * 1000;
             PK10DataTimer.AutoReset = true;
             PK10DataTimer.Elapsed += new ElapsedEventHandler(RefreshPK10Data);
@@ -69,12 +69,12 @@ namespace PK10Server
             dg_StragList.ContextMenuStrip = this.contextMenuStrip_OperatePlan;
             //dg_NoCloseChances.ContextMenuStrip = this.contextMenuStrip_OperatePlan;
             CheckForIllegalCrossThreadCalls = false;
-            Program.optFunc.RefreshMonitorWindow += refreshSvrData;
+            Program<T>.optFunc.RefreshMonitorWindow += refreshSvrData;
         }
 
         void refreshSvrData()
         {
-            //Program.AllGlobalSetting.wxlog.Log("退出服务", "意外停止服务", string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+            //Program<T>.AllGlobalSetting.wxlog.Log("退出服务", "意外停止服务", string.Format(Program<T>.gc.WXLogUrl, Program<T>.gc.WXSVRHost));
             RefreshPK10Data(null,null);
             //RefreshPK10NoClosedChances();
         }
@@ -163,7 +163,7 @@ namespace PK10Server
 
         void RefreshPK10Data()
         {
-            ExpectList<T> ViewDataList = exread.ReadNewestData<T>(DateTime.Now.AddDays(-1* dtp.CheckNewestDataDays));
+            ExpectList<T> ViewDataList = exread.ReadNewestData(DateTime.Now.AddDays(-1* dtp.CheckNewestDataDays));
             if (ViewDataList == null) return;
             DataTable dt = ViewDataList.Table;
             dg_baseData.Invoke(new SetSpecDataGridCallback(Setdg_baseData), new object[] { dt });
@@ -175,13 +175,13 @@ namespace PK10Server
         void RefreshPK10NoClosedChances()
         {
             //DbChanceList<T> dc = new PK10ExpectReader().getNoCloseChances<T>(null);
-            DbChanceList<T> dc = exread.getNoCloseChances<T>(null);
+            DbChanceList<T> dc = exread.getNoCloseChances(null);
             if (dc == null) return;
             DataTable dt = dc.Table;
            
             SetDataGridDataTable(dg_NoCloseChances, dt);
             string GR_Path = "chances.jpg";
-            imageLogClass.SaveImage(dg_NoCloseChances, GR_Path, ImageFormat.Jpeg);
+            imageLogClass<T>.SaveImage(dg_NoCloseChances, GR_Path, ImageFormat.Jpeg);
         }
 
         void RefrshStragAndPlan(bool ForceRefresh = false)
@@ -192,18 +192,18 @@ namespace PK10Server
                 {
                     return;
                 }
-                DataTable dt_strag = BaseStragClass<TimeSerialData>.ToTable<BaseStragClass<TimeSerialData>>(UseSetting.AllStrags.Values.ToList<BaseStragClass<TimeSerialData>>());
+                DataTable dt_strag = BaseStragClass<T>.ToTable<BaseStragClass<T>>(UseSetting.AllStrags.Values.ToList<BaseStragClass<T>>());
                 if (dt_strag != null)
                 {
                     
                     SetDataGridDataTable(dg_StragList, dt_strag);
                 }
-                DataTable dt_plans = StragRunPlanClass<TimeSerialData>.ToTable<StragRunPlanClass<TimeSerialData>>(UseSetting.AllRunPlannings.Values.ToList<StragRunPlanClass<TimeSerialData>>());
+                DataTable dt_plans = StragRunPlanClass<T>.ToTable<StragRunPlanClass<T>>(UseSetting.AllRunPlannings.Values.ToList<StragRunPlanClass<T>>());
                 if (dt_plans != null)
                 {
                     SetDataGridDataTable(dg_stragStatus, dt_plans);
                 }
-                DataTable dt_grps = CalcStragGroupClass<TimeSerialData>.ToTable<CalcStragGroupClass<TimeSerialData>>(UseSetting.AllRunningPlanGrps.Values.ToList<CalcStragGroupClass<TimeSerialData>>());
+                DataTable dt_grps = CalcStragGroupClass<T>.ToTable<CalcStragGroupClass<T>>(UseSetting.AllRunningPlanGrps.Values.ToList<CalcStragGroupClass<T>>());
                 if (dt_grps != null)
                 {
                     SetDataGridDataTable(dg_PlanGrps, dt_grps);
@@ -381,7 +381,7 @@ namespace PK10Server
 
         bool SetPlanStatus(bool Start,EventArgs e)
         {
-             StragRunPlanClass<TimeSerialData> plan = getPlanAfterMouseUp(e as MouseEventArgs);
+             StragRunPlanClass<T> plan = getPlanAfterMouseUp(e as MouseEventArgs);
             if (plan == null) return false;
             if (!Start)
             {
@@ -405,7 +405,7 @@ namespace PK10Server
                 bool ret = UseSetting.SetPlanStatus(plan.GUID, Start);
                 if (ret == true)
                 {
-                    DataTable dt_plans = StragRunPlanClass<T>.ToTable<StragRunPlanClass<TimeSerialData>>(UseSetting.AllRunPlannings.Values.ToList<StragRunPlanClass<TimeSerialData>>());
+                    DataTable dt_plans = StragRunPlanClass<T>.ToTable<StragRunPlanClass<T>>(UseSetting.AllRunPlannings.Values.ToList<StragRunPlanClass<T>>());
                     if (dt_plans == null)
                         return ret;
                     SetDataGridDataTable(dg_stragStatus, dt_plans);
@@ -420,7 +420,7 @@ namespace PK10Server
         }
 
 
-        StragRunPlanClass<TimeSerialData> getServicePlan(string guid)
+        StragRunPlanClass<T> getServicePlan(string guid)
         {
             try
             {
@@ -441,7 +441,7 @@ namespace PK10Server
             return null;
         }
 
-        BaseStragClass<TimeSerialData> getServiceStrag(string guid)
+        BaseStragClass<T> getServiceStrag(string guid)
         {
             try
             {
@@ -543,7 +543,7 @@ namespace PK10Server
             //rePaintChart(Len);
             //SaveChart();
             string GR_Path = "chart.png";
-            imageLogClass.SaveImage(this.chart_ForGuide, GR_Path,ImageFormat.Png);
+            imageLogClass<T>.SaveImage(this.chart_ForGuide, GR_Path,ImageFormat.Png);
         }
 
         
@@ -660,11 +660,11 @@ namespace PK10Server
                                 double.TryParse(dt.Rows[dt.Rows.Count - 1]["val"].ToString(), out currVal);
                                 if (currVal < -35)//警告
                                 {
-                                    Program.wxlog.Log(string.Format("品种{0}复利类资产单元资产收益率报警！", GlobalClass.TypeDataPoints.First().Key),string.Format("资产单元[{0}]当前收益率{1}。",strName,currVal), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                                    Program<T>.wxlog.Log(string.Format("品种{0}复利类资产单元资产收益率报警！", GlobalClass.TypeDataPoints.First().Key),string.Format("资产单元[{0}]当前收益率{1}。",strName,currVal), string.Format(Program<T>.gc.WXLogUrl, Program<T>.gc.WXSVRHost));
                                 }
                                 if (currVal >190)//警告
                                 {
-                                    Program.wxlog.Log(string.Format("品种{0}复利类资产单元资产收益率过高报警！", GlobalClass.TypeDataPoints.First().Key), string.Format("资产单元[{0}]当前收益率{1}。", strName, currVal), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                                    Program<T>.wxlog.Log(string.Format("品种{0}复利类资产单元资产收益率过高报警！", GlobalClass.TypeDataPoints.First().Key), string.Format("资产单元[{0}]当前收益率{1}。", strName, currVal), string.Format(Program<T>.gc.WXLogUrl, Program<T>.gc.WXSVRHost));
                                 }
                                 if (currVal < -50)
                                 {
@@ -687,11 +687,11 @@ namespace PK10Server
                         string msg = string.Format(msgModel, needResetAssetUnit.UnitName, needResetNet);
                         if (needResetAssetUnit.Resume())
                         {
-                            Program.wxlog.Log(string.Format("品种{0}资产收益率归1成功.", GlobalClass.TypeDataPoints.First().Key), msg, string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                            Program<T>.wxlog.Log(string.Format("品种{0}资产收益率归1成功.", GlobalClass.TypeDataPoints.First().Key), msg, string.Format(Program<T>.gc.WXLogUrl, Program<T>.gc.WXSVRHost));
                         }
                         else
                         {
-                            Program.wxlog.Log(string.Format("品种{0}资产收益率归1失败.", GlobalClass.TypeDataPoints.First().Key), msg ,string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                            Program<T>.wxlog.Log(string.Format("品种{0}资产收益率归1失败.", GlobalClass.TypeDataPoints.First().Key), msg ,string.Format(Program<T>.gc.WXLogUrl, Program<T>.gc.WXSVRHost));
                         }
                     }
                     //try
@@ -734,7 +734,7 @@ namespace PK10Server
             try
             {
                 this.chart_ForGuide.SaveImage(fullFileName, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
-                Program.wxlog.LogImageUrl(string.Format("{0}/chartImgs_{1}/chart.png",GlobalClass.TypeDataPoints.First().Value.InstHost,dtp.DataType), string.Format(Program.gc.WXLogUrl, Program.gc.WXSVRHost));
+                Program<T>.wxlog.LogImageUrl(string.Format("{0}/chartImgs_{1}/chart.png",GlobalClass.TypeDataPoints.First().Value.InstHost,dtp.DataType), string.Format(Program<T>.gc.WXLogUrl, Program<T>.gc.WXSVRHost));
             }
             catch(Exception ce)
             {
@@ -793,7 +793,7 @@ namespace PK10Server
         private void dg_stragStatus_MouseUp(object sender, MouseEventArgs e)
         {
             DisableAllMenus();
-            object obj = getGridAfterMouseUp<StragRunPlanClass<TimeSerialData>>(this.dg_stragStatus, e) ;
+            object obj = getGridAfterMouseUp<StragRunPlanClass<T>>(this.dg_stragStatus, e) ;
             //MessageBox.Show(obj.GetType().ToString());
             StragRunPlanClass<T> strag = obj as StragRunPlanClass<T>;
             ///this.tmi_StartPlan.Enabled = false;
@@ -942,19 +942,19 @@ namespace PK10Server
             {
                 return getServiceStrag(pguid);
             }
-            else if (typeof(T1) == typeof(StragRunPlanClass<TimeSerialData>))
+            else if (typeof(T1) == typeof(StragRunPlanClass<T>))
             {
                 //MessageBox.Show("已经进入");
                 return getServicePlan(pguid);
             }
             else if (typeof(T1) == typeof(ExpectData))
             {
-                List<ExpectData> list = new ExpectData().FillByTable<ExpectData>(dt);
+                List<ExpectData> list = new DisplayAsTableClass().FillByTable<ExpectData>(dt);
                 return list[index];
             }
             else if (typeof(T1) == typeof(ChanceClass))
             {
-                List<ChanceClass> list = new ChanceClass().FillByTable<ChanceClass>(dt);
+                List<ChanceClass> list = new DisplayAsTableClass().FillByTable<ChanceClass>(dt);
                 return list[index];
             }
             else
@@ -964,7 +964,7 @@ namespace PK10Server
             //return plan;
         }
 
-        StragRunPlanClass<TimeSerialData> getPlanAfterMouseUp(MouseEventArgs e)
+        StragRunPlanClass<T> getPlanAfterMouseUp(MouseEventArgs e)
         {
 
             if (this.dg_stragStatus.SelectedRows.Count <= 0) return null;
@@ -980,7 +980,7 @@ namespace PK10Server
             if (dr["GUID"] == null)
                 return null;
             string pguid = dr["GUID"].ToString();
-            StragRunPlanClass<TimeSerialData> plan = getServicePlan(pguid);
+            StragRunPlanClass<T> plan = getServicePlan(pguid);
             return plan;
         }
 
@@ -1005,20 +1005,20 @@ namespace PK10Server
 
                 if (dg.Equals(this.dg_stragStatus))
                 {
-                    dt = StragRunPlanClass<TimeSerialData>.ToTable<StragRunPlanClass<TimeSerialData>>(UseSetting.AllRunPlannings.Values.ToList<StragRunPlanClass<TimeSerialData>>());
+                    dt = StragRunPlanClass<T>.ToTable<StragRunPlanClass<T>>(UseSetting.AllRunPlannings.Values.ToList<StragRunPlanClass<T>>());
 
                 }
                 else if (dg.Equals(this.dg_NoCloseChances))
                 {
                     //DbChanceList<T> dc = new PK10ExpectReader().getNoCloseChances<T>(null);
-                    DbChanceList<T> dc = exread.getNoCloseChances<T>(null);
+                    DbChanceList<T> dc = exread.getNoCloseChances(null);
                     if (dc == null) return;
                     dt = dc.Table;
                 }
                 else if (dg.Equals(this.dg_CloseChances))
                 {
                     //DbChanceList<T> dc = new PK10ExpectReader().getNoCloseChances<T>(null);
-                    DbChanceList<T> dc = exread.getClosedChances<T>(null,2);
+                    DbChanceList<T> dc = exread.getClosedChances(null,2);
                     if (dc == null) return;
                     dt = dc.Table;
                     sort = "chanceindex desc";
@@ -1037,7 +1037,7 @@ namespace PK10Server
                 }
                 else if (dg.Equals(this.dg_StragList))
                 {
-                    dt = BaseStragClass<TimeSerialData>.ToTable<BaseStragClass<TimeSerialData>>(UseSetting.AllStrags.Values.ToList<BaseStragClass<TimeSerialData>>());
+                    dt = BaseStragClass<T>.ToTable<BaseStragClass<T>>(UseSetting.AllStrags.Values.ToList<BaseStragClass<T>>());
                 }
                 if (dt == null)
                     return;
@@ -1105,8 +1105,8 @@ namespace PK10Server
                     {
                         return;
                     }
-                    frm_StragManager frm = new frm_StragManager();
-                    frm.SpecList = UseSetting.AllStrags as Dictionary<string, BaseStragClass<TimeSerialData>>;
+                    frm_StragManager<T> frm = new frm_StragManager<T>();
+                    frm.SpecList = UseSetting.AllStrags as Dictionary<string, BaseStragClass<T>>;
                     frm.SpecObject = strag;
                     frm.Show();
                 }
@@ -1122,9 +1122,9 @@ namespace PK10Server
                     {
                         return;
                     }
-                    frm_StragPlanSetting frm = new frm_StragPlanSetting();
-                    frm.SpecList = UseSetting.AllRunPlannings as Dictionary<string, StragRunPlanClass<TimeSerialData>>;
-                    frm.SpecObject = strag as StragRunPlanClass<TimeSerialData>;
+                    frm_StragPlanSetting<T> frm = new frm_StragPlanSetting<T>();
+                    frm.SpecList = UseSetting.AllRunPlannings as Dictionary<string, StragRunPlanClass<T>>;
+                    frm.SpecObject = strag as StragRunPlanClass<T>;
                     frm.Show();
                 }
             }
@@ -1197,7 +1197,7 @@ namespace PK10Server
                 double max = arr.ToList().Max();
                 double center = (min + max) / 2;
                 double range = (max - min) ;
-                double[] macds = arr.MACD();
+                double[] macds = arr.MACD().Select(a=>a.MACD).ToArray();
                 double macddiff = macds.ToList().Max() - macds.ToList().Min();
                 double times = range / macddiff;
                 chart_ForGuide.Series[sers].Points.DataBindY(macds.Times(times));

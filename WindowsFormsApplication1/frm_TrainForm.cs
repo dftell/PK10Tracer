@@ -29,7 +29,7 @@ namespace BackTestSys
             this.ddl_MLFunc.DisplayMember = "text";
             this.ddl_MLFunc.ValueMember = "value";
 
-            DataTable dt_categery = ClassOperateTool.getAllSubClass(typeof(MLDataCategoryFactoryClass), "text","value");
+            DataTable dt_categery = ClassOperateTool.getAllSubClass(typeof(MLDataCategoryFactoryClass<T>), "text","value");
             this.ddl_categryFunc.DataSource = dt_categery;
             this.ddl_categryFunc.DisplayMember = "text";
             this.ddl_categryFunc.ValueMember = "value";
@@ -59,13 +59,13 @@ namespace BackTestSys
                 return;
             }
             var dtp = dtps.First().Value;
-            DataReader er = DataReaderBuild.CreateReader(dtp.DataType, dtp.HistoryTable, dtp.RuntimeInfo.SecurityCodes); //支持所有数据
-            ExpectList<TimeSerialData> el = null;
+            DataReader<T> er = DataReaderBuild.CreateReader<T>(dtp.DataType, dtp.HistoryTable, dtp.RuntimeInfo.SecurityCodes); //支持所有数据
+            ExpectList<T> el = null;
             int maxCnt = 5;
             int repcnt = 0;
             while (el == null)
             {
-                el = er.ReadHistory<TimeSerialData>(long.Parse(this.txt_BegExpect.Text), len + deep + 1);
+                el = er.ReadHistory(long.Parse(this.txt_BegExpect.Text), len + deep + 1);
                 if (el == null)
                     Thread.Sleep(1 * 1000);
                 repcnt++;
@@ -82,8 +82,8 @@ namespace BackTestSys
             //MLDataFactory mldf = new MLDataFactory(ExpectList.getExpectList(el));
             DataCategroyType = (Type)this.ddl_categryFunc.SelectedValue;
             MLType = (Type)this.ddl_MLFunc.SelectedValue;
-            MLDataCategoryFactoryClass mldf = (MLDataCategoryFactoryClass)ClassOperateTool.getInstanceByType(DataCategroyType);
-            mldf.Init(ExpectList.getExpectList(el));
+            MLDataCategoryFactoryClass<T> mldf = (MLDataCategoryFactoryClass<T>)ClassOperateTool.getInstanceByType(DataCategroyType);
+            mldf.Init(el);
             if (1 == 0)
             {
                 for (int i = 0; i < ThreadCnt; i++)
@@ -319,7 +319,7 @@ namespace BackTestSys
         {
             long len = long.Parse(this.txt_DataLength.Text);
             int deep = int.Parse(this.txt_LearnDeep.Text);
-            ExpectList<T> el = new ExpectReader().ReadHistory<T>(long.Parse(this.txt_BegExpect.Text), len + deep + 1);
+            ExpectList<T> el = new ExpectReader<T>().ReadHistory(long.Parse(this.txt_BegExpect.Text), len + deep + 1);
             
             for (int i = 0; i < 10; i++)
             {

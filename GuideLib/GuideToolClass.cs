@@ -1,5 +1,6 @@
 ﻿using System;
-
+using System.Collections.Generic;
+using System.Linq;
 namespace WolfInv.com.GuideLib
 {
     public static class GuideToolClass
@@ -77,32 +78,188 @@ namespace WolfInv.com.GuideLib
             return ret;
         }
 
-        public static T[] MACD<T>(this T[] arr,int S=12,int L=26,int MID=9)
+        public class MACDCollection:List<MACDGuider>
+        {
+            public double[] MACDs
+            {
+                get
+                {
+                    return this.Select(a => a.MACD).ToArray();
+                }
+            }
+
+            public double[] DEAs
+            {
+                get
+                {
+                    return this.Select(a => a.DEA).ToArray();
+                }
+            }
+
+            public double[] DIFs
+            {
+                get
+                {
+                    return this.Select(a => a.DIF).ToArray();
+                }
+            }
+        }
+
+        public class MACDGuider
+        {
+            public double MACD;
+            public double DEA;
+            public double DIF;
+        }
+        public static MACDCollection MACD<T>(this T[] arr,int S=12,int L=26,int MID=9)
         {
             /*
 DIF:EMA(CLOSE,S)-EMA(CLOSE,L);
 DEA:EMA(DIF,MID);
 MACD:(DIF-DEA)*2,COLORSTICK;
              */
+            MACDCollection ret = new MACDCollection();
             T[] sEma = arr.EMA(S);
             T[] lEma = arr.EMA(L);
             T[] difArr = new T[arr.Length];
             for(int i=0;i<arr.Length;i++)
             {
+                ret.Add(new MACDGuider());
+                ret[i] = new MACDGuider();
                 dynamic sa = sEma[i];
                 dynamic la = lEma[i];
                 dynamic dif = sa-la;
                 difArr[i] = dif;
+                ret[i].DIF = dif;
             }
-            T[] deaArr = difArr.EMA(MID);
-            T[] ret = new T[arr.Length];
+            T[] deaArr = difArr.EMA(MID);            
             for (int i=0;i<arr.Length;i++)
             {
                 dynamic difa = difArr[i];
                 dynamic deaa = deaArr[i];
-                ret[i] = (difa - deaa) * 2;
+                ret[i].DEA = deaa;
+                ret[i].MACD = (difa - deaa) * 2;
             }
             return ret;
+        }
+
+        public static T[] LastSector<T>(this T[] arr,int len)
+        {
+            if(len>=arr.Length)
+            {
+                return arr;
+            }
+            return arr.Skip(arr.Length - len).ToArray();
+        }
+
+        public static int LastMatchCondition<T>(this T[] arr,T[] cmpArr,Func<T[],T[],bool> func)
+        {
+            for (int i = arr.Length - 1; i >= 0; i--)
+            {
+                bool succ = func.Invoke(arr.Take(i).ToArray(), cmpArr.Take(i).ToArray());
+                if (succ == true)
+                {
+                    return arr.Length-i;
+                }
+            }
+            return -1;
+        }
+
+        public static int LastMatchCondition<T>(this T val, T[] cmpArr, Func<T[], T[], bool> func)
+        {
+            T[] arr = cmpArr.ToConst(val);
+            return arr.LastMatchCondition(cmpArr, func);
+        }
+
+
+
+        /// <summary>
+        /// 返回倒数第N个元素
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="arr"></param>
+        /// <param name="position"></param>
+        /// <returns></returns>
+        public static T Last<T>(this T[] arr,int position)
+        {
+            if (position <= 0)
+                return default(T);
+            if(position>arr.Length)
+            {
+                return default(T);
+            }
+            return arr[arr.Length - position];
+        }
+        public static bool CrossUp<T>(this T[] arr, T val)
+        {
+            return CrossUp(arr, ToConst(arr, val));
+        }
+        public static bool Cross<T>(this T[] arr, T val)
+        {
+            return CrossUp(arr, ToConst(arr, val));
+        }
+
+        public static bool Cross<T>(this T val,T[] arr)
+        {
+            return CrossUp(arr.ToConst(val), arr);
+        }
+        public static bool Cross<T>(this T[] arr, T[] arr1)
+        {
+            return CrossUp(arr, arr1);
+        }
+        public static bool CrossUp<T>(this T[] arr,T[] arr1) 
+        {
+            dynamic arr01 = arr.Last(1);
+            dynamic arr02 = arr.Last(2);
+            dynamic arr11 = arr1.Last(1);
+            dynamic arr12 = arr1.Last(2);
+            if (arr01 > arr11 && arr02 < arr12)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static bool CrossDown<T>(this T[] arr,T val)
+        {
+            return CrossDown(arr, ToConst(arr, val));
+        }
+
+        public static bool CrossDown<T>(this T[] arr, T[] arr1)
+        {
+            dynamic arr01 = arr.Last(1);
+            dynamic arr02 = arr.Last(2);
+            dynamic arr11 = arr1.Last(1);
+            dynamic arr12 = arr1.Last(2);
+            
+            if (arr01<arr11 && arr02>arr12)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static double ToDbl<T>(this T val)
+        {
+            return double.Parse(val.ToString());
+        }
+
+        public static T[] ToConst<T>(this T[] arr,T val)
+        {
+            T[] ret = arr;
+            for (int i = 0; i < ret.Length; i++)
+                ret[i] = val;
+            return ret;
+        }
+
+        public static T HHV<T>(this T[] arr)
+        {
+            return arr.Max();
+        }
+
+        public static T LLV<T>(this T[] arr)
+        {
+            return arr.Min();
         }
     }
 }

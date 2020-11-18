@@ -1,6 +1,6 @@
 ﻿namespace PK10Server
 {
-    partial class frm_StragManager
+    partial class frm_StragManager<T>
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_StragManager));
+            //System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frm_StragManager<T>));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dg_Strags = new System.Windows.Forms.DataGridView();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -90,7 +90,7 @@
             // 
             // toolStripButton_New
             // 
-            this.toolStripButton_New.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_New.Image")));
+            //this.toolStripButton_New.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_New.Image")));
             this.toolStripButton_New.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton_New.Name = "toolStripButton_New";
             this.toolStripButton_New.Size = new System.Drawing.Size(52, 22);
@@ -99,7 +99,7 @@
             // 
             // toolStripButton_Delete
             // 
-            this.toolStripButton_Delete.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Delete.Image")));
+            //this.toolStripButton_Delete.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Delete.Image")));
             this.toolStripButton_Delete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton_Delete.Name = "toolStripButton_Delete";
             this.toolStripButton_Delete.Size = new System.Drawing.Size(52, 22);
@@ -124,7 +124,7 @@
             // 
             // toolStripButton_Save
             // 
-            this.toolStripButton_Save.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Save.Image")));
+            //this.toolStripButton_Save.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_Save.Image")));
             this.toolStripButton_Save.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton_Save.Name = "toolStripButton_Save";
             this.toolStripButton_Save.Size = new System.Drawing.Size(52, 22);

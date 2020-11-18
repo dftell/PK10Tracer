@@ -1909,10 +1909,10 @@ ClearMyTracksByProcess 255
                 if (RefreshTimes > 0 && !inWorkTimeRange(dtpName))
                 {
                     DateTime TargetTime = DateTime.Today.AddHours(dtp.ReceiveStartTime.Hour).AddMinutes(dtp.ReceiveStartTime.Minute);
-                    if(DateTime.Now.TimeOfDay<(dtp.ReceiveEndTime == DateTime.MinValue?DateTime.Parse("23:59:00"):dtp.ReceiveEndTime).TimeOfDay)
-                    {
-                        TargetTime = DateTime.Today.AddDays(1).AddHours(dtp.ReceiveStartTime.Hour).AddMinutes(dtp.ReceiveStartTime.Minute);
-                    }
+                    ////if (DateTime.Now.TimeOfDay < (dtp.ReceiveEndTime == DateTime.MinValue ? DateTime.Parse("23:59:00") : dtp.ReceiveEndTime).TimeOfDay)
+                    ////{
+                    ////    TargetTime = DateTime.Today.AddDays(1).AddHours(dtp.ReceiveStartTime.Hour).AddMinutes(dtp.ReceiveStartTime.Minute);
+                    ////}
                     tm.Interval = Math.Max(20*60*1000,(int)TargetTime.Subtract(CurrTime).TotalMilliseconds) + rndtime;
                     DateTime nextTime = DateTime.Now.AddMilliseconds(tm.Interval);
                     KnockEgg();//敲蛋

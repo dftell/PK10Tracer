@@ -25,17 +25,25 @@ namespace JdEBuy
             Application.SetCompatibleTextRenderingDefault(false);
             try
             {
-                GlobalShare.MainAssem = Assembly.GetExecutingAssembly();
-                GlobalShare.AppDllPath = Application.StartupPath;
-                GlobalShare.Init(Application.StartupPath);
-                ForceLogin();
-                WCS_Inited = true;
+                string msg = null;
+                WCS_Inited = Init_WCS(out msg);
+                if(!WCS_Inited)
+                {
+                    MessageBox.Show(msg);
+                    return;
+                }
             }
             catch(Exception ce)
             {
                 return;
             }
             Application.Run(new Form1(null));
+        }
+
+        public static bool Init_WCS(out string msg)
+        {
+            WCS_Inited = GlobalShare.InitAndVirLogin(AppDomain.CurrentDomain.BaseDirectory,out msg);
+            return WCS_Inited;
         }
 
         public static void ForceLogin()//强制登录！

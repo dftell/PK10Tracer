@@ -1,0 +1,75 @@
+<config>
+	<bussiness matchKey="客户" title="客户信息" reqSrc="fsms_fixinfo" noNeedLogin="false" keyCol="CMB02">
+		<item id="1" regIndex="1" title="公司" reqInfo="cid" noNull="1" dataType="string" defaultValue="{userinfo.compid}"/>
+		<item id="2" regIndex="2" title="信息类型" reqInfo="infoType" noNull="0"/>
+		<item id="3" regIndex="3" title="内容" reqInfo="" noNull="0" splitString="," isCombo="true"/>
+		<item id="4" regIndex="4" title="计划拜访日期" reqInfo="plandate" noNull="1"/>
+		<item regIndex="0" refIndex="3" title="客户名称" reqInfo="customer" dataType="string" maxLen="60" minLen="1" noNull="0"/>
+		<item regIndex="1" refIndex="3" title="联系人" reqInfo="" type="string" maxLen="60" minLen="1" noNull="0"/>
+		<item regIndex="2" refIndex="3" title="联系电话" reqInfo="" type="string" maxLen="60" minLen="1" noNull="0"/>
+		<item regIndex="3" refIndex="3" title="备注" reqInfo="remark" type="string" maxLen="60" minLen="1" noNull="0"/>
+	</bussiness>
+	<bussiness matchKey="注册用户" title="用户信息" reqSrc="fsms_user" noNeedLogin="true" keyCol="USR01">
+		<item id="1" regIndex="1" title="行为" reqInfo="actType" noNull="0" hiden="true" isActionInfo="true"/>
+		<item id="2" regIndex="2" title="公司" reqInfo="USR04" noNull="1" dataType="string" minLen="4" sysType="group" isKey="true"/>
+		<item id="3" regIndex="3" title="部门" reqInfo="USR05" noNull="1" sysType="dept" parentRefId="2"/>
+		<item id="4" regIndex="4" title="岗位" reqInfo="USR06" noNull="1" sysType="role" parentRefId="2"/>
+		<item id="5" regIndex="5" title="信息类型" reqInfo="infoType" noNull="0" hiden="true" isTypeInfo="true"/>
+		<item id="6" regIndex="6" title="用户名" reqInfo="USR02" dataType="string" noNull="1" maxLen="20" minLen="6" isKey="true"/>
+		<item id="4" regIndex="7" title="用户密码" reqInfo="USR07" dataType="string" noNull="1" maxLen="50" minLen="6"/>
+		<item id="3" regIndex="9" title="姓名" reqInfo="USR03" noNull="1" maxLen="20" minLen="2"/>
+		<item id="4" regIndex="8" title="电话号码" reqInfo="USR09" noNull="1" maxLen="12" minLen="7"/>
+		<item id="5" regIndex="10" title="微信OpenId" reqInfo="USR10" defaultValue="{userinfo.wxId}" dataType="string" minLen="1" noNull="0" hiden="true" isUserInfo="true"/>
+		<item id="5" regIndex="11" title="微信UId" reqInfo="USR11" defaultValue="{userinfo.wxId}" dataType="string" minLen="1" noNull="0" hiden="true" isUserInfo="true"/>
+	</bussiness>
+	<bussiness matchKey="bindUser" title="账号" reqSrc="fsms_user" noNeedLogin="false" keyCol="USR01">
+		<item id="1" regIndex="1" title="行为" reqInfo="actType" noNull="0" hiden="true" isActionInfo="true"/>
+		<item id="2" regIndex="2" title="公司" reqInfo="USR04" noNull="1" dataType="string" sysType="group" isKey="true" default="{systeminfo.GroupId}"/>
+		<item id="3" regIndex="3" title="信息类型" reqInfo="infoType" noNull="0" hiden="true" isTypeInfo="true"/>
+		<item id="4" regIndex="4" title="用户名" reqInfo="USR02" dataType="string" noNull="true" isKey="true"/>
+		<item id="5" regIndex="5" title="微信OpenId" reqInfo="USR10" defaultValue="{userinfo.wxId}" dataType="string" minLen="6"  noNull="0" hiden="true" isUserInfo="true"/>
+		<item id="5" regIndex="6" title="微信UId" reqInfo="USR11" defaultValue="{userinfo.wxId}" dataType="string" minLen="6"  noNull="0" hiden="true" isUserInfo="true"/>
+	</bussiness>
+	<bussiness matchKey="CustomAccess" title="客户拜访" reqSrc="CustomAccessRec" noNeedLogin="false" keyCol="CAC01">
+		<item id="1" regIndex="1" title="行为" reqInfo="actType" noNull="0" hiden="true" isActionInfo="true"/>
+		<item id="4" regIndex="2" title="日期" reqInfo="CAC02" dataType="date" isKey="true" defaultValue="tomorrow"/>
+		<item id="3" regIndex="3" title="信息类型" reqInfo="infoType" noNull="0" hiden="true"/>
+		<item id="3" regIndex="4" title="信息内容" reqInfo="content" noNull="0" hiden="true" splitString=" " isCombo="true"/>
+		<item id="4" regIndex="0" refIndex="4" title="客户代码" reqInfo="CAC03" dataType="string" noNull="true" isKey="true"/>
+		<item id="4" regIndex="1" refIndex="4" title="客户名称" reqInfo="CTB03" dataType="string" noNull="true"/>
+		<item id="4" regIndex="2" refIndex="4" title="地址" reqInfo="CTA03" dataType="string" noNull="true"/>
+		<item id="4" regIndex="3" refIndex="4" title="联系人" reqInfo="CTA06" dataType="string" noNull="true"/>
+		<item id="4" regIndex="4" refIndex="4" title="联系人电话" reqInfo="CTA07" dataType="string" noNull="true"/>
+		<item id="4" regIndex="5" refIndex="4" title="备注" reqInfo="CAC07" dataType="string" />
+		<item id="4" regIndex="111" title="用户" reqInfo="CAC04" dataType="string" noNull="true" defaultValue="{userinfo.code}"/>
+		<item id="4" regIndex="111" title="公司" reqInfo="CAC05" dataType="string" noNull="true" isKey="true" defaultValue="{userinfo.GroupId}" hiden="true"/>
+		<item id="4" regIndex="5" title="顾客所属公司" reqInfo="CTB04" noNull="true" defaultValue="{userinfo.GroupId}" hiden="true"/>
+		<item id="4" regIndex="0" refIndex="4" title="客户代码" reqInfo="CTB02" dataType="string" noNull="true" hiden="true"/>
+		<item id="4" regIndex="0" refIndex="4" title="客户代码" reqInfo="CTA04" dataType="string" noNull="true" hiden="true"/>
+		<item id="4" regIndex="111" title="用户" reqInfo="CTB08" dataType="string" noNull="true" defaultValue="{userinfo.code}" hiden="true"/>
+		<item id="4" regIndex="111" title="用户" reqInfo="CTB07" dataType="date" noNull="true" defaultValue="today" hiden="true"/>
+		<item id="4" regIndex="111" title="用户" reqInfo="CAC04" dataType="string" noNull="true" defaultValue="{userinfo.code}" hiden="true"/>
+		<item id="4" regIndex="111" title="用户" reqInfo="CTB09" dataType="string" noNull="true" defaultValue="{userinfo.code}" hiden="true"/>
+	</bussiness>
+	<bussiness matchKey="queryCustomAccess" title="客户拜访" reqSrc="CustomAccessRec" noNeedLogin="false" keyCol="CAC01">
+		<condition i="CAC02" o="="/>
+		<condition i="CTB03" o="like"/>
+		<condition i="CAC04" o="="/>
+		<condition i="CAC05" o="="/>
+		<condition i="SGG02" o="="/>
+		<condition i="USR04" o="="/>
+		<condition i="USR02" o="="/>
+		<item id="1" regIndex="2" title="日期" reqInfo="CAC02" dataType="date" noNull="true" isKey="true"/>
+		<item id="2" regIndex="4" title="客户名称" reqInfo="CTB03" dataType="string" noNull="true" isKey="true"/>
+		<item id="3" regIndex="5" title="地址" reqInfo="CTA03" dataType="string" noNull="true" isKey="true"/>
+		<item id="4" regIndex="411" title="客户编码" reqInfo="CAC03" dataType="string"/>
+		<item id="5" regIndex="411" title="联系人" reqInfo="CTA06" dataType="string"/>
+		<item id="6" regIndex="411" title="联系电话" reqInfo="CTA07" dataType="string"/>
+		<item id="7" regIndex="311" title="备注" reqInfo="CAC07" dataType="string"/>
+		<item id="8" regIndex="411" title="用户" reqInfo="CAC04" dataType="string" noNull="true" defaultValue="{userinfo.code}" sysType="user" iskey="true" isUserInfo="true" hiden="true"/>
+		<item id="9" regIndex="411" title="公司" reqInfo="CAC05" dataType="string" noNull="true" defaultValue="{userinfo.GroupId}" hiden="true" sysType="group" iskey="true" />
+		<item id="9" regIndex="411" title="公司" reqInfo="SGG02" dataType="string" noNull="true" defaultValue="{userinfo.GroupId}" hiden="true" sysType="group" iskey="true" />
+		<item id="9" regIndex="411" title="公司" reqInfo="USR02" dataType="string" noNull="true" defaultValue="{userinfo.code}" hiden="true" sysType="user" iskey="true" isUserInfo="true"/>
+		<item id="9" regIndex="411" title="公司" reqInfo="USR04" dataType="string" noNull="true" defaultValue="{userinfo.GroupId}" hiden="true" sysType="group" iskey="true" />
+	</bussiness>
+</config>

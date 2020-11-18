@@ -10,14 +10,15 @@ using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.LogLib;
 using WolfInv.com.Strags;
 using WolfInv.com.SecurityLib;
-namespace WolfInv.com.SecurityStragLib
+namespace WolfInv.com.Strags.Security
 {
     public abstract class BaseSecurityStragClass<T>:BaseStragClass<T> where T:TimeSerialData
     {
-        protected CommFilterLogicBaseClass LogicFilter;
+        protected CommFilterLogicBaseClass<T> LogicFilter;
 
         protected BaseSecurityStragClass()
         {
+
         }
 
         //public override List<ChanceClass<T>> getChances(BaseCollection<T> sc, ExpectData<T> ed);

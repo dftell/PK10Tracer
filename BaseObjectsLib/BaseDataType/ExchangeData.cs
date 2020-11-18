@@ -8,7 +8,7 @@ namespace WolfInv.com.BaseObjectsLib
     }
     public class StockMongoData : ExchangeMongoData
     {
-
+        
     }
 
     public class StockIndexMongoData : StockMongoData
@@ -17,7 +17,7 @@ namespace WolfInv.com.BaseObjectsLib
         public int down_count { get; set; }
     }
 
-    public class StockInfoMongoData : MongoData, ICodeData
+    public class StockInfoMongoData : TimeSerialData, ICodeData
     {
         public string code { get; set; }
         public int volunit { get; set; }
@@ -63,15 +63,15 @@ namespace WolfInv.com.BaseObjectsLib
         public double date_stamp { get; set; }
 
         public Cycle Cyc;
-        string _code;
-        public string code { get { return _code; } set {_code=value;Key = value; } }
+
+        public string code { get { return Key; } set {Key = value; } }
         public double open { get; set; }
         public double high { get; set; }
         public double low { get; set; }
         public double close { get; set; }
         public double vol { get; set; }
         public double amount { get; set; }
-
+        public double preclose { get; set; }
         public OneCycleData PreData;
         public OneCycleData NextData;
         double _ChgRate = 0;
@@ -113,7 +113,7 @@ namespace WolfInv.com.BaseObjectsLib
         ////    { }
         ////}
 
-        public DataSet ToDataSet<T>(List<T> list) where T: MongoData
+        public DataSet ToDataSet<T>(List<T> list) where T: TimeSerialData
         {
             return DataListConverter<T>.ToDataSet(list, "code");
         }

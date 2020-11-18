@@ -1,7 +1,7 @@
 ﻿namespace PK10Server
 {
     
-    partial class MainForm
+    partial class MainForm<T>
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@
          void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            //System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm<T>));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -86,6 +86,7 @@
             this.tsmiStopCalcToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_RunMonitor = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshAllDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.tMI_HistoryBackTest = new System.Windows.Forms.ToolStripMenuItem();
@@ -102,7 +103,6 @@
             this.tsmi_AssetUnitMgr = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.timer_For_getHtmlData = new System.Windows.Forms.Timer(this.components);
-            this.refreshAllDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -139,7 +139,7 @@
             this.tabControl1.Controls.Add(this.tabPage11);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 25);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(954, 469);
@@ -149,9 +149,9 @@
             // 
             this.tabPage1.Controls.Add(this.splitContainer1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage1.Size = new System.Drawing.Size(946, 443);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "概况";
@@ -163,7 +163,7 @@
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer1.Location = new System.Drawing.Point(2, 2);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(2);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -188,10 +188,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Location = new System.Drawing.Point(602, 68);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox3.Size = new System.Drawing.Size(328, 168);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox3.Size = new System.Drawing.Size(328, 125);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "附加操作";
@@ -203,9 +203,9 @@
             this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.textBox1);
             this.groupBox2.Location = new System.Drawing.Point(2, 68);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox2.Size = new System.Drawing.Size(594, 168);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
@@ -229,7 +229,7 @@
             this.textBox1.Location = new System.Drawing.Point(12, 22);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(486, 136);
+            this.textBox1.Size = new System.Drawing.Size(486, 103);
             this.textBox1.TabIndex = 0;
             // 
             // groupBox1
@@ -248,9 +248,9 @@
             this.groupBox1.Controls.Add(this.txt_NewestExpect);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(2, 6);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(928, 55);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
@@ -306,7 +306,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(29, 12);
             this.label3.TabIndex = 5;
-            this.label3.Text = "号码";
+            this.label3.Text = "数据";
             // 
             // btn_AddExpectNo
             // 
@@ -333,7 +333,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 12);
             this.label2.TabIndex = 2;
-            this.label2.Text = "目标期号";
+            this.label2.Text = "目标代码";
             // 
             // txt_NewestExpect
             // 
@@ -349,7 +349,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 0;
-            this.label1.Text = "最新期号";
+            this.label1.Text = "信号代码";
             // 
             // tabControl2
             // 
@@ -359,7 +359,7 @@
             this.tabControl2.Controls.Add(this.tabPage6);
             this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl2.Location = new System.Drawing.Point(0, 0);
-            this.tabControl2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabControl2.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
             this.tabControl2.Size = new System.Drawing.Size(938, 211);
@@ -369,12 +369,12 @@
             // 
             this.tabPage3.Controls.Add(this.listView_forSerial);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage3.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage3.Size = new System.Drawing.Size(930, 185);
             this.tabPage3.TabIndex = 0;
-            this.tabPage3.Text = "排名信息";
+            this.tabPage3.Text = "纵向信息";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // listView_forSerial
@@ -383,7 +383,7 @@
             this.listView_forSerial.GridLines = true;
             this.listView_forSerial.HideSelection = false;
             this.listView_forSerial.Location = new System.Drawing.Point(2, 2);
-            this.listView_forSerial.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.listView_forSerial.Margin = new System.Windows.Forms.Padding(2);
             this.listView_forSerial.Name = "listView_forSerial";
             this.listView_forSerial.Size = new System.Drawing.Size(926, 181);
             this.listView_forSerial.TabIndex = 0;
@@ -394,12 +394,12 @@
             // 
             this.tabPage4.Controls.Add(this.listView_ForCar);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage4.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.tabPage4.Size = new System.Drawing.Size(1012, 304);
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(2);
+            this.tabPage4.Size = new System.Drawing.Size(930, 185);
             this.tabPage4.TabIndex = 1;
-            this.tabPage4.Text = "对象信息";
+            this.tabPage4.Text = "横向信息";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // listView_ForCar
@@ -408,9 +408,9 @@
             this.listView_ForCar.GridLines = true;
             this.listView_ForCar.HideSelection = false;
             this.listView_ForCar.Location = new System.Drawing.Point(2, 2);
-            this.listView_ForCar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.listView_ForCar.Margin = new System.Windows.Forms.Padding(2);
             this.listView_ForCar.Name = "listView_ForCar";
-            this.listView_ForCar.Size = new System.Drawing.Size(1008, 300);
+            this.listView_ForCar.Size = new System.Drawing.Size(926, 181);
             this.listView_ForCar.TabIndex = 0;
             this.listView_ForCar.UseCompatibleStateImageBehavior = false;
             this.listView_ForCar.View = System.Windows.Forms.View.Details;
@@ -420,9 +420,9 @@
             this.tabPage5.Controls.Add(this.listView_PK10Data);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1012, 304);
+            this.tabPage5.Size = new System.Drawing.Size(930, 185);
             this.tabPage5.TabIndex = 2;
-            this.tabPage5.Text = "PK10数据";
+            this.tabPage5.Text = "明细数据";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
             // listView_PK10Data
@@ -431,9 +431,9 @@
             this.listView_PK10Data.GridLines = true;
             this.listView_PK10Data.HideSelection = false;
             this.listView_PK10Data.Location = new System.Drawing.Point(0, 0);
-            this.listView_PK10Data.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.listView_PK10Data.Margin = new System.Windows.Forms.Padding(2);
             this.listView_PK10Data.Name = "listView_PK10Data";
-            this.listView_PK10Data.Size = new System.Drawing.Size(1012, 304);
+            this.listView_PK10Data.Size = new System.Drawing.Size(930, 185);
             this.listView_PK10Data.TabIndex = 2;
             this.listView_PK10Data.UseCompatibleStateImageBehavior = false;
             this.listView_PK10Data.View = System.Windows.Forms.View.Details;
@@ -443,9 +443,9 @@
             this.tabPage6.Controls.Add(this.listView_TXFFCData);
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(1012, 304);
+            this.tabPage6.Size = new System.Drawing.Size(930, 185);
             this.tabPage6.TabIndex = 3;
-            this.tabPage6.Text = "TXFFC数据";
+            this.tabPage6.Text = "扩展数据";
             this.tabPage6.UseVisualStyleBackColor = true;
             // 
             // listView_TXFFCData
@@ -454,9 +454,9 @@
             this.listView_TXFFCData.GridLines = true;
             this.listView_TXFFCData.HideSelection = false;
             this.listView_TXFFCData.Location = new System.Drawing.Point(0, 0);
-            this.listView_TXFFCData.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.listView_TXFFCData.Margin = new System.Windows.Forms.Padding(2);
             this.listView_TXFFCData.Name = "listView_TXFFCData";
-            this.listView_TXFFCData.Size = new System.Drawing.Size(1012, 304);
+            this.listView_TXFFCData.Size = new System.Drawing.Size(930, 185);
             this.listView_TXFFCData.TabIndex = 1;
             this.listView_TXFFCData.UseCompatibleStateImageBehavior = false;
             this.listView_TXFFCData.View = System.Windows.Forms.View.Details;
@@ -483,10 +483,10 @@
             // 
             this.tabPage2.Controls.Add(this.splitContainer2);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.tabPage2.Size = new System.Drawing.Size(1026, 446);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
+            this.tabPage2.Size = new System.Drawing.Size(946, 443);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "设置";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -501,8 +501,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.tabControl3);
-            this.splitContainer2.Size = new System.Drawing.Size(1022, 442);
-            this.splitContainer2.SplitterDistance = 98;
+            this.splitContainer2.Size = new System.Drawing.Size(942, 439);
+            this.splitContainer2.SplitterDistance = 97;
             this.splitContainer2.TabIndex = 0;
             // 
             // tabControl3
@@ -513,7 +513,7 @@
             this.tabControl3.Location = new System.Drawing.Point(0, 0);
             this.tabControl3.Name = "tabControl3";
             this.tabControl3.SelectedIndex = 0;
-            this.tabControl3.Size = new System.Drawing.Size(1022, 340);
+            this.tabControl3.Size = new System.Drawing.Size(942, 338);
             this.tabControl3.TabIndex = 0;
             // 
             // tabPage7
@@ -521,8 +521,8 @@
             this.tabPage7.Controls.Add(this.listView_SIStrags);
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage7.Size = new System.Drawing.Size(1014, 314);
+            this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage7.Size = new System.Drawing.Size(934, 312);
             this.tabPage7.TabIndex = 0;
             this.tabPage7.Text = "单利策略";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -533,7 +533,7 @@
             this.listView_SIStrags.HideSelection = false;
             this.listView_SIStrags.Location = new System.Drawing.Point(3, 3);
             this.listView_SIStrags.Name = "listView_SIStrags";
-            this.listView_SIStrags.Size = new System.Drawing.Size(1008, 308);
+            this.listView_SIStrags.Size = new System.Drawing.Size(928, 306);
             this.listView_SIStrags.TabIndex = 0;
             this.listView_SIStrags.UseCompatibleStateImageBehavior = false;
             // 
@@ -542,8 +542,8 @@
             this.tabPage8.Controls.Add(this.listView_CIStrags);
             this.tabPage8.Location = new System.Drawing.Point(4, 22);
             this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage8.Size = new System.Drawing.Size(1014, 314);
+            this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage8.Size = new System.Drawing.Size(1014, 315);
             this.tabPage8.TabIndex = 1;
             this.tabPage8.Text = "复利策略";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -554,7 +554,7 @@
             this.listView_CIStrags.HideSelection = false;
             this.listView_CIStrags.Location = new System.Drawing.Point(3, 3);
             this.listView_CIStrags.Name = "listView_CIStrags";
-            this.listView_CIStrags.Size = new System.Drawing.Size(1008, 308);
+            this.listView_CIStrags.Size = new System.Drawing.Size(1008, 309);
             this.listView_CIStrags.TabIndex = 0;
             this.listView_CIStrags.UseCompatibleStateImageBehavior = false;
             // 
@@ -562,9 +562,9 @@
             // 
             this.tabPage9.Controls.Add(this.wb_UserMgr);
             this.tabPage9.Location = new System.Drawing.Point(4, 22);
-            this.tabPage9.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage9.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage9.Name = "tabPage9";
-            this.tabPage9.Size = new System.Drawing.Size(1026, 446);
+            this.tabPage9.Size = new System.Drawing.Size(946, 443);
             this.tabPage9.TabIndex = 2;
             this.tabPage9.Text = "用户管理";
             this.tabPage9.UseVisualStyleBackColor = true;
@@ -573,10 +573,10 @@
             // 
             this.wb_UserMgr.Dock = System.Windows.Forms.DockStyle.Fill;
             this.wb_UserMgr.Location = new System.Drawing.Point(0, 0);
-            this.wb_UserMgr.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.wb_UserMgr.Margin = new System.Windows.Forms.Padding(2);
             this.wb_UserMgr.MinimumSize = new System.Drawing.Size(10, 10);
             this.wb_UserMgr.Name = "wb_UserMgr";
-            this.wb_UserMgr.Size = new System.Drawing.Size(1026, 446);
+            this.wb_UserMgr.Size = new System.Drawing.Size(946, 443);
             this.wb_UserMgr.TabIndex = 0;
             this.wb_UserMgr.Url = new System.Uri("http://www.wolfinv.com/pk10/app/UserManage.asp?User=bm8881&password=abcdef123", System.UriKind.Absolute);
             // 
@@ -584,9 +584,9 @@
             // 
             this.tabPage10.Controls.Add(this.wb_StatusMonitor);
             this.tabPage10.Location = new System.Drawing.Point(4, 22);
-            this.tabPage10.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage10.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage10.Name = "tabPage10";
-            this.tabPage10.Size = new System.Drawing.Size(1026, 446);
+            this.tabPage10.Size = new System.Drawing.Size(946, 443);
             this.tabPage10.TabIndex = 3;
             this.tabPage10.Text = "终端监控";
             this.tabPage10.UseVisualStyleBackColor = true;
@@ -595,10 +595,10 @@
             // 
             this.wb_StatusMonitor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.wb_StatusMonitor.Location = new System.Drawing.Point(0, 0);
-            this.wb_StatusMonitor.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.wb_StatusMonitor.Margin = new System.Windows.Forms.Padding(2);
             this.wb_StatusMonitor.MinimumSize = new System.Drawing.Size(10, 10);
             this.wb_StatusMonitor.Name = "wb_StatusMonitor";
-            this.wb_StatusMonitor.Size = new System.Drawing.Size(1026, 446);
+            this.wb_StatusMonitor.Size = new System.Drawing.Size(946, 443);
             this.wb_StatusMonitor.TabIndex = 0;
             this.wb_StatusMonitor.Url = new System.Uri("http://www.wolfinv.com/pk10/app/getStatusInfoList.asp", System.UriKind.Absolute);
             // 
@@ -606,9 +606,9 @@
             // 
             this.tabPage11.Controls.Add(this.wb_DSMonitor);
             this.tabPage11.Location = new System.Drawing.Point(4, 22);
-            this.tabPage11.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage11.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage11.Name = "tabPage11";
-            this.tabPage11.Size = new System.Drawing.Size(1026, 446);
+            this.tabPage11.Size = new System.Drawing.Size(946, 443);
             this.tabPage11.TabIndex = 4;
             this.tabPage11.Text = "数据源监控";
             this.tabPage11.UseVisualStyleBackColor = true;
@@ -617,10 +617,10 @@
             // 
             this.wb_DSMonitor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.wb_DSMonitor.Location = new System.Drawing.Point(0, 0);
-            this.wb_DSMonitor.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.wb_DSMonitor.Margin = new System.Windows.Forms.Padding(2);
             this.wb_DSMonitor.MinimumSize = new System.Drawing.Size(10, 10);
             this.wb_DSMonitor.Name = "wb_DSMonitor";
-            this.wb_DSMonitor.Size = new System.Drawing.Size(1026, 446);
+            this.wb_DSMonitor.Size = new System.Drawing.Size(946, 443);
             this.wb_DSMonitor.TabIndex = 0;
             // 
             // timer_For_NewestData
@@ -717,6 +717,13 @@
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(44, 21);
             this.toolStripMenuItem2.Text = "刷新";
+            // 
+            // refreshAllDataToolStripMenuItem
+            // 
+            this.refreshAllDataToolStripMenuItem.Name = "refreshAllDataToolStripMenuItem";
+            this.refreshAllDataToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.refreshAllDataToolStripMenuItem.Text = "refreshAllData";
+            this.refreshAllDataToolStripMenuItem.Click += new System.EventHandler(this.refreshAllDataToolStripMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
@@ -836,13 +843,6 @@
             this.timer_For_getHtmlData.Interval = 60000;
             this.timer_For_getHtmlData.Tick += new System.EventHandler(this.timer_For_getHtmlData_Tick);
             // 
-            // refreshAllDataToolStripMenuItem
-            // 
-            this.refreshAllDataToolStripMenuItem.Name = "refreshAllDataToolStripMenuItem";
-            this.refreshAllDataToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.refreshAllDataToolStripMenuItem.Text = "refreshAllData";
-            this.refreshAllDataToolStripMenuItem.Click += new System.EventHandler(this.refreshAllDataToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -850,10 +850,10 @@
             this.ClientSize = new System.Drawing.Size(954, 494);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            //this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
-            this.Text = "快乐猎车服务端";
+            this.Text = "深圳市武府投资服务控制平台";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);

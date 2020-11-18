@@ -59,7 +59,7 @@ namespace WolfInv.com.ExchangeLib
         [DisplayName("策略信息"),
         Category("策略信息"),
         Description("策略编号"),
-        Editor(typeof(StagPickerEditor), typeof(UITypeEditor))]
+        Editor(typeof(StagPickerEditor<TimeSerialData>), typeof(UITypeEditor))]
         public BaseStragClass<T> PlanStrag { get; set; }
         [DisplayName("策略GUID"),
         Category("策略信息"),

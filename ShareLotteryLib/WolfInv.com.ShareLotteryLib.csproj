@@ -56,7 +56,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionDefine.cs" />
     <Compile Include="ActionType.cs" />
+    <Compile Include="AskItemDefineClass.cs" />
+    <Compile Include="bussinessConfigClass.cs" />
     <Compile Include="MutliLevelData.cs" />
     <Compile Include="PlanShareBetInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -66,10 +69,13 @@
     <Compile Include="ResponseAction_CancelCurr.cs" />
     <Compile Include="ResponseAction_JdUnion.cs" />
     <Compile Include="ResponseAction_LotteryRunningTimeInfoQuery.cs" />
+    <Compile Include="ResponseAction_AddBussiness.cs" />
     <Compile Include="ResponseAction_ManualIntructs.cs" />
     <Compile Include="ResponseAction_Chat.cs" />
     <Compile Include="ResponseAction_Charge.cs" />
     <Compile Include="ResponseAction_ModifyStatus.cs" />
+    <Compile Include="ResponseAction_ShowBussiness.cs" />
+    <Compile Include="ResponseAction_ShowSystemInfo.cs" />
     <Compile Include="ResponseAction_ShowPlan.cs" />
     <Compile Include="ResponseAction_SubcribeShares.cs" />
     <Compile Include="ResponseAction_SubmitNewInfo.cs" />
@@ -81,6 +87,7 @@
     <Compile Include="TextFileComm.cs" />
     <Compile Include="TheAskWaitingUserAnswer.cs" />
     <Compile Include="WXMsgProcess.cs" />
+    <Compile Include="xmlBaseClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JdUnionLib\JdUnionLib.csproj">
@@ -95,14 +102,36 @@
       <Project>{6fd3afa7-69ed-468f-972a-e58feadaba12}</Project>
       <Name>JsLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WCS\MetaDataCenter\MetaDataCenter.csproj">
+      <Project>{19f4307a-b863-4529-bffa-c6c95bebdfb8}</Project>
+      <Name>MetaDataCenter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WCS\WCS_Process\WCS_Process.csproj">
+      <Project>{6faecb53-c67a-402c-a7ed-e243c3d114b2}</Project>
+      <Name>WCS_Process</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WolfInv.com.WXMessageLib\WolfInv.com.WXMessageLib.csproj">
       <Project>{5b8ad71f-4605-4874-b43d-8f96aed19969}</Project>
       <Name>WolfInv.com.WXMessageLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="LotteryList.xml" />
-    <Content Include="MsgActionDic.xml" />
+    <Content Include="Xml\bussinessList.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Xml\config.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Xml\DataIdMapping.xml" />
+    <Content Include="Xml\DataSource.xml" />
+    <Content Include="Xml\data_choice.xml" />
+    <Content Include="Xml\LotteryList.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Xml\MsgActionDic.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Xml\SDataIdMapping.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

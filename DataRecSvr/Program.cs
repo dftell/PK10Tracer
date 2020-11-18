@@ -14,12 +14,20 @@ namespace DataRecSvr
 {
     public static class Program
     {
-        public static ServiceSetting<TimeSerialData> AllServiceConfig;
+        static void Main()
+        {
+            Program<TimeSerialData>.Main();
+        }
+    }
+
+    public static class Program<T> where  T:TimeSerialData
+    {
+        public static ServiceSetting<T> AllServiceConfig;
         public static GlobalClass gc = null;
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
-        static void Main()
+        public static void Main()
         {
             
             try
@@ -29,9 +37,9 @@ namespace DataRecSvr
                 url = gc.WXLogNoticeUser;
                 ServiceBase[] ServicesToRun;
                 LogableClass.ToLog("构建计算服务", "开始");
-                CalcService<TimeSerialData> cs = new CalcService<TimeSerialData>();
+                CalcService<T> cs = new CalcService<T>();
                 LogableClass.ToLog("构建接收服务", "开始");
-                ReceiveService<TimeSerialData> rs = new ReceiveService<TimeSerialData>();
+                ReceiveService<T> rs = new ReceiveService<T>();
                 //SubscriptData sd = new SubscriptData();
                 rs.CalcProcess = cs;
                 //只有接收数据是默认启动，计算服务由接收数据触发
@@ -50,7 +58,7 @@ namespace DataRecSvr
             catch (Exception e)
             {
                 LogableClass.ToLog("初始化服务失败", e.StackTrace);
-                Program.AllServiceConfig.wxlog.Log("退出服务，运行错误", string.Format("{0}[{1}]",e.Message,e.StackTrace), string.Format(gc.WXLogUrl, gc.WXSVRHost));
+                AllServiceConfig.wxlog.Log("退出服务，运行错误", string.Format("{0}[{1}]",e.Message,e.StackTrace), string.Format(gc.WXLogUrl, gc.WXSVRHost));
             }
 
         }
@@ -59,7 +67,7 @@ namespace DataRecSvr
 
         static void InitSystem()
         {
-            AllServiceConfig = new ServiceSetting<TimeSerialData>();
+            AllServiceConfig = new ServiceSetting<T>();
             AllServiceConfig.Init(null);
             AllServiceConfig.GrpThePlan(false);
             AllServiceConfig.CreateChannel(GlobalClass.TypeDataPoints.First().Key,true);//根据不同的数据建立不同的端口 必须使用独占模式

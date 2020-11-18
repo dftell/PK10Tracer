@@ -60,7 +60,7 @@ namespace BackTestSys
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.runPlanPicker1 = new WolfInv.com.ExchangeLib.RunPlanPicker();
+            this.runPlanPicker1 = new WolfInv.com.ExchangeLib.RunPlanPicker<T>();
             this.label3 = new System.Windows.Forms.Label();
             this.btn_trainPlan = new System.Windows.Forms.Button();
             this.btn_DistrCheck = new System.Windows.Forms.Button();
@@ -1804,7 +1804,7 @@ namespace BackTestSys
         private System.Windows.Forms.ComboBox ddl_DataSource;
         private System.Windows.Forms.TextBox txt_endExpNo;
         private System.Windows.Forms.Label label33;
-        private RunPlanPicker runPlanPicker1;
+        private RunPlanPicker<T> runPlanPicker1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;

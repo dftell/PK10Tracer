@@ -36,6 +36,7 @@ namespace WolfInv.com.StrategyLibForWD
             {
                 return new ExpectList();
             }
+            CommWSSToolClass.rewriteDate(res, endt);
             return ExpectList.getList(new BaseDataTable(res));
         }
 
@@ -50,38 +51,25 @@ namespace WolfInv.com.StrategyLibForWD
             {
                 BaseDataProcess bp = new BaseDataProcess_ForWD(w, cyc, prcAdj);
                 RunResultClass bret = bp.getDateSerialResult(code, begt, endt, new object[0] { });
-                if (!bret.Notice.Success)
+                if (bret.Notice.Success)
                 {
-                    mtab.Union(bret.Result);
+                    mtab.Union(bret.Table);
                     //return new BaseDataTable();
                 }
             }
-            Dictionary<string, HashSet<string>> guids = CommWSSToolClass.getMutliValueGuid(args.Split(','));
-            foreach (string key in guids.Keys)
+            if (!string.IsNullOrEmpty(args))
             {
-                MutliValueGuidProcess_ForWD cgp = new MutliValueGuidProcess_ForWD(w, key, guids[key].ToArray<string>());
-                RunResultClass cret = cgp.getDateSerialResult(code, begt, endt, new object[0] { });
-
+                Dictionary<string, HashSet<string>> guids = CommWSSToolClass.getMutliValueGuid(args.Split(','));
+                foreach (string key in guids.Keys)
+                {
+                    MutliValueGuidProcess_ForWD cgp = new MutliValueGuidProcess_ForWD(w, key, guids[key].ToArray<string>());
+                    RunResultClass cret = cgp.getDateSerialResult(code, begt, endt, new object[0] { });
+                    mtab.Union(cret.Table);
+                }
             }
             return mtab;
         }
 
         
-    }
-
-    public static class WDEquitCodeExtenel
-    {
-        public static string WDCode(this string code)
-        {
-            string ret = code;
-            if(code.Split('.').Length>1)
-                return ret;
-            string flg = "SZ";
-            if(code.StartsWith("6"))
-            {
-                flg = "SH";
-            }
-            return string.Format("{0}.{1}",code,flg);
-        }
     }
 }

@@ -145,6 +145,10 @@
       <Project>{7859d79d-edd5-4b79-b3da-072432bc8fcc}</Project>
       <Name>WolfInv.com.WinInterComminuteLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WolfInv.com.WDDataInit\WolfInv.com.WDDataInit.csproj">
+      <Project>{c41de39d-26aa-4b41-b9a4-7d78aa1f78a5}</Project>
+      <Name>WolfInv.com.WDDataInit</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

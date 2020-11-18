@@ -32,7 +32,8 @@ namespace WolfInv.com.BaseObjectsLib
         public Int64 EId { get; set; }
         public int MissedCnt { get; set; }
         public string LastExpect { get; set; }
-        public string Expect { get; set; }
+        protected string _expect;
+        public string Expect { get {return _expect; } set { _expect = value; } }
         public string OpenCode { get; set; }
 
         protected string _key = "Lotty";
@@ -67,5 +68,6 @@ namespace WolfInv.com.BaseObjectsLib
         protected bool _IsSecurity = false;
         public bool IsSecurity { get; set; }
         //public OneCycleData CurrData;
+        public bool Disalbe = false;
     }
 }

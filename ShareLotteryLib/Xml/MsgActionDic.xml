@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <action type="ApplyCreate" >
+    <item>新建(.*?)合买</item>
+    <item>开(.*?)合买</item>
+    <item>合买(.*?)期</item>
+    <item>(.*?)期合买</item>
+    <item>共享(.*?)</item>
+    <item>我爱你</item>
+    <item>滚</item>
+  </action>
+  <action type="JdUnion">
+    <item>有(.*?)券</item>
+    <item>有(.*?)吗?</item>
+  </action>
+  <action type="SubmitNewInfo">
+    <item>合买信息\[[\s\S]*?]</item>
+  </action>
+  <action type="CancelCurr">
+    <item>取消(.*?)合买</item>
+    <item>停止(.*?)合买</item>
+  </action>
+  <action type="SubcribeShares">
+    <item>来(.*?)份</item>
+    <item>来(.*?)股</item>
+    <item>买(.*?)份</item>
+    <item>买(.*?)股</item>
+    <item>我(.*?)份</item>
+    <item>我(.*?)股</item>
+    <item>我[买|来|要](.*?)[|股|份]</item>
+  </action>
+  <action type="ModifyPlan">
+    <item>修改(.*?)合买</item>
+  </action>
+  <action type="AppendShares">
+    <item>[缴款|支付](.*?)[完毕|结束]</item>
+    <item>加(.*?)份</item>
+  </action>
+  <action type="ShowPlan">
+    <item>看看(.*?)合买</item>
+    <item>看看(.*?)情况</item>
+    <item>给我(.*?)看看</item>
+    <item>[|合买](.*?)情况</item>
+  </action>
+  <action type="EndTheSubscribe">
+    <item>停止(.*?)认买</item>
+    <item>停止(.*?)买</item>
+    <item>结束(.*?)买</item>
+  </action>
+  <action type="DeclareResult" noNeedLogin="true">
+    <item>开奖(.*?)[号码|结果](.*?)中[|奖]</item>
+  </action>
+  <action type="ClosePlan">
+    <item>结束(.*?)合买</item>
+  </action>
+  <action type="Charge" submitUrl="http://www.wolfinv.com/pk10/app/submitCharge.asp?reqId={0}&amp;wxId={1}&amp;wxName={2}&amp;chargeAmt={3}&amp;chargeAcount={4}&amp;orderNum={5}&amp;provider={6}&amp;imgData={7}">
+    <item>[冲|充|刷|扫](\d+)[|$|元|块]</item>
+    <item>[冲|充|刷|扫](\d+)$</item>
+  </action>
+  <action type="ResetSystem" noNeedLogin="true">
+    <item>[reset|重置|重启][|系统]</item>
+  </action>
+  <action type="AskLottery" noNeedLogin="true">
+    <item>推荐</item>
+    <item>开什么</item>
+  </action>
+  <action type="BindUserInfo" submitUrl="http://localhost:64752/AddBussiness.aspx?type={0}&amp;reqTable={1}&amp;{2}" regRule="(.*?)(用户)(.*?)密码(.*?)电话(1[1|3|7|8|9][0-9]{9})(.*?)" noNeedLogin="true" needAsk="1" >
+    <ask>
+      <item text="确定增加{0}:{1}?{2}">
+        <item value="0" text="取消">
+          <item value="1" text="重新提交其他命令"/>
+          <item value="0" text="停止增加"/>
+        </item>
+        <item value="1" text="确定"/>
+      </item>
+
+    </ask>
+    <item>(.*?)(用户)(.*?)密码(.*?)电话(1[1|3|7|8|9][0-9]{9})(.*?)</item>
+  </action>
+  <action type="ManualInstructs" submitUrl="http://www.wolfinv.com/pk10/app/submitInstructs.asp?lottery={0}&amp;reqInsts={1}">
+    <item>[手动|手工|人工]下注</item>
+  </action>
+  <action type="AddBussiness" submitUrl="http://localhost:64752/AddBussiness.aspx?type={0}&amp;reqTable={1}&amp;{2}" isOpenAsk="1" needAsk="1" regRule="(.*?)[新增|+|新建](产品|客户|任务)[|:|：](.*)">
+    <ask>
+      <item text="确定增加{0}:{1}?{2}">
+        <item value="0" text="取消">
+          <item value="1" text="重新提交其他命令"/>
+          <item value="0" text="停止增加"/>
+        </item>
+        <item value="1" text="确定"/>
+      </item>
+    </ask>
+    <item>(.*?)[新增|+|新建](产品|客户|任务)[|:|：](.*)</item>
+  </action>
+  <action type="ValidateInfo" noNeedLogin="true">
+    <item>\d+</item>
+  </action>
+</root>

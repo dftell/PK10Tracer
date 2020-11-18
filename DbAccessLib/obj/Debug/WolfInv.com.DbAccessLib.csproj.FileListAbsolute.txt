@@ -22,3 +22,14 @@ E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib
 E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.csproj.CopyComplete
 E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.dll
 E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.pdb
+E:\github\source\dftell\PK10Tracer\DbAccessLib\debug\bin\WolfInv.com.DbAccessLib.dll
+E:\github\source\dftell\PK10Tracer\DbAccessLib\debug\bin\WolfInv.com.DbAccessLib.pdb
+E:\github\source\dftell\PK10Tracer\DbAccessLib\debug\bin\MongoDB.Bson.dll
+E:\github\source\dftell\PK10Tracer\DbAccessLib\debug\bin\MongoDB.Driver.Core.dll
+E:\github\source\dftell\PK10Tracer\DbAccessLib\debug\bin\MongoDB.Driver.dll
+E:\github\source\dftell\PK10Tracer\DbAccessLib\debug\bin\System.Runtime.InteropServices.RuntimeInformation.dll
+E:\github\source\dftell\PK10Tracer\DbAccessLib\debug\bin\WolfInv.com.LogLib.dll
+E:\github\source\dftell\PK10Tracer\DbAccessLib\debug\bin\WolfInv.com.LogLib.pdb
+E:\github\source\dftell\PK10Tracer\DbAccessLib\debug\bin\MongoDB.Bson.xml
+E:\github\source\dftell\PK10Tracer\DbAccessLib\debug\bin\MongoDB.Driver.xml
+E:\github\source\dftell\PK10Tracer\DbAccessLib\debug\bin\MongoDB.Driver.Core.xml

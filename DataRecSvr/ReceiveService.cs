@@ -8,6 +8,9 @@ using WolfInv.com.ExchangeLib;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using WolfInv.com.WDDataInit;
+using System.Threading.Tasks;
+
 namespace DataRecSvr
 {
     public partial class ReceiveService<T> :SelfDefBaseService<T> where T:TimeSerialData
@@ -88,12 +91,19 @@ namespace DataRecSvr
             string key = tm.Name;
             if (key == null)
                 return;
+            if(!GlobalClass.TypeDataPoints.ContainsKey(key))
+            {
+                return;
+            }
+            DataTypePoint dtp = GlobalClass.TypeDataPoints[key];
             lock (key)
             {
                 try
                 {
-
-                    ReceiveData(key, tm, null, null, true);
+                    if (dtp.IsSecurityData == 0)
+                        ReceiveData(key, tm, null, null, true);
+                    else
+                        RecieveSecurityData(dtp, tm, true);
 
                 }
                 catch (Exception ce)
@@ -384,7 +394,7 @@ namespace DataRecSvr
          */
         private void  ReceiveData(string DataType,Timer useTimer,string strReadTableName,string[] codes,bool NeedCalc = false)
         {
-            DataReader rd = DataReaderBuild.CreateReader(DataType, strReadTableName, codes);
+            DataReader<T> rd = DataReaderBuild.CreateReader<T>(DataType, strReadTableName, codes);
             if(rd == null)
             {
                 Log("核心运行数据丢失，建议立即重启服务！", string.Format("无法找到类型{0}！当前类型字典包含有为:{1]",DataType,string.Join(",",GlobalClass.TypeDataPoints.Keys.ToList())), true);
@@ -406,17 +416,20 @@ namespace DataRecSvr
                 DateTime CurrTime = DateTime.Now.AddHours(DiffHours).AddMinutes(DiffMinutes);
                 long RepeatMinutes = dtp.ReceiveSeconds / 60;
                 long RepeatSeconds = dtp.ReceiveSeconds;
-                hdc = HtmlDataClass.CreateInstance(dtp);
-                ExpectList<T> tmp = hdc.getExpectList<T>();
-                if (tmp == null || tmp.Count == 0)
-                {
-                    
-                    useTimer.Interval = RepeatSeconds / 20 * 1000;
+                ExpectList el;
+                
+                    hdc = HtmlDataClass.CreateInstance(dtp);
+                    ExpectList<T> tmp = hdc.getExpectList<T>();
+                    if (tmp == null || tmp.Count == 0)
+                    {
 
-                    Log("尝试接收数据", DataType+"未接收到数据,数据源错误！", glb.ExceptNoticeFlag);
-                    return;
-                }
-                ExpectList el = new ExpectList(tmp.Table);
+                        useTimer.Interval = RepeatSeconds / 20 * 1000;
+
+                        Log("尝试接收数据", DataType + "未接收到数据,数据源错误！", glb.ExceptNoticeFlag);
+                        return;
+                    }
+                    el = new ExpectList(tmp.Table);
+                
                 ////if(el != null && el.Count>0)
                 ////{
                 ////    Log("接收到的最新数据",el.LastData.ToString());
@@ -446,13 +459,13 @@ namespace DataRecSvr
                     //ExpectList<T> currEl = rd.ReadNewestData<T>(DateTime.Today.AddDays(-1 * dtp.CheckNewestDataDays)); ;//改从PK10配置中获取
                     //Log("接收第一期数据", el.FirstData.Expect, true);
                     //ExpectList<T> currEl = rd.ReadNewestData<T>(dtp.NewRecCount);
-                    ExpectList<T> currEl = rd.ReadNewestData<T>(DateTime.Now.AddDays(-1 * dtp.CheckNewestDataDays)); //前十天的数据 //2020.4.8 尽量的大于reviewcnt, 免得需要再取一次数据, 尽量多取，以防后面策略调用需要上万条数据，还要防止放假中间间隔时间较长
+                    ExpectList<T> currEl = rd.ReadNewestData(DateTime.Now.AddDays(-1 * dtp.CheckNewestDataDays)); //前十天的数据 //2020.4.8 尽量的大于reviewcnt, 免得需要再取一次数据, 尽量多取，以防后面策略调用需要上万条数据，还要防止放假中间间隔时间较长
                     if(currEl == null)
                     {
                         Log(string.Format("接收{0}数据错误", DataType),"读取最新数据发生错误！",true);
                         return;
                     }
-                    ExpectList<T> NewList = rd.getNewestData<T>(new ExpectList<T>(el.Table), currEl);//新列表是最新的数据在前的，后面使用时要反序用
+                    ExpectList<T> NewList = rd.getNewestData(new ExpectList<T>(el.Table), currEl);//新列表是最新的数据在前的，后面使用时要反序用
                     
                     //if ((currEl == null || currEl.Count == 0) || (el.Count > 0 && currEl.Count > 0 && el.LastData.ExpectIndex > currEl.LastData.ExpectIndex))//获取到新数据
                     if (NewList.Count > 0)
@@ -463,7 +476,7 @@ namespace DataRecSvr
                         if(lastExpect!= null)
                         {
                             Log("获取间隔期数",string.Format("最后期号:{0}，当前期号:{1}", lastExpect, newestExpect));
-                            interExpect = (int) DataReader.getInterExpectCnt(lastExpect, newestExpect, dtp);
+                            interExpect = (int) DataReader<T>.getInterExpectCnt(lastExpect, newestExpect, dtp);
                         }
                         if (currEl.Count>0)
                             Log(string.Format("接收到{0}数据", DataType), string.Format("接收到数据！新数据：[{0},{1}],老数据:[{2},{3}]", el.LastData.Expect, el.LastData.OpenCode, currEl.LastData.Expect, currEl.LastData.OpenCode), glb.NormalNoticeFlag);
@@ -551,7 +564,7 @@ namespace DataRecSvr
                                         if (res == false)
                                             useTimer.Interval = RepeatSeconds / 20 * 1000;
                                         else
-                                            Program.AllServiceConfig.haveReceiveData = true;//每次成功接收后都将已接收到数据标志置为true，当外部调用访问后将该标志置回为false
+                                            Program<T>.AllServiceConfig.haveReceiveData = true;//每次成功接收后都将已接收到数据标志置为true，当外部调用访问后将该标志置回为false
                                         /*if (CurrData.MissExpectCount() > 1)//执行完计算(关闭所有记录)后再标记为已错期
                                         {
                                             MissExpectEventPassCnt = 1;
@@ -609,6 +622,52 @@ namespace DataRecSvr
             }
         }
 
+        private void  RecieveSecurityData(DataTypePoint dtp,Timer useTimer,bool NeedCalc=false)
+        {
+            WDDataInit<T>.vipDocRoot = glb.VipDocRootPath;
+            WDDataInit<T>.finishedMsg += refreshMsg;
+            //WDDataInit<T>.Debug = true;
+            if(WDDataInit<T>.AllSecurities == null)
+            {
+                WDDataInit<T>.Init();
+            }
+            Log(string.Format("用{0}个线程读取数据", Environment.ProcessorCount + 2), string.Format("{0}", "开始"), false);
+            WDDataInit<T>.loadAllEquitSerials(Environment.ProcessorCount+2, 5, true, true,dtp.CheckNewestDataDays, true);
+            Log(string.Format("用{0}个线程读取数据", Environment.ProcessorCount + 2), string.Format("{0}", "j结束"), false);
+            MongoDataDictionary<T> alldata = WDDataInit<T>.getAllSerialData();
+            DataReader<T> rd = DataReaderBuild.CreateReader<T>(dtp.DataType, null, null);
+            if (NeedCalc)
+            {
+                ExpectList<T> currEl = alldata.ToExpectList();
+                CurrData = currEl; //开始的记录以老记录为基础
+                CurrData.UseType = dtp;
+                //Program.AllServiceConfig.LastDataSector = new ExpectList<TimeSerialData>(CurrDataList.Table);
+                if (CalcProcess == null)
+                    CalcProcess = new CalcService<T>();
+                CalcProcess.DataPoint = dtp;
+                CalcProcess.ReadDataTableName = null;
+                CalcProcess.Codes = null;
+                bool res = AfterReceiveProcess(CalcProcess);
+                Program<T>.AllServiceConfig.haveReceiveData = res;
+            }
+        }
+
+        void refreshMsg(int cnt,int total,EquitProcess<T>.EquitUpdateResult res)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                if((cnt % 100) ==0 || cnt == total)
+                {
+                    Log(string.Format("已完成{0}", cnt),string.Format("共计:{0}.",total) , false);
+                }
+                if(!res.succ || !string.IsNullOrEmpty(res.Msg))
+                {
+                    Log(string.Format("证券{0}[{1}]", res.name, res.code), string.Format("{0}:{1}", res.Msg, res.MsgDetail),false);
+                }
+            
+            });
+        }
+
         bool AfterReceiveProcess(CalcService<T> CalcObj)
         {
             //刷新客户端数据
@@ -622,7 +681,7 @@ namespace DataRecSvr
             {
                 //this.CalcProcess.Calc();
                 CalcObj.OnFinishedCalc = onFinished;
-                Log("开始计算", "启动计算",Program.gc.NormalNoticeFlag);
+                Log("开始计算", "启动计算",Program<T>.gc?.NormalNoticeFlag??false);
                 bool succ = CalcObj.Calc();
                 if(!succ)
                 {

@@ -32,7 +32,6 @@ namespace WolfInv.com.SecurityLib
                     htmltxt = new StreamReader(wr.GetResponseStream(), Encoding.GetEncoding("utf-8")).ReadToEnd();
                     wr.Close();
                 }
-
                 switch (UseDataType)
                 {
                     case "XML":
@@ -59,7 +58,7 @@ namespace WolfInv.com.SecurityLib
                 }
                 for (int i = 0; i < ret.Count; i++)//期号标准化
                 {
-                    ret[i].Expect = DataReader.getStdExpect(ret[i].Expect, dtp);
+                    ret[i].Expect = DataReader<T>.getStdExpect(ret[i].Expect, dtp);
                 }
             }
             catch(Exception ce)

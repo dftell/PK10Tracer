@@ -26,8 +26,8 @@ namespace WolfInv.com.CFZQ_LHProcess
 
         public WindData getDataSet()
         {
-            WindData wd = w.tdays(_From, _To, _params);
-            if (wd.errorCode != 0) throw (new WDErrorException(w, wd.errorCode));
+            WindData wd = w.tdays(_From.ToString("yyyy-MM-dd"), _To.ToString("yyyy-MM-dd"), _params);
+            //if (wd.errorCode != 0) throw (new WDErrorException(w, wd.errorCode));
             return wd;
         }
 

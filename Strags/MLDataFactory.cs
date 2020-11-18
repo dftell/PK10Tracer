@@ -8,14 +8,14 @@ using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.Strags
 {
     //机器数据分类工厂基类
-    public abstract class MLDataCategoryFactoryClass
+    public abstract class MLDataCategoryFactoryClass<T> where T:TimeSerialData
     {
-        protected ExpectList Data;
+        protected ExpectList<T> Data;
         
         public abstract MLInstances<int, int> getCategoryData(int col, int Deep, int AllowUseShift);
 
 
-        public void Init(ExpectList el)
+        public void Init(ExpectList<T> el)
         {
             Data = el;
         }
@@ -23,7 +23,7 @@ namespace WolfInv.com.Strags
     /// <summary>
     /// 环绕立体分类
     /// </summary>
-    public class MLDataFactory: MLDataCategoryFactoryClass
+    public class MLDataFactory<T> : MLDataCategoryFactoryClass<T> where T : TimeSerialData
     {
         
         public MLDataFactory()
@@ -232,7 +232,7 @@ namespace WolfInv.com.Strags
         }
     }
 
-    public class SpecLengthMatchTimesCategoryFactoryClass: MLDataCategoryFactoryClass
+    public class SpecLengthMatchTimesCategoryFactoryClass<T> : MLDataCategoryFactoryClass<T> where T:TimeSerialData
     {
         public SpecLengthMatchTimesCategoryFactoryClass()
         {
@@ -254,14 +254,14 @@ namespace WolfInv.com.Strags
     /// <summary>
     /// 马尔科夫分类特征
     /// </summary>
-    public class MarkovCategoryFactioryClass : MLDataCategoryFactoryClass
+    public class MarkovCategoryFactioryClass<T> : MLDataCategoryFactoryClass<T> where T : TimeSerialData
     {
         public override MLInstances<int, int> getCategoryData(int col, int Deep, int AllowUseShift)
         {
             MLInstances<int, int> ret = new MLInstances<int, int>();
             for(int i=this.Data.Count-Deep;i<this.Data.Count;i++)
             {
-                ExpectData ed = AllowUseShift==0? Data[i]:new Combin_ExpectData(Data[i]);
+                ExpectData<T> ed = AllowUseShift==0? Data[i]:new Combin_ExpectData<T>(Data[i]);
                 ret.Add(new MLInstance<int, int>(new int[] { int.Parse(ed.ValueList[col]) }.ToList()));
                 
             }

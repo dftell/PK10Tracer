@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace WolfInv.com.BaseObjectsLib
 {
 
-    public class MongoData : DisplayAsTableClass, IObjectId, ICloneable, ICompareFilter, IConvertible, IFormatProvider
+    public class MongoData :  IObjectId, ICloneable, ICompareFilter, IConvertible, IFormatProvider//DisplayAsTableClass,
     {
         public MongoData()
         {
@@ -59,11 +59,20 @@ namespace WolfInv.com.BaseObjectsLib
             return true;
         }
 
+        public MongoData ExtentData()
+        {
+            return _ExtentData;
+        }
 
-        public MongoData ExtentData;
+        public void setExtentData(MongoData val)
+        {
+            _ExtentData = val;
+        }
+
+        protected MongoData _ExtentData;
         public void AddExtentData(MongoData ExData)
         {
-            ExtentData = ExData;
+            _ExtentData = ExData;
         }
 
         ////public string ItemName<TMongoData>(Func<TMongoData,PropertyInfo> func)
@@ -235,12 +244,14 @@ namespace WolfInv.com.BaseObjectsLib
 
         object IConvertible.ToType(Type conversionType, IFormatProvider provider)
         {
-            return DetailStringClass.GetObjectByXml(this.ToXml(), conversionType);
+            return null;
+            //return DetailStringClass.GetObjectByXml(this.ToXml(), conversionType);
         }
 
         public object GetFormat(Type formatType)
         {
-            return this.ToXml();
+            return null;
+            //return this.ToXml();
         }
         #endregion
 

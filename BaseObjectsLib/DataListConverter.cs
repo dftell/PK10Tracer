@@ -2,7 +2,7 @@
 using System.Data;
 namespace WolfInv.com.BaseObjectsLib
 {
-    public abstract class DataListConverter<T> where T: MongoData
+    public abstract class DataListConverter<T> where T: TimeSerialData
     {
    
 
