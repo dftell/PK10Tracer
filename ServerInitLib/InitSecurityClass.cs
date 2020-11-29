@@ -98,7 +98,7 @@ namespace WolfInv.com.ServerInitLib
                 return res1;
             }
             allcodes.Keys.ToList().ForEach(a => {
-                StockInfoMongoData item = new StockInfoMongoData();
+                StockInfoMongoData item = new StockInfoMongoData(a,allcodes[a]);
                 item.code = a;
                 res1.Add(a, item);
             });
@@ -127,14 +127,14 @@ namespace WolfInv.com.ServerInitLib
             return res;// mdl.ToDictionary(p => (p as ICodeData).code, p => (p as StockInfoMongoData));
         }
 
-        public static List<string> getStockIndexAllDateList<T>(string DataType) where T:TimeSerialData
+        public static DateTime[] getStockIndexAllDateList<T>(string DataType) where T:TimeSerialData
         {
             MongoDataDictionary<T> alldatas = WDDataInit.WDDataInit<T>.getAllSerialData();
             if(alldatas != null)
             {
                 return alldatas.getAllDates();
             }
-            return new List<string>();
+            return new DateTime[] { };
             if (GlobalClass.TypeDataPoints[DataType].NeedLoadAllCodes == 0)
             {
                 return null;
@@ -144,7 +144,7 @@ namespace WolfInv.com.ServerInitLib
             MongoReturnDataList<StockIndexMongoData> mdl = reader.GetAllTimeSerialList();
             if (mdl == null)
                 return null;
-            return mdl.Select(p => p.date).ToList();
+            return null;
         }
 
         public static List<string> getStockAllDateList(string DataType)

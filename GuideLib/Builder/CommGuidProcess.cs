@@ -7,27 +7,27 @@ namespace WolfInv.com.GuideLib
        
 
     
-    public abstract class CommGuidProcess : CommDataBuilder, ICommGuidProcess
+    public abstract class CommGuidProcess<T> : CommDataBuilder<T>, ICommGuidProcess where T:TimeSerialData
     {
         public PriceAdj prcAdj;
         public Cycle cycle;
-        protected CommDataBuilder gbc;
+        protected CommDataBuilder<T> gbc;
 
         public CommGuidProcess():base()
         {
 
         }
-        public CommGuidProcess(CommDataIntface cdi):base(cdi)
+        public CommGuidProcess(CommDataIntface<T> cdi):base(cdi)
         {
 
         }
-        public CommGuidProcess(CommDataIntface cdi, Cycle cyc, PriceAdj rate) : base(cdi)
+        public CommGuidProcess(CommDataIntface<T> cdi, Cycle cyc, PriceAdj rate) : base(cdi)
         {
 
             cycle = cyc;
             prcAdj = rate;
         }
-        public CommGuidProcess(CommDataIntface cdi, CommDataBuilder _gbc, Cycle cyc, PriceAdj rate):base(cdi)
+        public CommGuidProcess(CommDataIntface<T> cdi, CommDataBuilder<T> _gbc, Cycle cyc, PriceAdj rate):base(cdi)
         {
             gbc = _gbc;
             cycle = cyc;

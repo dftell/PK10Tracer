@@ -16,9 +16,9 @@ namespace WolfInv.com.BaseObjectsLib
         public string ChanceCode { get; set; }
         public int ChipCount { get; set; }
         public string ExpectCode { get; set; }
-        public Int64 UnitCost { get; set; }
+        public double UnitCost { get; set; }
         public DateTime ExecDate { get; set; }
-        public Int64 Cost { get; set; }
+        public double Cost { get; set; }
         public double Profit { get; set; }
         public double Gained { get; set; }
         public int HoldTimeCnt { get; set; }

@@ -23,7 +23,7 @@ namespace WolfInv.com.SecurityLib
             SortDefinition<T> sort = null;
             //查询字段
             string[] fileds = null;
-            return new MongoReturnDataList<T>(_mongoDB.FindList<T>(this.TableName, filter, fileds, sort));
+            return new MongoReturnDataList<T>(new StockInfoMongoData(null,null), _mongoDB.FindList<T>(this.TableName, filter, fileds, sort));
         }
 
         public MongoReturnDataList<T> getData<T>() where T : TimeSerialData
@@ -51,7 +51,7 @@ namespace WolfInv.com.SecurityLib
             SortDefinition<T> sort = null;
             //查询字段
             string[] fileds = null;
-            return new MongoReturnDataList<T>(_mongoDB.FindList<T>(this.TableName, filter, fileds, sort));
+            return new MongoReturnDataList<T>(new StockInfoMongoData(null,null), _mongoDB.FindList<T>(this.TableName, filter, fileds, sort));
         }
 
         public MongoReturnDataList<T> getData<T>() where T : TimeSerialData

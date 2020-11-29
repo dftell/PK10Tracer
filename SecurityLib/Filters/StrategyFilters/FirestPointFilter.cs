@@ -40,5 +40,10 @@ namespace WolfInv.com.SecurityLib
             ////);
             return null;
         }
+
+        public override CommSecurityProcessClass<T> ExecFilter(CommStrategyInClass Input)
+        {
+            return base.ExecFilter(Input);
+        }
     }
 }

@@ -24,8 +24,10 @@ namespace WolfInv.com.BaseObjectsLib
                 _Data = new Dictionary<string, MongoReturnDataList<T>>();
                 if (_MyData.Count == 0) return _Data;
                 if (_MyData[0].Keys == null || _MyData[0].Count == 0)
-                    _Data.Add("Lotty", new MongoReturnDataList<T>());
-                for (int i=0;i<_MyData.Count;i++)
+                {
+                    _Data.Add("Lotty", new MongoReturnDataList<T>(new StockInfoMongoData(null, null)));
+                }                             
+                for (int i=0;i<_MyData?.Count;i++)
                 {
                     if (_MyData[i].Keys == null || _MyData[i].Count == 0)//对彩票
                     {
@@ -38,7 +40,8 @@ namespace WolfInv.com.BaseObjectsLib
                         {
                             if (!_Data.ContainsKey(key))
                             {
-                                _Data.Add(key, new MongoReturnDataList<T>());
+                                StockInfoMongoData simd = new StockInfoMongoData(_MyData[i][key].Key, _MyData[i][key].KeyName);
+                                _Data.Add(key, new MongoReturnDataList<T>(simd));
                             }
                             _Data[key].Add(_MyData[i][key]);
                         }

@@ -39,13 +39,13 @@ namespace WolfInv.com.WDDataInit
         }
 
         public static MongoDataDictionary<T> _AllEquitSerialData;
-        public MongoReturnDataList<T> getEquitSerialData(string key)
+        public MongoReturnDataList<T> getEquitSerialData(string key,string name)
         {
             if(_AllEquitSerialData.ContainsKey(key))
             {
                 return _AllEquitSerialData[key];
             }
-            return new MongoReturnDataList<T>();
+            return new MongoReturnDataList<T>(new StockInfoMongoData(key,name));
         }
         public static bool Loaded;
         
@@ -67,7 +67,7 @@ namespace WolfInv.com.WDDataInit
         public static bool Init()
         {
             
-            InitExchangeDays();
+            
             OnLine = true;
             if(AllDays == null || AllDays?.Length == 0)
             {
@@ -80,19 +80,19 @@ namespace WolfInv.com.WDDataInit
             {
                 _AllEquits = rcbd.getLocalEquits();
             }
-
+            InitExchangeDays();
             //loadAllEquitSerials();
             return true;
         }
 
-        public static void loadEquitSerial(string key, bool noNeedToday = false, bool onlyLocal = false,int localDataLen=1000)
+        public static void loadEquitSerial(string key,string name, bool noNeedToday = false, bool onlyLocal = false,int localDataLen=1000,string fromdate=null,string todate=null)
         {
             if(_AllEquitSerialData == null)
                 _AllEquitSerialData = new MongoDataDictionary<T>();
             string[] names = key.Split('.');
-            EquitProcess<T> epr = new EquitProcess<T>(rcbd.currAPI, names[0], names[1],null);
+            EquitProcess<T> epr = new EquitProcess<T>(rcbd.currAPI, names[0],names[1], name);
             epr.vipdocRoot = vipDocRoot;
-            var res = epr.updateData(noNeedToday, onlyLocal,localDataLen);
+            var res = epr.updateData(noNeedToday, onlyLocal,localDataLen, fromdate, todate);
             processCnt++;
             
                 
@@ -105,14 +105,14 @@ namespace WolfInv.com.WDDataInit
             //}
         }
 
-        public static void loadAllEquitSerials(int threadCnt=10,int grpCnt=50, bool noNeedToday=false,bool onlyLocal=false,int localDataLen=1000,bool sync =false)
+        public static void loadAllEquitSerials(int threadCnt=10,int grpCnt=50, bool noNeedToday=false,bool onlyLocal=false,int localDataLen=1000, string fromdate = null, string todate = null, bool sync = false)
         {
             Loading = true;
             processCnt = 0;
             if(Debug)
             {
                 _AllEquits = new Dictionary<string, string>();
-                _AllEquits.Add("600883.SH", "中国平安");
+                _AllEquits.Add("002624.SZ", "中国平安");
             }
             int allCnt = _AllEquits.Count;
             _AllEquitSerialData = new MongoDataDictionary<T>();
@@ -147,7 +147,7 @@ namespace WolfInv.com.WDDataInit
                             }
                             EquitProcess<T> epr = new EquitProcess<T>(rcbd.currAPI, names[0], names[1], name);
                             epr.vipdocRoot = vipDocRoot;
-                            var res = epr.updateData(noNeedToday, onlyLocal, localDataLen);
+                            var res = epr.updateData(noNeedToday, onlyLocal, localDataLen,fromdate,todate);
                             processCnt++;
                             finishedMsg?.Invoke(processCnt, allCnt, res);
                             if (processCnt >= allCnt)//内部计算，如果处理完成了，就将状态置为已加载完成
@@ -191,6 +191,15 @@ namespace WolfInv.com.WDDataInit
         static void InitExchangeDays()
         {
             AllDays = new DateTime[] { };
+            loadEquitSerial("000001.SH", "上证综指", false, false, 100000);
+            if(_AllEquitSerialData != null)
+            {
+                if(_AllEquitSerialData.ContainsKey("000001.SH"))
+                {
+                    AllDays = _AllEquitSerialData["000001.SH"].Select(a => a.Expect.ToDate()).ToArray();
+                    _AllEquitSerialData = null;
+                }
+            }
             // AllDays = rcbd.getAllDays(DateTime.Parse("1990-01-01"), DateTime.Today);
         }
     }

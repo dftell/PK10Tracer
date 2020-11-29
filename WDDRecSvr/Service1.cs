@@ -31,32 +31,41 @@ namespace WDDRecSvr
 
         protected override void OnStart(string[] args)
         {
-            WDDataInit<T>.Init();
-            if(WDDataInit<StockMongoData>.Loaded)
+            try
             {
-                //WDDataInit<T>.finishedMsg = afterUpdateEquit;
+                WDDataInit<T>.Init();
+                if (WDDataInit<StockMongoData>.Loaded)
+                {
+                    //WDDataInit<T>.finishedMsg = afterUpdateEquit;
+                }
+                int allSecs = 0;
+                Dictionary<string, string> allEquites = WDDataInit<T>.AllSecurities;
+                if (allEquites != null)
+                {
+                    allSecs = allEquites.Count;
+                }
+                LogableClass.ToLog("接收日志", "需要接收股票数为", allSecs.ToString());
+                loopTimer = new Timer(new TimerCallback(UpdateEquitData), null, 1 * 1000, 1000 * 60 * 60 * 8);
             }
-            int allSecs = 0;
-            Dictionary<string, string> allEquites = WDDataInit<T>.AllSecurities;
-            if(allEquites!= null)
+            catch(Exception ce)
             {
-                allSecs = allEquites.Count;
+                LogableClass.ToLog("错误", ce.Message,ce.StackTrace);
             }
-            LogableClass.ToLog("接收日志","需要接收股票数为", allSecs.ToString());
-            loopTimer = new Timer(new TimerCallback(UpdateEquitData), null, 1*1000, 1000 * 60 * 60 * 8);
         }
 
         
 
         void UpdateEquitData(object obj)
         {
+            bool AfterClose = DateTime.Now.Hour > 17;//5点以后需要接收当日数据
             Task.Factory.StartNew(() =>
             {
+                
                 DateTime curr = DateTime.Now;
                 LogableClass.ToLog("接收日志", "开始接收", curr.ToString());
                 //Program.wxlog.Log("开始接收", curr.ToString());
                 WDDataInit<T>.finishedMsg = refreshMsg;
-                WDDataInit<T>.loadAllEquitSerials(10,5, true,false,10,true);//只要看最后极少的数量即可
+                WDDataInit<T>.loadAllEquitSerials(0,5, !AfterClose, false,0,null,null,true);//只要看最后极少的数量即可
                 
                 LogableClass.ToLog("接收日志", "接收完成", string.Format("历时{0}分钟！", DateTime.Now.Subtract(curr).TotalMinutes));
                 //Program.wxlog.Log("接收完成", string.Format("历时{0}分钟！", DateTime.Now.Subtract(curr).TotalMinutes));
@@ -72,9 +81,16 @@ namespace WDDRecSvr
                 {
                     LogableClass.ToLog("错误", string.Format("证券{0}[{1}]", res.name,res.code), string.Format("{0}:{1}", res.Msg,res.MsgDetail));
                 }
+
+                //if (res.GetWebData == false || res.WebDataCount == 0)
+                //{
+                //    LogableClass.ToLog("错误", string.Format("证券{0}[{1}]", res.name, res.code), string.Format("未接收到Web数据{0}:{1}", res.WebDataCount, res.WebDataLastDate));
+                //}
                 if ((cnt % 100) == 0 || cnt == total)
                 {
                     LogableClass.ToLog("接收日志", string.Format("已完成{0}", cnt), string.Format("共计:{0}.", total));
+                    LogableClass.ToLog("接收日志", string.Format("证券{0}[{1}]", res.name, res.code), string.Format("接收到本地数据{0}:{1};接收到Web数据开始日期:{4};条数:{2};结束日期:{3}", res.LocalDataCount, res.LocalLastDate, res.WebDataCount, res.WebDataLastDate,res.WebBegT));
+                    LogableClass.ToLog("接收日志", "Urls", string.Join(",", res.WebUrls));
                 }
 
             });

@@ -4,16 +4,16 @@ using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.GuideLib;
 namespace WolfInv.com.GuideLib
 {
-    public abstract class  BaseDataProcess : CommGuidProcess
+    public abstract class  BaseDataProcess<T> : CommGuidProcess<T> where T:TimeSerialData
     {
         public BaseDataProcess()
         {
 
         }
-        public BaseDataProcess(CommDataIntface cdi)
+        public BaseDataProcess(CommDataIntface<T> cdi)
             : base(cdi)
         { }
-        public BaseDataProcess(CommDataIntface cdi, Cycle cyc, PriceAdj rate)
+        public BaseDataProcess(CommDataIntface<T> cdi, Cycle cyc, PriceAdj rate)
             : base(cdi)
         {
             this.cycle = cyc;

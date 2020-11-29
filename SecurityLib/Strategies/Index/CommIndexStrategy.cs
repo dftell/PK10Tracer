@@ -8,7 +8,7 @@ namespace WolfInv.com.SecurityLib
     /// </summary>
     public abstract class CommIndexStrategy<T> : CommStrategyBaseClass<T> where T:TimeSerialData
     {
-        public CommIndexStrategy(CommDataIntface _w) : base(_w) { }
+        public CommIndexStrategy(CommDataIntface<T> _w) : base(_w) { }
     }
     #endregion
 }

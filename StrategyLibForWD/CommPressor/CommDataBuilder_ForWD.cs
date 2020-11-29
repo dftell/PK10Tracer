@@ -1,8 +1,9 @@
 ﻿using WAPIWrapperCSharp;
+using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.GuideLib;
 namespace WolfInv.com.StrategyLibForWD
 {
-    public abstract class CommDataBuilder_ForWD:CommDataBuilder
+    public abstract class CommDataBuilder_ForWD:CommDataBuilder<TimeSerialData>
     {
         protected WindAPI w;
         protected CommDataBuilder_ForWD():base()

@@ -135,7 +135,7 @@ namespace WolfInv.com.StrategyLibForWD
             RunNoticeClass ret = new RunNoticeClass();
             //MACDGuidProcess mp = new MACDGuidProcess(gb.w);
             //RunResultClass ret = mp.getDateSerialResult("000100.SZ",Convert.ToDateTime("2017/7/7"), DateTime.Today);
-            BaseDataProcess bp = new BaseDataProcess_ForWD(w,cyc, prcAdj);
+            BaseDataProcess<TimeSerialData> bp = new BaseDataProcess_ForWD(w,cyc, prcAdj);
             RunResultClass bret = bp.getSetDataResult(codes, endt,args);
             if (!bret.Notice.Success)
             {
@@ -207,7 +207,7 @@ namespace WolfInv.com.StrategyLibForWD
             MTable mtab = new MTable();
             if (IncludeBaseData)
             {
-                BaseDataProcess bp = new BaseDataProcess_ForWD(w, cyc, prcAdj);
+                BaseDataProcess<TimeSerialData> bp = new BaseDataProcess_ForWD(w, cyc, prcAdj);
                 RunResultClass bret = bp.getSetDataResult(code,  endt, new object[0] { });
                 if (bret.Notice.Success)
                 {

@@ -262,7 +262,14 @@ namespace WolfInv.com.Strags
             for(int i=this.Data.Count-Deep;i<this.Data.Count;i++)
             {
                 ExpectData<T> ed = AllowUseShift==0? Data[i]:new Combin_ExpectData<T>(Data[i]);
-                ret.Add(new MLInstance<int, int>(new int[] { int.Parse(ed.ValueList[col]) }.ToList()));
+                Combin_ExpectData<T> useEd = null;
+                if (AllowUseShift == 1)
+                {
+                    useEd = ed as Combin_ExpectData<T>;
+                    ret.Add(new MLInstance<int, int>(new int[] { int.Parse(useEd.ValueList[col]) }.ToList()));
+                }
+                else
+                    ret.Add(new MLInstance<int, int>(new int[] { int.Parse(ed.ValueList[col]) }.ToList()));
                 
             }
             return ret;

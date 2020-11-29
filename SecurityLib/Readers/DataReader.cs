@@ -41,9 +41,9 @@ namespace WolfInv.com.SecurityLib
         }
         public abstract ExpectList<T> ReadHistory() ;
         public abstract ExpectList<T> ReadHistory(long buffs) ;
-        public abstract ExpectList<T> ReadHistory(long From, long buffs) ;
+        public abstract ExpectList<T> ReadHistory(string From, long buffs) ;
         public abstract ExpectList<T> ReadHistory(long cnt, string endExpect) ;
-        public abstract ExpectList<T> ReadHistory(long From, long buffs, bool desc) ;
+        public abstract ExpectList<T> ReadHistory(string From, long buffs, bool desc) ;
         public abstract ExpectList<T> ReadHistory(string begt, string endt) ;
         public abstract ExpectList<T> ReadNewestData(DateTime fromdate) ;
         public abstract ExpectList<T> ReadNewestData(int LastLng) ;
@@ -109,6 +109,11 @@ namespace WolfInv.com.SecurityLib
 
         public static long getInterExpectCnt(string expectFrom,string expectTo,DataTypePoint dtp)
         {
+            if(dtp.IsSecurityData == 1)
+            {
+                int days =(int)expectTo.ToDate().Subtract(expectFrom.ToDate()).TotalDays;
+                return days;
+            }
             long lFrom = long.Parse(expectFrom);
             long lTo = long.Parse(expectTo);
             if (lTo <= lFrom ) //

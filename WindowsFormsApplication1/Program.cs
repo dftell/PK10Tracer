@@ -4,18 +4,26 @@ using System.Linq;
 using System.Windows.Forms;
 using WolfInv.com.ServerInitLib;
 using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.WDDataInit;
 namespace BackTestSys
 {
-    
 
     static class Program
     {
-        public static ServiceSetting<TimeSerialData> AllSettings;
+        [STAThread]
+        static void Main()
+        {
+            Program<TimeSerialData>.Main();
+        }
+    }
+    static class Program<T> where T:TimeSerialData
+    {
+        public static ServiceSetting<T> AllSettings;
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
         [STAThread]
-        static void Main()
+        public static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -24,9 +32,9 @@ namespace BackTestSys
             //////    MessageBox.Show("无法加载控件！");
             //////    return;
             //////}
-            AllSettings = new ServiceSetting<TimeSerialData>();
+            AllSettings = new ServiceSetting<T>();
             AllSettings.Init(null);
-            Application.Run(new BackTestFrm<TimeSerialData>());
+            Application.Run(new BackTestFrm<T>());
         }
     }
 }

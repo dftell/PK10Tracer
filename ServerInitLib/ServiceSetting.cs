@@ -25,12 +25,12 @@ namespace WolfInv.com.ServerInitLib
 
         static bool _isReceiveData = false;//供外部使用
         static GlobalClass _gc;//全局配置
-        static ExchangeService _ES;
+        static ExchangeService<T> _ES;
         static Dictionary<string, BaseStragClass<T>> _AllStrags;
         static Dictionary<string, StragRunPlanClass<T>> _AllRunPlannings;
         static Dictionary<string, CalcStragGroupClass<T>> _AllRunningPlanGrps;
         static Dictionary<string, ChanceClass<T>> _NoCloseChances;
-        static Dictionary<string, AssetUnitClass> _AssetUnits;
+        static Dictionary<string, AssetUnitClass<T>> _AssetUnits;
         static List<StragChance<T>> _AllNewChances;
         static List<ExchangeChance<T>> _AllExchangeChances;
         static Dictionary<string, ChanceClass<T>> _AllNoClosedChances;
@@ -69,7 +69,7 @@ namespace WolfInv.com.ServerInitLib
         {
             wxlog = mygc;
         }
-        public ExchangeService ES
+        public ExchangeService<T> ES
         {
             get { return _ES; }
             set { _ES = value; }
@@ -133,7 +133,7 @@ namespace WolfInv.com.ServerInitLib
         }
         public Dictionary<string, ChanceClass<T>> AllNoClosedChanceList { get { return _AllNoClosedChances; } set { _AllNoClosedChances = value; } }
 
-        public Dictionary<string, AssetUnitClass> AllAssetUnits
+        public Dictionary<string, AssetUnitClass<T>> AllAssetUnits
         {
             get
             {
@@ -165,18 +165,17 @@ namespace WolfInv.com.ServerInitLib
             if (gc == null)
                 gc = new GlobalClass();
             this.gc = gc;
-            
             wxlog = new WXLogClass("服务器管理员",gc.WXLogNoticeUser,string.Format(gc.WXLogUrl,gc.WXSVRHost));
             
             LogableClass.ToLog("初始化服务器设置","初始化策略列表");
             wxlog.Log("初始化服务器设置", "初始化策略列表");
-            this.AllStrags = InitServerClass.Init_StragList<T>();
+            this.AllStrags = InitServerClass<T>.Init_StragList();
             LogableClass.ToLog("初始化服务器设置", "初始化运行计划列表");
             wxlog.Log("初始化服务器设置", "初始化运行计划列表");
-            this.AllRunPlannings = InitServerClass.Init_StragPlans<T>();
+            this.AllRunPlannings = InitServerClass<T>.Init_StragPlans<T>();
             LogableClass.ToLog("初始化服务器设置", "初始资产单元列表");
             wxlog.Log("初始化服务器设置", "初始资产单元列表");
-            this.AllAssetUnits = InitServerClass.Init_AssetUnits();
+            this.AllAssetUnits = InitServerClass<T>.Init_AssetUnits();
             this.AllNoClosedChanceList = new Dictionary<string, ChanceClass<T>>();
             this.AllStragIndexs = new Dictionary<string, List<IndexExpectData>>();
             InitSecurity();
@@ -222,7 +221,7 @@ namespace WolfInv.com.ServerInitLib
                 string[] codes = dtp.RuntimeInfo.SecurityInfoList.Keys.ToArray();
                 dtp.RuntimeInfo.SecurityCodes = codes;
                 LogableClass.ToLog(string.Format("准备获取[{0}]日期数据", key), "开始");
-                dtp.RuntimeInfo.HistoryDateList = InitSecurityClass.getStockIndexAllDateList<T>(key);
+                dtp.RuntimeInfo.HistoryDateList = InitSecurityClass.getStockIndexAllDateList<T>(key).Select(a=>a.WDDate()).ToList();
                 LogableClass.ToLog(string.Format("获取[{0}]日期数据", key), string.Format("日期数量:{0}", dtp.RuntimeInfo.HistoryDateList.Count));
                 LogableClass.ToLog(string.Format("准备获取[{0}]除权除息数据", key), "开始");
                 DateTime now = DateTime.Now;
@@ -243,7 +242,7 @@ namespace WolfInv.com.ServerInitLib
         {
             //Log("初始化服务器设置","分组准备运行计划列表");
             Dictionary<string,CalcStragGroupClass<T>> outret = null;
-            this.AllRunningPlanGrps = InitServerClass.InitCalcStrags(UseDataPoint,ref outret, this.AllStrags, this.AllRunPlannings, this.AllAssetUnits, true, IsBackTest);
+            this.AllRunningPlanGrps = InitServerClass<T>.InitCalcStrags(UseDataPoint,ref outret, this.AllStrags, this.AllRunPlannings, this.AllAssetUnits, true, IsBackTest);
             if(this.AllStragIndexs == null)
             {
                 this.AllStragIndexs = new Dictionary<string, List<IndexExpectData>>();

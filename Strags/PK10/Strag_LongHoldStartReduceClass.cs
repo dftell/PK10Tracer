@@ -104,7 +104,7 @@ namespace WolfInv.com.Strags
             return ret;
         }
 
-        public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        public override double getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
             int holdTimes = (int)DataReader<TimeSerialData>.getInterExpectCnt(cc.ExpectCode, this.LastUseData().LastData.Expect,this.UsingDpt);
             if (holdTimes > 0)

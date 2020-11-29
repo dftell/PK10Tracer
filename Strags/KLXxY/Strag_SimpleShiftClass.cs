@@ -158,7 +158,7 @@ namespace WolfInv.com.Strags
             return ret;
         }
 
-        public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        public override double getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
             if(cc.IncrementType == InterestType.CompoundInterest)
             {

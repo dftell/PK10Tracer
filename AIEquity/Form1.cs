@@ -9,10 +9,12 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WAPIWrapperCSharp;
 using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.GuideLib;
 //using WolfInv.com.PK10CorePress;
 //using WolfInv.com.StrategyLibForWD;
-using WolfInv.com.StrategyLibForWD.Guides;
+using WolfInv.com.StrategyLibForWD;
 using WolfInv.com.WDDataInit;
+
 namespace AIEquity
 {
     public partial class Form1<T> : Form where T:TimeSerialData
@@ -49,7 +51,7 @@ namespace AIEquity
                 return;
             }
             //txt_InputDate.Text = item.Value.Last().Value.DateTime;
-            MongoReturnDataList<T> elitem = Program<T>.getEquitSerialData(item.Key);
+            MongoReturnDataList<T> elitem = Program<T>.getEquitSerialData(item.Key,item.Value);
             txt_StockCode.Text = item.Key;
             DateTime currDate = DateTime.Parse(txt_InputDate.Text);
             int N = int.Parse(txt_HoldRate.Text);
@@ -62,20 +64,28 @@ namespace AIEquity
             string fullCode = string.Format("{0}.{1}",code,mk);
 
             var el = elitem.AfterDate(txt_InputDate.Text.WDDate());
-            double[] closes = el.Select(a => (a as StockMongoData).close).ToArray();// Close;
+            KLineData<T> klines = new KLineData<T>(el);
+            double[] closes = klines.Closes;// el.Select(a => (a as StockMongoData).close).ToArray();// Close;
             double[] arr5 = closes.MA(5);
             double[] arr10 = closes.MA(10);
             double[] arr20 = closes.MA(20);
             double[] arr60 = closes.MA(60);
             double[] ema20 = closes.EMA(12);
-            double[] vol = el.Select(a=> (a as StockMongoData).vol).ToArray();
+            double[] vol = klines.Vols;// el.Select(a=> (a as StockMongoData).vol).ToArray();
             string[] outArr = new string[ema20.Length];
-            for(int i=0;i<ema20.Length;i++)
+            double[] maxminLines10 = closes.MaxMinArray(10, true);
+            double[] maxminLines15 = closes.MaxMinArray(15, true);
+            double[] maxminLines20 = closes.MaxMinArray(20, true);
+            double[] maxminLines30 = closes.MaxMinArray(30, true);
+            for (int i=0;i<ema20.Length;i++)
             {
                 outArr[i] = string.Format("{0}  {1}{2}{3}", el.Select(a=> (a as StockMongoData).Expect).ToArray()[i], closes[i].ToString().PadRight(10),arr5[i].ToEquitPrice().ToString().PadRight(10),ema20[i].ToEquitPrice()); 
             }
             this.txt_result.Lines = outArr.Reverse().ToArray();// ema20.Reverse().Select(a => a.ToString()).ToArray();
             this.chart1.Series[0].Name = "收盘价";
+            this.chart1.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            this.chart1.Series[0].Points.DataBindY(closes);
+            /*
             this.chart1.Series[0]["PriceUpColor"] = "Red";
             this.chart1.Series[0]["PriceDownColor"] = "Green";
             this.chart1.Series[0].Points.DataBindXY(el.Select(a=>a.Expect).ToArray(),el.Select(a=> (a as StockMongoData).high).ToArray());
@@ -86,12 +96,16 @@ namespace AIEquity
                 this.chart1.Series[0].Points[i].YValues[2] = el.Select(a => (a as StockMongoData).open).ToArray()[i];
                 this.chart1.Series[0].Points[i].YValues[3] = el.Select(a => (a as StockMongoData).close).ToArray()[i];
             }
-            this.chart1.Series[1].Name = "5日收盘价";
-            this.chart1.Series[1].Points.DataBindY(arr5);
-            this.chart1.Series[2].Name = "20日收盘价";
-            this.chart1.Series[2].Points.DataBindY(arr20);
-            this.chart1.Series[3].Name = "收盘价EMA(12)";
-            this.chart1.Series[3].Points.DataBindY(ema20);
+            */
+            this.chart1.Series[1].Name = "10日极值线";
+            this.chart1.Series[1].Points.DataBindY(maxminLines10);
+            this.chart1.Series[2].Name = "15日极值线";
+            this.chart1.Series[2].Points.DataBindY(maxminLines15);
+            this.chart1.Series[3].Name = "20日极值线";
+            this.chart1.Series[3].Points.DataBindY(maxminLines20);
+            
+            this.chart1.Series[4].Name = "30日极值线";
+            this.chart1.Series[4].Points.DataBindY(maxminLines30);
             chart1.ChartAreas[0].AxisY.IsStartedFromZero = false;
             //MessageBox.Show(bdt.Count.ToString());
             /*

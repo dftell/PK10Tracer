@@ -13,6 +13,7 @@ using System.Windows.Forms.Design;
 using WolfInv.com.ProbMathLib;
 using WolfInv.com.Strags.KLXxY;
 using WolfInv.com.Strags.MLStragClass;
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.Strags
 {
     public interface IFindChance
@@ -45,28 +46,21 @@ namespace WolfInv.com.Strags
     [XmlInclude(typeof(strag_MarkovClass))]
     [XmlInclude(typeof(Strag_SimpleShiftClass))]
     [XmlInclude(typeof(ReferIndexStragClass))]
-    public abstract class StragClass : BaseStragClass<TimeSerialData>, iDbFile,IFindChance, ITraceChance, WolfInv.com.BaseObjectsLib.ISpecAmount 
-    {
-        
+    public abstract class StragClass : BaseStragClass<TimeSerialData>, iDbFile,IFindChance, ITraceChance<TimeSerialData>,ISpecAmount<TimeSerialData>
+    {        
         public StragClass():base()
         {
             CommSetting = new SettingClass();
             //SetDefaultValueAttribute();
             StagSetting = new StagConfigSetting();
             StagSetting = this.getInitStagSetting();
-            
-        }
+         }
         
-
         public new void Log(string topic, string txt)
         {
             Log(this.StragClassName, topic, txt);
         }
-
         
-
-        
-
         public static StragClass getStragByName(string className)
         {
             Assembly asmb = typeof(StragClass).Assembly;// Assembly.LoadFrom("EnterpriseServerBase.dll");
@@ -99,17 +93,11 @@ namespace WolfInv.com.Strags
             }
             return dt;
         }
-
-
-
-
+                     
         public ExpectList<T> LastUseData<T>() where T:TimeSerialData
         {
             return new ExpectList<T>(_LastUseData.Table);
         }
-        
-       
-
 
         #region  支持propertygrid默认信息
         static List<StragClass> DBfiles;
@@ -136,8 +124,7 @@ namespace WolfInv.com.Strags
             {
                 return _strDbXml; 
             }
-        }
-       
+        }       
 
         public bool AllowMutliSelect
         {
@@ -153,7 +140,6 @@ namespace WolfInv.com.Strags
         {
             return GlobalClass.SaveStragList(getXmlByObjectList<T>(list));
         }
-
         public string strKeyValue()
         {
             return this.GUID;
@@ -165,7 +151,7 @@ namespace WolfInv.com.Strags
         {
             //return null;//            
             BaseCollection inBc = sc as BaseCollection;
-            ExpectData inData = ed as ExpectData;
+            ExpectData inData = ExpectData.getData<TimeSerialData>(ed);
             try
             {
                 List<ChanceClass> ret = getChances(inBc, inData);
@@ -182,24 +168,23 @@ namespace WolfInv.com.Strags
             }
             return new List<ChanceClass<TimeSerialData>>();
         }
-        public bool CheckNeedEndTheChance<T>(ChanceClass<T> cc, bool LastExpectMatched) where T : TimeSerialData
+        public bool CheckNeedEndTheChance(ChanceClass<TimeSerialData> cc, bool LastExpectMatched)
         {
             ChanceClass cc1 = cc.CopyTo<ChanceClass>();
             return CheckNeedEndTheChance(cc1, LastExpectMatched);
         }
-
         public abstract bool CheckNeedEndTheChance(ChanceClass cc1, bool LastExpectMatched1);
         //{
         //    return false;
         //}
-        public long getChipAmount<T>(double RestCash, ChanceClass<T> cc, AmoutSerials amts) where T : TimeSerialData
+        public double getChipAmount(double RestCash, ChanceClass<TimeSerialData> cc, AmoutSerials amts) 
         {
             ChanceClass scc = cc.CopyTo<ChanceClass>();
             return getChipAmount(RestCash, scc, amts);
         }
 
-        public abstract long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts);
-        public long getDefaultChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        public abstract double getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts);
+        public double getDefaultChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
             try
             {

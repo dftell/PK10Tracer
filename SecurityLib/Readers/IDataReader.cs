@@ -12,8 +12,8 @@ namespace WolfInv.com.SecurityLib
         DbChanceList<T> getClosedChances(string strDataOwner, int PassedDays);
         ExpectList<T> ReadHistory();
         ExpectList<T> ReadHistory(long buffs);
-        ExpectList<T> ReadHistory(long From, long buffs);
-        ExpectList<T> ReadHistory(long From, long buffs, bool desc);
+        ExpectList<T> ReadHistory(string From, long buffs);
+        ExpectList<T> ReadHistory(string From, long buffs, bool desc);
         ExpectList<T> ReadHistory(string begt, string endt) ;
         ExpectList<T> ReadNewestData(DateTime fromdate) ;
         ExpectList<T> ReadNewestData(int LastLng) ;

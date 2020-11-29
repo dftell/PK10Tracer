@@ -78,11 +78,15 @@ namespace WolfInv.com.WDDataInit
                         return res;
                     }
                 }
+                if(useAPI == null)
+                {
+                    throw new Exception("所有的接口都无法使用！");
+                }
             }
             return new Dictionary<string, string>();
         }
 
-        public MongoReturnDataList<T> loopGetEquitSerialData<T>(string code,DateTime begt,DateTime endt) where T:TimeSerialData
+        public MongoReturnDataList<T> loopGetEquitSerialData<T>(StockInfoMongoData simd,DateTime begt,DateTime endt) where T:TimeSerialData
         {
             Dictionary<string, CommEquitAPI> loopApis = AllAPIs;
             DateTime today = DateTime.Today;
@@ -95,7 +99,8 @@ namespace WolfInv.com.WDDataInit
                 foreach (string key in loopApis.Keys)
                 {
                     CommEquitAPI api = loopApis[key];
-                    var res = api.getSerialData<T>(code,begt,endt);
+                List<string> urls = null;
+                    var res = api.getSerialData<T>(simd, begt,endt,ref urls);
                     if (res != null && res.Count > 0)
                     {
                         useAPI = new Dictionary<string, CommEquitAPI>();
@@ -104,7 +109,7 @@ namespace WolfInv.com.WDDataInit
                     }
                 }
             //}
-            return new MongoReturnDataList<T>();
+            return new MongoReturnDataList<T>(simd);
         }
 
         public Dictionary<string, string> getLocalEquits()

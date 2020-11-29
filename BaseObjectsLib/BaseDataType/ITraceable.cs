@@ -5,14 +5,14 @@ using System.Text;
 
 namespace WolfInv.com.BaseObjectsLib
 {
-    public interface ISpecAmount
+    public interface ISpecAmount<T> where T : TimeSerialData
     {
-        Int64 getChipAmount<T>(double RestCash, ChanceClass<T> cc, AmoutSerials amts) where T : TimeSerialData;
+        double getChipAmount(double RestCash, ChanceClass<T> cc, AmoutSerials amts) ;
     }
-    public interface ITraceChance:ISpecAmount
+    public interface ITraceChance<T>:ISpecAmount<T> where T : TimeSerialData
     {
         bool IsTracing { get; set; }
-        bool CheckNeedEndTheChance<T>(ChanceClass<T> cc, bool LastExpectMatched) where T : TimeSerialData;
+        bool CheckNeedEndTheChance(ChanceClass<T> cc, bool LastExpectMatched);
     }
 
     

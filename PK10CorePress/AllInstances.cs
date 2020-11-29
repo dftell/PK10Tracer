@@ -41,13 +41,13 @@ namespace WolfInv.com.PK10CorePress
             return ret;
         }
     }
-    public abstract class TraceChance : ChanceClass, ITraceChance, ISpecAmount
+    public abstract class TraceChance : ChanceClass, ITraceChance<TimeSerialData>, ISpecAmount<TimeSerialData>
     {
         public TraceChance()
         {
 
         }
-        public bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched)
+        public bool CheckNeedEndTheChance(ChanceClass<TimeSerialData> cc, bool LastExpectMatched)
         {
             if (this.MatchChips > 0)//如果命中，即关闭
             {
@@ -71,12 +71,12 @@ namespace WolfInv.com.PK10CorePress
             }
         }
 
-        long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        double getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
             throw new NotImplementedException();
         }
 
-        long ISpecAmount.getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        double ISpecAmount<TimeSerialData>.getChipAmount(double RestCash, ChanceClass<TimeSerialData> cc, AmoutSerials amts)
         {
             throw new NotImplementedException();
         }

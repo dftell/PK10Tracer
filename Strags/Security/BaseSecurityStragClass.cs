@@ -15,7 +15,7 @@ namespace WolfInv.com.Strags.Security
     public abstract class BaseSecurityStragClass<T>:BaseStragClass<T> where T:TimeSerialData
     {
         protected CommFilterLogicBaseClass<T> LogicFilter;
-
+        protected MongoDataDictionary<T> CurrSecDic;
         protected BaseSecurityStragClass()
         {
 

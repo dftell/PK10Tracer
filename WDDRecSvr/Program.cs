@@ -20,20 +20,27 @@ namespace WDDRecSvr
         /// </summary>
         static void Main()
         {
-            gc = new GlobalClass();
-            string url = gc.WXLogUrl;
-            url = gc.WXLogNoticeUser;
-            ServiceBase[] ServicesToRun;
-            LogableClass.ToLog("构建接收服务", "开始");
-            //new WDDataInit().CreateChannel("SECData", true);
-            //ipcsvr.CreateChannel<WDDataInit>("WDDataInit", "IPC_SECDATA");
-            wxlog = new WXLogClass(gc.ClientUserName, gc.WXLogNoticeUser, gc.WXLogUrl);
-            wxlog.Log("初始化系统", "各种配置读取完毕并有效初始化！", string.Format(gc.WXLogUrl, gc.WXSVRHost));
-            ServicesToRun = new ServiceBase[]
+            try
             {
+                gc = new GlobalClass();
+                string url = gc.WXLogUrl;
+                url = gc.WXLogNoticeUser;
+                ServiceBase[] ServicesToRun;
+                LogableClass.ToLog("构建接收服务", "开始");
+                //new WDDataInit().CreateChannel("SECData", true);
+                //ipcsvr.CreateChannel<WDDataInit>("WDDataInit", "IPC_SECDATA");
+                wxlog = new WXLogClass(gc.ClientUserName, gc.WXLogNoticeUser, gc.WXLogUrl);
+                wxlog.Log("初始化系统", "各种配置读取完毕并有效初始化！", string.Format(gc.WXLogUrl, gc.WXSVRHost));
+                ServicesToRun = new ServiceBase[]
+                {
                 new Service1<TimeSerialData>()
-            };
-            ServiceBase.Run(ServicesToRun);
+                };
+                ServiceBase.Run(ServicesToRun);
+            }
+            catch(Exception ce)
+            {
+                LogableClass.ToLog(ce.Message,ce.StackTrace);
+            }
         }
 
         

@@ -21,6 +21,7 @@ using BackTestSystem;
 //using WolfInv.com.Strags;
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.SecurityLib;
+using WolfInv.com.WDDataInit;
 namespace BackTestSys
 {
     public partial class BackTestFrm<T> : Form where T : TimeSerialData
@@ -29,7 +30,7 @@ namespace BackTestSys
         BackTestReturnClass<T> ret = null;
         BackTestClass<T> btc = null;
         MainForm<T> CheckFrm;
-        Dictionary<string, ExchangeService> ess;
+        Dictionary<string, ExchangeService<T>> ess;
         BaseStragClass<T> sc;
         Thread th = null;
         GlobalClass globalSetting = new GlobalClass();
@@ -63,7 +64,10 @@ namespace BackTestSys
         public BackTestFrm()
         {
             InitializeComponent();
-
+            InitFrm();
+        }
+        void InitFrm()
+        { 
             //PK10_HtmlDataClass hdc = new PK10_HtmlDataClass();
             //ExpectList el = hdc.getExpectList();
 
@@ -121,6 +125,13 @@ namespace BackTestSys
             this.dataGridView_ExchangeDetail.ContextMenuStrip = contextMenuStrip_ForListView;
             CheckForIllegalCrossThreadCalls = false;
             LoadDataSrc(this.ddl_DataSource);
+            if(GlobalClass.TypeDataPoints.First().Value.IsSecurityData==1)
+            {
+                this.txt_begExpNo.Text = "2008-01-01";
+                this.txt_endExpNo.Text = DateTime.Today.WDDate();
+                this.txt_LoopCnt.Text = "1000";
+                this.txt_InitCash.Text = "100000000";
+            }
         }
 
         public static void LoadDataSrc(ComboBox ddl_DataSource)
@@ -182,14 +193,14 @@ namespace BackTestSys
             this.timer_Tip.Enabled = false;
             if (checkBox_MixAll.Checked)
             {
-                AssetUnitClass auc = SCList[0].AssetUnitInfo;
+                AssetUnitClass<T> auc = SCList[0].AssetUnitInfo;
                 auc.SaveDataToFile();
             }
             else
             {
                 SCList.ForEach(a =>
                 {
-                    AssetUnitClass auc = a.AssetUnitInfo;
+                    AssetUnitClass<T> auc = a.AssetUnitInfo;
                     auc.SaveDataToFile();
                 });
             }
@@ -242,7 +253,7 @@ namespace BackTestSys
             ////////////////////////    return;
             ////////////////////////}
             #endregion
-            btc = new BackTestClass<T>(GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()], long.Parse(txt_begExpNo.Text), long.Parse(txt_LoopCnt.Text), setting);
+            btc = new BackTestClass<T>(GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()], txt_begExpNo.Text, long.Parse(txt_LoopCnt.Text), setting);
             this.listView1.Items.Clear();
             this.listView2.Items.Clear();
             this.listView3.Items.Clear();
@@ -520,7 +531,7 @@ namespace BackTestSys
                 TextBox tb = this.Controls.Find(string.Format("txt_minColTimes{0}", i + 1), true)[0] as TextBox;
                 setting.minColTimes[i] = int.Parse(tb.Text);
             }
-            btc = new BackTestClass<T>(GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()], long.Parse(txt_begExpNo.Text), long.Parse(txt_LoopCnt.Text), setting);
+            btc = new BackTestClass<T>(GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()], txt_begExpNo.Text, long.Parse(txt_LoopCnt.Text), setting);
             Assembly asmb = typeof(StragClass).Assembly;
             //////Type sct = asmb.GetType(ddl_StragName.SelectedValue.ToString());
             //////StragClass sc = Activator.CreateInstance(sct) as StragClass;
@@ -667,6 +678,7 @@ namespace BackTestSys
                 return;
             }
             this.RunVirExchange = true;
+            DataTypePoint dtp = GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()];
             //this.btn_VirExchange.Text = "停止";
             //this.Cursor = Cursors.WaitCursor;
             //es = new ExchangeService(int.Parse(this.txt_InitCash.Text),double.Parse(this.txt_Odds.Text));
@@ -677,10 +689,10 @@ namespace BackTestSys
             setting.DispRows = int.Parse(this.txt_MinCols.Text);
             setting.minColTimes = new int[10];
             setting.UseLocalWaveData = this.checkBox_UseBuffRsult.Checked;
-            AssetUnitClass auc = new AssetUnitClass();
-            if (Program.AllSettings.AllAssetUnits.Count > 0)//如果存在资产管理单元，所有计划均绑定到第一个上进行测试
+            AssetUnitClass<T> auc = new AssetUnitClass<T>();
+            if (Program<T>.AllSettings.AllAssetUnits.Count > 0)//如果存在资产管理单元，所有计划均绑定到第一个上进行测试
             {
-                auc = Program.AllSettings.AllAssetUnits.Values.Last();
+                auc = Program<T>.AllSettings.AllAssetUnits.Values.Last();
 
             }
             auc.TotalAsset = double.Parse(this.txt_InitCash.Text);
@@ -691,11 +703,11 @@ namespace BackTestSys
             //}
             //设置所有默认值
             if (ess == null)
-                ess = new Dictionary<string, ExchangeService>();
+                ess = new Dictionary<string, ExchangeService<T>>();
             if (checkBox_MixAll.Checked)
             {
                 SCList.ForEach(p => p.AssetUnitInfo = auc);
-                ess.Add(SCList[0].AssetUnitInfo.UnitId, new ExchangeService());
+                ess.Add(SCList[0].AssetUnitInfo.UnitId, new ExchangeService<T>(dtp));
             }
             else
             {
@@ -704,7 +716,7 @@ namespace BackTestSys
                 SCList.ForEach(
                     a =>
                     {
-                        AssetUnitClass ac = new AssetUnitClass();
+                        AssetUnitClass<T> ac = new AssetUnitClass<T>();
                         ac.UnitName = a.Plan_Name;
                         ac.UnitId = Guid.NewGuid().ToString();
                         if(chkb_useOdds.Checked)
@@ -712,17 +724,17 @@ namespace BackTestSys
                             ac.Odds = double.Parse(txt_Odds.Text);
                         }
                         ac.TotalAsset = double.Parse(this.txt_InitCash.Text);
-                        if (!Program.AllSettings.AllAssetUnits.ContainsKey(ac.UnitId))
+                        if (!Program<T>.AllSettings.AllAssetUnits.ContainsKey(ac.UnitId))
                         {
-                            Program.AllSettings.AllAssetUnits.Add(ac.UnitId, ac);
+                            Program<T>.AllSettings.AllAssetUnits.Add(ac.UnitId, ac);
                         }
                         a.AssetUnitInfo = ac;
-                        ExchangeService es = ac.getCurrExchangeServer();
+                        ExchangeService<T> es = ac.getCurrExchangeServer();
                         if (es != null)
                         {
                             es.Reset();
                         }
-                        ess.Add(ac.UnitId, new ExchangeService());
+                        ess.Add(ac.UnitId, new ExchangeService<T>(dtp));
                         //Series cs = new Series(ac.UnitName);
                         //cs.ChartType = s.ChartType;
                         //cs.BorderWidth = new Random().Next(10);
@@ -870,24 +882,40 @@ namespace BackTestSys
             //this.timer_Tip_Tick(null, null);
             //////try
             //////{
-            long BegT = 0;
-            long EndT = 0;
+            string BegT = "";
+            string EndT = "";
 
             if (ddl_DataSource.SelectedValue.ToString().Equals("CN_Stock_A"))
             {
                 DateTime dtbeg = DateTime.Parse(this.txt_begExpNo.Text);
                 DateTime dtend = DateTime.Parse(this.txt_endExpNo.Text);
-                BegT = dtbeg.Ticks;
-                EndT = dtend.Ticks;
+                BegT = dtbeg.WDDate();
+                EndT = dtend.WDDate();
             }
             else
             {
-                BegT = long.Parse(this.txt_begExpNo.Text);
-                EndT = long.Parse(this.txt_endExpNo.Text);
+                BegT = this.txt_begExpNo.Text;
+                EndT = this.txt_endExpNo.Text;
             }
-            DataTypePoint dtp = GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()];
+            int maxReviews = SCList.Max(a => a.PlanStrag.ReviewExpectCnt);
+            
+            
+            if(dtp.IsSecurityData==1)
+            {
+                WDDataInit<T>.vipDocRoot = Program<T>.AllSettings.gc.VipDocRootPath;
+                if(WDDataInit<T>.AllDays == null)
+                {
+                    WDDataInit<T>.Init();
+                }
+                DateTime[] alldate = WDDataInit<T>.AllDays;
+                int index = alldate.IndexOf(BegT);
+                if (index < 0)
+                    BegT = alldate.First().WDDate();
+                else
+                    BegT = alldate[Math.Max(0,index-maxReviews)].WDDate();
+            }
             if (btc == null)
-                btc = new BackTestClass<T>(dtp, BegT, long.Parse(txt_LoopCnt.Text), setting, EndT);
+                btc = new BackTestClass<T>(dtp, BegT, long.Parse(txt_LoopCnt.Text)+maxReviews, setting, EndT);
             th = new Thread(RunVirtual);
             th.Start();
             return;
@@ -905,10 +933,10 @@ namespace BackTestSys
         {
             try
             {
-                Dictionary<string, CalcStragGroupClass<TimeSerialData>> rest = null;
-                Program.AllSettings.AllRunningPlanGrps = InitServerClass.InitCalcStrags<TimeSerialData>(GlobalClass.TypeDataPoints[this.ddl_DataSource.SelectedValue.ToString()], ref rest, Program.AllSettings.AllStrags, SCList.ToDictionary(p => p.GUID, p => p as StragRunPlanClass<TimeSerialData>), Program.AllSettings.AllAssetUnits, true, true);//注入plans
+                Dictionary<string, CalcStragGroupClass<T>> rest = null;
+                Program<T>.AllSettings.AllRunningPlanGrps = InitServerClass<T>.InitCalcStrags(GlobalClass.TypeDataPoints[this.ddl_DataSource.SelectedValue.ToString()], ref rest, Program<T>.AllSettings.AllStrags, SCList.ToDictionary(p => p.GUID, p => p ), Program<T>.AllSettings.AllAssetUnits, true, true);//注入plans
                 btc.FinishedProcess = new SuccEvent(Finished);
-                ret = btc.VirExchange(Program.AllSettings as ServiceSetting<T>, ref ess, SCList.ToArray());
+                ret = btc.VirExchange(Program<T>.AllSettings as ServiceSetting<T>, ref ess, SCList.ToArray());
             }
             catch (Exception ce)
             {
@@ -977,7 +1005,7 @@ namespace BackTestSys
                     int ci = 0;
                     foreach (string key in ess.Keys)
                     {
-                        ExchangeService es = ess[key];
+                        ExchangeService<T> es = ess[key];
                         this.toolStripStatusLabel1.Text = string.Format("第{2}次,{0}/{1}", es.CurrIndex.ToString(), es.ExpectCnt, btc.testIndex);
                         this.toolStripStatusLabel2.Text = string.Format("{0}% 最大值:[{1}%]   最小值:[{2}%] ", es.GainedRate.ToString(), es.MaxRate, es.MinRate);
                         DataTable copyDt = es.MoneyIncreamLine.Copy();
@@ -1014,7 +1042,7 @@ namespace BackTestSys
                 string msg = ce.Message;
             }
         }
-        void loadTableData(ExchangeService es)
+        void loadTableData(ExchangeService<T> es)
         {
             lock (es.ExchangeDetail)
             {

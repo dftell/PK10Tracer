@@ -6,10 +6,10 @@ namespace WolfInv.com.GuideLib
     /// <summary>
     /// 日期序列指标工厂类
     /// </summary>
-    public abstract class DateSerialGuidBuilder : CommDataBuilder
+    public abstract class DateSerialGuidBuilder<T> : CommDataBuilder<T> where T:TimeSerialData
     {
         //WindData wd = w.wsd("600011.SH", "MACD", "2017-02-05", "2018-03-06", "MACD_L=26;MACD_S=12;MACD_N=9;MACD_IO=1;Fill=Previous");
-        public DateSerialGuidBuilder(CommDataIntface cdi, GuidBaseClass guidClass):base(cdi,guidClass)
+        public DateSerialGuidBuilder(CommDataIntface<T> cdi, GuidBaseClass guidClass):base(cdi,guidClass)
         {
             //strParamsStyle = "priceAdj={1};Period={2};Fill=Previous;{0}";
         }

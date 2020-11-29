@@ -14,20 +14,25 @@ using System.Runtime.Serialization;
 namespace WolfInv.com.ExchangeLib
 {
     [Serializable]
-    public class ExchangeService: DisplayAsTableClass,ISerializable
+    public class ExchangeService<T>: DisplayAsTableClass,ISerializable where T:TimeSerialData
     {
-        public ExchangeService()
+        public ExchangeService(int test)
         {
             //ed = null;
+        }
+
+        public ExchangeService(DataTypePoint _dtp)
+        {
+            dtp = _dtp;
         }
         //实现了ISerializable接口的类必须包含有序列化构造函数，否则会出错。        
         protected ExchangeService(SerializationInfo info, StreamingContext context)
         {
             //Value = info.GetBoolean("Test_Value");
         }
-
+        DataTypePoint dtp;
         //Dictionary<DateTime, ExchangeChance> EQ;
-        AssetUnitClass CurrUnit;
+        AssetUnitClass<T> CurrUnit;
         Timer time_ForExec = new Timer();
         double _InitCash = 0;
         double CurrMoney = 0;
@@ -35,6 +40,7 @@ namespace WolfInv.com.ExchangeLib
         //List<int> MoneyLine;
         Dictionary<string, double> ExpectMoneyLine;
         int _ExpectCnt;
+        Dictionary<string,ExchangeChance<T>> allChances = new Dictionary<string, ExchangeChance<T>>();
         DataTable MoneyChangeTable;
         public int ExpectCnt
         {
@@ -45,12 +51,12 @@ namespace WolfInv.com.ExchangeLib
         }
 
 
-        public AssetUnitClass getCurrAsset()
+        public AssetUnitClass<T> getCurrAsset()
         {
             return CurrUnit;
         }
 
-        public void setCurrAsset(AssetUnitClass unit)
+        public void setCurrAsset(AssetUnitClass<T> unit)
         {
             CurrUnit = unit;
         }
@@ -114,12 +120,13 @@ namespace WolfInv.com.ExchangeLib
         //////}
 
 
-        public bool Push<T>(ref ExchangeChance<T> ec,bool debugOrTest = false) where T : TimeSerialData
+        public bool Push(ref ExchangeChance<T> ec,bool debugOrTest = false)
         {
             lock (ed)
             {
                 if (ec.OwnerChance == null) return false;
                 if (ec.OccurStrag == null) return false;
+                allChances.Add(ec.OwnerChance.GUID,ec);
                 #region 单位金额由外面传入
                 ////////////if (ec.OwnerChance.IncrementType == InterestType.CompoundInterest)//如果是复利
                 ////////////{
@@ -170,12 +177,17 @@ namespace WolfInv.com.ExchangeLib
             }
         }
 
-        public bool Update<T>(ExchangeChance<T> ec) where T : TimeSerialData
+        public bool Update(ExchangeChance<T> ec, bool onlyModify=false)
         {
             lock (ed)
             {
                 double Gained = 0.0;
                 bool suc = ed.UpdateChance(ec, out Gained);
+                if(suc == false)
+                {
+                    return suc;
+                }
+                allChances.Remove(ec.OwnerChance.GUID);
                 CurrMoney += Gained;
                 //MoneyLine.Add(CurrMoney);
                 if(ExpectMoneyLine.ContainsKey(ec.ExExpectNo))
@@ -200,7 +212,11 @@ namespace WolfInv.com.ExchangeLib
         /// </summary>
         public double summary
         {
-            get { return CurrMoney; }
+            get
+            {
+                double pofilo = allChances.Values.Sum(a => a.OwnerChance.Profit);
+                return CurrMoney+pofilo;
+            }
         }
 
         public double InitCash
@@ -283,7 +299,10 @@ namespace WolfInv.com.ExchangeLib
                         if (MoneyChangeTable==null)
                         {
                             MoneyChangeTable = new DataTable();
-                            MoneyChangeTable.Columns.Add("id",typeof(long));
+                            if(dtp.IsSecurityData==0)
+                                MoneyChangeTable.Columns.Add("id",typeof(long));
+                            else
+                                MoneyChangeTable.Columns.Add("id", typeof(string));
                             MoneyChangeTable.Columns.Add("val", typeof(double));
                         }
                         else
@@ -293,7 +312,10 @@ namespace WolfInv.com.ExchangeLib
                         foreach (string strkey in ExpectMoneyLine.Keys)
                         {
                             DataRow dr = MoneyChangeTable.NewRow();
-                            dr["id"] = long.Parse(strkey);
+                            if (dtp.IsSecurityData == 0)
+                                dr["id"] = long.Parse(strkey);
+                            else
+                                dr["id"] = strkey;
                             dr["val"] = Math.Round(100 * (ExpectMoneyLine[strkey] - _InitCash) / _InitCash, 2);
                             MoneyChangeTable.Rows.Add(dr);
                         }

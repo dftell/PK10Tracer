@@ -50,6 +50,12 @@ namespace WolfInv.com.SecurityLib
         /// 最大选股数量
         /// </summary>
         public int TopN;
-
+        /// <summary>
+        /// 最小日期数
+        /// </summary>
+        public int MinDays;
+        public int ReferDays;
+        public int BuffDays;
+        public string StartDate;
     }
 }

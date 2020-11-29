@@ -235,7 +235,7 @@ namespace WolfInv.com.Strags
             return LastExpectMatched;
         }
 
-        public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        public override double getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
             cc.AllowMaxHoldTimeCnt = 1;
             try

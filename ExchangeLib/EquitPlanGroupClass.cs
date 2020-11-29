@@ -123,7 +123,7 @@ namespace WolfInv.com.ExchangeLib
                     {
                         if (this.UseAssetUnits.ContainsKey(currPlan.AssetUnitInfo.UnitId))
                         {
-                            AssetUnitClass useUnit = UseAssetUnits[currPlan.AssetUnitInfo.UnitId];
+                            AssetUnitClass<T> useUnit = UseAssetUnits[currPlan.AssetUnitInfo.UnitId];
                             if (!useUnit.Running)
                             {
                                 useUnit.Run();
@@ -135,9 +135,9 @@ namespace WolfInv.com.ExchangeLib
                     }
                     //Log("计算服务", "再次检查数据", string.Format("出现相同的机会{0},持有次数增1.->{1}", CurrCc.ChanceCode, CurrCc.HoldTimeCnt));
                     CurrCc.UnitCost = -1;//先默认为-1
-                    if (currStrag is WolfInv.com.BaseObjectsLib.ISpecAmount)//先从策略级别判断
+                    if (currStrag is WolfInv.com.BaseObjectsLib.ISpecAmount<T>)//先从策略级别判断
                     {
-                        WolfInv.com.BaseObjectsLib.ISpecAmount testStrag = (currStrag as WolfInv.com.BaseObjectsLib.ISpecAmount);
+                        WolfInv.com.BaseObjectsLib.ISpecAmount<T> testStrag = (currStrag as WolfInv.com.BaseObjectsLib.ISpecAmount<T>);
                         if (testStrag == null)
                         {
                             //等待下一步按机会级别判断
@@ -156,17 +156,17 @@ namespace WolfInv.com.ExchangeLib
                             //Log("计算服务", "使用的机会持有次数", string.Format("HoldTimes:{0}", useCc.HoldTimeCnt));
                             if (useCc == null) //获得的类型并非跟踪类型
                             {
-                                CurrCc.UnitCost = (currStrag as ChanceTraceStragClass).getChipAmount(restAmt, CurrCc, amts);
+                                CurrCc.UnitCost = (currStrag as ISpecAmount<T>).getChipAmount(restAmt,CurrCc, amts);
                             }
                             else
                             {
-                                CurrCc.UnitCost = useCc.getChipAmount<T>(restAmt, CurrCc, amts);
+                                CurrCc.UnitCost = useCc.getChipAmount(restAmt, CurrCc, amts);
                             }
                         }
                         else//默认为ChanceTraceStragClass,其实是不可能触发的，而且会出错，因为ChanceTraceStragClass本身就是ispaceamount
                         {
                             Log("计算服务", "非跟踪机会，持有次数", string.Format("HoldTimes:{0}", CurrCc.HoldTimeCnt));
-                            CurrCc.UnitCost = (currStrag as ChanceTraceStragClass).getChipAmount(restAmt, CurrCc, amts);
+                            CurrCc.UnitCost = (currStrag as ISpecAmount<T>).getChipAmount(restAmt, CurrCc, amts);
                         }
                     }
                     //Log("计算服务", "再二次检查数据", string.Format("出现相同的机会{0},持有次数增1->{1}", CurrCc.ChanceCode, CurrCc.HoldTimeCnt));
@@ -208,9 +208,9 @@ namespace WolfInv.com.ExchangeLib
                     {
                         continue;
                     }
-                    if (currStrag is WolfInv.com.BaseObjectsLib.ISpecAmount)//先从策略级检查
+                    if (currStrag is WolfInv.com.BaseObjectsLib.ISpecAmount<T>)//先从策略级检查
                     {
-                        WolfInv.com.BaseObjectsLib.ISpecAmount specStrag = currStrag as WolfInv.com.BaseObjectsLib.ISpecAmount;
+                        WolfInv.com.BaseObjectsLib.ISpecAmount<T> specStrag = currStrag as WolfInv.com.BaseObjectsLib.ISpecAmount<T>;
                         if (specStrag != null)//如果没有方法，再从机会级检查
                         {
                             CurrCc.HoldTimeCnt++;
@@ -231,7 +231,7 @@ namespace WolfInv.com.ExchangeLib
                         CurrCc.HoldTimeCnt++;
                         TraceChance<T> testCc = (TraceChance<T>)CurrCc;
                         if (testCc == null) continue;
-                        CurrCc.UnitCost = testCc.getChipAmount<T>(restAmt, CurrCc, amts);
+                        CurrCc.UnitCost = testCc.getChipAmount(restAmt, CurrCc, amts);
                         CurrCc.Cost += CurrCc.ChipCount * CurrCc.UnitCost;
                         CurrCc.UpdateTime = DateTime.Now;
                         OldList.Add(CurrCc.GUID, CurrCc);
@@ -244,7 +244,7 @@ namespace WolfInv.com.ExchangeLib
                     else
                     {
                         CurrCc.HoldTimeCnt++;
-                        WolfInv.com.BaseObjectsLib.ISpecAmount Strag = (WolfInv.com.BaseObjectsLib.ISpecAmount)currStrag;
+                        WolfInv.com.BaseObjectsLib.ISpecAmount<T> Strag = (WolfInv.com.BaseObjectsLib.ISpecAmount<T>)currStrag;
                         if (Strag == null) continue;
                         CurrCc.UnitCost = Strag.getChipAmount(restAmt, CurrCc, amts);
                         CurrCc.Cost = CurrCc.ChipCount * CurrCc.UnitCost;

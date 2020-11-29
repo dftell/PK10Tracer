@@ -7,6 +7,9 @@ using WolfInv.com.ServerInitLib;
 using WolfInv.com.WinInterComminuteLib;
 using System.Linq;
 using DataRecSvr;
+using WolfInv.com.WDDataInit;
+using System.Threading.Tasks;
+
 namespace PK10Server
 {
 
@@ -88,6 +91,7 @@ namespace PK10Server
             ////return;
             try
             {
+                WDDataInit<T>.finishedMsg = refreshMsg;
                gc  = new GlobalClass();
                 optFunc = new operateClass();
                 //LogableClass.ToLog("测试", "看看");
@@ -126,6 +130,32 @@ namespace PK10Server
                 MessageBox.Show(string.Format("{0}:{1}", ce.Message, ce.StackTrace));
             }
         }
+
+        static void refreshMsg(int cnt, int total, EquitProcess<T>.EquitUpdateResult res)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                if (!res.succ || !string.IsNullOrEmpty(res.Msg))
+                {
+                    LogableClass.ToLog("错误", string.Format("证券{0}[{1}]", res.name, res.code), string.Format("{0}:{1}", res.Msg, res.MsgDetail));
+                    LogableClass.ToLog("接收日志", string.Format("证券{0}[{1}]", res.name, res.code), string.Format("接收到本地数据{0}:{1};接收到Web数据开始日期:{4};条数:{2};结束日期:{3}", res.LocalDataCount, res.LocalLastDate, res.WebDataCount, res.WebDataLastDate, res.WebBegT));
+                }
+
+                //if (res.GetWebData == false || res.WebDataCount == 0)
+                //{
+                //    LogableClass.ToLog("错误", string.Format("证券{0}[{1}]", res.name, res.code), string.Format("未接收到Web数据{0}:{1}", res.WebDataCount, res.WebDataLastDate));
+                //}
+                if ((cnt % 100) == 0 || cnt == total)
+                {
+                    LogableClass.ToLog("接收日志", string.Format("已完成{0}", cnt), string.Format("共计:{0}.", total));
+                    LogableClass.ToLog("接收日志", string.Format("证券{0}[{1}]", res.name, res.code), string.Format("接收到本地数据{0}:{1};接收到Web数据开始日期:{4};条数:{2};结束日期:{3}", res.LocalDataCount, res.LocalLastDate, res.WebDataCount, res.WebDataLastDate, res.WebBegT));
+                    LogableClass.ToLog("接收日志", "Urls", string.Join(",", res.WebUrls));
+                }
+
+            });
+        }
+
+
 
         private static void Tm_heart_Tick(object sender, EventArgs e)
         {

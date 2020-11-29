@@ -15,7 +15,7 @@ namespace WolfInv.com.ExchangeLib
     [DescriptionAttribute("资产单元类"),
         DisplayName("资产单元类")]
     [Serializable]
-    public class AssetUnitClass:DisplayAsTableClass,iDbFile
+    public class AssetUnitClass<T>:DisplayAsTableClass,iDbFile where T:TimeSerialData
     {
         
         string Xslxpath;
@@ -59,7 +59,7 @@ namespace WolfInv.com.ExchangeLib
         /// <summary>
         /// 交易服务
         /// </summary>
-        ExchangeService ExchangeServer;
+        ExchangeService<T> ExchangeServer;
         /// <summary>
         /// 运行计划清单 不能有计划，循环了
         /// </summary>
@@ -70,7 +70,7 @@ namespace WolfInv.com.ExchangeLib
         {
         }
 
-        public ExchangeService getCurrExchangeServer()
+        public ExchangeService<T> getCurrExchangeServer()
         {
             return ExchangeServer;
         }
@@ -96,7 +96,7 @@ namespace WolfInv.com.ExchangeLib
         }
         public void Run(bool LoadTheData) //add by zhouys 2019/1/5 
         {
-            ExchangeServer = new ExchangeService(TotalAsset,Odds);
+            ExchangeServer = new ExchangeService<T>(TotalAsset,Odds);
             ExchangeServer.setCurrAsset(this);
             if (LoadTheData)
             {

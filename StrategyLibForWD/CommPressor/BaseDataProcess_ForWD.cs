@@ -5,7 +5,7 @@ using WAPIWrapperCSharp;
 namespace WolfInv.com.StrategyLibForWD
 {
 
-    public class BaseDataProcess_ForWD : BaseDataProcess
+    public class BaseDataProcess_ForWD : BaseDataProcess<TimeSerialData>
     {
         WindAPI w;
         protected BaseDataProcess_ForWD():base()

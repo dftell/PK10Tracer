@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using System;
 namespace WolfInv.com.BaseObjectsLib
 {
     public class MongoDataDictionary<T> : Dictionary<string, MongoReturnDataList<T>> where T : TimeSerialData
@@ -30,7 +30,7 @@ namespace WolfInv.com.BaseObjectsLib
                 string expect = a.Key;
                 foreach(var data in a.Values)
                 {
-                    MongoReturnDataList<T> currList = new MongoReturnDataList<T>();
+                    MongoReturnDataList<T> currList = new MongoReturnDataList<T>(new StockInfoMongoData(data.Key,data.KeyName));
                     if(this.ContainsKey(data.Key))
                     {
                         currList = this[data.Key]; 
@@ -57,11 +57,31 @@ namespace WolfInv.com.BaseObjectsLib
         public ExpectList<T> ToExpectList(int threadCnt = 10)
         {
             List<ExpectData<T>> ret = new List<ExpectData<T>>();
-            List<string> alldates = AllDates;
+            List<string> alldates = null;
+            if (typeof(T) == typeof(StockMongoData))
+            {
+                alldates = AllDates.Select(a => a.WDDate()).ToList();
+            }
+            else
+            {
+                alldates = AllDates.Select(a => a.ToString()).ToList() ;
+            }
             alldates = alldates.OrderBy(a => a).ToList();
             int grpCnt = alldates.Count / threadCnt + 1;
             List<string[]> grps = new List<string[]>();
             int index = 0;
+            Dictionary<string, string> keys = new Dictionary<string, string>();
+            foreach(string key in this.Keys)
+            {
+                if(key == null)
+                {
+                    continue;
+                }
+                if(!keys.ContainsKey(key))
+                {
+                    keys.Add(key, this[key].SecInfo?.KeyName);
+                }
+            }
             Task[] tasks = new Task[threadCnt];
             for (int i=0;i<threadCnt;i++)
             {
@@ -72,20 +92,37 @@ namespace WolfInv.com.BaseObjectsLib
                     for(int s=0;s<list.Length;s++)
                     {
                         ExpectData<T> data = new ExpectData<T>();
-                        data.Expect = list[s];
-                        List<string> keys = this.Keys.ToList();
-                        foreach(string key in keys)
+                        if (typeof(T) == typeof(StockMongoData))
                         {
-                            if(this[key].ContainKey(list[s]))
+                            data.Expect = list[s];
+                        }
+                        else
+                        {
+                            //data.Expect = 
+                            data.OpenTime = DateTime.Parse(list[s]);
+                        }                        
+                        foreach(var key in keys)
+                        {
+                            if (this[key.Key].ContainKey(list[s]))
                             {
-                                T tdata = this[key][list[s]];
+
+                                T tdata = this[key.Key][list[s]];
                                 if (tdata == null)
                                     continue;
-                                if (!data.ContainsKey(key))
+                                if (typeof(T) != typeof(StockMongoData))
                                 {
-                                    tdata.Key = key;
-                                    data.Add(key, tdata);
+                                    data.Expect = tdata.Expect;
+                                    data.OpenCode = tdata.OpenCode;
+                                    data.OpenTime = tdata.OpenTime;
                                 }
+                                tdata.Key = key.Key;
+                                tdata.KeyName = key.Value;
+                                if (!data.ContainsKey(key.Key))
+                                {
+                                    //tdata.Key = key.Key;
+                                    data.Add(key.Key, tdata);
+                                }
+
                             }
                         }
                         lock (ret)
@@ -106,7 +143,7 @@ namespace WolfInv.com.BaseObjectsLib
         }
 
         List<string> _alldates;
-        List<string> AllDates
+        DateTime[] AllDates
         {
             get
             {
@@ -119,12 +156,20 @@ namespace WolfInv.com.BaseObjectsLib
                     {
                         if (string.IsNullOrEmpty(key))
                             continue;
-                        if(!this.ContainsKey(key))
+                        if (!this.ContainsKey(key))
                         {
                             continue;
                         }
                         MongoReturnDataList<T> datas = this[key];
-                        List<string> keys = datas.Keys;
+                        List<string> keys = null;
+                        if (typeof(T) == typeof(StockMongoData))//股票
+                        {
+                            keys = datas.Keys;
+                        }
+                        else//彩票
+                        {
+                            keys = datas.Select(a => a.OpenTime.ToString()).ToList();
+                        }
                         keys.ForEach(a =>
                         {
                             if (!tmp.Contains(a))
@@ -134,12 +179,21 @@ namespace WolfInv.com.BaseObjectsLib
                         });
                     }
                     _alldates = tmp.ToList().OrderBy(a => a).ToList();
+                    
                 }
-                return _alldates;
+                if (typeof(T) == typeof(StockMongoData))//股票
+                {
+                    return _alldates.Select(a => a.ToDate()).ToArray();
+                }
+                else//彩票
+                {
+                    return _alldates.Select(a =>DateTime.Parse(a)).ToArray();
+                }
+                
             }
         }
 
-        public List<string> getAllDates()
+        public DateTime[] getAllDates()
         {
             return AllDates;
         }

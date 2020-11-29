@@ -92,6 +92,10 @@
       <Project>{38b7c927-f264-46a1-a550-388f440d79be}</Project>
       <Name>WolfInv.com.BaseObjectsLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GuideLib\WolfInv.com.GuideLib.csproj">
+      <Project>{2C724DB7-59A5-41CD-8274-C0ACB18FCC1A}</Project>
+      <Name>WolfInv.com.GuideLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LogLib\WolfInv.com.LogLib.csproj">
       <Project>{182084E4-C48B-4585-9221-4A54CAF7448F}</Project>
       <Name>WolfInv.com.LogLib</Name>

@@ -49,7 +49,7 @@ namespace WolfInv.com.StrategyLibForWD
             MTable mtab = new MTable();
             if (IncludeBaseData)
             {
-                BaseDataProcess bp = new BaseDataProcess_ForWD(w, cyc, prcAdj);
+                BaseDataProcess<TimeSerialData> bp = new BaseDataProcess_ForWD(w, cyc, prcAdj);
                 RunResultClass bret = bp.getDateSerialResult(code, begt, endt, new object[0] { });
                 if (bret.Notice.Success)
                 {

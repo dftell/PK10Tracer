@@ -632,7 +632,7 @@ namespace DataRecSvr
                 WDDataInit<T>.Init();
             }
             Log(string.Format("用{0}个线程读取数据", Environment.ProcessorCount + 2), string.Format("{0}", "开始"), false);
-            WDDataInit<T>.loadAllEquitSerials(Environment.ProcessorCount+2, 5, true, true,dtp.CheckNewestDataDays, true);
+            WDDataInit<T>.loadAllEquitSerials(Environment.ProcessorCount+2, 5, true, true,dtp.CheckNewestDataDays, null,null,true);
             Log(string.Format("用{0}个线程读取数据", Environment.ProcessorCount + 2), string.Format("{0}", "j结束"), false);
             MongoDataDictionary<T> alldata = WDDataInit<T>.getAllSerialData();
             DataReader<T> rd = DataReaderBuild.CreateReader<T>(dtp.DataType, null, null);

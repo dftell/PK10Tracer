@@ -208,13 +208,13 @@ namespace PK10Server
                 {
                     SetDataGridDataTable(dg_PlanGrps, dt_grps);
                 }
-                DataTable dt_assetunit = AssetUnitClass.ToTable<AssetUnitClass>(UseSetting.AllAssetUnits.Values.ToList<AssetUnitClass>());
+                DataTable dt_assetunit = AssetUnitClass<T>.ToTable<AssetUnitClass<T>>(UseSetting.AllAssetUnits.Values.ToList());
                 if (dt_assetunit != null)
                     SetDataGridDataTable(dg_AssetUnits, dt_assetunit);
                 DataTable dt_exchange = null;
-                foreach(AssetUnitClass auc in UseSetting.AllAssetUnits.Values)
+                foreach(AssetUnitClass<T> auc in UseSetting.AllAssetUnits.Values)
                 {
-                    ExchangeService ed = auc.getCurrExchangeServer();
+                    ExchangeService<T> ed = auc.getCurrExchangeServer();
                     if(ed == null)
                     {
                         //MessageBox.Show(string.Format("{0}资产单元交易服务为空！", auc.UnitName));
@@ -385,7 +385,7 @@ namespace PK10Server
             if (plan == null) return false;
             if (!Start)
             {
-                if (plan.PlanStrag is ITraceChance)
+                if (plan.PlanStrag is ITraceChance<T>)
                 {
                     if (MessageBox.Show("该计划执行的策略为策略级跟踪策略，选择出的组合无法自我跟踪，当停止执行该计划后，该计划所选出来的组合在下期将全部关闭，如果跟踪中途产生的浮动亏损将全部实现！确定要继续停止执行该计划？", "继续停止执行计划", MessageBoxButtons.YesNo) == DialogResult.No)
                     {
@@ -471,7 +471,7 @@ namespace PK10Server
                     return;
                 }
                 if (UseSetting == null) return;
-                AssetUnitClass auc = null;
+                AssetUnitClass<T> auc = null;
                 try
                 {
                     DataTable dt = this.dg_AssetUnits.Tag as DataTable;
@@ -499,7 +499,7 @@ namespace PK10Server
 
         void refreshAssetUnitDll()
         {
-            Dictionary<string, AssetUnitClass> assetUnits = null;
+            Dictionary<string, AssetUnitClass<T>> assetUnits = null;
             if(UseSetting == null)
             {
                 return;
@@ -559,7 +559,7 @@ namespace PK10Server
                 ////chrt.Top = this.chart_ForGuide.Top;
                 ////chrt.Dock = this.chart_ForGuide.Dock;
 
-                Dictionary<string, AssetUnitClass> assetUnits = UseSetting.AllAssetUnits;
+                Dictionary<string, AssetUnitClass<T>> assetUnits = UseSetting.AllAssetUnits;
                 //System.Threading.Thread.Sleep(10 * 1000);
                 lock (assetUnits)
                 {
@@ -571,7 +571,7 @@ namespace PK10Server
                     ////////////dv_stddev.RowFilter = sql;
                     bool Changed = false;
                     List<string> keys = assetUnits.Keys.ToList();
-                    List<AssetUnitClass> vals = assetUnits.Values.ToList();
+                    List<AssetUnitClass<T>> vals = assetUnits.Values.ToList();
                     //foreach (string id in assetUnits.Keys)
                     for (int ai = 0; ai < keys.Count; ai++)
                     {
@@ -614,7 +614,7 @@ namespace PK10Server
                     }
                     i = 0;
                     //foreach (string strName in assetUnits.Keys)
-                    AssetUnitClass needResetAssetUnit = null;
+                    AssetUnitClass<T> needResetAssetUnit = null;
                     double needResetNet = 0;
                     for (int ai = 0; ai < keys.Count; ai++)
                     {
@@ -771,9 +771,9 @@ namespace PK10Server
         private void btn_clearNet_Click(object sender, EventArgs e)
         {
             
-            Dictionary<string, AssetUnitClass> units = this.ddl_assetunits.Tag as Dictionary<string, AssetUnitClass>;
+            Dictionary<string, AssetUnitClass<T>> units = this.ddl_assetunits.Tag as Dictionary<string, AssetUnitClass<T>>;
             if (this.ddl_assetunits.SelectedIndex < 0) return;
-            AssetUnitClass auc = units[this.ddl_assetunits.SelectedValue.ToString()];
+            AssetUnitClass<T> auc = units[this.ddl_assetunits.SelectedValue.ToString()];
             if (auc == null) return;
             if(MessageBox.Show("是否真的需要恢复资产单元到初始金额？如果点是，资产单元将恢复到设定的初始值，对于复利策略对应的资产单元，将恢复到100%状态，在连续亏损时请慎重点击该按钮，建议当资产单元达到10%以下才使用！", "确认恢复资产单元", MessageBoxButtons.YesNo)==DialogResult.No)
             {

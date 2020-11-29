@@ -146,7 +146,7 @@ namespace WolfInv.com.Strags
             return true;// LastExpectMatched;
         }
 
-        public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        public override double getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
             
             int chips = 0;

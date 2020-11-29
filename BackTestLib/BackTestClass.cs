@@ -21,8 +21,8 @@ namespace WolfInv.com.BackTestLib
     public class BackTestClass<T> where T:TimeSerialData
     {
         DataTypePoint dtp;
-        long BegExpect;
-        long EndExpect;
+        string BegExpect;
+        string EndExpect;
         long LoopCnt;
         double Odds;
         SettingClass CurrSetting;
@@ -31,7 +31,7 @@ namespace WolfInv.com.BackTestLib
         public BaseStragClass<T> teststrag;
         public DataTable SystemStdDevs = new DataTable();
         public SuccEvent FinishedProcess; 
-        public BackTestClass(DataTypePoint _dtpName, long FromE,long buffCnt,SettingClass setting, long EndE=0)
+        public BackTestClass(DataTypePoint _dtpName, string FromE,long buffCnt,SettingClass setting, string EndE=null)
         {
             dtp = _dtpName;
 
@@ -51,7 +51,7 @@ namespace WolfInv.com.BackTestLib
             //LoopCnt = 0;
             testIndex = 0;
             ret = new BackTestReturnClass<T>();
-            long begNo = BegExpect;
+            string begNo = BegExpect;
 
             //ExpectReader er = new ExpectReader();
             DataReader<T> er = DataReaderBuild.CreateReader<T>(dtp.DataType, "", null);
@@ -100,7 +100,7 @@ namespace WolfInv.com.BackTestLib
                 }
                 
                 AllData = ExpectList<T>.Concat(AllData, el);
-                begNo = el.LastData.LExpectNo + 1;
+                begNo = el.LastData.LastExpect + 1;
 
                 cnt++;
                 //Todo:
@@ -163,9 +163,9 @@ namespace WolfInv.com.BackTestLib
                                     }
                                     cc.LastMatchTimesId = cc.HoldTimeCnt;
                                 }
-                                if (teststrag is ITraceChance)
+                                if (teststrag is ITraceChance<T>)
                                 {
-                                    ITraceChance its = teststrag as ITraceChance;
+                                    ITraceChance<T> its = teststrag as ITraceChance<T>;
                                     if (its == null)
                                         cc.Closed = cc.OnCheckTheChance(cc, Matched);
                                     else
@@ -295,7 +295,7 @@ namespace WolfInv.com.BackTestLib
         /// <param name="es"></param>
         /// <param name="teststragplans"></param>
         /// <returns></returns>
-        public BackTestReturnClass<T> VirExchange(ServiceSetting<T> sc,ref Dictionary<string,ExchangeService> ess, StragRunPlanClass<T>[] teststragplans)
+        public BackTestReturnClass<T> VirExchange(ServiceSetting<T> sc,ref Dictionary<string,ExchangeService<T>> ess, StragRunPlanClass<T>[] teststragplans)
         {
             //LoopCnt = 0;
             testIndex = 0;
@@ -332,7 +332,7 @@ namespace WolfInv.com.BackTestLib
             }
             cs.IsTestBack = true;
             
-            long begNo = BegExpect;
+            string begNo = BegExpect;
             //ExpectReader er = new ExpectReader();
             DataReader<T> er = DataReaderBuild.CreateReader<T>(dtp.DataType,dtp.HistoryTable,dtp.RuntimeInfo.SecurityCodes); //支持所有数据
             ExpectList<T> el = null;
@@ -403,12 +403,12 @@ namespace WolfInv.com.BackTestLib
                 {
 
                     //begNo = el.LastData.LExpectNo + 1;//加一期
-                    begNo = long.Parse(DataReader<T>.getNextExpectNo(el.LastData.Expect,dtp));
+                    begNo = DataReader<T>.getNextExpectNo(el.LastData.Expect,dtp);
                 }
                 else
                 {
-                    DateTime dt = new DateTime(el.LastData.LExpectNo);
-                    begNo = dt.AddDays(1).Ticks;//加一个周期,如果要回测其他周期，AddDays许更换为其他时间周期
+                    DateTime dt = el.LastData.Expect.ToDate();
+                    begNo = dt.AddDays(1).WDDate();//加一个周期,如果要回测其他周期，AddDays许更换为其他时间周期
                 }
                 cnt++;
                 //Todo:
@@ -444,10 +444,10 @@ namespace WolfInv.com.BackTestLib
                     cs.OnFinishedCalc += OnCalcFinished;
                     cs.setGlobalClass(Program<T>.gc);
                     cs.Calc();
-                    while (!cs.CalcFinished)
+                    /*while (!cs.CalcFinished)
                     {
                         Thread.Sleep(1*100);
-                    }
+                    }*/
                     this.SystemStdDevs = cs.getSystemStdDevList();
                     //testIndex++;
                     testIndex++;
@@ -464,9 +464,9 @@ namespace WolfInv.com.BackTestLib
             //testIndex++;
         }
         
-        public BackTestReturnClass<T> VirExchange_oldLogic(ExchangeService es, StragRunPlanClass<T>[] teststragplans)
+        public BackTestReturnClass<T> VirExchange_oldLogic(ExchangeService<T> es, StragRunPlanClass<T>[] teststragplans)
         {
-            long begNo = BegExpect;
+            string begNo = BegExpect;
             ExpectReader<T> er = new ExpectReader<T>();
             ExpectList<T> el = null;
             long cnt = 0;
@@ -504,7 +504,7 @@ namespace WolfInv.com.BackTestLib
                     break;
                 }
                 AllData = ExpectList<T>.Concat(AllData, el);
-                begNo = el.LastData.LExpectNo + 1;
+                begNo = (el.LastData.LExpectNo + 1).ToString();
 
                 cnt++;
                 //Todo:
@@ -777,7 +777,7 @@ namespace WolfInv.com.BackTestLib
                             ProbWaveSelectStragClass strag = ec.OccurStrag as ProbWaveSelectStragClass;
                             if (!strag.UseAmountList().ContainsKey(testData.LastData.Expect))
                             {
-                                Int64 AllAmt = (ec.OccurStrag as BaseObjectsLib.ISpecAmount).getChipAmount(es.summary, ec.OwnerChance, ec.OccurStrag.CommSetting.GetGlobalSetting().DefaultHoldAmtSerials);
+                                double AllAmt = (ec.OccurStrag as BaseObjectsLib.ISpecAmount<T>).getChipAmount(es.summary, ec.OwnerChance, ec.OccurStrag.CommSetting.GetGlobalSetting().DefaultHoldAmtSerials);
                                 Int64 ChipAmt = (Int64)Math.Floor((double)AllAmt / NoCloseChances.Count);
                                 ec.ExchangeAmount = ChipAmt;
                                 ec.ExchangeRate = ChipAmt/es.summary;
@@ -807,7 +807,7 @@ namespace WolfInv.com.BackTestLib
 
         public RoundBackTestReturnClass<T> RunRound(BaseStragClass<T> teststrag, long TestLong, long StepLong)//滚动获取
         {
-            long begNo = BegExpect;
+            string begNo = BegExpect;
 
             ExpectReader<T> er = new ExpectReader<T>();
             ExpectList<T> el = null;
@@ -826,7 +826,7 @@ namespace WolfInv.com.BackTestLib
             
             while (el == null || el.Count > 0) //如果取到的数据长度大于0
             {
-                el = er.ReadHistory(begNo, LoopCnt);
+                el = er.ReadHistory(begNo.ToString(), LoopCnt);
                 if (el == null)
                 {
                     ret.LoopCnt = cnt * LoopCnt;
@@ -842,7 +842,7 @@ namespace WolfInv.com.BackTestLib
                     break;
                 }
                 AllData = ExpectList<T>.Concat(AllData, el);
-                begNo = el.LastData.LExpectNo + 1;
+                begNo = (el.LastData.LExpectNo + 1).ToString();
 
                 cnt++;
                 //Todo:

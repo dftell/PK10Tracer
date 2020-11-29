@@ -4,12 +4,12 @@ namespace WolfInv.com.BaseObjectsLib
 {
     public class NolimitTraceChance<T> : TraceChance<T> where T : TimeSerialData
     {
-        public override bool CheckNeedEndTheChance<T1>(ChanceClass<T1> cc, bool LastExpectMatched)
+        public override bool CheckNeedEndTheChance(ChanceClass<T> cc, bool LastExpectMatched)
         {
             throw new NotImplementedException();
         }
 
-        public override long getChipAmount<T>(double RestCash, ChanceClass<T> cc, AmoutSerials amts)
+        public override double getChipAmount(double RestCash, ChanceClass<T> cc, AmoutSerials amts)
         {
             try
             {

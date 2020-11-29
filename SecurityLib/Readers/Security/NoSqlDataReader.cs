@@ -75,12 +75,12 @@ namespace WolfInv.com.SecurityLib
             return null;
         }
 
-        public override ExpectList<T> ReadHistory(long From, long buffs)
+        public override ExpectList<T> ReadHistory(string From, long buffs)
         {
             throw new NotImplementedException();
         }
 
-        public override ExpectList<T> ReadHistory(long From, long buffs, bool desc)
+        public override ExpectList<T> ReadHistory(string From, long buffs, bool desc)
         {
             throw new NotImplementedException();
         }

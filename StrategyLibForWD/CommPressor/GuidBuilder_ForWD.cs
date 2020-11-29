@@ -5,7 +5,7 @@ using WolfInv.com.GuideLib;
 using WAPIWrapperCSharp;
 namespace WolfInv.com.StrategyLibForWD
 {
-    public class GuidBuilder_ForWD :GuidBuilder
+    public class GuidBuilder_ForWD :GuidBuilder<TimeSerialData>
     {
         public WindAPI w;
         public GuidBuilder_ForWD(WindAPI _w, GuidBaseClass guidClass) : base(new CommDataInterface_ForWD(_w), guidClass)

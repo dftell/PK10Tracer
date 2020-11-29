@@ -42,7 +42,7 @@ namespace WolfInv.com.BaseObjectsLib
             {
                 DetailStringClass obj = list[i] as DetailStringClass;
                 string key = obj.getValue(keyName)?.ToString();
-                MongoReturnDataList<T> sublist = new MongoReturnDataList<T>();
+                MongoReturnDataList<T> sublist = new MongoReturnDataList<T>(new StockInfoMongoData(key,null));
                 if (!ret.ContainsKey(key))
                 {
                     ret.Add(key, sublist);

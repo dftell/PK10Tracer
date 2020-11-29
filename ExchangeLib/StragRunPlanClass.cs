@@ -134,8 +134,8 @@ namespace WolfInv.com.ExchangeLib
         [DisplayName("所属资产单元"),
         Category("资金管理"),
         Description("如果是复利，必须加入资产单元，以便按复利进行投资"),
-        Editor(typeof(CommPickerEditor<AssetUnitClass>), typeof(UITypeEditor))]
-        public AssetUnitClass AssetUnitInfo{ get; set; }
+        Editor(typeof(CommPickerEditor<AssetUnitClass<TimeSerialData>>), typeof(UITypeEditor))]
+        public AssetUnitClass<T> AssetUnitInfo{ get; set; }
 
 
         [DisplayName("固定比例"),

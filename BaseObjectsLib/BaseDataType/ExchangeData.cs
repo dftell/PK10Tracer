@@ -19,6 +19,13 @@ namespace WolfInv.com.BaseObjectsLib
 
     public class StockInfoMongoData : TimeSerialData, ICodeData
     {
+        public StockInfoMongoData(string _code,string _name)
+        {
+            code = _code;
+            name = _name;
+            Key = code;
+            KeyName = _name;
+        }
         public string code { get; set; }
         public int volunit { get; set; }
 

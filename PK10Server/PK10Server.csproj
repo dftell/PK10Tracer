@@ -256,6 +256,10 @@
       <Project>{7859d79d-edd5-4b79-b3da-072432bc8fcc}</Project>
       <Name>WolfInv.com.WinInterComminuteLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WolfInv.com.WDDataInit\WolfInv.com.WDDataInit.csproj">
+      <Project>{C41DE39D-26AA-4B41-B9A4-7D78AA1F78A5}</Project>
+      <Name>WolfInv.com.WDDataInit</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">

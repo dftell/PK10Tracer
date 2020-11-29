@@ -48,9 +48,16 @@ namespace WolfInv.com.WXMsgCom
 
         public void RefreshMsg(object sender,TEventArgs<List<AddMsg>> tmsg)
         {
-            WebInterfaceClass.ClientValid = true;
-            List<AddMsg> msg = tmsg.Result;
-            listView_msg.Invoke(new SetMsgViewList(RefreshMsg), new object[] { this.listView_msg, msg });
+            try
+            {
+                WebInterfaceClass.ClientValid = true;
+                List<AddMsg> msg = tmsg.Result;
+                listView_msg.Invoke(new SetMsgViewList(RefreshMsg), new object[] { this.listView_msg, msg });
+            }
+            catch
+            {
+
+            }
         }
 
         public void RefreshMsg(ListView msglist, List<wxMessageClass> msg)
@@ -73,7 +80,7 @@ namespace WolfInv.com.WXMsgCom
             }
             catch(Exception ce)
             {
-                MessageBox.Show(string.Format("{0}:{1}",ce.Message,ce.StackTrace));
+                //MessageBox.Show(string.Format("{0}:{1}",ce.Message,ce.StackTrace));
             }
         }
 

@@ -9,7 +9,7 @@ namespace WolfInv.com.SecurityLib
     /// </summary>
     public abstract class CommIndustryStrategy<T> : CommIndexStrategy<T>, iCommIndustryStrategy<T> where T:TimeSerialData
     {
-        public CommIndustryStrategy(CommDataIntface _w) : base(_w) { }
+        public CommIndustryStrategy(CommDataIntface<T> _w) : base(_w) { }
         
 
         

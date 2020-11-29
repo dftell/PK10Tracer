@@ -457,7 +457,7 @@ namespace PK10Server
 
         private void tsmi_AssetUnitMgr_Click(object sender, EventArgs e)
         {
-            frm_CommDBObjectsSetting<AssetUnitClass> frm = new frm_CommDBObjectsSetting<AssetUnitClass>();
+            frm_CommDBObjectsSetting<AssetUnitClass<T>> frm = new frm_CommDBObjectsSetting<AssetUnitClass<T>>();
             frm.OuterList = Program<T>.AllGlobalSetting.AllAssetUnits;
             frm.Show();
         }
@@ -501,7 +501,7 @@ namespace PK10Server
                 this.tssl_Count.Text = string.Format("访问第{1}页，共计获取到{0}条记录",tmpList.Count,i );
                 if(tmpList.Count>=100)
                 {
-                    ExpectList<T> currEl = er.ReadHistory(tmpList.MinExpect, 10000);
+                    ExpectList<T> currEl = er.ReadHistory(tmpList.MinExpect.ToString(), 10000);
                     ExpectList<T> NewEl = er.getNewestData(tmpList, currEl);
                     long res1 = er.SaveHistoryData(NewEl);
                     tmpList = new ExpectList<T>();
@@ -510,7 +510,7 @@ namespace PK10Server
                 Application.DoEvents();
                 Thread.Sleep(10000);
             }
-            ExpectList<T> currEl1 = er.ReadHistory(tmpList.MinExpect, 10000);
+            ExpectList<T> currEl1 = er.ReadHistory(tmpList.MinExpect.ToString(), 10000);
             ExpectList<T> NewEl1 = er.getNewestData(tmpList, currEl1);
             long res = er.SaveHistoryData(NewEl1);
             if(res>0)

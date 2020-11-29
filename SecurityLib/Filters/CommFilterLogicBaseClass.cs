@@ -7,6 +7,7 @@ namespace WolfInv.com.SecurityLib
     /// </summary>
     public abstract class CommFilterLogicBaseClass<T> : iCommCallBackable where T:TimeSerialData
     {
+        protected MongoDataDictionary<T> AllSecs;
         public CommStrategyBaseClass<T> ExecStrategy { get; set; }
         public BaseDataItemClass BaseInfo;
         public string secCode;
@@ -32,6 +33,11 @@ namespace WolfInv.com.SecurityLib
         {
             SecObj = secinfo;
         }
+        public CommFilterLogicBaseClass(MongoDataDictionary<T> allData, CommSecurityProcessClass<T> secinfo)
+        {
+            AllSecs = allData;
+            SecObj = secinfo;
+        }
 
         public CommFilterLogicBaseClass(Cycle cyc,PriceAdj rate )
         {
@@ -40,11 +46,12 @@ namespace WolfInv.com.SecurityLib
         }
 
 
-        public virtual CommSecurityProcessClass<T> ExecFilter()
+        public virtual CommSecurityProcessClass<T> ExecFilter(CommStrategyInClass Input)
         {
             return SecObj;
         }
 
         public abstract BaseDataTable GetData(int RecordCnt);
+
     }
 }

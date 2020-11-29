@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.WDDataInit;
 namespace WolfInv.com.SecurityLib
 {
     public abstract  class  DateSerialCodeDataReader<T>: MongoDataReader<T>, IAllCodeDateSerialDataList<T>, ICodeDateSerialDataList<T> where T :TimeSerialData
     {
         protected string[] secCodes;
         static ExpectList<T> AllData = null;
-        static List<string> AllDates = null;
+        static DateTime[] AllDates = null;
 
         protected DateSerialCodeDataReader()
         {
             if (AllData == null)
             {
-                getAllData();
+                //getAllData();
                 //AllDates = AllData.Select(a => a.Expect).ToList();
             }
         }
@@ -22,14 +23,14 @@ namespace WolfInv.com.SecurityLib
         {
             if (AllData == null)
             {
-                getAllData();
+                //getAllData();
             }
         }
         public DateSerialCodeDataReader(string db, string docname, string[] codes):base(db,docname)
         {
             if (AllData == null)
             {
-                getAllData();
+                //getAllData();
             }
             secCodes = codes;
             builder = new DateSerialCodeDataBuilder(db, docname, codes);
@@ -65,19 +66,20 @@ namespace WolfInv.com.SecurityLib
             throw new NotImplementedException();
         }
 
-        public override ExpectList<T> ReadHistory(long From, long buffs)
+        public override ExpectList<T> ReadHistory(string From, long buffs)
         {
             return ReadHistory(From, buffs, true);
         }
 
-        public override ExpectList<T> ReadHistory(long From, long buffs, bool desc)
+        public override ExpectList<T> ReadHistory(string From, long buffs, bool desc)
         {
-            DateTime dt = new DateTime( From);
+            DateTime dt = From.ToDate();
             DateTime test = dt.AddDays(-1);
-            
-            DateTime et = dt.AddTicks(dt.Subtract(test).Ticks*buffs);
-            string begt = string.Format("{0}-{1}-{2}", dt.Year, dt.Month.ToString().PadLeft(2, '0'), dt.Day.ToString().PadLeft(2, '0'));
-            string endt = string.Format("{0}-{1}-{2}", et.Year, et.Month.ToString().PadLeft(2, '0'), et.Day.ToString().PadLeft(2, '0'));
+            AllDates = WDDataInit<T>.AllDays;
+            int index = AllDates.IndexOf(From);
+            DateTime et = AllDates[Math.Min(AllDates.Length - 1, index + buffs)];
+            string begt = From;
+            string endt = et.WDDate();
 
 
             ////MongoDataDictionary<T> res = GetAllCodeDateSerialDataList(string.Format("{0}-{1}-{2}",dt.Year,dt.Month.ToString().PadLeft(2,'0'),dt.Day.ToString().PadLeft(2,'0')), true);
@@ -89,6 +91,14 @@ namespace WolfInv.com.SecurityLib
 
         public override ExpectList<T> ReadHistory(string begt, string endt)
         {
+            getAllData(0, begt, endt, true); 
+            if (AllData == null)
+                return new ExpectList<T>();
+            ExpectList<T> tres = AllData;
+
+            return tres;
+            //tres?.ForEach(a => ret.Add(a as ExpectData<T1>));
+
             DateTime dt = DateTime.Parse(begt);
             MongoDataDictionary<T> res = GetAllCodeDateSerialDataList(begt,endt, true);
             Dictionary<string, MongoReturnDataList<T>> data = res;
@@ -117,26 +127,26 @@ namespace WolfInv.com.SecurityLib
             string expect = fromdate.WDDate();
             
             
-            if (AllDates == null||AllDates.Count == 0)
+            if (AllDates == null||AllDates.Length == 0)
                 return new ExpectList<T>();
             int cnt = 0;
-            if(AllDates.Count>0)
+            if(AllDates.Length>0)
             {
-                if(AllDates.First().ToDate()> fromdate || AllDates.Last().ToDate()<fromdate)
+                if(AllDates.First()> fromdate || AllDates.Last()<fromdate)
                 {
                     return new ExpectList<T>();
                 }
             }
-            for(int i=0;i< AllDates.Count;i++)
+            for(int i=0;i< AllDates.Length;i++)
             {
-                if(AllDates[i].ToDate()>=fromdate)
+                if(AllDates[i]>=fromdate)
                 {
                     cnt = i;
                     break;
                 }
             }
             ExpectList<T> ret = new ExpectList<T>();
-            var items = AllData.LastDatas(AllDates.Count - cnt, true);
+            var items = AllData.LastDatas(AllDates.Length - cnt, true);
             for(int i = 0;i < items.Count;i++)
             {
                 ExpectData<T> item = items[i] as ExpectData<T>;
@@ -156,19 +166,26 @@ namespace WolfInv.com.SecurityLib
         {
             throw new NotImplementedException();
         }
-        static void getAllData(int localDataLen=1000)
+        static void getAllData(int localDataLen=1000,string fromdate=null,string todate=null,bool reread=false)
         {
             Dictionary<string, string> allequites = WDDataInit.WDDataInit<T>.AllSecurities;
             if (allequites == null || allequites.Count == 0)
             {
                 WDDataInit.WDDataInit<T>.Init();
-
             }
+            bool needRead = false;
             if (!WDDataInit.WDDataInit<T>.Loaded &&!WDDataInit.WDDataInit<T>.Loading)
             {
-                WDDataInit.WDDataInit<T>.loadAllEquitSerials(8,20 ,true, true, localDataLen, true);
+                needRead = true;
             }
-            if (WDDataInit.WDDataInit<T>.Loaded)
+            if(!needRead)
+            {
+                needRead = reread;
+            }
+            //WDDataInit<T>.Debug = true;
+            if(needRead)//需要读取
+                WDDataInit<T>.loadAllEquitSerials(10, 20, true, true, localDataLen, fromdate, todate, true);
+            if (WDDataInit<T>.Loaded)
             {
                 MongoDataDictionary<T> datas = WDDataInit.WDDataInit<T>.getAllSerialData();
                 if (datas != null)
@@ -187,9 +204,9 @@ namespace WolfInv.com.SecurityLib
         }
         public override ExpectList<T> ReadNewestData(string ExpectNo, int Cnt, bool FromHistoryTable)
         {
-            if (AllData == null)
+            if (AllData == null || !ExpectNo.Equals(AllData.LastData.Expect))
             {
-                getAllData();
+                getAllData(Cnt,null,ExpectNo,true);
             }
             if(AllData == null)
                 return new ExpectList<T>();

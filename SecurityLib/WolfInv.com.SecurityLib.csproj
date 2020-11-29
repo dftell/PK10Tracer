@@ -70,10 +70,15 @@
     <Compile Include="DataBuilders\DateSerialCodeDataBuilder.cs" />
     <Compile Include="DataBuilders\DateSerialDatabuilder.cs" />
     <Compile Include="DataBuilders\MongoDataBuilder.cs" />
+    <Compile Include="DataTypes\SecurityChance.cs" />
     <Compile Include="Filters\CommFilterLogicBaseClass.cs" />
     <Compile Include="Filters\CommFilterResult.cs" />
     <Compile Include="Filters\iCallBackable.cs" />
     <Compile Include="Filters\StrategyFilters\FirestPointFilter.cs" />
+    <Compile Include="Filters\StrategyFilters\IsSTFilter.cs" />
+    <Compile Include="Filters\StrategyFilters\MACDTopRevFilter.cs" />
+    <Compile Include="Filters\StrategyFilters\MACDBottomRevFilter.cs" />
+    <Compile Include="Filters\StrategyFilters\MinDaysFilter.cs" />
     <Compile Include="Readers\DateSerialCodeDataReader.cs" />
     <Compile Include="Readers\Lotty\CAN28_HtmlDataClass.cs" />
     <Compile Include="Readers\Lotty\CommExpectReader.cs" />
@@ -161,8 +166,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DataTypes\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

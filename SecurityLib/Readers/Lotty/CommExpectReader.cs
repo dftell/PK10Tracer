@@ -12,13 +12,13 @@ namespace WolfInv.com.SecurityLib
     {
         
         
-        public override ExpectList<T> ReadHistory(long From, long buffs)
+        public override ExpectList<T> ReadHistory(string From, long buffs)
         {
             return ReadHistory(From, buffs, false);
         }
 
 
-        public override ExpectList<T> ReadHistory(long From,long buffs,bool desc)
+        public override ExpectList<T> ReadHistory(string From,long buffs,bool desc)
         {
             DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select top {0} * from {2} where expect>='{1}'  order by expect {3}", buffs, From,strHistoryTable,desc?"desc":"");//modify by zhouys 2019/1/8

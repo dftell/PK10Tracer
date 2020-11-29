@@ -7,9 +7,9 @@ namespace WolfInv.com.GuideLib
     /// <summary>
     /// 多维指标工厂类
     /// </summary>
-    public abstract class GuidBuilder : CommDataBuilder
+    public abstract class GuidBuilder<T> : CommDataBuilder<T> where T:TimeSerialData
     {
-        public GuidBuilder(CommDataIntface cdi, GuidBaseClass guidClass):base(cdi,guidClass)
+        public GuidBuilder(CommDataIntface<T> cdi, GuidBaseClass guidClass):base(cdi,guidClass)
         {
             
         }

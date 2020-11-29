@@ -55,7 +55,7 @@
     <Compile Include="Builder\DateSerialGuidBuilder.cs" />
     <Compile Include="Builder\ICommGuidProcess.cs" />
     <Compile Include="EMAClass.cs" />
-    <Compile Include="Filter\FirstPointClass.cs" />
+    <Compile Include="Filter\KLineData.cs" />
     <Compile Include="GuidBaseClass.cs" />
     <Compile Include="Builder\GuidBuilder.cs" />
     <Compile Include="GuideClass.cs" />

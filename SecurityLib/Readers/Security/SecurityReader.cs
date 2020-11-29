@@ -94,7 +94,7 @@ namespace WolfInv.com.SecurityLib
                 }
                 if (!ret.ContainsKey(key))
                 {
-                    ret.Add(key,Stock_FQ(key, val, xval, fqType));
+                    ret.Add(key,Stock_FQ(key,orgData[key].SecInfo.name, val, xval, fqType));
                 }
             }
             return ret;
@@ -110,13 +110,13 @@ namespace WolfInv.com.SecurityLib
                 MongoReturnDataList<XDXRData> xval = xdata[key];                
                 if (!ret.ContainsKey(key))
                 {
-                    ret.Add(key, Stock_FQ(key, val, xval, fqType));
+                    ret.Add(key, Stock_FQ(key,orgData[key].SecInfo.name, val, xval, fqType));
                 }
             }
             return ret;
         }
 
-        public MongoReturnDataList<StockMongoData> Stock_FQ(string code,MongoReturnDataList<StockMongoData> org_bfq_data=null, MongoReturnDataList<XDXRData> org_xdxr_data = null, PriceAdj fqType = PriceAdj.Fore) 
+        public MongoReturnDataList<StockMongoData> Stock_FQ(string code,string name,MongoReturnDataList<StockMongoData> org_bfq_data=null, MongoReturnDataList<XDXRData> org_xdxr_data = null, PriceAdj fqType = PriceAdj.Fore) 
         {
             /*
              1、一般的股票交易软件中，都有计算复权的功能。股票行情有除权与复权，在计算股票涨跌幅时采用复权价格，这是经常要用到的。系统计算分为以下步骤：
@@ -181,7 +181,7 @@ namespace WolfInv.com.SecurityLib
                 //{
                 //    return (a.ExtentData as XDXRData).category;
                 //}, (a, b) => { a.ExtentData = b; }, FillType.FFill);
-                list = Pandas.Concat<StockMongoData, XDXRData,string>(new MongoReturnDataList<StockMongoData>(list), info,
+                list = Pandas.Concat<StockMongoData, XDXRData,string>(new MongoReturnDataList<StockMongoData>(new StockInfoMongoData(code,name), list), info,
                     a=>a.date,
                     a=>a.date,
                     (s, a, b) => {
@@ -241,7 +241,7 @@ namespace WolfInv.com.SecurityLib
                     ExObj.peigujia = 0;
                     ExObj.songzhuangu = 0;
                 }, FillType.None);
-            ret = new MongoReturnDataList<StockMongoData>(list);
+            ret = new MongoReturnDataList<StockMongoData>(new StockInfoMongoData(code,name), list);
             int xscnt = GlobalClass.TypeDataPoints[base.DbTypeName].RuntimeInfo.SecurityInfoList[code].decimal_point;
             long Lbase = (long)Math.Pow(10, xscnt);
             List<long?> CloseList = ret.ToList(a => (long?)(a.close*Lbase));

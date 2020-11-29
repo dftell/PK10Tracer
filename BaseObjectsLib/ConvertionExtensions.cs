@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Data;
 using System.Collections.Generic;
+using System.Linq;
 namespace WolfInv.com.BaseObjectsLib
 {
     public static class ConvertionExtensions
@@ -557,11 +558,26 @@ namespace WolfInv.com.BaseObjectsLib
             return dt;
         }
 
+        public static int IndexOf(this DateTime[] arr,string date)
+        {
+            int ret = arr.ToList().IndexOf(date.ToDate());
+            if(ret >=0)
+            {
+                return ret;
+            }
+            if (date.ToDate() > arr.Last() || date.ToDate() < arr.First())
+            {
+                return -1;
+            }
+            int gtcnt = arr.Where(a => a > date.ToDate()).Count();
+            return arr.Length - gtcnt;
+        }
+
         public static long ToLong(this string datetime,string toFormat = "yyyyMMddHHmmss",string fromFormat ="yyyy-MM-dd")
         {
             DateTime dt = ToDate(datetime,fromFormat);
             long ret = 0;
-            long.TryParse(dt.WDDate(fromFormat), out ret);
+            long.TryParse(dt.WDDate(toFormat), out ret);
             return ret;
         }
     }

@@ -8,6 +8,7 @@ namespace WolfInv.com.BaseObjectsLib
 {
     public class MongoReturnDataList<T> : List<T>, ICloneable where T :TimeSerialData
     {
+        public StockInfoMongoData SecInfo;
         public bool Disable;
         Dictionary<string, int> _maps;
         Dictionary<string,int> maps
@@ -22,34 +23,43 @@ namespace WolfInv.com.BaseObjectsLib
                 if(needUpdate )
                 {
                     _maps = new Dictionary<string, int>();
-                    for(int i=0;i<this.Count;i++)
+
+                    for (int i = 0; i < this.Count; i++)
                     {
                         //ExchangeMongoData data = this[i] as ExchangeMongoData;
                         TimeSerialData data = this[i];
                         string date = this[i]?.Expect;
+                        if (typeof(T) != typeof(StockMongoData))
+                        {
+                            date = this[i]?.OpenTime.ToString();
+                        }
                         if (string.IsNullOrEmpty(date))
                             continue;
-                        if (!_maps.ContainsKey(data?.Expect))
+                        lock (_maps)
                         {
-                            _maps.Add(date, i);
-                        }
-                        else
-                        {
-                            _maps[date] = i;
+                            if (!_maps.ContainsKey(date))
+                            {
+                                _maps.Add(date, i);
+                            }
+                            else
+                            {
+                                _maps[date] = i;
+                            }
                         }
                     }
                 }
                 return _maps;
             }
         }
-        public MongoReturnDataList(List<T> list)
+        public MongoReturnDataList(StockInfoMongoData info,List<T> list)
         {
+            SecInfo = info;
             list?.ForEach(p => this.Add(p));
         }
 
-        public MongoReturnDataList()
+        public MongoReturnDataList(StockInfoMongoData info)
         {
-
+            SecInfo = info;
         }
 
         public T this[string key]
@@ -76,7 +86,7 @@ namespace WolfInv.com.BaseObjectsLib
         public MongoReturnDataList<T> LastDays(int N)
         {
             int len = Math.Min(this.Count, N);
-            MongoReturnDataList<T> ret = new MongoReturnDataList<T>();
+            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(this.SecInfo);
             var items = this.Skip(len - N);
             foreach (var item in items)
             {
@@ -94,12 +104,12 @@ namespace WolfInv.com.BaseObjectsLib
             }
             if (cprDate > this.Last().Expect.ToDate() || cprDate < this.First().Expect.ToDate())
             {
-                return new MongoReturnDataList<T>();
+                return new MongoReturnDataList<T>(this.SecInfo);
             }
             int index = this.Keys.ToList().Where(a => a.ToDate() < Date.ToDate()).Count();
             if (index < 0)
-                return new MongoReturnDataList<T>();
-            MongoReturnDataList<T> ret = new MongoReturnDataList<T>();
+                return new MongoReturnDataList<T>(this.SecInfo);
+            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(this.SecInfo);
             foreach (var key in this.Skip(index))
             {
                 ret.Add(key.Expect , key);
@@ -115,12 +125,15 @@ namespace WolfInv.com.BaseObjectsLib
 
         public bool ContainKey(string key)
         {
-            bool succ = maps.ContainsKey(key);
-            if(succ)
+            lock (maps)
             {
-                return maps[key] >= 0 && maps[key] < this.Count;
+                bool succ = maps.ContainsKey(key);
+                if (succ)
+                {
+                    return maps[key] >= 0 && maps[key] < this.Count;
+                }
+                return succ;
             }
-            return succ;
         }
 
         public List<string> Keys
@@ -145,7 +158,7 @@ namespace WolfInv.com.BaseObjectsLib
 
         public MongoReturnDataList<T> Query<Field>(string col,Field val) 
         {
-            MongoReturnDataList<T> ret = new MongoReturnDataList<T>();
+            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(this.SecInfo);
             try
             {
                 BsonElement bs = new BsonElement(col,BsonValue.Create(val));
@@ -164,7 +177,7 @@ namespace WolfInv.com.BaseObjectsLib
 
         public MongoReturnDataList<T> Query(BsonDocument func)
         {
-            MongoReturnDataList<T> ret = new MongoReturnDataList<T>();
+            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(this.SecInfo);
             try
             {
                 List<T> list = this.FindAll(p => (p as MongoData).Compr(func));
@@ -180,12 +193,12 @@ namespace WolfInv.com.BaseObjectsLib
 
         public object Clone()
         {
-            MongoReturnDataList<T> ret = new MongoReturnDataList<T>();
+            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(this.SecInfo);
             this.ForEach(a => ret.Add(a.Clone() as T));
             return ret;
         }
         public MongoReturnDataList<T> Copy(bool Deeply = false)
-        {            MongoReturnDataList<T> ret = new MongoReturnDataList<T>();
+        {            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(this.SecInfo);
             this.ForEach(a => ret.Add(Deeply ? a.Clone<T>():a));
             return ret;
         }
@@ -243,7 +256,7 @@ namespace WolfInv.com.BaseObjectsLib
 
         public MongoReturnDataList<T> GetDataByIndies(int[] indies)
         {
-            MongoReturnDataList<T> ret = new MongoReturnDataList<T>();
+            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(this.SecInfo);
             for (int i=0;i< indies.Length; i++)
             {
                 ret.Add(this[indies[i]]);
@@ -259,11 +272,11 @@ namespace WolfInv.com.BaseObjectsLib
             return GetDataByIndies(Arr);
         }
 
-        public MongoReturnDataList<T> GetLastData(int len,string expect)
+        public MongoReturnDataList<T> GetLastData(int len,string expect,string expectFormat="yyyy-MM-dd",string longFormat="yyyyMMdd")
         {
             int[] Arr = new int[len];
-            var items = this.Where(a => a.Expect.ToLong() <= expect.ToLong()).OrderBy(a=>a.Expect);
-            MongoReturnDataList<T> ret = new MongoReturnDataList<T>();
+            var items = this.Where(a => a.Expect.ToLong(longFormat, expectFormat) <= expect.ToLong(longFormat, expectFormat)).OrderBy(a=>a.Expect);
+            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(this.SecInfo);
             foreach(var item in items.Skip(Math.Max(0, items.Count() - len)))
             {
                 ret.Add(item);
@@ -274,6 +287,12 @@ namespace WolfInv.com.BaseObjectsLib
             return GetDataByIndies(Arr);
         }
 
+        /*
+        public static implicit operator MongoReturnDataList<T>(MongoReturnDataList<T> v)
+        {
+            throw new NotImplementedException();
+        }
+        */
     }
 
     

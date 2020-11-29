@@ -9,11 +9,12 @@ namespace WolfInv.com.SecurityLib
     /// <summary>
     /// 选股策略基类
     /// </summary>
-    public abstract class CommStrategyBaseClass<T> : CommDataBuilder, iCommBalanceMethod<T>, iCommBreachMethod<T>, iCommReverseMethod<T>, iCommReadSecuritySerialData where T:TimeSerialData
+    public abstract class CommStrategyBaseClass<T> : CommDataBuilder<T>, iCommBalanceMethod<T>, iCommBreachMethod<T>, iCommReverseMethod<T>, iCommReadSecuritySerialData where T:TimeSerialData
     {
-        public CommStrategyBaseClass(CommDataIntface _w)
+        public CommStrategyBaseClass(CommDataIntface<T> _w)
             : base(_w)
         {
+            SelectTable = _w.getData();
         }
         public CommStrategyInClass InParam { get; set; }
         /// <summary>
@@ -109,7 +110,7 @@ namespace WolfInv.com.SecurityLib
 
         public CommSecurityProcessClass<T> SingleSecPreProcess(string key,MongoReturnDataList<T> dr)
         {
-            CommSecurityProcessClass<T> ret = new CommSecurityProcessClass<T>(dr);
+            CommSecurityProcessClass<T> ret = new CommSecurityProcessClass<T>(dr.SecInfo,dr);
             CommStrategyInClass OneIn = InParam;
             OneIn.SecIndex = key;
             OneIn.SecsPool = new List<string>();

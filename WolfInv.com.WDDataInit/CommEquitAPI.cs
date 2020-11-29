@@ -17,7 +17,7 @@ namespace WolfInv.com.WDDataInit
     {
         public string strModel;
         public abstract Dictionary<string, string> getAllEquit(DateTime date);
-        public abstract MongoReturnDataList<T> getSerialData<T>(string key, DateTime useBeginTime, DateTime endTime) where T : TimeSerialData;
+        public abstract MongoReturnDataList<T> getSerialData<T>(StockInfoMongoData info, DateTime useBeginTime, DateTime endTime,ref List<string> urls) where T : TimeSerialData;
 
         public EquitAPIFormat DataFormat;
         protected bool needDownload;
@@ -25,7 +25,7 @@ namespace WolfInv.com.WDDataInit
         
 
         public abstract Dictionary<string, string> getSetTable(string strResult);
-        public abstract MongoReturnDataList<T> getSerialTable<T>(string strResult) where T:TimeSerialData;
+        public abstract MongoReturnDataList<T> getSerialTable<T>(StockInfoMongoData info, string strResult) where T:TimeSerialData;
 
         protected void Init()
         {
@@ -98,14 +98,14 @@ namespace WolfInv.com.WDDataInit
             return null;
         }
 
-        public override MongoReturnDataList<T> getSerialTable<T>(string strResult)
+        public override MongoReturnDataList<T> getSerialTable<T>(StockInfoMongoData info, string strResult)
         {
             return null;
         }
 
-        public override MongoReturnDataList<T> getSerialData<T>(string key, DateTime useBeginTime, DateTime endTime)
+        public override MongoReturnDataList<T> getSerialData<T>(StockInfoMongoData info, DateTime useBeginTime, DateTime endTime,ref List<string> urls)
         {
-            return new MongoReturnDataList<T>();
+            return new MongoReturnDataList<T>(info);
             /*
             try
             {
@@ -123,44 +123,44 @@ namespace WolfInv.com.WDDataInit
     {
         public override Dictionary<string, string> getAllEquit(DateTime date)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
-        public override MongoReturnDataList<T> getSerialData<T>(string key, DateTime useBeginTime, DateTime endTime)
+        public override MongoReturnDataList<T> getSerialData<T>(StockInfoMongoData info, DateTime useBeginTime, DateTime endTime, ref List<string> urls)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
-        public override MongoReturnDataList<T> getSerialTable<T>(string strResult)
+        public override MongoReturnDataList<T> getSerialTable<T>(StockInfoMongoData info, string strResult)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public override Dictionary<string, string> getSetTable(string strResult)
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
     public class EquitAPI_NetEasy : CommEquitAPI
     {
         public override Dictionary<string, string> getAllEquit(DateTime date)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
-        public override MongoReturnDataList<T> getSerialData<T>(string key, DateTime useBeginTime, DateTime endTime)
+        public override MongoReturnDataList<T> getSerialData<T>(StockInfoMongoData info, DateTime useBeginTime, DateTime endTime, ref List<string> urls)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
-        public override MongoReturnDataList<T> getSerialTable<T>(string strResult)
+        public override MongoReturnDataList<T> getSerialTable<T>(StockInfoMongoData info, string strResult)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public override Dictionary<string, string> getSetTable(string strResult)
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 
@@ -220,12 +220,12 @@ namespace WolfInv.com.WDDataInit
 
     
 
-        public override MongoReturnDataList<T> getSerialTable<T>(string strResult)
+        public override MongoReturnDataList<T> getSerialTable<T>(StockInfoMongoData info, string strResult)
         {
             string startString = "hexundata(";
             string endString = ");";
             string strReg = @"hexunData\([\s\S]*)\);";
-            MongoReturnDataList<T> ret = new MongoReturnDataList<T>();
+            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(info);
             if(strResult == null || !strResult.StartsWith(startString) || !strResult.EndsWith(endString))
             {
                 return ret;
@@ -239,6 +239,7 @@ namespace WolfInv.com.WDDataInit
                 HexunSerialDataClass res = HexunSerialDataClass.FromJson<HexunSerialDataClass,string,Int64>(strJson,Int64.Parse,2);
                 if (res == null || res.Data.Count <= 4)
                 {
+                    throw new Exception(strJson);
                     return ret;
                 }
                 int weight = (int)res.Data[res.Data.Count-1][0][0];
@@ -289,11 +290,19 @@ namespace WolfInv.com.WDDataInit
                         ret.Add(ed as T);
                     }
                 }
+                var items = ret.OrderBy(a=>a.Expect);
+                MongoReturnDataList<T> rres = new MongoReturnDataList<T>(info);
+                foreach(var item in items)
+                {
+                    rres.Add(item);
+                }
+                return rres;
             }
             catch(Exception ce)
             {
                 throw ce;
             }
+
             return ret;
         }
 
@@ -315,17 +324,20 @@ namespace WolfInv.com.WDDataInit
 
         }
 
-        public override MongoReturnDataList<T> getSerialData<T>(string key, DateTime useBeginTime, DateTime endTime)
+        public override MongoReturnDataList<T> getSerialData<T>(StockInfoMongoData info, DateTime useBeginTime, DateTime endTime,ref List<string> urls)
         {
+            urls = new List<string>();
             string strSerialModel = "http://webstock.quote.hermes.hexun.com/a/kline?code={3}{0}&start={1}&number={2}&type=5&callback=hexunData";
-            string[] codes = key.Split('.');
+            string[] codes = info.code.Split('.');
             string mkt = codes[1].ToUpper().Equals("SZ") ? "SZSE" : "SSE";
-            string url = string.Format(strSerialModel, codes[0], useBeginTime.ToString("yyyyMMddHHmmss"),Math.Max(1,endTime.Subtract(useBeginTime).TotalDays),mkt);
+            string url = string.Format(strSerialModel, codes[0], useBeginTime.ToString("yyyyMMddHHmmss"),Math.Max(1,endTime.Subtract(useBeginTime).TotalDays+1),mkt);
+            urls.Add(url);
             string data = getUrl(url, Encoding.UTF8)?.Result;
-            MongoReturnDataList<T> ret = getSerialTable<T>(data);
+            MongoReturnDataList<T> ret = getSerialTable<T>(info,data);
             if (ret == null || ret.Count == 0)
             {
-                return new MongoReturnDataList<T>();
+                throw new Exception(data);
+                return new MongoReturnDataList<T>(info);
             }
             DateTime lastDate;
             if (!DateTime.TryParse(ret.Last().Expect,out lastDate))
@@ -337,9 +349,10 @@ namespace WolfInv.com.WDDataInit
             while(endTime.Subtract(lastDate).TotalDays>5)//非常差距
             {
                 totalCnt = ret.Count;
-                url = string.Format(strSerialModel, codes[0], lastDate.ToString("yyyyMMddHHmmss"), Math.Max(1, endTime.Subtract(lastDate).TotalDays),mkt);
-                data = getUrl(url, Encoding.UTF8)?.Result;
-                MongoReturnDataList<T> tmpList = getSerialTable<T>(data);
+                string wurl = string.Format(strSerialModel, codes[0], lastDate.ToString("yyyyMMddHHmmss"), Math.Max(1, endTime.Subtract(lastDate).TotalDays+1),mkt);
+                urls.Add(wurl);
+                data = getUrl(wurl, Encoding.UTF8)?.Result;
+                MongoReturnDataList<T> tmpList = getSerialTable<T>(info,data);
                 if(tmpList == null || tmpList.Count<=1)
                 {
                     return ret;
@@ -354,8 +367,8 @@ namespace WolfInv.com.WDDataInit
                     {
                         ret.Add(c, tmpList[c]);
                     }
-                }
-                lastDate = tmpList.Last().Key.ToDate();
+                }                
+                lastDate = tmpList.Last().Expect.ToDate();
                 if(ret.Count == totalCnt)
                 {
                     break;

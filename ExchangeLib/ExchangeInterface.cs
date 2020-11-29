@@ -18,8 +18,8 @@ namespace WolfInv.com.ExchangeLib
         public Int64 Id;
         ChanceClass<T> _cc;
         BaseStragClass<T> _sc;
-        ExchangeService es;
-        public ExchangeService Server { get { return es; } }
+        ExchangeService<T> es;
+        public ExchangeService<T> Server { get { return es; } }
         string _InExpect;
         public string ExpectNo
         {
@@ -50,7 +50,7 @@ namespace WolfInv.com.ExchangeLib
             }
         }
 
-        public ExchangeChance(ExchangeService _es,BaseStragClass<T> sc,string InExpectNo, string CurrExpectNo, ChanceClass<T> cc)
+        public ExchangeChance(ExchangeService<T> _es,BaseStragClass<T> sc,string InExpectNo, string CurrExpectNo, ChanceClass<T> cc)
         {
             _cc = cc;
             _sc = sc;
@@ -59,10 +59,10 @@ namespace WolfInv.com.ExchangeLib
             es = _es;
         }
 
-        public Int64 ExchangeAmount;
+        public double ExchangeAmount;
         public int MatchChips;
         public double ExchangeRate;
-        public Int64 Cost
+        public double Cost
         {
             get
             {

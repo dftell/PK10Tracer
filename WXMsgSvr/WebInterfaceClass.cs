@@ -116,9 +116,9 @@ namespace WolfInv.com.WXMsgCom
             return ret;
         }
         #endregion
-       
 
-        
+
+        public List<msgclass> AllWillSendMsgList = new List<msgclass>();
 
         public void HeartCheck()
         {
@@ -138,6 +138,7 @@ namespace WolfInv.com.WXMsgCom
         private static QrCodeForm qrForm;
         static frm_MainWin frm;
         //private static string cookiePath = AppDomain.CurrentDomain.BaseDirectory + "autoLoginCookie";
+        
         
         static bool DisplayByFrm;
         public WebInterfaceClass()
@@ -1060,7 +1061,7 @@ namespace WolfInv.com.WXMsgCom
         }
 
 
-
+        
         private static void Client_ExceptionCatched(object sender, TEventArgs<Exception> e)
 
         {
@@ -1096,29 +1097,45 @@ namespace WolfInv.com.WXMsgCom
 
         public string SendMsg(string str,string ToUser)
         {
-            if (Valid)
+            try
             {
-                string RToUser = ToUser;
-                if(!contactDict.ContainsKey(ToUser))
+                if (Valid)
+                {
+                    string RToUser = ToUser;
+                    if (!contactDict.ContainsKey(ToUser))
+                    {
+
+                        List<Contact> res = getContactListByName(ToUser);
+                        if (res.Count == 0)
+                        {
+                            return "不存在该用户！";
+                        }
+                        if (res.Count > 1)
+                        {
+                            return "存在多个用户！";
+                        }
+                        RToUser = res[0].UserName;
+                    }
+                    //return client.SendMsg(str, RToUser).ToJson();
+                    lock (AllWillSendMsgList)
+                    {
+                        msgclass mc = new msgclass();
+                        mc.msg = str;
+                        mc.toName = RToUser;
+                        AllWillSendMsgList.Add(mc);
+                    }
+                    Task.Factory.StartNew(() => { SendMsg(); });
+                    return "发送成功";
+                }
+                else
                 {
 
-                    List<Contact> res = getContactListByName(ToUser);
-                    if (res.Count == 0)
-                    {
-                        return "不存在该用户！";
-                    }
-                    if(res.Count >1)
-                    {
-                        return "存在多个用户！";
-                    }
-                    RToUser = res[0].UserName;
-                }   
-                return client.SendMsg(str, RToUser).ToJson();
+                    return "服务未启动，开始启动服务！123";
+                }
             }
-            else
+            catch(Exception ce)
             {
-
-                return "服务未启动，开始启动服务！123";
+                return ce.Message;
             }
         }
 
@@ -1171,7 +1188,19 @@ namespace WolfInv.com.WXMsgCom
                 }
                 FileInfo strFileName = GetImageFromBase64(strBase64);
                 if (strFileName != null)
-                    return client.SendMsg(strFileName, RToUser).ToJson();
+                {
+                    lock (AllWillSendMsgList)
+                    {
+                        msgclass mc = new msgclass();
+                        mc.file = strFileName;
+                        mc.toName = RToUser;
+                        AllWillSendMsgList.Add(mc);
+                        
+                    }
+                    Task.Factory.StartNew(() => { SendMsg(); }) ;
+                    return "发送成功";
+                    //return client.SendMsg(strFileName, RToUser).ToJson();
+                }
                 else
                     return "无法保存图片";
             }
@@ -1209,7 +1238,18 @@ namespace WolfInv.com.WXMsgCom
                         RToUser = res[0].UserName;
                     }
                     if (strFileName != null)
-                        return client.SendMsg(strFileName, RToUser).ToJson();
+                    {
+                        lock(AllWillSendMsgList)
+                        {
+                            msgclass mc = new msgclass();
+                            mc.file = strFileName;
+                            mc.toName = RToUser;
+                            AllWillSendMsgList.Add(mc);
+                        }
+                        Task.Factory.StartNew(() => { SendMsg(); });
+                        return "发送成功";
+                        //return client.SendMsg(strFileName, RToUser).ToJson();
+                    }
                     else
                         return "无法保存图片";
                 }
@@ -1224,6 +1264,46 @@ namespace WolfInv.com.WXMsgCom
                 return ce.Message;
             }
             
+        }
+
+        public void SendMsg()
+        {
+            try
+            {
+                lock(AllWillSendMsgList)
+                {
+                    List<Task> msgs = new List<Task>();
+                    if (AllWillSendMsgList.Count > 0)
+                    {
+
+                        foreach (var item in AllWillSendMsgList)
+                        {
+                            if (item.file != null)
+                            {
+                                Task task = Task.Factory.StartNew(() =>
+                                {
+                                    client.SendMsg(item.file, item.toName);
+                                });
+                                msgs.Add(task);
+                            }
+                            else
+                            {
+                                Task task = Task.Factory.StartNew(() =>
+                                {
+                                    client.SendMsg(item.msg, item.toName);
+                                });
+                                msgs.Add(task);
+                            }
+                        }
+                    }
+                    Task.WaitAll(msgs.ToArray());
+                    AllWillSendMsgList = new List<msgclass>();
+                }
+            }
+            catch
+            {
+
+            }
         }
 
         public void SetDisplayMethod(bool bDisplayByFrm)
@@ -1244,5 +1324,11 @@ namespace WolfInv.com.WXMsgCom
         
     }
 
+    public class msgclass
+    {
+        public FileInfo file;
+        public string msg;
+        public string toName;
+    }
    
 }

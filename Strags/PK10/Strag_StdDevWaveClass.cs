@@ -25,7 +25,7 @@ namespace WolfInv.com.Strags
             return LastExpectMatched;//持续机会
         }
 
-        public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        public override double getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
             try
             {

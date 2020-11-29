@@ -34,10 +34,15 @@ namespace PK10Server
         private void frm_MoniteStrag_Load(object sender, EventArgs e)
         {
             //Program<T>.AllGlobalSetting.wxlog.Log("单策略监控","启用", string.Format(GlobalClass.LogUrl, GlobalClass.WXLogHost));
-            this.txt_DtpName.Text = GlobalClass.TypeDataPoints.First().Key;
+            this.txt_DtpName.Text = GlobalClass.DataTypes.First().Value;
             timer1.Interval = 1000 * int.Parse(this.txt_intersec.Text.Trim());
             timer1.Tick += Timer1_Tick;
-            this.txt_lastExpect.Text = DateTime.Today.AddDays(-1).WDDate("yyyyMMdd");
+            if(GlobalClass.TypeDataPoints.First().Value.IsSecurityData == 1)
+                this.txt_lastExpect.Text = DateTime.Today.AddDays(-1).WDDate();
+            else
+            {
+                this.txt_lastExpect.Text = DateTime.Today.WDDate("yyyyMMdd");
+            }
         }
 
         private void Timer1_Tick(object sender, EventArgs e)
@@ -65,7 +70,7 @@ namespace PK10Server
                     return;
                 }
                 runstg.ReviewExpectCnt = int.Parse(this.txt_reviewcnt.Text);
-                var dtps = GlobalClass.TypeDataPoints.Where(a => a.Key == this.txt_DtpName.Text.Trim());
+                var dtps = GlobalClass.TypeDataPoints;
                 if(dtps.Count() == 0)
                 {
                     MessageBox.Show("Dtp不存在");
@@ -126,15 +131,18 @@ namespace PK10Server
                     grp =>
                     {
                         lock (Program<T>.AllGlobalSetting.AllStragIndexs)
-                            foreach (var kv in grp.grpIndexs)
+                            if (grp.grpIndexs != null)
                             {
-                                if (Program<T>.AllGlobalSetting.AllStragIndexs.ContainsKey(kv.Key))
+                                foreach (var kv in grp.grpIndexs)
                                 {
-                                    Program<T>.AllGlobalSetting.AllStragIndexs[kv.Key] = kv.Value;
-                                }
-                                else
-                                {
-                                    Program<T>.AllGlobalSetting.AllStragIndexs.Add(kv.Key, kv.Value);
+                                    if (Program<T>.AllGlobalSetting.AllStragIndexs.ContainsKey(kv.Key))
+                                    {
+                                        Program<T>.AllGlobalSetting.AllStragIndexs[kv.Key] = kv.Value;
+                                    }
+                                    else
+                                    {
+                                        Program<T>.AllGlobalSetting.AllStragIndexs.Add(kv.Key, kv.Value);
+                                    }
                                 }
                             }
                     }
@@ -142,7 +150,7 @@ namespace PK10Server
                 return;
 
                 List<ChanceClass<T>> cs = runstg.getChances(sc, ViewDataList.LastData);
-                long val = (runstg as StragClass).getChipAmount(runstg.allowInvestmentMaxValue, cc, amt);
+                double val = (runstg as ISpecAmount<T>).getChipAmount(runstg.allowInvestmentMaxValue, cc, amt);
                 
                 if (ViewDataList == null || ViewDataList.Count == 0)
                 {
@@ -251,7 +259,7 @@ namespace PK10Server
                     return;
                 }
                 //runstg.ReviewExpectCnt = int.Parse(this.txt_reviewcnt.Text);
-                var dtps = GlobalClass.TypeDataPoints.Where(a => a.Key == this.txt_DtpName.Text.Trim());
+                var dtps = GlobalClass.TypeDataPoints;
                 if (dtps.Count() == 0)
                 {
                     MessageBox.Show("Dtp不存在");
@@ -266,25 +274,32 @@ namespace PK10Server
                 DataReader<T> er = DataReaderBuild.CreateReader<T>(dtp.DataType, null, null);
                 //ExpectList<T> ViewDataList = er.ReadHistory<T>( runstg.ReviewExpectCnt +20, this.txt_lastExpect.Text);
                 long revCnt = runstg.ReviewExpectCnt;
-                if(dtp.DataType != "PK10")
+                if (dtp.IsSecurityData == 1)
                 {
-                    long currLng = long.Parse(txt_lastExpect.Text);
-                    string strDate = this.txt_lastExpect.Text.Substring(0,dtp.ExpectCodeDateLong);
-                    DateTime currDate;
-                    if (!DateTime.TryParseExact(strDate, dtp.ExpectCodeDateFormate,
-                    System.Globalization.CultureInfo.InvariantCulture,
-                    System.Globalization.DateTimeStyles.AdjustToUniversal,
-                    out currDate))
-                    {
-                        MessageBox.Show(strDate + "非正常日期格式！");
-                        return;
-                    }
-                    int days = (int)Math.Ceiling((double)(revCnt / dtp.ExpectCodeCounterMax))+1;//需要提前的数据长度除以单日最大数=日期数
-                    long calcLng = long.Parse(currDate.AddDays(-1 * days).ToString(dtp.ExpectCodeDateFormate));
-                    if(dtp.IsSecurityData == 0)
-                        revCnt = currLng - calcLng*(long)Math.Pow(10,dtp.ExpectCodeCounterLen);
+                    
                 }
-                ExpectList<T> ViewDataList = er.ReadNewestData(long.Parse(this.txt_lastExpect.Text),(int)(revCnt + 20),false);
+                else
+                {
+                    if (dtp.DataType != "PK10")
+                    {
+                        long currLng = long.Parse(txt_lastExpect.Text);
+                        string strDate = this.txt_lastExpect.Text.Substring(0, dtp.ExpectCodeDateLong);
+                        DateTime currDate;
+                        if (!DateTime.TryParseExact(strDate, dtp.ExpectCodeDateFormate,
+                        System.Globalization.CultureInfo.InvariantCulture,
+                        System.Globalization.DateTimeStyles.AdjustToUniversal,
+                        out currDate))
+                        {
+                            MessageBox.Show(strDate + "非正常日期格式！");
+                            return;
+                        }
+                        int days = (int)Math.Ceiling((double)(revCnt / dtp.ExpectCodeCounterMax)) + 1;//需要提前的数据长度除以单日最大数=日期数
+                        long calcLng = long.Parse(currDate.AddDays(-1 * days).ToString(dtp.ExpectCodeDateFormate));
+                        if (dtp.IsSecurityData == 0)
+                            revCnt = currLng - calcLng * (long)Math.Pow(10, dtp.ExpectCodeCounterLen);
+                    }
+                }
+                ExpectList<T> ViewDataList = er.ReadNewestData(this.txt_lastExpect.Text,(int)(revCnt + 20),false);
                 string strexpect = ViewDataList.LastData.Expect;
                 //this.txt_lastExpect.Text = strexpect;
                 this.lastExpect = strexpect;
@@ -316,7 +331,7 @@ namespace PK10Server
                 csg.UseSerial = spr.PlanStrag.BySer;
                 if(spr.AssetUnitInfo == null)
                 {
-                    spr.AssetUnitInfo = new AssetUnitClass();
+                    spr.AssetUnitInfo = new AssetUnitClass<T>();
                     spr.AssetUnitInfo.UnitId = "testSingleId";
                 }
                 csg.UseAssetUnits.Add(spr.AssetUnitInfo.UnitId, spr.AssetUnitInfo);
@@ -326,17 +341,24 @@ namespace PK10Server
                 calc.OnFinishedCalc = (d) =>
                 {
                     //MessageBox.Show(dtp.DataType + "执行完毕！");
-
-                    foreach (string key in Program<T>.AllGlobalSetting.AllNoClosedChanceList.Keys)
+                    try
                     {
-                        ChanceClass<T> nc = Program<T>.AllGlobalSetting.AllNoClosedChanceList[key];
+                        foreach (string key in Program<T>.AllGlobalSetting.AllNoClosedChanceList.Keys)
+                        {
+                            ChanceClass<T> nc = Program<T>.AllGlobalSetting.AllNoClosedChanceList[key];
 
-                        List<string> currLines = this.Txt_Chances.Lines.ToList();
-                        currLines.Add(string.Format("{2}=>{0}/{1}", nc.ChanceCode, nc.UnitCost,nc.ExpectCode));
-                        Txt_Chances.Invoke(new SetCtrlDelegate(SetCtrlById), new object[] { this.Txt_Chances.Name, currLines.ToArray() });
+                            List<string> currLines = this.Txt_Chances.Lines.ToList();
+                            currLines.Add(string.Format("{2}=>{0}/{1}", nc.ChanceCode, nc.UnitCost, nc.ExpectCode));
+                            Txt_Chances.Invoke(new SetCtrlDelegate(SetCtrlById), new object[] { this.Txt_Chances.Name, currLines.ToArray() });
+
+                        }
+                        this.Txt_Chances.Refresh();
+                        MessageBox.Show("执行完毕！");
+                    }
+                    catch
+                    {
 
                     }
-                    this.Txt_Chances.Refresh();
                 };
                 calc.Calc();
                 Program<T>.AllGlobalSetting.AllRunningPlanGrps = allgroups;//恢复原有的计划组
@@ -344,6 +366,7 @@ namespace PK10Server
                     grp =>
                     {
                         lock (Program<T>.AllGlobalSetting.AllStragIndexs)
+                            if(grp.grpIndexs != null)
                             foreach (var kv in grp.grpIndexs)
                             {
                                 if (Program<T>.AllGlobalSetting.AllStragIndexs.ContainsKey(kv.Key))

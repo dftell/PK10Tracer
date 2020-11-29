@@ -9,11 +9,11 @@ using WolfInv.com.ExchangeLib;
 using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.ServerInitLib
 {
-    public class InitServerClass:LogableClass
+    public class InitServerClass<T>:LogableClass where T:TimeSerialData
     {
         
 
-        public static Dictionary<string, BaseStragClass<T>> Init_StragList<T>() where T : TimeSerialData
+        public static Dictionary<string, BaseStragClass<T>> Init_StragList() 
         {
             Dictionary<string, BaseStragClass<T>> AllStragList = new Dictionary<string, BaseStragClass<T>>();
             try
@@ -41,17 +41,17 @@ namespace WolfInv.com.ServerInitLib
             }
         }
 
-        public static Dictionary<string, AssetUnitClass> Init_AssetUnits()
+        public static Dictionary<string, AssetUnitClass<T>> Init_AssetUnits()
         {
             string strUnits = GlobalClass.ReReadAssetUnitList();
-            Dictionary<string, AssetUnitClass> AllStragList = new Dictionary<string, AssetUnitClass>();
+            Dictionary<string, AssetUnitClass<T>> AllStragList = new Dictionary<string, AssetUnitClass<T>>();
 
             if (strUnits == null || strUnits.Trim().Length == 0)
             {
                 ToLog("资产单元列表", "为空！");
                 return AllStragList;
             }
-            List<AssetUnitClass> list = StragClass.getObjectListByXml<AssetUnitClass>(strUnits); //StragClass.getStragsByXml(stragList);
+            List<AssetUnitClass<T>> list = StragClass.getObjectListByXml<AssetUnitClass<T>>(strUnits); //StragClass.getStragsByXml(stragList);
             if (list == null)
             {
                 return AllStragList;
@@ -91,7 +91,7 @@ namespace WolfInv.com.ServerInitLib
         /// <summary>
         /// 初始化计划，将数据类型和运算类型相同的计划分组
         /// </summary>
-        public static Dictionary<string, CalcStragGroupClass<T>> InitCalcStrags<T>(DataTypePoint dpt, ref Dictionary<string, CalcStragGroupClass<T>> AllStatusStrags,Dictionary<string, BaseStragClass<T>> AllStrags, Dictionary<string, StragRunPlanClass<T>> list,Dictionary<string,AssetUnitClass> AssetUnits, bool StartTheAuto,bool IsBackTest) where T:TimeSerialData
+        public static Dictionary<string, CalcStragGroupClass<T>> InitCalcStrags(DataTypePoint dpt, ref Dictionary<string, CalcStragGroupClass<T>> AllStatusStrags,Dictionary<string, BaseStragClass<T>> AllStrags, Dictionary<string, StragRunPlanClass<T>> list,Dictionary<string,AssetUnitClass<T>> AssetUnits, bool StartTheAuto,bool IsBackTest)
         {
             if(AllStatusStrags == null)
                 AllStatusStrags = new Dictionary<string, CalcStragGroupClass<T>>();

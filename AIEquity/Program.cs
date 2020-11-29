@@ -21,14 +21,14 @@ namespace AIEquity
 
         static WDDataInit<T> _obj;
         public static MongoDataDictionary<T>  _AllEquitSerialDatas;
-        public static MongoReturnDataList<T> getEquitSerialData(string key)
+        public static MongoReturnDataList<T> getEquitSerialData(string key,string keyName)
         {
             
             if(_AllEquitSerialDatas!= null && _AllEquitSerialDatas.ContainsKey(key))
                 return _AllEquitSerialDatas[key];
             else
             {
-                WDDataInit<T>.loadEquitSerial(key, true, true);
+                WDDataInit<T>.loadEquitSerial(key,keyName, true, true);
                 _AllEquitSerialDatas = WDDataInit<T>.getAllSerialData();
                 return _AllEquitSerialDatas[key];
             }
@@ -64,7 +64,7 @@ namespace AIEquity
                         MessageBox.Show("没有数据！");
                         return;
                     }
-                    WDDataInit<T>.loadAllEquitSerials(10,20, false, true,300,true);
+                    WDDataInit<T>.loadAllEquitSerials(10,20, false, true,500,null,null,true);
                     _AllEquitSerialDatas = WDDataInit<T>.getAllSerialData();
                 });
                 /*

@@ -3,12 +3,12 @@ using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.GuideLib;
 namespace WolfInv.com.StrategyLibForWD
 {
-    public abstract class CommGuidProcess_ForWD : CommGuidProcess
+    public abstract class CommGuidProcess_ForWD : CommGuidProcess<TimeSerialData>
     {
         protected WindAPI w;
         public PriceAdj prcAdj;
         public Cycle cycle;
-        protected CommDataBuilder gbc;
+        protected CommDataBuilder<TimeSerialData> gbc;
         protected CommGuidProcess_ForWD() : base()
         {
 

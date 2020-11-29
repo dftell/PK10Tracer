@@ -30,6 +30,10 @@ namespace WolfInv.com.Strags.MLStragClass
 
         public override List<ChanceClass> getChances(BaseCollection sc, ExpectData ed)
         {
+            Combin_ExpectData<TimeSerialData> currEd = new Combin_ExpectData<TimeSerialData>();
+            currEd.Expect = ed.Expect;
+            currEd.OpenCode = ed.OpenCode;
+            currEd.OpenTime = ed.OpenTime;
             bool needShift = false;
             bool isXxY = false;
             if(sc is CommCollection_KLXxY)
@@ -53,7 +57,7 @@ namespace WolfInv.com.Strags.MLStragClass
             {
                 for (int i = 0; i < (isXxY?1:sc.SelNums); ++i)
                 {
-
+                    
                     int col = (i + 1) % 10;
                     runningClass rc = new runningClass();
                     rc.Log = Log;
@@ -116,6 +120,11 @@ namespace WolfInv.com.Strags.MLStragClass
             {
                 foreach(var res in useRes)
                 {
+                    /* 暂时不用
+                    if(int.Parse(currEd.ValueList[res.Key-1]).ToString()== res.Value.Keys.First().ToString())
+                    {
+                        continue;
+                    }*/
                     useResList.Add(string.Format("{0}", res.Value.Keys.First()));
                 }
                 string[] strRev = useResList.ToArray();
@@ -126,6 +135,7 @@ namespace WolfInv.com.Strags.MLStragClass
                 ChanceClass cc = (sc is CommCollection_KLXxY) ? new ChanceClass_ForCombinXxY(): new ChanceClass();
                 if(isXxY)
                 {
+                    
                     (cc as ChanceClass_ForCombinXxY).AllNums = sc.AllNums;
                     (cc as ChanceClass_ForCombinXxY).SelectNums = sc.SelNums;
                     (cc as ChanceClass_ForCombinXxY).strAllTypeBaseOdds = (sc as CommCollection_KLXxY).strAllTypeOdds;
@@ -214,7 +224,7 @@ namespace WolfInv.com.Strags.MLStragClass
             }
         }
 
-        public override long getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
+        public override double getChipAmount(double RestCash, ChanceClass cc, AmoutSerials amts)
         {
             if (LastUseData().LastData.Expect != cc.ExpectCode)
             {

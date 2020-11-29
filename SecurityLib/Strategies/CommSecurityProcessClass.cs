@@ -4,17 +4,18 @@ namespace WolfInv.com.SecurityLib
 {
     public class CommSecurityProcessClass<T> where T:TimeSerialData
     {
-
-        public MongoReturnDataList<T> SecInfo;
+        public StockInfoMongoData StockInfo;
+        public MongoReturnDataList<T> SecPriceInfo;
         public bool Enable;
         public CommSecurityProcessClass()
         {
         }
 
-        public CommSecurityProcessClass(MongoReturnDataList<T> dr)
+        public CommSecurityProcessClass(StockInfoMongoData secInfo, MongoReturnDataList<T> dr)
         {
             if (dr == null) return;
-            SecInfo = dr;
+            SecPriceInfo = dr;
+            StockInfo = secInfo;
             Enable = false;
         }
     }

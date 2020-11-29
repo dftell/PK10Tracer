@@ -56,7 +56,7 @@ namespace WolfInv.com.ExchangeLib
             Eindex++;
             ec.Id = Eindex;
             dr["Id"] = Eindex;
-            dr["ExpectNo"] = long.Parse(ec.ExpectNo) ;
+            dr["ExpectNo"] = ec.ExpectNo ;
             dr["ExExpectNo"] = ec.ExExpectNo;
             dr["ChanceCode"] = ec.OwnerChance.ChanceCode;
             dr["Chips"] = ec.OwnerChance.ChipCount;
@@ -98,6 +98,11 @@ namespace WolfInv.com.ExchangeLib
             dr["Profit"] = dGained - dCost;
             dr["UpdateTime"] = DateTime.Now.ToString();
             return true;
+        }
+
+        public bool ModifyChance<T>(ExchangeChance<T> ecc) where T:TimeSerialData
+        {
+            return false;
         }
     }
 

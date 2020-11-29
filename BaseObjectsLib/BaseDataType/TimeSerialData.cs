@@ -43,6 +43,7 @@ namespace WolfInv.com.BaseObjectsLib
             get { return _key; }
             set { _key = value; }
         }
+        public string KeyName { get; set; }
         string _currTime = null;
         public string CurrTime {
             get
