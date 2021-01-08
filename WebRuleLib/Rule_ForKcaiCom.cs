@@ -154,7 +154,7 @@ namespace WolfInv.com.WebRuleLib
                 ////int rate = (int)(reqdata.Length/ endT.Subtract(begT).TotalSeconds);
                 ////ret.Add(name, rate);
             }
-            Task.WaitAll(tasks);
+            Task.WhenAll(tasks);
              return ret;
         }
         class ConnectClass

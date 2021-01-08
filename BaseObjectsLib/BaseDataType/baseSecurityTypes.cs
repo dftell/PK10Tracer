@@ -20,7 +20,7 @@ namespace WolfInv.com.BaseObjectsLib
     //周期
     public enum Cycle
     {
-        Day, Week, Month, Quarter, SemiYear, Year,Minute,Tick,Expect
+        Day, Week, Month, Quarter, SemiYear, Year, Tick, Minute,Hour,Expect
     }
     //复权方式
     public enum PriceAdj

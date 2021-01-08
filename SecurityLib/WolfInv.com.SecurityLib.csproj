@@ -79,6 +79,8 @@
     <Compile Include="Filters\StrategyFilters\MACDTopRevFilter.cs" />
     <Compile Include="Filters\StrategyFilters\MACDBottomRevFilter.cs" />
     <Compile Include="Filters\StrategyFilters\MinDaysFilter.cs" />
+    <Compile Include="Filters\StrategyFilters\StopLossFilter.cs" />
+    <Compile Include="Filters\WaveFilter.cs" />
     <Compile Include="Readers\DateSerialCodeDataReader.cs" />
     <Compile Include="Readers\Lotty\CAN28_HtmlDataClass.cs" />
     <Compile Include="Readers\Lotty\CommExpectReader.cs" />

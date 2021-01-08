@@ -20,7 +20,7 @@ namespace Strags
                 _IsTracing = value;
             }
         }
-        public abstract bool CheckNeedEndTheChance(ChanceClass<TimeSerialData> cc, bool LastExpectMatched);
+        public abstract bool CheckNeedEndTheChance(ChanceClass<TimeSerialData> cc, bool LastExpectMatched,bool review);
         public abstract bool CheckNeedEndTheChance(ChanceClass cc, bool LastExpectMatched);
         public abstract double getChipAmount(double RestCash, ChanceClass<TimeSerialData> cc, AmoutSerials amts);
         public abstract double getChipAmount<T>(double RestCash, ChanceClass<TimeSerialData> cc, AmoutSerials amts);

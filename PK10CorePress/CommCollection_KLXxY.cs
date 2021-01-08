@@ -221,7 +221,7 @@ namespace WolfInv.com.PK10CorePress
             ExpectList currList = new ExpectList() ;
             for (int i=orgData.Count-period;i<orgData.Count;i++)
             {
-                ExpectData<TimeSerialData> ed = new ExpectData<TimeSerialData>();
+                ExpectData<TimeSerialData> ed = new ExpectData<TimeSerialData>(false);
                 ed.OpenCode = orgData[i].OpenCode;
                 ed.Expect = orgData[i].Expect;
                 

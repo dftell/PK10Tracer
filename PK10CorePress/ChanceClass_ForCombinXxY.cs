@@ -73,7 +73,7 @@ namespace WolfInv.com.PK10CorePress
         public override bool Matched(ExpectData<TimeSerialData> data, out int MatchCnt)
         {
 
-            ExpectList<TimeSerialData> el = new ExpectList<TimeSerialData>();
+            ExpectList<TimeSerialData> el = new ExpectList<TimeSerialData>(false);
             el.Add(data);
             MatchCnt = 0;
             return Matched(el,out MatchCnt,false);

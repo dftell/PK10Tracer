@@ -33,7 +33,7 @@ namespace WolfInv.com.SecurityLib
                 sort = Builders<T>.Sort.Descending(a => (a as IDateStampData).date_stamp);
             //查询字段
             string[] fileds = null;
-            return new MongoReturnDataList<T>(new StockInfoMongoData(null,null), _mongoDB.FindList<T>(this.TableName, filter, fileds, sort));
+            return new MongoReturnDataList<T>(new StockInfoMongoData(null,null), _mongoDB.FindList<T>(this.TableName, filter, fileds, sort),true);
             
         }
 
@@ -55,7 +55,7 @@ namespace WolfInv.com.SecurityLib
                 sort = Builders<T>.Sort.Descending(fd);
             //查询字段
             string[] fileds = null;
-            return new MongoReturnDataList<T>(new StockInfoMongoData(null, null), _mongoDB.FindList<T>(this.TableName, filter, fileds, sort));
+            return new MongoReturnDataList<T>(new StockInfoMongoData(null, null), _mongoDB.FindList<T>(this.TableName, filter, fileds, sort),true);
         }
 
         public override MongoReturnDataList<T> getData<T>(string begT, string endT, bool Asc)
@@ -85,7 +85,7 @@ namespace WolfInv.com.SecurityLib
             //查询字段
             //string[] fileds = null;
             
-            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(new StockInfoMongoData(null,null));
+            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(new StockInfoMongoData(null,null),true);
             if(Codes == null || Codes.Length == 0)
             {
                 return ret;
@@ -96,7 +96,7 @@ namespace WolfInv.com.SecurityLib
                 sql = "{date_stamp:{$lte:{1},$gte:{2}},code:{$in:['{0}']}}".Replace("{0}", string.Join("','",Codes)).Replace("{1}", MongoDateTime.Stamp(endT).ToString()).Replace("{2}", MongoDateTime.Stamp(begT).ToString()); ;
             }
             string sort = "{code_1_date_stamp_1:1}";
-            return new MongoReturnDataList<T>(new StockInfoMongoData(null, null), _mongoDB.FindList<T>(this.TableName, sql,sort));
+            return new MongoReturnDataList<T>(new StockInfoMongoData(null, null), _mongoDB.FindList<T>(this.TableName, sql,sort),true);
         }
 
         
@@ -121,13 +121,13 @@ namespace WolfInv.com.SecurityLib
             }
             //查询字段
             string[] fileds = null;
-            return new MongoReturnDataList<T>(new StockInfoMongoData(null, null), _mongoDB.FindList<T>(this.TableName, filter, fileds, sort,Cycs));
+            return new MongoReturnDataList<T>(new StockInfoMongoData(null, null), _mongoDB.FindList<T>(this.TableName, filter, fileds, sort,Cycs),true);
         }
 
         public override MongoReturnDataList<T1> getDataGroupBy<T1>(string[] sqls)
         {
             List<T1> ret = _mongoDB.GroupBy<T1>(this.TableName, sqls);
-            return new MongoReturnDataList<T1>(new StockInfoMongoData(null, null), ret);
+            return new MongoReturnDataList<T1>(new StockInfoMongoData(null, null), ret,true);
         }
 
         public override MongoReturnDataList<T> getFullTimeSerial<T>()
@@ -140,7 +140,7 @@ namespace WolfInv.com.SecurityLib
             SortDefinition<T> sort = Builders<T>.Sort.Ascending(a => (a as IDateStampData).date_stamp);//升序
             //查询字段
             string[] fileds = null;// new string[] {"_id", "date" };
-            return new MongoReturnDataList<T>(new StockInfoMongoData(null, null), _mongoDB.FindList<T>(this.TableName, filter, fileds, sort));
+            return new MongoReturnDataList<T>(new StockInfoMongoData(null, null), _mongoDB.FindList<T>(this.TableName, filter, fileds, sort),true);
         }
     }
 

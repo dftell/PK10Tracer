@@ -13,18 +13,18 @@ namespace WolfInv.com.SecurityLib
     public class CommIndustryMutliCycleStrategy<T> : CommIndustryStrategy<T> where T : TimeSerialData
     {
         public CommIndustryMutliCycleStrategy(CommDataIntface<T> _w) : base(_w) { }
-        public override CommSecurityProcessClass<T> ReverseSelectSecurity(CommStrategyInClass Input)
+        public override SelectResult ReverseSelectSecurity(CommStrategyInClass Input)
         {
             CommMutliCycleIndustryStrategyInParams InParam = null;
             return null;
         }
 
-        public override CommSecurityProcessClass<T> BreachSelectSecurity(CommStrategyInClass Input)
+        public override SelectResult BreachSelectSecurity(CommStrategyInClass Input)
         {
             throw new NotImplementedException();
         }
 
-        public override CommSecurityProcessClass<T> BalanceSelectSecurity(CommStrategyInClass Input)
+        public override SelectResult BalanceSelectSecurity(CommStrategyInClass Input)
         {
             throw new NotImplementedException();
         }

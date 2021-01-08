@@ -40,43 +40,38 @@ namespace BackTestSys
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series13 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea16 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend16 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series41 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea17 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend17 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series42 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series43 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series44 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series45 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series14 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series15 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series16 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea18 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend18 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series46 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series47 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series48 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.runPlanPicker1 = new WolfInv.com.ExchangeLib.RunPlanPicker<T>();
-            this.label3 = new System.Windows.Forms.Label();
-            this.btn_trainPlan = new System.Windows.Forms.Button();
-            this.btn_DistrCheck = new System.Windows.Forms.Button();
-            this.btn_CalcEr = new System.Windows.Forms.Button();
-            this.btn_VirExchange = new System.Windows.Forms.Button();
-            this.btn_CheckData = new System.Windows.Forms.Button();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.txt_RoundStepLong = new System.Windows.Forms.TextBox();
-            this.label23 = new System.Windows.Forms.Label();
-            this.txt_RoundCycLong = new System.Windows.Forms.TextBox();
-            this.label24 = new System.Windows.Forms.Label();
-            this.btn_roundTest = new System.Windows.Forms.Button();
-            this.btn_export = new System.Windows.Forms.Button();
-            this.btn_startTest = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.tabControl_setting = new System.Windows.Forms.TabControl();
+            this.tabPage_dataSource = new System.Windows.Forms.TabPage();
+            this.txt_SecPools = new System.Windows.Forms.TextBox();
+            this.label32 = new System.Windows.Forms.Label();
+            this.ddl_DataSource = new System.Windows.Forms.ComboBox();
+            this.txt_endExpNo = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txt_begExpNo = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txt_LoopCnt = new System.Windows.Forms.TextBox();
+            this.label33 = new System.Windows.Forms.Label();
+            this.tabPage_usePlan = new System.Windows.Forms.TabPage();
+            this.tabPage_conditionSetting = new System.Windows.Forms.TabPage();
             this.txt_LearnCnt = new System.Windows.Forms.TextBox();
             this.label31 = new System.Windows.Forms.Label();
             this.txt_AllowMaxHoldTimeCnt = new System.Windows.Forms.TextBox();
@@ -101,23 +96,13 @@ namespace BackTestSys
             this.label7 = new System.Windows.Forms.Label();
             this.txt_reviewExpCnt = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.chkb_noDetailTable = new System.Windows.Forms.CheckBox();
-            this.chkb_useOdds = new System.Windows.Forms.CheckBox();
-            this.ckb_useCondition = new System.Windows.Forms.CheckBox();
-            this.txt_endExpNo = new System.Windows.Forms.TextBox();
-            this.label33 = new System.Windows.Forms.Label();
-            this.label32 = new System.Windows.Forms.Label();
-            this.ddl_DataSource = new System.Windows.Forms.ComboBox();
-            this.txt_Timer_Interval = new System.Windows.Forms.TextBox();
-            this.label30 = new System.Windows.Forms.Label();
-            this.checkBox_UseBuffRsult = new System.Windows.Forms.CheckBox();
-            this.checkBox_MixAll = new System.Windows.Forms.CheckBox();
-            this.checkBox_CreamModel = new System.Windows.Forms.CheckBox();
+            this.tabPage_subCondition = new System.Windows.Forms.TabPage();
             this.txt_MaxHoldChanceCnt = new System.Windows.Forms.TextBox();
             this.txt_InitCash = new System.Windows.Forms.TextBox();
             this.label28 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
+            this.txt_Odds = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.txt_minColTimes10 = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.txt_minColTimes9 = new System.Windows.Forms.TextBox();
@@ -128,9 +113,7 @@ namespace BackTestSys
             this.label20 = new System.Windows.Forms.Label();
             this.txt_minColTimes6 = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
-            this.txt_Odds = new System.Windows.Forms.TextBox();
             this.txt_minColTimes5 = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.txt_minColTimes4 = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
@@ -146,14 +129,35 @@ namespace BackTestSys
             this.label10 = new System.Windows.Forms.Label();
             this.txt_MinCols = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.txt_LoopCnt = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txt_begExpNo = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.tabPage_display = new System.Windows.Forms.TabPage();
+            this.chkb_noDetailTable = new System.Windows.Forms.CheckBox();
+            this.chkb_useOdds = new System.Windows.Forms.CheckBox();
+            this.ckb_useCondition = new System.Windows.Forms.CheckBox();
+            this.txt_Timer_Interval = new System.Windows.Forms.TextBox();
+            this.label30 = new System.Windows.Forms.Label();
+            this.checkBox_UseBuffRsult = new System.Windows.Forms.CheckBox();
+            this.checkBox_MixAll = new System.Windows.Forms.CheckBox();
+            this.checkBox_CreamModel = new System.Windows.Forms.CheckBox();
+            this.tabPage_roundBackTest = new System.Windows.Forms.TabPage();
+            this.txt_RoundStepLong = new System.Windows.Forms.TextBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.txt_RoundCycLong = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.btn_singleTest = new System.Windows.Forms.Button();
+            this.btn_trainPlan = new System.Windows.Forms.Button();
+            this.btn_DistrCheck = new System.Windows.Forms.Button();
+            this.btn_CalcEr = new System.Windows.Forms.Button();
+            this.btn_VirExchange = new System.Windows.Forms.Button();
+            this.btn_CheckData = new System.Windows.Forms.Button();
+            this.btn_roundTest = new System.Windows.Forms.Button();
+            this.btn_export = new System.Windows.Forms.Button();
+            this.btn_startTest = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.contextMenuStrip_ForListView = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmi_ExportExcel = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi_ImportExcel = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_ExportCSV = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmi_DisplayAll = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.listView2 = new System.Windows.Forms.ListView();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -178,15 +182,18 @@ namespace BackTestSys
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-            this.btn_singleTest = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.groupBox5.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.tabControl_setting.SuspendLayout();
+            this.tabPage_dataSource.SuspendLayout();
+            this.tabPage_usePlan.SuspendLayout();
+            this.tabPage_conditionSetting.SuspendLayout();
+            this.tabPage_subCondition.SuspendLayout();
+            this.tabPage_display.SuspendLayout();
+            this.tabPage_roundBackTest.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.contextMenuStrip_ForListView.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -212,7 +219,7 @@ namespace BackTestSys
             this.splitter1.Location = new System.Drawing.Point(0, 0);
             this.splitter1.Margin = new System.Windows.Forms.Padding(2);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(2, 639);
+            this.splitter1.Size = new System.Drawing.Size(2, 657);
             this.splitter1.TabIndex = 0;
             this.splitter1.TabStop = false;
             // 
@@ -227,60 +234,941 @@ namespace BackTestSys
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.tabControl_setting);
             this.splitContainer1.Panel1.Controls.Add(this.btn_singleTest);
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox5);
             this.splitContainer1.Panel1.Controls.Add(this.btn_trainPlan);
             this.splitContainer1.Panel1.Controls.Add(this.btn_DistrCheck);
             this.splitContainer1.Panel1.Controls.Add(this.btn_CalcEr);
             this.splitContainer1.Panel1.Controls.Add(this.btn_VirExchange);
             this.splitContainer1.Panel1.Controls.Add(this.btn_CheckData);
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox4);
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox3);
             this.splitContainer1.Panel1.Controls.Add(this.btn_roundTest);
             this.splitContainer1.Panel1.Controls.Add(this.btn_export);
             this.splitContainer1.Panel1.Controls.Add(this.btn_startTest);
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox2);
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer1.Size = new System.Drawing.Size(1192, 639);
-            this.splitContainer1.SplitterDistance = 244;
+            this.splitContainer1.Size = new System.Drawing.Size(1192, 657);
+            this.splitContainer1.SplitterDistance = 110;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 1;
             // 
-            // groupBox5
+            // tabControl_setting
             // 
-            this.groupBox5.Controls.Add(this.runPlanPicker1);
-            this.groupBox5.Controls.Add(this.label3);
-            this.groupBox5.Location = new System.Drawing.Point(476, 12);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(418, 54);
-            this.groupBox5.TabIndex = 12;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "回测策略";
+            this.tabControl_setting.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.tabControl_setting.Controls.Add(this.tabPage_dataSource);
+            this.tabControl_setting.Controls.Add(this.tabPage_usePlan);
+            this.tabControl_setting.Controls.Add(this.tabPage_conditionSetting);
+            this.tabControl_setting.Controls.Add(this.tabPage_subCondition);
+            this.tabControl_setting.Controls.Add(this.tabPage_display);
+            this.tabControl_setting.Controls.Add(this.tabPage_roundBackTest);
+            this.tabControl_setting.Location = new System.Drawing.Point(2, 6);
+            this.tabControl_setting.Name = "tabControl_setting";
+            this.tabControl_setting.SelectedIndex = 0;
+            this.tabControl_setting.Size = new System.Drawing.Size(1098, 99);
+            this.tabControl_setting.TabIndex = 32;
             // 
-            // runPlanPicker1
+            // tabPage_dataSource
             // 
-            this.runPlanPicker1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.runPlanPicker1.Location = new System.Drawing.Point(108, 21);
-            this.runPlanPicker1.Margin = new System.Windows.Forms.Padding(6);
-            this.runPlanPicker1.Name = "runPlanPicker1";
-            this.runPlanPicker1.Plans = null;
-            this.runPlanPicker1.Size = new System.Drawing.Size(288, 21);
-            this.runPlanPicker1.TabIndex = 31;
+            this.tabPage_dataSource.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage_dataSource.Controls.Add(this.txt_SecPools);
+            this.tabPage_dataSource.Controls.Add(this.label32);
+            this.tabPage_dataSource.Controls.Add(this.ddl_DataSource);
+            this.tabPage_dataSource.Controls.Add(this.txt_endExpNo);
+            this.tabPage_dataSource.Controls.Add(this.label1);
+            this.tabPage_dataSource.Controls.Add(this.txt_begExpNo);
+            this.tabPage_dataSource.Controls.Add(this.label2);
+            this.tabPage_dataSource.Controls.Add(this.txt_LoopCnt);
+            this.tabPage_dataSource.Controls.Add(this.label33);
+            this.tabPage_dataSource.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_dataSource.Name = "tabPage_dataSource";
+            this.tabPage_dataSource.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_dataSource.Size = new System.Drawing.Size(1090, 73);
+            this.tabPage_dataSource.TabIndex = 0;
+            this.tabPage_dataSource.Text = "数据源";
             // 
-            // label3
+            // txt_SecPools
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 25);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(77, 12);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "策略运行计划";
+            this.txt_SecPools.Location = new System.Drawing.Point(675, 16);
+            this.txt_SecPools.Name = "txt_SecPools";
+            this.txt_SecPools.Size = new System.Drawing.Size(122, 21);
+            this.txt_SecPools.TabIndex = 51;
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(482, 20);
+            this.label32.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(41, 12);
+            this.label32.TabIndex = 50;
+            this.label32.Text = "数据源";
+            // 
+            // ddl_DataSource
+            // 
+            this.ddl_DataSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ddl_DataSource.FormattingEnabled = true;
+            this.ddl_DataSource.Items.AddRange(new object[] {
+            "PK10",
+            "TXFFC",
+            "CN_Stock_A"});
+            this.ddl_DataSource.Location = new System.Drawing.Point(538, 17);
+            this.ddl_DataSource.Margin = new System.Windows.Forms.Padding(2);
+            this.ddl_DataSource.Name = "ddl_DataSource";
+            this.ddl_DataSource.Size = new System.Drawing.Size(132, 20);
+            this.ddl_DataSource.TabIndex = 49;
+            // 
+            // txt_endExpNo
+            // 
+            this.txt_endExpNo.Location = new System.Drawing.Point(388, 16);
+            this.txt_endExpNo.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_endExpNo.Name = "txt_endExpNo";
+            this.txt_endExpNo.Size = new System.Drawing.Size(76, 21);
+            this.txt_endExpNo.TabIndex = 48;
+            this.txt_endExpNo.Text = "20491231180";
+            this.txt_endExpNo.DoubleClick += new System.EventHandler(this.txt_endExpNo_DoubleClick);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 20);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(53, 12);
+            this.label1.TabIndex = 43;
+            this.label1.Text = "开始期号";
+            // 
+            // txt_begExpNo
+            // 
+            this.txt_begExpNo.Location = new System.Drawing.Point(80, 16);
+            this.txt_begExpNo.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_begExpNo.Name = "txt_begExpNo";
+            this.txt_begExpNo.Size = new System.Drawing.Size(78, 21);
+            this.txt_begExpNo.TabIndex = 44;
+            this.txt_begExpNo.Text = "233049";
+            this.txt_begExpNo.DoubleClick += new System.EventHandler(this.txt_begExpNo_DoubleClick);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(172, 20);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 12);
+            this.label2.TabIndex = 45;
+            this.label2.Text = "批次期数";
+            // 
+            // txt_LoopCnt
+            // 
+            this.txt_LoopCnt.Location = new System.Drawing.Point(239, 17);
+            this.txt_LoopCnt.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_LoopCnt.Name = "txt_LoopCnt";
+            this.txt_LoopCnt.Size = new System.Drawing.Size(77, 21);
+            this.txt_LoopCnt.TabIndex = 46;
+            this.txt_LoopCnt.Text = "50000";
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(329, 21);
+            this.label33.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(53, 12);
+            this.label33.TabIndex = 47;
+            this.label33.Text = "截止期号";
+            // 
+            // tabPage_usePlan
+            // 
+            this.tabPage_usePlan.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage_usePlan.Controls.Add(this.label3);
+            this.tabPage_usePlan.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_usePlan.Name = "tabPage_usePlan";
+            this.tabPage_usePlan.Size = new System.Drawing.Size(1090, 73);
+            this.tabPage_usePlan.TabIndex = 5;
+            this.tabPage_usePlan.Text = "回测用策略";
+            // 
+            // tabPage_conditionSetting
+            // 
+            this.tabPage_conditionSetting.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage_conditionSetting.Controls.Add(this.txt_LearnCnt);
+            this.tabPage_conditionSetting.Controls.Add(this.label31);
+            this.tabPage_conditionSetting.Controls.Add(this.txt_AllowMaxHoldTimeCnt);
+            this.tabPage_conditionSetting.Controls.Add(this.label29);
+            this.tabPage_conditionSetting.Controls.Add(this.txt_minRate);
+            this.tabPage_conditionSetting.Controls.Add(this.label26);
+            this.tabPage_conditionSetting.Controls.Add(this.txt_StdvCnt);
+            this.tabPage_conditionSetting.Controls.Add(this.label25);
+            this.tabPage_conditionSetting.Controls.Add(this.chkb_getRev);
+            this.tabPage_conditionSetting.Controls.Add(this.chkb_onlyBS);
+            this.tabPage_conditionSetting.Controls.Add(this.chkb_onlySD);
+            this.tabPage_conditionSetting.Controls.Add(this.chkb_exclueBS);
+            this.tabPage_conditionSetting.Controls.Add(this.chkb_exclueSD);
+            this.tabPage_conditionSetting.Controls.Add(this.txt_maxInputTimes);
+            this.tabPage_conditionSetting.Controls.Add(this.label5);
+            this.tabPage_conditionSetting.Controls.Add(this.chkb_bySer);
+            this.tabPage_conditionSetting.Controls.Add(this.txt_minInputTimes);
+            this.tabPage_conditionSetting.Controls.Add(this.label22);
+            this.tabPage_conditionSetting.Controls.Add(this.txt_ChipCnt);
+            this.tabPage_conditionSetting.Controls.Add(this.label8);
+            this.tabPage_conditionSetting.Controls.Add(this.txt_FixChipCnt);
+            this.tabPage_conditionSetting.Controls.Add(this.label7);
+            this.tabPage_conditionSetting.Controls.Add(this.txt_reviewExpCnt);
+            this.tabPage_conditionSetting.Controls.Add(this.label4);
+            this.tabPage_conditionSetting.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_conditionSetting.Name = "tabPage_conditionSetting";
+            this.tabPage_conditionSetting.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_conditionSetting.Size = new System.Drawing.Size(1090, 73);
+            this.tabPage_conditionSetting.TabIndex = 1;
+            this.tabPage_conditionSetting.Text = "运行参数";
+            // 
+            // txt_LearnCnt
+            // 
+            this.txt_LearnCnt.Location = new System.Drawing.Point(76, 9);
+            this.txt_LearnCnt.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_LearnCnt.Name = "txt_LearnCnt";
+            this.txt_LearnCnt.Size = new System.Drawing.Size(35, 21);
+            this.txt_LearnCnt.TabIndex = 54;
+            this.txt_LearnCnt.Text = "180";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(10, 13);
+            this.label31.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(53, 12);
+            this.label31.TabIndex = 53;
+            this.label31.Text = "学习期数";
+            // 
+            // txt_AllowMaxHoldTimeCnt
+            // 
+            this.txt_AllowMaxHoldTimeCnt.Location = new System.Drawing.Point(211, 116);
+            this.txt_AllowMaxHoldTimeCnt.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_AllowMaxHoldTimeCnt.Name = "txt_AllowMaxHoldTimeCnt";
+            this.txt_AllowMaxHoldTimeCnt.Size = new System.Drawing.Size(35, 21);
+            this.txt_AllowMaxHoldTimeCnt.TabIndex = 52;
+            this.txt_AllowMaxHoldTimeCnt.Text = "9";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(155, 121);
+            this.label29.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(53, 12);
+            this.label29.TabIndex = 51;
+            this.label29.Text = "止损次数";
+            // 
+            // txt_minRate
+            // 
+            this.txt_minRate.Location = new System.Drawing.Point(182, 159);
+            this.txt_minRate.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_minRate.Name = "txt_minRate";
+            this.txt_minRate.Size = new System.Drawing.Size(35, 21);
+            this.txt_minRate.TabIndex = 50;
+            this.txt_minRate.Text = "1.001";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(125, 162);
+            this.label26.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(53, 12);
+            this.label26.TabIndex = 49;
+            this.label26.Text = "最小赔率";
+            // 
+            // txt_StdvCnt
+            // 
+            this.txt_StdvCnt.Location = new System.Drawing.Point(77, 159);
+            this.txt_StdvCnt.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_StdvCnt.Name = "txt_StdvCnt";
+            this.txt_StdvCnt.Size = new System.Drawing.Size(35, 21);
+            this.txt_StdvCnt.TabIndex = 48;
+            this.txt_StdvCnt.Text = "1.5";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(12, 162);
+            this.label25.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(53, 12);
+            this.label25.TabIndex = 47;
+            this.label25.Text = "标准差数";
+            // 
+            // chkb_getRev
+            // 
+            this.chkb_getRev.AutoSize = true;
+            this.chkb_getRev.Location = new System.Drawing.Point(160, 105);
+            this.chkb_getRev.Margin = new System.Windows.Forms.Padding(2);
+            this.chkb_getRev.Name = "chkb_getRev";
+            this.chkb_getRev.Size = new System.Drawing.Size(48, 16);
+            this.chkb_getRev.TabIndex = 46;
+            this.chkb_getRev.Text = "求反";
+            this.chkb_getRev.UseVisualStyleBackColor = true;
+            // 
+            // chkb_onlyBS
+            // 
+            this.chkb_onlyBS.AutoSize = true;
+            this.chkb_onlyBS.Location = new System.Drawing.Point(160, 87);
+            this.chkb_onlyBS.Margin = new System.Windows.Forms.Padding(2);
+            this.chkb_onlyBS.Name = "chkb_onlyBS";
+            this.chkb_onlyBS.Size = new System.Drawing.Size(84, 16);
+            this.chkb_onlyBS.TabIndex = 45;
+            this.chkb_onlyBS.Text = "只考虑大小";
+            this.chkb_onlyBS.UseVisualStyleBackColor = true;
+            // 
+            // chkb_onlySD
+            // 
+            this.chkb_onlySD.AutoSize = true;
+            this.chkb_onlySD.Location = new System.Drawing.Point(160, 67);
+            this.chkb_onlySD.Margin = new System.Windows.Forms.Padding(2);
+            this.chkb_onlySD.Name = "chkb_onlySD";
+            this.chkb_onlySD.Size = new System.Drawing.Size(84, 16);
+            this.chkb_onlySD.TabIndex = 44;
+            this.chkb_onlySD.Text = "只考虑单双";
+            this.chkb_onlySD.UseVisualStyleBackColor = true;
+            // 
+            // chkb_exclueBS
+            // 
+            this.chkb_exclueBS.AutoSize = true;
+            this.chkb_exclueBS.Location = new System.Drawing.Point(160, 47);
+            this.chkb_exclueBS.Margin = new System.Windows.Forms.Padding(2);
+            this.chkb_exclueBS.Name = "chkb_exclueBS";
+            this.chkb_exclueBS.Size = new System.Drawing.Size(72, 16);
+            this.chkb_exclueBS.TabIndex = 43;
+            this.chkb_exclueBS.Text = "排除大小";
+            this.chkb_exclueBS.UseVisualStyleBackColor = true;
+            // 
+            // chkb_exclueSD
+            // 
+            this.chkb_exclueSD.AutoSize = true;
+            this.chkb_exclueSD.Location = new System.Drawing.Point(160, 26);
+            this.chkb_exclueSD.Margin = new System.Windows.Forms.Padding(2);
+            this.chkb_exclueSD.Name = "chkb_exclueSD";
+            this.chkb_exclueSD.Size = new System.Drawing.Size(72, 16);
+            this.chkb_exclueSD.TabIndex = 42;
+            this.chkb_exclueSD.Text = "排除单双";
+            this.chkb_exclueSD.UseVisualStyleBackColor = true;
+            // 
+            // txt_maxInputTimes
+            // 
+            this.txt_maxInputTimes.Location = new System.Drawing.Point(76, 119);
+            this.txt_maxInputTimes.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_maxInputTimes.Name = "txt_maxInputTimes";
+            this.txt_maxInputTimes.Size = new System.Drawing.Size(35, 21);
+            this.txt_maxInputTimes.TabIndex = 41;
+            this.txt_maxInputTimes.Text = "8";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(10, 125);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(53, 12);
+            this.label5.TabIndex = 40;
+            this.label5.Text = "最大入期";
+            // 
+            // chkb_bySer
+            // 
+            this.chkb_bySer.AutoSize = true;
+            this.chkb_bySer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkb_bySer.Checked = true;
+            this.chkb_bySer.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkb_bySer.Location = new System.Drawing.Point(157, 9);
+            this.chkb_bySer.Margin = new System.Windows.Forms.Padding(2);
+            this.chkb_bySer.Name = "chkb_bySer";
+            this.chkb_bySer.Size = new System.Drawing.Size(84, 16);
+            this.chkb_bySer.TabIndex = 39;
+            this.chkb_bySer.Text = "是否按排名";
+            this.chkb_bySer.UseVisualStyleBackColor = true;
+            // 
+            // txt_minInputTimes
+            // 
+            this.txt_minInputTimes.Location = new System.Drawing.Point(76, 97);
+            this.txt_minInputTimes.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_minInputTimes.Name = "txt_minInputTimes";
+            this.txt_minInputTimes.Size = new System.Drawing.Size(35, 21);
+            this.txt_minInputTimes.TabIndex = 38;
+            this.txt_minInputTimes.Text = "30";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(10, 101);
+            this.label22.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(53, 12);
+            this.label22.TabIndex = 37;
+            this.label22.Text = "最小入期";
+            // 
+            // txt_ChipCnt
+            // 
+            this.txt_ChipCnt.Location = new System.Drawing.Point(76, 75);
+            this.txt_ChipCnt.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_ChipCnt.Name = "txt_ChipCnt";
+            this.txt_ChipCnt.Size = new System.Drawing.Size(35, 21);
+            this.txt_ChipCnt.TabIndex = 36;
+            this.txt_ChipCnt.Text = "3";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(10, 78);
+            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(29, 12);
+            this.label8.TabIndex = 35;
+            this.label8.Text = "注数";
+            // 
+            // txt_FixChipCnt
+            // 
+            this.txt_FixChipCnt.Location = new System.Drawing.Point(76, 53);
+            this.txt_FixChipCnt.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_FixChipCnt.Name = "txt_FixChipCnt";
+            this.txt_FixChipCnt.Size = new System.Drawing.Size(35, 21);
+            this.txt_FixChipCnt.TabIndex = 34;
+            this.txt_FixChipCnt.Text = "1";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(10, 57);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(53, 12);
+            this.label7.TabIndex = 33;
+            this.label7.Text = "是否定注";
+            // 
+            // txt_reviewExpCnt
+            // 
+            this.txt_reviewExpCnt.Location = new System.Drawing.Point(76, 31);
+            this.txt_reviewExpCnt.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_reviewExpCnt.Name = "txt_reviewExpCnt";
+            this.txt_reviewExpCnt.Size = new System.Drawing.Size(35, 21);
+            this.txt_reviewExpCnt.TabIndex = 32;
+            this.txt_reviewExpCnt.Text = "180";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(10, 35);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(53, 12);
+            this.label4.TabIndex = 31;
+            this.label4.Text = "回览期数";
+            // 
+            // tabPage_subCondition
+            // 
+            this.tabPage_subCondition.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage_subCondition.Controls.Add(this.txt_MaxHoldChanceCnt);
+            this.tabPage_subCondition.Controls.Add(this.txt_InitCash);
+            this.tabPage_subCondition.Controls.Add(this.label28);
+            this.tabPage_subCondition.Controls.Add(this.label27);
+            this.tabPage_subCondition.Controls.Add(this.txt_Odds);
+            this.tabPage_subCondition.Controls.Add(this.label6);
+            this.tabPage_subCondition.Controls.Add(this.txt_minColTimes10);
+            this.tabPage_subCondition.Controls.Add(this.label17);
+            this.tabPage_subCondition.Controls.Add(this.txt_minColTimes9);
+            this.tabPage_subCondition.Controls.Add(this.label18);
+            this.tabPage_subCondition.Controls.Add(this.txt_minColTimes8);
+            this.tabPage_subCondition.Controls.Add(this.label19);
+            this.tabPage_subCondition.Controls.Add(this.txt_minColTimes7);
+            this.tabPage_subCondition.Controls.Add(this.label20);
+            this.tabPage_subCondition.Controls.Add(this.txt_minColTimes6);
+            this.tabPage_subCondition.Controls.Add(this.label21);
+            this.tabPage_subCondition.Controls.Add(this.txt_minColTimes5);
+            this.tabPage_subCondition.Controls.Add(this.label16);
+            this.tabPage_subCondition.Controls.Add(this.txt_minColTimes4);
+            this.tabPage_subCondition.Controls.Add(this.label15);
+            this.tabPage_subCondition.Controls.Add(this.txt_minColTimes3);
+            this.tabPage_subCondition.Controls.Add(this.label14);
+            this.tabPage_subCondition.Controls.Add(this.txt_minColTimes2);
+            this.tabPage_subCondition.Controls.Add(this.label13);
+            this.tabPage_subCondition.Controls.Add(this.txt_minColTimes1);
+            this.tabPage_subCondition.Controls.Add(this.label12);
+            this.tabPage_subCondition.Controls.Add(this.txt_GrownMaxVal);
+            this.tabPage_subCondition.Controls.Add(this.label11);
+            this.tabPage_subCondition.Controls.Add(this.txt_GrownMinVal);
+            this.tabPage_subCondition.Controls.Add(this.label10);
+            this.tabPage_subCondition.Controls.Add(this.txt_MinCols);
+            this.tabPage_subCondition.Controls.Add(this.label9);
+            this.tabPage_subCondition.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_subCondition.Name = "tabPage_subCondition";
+            this.tabPage_subCondition.Size = new System.Drawing.Size(1090, 73);
+            this.tabPage_subCondition.TabIndex = 2;
+            this.tabPage_subCondition.Text = "约束条件";
+            // 
+            // txt_MaxHoldChanceCnt
+            // 
+            this.txt_MaxHoldChanceCnt.Location = new System.Drawing.Point(334, 142);
+            this.txt_MaxHoldChanceCnt.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_MaxHoldChanceCnt.Name = "txt_MaxHoldChanceCnt";
+            this.txt_MaxHoldChanceCnt.Size = new System.Drawing.Size(55, 21);
+            this.txt_MaxHoldChanceCnt.TabIndex = 61;
+            this.txt_MaxHoldChanceCnt.Text = "100";
+            // 
+            // txt_InitCash
+            // 
+            this.txt_InitCash.Location = new System.Drawing.Point(334, 122);
+            this.txt_InitCash.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_InitCash.Name = "txt_InitCash";
+            this.txt_InitCash.Size = new System.Drawing.Size(55, 21);
+            this.txt_InitCash.TabIndex = 63;
+            this.txt_InitCash.Text = "20000";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(266, 143);
+            this.label28.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(53, 12);
+            this.label28.TabIndex = 60;
+            this.label28.Text = "最大持仓";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(266, 124);
+            this.label27.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(29, 12);
+            this.label27.TabIndex = 62;
+            this.label27.Text = "本金";
+            // 
+            // txt_Odds
+            // 
+            this.txt_Odds.Location = new System.Drawing.Point(334, 102);
+            this.txt_Odds.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_Odds.Name = "txt_Odds";
+            this.txt_Odds.Size = new System.Drawing.Size(55, 21);
+            this.txt_Odds.TabIndex = 59;
+            this.txt_Odds.Text = "9.75";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(266, 104);
+            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(29, 12);
+            this.label6.TabIndex = 58;
+            this.label6.Text = "赔率";
+            // 
+            // txt_minColTimes10
+            // 
+            this.txt_minColTimes10.Location = new System.Drawing.Point(223, 91);
+            this.txt_minColTimes10.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_minColTimes10.Name = "txt_minColTimes10";
+            this.txt_minColTimes10.Size = new System.Drawing.Size(36, 21);
+            this.txt_minColTimes10.TabIndex = 57;
+            this.txt_minColTimes10.Text = "1";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(167, 93);
+            this.label17.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(29, 12);
+            this.label17.TabIndex = 56;
+            this.label17.Text = "10码";
+            // 
+            // txt_minColTimes9
+            // 
+            this.txt_minColTimes9.Location = new System.Drawing.Point(223, 73);
+            this.txt_minColTimes9.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_minColTimes9.Name = "txt_minColTimes9";
+            this.txt_minColTimes9.Size = new System.Drawing.Size(36, 21);
+            this.txt_minColTimes9.TabIndex = 55;
+            this.txt_minColTimes9.Text = "6";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(167, 73);
+            this.label18.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(23, 12);
+            this.label18.TabIndex = 54;
+            this.label18.Text = "9码";
+            // 
+            // txt_minColTimes8
+            // 
+            this.txt_minColTimes8.Location = new System.Drawing.Point(223, 53);
+            this.txt_minColTimes8.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_minColTimes8.Name = "txt_minColTimes8";
+            this.txt_minColTimes8.Size = new System.Drawing.Size(36, 21);
+            this.txt_minColTimes8.TabIndex = 53;
+            this.txt_minColTimes8.Text = "8";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(167, 55);
+            this.label19.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(23, 12);
+            this.label19.TabIndex = 52;
+            this.label19.Text = "8码";
+            // 
+            // txt_minColTimes7
+            // 
+            this.txt_minColTimes7.Location = new System.Drawing.Point(223, 35);
+            this.txt_minColTimes7.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_minColTimes7.Name = "txt_minColTimes7";
+            this.txt_minColTimes7.Size = new System.Drawing.Size(36, 21);
+            this.txt_minColTimes7.TabIndex = 51;
+            this.txt_minColTimes7.Text = "12";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(167, 36);
+            this.label20.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(23, 12);
+            this.label20.TabIndex = 50;
+            this.label20.Text = "7码";
+            // 
+            // txt_minColTimes6
+            // 
+            this.txt_minColTimes6.Location = new System.Drawing.Point(223, 15);
+            this.txt_minColTimes6.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_minColTimes6.Name = "txt_minColTimes6";
+            this.txt_minColTimes6.Size = new System.Drawing.Size(36, 21);
+            this.txt_minColTimes6.TabIndex = 49;
+            this.txt_minColTimes6.Text = "15";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(167, 18);
+            this.label21.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(23, 12);
+            this.label21.TabIndex = 48;
+            this.label21.Text = "6码";
+            // 
+            // txt_minColTimes5
+            // 
+            this.txt_minColTimes5.Location = new System.Drawing.Point(74, 88);
+            this.txt_minColTimes5.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_minColTimes5.Name = "txt_minColTimes5";
+            this.txt_minColTimes5.Size = new System.Drawing.Size(36, 21);
+            this.txt_minColTimes5.TabIndex = 47;
+            this.txt_minColTimes5.Text = "16";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(18, 90);
+            this.label16.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(23, 12);
+            this.label16.TabIndex = 46;
+            this.label16.Text = "5码";
+            // 
+            // txt_minColTimes4
+            // 
+            this.txt_minColTimes4.Location = new System.Drawing.Point(74, 70);
+            this.txt_minColTimes4.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_minColTimes4.Name = "txt_minColTimes4";
+            this.txt_minColTimes4.Size = new System.Drawing.Size(36, 21);
+            this.txt_minColTimes4.TabIndex = 45;
+            this.txt_minColTimes4.Text = "22";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(18, 70);
+            this.label15.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(23, 12);
+            this.label15.TabIndex = 44;
+            this.label15.Text = "4码";
+            // 
+            // txt_minColTimes3
+            // 
+            this.txt_minColTimes3.Location = new System.Drawing.Point(74, 50);
+            this.txt_minColTimes3.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_minColTimes3.Name = "txt_minColTimes3";
+            this.txt_minColTimes3.Size = new System.Drawing.Size(36, 21);
+            this.txt_minColTimes3.TabIndex = 43;
+            this.txt_minColTimes3.Text = "31";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(18, 52);
+            this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(23, 12);
+            this.label14.TabIndex = 42;
+            this.label14.Text = "3码";
+            // 
+            // txt_minColTimes2
+            // 
+            this.txt_minColTimes2.Location = new System.Drawing.Point(74, 32);
+            this.txt_minColTimes2.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_minColTimes2.Name = "txt_minColTimes2";
+            this.txt_minColTimes2.Size = new System.Drawing.Size(36, 21);
+            this.txt_minColTimes2.TabIndex = 41;
+            this.txt_minColTimes2.Text = "45";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(18, 33);
+            this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(23, 12);
+            this.label13.TabIndex = 40;
+            this.label13.Text = "2码";
+            // 
+            // txt_minColTimes1
+            // 
+            this.txt_minColTimes1.Location = new System.Drawing.Point(74, 12);
+            this.txt_minColTimes1.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_minColTimes1.Name = "txt_minColTimes1";
+            this.txt_minColTimes1.Size = new System.Drawing.Size(36, 21);
+            this.txt_minColTimes1.TabIndex = 39;
+            this.txt_minColTimes1.Text = "70";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(18, 15);
+            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(23, 12);
+            this.label12.TabIndex = 38;
+            this.label12.Text = "1码";
+            // 
+            // txt_GrownMaxVal
+            // 
+            this.txt_GrownMaxVal.Location = new System.Drawing.Point(380, 52);
+            this.txt_GrownMaxVal.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_GrownMaxVal.Name = "txt_GrownMaxVal";
+            this.txt_GrownMaxVal.Size = new System.Drawing.Size(55, 21);
+            this.txt_GrownMaxVal.TabIndex = 37;
+            this.txt_GrownMaxVal.Text = "10";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(311, 52);
+            this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(65, 12);
+            this.label11.TabIndex = 36;
+            this.label11.Text = "成长最大值";
+            // 
+            // txt_GrownMinVal
+            // 
+            this.txt_GrownMinVal.Location = new System.Drawing.Point(380, 32);
+            this.txt_GrownMinVal.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_GrownMinVal.Name = "txt_GrownMinVal";
+            this.txt_GrownMinVal.Size = new System.Drawing.Size(55, 21);
+            this.txt_GrownMinVal.TabIndex = 35;
+            this.txt_GrownMinVal.Text = "10";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(312, 35);
+            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(65, 12);
+            this.label10.TabIndex = 34;
+            this.label10.Text = "成长最小值";
+            // 
+            // txt_MinCols
+            // 
+            this.txt_MinCols.Location = new System.Drawing.Point(380, 12);
+            this.txt_MinCols.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_MinCols.Name = "txt_MinCols";
+            this.txt_MinCols.Size = new System.Drawing.Size(55, 21);
+            this.txt_MinCols.TabIndex = 33;
+            this.txt_MinCols.Text = "3";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(312, 16);
+            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(53, 12);
+            this.label9.TabIndex = 32;
+            this.label9.Text = "隐藏期数";
+            // 
+            // tabPage_display
+            // 
+            this.tabPage_display.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage_display.Controls.Add(this.chkb_noDetailTable);
+            this.tabPage_display.Controls.Add(this.chkb_useOdds);
+            this.tabPage_display.Controls.Add(this.ckb_useCondition);
+            this.tabPage_display.Controls.Add(this.txt_Timer_Interval);
+            this.tabPage_display.Controls.Add(this.label30);
+            this.tabPage_display.Controls.Add(this.checkBox_UseBuffRsult);
+            this.tabPage_display.Controls.Add(this.checkBox_MixAll);
+            this.tabPage_display.Controls.Add(this.checkBox_CreamModel);
+            this.tabPage_display.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_display.Name = "tabPage_display";
+            this.tabPage_display.Size = new System.Drawing.Size(1090, 73);
+            this.tabPage_display.TabIndex = 3;
+            this.tabPage_display.Text = "显示设置";
+            // 
+            // chkb_noDetailTable
+            // 
+            this.chkb_noDetailTable.AutoSize = true;
+            this.chkb_noDetailTable.Location = new System.Drawing.Point(356, 35);
+            this.chkb_noDetailTable.Margin = new System.Windows.Forms.Padding(2);
+            this.chkb_noDetailTable.Name = "chkb_noDetailTable";
+            this.chkb_noDetailTable.Size = new System.Drawing.Size(84, 16);
+            this.chkb_noDetailTable.TabIndex = 53;
+            this.chkb_noDetailTable.Text = "不显示明细";
+            this.chkb_noDetailTable.UseVisualStyleBackColor = true;
+            // 
+            // chkb_useOdds
+            // 
+            this.chkb_useOdds.AutoSize = true;
+            this.chkb_useOdds.Location = new System.Drawing.Point(236, 37);
+            this.chkb_useOdds.Margin = new System.Windows.Forms.Padding(2);
+            this.chkb_useOdds.Name = "chkb_useOdds";
+            this.chkb_useOdds.Size = new System.Drawing.Size(96, 16);
+            this.chkb_useOdds.TabIndex = 52;
+            this.chkb_useOdds.Text = "使用指定赔率";
+            this.chkb_useOdds.UseVisualStyleBackColor = true;
+            // 
+            // ckb_useCondition
+            // 
+            this.ckb_useCondition.AutoSize = true;
+            this.ckb_useCondition.Location = new System.Drawing.Point(115, 38);
+            this.ckb_useCondition.Margin = new System.Windows.Forms.Padding(2);
+            this.ckb_useCondition.Name = "ckb_useCondition";
+            this.ckb_useCondition.Size = new System.Drawing.Size(96, 16);
+            this.ckb_useCondition.TabIndex = 51;
+            this.ckb_useCondition.Text = "使用指定条件";
+            this.ckb_useCondition.UseVisualStyleBackColor = true;
+            // 
+            // txt_Timer_Interval
+            // 
+            this.txt_Timer_Interval.Location = new System.Drawing.Point(69, 9);
+            this.txt_Timer_Interval.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_Timer_Interval.Name = "txt_Timer_Interval";
+            this.txt_Timer_Interval.Size = new System.Drawing.Size(35, 21);
+            this.txt_Timer_Interval.TabIndex = 50;
+            this.txt_Timer_Interval.Text = "25";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(12, 15);
+            this.label30.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(53, 12);
+            this.label30.TabIndex = 49;
+            this.label30.Text = "刷新速度";
+            // 
+            // checkBox_UseBuffRsult
+            // 
+            this.checkBox_UseBuffRsult.AutoSize = true;
+            this.checkBox_UseBuffRsult.Location = new System.Drawing.Point(115, 12);
+            this.checkBox_UseBuffRsult.Name = "checkBox_UseBuffRsult";
+            this.checkBox_UseBuffRsult.Size = new System.Drawing.Size(96, 16);
+            this.checkBox_UseBuffRsult.TabIndex = 48;
+            this.checkBox_UseBuffRsult.Text = "使用缓存结果";
+            this.checkBox_UseBuffRsult.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_MixAll
+            // 
+            this.checkBox_MixAll.AutoSize = true;
+            this.checkBox_MixAll.Location = new System.Drawing.Point(356, 15);
+            this.checkBox_MixAll.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBox_MixAll.Name = "checkBox_MixAll";
+            this.checkBox_MixAll.Size = new System.Drawing.Size(72, 16);
+            this.checkBox_MixAll.TabIndex = 47;
+            this.checkBox_MixAll.Text = "混合所有";
+            this.checkBox_MixAll.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_CreamModel
+            // 
+            this.checkBox_CreamModel.AutoSize = true;
+            this.checkBox_CreamModel.Location = new System.Drawing.Point(236, 14);
+            this.checkBox_CreamModel.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBox_CreamModel.Name = "checkBox_CreamModel";
+            this.checkBox_CreamModel.Size = new System.Drawing.Size(72, 16);
+            this.checkBox_CreamModel.TabIndex = 46;
+            this.checkBox_CreamModel.Text = "复利模式";
+            this.checkBox_CreamModel.UseVisualStyleBackColor = true;
+            // 
+            // tabPage_roundBackTest
+            // 
+            this.tabPage_roundBackTest.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage_roundBackTest.Controls.Add(this.txt_RoundStepLong);
+            this.tabPage_roundBackTest.Controls.Add(this.label23);
+            this.tabPage_roundBackTest.Controls.Add(this.txt_RoundCycLong);
+            this.tabPage_roundBackTest.Controls.Add(this.label24);
+            this.tabPage_roundBackTest.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_roundBackTest.Name = "tabPage_roundBackTest";
+            this.tabPage_roundBackTest.Size = new System.Drawing.Size(1090, 73);
+            this.tabPage_roundBackTest.TabIndex = 4;
+            this.tabPage_roundBackTest.Text = "滚动设置";
+            // 
+            // txt_RoundStepLong
+            // 
+            this.txt_RoundStepLong.Location = new System.Drawing.Point(80, 29);
+            this.txt_RoundStepLong.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_RoundStepLong.Name = "txt_RoundStepLong";
+            this.txt_RoundStepLong.Size = new System.Drawing.Size(70, 21);
+            this.txt_RoundStepLong.TabIndex = 15;
+            this.txt_RoundStepLong.Text = "1000";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(13, 30);
+            this.label23.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(53, 12);
+            this.label23.TabIndex = 14;
+            this.label23.Text = "滚动步长";
+            // 
+            // txt_RoundCycLong
+            // 
+            this.txt_RoundCycLong.Location = new System.Drawing.Point(80, 9);
+            this.txt_RoundCycLong.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_RoundCycLong.Name = "txt_RoundCycLong";
+            this.txt_RoundCycLong.Size = new System.Drawing.Size(70, 21);
+            this.txt_RoundCycLong.TabIndex = 13;
+            this.txt_RoundCycLong.Text = "5000";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(13, 10);
+            this.label24.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(53, 12);
+            this.label24.TabIndex = 12;
+            this.label24.Text = "滚动周期";
+            // 
+            // btn_singleTest
+            // 
+            this.btn_singleTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_singleTest.Location = new System.Drawing.Point(1112, 187);
+            this.btn_singleTest.Name = "btn_singleTest";
+            this.btn_singleTest.Size = new System.Drawing.Size(61, 24);
+            this.btn_singleTest.TabIndex = 13;
+            this.btn_singleTest.Text = "单期测试";
+            this.btn_singleTest.UseVisualStyleBackColor = true;
+            this.btn_singleTest.Click += new System.EventHandler(this.btn_singleTest_Click);
             // 
             // btn_trainPlan
             // 
@@ -289,7 +1177,7 @@ namespace BackTestSys
             this.btn_trainPlan.Name = "btn_trainPlan";
             this.btn_trainPlan.Size = new System.Drawing.Size(62, 21);
             this.btn_trainPlan.TabIndex = 11;
-            this.btn_trainPlan.Text = "训练器";
+            this.btn_trainPlan.Text = "机器学习";
             this.btn_trainPlan.UseVisualStyleBackColor = true;
             this.btn_trainPlan.Click += new System.EventHandler(this.btn_trainPlan_Click);
             // 
@@ -339,72 +1227,6 @@ namespace BackTestSys
             this.btn_CheckData.UseVisualStyleBackColor = true;
             this.btn_CheckData.Click += new System.EventHandler(this.btn_CheckData_Click);
             // 
-            // groupBox4
-            // 
-            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox4.Location = new System.Drawing.Point(899, 92);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(2);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox4.Size = new System.Drawing.Size(166, 87);
-            this.groupBox4.TabIndex = 6;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "敏感性分析设置";
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Controls.Add(this.txt_RoundStepLong);
-            this.groupBox3.Controls.Add(this.label23);
-            this.groupBox3.Controls.Add(this.txt_RoundCycLong);
-            this.groupBox3.Controls.Add(this.label24);
-            this.groupBox3.Location = new System.Drawing.Point(899, 12);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox3.Size = new System.Drawing.Size(166, 76);
-            this.groupBox3.TabIndex = 5;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "滚动回测设置";
-            // 
-            // txt_RoundStepLong
-            // 
-            this.txt_RoundStepLong.Location = new System.Drawing.Point(78, 41);
-            this.txt_RoundStepLong.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_RoundStepLong.Name = "txt_RoundStepLong";
-            this.txt_RoundStepLong.Size = new System.Drawing.Size(70, 21);
-            this.txt_RoundStepLong.TabIndex = 11;
-            this.txt_RoundStepLong.Text = "1000";
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(11, 42);
-            this.label23.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(53, 12);
-            this.label23.TabIndex = 10;
-            this.label23.Text = "滚动步长";
-            // 
-            // txt_RoundCycLong
-            // 
-            this.txt_RoundCycLong.Location = new System.Drawing.Point(78, 21);
-            this.txt_RoundCycLong.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_RoundCycLong.Name = "txt_RoundCycLong";
-            this.txt_RoundCycLong.Size = new System.Drawing.Size(70, 21);
-            this.txt_RoundCycLong.TabIndex = 9;
-            this.txt_RoundCycLong.Text = "5000";
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(11, 22);
-            this.label24.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(53, 12);
-            this.label24.TabIndex = 8;
-            this.label24.Text = "滚动周期";
-            // 
             // btn_roundTest
             // 
             this.btn_roundTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -441,817 +1263,6 @@ namespace BackTestSys
             this.btn_startTest.UseVisualStyleBackColor = true;
             this.btn_startTest.Click += new System.EventHandler(this.btn_startTest_Click);
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.txt_LearnCnt);
-            this.groupBox2.Controls.Add(this.label31);
-            this.groupBox2.Controls.Add(this.txt_AllowMaxHoldTimeCnt);
-            this.groupBox2.Controls.Add(this.label29);
-            this.groupBox2.Controls.Add(this.txt_minRate);
-            this.groupBox2.Controls.Add(this.label26);
-            this.groupBox2.Controls.Add(this.txt_StdvCnt);
-            this.groupBox2.Controls.Add(this.label25);
-            this.groupBox2.Controls.Add(this.chkb_getRev);
-            this.groupBox2.Controls.Add(this.chkb_onlyBS);
-            this.groupBox2.Controls.Add(this.chkb_onlySD);
-            this.groupBox2.Controls.Add(this.chkb_exclueBS);
-            this.groupBox2.Controls.Add(this.chkb_exclueSD);
-            this.groupBox2.Controls.Add(this.txt_maxInputTimes);
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.chkb_bySer);
-            this.groupBox2.Controls.Add(this.txt_minInputTimes);
-            this.groupBox2.Controls.Add(this.label22);
-            this.groupBox2.Controls.Add(this.txt_ChipCnt);
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Controls.Add(this.txt_FixChipCnt);
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.txt_reviewExpCnt);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Location = new System.Drawing.Point(476, 75);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox2.Size = new System.Drawing.Size(419, 165);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "回测策略条件";
-            // 
-            // txt_LearnCnt
-            // 
-            this.txt_LearnCnt.Location = new System.Drawing.Point(77, 19);
-            this.txt_LearnCnt.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_LearnCnt.Name = "txt_LearnCnt";
-            this.txt_LearnCnt.Size = new System.Drawing.Size(35, 21);
-            this.txt_LearnCnt.TabIndex = 30;
-            this.txt_LearnCnt.Text = "180";
-            // 
-            // label31
-            // 
-            this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(11, 23);
-            this.label31.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(53, 12);
-            this.label31.TabIndex = 29;
-            this.label31.Text = "学习期数";
-            // 
-            // txt_AllowMaxHoldTimeCnt
-            // 
-            this.txt_AllowMaxHoldTimeCnt.Location = new System.Drawing.Point(212, 126);
-            this.txt_AllowMaxHoldTimeCnt.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_AllowMaxHoldTimeCnt.Name = "txt_AllowMaxHoldTimeCnt";
-            this.txt_AllowMaxHoldTimeCnt.Size = new System.Drawing.Size(35, 21);
-            this.txt_AllowMaxHoldTimeCnt.TabIndex = 27;
-            this.txt_AllowMaxHoldTimeCnt.Text = "9";
-            // 
-            // label29
-            // 
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(156, 131);
-            this.label29.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(53, 12);
-            this.label29.TabIndex = 26;
-            this.label29.Text = "止损次数";
-            // 
-            // txt_minRate
-            // 
-            this.txt_minRate.Location = new System.Drawing.Point(183, 169);
-            this.txt_minRate.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_minRate.Name = "txt_minRate";
-            this.txt_minRate.Size = new System.Drawing.Size(35, 21);
-            this.txt_minRate.TabIndex = 25;
-            this.txt_minRate.Text = "1.001";
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(126, 172);
-            this.label26.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(53, 12);
-            this.label26.TabIndex = 24;
-            this.label26.Text = "最小赔率";
-            // 
-            // txt_StdvCnt
-            // 
-            this.txt_StdvCnt.Location = new System.Drawing.Point(78, 169);
-            this.txt_StdvCnt.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_StdvCnt.Name = "txt_StdvCnt";
-            this.txt_StdvCnt.Size = new System.Drawing.Size(35, 21);
-            this.txt_StdvCnt.TabIndex = 23;
-            this.txt_StdvCnt.Text = "1.5";
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(13, 172);
-            this.label25.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(53, 12);
-            this.label25.TabIndex = 22;
-            this.label25.Text = "标准差数";
-            // 
-            // chkb_getRev
-            // 
-            this.chkb_getRev.AutoSize = true;
-            this.chkb_getRev.Location = new System.Drawing.Point(161, 115);
-            this.chkb_getRev.Margin = new System.Windows.Forms.Padding(2);
-            this.chkb_getRev.Name = "chkb_getRev";
-            this.chkb_getRev.Size = new System.Drawing.Size(48, 16);
-            this.chkb_getRev.TabIndex = 21;
-            this.chkb_getRev.Text = "求反";
-            this.chkb_getRev.UseVisualStyleBackColor = true;
-            // 
-            // chkb_onlyBS
-            // 
-            this.chkb_onlyBS.AutoSize = true;
-            this.chkb_onlyBS.Location = new System.Drawing.Point(161, 97);
-            this.chkb_onlyBS.Margin = new System.Windows.Forms.Padding(2);
-            this.chkb_onlyBS.Name = "chkb_onlyBS";
-            this.chkb_onlyBS.Size = new System.Drawing.Size(84, 16);
-            this.chkb_onlyBS.TabIndex = 20;
-            this.chkb_onlyBS.Text = "只考虑大小";
-            this.chkb_onlyBS.UseVisualStyleBackColor = true;
-            // 
-            // chkb_onlySD
-            // 
-            this.chkb_onlySD.AutoSize = true;
-            this.chkb_onlySD.Location = new System.Drawing.Point(161, 77);
-            this.chkb_onlySD.Margin = new System.Windows.Forms.Padding(2);
-            this.chkb_onlySD.Name = "chkb_onlySD";
-            this.chkb_onlySD.Size = new System.Drawing.Size(84, 16);
-            this.chkb_onlySD.TabIndex = 19;
-            this.chkb_onlySD.Text = "只考虑单双";
-            this.chkb_onlySD.UseVisualStyleBackColor = true;
-            // 
-            // chkb_exclueBS
-            // 
-            this.chkb_exclueBS.AutoSize = true;
-            this.chkb_exclueBS.Location = new System.Drawing.Point(161, 57);
-            this.chkb_exclueBS.Margin = new System.Windows.Forms.Padding(2);
-            this.chkb_exclueBS.Name = "chkb_exclueBS";
-            this.chkb_exclueBS.Size = new System.Drawing.Size(72, 16);
-            this.chkb_exclueBS.TabIndex = 18;
-            this.chkb_exclueBS.Text = "排除大小";
-            this.chkb_exclueBS.UseVisualStyleBackColor = true;
-            // 
-            // chkb_exclueSD
-            // 
-            this.chkb_exclueSD.AutoSize = true;
-            this.chkb_exclueSD.Location = new System.Drawing.Point(161, 36);
-            this.chkb_exclueSD.Margin = new System.Windows.Forms.Padding(2);
-            this.chkb_exclueSD.Name = "chkb_exclueSD";
-            this.chkb_exclueSD.Size = new System.Drawing.Size(72, 16);
-            this.chkb_exclueSD.TabIndex = 17;
-            this.chkb_exclueSD.Text = "排除单双";
-            this.chkb_exclueSD.UseVisualStyleBackColor = true;
-            // 
-            // txt_maxInputTimes
-            // 
-            this.txt_maxInputTimes.Location = new System.Drawing.Point(77, 129);
-            this.txt_maxInputTimes.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_maxInputTimes.Name = "txt_maxInputTimes";
-            this.txt_maxInputTimes.Size = new System.Drawing.Size(35, 21);
-            this.txt_maxInputTimes.TabIndex = 16;
-            this.txt_maxInputTimes.Text = "8";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(11, 135);
-            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(53, 12);
-            this.label5.TabIndex = 15;
-            this.label5.Text = "最大入期";
-            // 
-            // chkb_bySer
-            // 
-            this.chkb_bySer.AutoSize = true;
-            this.chkb_bySer.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.chkb_bySer.Checked = true;
-            this.chkb_bySer.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkb_bySer.Location = new System.Drawing.Point(158, 19);
-            this.chkb_bySer.Margin = new System.Windows.Forms.Padding(2);
-            this.chkb_bySer.Name = "chkb_bySer";
-            this.chkb_bySer.Size = new System.Drawing.Size(84, 16);
-            this.chkb_bySer.TabIndex = 14;
-            this.chkb_bySer.Text = "是否按排名";
-            this.chkb_bySer.UseVisualStyleBackColor = true;
-            // 
-            // txt_minInputTimes
-            // 
-            this.txt_minInputTimes.Location = new System.Drawing.Point(77, 107);
-            this.txt_minInputTimes.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_minInputTimes.Name = "txt_minInputTimes";
-            this.txt_minInputTimes.Size = new System.Drawing.Size(35, 21);
-            this.txt_minInputTimes.TabIndex = 12;
-            this.txt_minInputTimes.Text = "30";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(11, 111);
-            this.label22.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(53, 12);
-            this.label22.TabIndex = 11;
-            this.label22.Text = "最小入期";
-            // 
-            // txt_ChipCnt
-            // 
-            this.txt_ChipCnt.Location = new System.Drawing.Point(77, 85);
-            this.txt_ChipCnt.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_ChipCnt.Name = "txt_ChipCnt";
-            this.txt_ChipCnt.Size = new System.Drawing.Size(35, 21);
-            this.txt_ChipCnt.TabIndex = 9;
-            this.txt_ChipCnt.Text = "3";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(11, 88);
-            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(29, 12);
-            this.label8.TabIndex = 8;
-            this.label8.Text = "注数";
-            // 
-            // txt_FixChipCnt
-            // 
-            this.txt_FixChipCnt.Location = new System.Drawing.Point(77, 63);
-            this.txt_FixChipCnt.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_FixChipCnt.Name = "txt_FixChipCnt";
-            this.txt_FixChipCnt.Size = new System.Drawing.Size(35, 21);
-            this.txt_FixChipCnt.TabIndex = 7;
-            this.txt_FixChipCnt.Text = "1";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(11, 67);
-            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(53, 12);
-            this.label7.TabIndex = 6;
-            this.label7.Text = "是否定注";
-            // 
-            // txt_reviewExpCnt
-            // 
-            this.txt_reviewExpCnt.Location = new System.Drawing.Point(77, 41);
-            this.txt_reviewExpCnt.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_reviewExpCnt.Name = "txt_reviewExpCnt";
-            this.txt_reviewExpCnt.Size = new System.Drawing.Size(35, 21);
-            this.txt_reviewExpCnt.TabIndex = 5;
-            this.txt_reviewExpCnt.Text = "180";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(11, 45);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(53, 12);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "回览期数";
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupBox1.Controls.Add(this.chkb_noDetailTable);
-            this.groupBox1.Controls.Add(this.chkb_useOdds);
-            this.groupBox1.Controls.Add(this.ckb_useCondition);
-            this.groupBox1.Controls.Add(this.txt_endExpNo);
-            this.groupBox1.Controls.Add(this.label33);
-            this.groupBox1.Controls.Add(this.label32);
-            this.groupBox1.Controls.Add(this.ddl_DataSource);
-            this.groupBox1.Controls.Add(this.txt_Timer_Interval);
-            this.groupBox1.Controls.Add(this.label30);
-            this.groupBox1.Controls.Add(this.checkBox_UseBuffRsult);
-            this.groupBox1.Controls.Add(this.checkBox_MixAll);
-            this.groupBox1.Controls.Add(this.checkBox_CreamModel);
-            this.groupBox1.Controls.Add(this.txt_MaxHoldChanceCnt);
-            this.groupBox1.Controls.Add(this.txt_InitCash);
-            this.groupBox1.Controls.Add(this.label28);
-            this.groupBox1.Controls.Add(this.label27);
-            this.groupBox1.Controls.Add(this.txt_minColTimes10);
-            this.groupBox1.Controls.Add(this.label17);
-            this.groupBox1.Controls.Add(this.txt_minColTimes9);
-            this.groupBox1.Controls.Add(this.label18);
-            this.groupBox1.Controls.Add(this.txt_minColTimes8);
-            this.groupBox1.Controls.Add(this.label19);
-            this.groupBox1.Controls.Add(this.txt_minColTimes7);
-            this.groupBox1.Controls.Add(this.label20);
-            this.groupBox1.Controls.Add(this.txt_minColTimes6);
-            this.groupBox1.Controls.Add(this.label21);
-            this.groupBox1.Controls.Add(this.txt_Odds);
-            this.groupBox1.Controls.Add(this.txt_minColTimes5);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.label16);
-            this.groupBox1.Controls.Add(this.txt_minColTimes4);
-            this.groupBox1.Controls.Add(this.label15);
-            this.groupBox1.Controls.Add(this.txt_minColTimes3);
-            this.groupBox1.Controls.Add(this.label14);
-            this.groupBox1.Controls.Add(this.txt_minColTimes2);
-            this.groupBox1.Controls.Add(this.label13);
-            this.groupBox1.Controls.Add(this.txt_minColTimes1);
-            this.groupBox1.Controls.Add(this.label12);
-            this.groupBox1.Controls.Add(this.txt_GrownMaxVal);
-            this.groupBox1.Controls.Add(this.label11);
-            this.groupBox1.Controls.Add(this.txt_GrownMinVal);
-            this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Controls.Add(this.txt_MinCols);
-            this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Controls.Add(this.txt_LoopCnt);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.txt_begExpNo);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(14, 12);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(444, 230);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "回测数据设置";
-            // 
-            // chkb_noDetailTable
-            // 
-            this.chkb_noDetailTable.AutoSize = true;
-            this.chkb_noDetailTable.Location = new System.Drawing.Point(348, 195);
-            this.chkb_noDetailTable.Margin = new System.Windows.Forms.Padding(2);
-            this.chkb_noDetailTable.Name = "chkb_noDetailTable";
-            this.chkb_noDetailTable.Size = new System.Drawing.Size(84, 16);
-            this.chkb_noDetailTable.TabIndex = 45;
-            this.chkb_noDetailTable.Text = "不显示明细";
-            this.chkb_noDetailTable.UseVisualStyleBackColor = true;
-            // 
-            // chkb_useOdds
-            // 
-            this.chkb_useOdds.AutoSize = true;
-            this.chkb_useOdds.Location = new System.Drawing.Point(228, 197);
-            this.chkb_useOdds.Margin = new System.Windows.Forms.Padding(2);
-            this.chkb_useOdds.Name = "chkb_useOdds";
-            this.chkb_useOdds.Size = new System.Drawing.Size(96, 16);
-            this.chkb_useOdds.TabIndex = 44;
-            this.chkb_useOdds.Text = "使用指定赔率";
-            this.chkb_useOdds.UseVisualStyleBackColor = true;
-            // 
-            // ckb_useCondition
-            // 
-            this.ckb_useCondition.AutoSize = true;
-            this.ckb_useCondition.Location = new System.Drawing.Point(107, 198);
-            this.ckb_useCondition.Margin = new System.Windows.Forms.Padding(2);
-            this.ckb_useCondition.Name = "ckb_useCondition";
-            this.ckb_useCondition.Size = new System.Drawing.Size(96, 16);
-            this.ckb_useCondition.TabIndex = 43;
-            this.ckb_useCondition.Text = "使用指定条件";
-            this.ckb_useCondition.UseVisualStyleBackColor = true;
-            // 
-            // txt_endExpNo
-            // 
-            this.txt_endExpNo.Location = new System.Drawing.Point(364, 16);
-            this.txt_endExpNo.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_endExpNo.Name = "txt_endExpNo";
-            this.txt_endExpNo.Size = new System.Drawing.Size(76, 21);
-            this.txt_endExpNo.TabIndex = 42;
-            this.txt_endExpNo.Text = "20491231180";
-            // 
-            // label33
-            // 
-            this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(308, 18);
-            this.label33.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(53, 12);
-            this.label33.TabIndex = 41;
-            this.label33.Text = "截止期号";
-            // 
-            // label32
-            // 
-            this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(7, 144);
-            this.label32.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(41, 12);
-            this.label32.TabIndex = 40;
-            this.label32.Text = "数据源";
-            // 
-            // ddl_DataSource
-            // 
-            this.ddl_DataSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ddl_DataSource.FormattingEnabled = true;
-            this.ddl_DataSource.Items.AddRange(new object[] {
-            "PK10",
-            "TXFFC",
-            "CN_Stock_A"});
-            this.ddl_DataSource.Location = new System.Drawing.Point(59, 142);
-            this.ddl_DataSource.Margin = new System.Windows.Forms.Padding(2);
-            this.ddl_DataSource.Name = "ddl_DataSource";
-            this.ddl_DataSource.Size = new System.Drawing.Size(142, 20);
-            this.ddl_DataSource.TabIndex = 39;
-            this.ddl_DataSource.SelectedIndexChanged += new System.EventHandler(this.ddl_DataSource_SelectedIndexChanged);
-            // 
-            // txt_Timer_Interval
-            // 
-            this.txt_Timer_Interval.Location = new System.Drawing.Point(61, 169);
-            this.txt_Timer_Interval.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_Timer_Interval.Name = "txt_Timer_Interval";
-            this.txt_Timer_Interval.Size = new System.Drawing.Size(35, 21);
-            this.txt_Timer_Interval.TabIndex = 38;
-            this.txt_Timer_Interval.Text = "25";
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(4, 175);
-            this.label30.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(53, 12);
-            this.label30.TabIndex = 37;
-            this.label30.Text = "刷新速度";
-            // 
-            // checkBox_UseBuffRsult
-            // 
-            this.checkBox_UseBuffRsult.AutoSize = true;
-            this.checkBox_UseBuffRsult.Location = new System.Drawing.Point(107, 172);
-            this.checkBox_UseBuffRsult.Name = "checkBox_UseBuffRsult";
-            this.checkBox_UseBuffRsult.Size = new System.Drawing.Size(96, 16);
-            this.checkBox_UseBuffRsult.TabIndex = 36;
-            this.checkBox_UseBuffRsult.Text = "使用缓存结果";
-            this.checkBox_UseBuffRsult.UseVisualStyleBackColor = true;
-            // 
-            // checkBox_MixAll
-            // 
-            this.checkBox_MixAll.AutoSize = true;
-            this.checkBox_MixAll.Location = new System.Drawing.Point(348, 175);
-            this.checkBox_MixAll.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBox_MixAll.Name = "checkBox_MixAll";
-            this.checkBox_MixAll.Size = new System.Drawing.Size(72, 16);
-            this.checkBox_MixAll.TabIndex = 35;
-            this.checkBox_MixAll.Text = "混合所有";
-            this.checkBox_MixAll.UseVisualStyleBackColor = true;
-            // 
-            // checkBox_CreamModel
-            // 
-            this.checkBox_CreamModel.AutoSize = true;
-            this.checkBox_CreamModel.Location = new System.Drawing.Point(228, 174);
-            this.checkBox_CreamModel.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBox_CreamModel.Name = "checkBox_CreamModel";
-            this.checkBox_CreamModel.Size = new System.Drawing.Size(72, 16);
-            this.checkBox_CreamModel.TabIndex = 34;
-            this.checkBox_CreamModel.Text = "复利模式";
-            this.checkBox_CreamModel.UseVisualStyleBackColor = true;
-            // 
-            // txt_MaxHoldChanceCnt
-            // 
-            this.txt_MaxHoldChanceCnt.Location = new System.Drawing.Point(365, 138);
-            this.txt_MaxHoldChanceCnt.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_MaxHoldChanceCnt.Name = "txt_MaxHoldChanceCnt";
-            this.txt_MaxHoldChanceCnt.Size = new System.Drawing.Size(55, 21);
-            this.txt_MaxHoldChanceCnt.TabIndex = 27;
-            this.txt_MaxHoldChanceCnt.Text = "100";
-            // 
-            // txt_InitCash
-            // 
-            this.txt_InitCash.Location = new System.Drawing.Point(365, 118);
-            this.txt_InitCash.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_InitCash.Name = "txt_InitCash";
-            this.txt_InitCash.Size = new System.Drawing.Size(55, 21);
-            this.txt_InitCash.TabIndex = 33;
-            this.txt_InitCash.Text = "20000";
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(297, 139);
-            this.label28.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(53, 12);
-            this.label28.TabIndex = 26;
-            this.label28.Text = "最大持仓";
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(297, 120);
-            this.label27.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(29, 12);
-            this.label27.TabIndex = 32;
-            this.label27.Text = "本金";
-            // 
-            // txt_minColTimes10
-            // 
-            this.txt_minColTimes10.Location = new System.Drawing.Point(208, 119);
-            this.txt_minColTimes10.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_minColTimes10.Name = "txt_minColTimes10";
-            this.txt_minColTimes10.Size = new System.Drawing.Size(36, 21);
-            this.txt_minColTimes10.TabIndex = 31;
-            this.txt_minColTimes10.Text = "1";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(152, 121);
-            this.label17.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(29, 12);
-            this.label17.TabIndex = 30;
-            this.label17.Text = "10码";
-            // 
-            // txt_minColTimes9
-            // 
-            this.txt_minColTimes9.Location = new System.Drawing.Point(208, 101);
-            this.txt_minColTimes9.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_minColTimes9.Name = "txt_minColTimes9";
-            this.txt_minColTimes9.Size = new System.Drawing.Size(36, 21);
-            this.txt_minColTimes9.TabIndex = 29;
-            this.txt_minColTimes9.Text = "6";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(152, 101);
-            this.label18.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(23, 12);
-            this.label18.TabIndex = 28;
-            this.label18.Text = "9码";
-            // 
-            // txt_minColTimes8
-            // 
-            this.txt_minColTimes8.Location = new System.Drawing.Point(208, 81);
-            this.txt_minColTimes8.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_minColTimes8.Name = "txt_minColTimes8";
-            this.txt_minColTimes8.Size = new System.Drawing.Size(36, 21);
-            this.txt_minColTimes8.TabIndex = 27;
-            this.txt_minColTimes8.Text = "8";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(152, 83);
-            this.label19.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(23, 12);
-            this.label19.TabIndex = 26;
-            this.label19.Text = "8码";
-            // 
-            // txt_minColTimes7
-            // 
-            this.txt_minColTimes7.Location = new System.Drawing.Point(208, 63);
-            this.txt_minColTimes7.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_minColTimes7.Name = "txt_minColTimes7";
-            this.txt_minColTimes7.Size = new System.Drawing.Size(36, 21);
-            this.txt_minColTimes7.TabIndex = 25;
-            this.txt_minColTimes7.Text = "12";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(152, 64);
-            this.label20.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(23, 12);
-            this.label20.TabIndex = 24;
-            this.label20.Text = "7码";
-            // 
-            // txt_minColTimes6
-            // 
-            this.txt_minColTimes6.Location = new System.Drawing.Point(208, 43);
-            this.txt_minColTimes6.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_minColTimes6.Name = "txt_minColTimes6";
-            this.txt_minColTimes6.Size = new System.Drawing.Size(36, 21);
-            this.txt_minColTimes6.TabIndex = 23;
-            this.txt_minColTimes6.Text = "15";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(152, 46);
-            this.label21.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(23, 12);
-            this.label21.TabIndex = 22;
-            this.label21.Text = "6码";
-            // 
-            // txt_Odds
-            // 
-            this.txt_Odds.Location = new System.Drawing.Point(365, 98);
-            this.txt_Odds.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_Odds.Name = "txt_Odds";
-            this.txt_Odds.Size = new System.Drawing.Size(55, 21);
-            this.txt_Odds.TabIndex = 5;
-            this.txt_Odds.Text = "9.75";
-            // 
-            // txt_minColTimes5
-            // 
-            this.txt_minColTimes5.Location = new System.Drawing.Point(59, 116);
-            this.txt_minColTimes5.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_minColTimes5.Name = "txt_minColTimes5";
-            this.txt_minColTimes5.Size = new System.Drawing.Size(36, 21);
-            this.txt_minColTimes5.TabIndex = 21;
-            this.txt_minColTimes5.Text = "16";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(297, 100);
-            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(29, 12);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "赔率";
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(3, 118);
-            this.label16.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(23, 12);
-            this.label16.TabIndex = 20;
-            this.label16.Text = "5码";
-            // 
-            // txt_minColTimes4
-            // 
-            this.txt_minColTimes4.Location = new System.Drawing.Point(59, 98);
-            this.txt_minColTimes4.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_minColTimes4.Name = "txt_minColTimes4";
-            this.txt_minColTimes4.Size = new System.Drawing.Size(36, 21);
-            this.txt_minColTimes4.TabIndex = 19;
-            this.txt_minColTimes4.Text = "22";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(3, 98);
-            this.label15.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(23, 12);
-            this.label15.TabIndex = 18;
-            this.label15.Text = "4码";
-            // 
-            // txt_minColTimes3
-            // 
-            this.txt_minColTimes3.Location = new System.Drawing.Point(59, 78);
-            this.txt_minColTimes3.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_minColTimes3.Name = "txt_minColTimes3";
-            this.txt_minColTimes3.Size = new System.Drawing.Size(36, 21);
-            this.txt_minColTimes3.TabIndex = 17;
-            this.txt_minColTimes3.Text = "31";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(3, 80);
-            this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(23, 12);
-            this.label14.TabIndex = 16;
-            this.label14.Text = "3码";
-            // 
-            // txt_minColTimes2
-            // 
-            this.txt_minColTimes2.Location = new System.Drawing.Point(59, 60);
-            this.txt_minColTimes2.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_minColTimes2.Name = "txt_minColTimes2";
-            this.txt_minColTimes2.Size = new System.Drawing.Size(36, 21);
-            this.txt_minColTimes2.TabIndex = 15;
-            this.txt_minColTimes2.Text = "45";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(3, 61);
-            this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(23, 12);
-            this.label13.TabIndex = 14;
-            this.label13.Text = "2码";
-            // 
-            // txt_minColTimes1
-            // 
-            this.txt_minColTimes1.Location = new System.Drawing.Point(59, 40);
-            this.txt_minColTimes1.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_minColTimes1.Name = "txt_minColTimes1";
-            this.txt_minColTimes1.Size = new System.Drawing.Size(36, 21);
-            this.txt_minColTimes1.TabIndex = 13;
-            this.txt_minColTimes1.Text = "70";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(3, 43);
-            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(23, 12);
-            this.label12.TabIndex = 12;
-            this.label12.Text = "1码";
-            // 
-            // txt_GrownMaxVal
-            // 
-            this.txt_GrownMaxVal.Location = new System.Drawing.Point(365, 80);
-            this.txt_GrownMaxVal.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_GrownMaxVal.Name = "txt_GrownMaxVal";
-            this.txt_GrownMaxVal.Size = new System.Drawing.Size(55, 21);
-            this.txt_GrownMaxVal.TabIndex = 11;
-            this.txt_GrownMaxVal.Text = "10";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(296, 80);
-            this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(65, 12);
-            this.label11.TabIndex = 10;
-            this.label11.Text = "成长最大值";
-            // 
-            // txt_GrownMinVal
-            // 
-            this.txt_GrownMinVal.Location = new System.Drawing.Point(365, 60);
-            this.txt_GrownMinVal.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_GrownMinVal.Name = "txt_GrownMinVal";
-            this.txt_GrownMinVal.Size = new System.Drawing.Size(55, 21);
-            this.txt_GrownMinVal.TabIndex = 9;
-            this.txt_GrownMinVal.Text = "10";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(297, 63);
-            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(65, 12);
-            this.label10.TabIndex = 8;
-            this.label10.Text = "成长最小值";
-            // 
-            // txt_MinCols
-            // 
-            this.txt_MinCols.Location = new System.Drawing.Point(365, 40);
-            this.txt_MinCols.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_MinCols.Name = "txt_MinCols";
-            this.txt_MinCols.Size = new System.Drawing.Size(55, 21);
-            this.txt_MinCols.TabIndex = 7;
-            this.txt_MinCols.Text = "3";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(297, 44);
-            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(53, 12);
-            this.label9.TabIndex = 6;
-            this.label9.Text = "隐藏期数";
-            // 
-            // txt_LoopCnt
-            // 
-            this.txt_LoopCnt.Location = new System.Drawing.Point(208, 17);
-            this.txt_LoopCnt.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_LoopCnt.Name = "txt_LoopCnt";
-            this.txt_LoopCnt.Size = new System.Drawing.Size(77, 21);
-            this.txt_LoopCnt.TabIndex = 3;
-            this.txt_LoopCnt.Text = "50000";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(152, 21);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 12);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "批次期数";
-            // 
-            // txt_begExpNo
-            // 
-            this.txt_begExpNo.Location = new System.Drawing.Point(59, 16);
-            this.txt_begExpNo.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_begExpNo.Name = "txt_begExpNo";
-            this.txt_begExpNo.Size = new System.Drawing.Size(78, 21);
-            this.txt_begExpNo.TabIndex = 1;
-            this.txt_begExpNo.Text = "233049";
-            this.txt_begExpNo.Click += new System.EventHandler(this.txt_begExpNo_Click);
-            this.txt_begExpNo.DoubleClick += new System.EventHandler(this.txt_begExpNo_DoubleClick);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 18);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 12);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "开始期号";
-            // 
             // tabControl1
             // 
             this.tabControl1.ContextMenuStrip = this.contextMenuStrip_ForListView;
@@ -1269,7 +1280,7 @@ namespace BackTestSys
             this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1190, 391);
+            this.tabControl1.Size = new System.Drawing.Size(1190, 543);
             this.tabControl1.TabIndex = 3;
             // 
             // contextMenuStrip_ForListView
@@ -1277,23 +1288,38 @@ namespace BackTestSys
             this.contextMenuStrip_ForListView.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.contextMenuStrip_ForListView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmi_ExportExcel,
-            this.tsmi_ExportCSV});
+            this.tsmi_ImportExcel,
+            this.tsmi_ExportCSV,
+            this.tsmi_DisplayAll});
             this.contextMenuStrip_ForListView.Name = "contextMenuStrip_ForListView";
-            this.contextMenuStrip_ForListView.Size = new System.Drawing.Size(124, 48);
+            this.contextMenuStrip_ForListView.Size = new System.Drawing.Size(125, 92);
             this.contextMenuStrip_ForListView.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_ForListView_Opening);
             // 
             // tsmi_ExportExcel
             // 
             this.tsmi_ExportExcel.Name = "tsmi_ExportExcel";
-            this.tsmi_ExportExcel.Size = new System.Drawing.Size(123, 22);
+            this.tsmi_ExportExcel.Size = new System.Drawing.Size(124, 22);
             this.tsmi_ExportExcel.Text = "导出";
+            // 
+            // tsmi_ImportExcel
+            // 
+            this.tsmi_ImportExcel.Name = "tsmi_ImportExcel";
+            this.tsmi_ImportExcel.Size = new System.Drawing.Size(124, 22);
+            this.tsmi_ImportExcel.Text = "导入";
             // 
             // tsmi_ExportCSV
             // 
             this.tsmi_ExportCSV.Name = "tsmi_ExportCSV";
-            this.tsmi_ExportCSV.Size = new System.Drawing.Size(123, 22);
+            this.tsmi_ExportCSV.Size = new System.Drawing.Size(124, 22);
             this.tsmi_ExportCSV.Text = "导出CSV";
             this.tsmi_ExportCSV.Click += new System.EventHandler(this.tsmi_ExportCSV_Click);
+            // 
+            // tsmi_DisplayAll
+            // 
+            this.tsmi_DisplayAll.Name = "tsmi_DisplayAll";
+            this.tsmi_DisplayAll.Size = new System.Drawing.Size(124, 22);
+            this.tsmi_DisplayAll.Text = "显示所有";
+            this.tsmi_DisplayAll.Click += new System.EventHandler(this.tsmi_DisplayAll_Click);
             // 
             // tabPage2
             // 
@@ -1302,7 +1328,7 @@ namespace BackTestSys
             this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage2.Size = new System.Drawing.Size(1182, 365);
+            this.tabPage2.Size = new System.Drawing.Size(1182, 517);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "整体概率分布";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -1316,7 +1342,7 @@ namespace BackTestSys
             this.listView2.Location = new System.Drawing.Point(2, 2);
             this.listView2.Margin = new System.Windows.Forms.Padding(2);
             this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(1178, 361);
+            this.listView2.Size = new System.Drawing.Size(1178, 513);
             this.listView2.TabIndex = 0;
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.View = System.Windows.Forms.View.Details;
@@ -1329,7 +1355,7 @@ namespace BackTestSys
             this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage1.Size = new System.Drawing.Size(1182, 365);
+            this.tabPage1.Size = new System.Drawing.Size(1182, 502);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "小概率机会列表";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -1344,7 +1370,7 @@ namespace BackTestSys
             this.listView1.Margin = new System.Windows.Forms.Padding(2);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(1178, 361);
+            this.listView1.Size = new System.Drawing.Size(1178, 498);
             this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -1357,7 +1383,7 @@ namespace BackTestSys
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1182, 365);
+            this.tabPage3.Size = new System.Drawing.Size(1182, 502);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "滚动测试结果";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1372,7 +1398,7 @@ namespace BackTestSys
             this.listView3.Location = new System.Drawing.Point(0, 0);
             this.listView3.Margin = new System.Windows.Forms.Padding(2);
             this.listView3.Name = "listView3";
-            this.listView3.Size = new System.Drawing.Size(1182, 365);
+            this.listView3.Size = new System.Drawing.Size(1182, 502);
             this.listView3.TabIndex = 0;
             this.listView3.UseCompatibleStateImageBehavior = false;
             this.listView3.View = System.Windows.Forms.View.Details;
@@ -1383,28 +1409,28 @@ namespace BackTestSys
             this.tabPage4.Controls.Add(this.chart1);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1182, 365);
+            this.tabPage4.Size = new System.Drawing.Size(1182, 502);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "资金曲线";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // chart1
             // 
-            chartArea4.CursorX.IsUserEnabled = true;
-            chartArea4.CursorX.IsUserSelectionEnabled = true;
-            chartArea4.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea4);
+            chartArea16.CursorX.IsUserEnabled = true;
+            chartArea16.CursorX.IsUserSelectionEnabled = true;
+            chartArea16.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea16);
             this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend4.Name = "Legend1";
-            this.chart1.Legends.Add(legend4);
+            legend16.Name = "Legend1";
+            this.chart1.Legends.Add(legend16);
             this.chart1.Location = new System.Drawing.Point(0, 0);
             this.chart1.Name = "chart1";
-            series9.ChartArea = "ChartArea1";
-            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series9.Legend = "Legend1";
-            series9.Name = "收益率曲线";
-            this.chart1.Series.Add(series9);
-            this.chart1.Size = new System.Drawing.Size(1182, 365);
+            series41.ChartArea = "ChartArea1";
+            series41.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series41.Legend = "Legend1";
+            series41.Name = "收益率曲线";
+            this.chart1.Series.Add(series41);
+            this.chart1.Size = new System.Drawing.Size(1182, 502);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "收益率曲线图";
             // 
@@ -1413,7 +1439,7 @@ namespace BackTestSys
             this.tabPage5.Controls.Add(this.dataGridView_ExchangeDetail);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1182, 365);
+            this.tabPage5.Size = new System.Drawing.Size(1182, 502);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "交易明细";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -1426,7 +1452,7 @@ namespace BackTestSys
             this.dataGridView_ExchangeDetail.MultiSelect = false;
             this.dataGridView_ExchangeDetail.Name = "dataGridView_ExchangeDetail";
             this.dataGridView_ExchangeDetail.RowTemplate.Height = 23;
-            this.dataGridView_ExchangeDetail.Size = new System.Drawing.Size(1182, 365);
+            this.dataGridView_ExchangeDetail.Size = new System.Drawing.Size(1182, 502);
             this.dataGridView_ExchangeDetail.TabIndex = 0;
             this.dataGridView_ExchangeDetail.DoubleClick += new System.EventHandler(this.dataGridView_ExchangeDetail_DoubleClick);
             // 
@@ -1436,41 +1462,41 @@ namespace BackTestSys
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(1182, 365);
+            this.tabPage6.Size = new System.Drawing.Size(1182, 502);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "概率波动曲线";
             this.tabPage6.UseVisualStyleBackColor = true;
             // 
             // chart_ForProb
             // 
-            chartArea5.Name = "ChartArea1";
-            this.chart_ForProb.ChartAreas.Add(chartArea5);
+            chartArea17.Name = "ChartArea1";
+            this.chart_ForProb.ChartAreas.Add(chartArea17);
             this.chart_ForProb.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend5.Name = "Legend1";
-            this.chart_ForProb.Legends.Add(legend5);
+            legend17.Name = "Legend1";
+            this.chart_ForProb.Legends.Add(legend17);
             this.chart_ForProb.Location = new System.Drawing.Point(3, 3);
             this.chart_ForProb.Name = "chart_ForProb";
-            series10.ChartArea = "ChartArea1";
-            series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series10.Legend = "Legend1";
-            series10.Name = "概率变动曲线";
-            series11.ChartArea = "ChartArea1";
-            series11.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series11.Legend = "Legend1";
-            series11.Name = "Series2";
-            series12.ChartArea = "ChartArea1";
-            series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series12.Legend = "Legend1";
-            series12.Name = "Series3";
-            series13.ChartArea = "ChartArea1";
-            series13.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series13.Legend = "Legend1";
-            series13.Name = "Series4";
-            this.chart_ForProb.Series.Add(series10);
-            this.chart_ForProb.Series.Add(series11);
-            this.chart_ForProb.Series.Add(series12);
-            this.chart_ForProb.Series.Add(series13);
-            this.chart_ForProb.Size = new System.Drawing.Size(1176, 359);
+            series42.ChartArea = "ChartArea1";
+            series42.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series42.Legend = "Legend1";
+            series42.Name = "概率变动曲线";
+            series43.ChartArea = "ChartArea1";
+            series43.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series43.Legend = "Legend1";
+            series43.Name = "Series2";
+            series44.ChartArea = "ChartArea1";
+            series44.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series44.Legend = "Legend1";
+            series44.Name = "Series3";
+            series45.ChartArea = "ChartArea1";
+            series45.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series45.Legend = "Legend1";
+            series45.Name = "Series4";
+            this.chart_ForProb.Series.Add(series42);
+            this.chart_ForProb.Series.Add(series43);
+            this.chart_ForProb.Series.Add(series44);
+            this.chart_ForProb.Series.Add(series45);
+            this.chart_ForProb.Size = new System.Drawing.Size(1176, 496);
             this.chart_ForProb.TabIndex = 0;
             this.chart_ForProb.Text = "chart2";
             // 
@@ -1480,7 +1506,7 @@ namespace BackTestSys
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(1182, 365);
+            this.tabPage7.Size = new System.Drawing.Size(1182, 502);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "概率数据";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -1521,7 +1547,7 @@ namespace BackTestSys
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView_ProbData.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridView_ProbData.RowTemplate.Height = 23;
-            this.dataGridView_ProbData.Size = new System.Drawing.Size(1176, 359);
+            this.dataGridView_ProbData.Size = new System.Drawing.Size(1176, 496);
             this.dataGridView_ProbData.TabIndex = 0;
             // 
             // tabPage8
@@ -1530,37 +1556,37 @@ namespace BackTestSys
             this.tabPage8.Location = new System.Drawing.Point(4, 22);
             this.tabPage8.Name = "tabPage8";
             this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage8.Size = new System.Drawing.Size(1182, 365);
+            this.tabPage8.Size = new System.Drawing.Size(1182, 502);
             this.tabPage8.TabIndex = 7;
             this.tabPage8.Text = "整体离散度变化曲线";
             this.tabPage8.UseVisualStyleBackColor = true;
             // 
             // chart_ForSystemStdDev
             // 
-            chartArea6.Name = "ChartArea1";
-            this.chart_ForSystemStdDev.ChartAreas.Add(chartArea6);
+            chartArea18.Name = "ChartArea1";
+            this.chart_ForSystemStdDev.ChartAreas.Add(chartArea18);
             this.chart_ForSystemStdDev.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend6.Name = "Legend1";
-            this.chart_ForSystemStdDev.Legends.Add(legend6);
+            legend18.Name = "Legend1";
+            this.chart_ForSystemStdDev.Legends.Add(legend18);
             this.chart_ForSystemStdDev.Location = new System.Drawing.Point(3, 3);
             this.chart_ForSystemStdDev.Name = "chart_ForSystemStdDev";
-            series14.BorderWidth = 5;
-            series14.ChartArea = "ChartArea1";
-            series14.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series14.Legend = "Legend1";
-            series14.Name = "Series1";
-            series15.ChartArea = "ChartArea1";
-            series15.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series15.Legend = "Legend1";
-            series15.Name = "Series2";
-            series16.ChartArea = "ChartArea1";
-            series16.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series16.Legend = "Legend1";
-            series16.Name = "Series3";
-            this.chart_ForSystemStdDev.Series.Add(series14);
-            this.chart_ForSystemStdDev.Series.Add(series15);
-            this.chart_ForSystemStdDev.Series.Add(series16);
-            this.chart_ForSystemStdDev.Size = new System.Drawing.Size(1176, 359);
+            series46.BorderWidth = 5;
+            series46.ChartArea = "ChartArea1";
+            series46.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series46.Legend = "Legend1";
+            series46.Name = "Series1";
+            series47.ChartArea = "ChartArea1";
+            series47.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series47.Legend = "Legend1";
+            series47.Name = "Series2";
+            series48.ChartArea = "ChartArea1";
+            series48.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series48.Legend = "Legend1";
+            series48.Name = "Series3";
+            this.chart_ForSystemStdDev.Series.Add(series46);
+            this.chart_ForSystemStdDev.Series.Add(series47);
+            this.chart_ForSystemStdDev.Series.Add(series48);
+            this.chart_ForSystemStdDev.Size = new System.Drawing.Size(1176, 496);
             this.chart_ForSystemStdDev.TabIndex = 0;
             this.chart_ForSystemStdDev.Text = "系统整体散乱程度";
             // 
@@ -1570,7 +1596,7 @@ namespace BackTestSys
             this.tabPage9.Location = new System.Drawing.Point(4, 22);
             this.tabPage9.Name = "tabPage9";
             this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage9.Size = new System.Drawing.Size(1182, 365);
+            this.tabPage9.Size = new System.Drawing.Size(1182, 502);
             this.tabPage9.TabIndex = 8;
             this.tabPage9.Text = "整体离散度数据";
             this.tabPage9.UseVisualStyleBackColor = true;
@@ -1582,7 +1608,7 @@ namespace BackTestSys
             this.dg_forStdDev.Location = new System.Drawing.Point(3, 3);
             this.dg_forStdDev.Name = "dg_forStdDev";
             this.dg_forStdDev.RowTemplate.Height = 23;
-            this.dg_forStdDev.Size = new System.Drawing.Size(1176, 359);
+            this.dg_forStdDev.Size = new System.Drawing.Size(1176, 496);
             this.dg_forStdDev.TabIndex = 0;
             this.dg_forStdDev.DoubleClick += new System.EventHandler(this.dg_forStdDev_DoubleClick);
             // 
@@ -1599,16 +1625,17 @@ namespace BackTestSys
             // 
             // statusStrip1
             // 
+            this.statusStrip1.AutoSize = false;
             this.statusStrip1.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F);
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.toolStripStatusLabel2,
             this.toolStripProgressBar1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 639);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 657);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 7, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1194, 43);
+            this.statusStrip1.Size = new System.Drawing.Size(1194, 25);
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -1616,30 +1643,33 @@ namespace BackTestSys
             // 
             this.toolStripStatusLabel1.AutoSize = false;
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(400, 38);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(400, 20);
             this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.AutoSize = false;
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(400, 38);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(400, 20);
             this.toolStripStatusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // toolStripProgressBar1
             // 
+            this.toolStripProgressBar1.AutoSize = false;
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(250, 37);
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(380, 19);
+            this.toolStripProgressBar1.Step = 1;
+            this.toolStripProgressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             // 
-            // btn_singleTest
+            // label3
             // 
-            this.btn_singleTest.Location = new System.Drawing.Point(1112, 187);
-            this.btn_singleTest.Name = "btn_singleTest";
-            this.btn_singleTest.Size = new System.Drawing.Size(61, 24);
-            this.btn_singleTest.TabIndex = 13;
-            this.btn_singleTest.Text = "单期测试";
-            this.btn_singleTest.UseVisualStyleBackColor = true;
-            this.btn_singleTest.Click += new System.EventHandler(this.btn_singleTest_Click);
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(17, 27);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(53, 12);
+            this.label3.TabIndex = 44;
+            this.label3.Text = "投资计划";
             // 
             // BackTestFrm
             // 
@@ -1651,21 +1681,26 @@ namespace BackTestSys
             this.Controls.Add(this.statusStrip1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "BackTestFrm";
-            this.Text = "快乐猎车回测平台";
+            this.Text = "武府量化投资研究回测系统";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.BackTestFrm_FormClosed);
             this.Load += new System.EventHandler(this.BackTestFrm_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.tabControl_setting.ResumeLayout(false);
+            this.tabPage_dataSource.ResumeLayout(false);
+            this.tabPage_dataSource.PerformLayout();
+            this.tabPage_usePlan.ResumeLayout(false);
+            this.tabPage_usePlan.PerformLayout();
+            this.tabPage_conditionSetting.ResumeLayout(false);
+            this.tabPage_conditionSetting.PerformLayout();
+            this.tabPage_subCondition.ResumeLayout(false);
+            this.tabPage_subCondition.PerformLayout();
+            this.tabPage_display.ResumeLayout(false);
+            this.tabPage_display.PerformLayout();
+            this.tabPage_roundBackTest.ResumeLayout(false);
+            this.tabPage_roundBackTest.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.contextMenuStrip_ForListView.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
@@ -1686,7 +1721,6 @@ namespace BackTestSys
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -1695,19 +1729,86 @@ namespace BackTestSys
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button btn_startTest;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.TextBox txt_reviewExpCnt;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox txt_LoopCnt;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txt_begExpNo;
+        private System.Windows.Forms.Button btn_export;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.ListView listView2;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.ListView listView3;
+        private System.Windows.Forms.Button btn_roundTest;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip_ForListView;
+        private System.Windows.Forms.ToolStripMenuItem tsmi_ExportExcel;
+        private System.Windows.Forms.ToolStripMenuItem tsmi_ImportExcel;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.Button btn_CheckData;
+        private System.Windows.Forms.Button btn_VirExchange;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Timer timer_Tip;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.DataGridView dataGridView_ExchangeDetail;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart_ForProb;
+        private System.Windows.Forms.TabPage tabPage7;
+        private System.Windows.Forms.DataGridView dataGridView_ProbData;
+        private System.Windows.Forms.Button btn_CalcEr;
+        private System.Windows.Forms.Button btn_DistrCheck;
+        private System.Windows.Forms.TabPage tabPage8;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart_ForSystemStdDev;
+        private System.Windows.Forms.TabPage tabPage9;
+        private System.Windows.Forms.DataGridView dg_forStdDev;
+        private System.Windows.Forms.Button btn_trainPlan;
+        private RunPlanPicker<T> runPlanPicker1;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private System.Windows.Forms.ToolStripMenuItem tsmi_ExportCSV;
+        private System.Windows.Forms.ToolStripMenuItem tsmi_DisplayAll;
+        private System.Windows.Forms.Button btn_singleTest;
+        private System.Windows.Forms.TabControl tabControl_setting;
+        private System.Windows.Forms.TabPage tabPage_dataSource;
+        private System.Windows.Forms.TextBox txt_SecPools;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.ComboBox ddl_DataSource;
+        private System.Windows.Forms.TextBox txt_endExpNo;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txt_begExpNo;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txt_LoopCnt;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.TabPage tabPage_conditionSetting;
+        private System.Windows.Forms.TextBox txt_LearnCnt;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.TextBox txt_AllowMaxHoldTimeCnt;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.TextBox txt_minRate;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.TextBox txt_StdvCnt;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.CheckBox chkb_getRev;
+        private System.Windows.Forms.CheckBox chkb_onlyBS;
+        private System.Windows.Forms.CheckBox chkb_onlySD;
+        private System.Windows.Forms.CheckBox chkb_exclueBS;
+        private System.Windows.Forms.CheckBox chkb_exclueSD;
+        private System.Windows.Forms.TextBox txt_maxInputTimes;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox chkb_bySer;
+        private System.Windows.Forms.TextBox txt_minInputTimes;
+        private System.Windows.Forms.Label label22;
         private System.Windows.Forms.TextBox txt_ChipCnt;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txt_FixChipCnt;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txt_reviewExpCnt;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TabPage tabPage_subCondition;
+        private System.Windows.Forms.TextBox txt_MaxHoldChanceCnt;
+        private System.Windows.Forms.TextBox txt_InitCash;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label27;
         private System.Windows.Forms.TextBox txt_Odds;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txt_minColTimes10;
@@ -1736,84 +1837,21 @@ namespace BackTestSys
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox txt_MinCols;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Button btn_export;
-        private System.Windows.Forms.TextBox txt_minInputTimes;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.ListView listView2;
-        private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.ListView listView3;
-        private System.Windows.Forms.Button btn_roundTest;
-        private System.Windows.Forms.CheckBox chkb_bySer;
-        private System.Windows.Forms.TextBox txt_maxInputTimes;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.CheckBox chkb_exclueBS;
-        private System.Windows.Forms.CheckBox chkb_exclueSD;
-        private System.Windows.Forms.CheckBox chkb_onlyBS;
-        private System.Windows.Forms.CheckBox chkb_onlySD;
+        private System.Windows.Forms.TabPage tabPage_display;
+        private System.Windows.Forms.CheckBox chkb_noDetailTable;
+        private System.Windows.Forms.CheckBox chkb_useOdds;
+        private System.Windows.Forms.CheckBox ckb_useCondition;
+        private System.Windows.Forms.TextBox txt_Timer_Interval;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.CheckBox checkBox_UseBuffRsult;
+        private System.Windows.Forms.CheckBox checkBox_MixAll;
+        private System.Windows.Forms.CheckBox checkBox_CreamModel;
+        private System.Windows.Forms.TabPage tabPage_roundBackTest;
         private System.Windows.Forms.TextBox txt_RoundStepLong;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.TextBox txt_RoundCycLong;
         private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.CheckBox chkb_getRev;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip_ForListView;
-        private System.Windows.Forms.ToolStripMenuItem tsmi_ExportExcel;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.Button btn_CheckData;
-        private System.Windows.Forms.TextBox txt_StdvCnt;
-        private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.TextBox txt_minRate;
-        private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.TextBox txt_InitCash;
-        private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.Button btn_VirExchange;
-        private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-        private System.Windows.Forms.Timer timer_Tip;
-        private System.Windows.Forms.TextBox txt_MaxHoldChanceCnt;
-        private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.TabPage tabPage5;
-        private System.Windows.Forms.DataGridView dataGridView_ExchangeDetail;
-        private System.Windows.Forms.CheckBox checkBox_CreamModel;
-        private System.Windows.Forms.TextBox txt_AllowMaxHoldTimeCnt;
-        private System.Windows.Forms.Label label29;
-        private System.Windows.Forms.CheckBox checkBox_MixAll;
-        private System.Windows.Forms.TabPage tabPage6;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart_ForProb;
-        private System.Windows.Forms.TabPage tabPage7;
-        private System.Windows.Forms.DataGridView dataGridView_ProbData;
-        private System.Windows.Forms.CheckBox checkBox_UseBuffRsult;
-        private System.Windows.Forms.Button btn_CalcEr;
-        private System.Windows.Forms.TextBox txt_Timer_Interval;
-        private System.Windows.Forms.Label label30;
-        private System.Windows.Forms.Button btn_DistrCheck;
-        private System.Windows.Forms.TabPage tabPage8;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart_ForSystemStdDev;
-        private System.Windows.Forms.TabPage tabPage9;
-        private System.Windows.Forms.DataGridView dg_forStdDev;
-        private System.Windows.Forms.TextBox txt_LearnCnt;
-        private System.Windows.Forms.Label label31;
-        private System.Windows.Forms.Button btn_trainPlan;
-        //private WolfInv.com.ExchangeLib.RunPlanPicker runPlanPicker1;
-        private System.Windows.Forms.Label label32;
-        private System.Windows.Forms.ComboBox ddl_DataSource;
-        private System.Windows.Forms.TextBox txt_endExpNo;
-        private System.Windows.Forms.Label label33;
-        private RunPlanPicker<T> runPlanPicker1;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
-        private System.Windows.Forms.ToolStripMenuItem tsmi_ExportCSV;
-        private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.CheckBox ckb_useCondition;
-        private System.Windows.Forms.CheckBox chkb_useOdds;
-        private System.Windows.Forms.CheckBox chkb_noDetailTable;
-        private System.Windows.Forms.Button btn_singleTest;
+        private System.Windows.Forms.TabPage tabPage_usePlan;
+        private System.Windows.Forms.Label label3;
     }
 }

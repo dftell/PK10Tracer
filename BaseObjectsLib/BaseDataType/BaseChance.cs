@@ -12,6 +12,7 @@ namespace WolfInv.com.BaseObjectsLib
         /// </summary>
         /// 
         //int _chanceindex;
+        public Int64 exchangeId { get; set; }
         public Int64? ChanceIndex { get; set; }
         public string ChanceCode { get; set; }
         public int ChipCount { get; set; }

@@ -5,9 +5,11 @@ using System.Text;
 using WolfInv.com.BaseObjectsLib;
 //using WolfInv.com.PK10CorePress;
 using WolfInv.com.Strags;
+using WolfInv.com.Strags.Security;
 using WolfInv.com.LogLib;
 using WolfInv.com.SecurityLib;
-
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
 
 namespace WolfInv.com.ExchangeLib
 {
@@ -19,11 +21,14 @@ namespace WolfInv.com.ExchangeLib
         public string GrpName;
         protected DataTypePoint dtp;
         WXLogClass wxl;
+
+        public Action<string,string,string> afterStragProcessed;
         public CalcStragGroupClass(DataTypePoint _dtp)
         {
             wxl = new WXLogClass("服务器管理员",GlobalClass.LogUser, string.Format(GlobalClass.LogUrl,GlobalClass.WXLogHost));
             dtp = _dtp;
         }
+        public MongoDataDictionary<T> allSecurityDic;
         public bool IsBackTest { get; set; }
         public CalcStragGroupDelegate Finished;
         public ReturnChances<T> GetNoClosedChances;
@@ -134,9 +139,10 @@ namespace WolfInv.com.ExchangeLib
                 Log("错误","计算服务", string.Format("{0}:{1}",e.Message,  e.StackTrace));
             }
             //GetNoClosedChances(AllNoClosedChances);
-            
-            GetAllStdDevList(grpTotolStdDic);
+            GetAllStdDevList?.Invoke(grpTotolStdDic);
             Finished?.Invoke();
+            allSecurityDic = null;
+
         }
         
         public void ExecRun(object data)
@@ -216,6 +222,12 @@ namespace WolfInv.com.ExchangeLib
                     continue;
                 }
                 BaseStragClass<T> currStrag = UseStrags[currPlan.PlanStrag.GUID];
+                currStrag.RunningPlan = currPlan;//必须赋值，供后面证券策略使用
+                currStrag.AssetUnitId = currPlan.AssetUnitInfo?.UnitId;//必须复制，后面交易单元要用
+                if(dtp.IsSecurityData == 1)
+                {
+                    (currStrag as BaseSecurityStragClass<T>).FillSecDic(allSecurityDic);
+                }
                 if (IsBackTest)
                 {
                     currStrag.IsBackTest = IsBackTest;
@@ -240,7 +252,14 @@ namespace WolfInv.com.ExchangeLib
                 ///
                 ///////////////////////////////////////////////////////////////////
                 currStrag.IsBackTest = IsBackTest;
-                List<ChanceClass<T>> cs = currStrag.getChances(cc, el.LastData);//获取该策略的机会
+                if(dtp.IsSecurityData == 1)
+                {
+                    (currStrag as BaseSecurityStragClass<T>).interProcessFinished((k) =>
+                    {
+                        this.afterStragProcessed?.Invoke(currStrag.StragScript, el.LastData.Expect, k);
+                    });
+                }
+                List<ChanceClass<T>> cs = currStrag.getChances(cc, el.LastData,dtp.IsSecurityData==1);//获取该策略的机会
                 if (currStrag is ReferIndexStragClass)
                 {
                     if (grpIndexs == null)
@@ -280,9 +299,9 @@ namespace WolfInv.com.ExchangeLib
                         AssetUnitClass<T> useUnit = UseAssetUnits[currPlan.AssetUnitInfo.UnitId];
                         if (!useUnit.Running)
                         {
-                            useUnit.Run();
+                            useUnit.Run(dtp);
                         }
-                        restAmt = (long)useUnit.getCurrExchangeServer().summary;
+                        restAmt = (long)useUnit.getCurrExchangeServer().summary.currCash;
                     }
                     else
                         continue;
@@ -355,6 +374,8 @@ namespace WolfInv.com.ExchangeLib
                                 CurrCc.UnitCost = testStrag.getChipAmount(restAmt, CurrCc, amts);
                             else
                             {
+                                (testStrag as BaseSecurityStragClass<T>).FillSecDic(allSecurityDic);
+                                //这句主要不是获得价格，而是为了开仓时获得开仓数量
                                 (CurrCc as SecurityChance<T>).currUnitPrice = testStrag.getChipAmount(restAmt, CurrCc, amts);
                             }
                         }
@@ -407,8 +428,9 @@ namespace WolfInv.com.ExchangeLib
                     }
                     else
                     {
-                        CurrCc.Gained = ((CurrCc as SecurityChance<T>).currUnitPrice - CurrCc.UnitCost) * CurrCc.ChipCount;
-                        CurrCc.Profit = CurrCc.Gained - CurrCc.Cost;
+                        //均已在检查是否需要关闭内处理，不再处理
+                        //CurrCc.Gained = ((CurrCc as SecurityChance<T>).currUnitPrice - CurrCc.UnitCost) * CurrCc.ChipCount;
+                        //CurrCc.Profit = CurrCc.Gained - CurrCc.Cost;
                     }
                     CurrCc.ExecDate = DateTime.Today;
                     CurrCc.CreateTime = DateTime.Now;
@@ -416,7 +438,7 @@ namespace WolfInv.com.ExchangeLib
                     if (currStrag.CommSetting.Odds > 0)
                         CurrCc.Odds = currStrag.CommSetting.Odds;// CurrCc.getRealOdds();
                     CurrCc.StragId = currStrag.GUID;
-                    CurrCc.ExpectCode = el.LastData.Expect;
+                    //CurrCc.ExpectCode = el.LastData.Expect;
                     CurrCc.AllowMaxHoldTimeCnt = currPlan.AllowMaxHoldTimeCnt;
                     CurrCc.ChanceType = currPlan.OutPutType;
                     NewList.Add(CurrCc);
@@ -454,6 +476,10 @@ namespace WolfInv.com.ExchangeLib
                             if (currStrag is ISpecAmount<T>)//先从策略级检查
                             {
                                 ISpecAmount<T> specStrag = currStrag as ISpecAmount<T>;
+                                if(dtp.IsSecurityData == 1)
+                                {
+                                    (specStrag as BaseSecurityStragClass<T>).FillSecDic(allSecurityDic);
+                                }
                                 if (specStrag != null)//如果没有方法，再从机会级检查
                                 {
                                     //CurrCc.HoldTimeCnt++;
@@ -566,12 +592,101 @@ namespace WolfInv.com.ExchangeLib
             
             if(dtp.IsSecurityData==1)
             {
-                ExChange(NewList, el.LastData.Expect);
+                //资产单元风险控制仓位，判定交易是否可以进行，超出部分直接过滤
+                AssetRateControl(el, OldList, NewList);
+                foreach (var item in UseStrags.Keys)//无论如何，都新增一次
+                {
+                    ExChange(new List<ChanceClass<T>>(), el.LastData.Expect);
+                }
             }
             else
             {
                 ExChange(AllNoClosedChances.Values.ToList(), el.LastData.Expect);//执行交易提供可视化
             }
+        }
+        /// <summary>
+        /// 仓位控制模块，按安全垫所占资产比例提供相应的敞口规模，超出规模部分不交易
+        /// </summary>
+        /// <param name="el"></param>
+        /// <param name="OldList"></param>
+        /// <param name="NewList"></param>
+        void AssetRateControl(ExpectList<T> el,Dictionary<string,ChanceClass<T>> OldList,List<ChanceClass<T>> NewList) 
+        {
+            var oldGrps = OldList.GroupBy(a => a.Value.StragId);
+            var newGrps = NewList.GroupBy(a => a.StragId);
+            List<string> secs = OldList.Select(a => a.Value.ChanceCode).ToList();
+            MongoDataDictionary<T> alldata = new MongoDataDictionary<T>(el, true);
+            string currExpect = el.LastData.Expect;
+            foreach (var newItems in newGrps)//对每个策略进行计算
+            {
+                if (!UseStrags.ContainsKey(newItems.Key))//所有在用的策略不包含此策略，那就不处理
+                {
+                    continue;
+                }
+                if (newItems.Count() == 0)//分组没有内容
+                {
+                    continue;
+                }
+                var oldMatchItems = oldGrps.Where(a => a.Key == newItems.Key);
+                BaseSecurityStragClass<T> sc = UseStrags[newItems.Key] as BaseSecurityStragClass<T>;
+                StragRunPlanClass<T> usePlan = sc.RunningPlan as StragRunPlanClass<T>;
+                if(usePlan == null)
+                {
+                    continue;
+                }
+                AssetUnitClass<T> useUnit = usePlan.AssetUnitInfo;
+                if(useUnit == null)
+                {
+                    continue;
+                }
+                int noStopSecs = 0;//未停牌的股票数
+                if (oldMatchItems.Count() > 0)
+                {
+                    var oldItems = oldMatchItems.First();
+                    foreach (var oldItem in oldItems)//对单个策略中的老机会进行检查，是否是停牌股票
+                    {
+                        string code = oldItem.Value.ChanceCode;
+                        if (!alldata.ContainsKey(code))
+                            continue;
+                        if (alldata[code].Last().Expect == currExpect)
+                        {
+                            noStopSecs++;
+                        }
+                    }
+                }
+                //所有的交易日数据
+                ConcurrentDictionary<string,ExchangeData> allDayLines = useUnit.getCurrExchangeServer().getMoneys();
+                double currTotalVal = useUnit.getCurrExchangeServer().InitCash;//默认当前资产及现金规模为初始资金
+                if(allDayLines!= null&& allDayLines.Count>0)//如果有交易曲线，当前总值取交易曲线总值
+                {
+                    currTotalVal = allDayLines.Last().Value.currTotal;
+                }
+                double useAllowHoldMaxChanceRate = sc.getAllowMaxRiseExp(currTotalVal, useUnit.getCurrExchangeServer().InitCash);
+                List<ChanceClass<T>> useList = new List<ChanceClass<T>>();
+                int newI = 0;
+                int MaxAllowHoldCnt = 0;
+                //单利,等于敞口比例*总初始资金/单份金额
+                if (newItems.First().IncrementType == InterestType.SimpleInterest)
+                {
+                    MaxAllowHoldCnt = (int)Math.Floor(usePlan.InitCash * useAllowHoldMaxChanceRate / usePlan.FixAmt.Value);
+                }
+                else//复利等于敞口比例/单份比例
+                {
+                    MaxAllowHoldCnt = (int)Math.Floor(useAllowHoldMaxChanceRate / (100*usePlan.FixRate.Value));
+                }
+                foreach (var newItem in newItems)
+                {
+
+                    newI++;
+                    if (newI > MaxAllowHoldCnt - noStopSecs)
+                    {
+                        break;
+                    }
+                    useList.Add(newItem);
+                }
+                ExChange(useList, el.LastData.Expect);
+            }
+
         }
 
         /// <summary>
@@ -582,9 +697,11 @@ namespace WolfInv.com.ExchangeLib
         /// <returns></returns>
         protected bool ExChange(List<ChanceClass<T>> list,string lastExpectNo)
         {
+            
             ////List<ChanceClass> list = new List<ChanceClass>();
             ////Oldlist.Values.ToList<ChanceClass>().ForEach(p => list.Add(p));
             ////newList.ForEach(p => list.Add(p));
+            //对所有记录都进行登记
             for (int i = 0; i < list.Count; i++)
             {
                 ChanceClass<T> cc = list[i];
@@ -598,17 +715,42 @@ namespace WolfInv.com.ExchangeLib
                     continue;//所属分类无记录的资产单元，不记录信息
                 }
                 if (cc.UnitCost == 0)//无交易金额，不处理
-                    continue;
+                {
+                        continue;
+                }
                 AssetUnitClass<T> uu = UseAssetUnits[sc.AssetUnitId];
                 ExchangeChance<T> ec = new ExchangeChance<T>(uu.getCurrExchangeServer(), sc,cc.ExpectCode, lastExpectNo, cc);
                 
                 ec.ExchangeAmount = cc.UnitCost;
-                ec.ExchangeRate = cc.UnitCost / uu.getCurrExchangeServer().summary;
-                if (uu.getCurrExchangeServer().Push(ref ec,IsBackTest))
+                if(dtp.IsSecurityData == 1)
                 {
-                    AllExchance.Add(ec);
+                    ec.ExchangeAmount = (cc as SecurityChance<T>).openPrice;
+                    cc.UnitCost = ec.ExchangeAmount;
+                    cc.Cost = cc.UnitCost * cc.ChipCount;
+                    
                 }
-
+                ec.ExchangeRate = cc.UnitCost / uu.getCurrExchangeServer().summary.currTotal;
+                if (!string.IsNullOrEmpty(ec.OwnerChance.ChanceCode))
+                {
+                    uu.getCurrExchangeServer().Push(ref ec, false, dtp.IsSecurityData == 1, IsBackTest);
+                }
+            }
+            if (dtp.IsSecurityData == 1 && list.Count == 0)
+            {
+                foreach (var sc in UseStrags.Values)
+                {
+                    if (!UseAssetUnits.ContainsKey(sc.AssetUnitId))
+                    {
+                        continue;//所属分类无记录的资产单元，不记录信息
+                    }
+                    AssetUnitClass<T> uu = UseAssetUnits[sc.AssetUnitId];
+                    SecurityChance<T> cc = new SecurityChance<T>();
+                    cc.ExpectCode = lastExpectNo;
+                    cc.ChipCount = 1;
+                    cc.UnitCost = 0;
+                    ExchangeChance<T> ec = new ExchangeChance<T>(uu.getCurrExchangeServer(), sc, cc.ExpectCode, lastExpectNo, cc);
+                    uu.getCurrExchangeServer().Push(ref ec,true,true,IsBackTest);//空记录
+                }
             }
             return true;
         }
@@ -633,8 +775,14 @@ namespace WolfInv.com.ExchangeLib
                 ec.OwnerChance.Matched(el.LastData, out MatchCnt);
                 ec.MatchChips = MatchCnt;
                 ec.OwnerChance.MatchChips = MatchCnt;
-                ec.Server.Update(ec);
-
+                if (dtp.IsSecurityData == 1)
+                {
+                    ec.Server.UpdateSecurity(ec,true, "清仓", 0);
+                }
+                else
+                {
+                    ec.Server.Update(ec);
+                }
                 //if (MatchCnt == 0)
                 //{
                 //    if (tmp.ContainsKey(ec.OwnerChance.GUID) && !CurrExistChanceList.ContainsKey(ec.OwnerChance.GUID))
@@ -654,6 +802,7 @@ namespace WolfInv.com.ExchangeLib
             ret.UseStrags = getObjectListByXml<BaseStragClass<T>>(getXmlByObjectList<BaseStragClass<T>>(UseStrags.Values.ToList<BaseStragClass<T>>())).ToDictionary(p=>p.GUID,p=>p);
             ret.CurrSetting = this.CurrSetting;
             ret.UseStragType = this.UseStragType;
+            ret.allSecurityDic = this.allSecurityDic;
             return ret;
         }
 

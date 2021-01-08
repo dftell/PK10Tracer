@@ -16,28 +16,28 @@ namespace WolfInv.com.SecurityLib
         }
         public override MongoDataDictionary<XDXRData> GetAllCodeDateSerialDataList(bool DateAsc)
         {
-            MongoDataDictionary<XDXRData> ret = new MongoDataDictionary<XDXRData>();
+            MongoDataDictionary<XDXRData> ret = new MongoDataDictionary<XDXRData>(true);
             MongoReturnDataList<XDXRData> list = (builder as DateSerialCodeDataBuilder).getData<XDXRData>(DateAsc);
             return DataListConverter<XDXRData>.ToDirectionary(list, "code");
         }
 
         public override MongoDataDictionary<XDXRData> GetAllCodeDateSerialDataList(string begT, bool DateAsc)
         {
-            MongoDataDictionary<XDXRData> ret = new MongoDataDictionary<XDXRData>();
+            MongoDataDictionary<XDXRData> ret = new MongoDataDictionary<XDXRData>(true);
             MongoReturnDataList<XDXRData> list = (builder as DateSerialCodeDataBuilder).getData<XDXRData>(begT,DateAsc);
             return DataListConverter<XDXRData>.ToDirectionary(list, "code");
         }
 
         public override MongoDataDictionary<XDXRData> GetAllCodeDateSerialDataList(string begT, string EndT, bool DateAsc)
         {
-            MongoDataDictionary<XDXRData> ret = new MongoDataDictionary<XDXRData>();
+            MongoDataDictionary<XDXRData> ret = new MongoDataDictionary<XDXRData>(true);
             MongoReturnDataList<XDXRData> list = (builder as DateSerialCodeDataBuilder).getData<XDXRData>(begT, EndT, DateAsc);
             return DataListConverter<XDXRData>.ToDirectionary(list, "code");
         }
 
         public override MongoDataDictionary<XDXRData> GetAllCodeDateSerialDataList(string endT, int Cnt, bool DateAsc)
         {
-            MongoDataDictionary<XDXRData> ret = new MongoDataDictionary<XDXRData>();
+            MongoDataDictionary<XDXRData> ret = new MongoDataDictionary<XDXRData>(true);
             MongoReturnDataList<XDXRData> list = (builder as DateSerialCodeDataBuilder).getData<XDXRData>(endT,Cnt,DateAsc);
             return DataListConverter<XDXRData>.ToDirectionary(list, "code");
         }
@@ -47,7 +47,7 @@ namespace WolfInv.com.SecurityLib
                     throw new NotImplementedException();
         }
 
-        public override ExpectList<XDXRData> ReadHistory(long cnt, string endExpect)
+        public override ExpectList<XDXRData> ReadHistory(long cnt, string endExpect,string codes)
         {
             throw new NotImplementedException();
         }

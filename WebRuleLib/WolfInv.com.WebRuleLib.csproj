@@ -33,12 +33,15 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="geckofx-core">
       <HintPath>..\..\..\..\..\projects\PK10TracerClient\geckofx-core.dll</HintPath>
     </Reference>
     <Reference Include="mshtml">
-      <HintPath>..\..\..\..\..\projects\PK10TracerClient\mshtml.dll</HintPath>
+      <HintPath>..\..\..\..\..\projects\WOMS\mshtml.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
@@ -55,6 +58,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ASHC_GameInfoReturnClass.cs" />
     <Compile Include="ASHC_WebRule.cs" />
     <Compile Include="HtmlTagClass.cs" />
     <Compile Include="IWebRule.cs" />
@@ -82,6 +86,10 @@
     <ProjectReference Include="..\ProbMathLib\WolfInv.com.ProbMathLib.csproj">
       <Project>{6af5544d-5b6b-40a9-9258-72cbe6ce207d}</Project>
       <Name>WolfInv.com.ProbMathLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SecurityLib\WolfInv.com.SecurityLib.csproj">
+      <Project>{aa6cd329-d212-4998-be10-2a4728175f53}</Project>
+      <Name>WolfInv.com.SecurityLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\WebCommunicateClass\WolfInv.com.WebCommunicateClass.csproj">
       <Project>{58c01aaf-4a7c-4b53-a7ed-efc6dbd22610}</Project>

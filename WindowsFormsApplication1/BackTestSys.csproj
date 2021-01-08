@@ -45,7 +45,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\..\project\PK10Tracer\</OutputPath>
+    <OutputPath>..\..\..\..\..\projects\BackTest\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -233,6 +233,10 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AIEquity\AIEquity.csproj">
+      <Project>{53d9e99f-abb4-4f4c-9248-dbcb6cfad283}</Project>
+      <Name>AIEquity</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BackTestLib\WolfInv.com.BackTestLib.csproj">
       <Project>{6B37D13C-F107-48B3-9105-1BD0E00A75FC}</Project>
       <Name>WolfInv.com.BackTestLib</Name>

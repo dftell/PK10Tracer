@@ -1,26 +1,30 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
 namespace WolfInv.com.BaseObjectsLib
 {
-    public class MongoDataDictionary<T> : Dictionary<string, MongoReturnDataList<T>> where T : TimeSerialData
+    public class MongoDataDictionary<T> : ConcurrentDictionary<string, MongoReturnDataList<T>> where T : TimeSerialData
     {
+        public bool isSecurity = false;
         public void Union(MongoDataDictionary<T> vals)
         {
             foreach (string key in vals.Keys)
             {
                 if (!this.ContainsKey(key))
-                    this.Add(key, vals[key]);
+                    this.TryAdd(key, vals[key]);
             }
         }
 
-        public MongoDataDictionary()
+        public MongoDataDictionary(bool sectype)
         {
+            isSecurity = sectype;
         }
 
-        public MongoDataDictionary(ExpectList<T> list)
+        public MongoDataDictionary(ExpectList<T> list,bool sectype)
         {
+            isSecurity = sectype;
             if (list == null)
                 return;
             this.Clear();
@@ -30,14 +34,14 @@ namespace WolfInv.com.BaseObjectsLib
                 string expect = a.Key;
                 foreach(var data in a.Values)
                 {
-                    MongoReturnDataList<T> currList = new MongoReturnDataList<T>(new StockInfoMongoData(data.Key,data.KeyName));
+                    MongoReturnDataList<T> currList = new MongoReturnDataList<T>(new StockInfoMongoData(data.Key,data.KeyName),isSecurity);
                     if(this.ContainsKey(data.Key))
                     {
                         currList = this[data.Key]; 
                     }
                     else
                     {
-                        this.Add(data.Key, currList);
+                        this.TryAdd(data.Key, currList);
                     }
                     currList.Add(data);
                 }
@@ -50,7 +54,7 @@ namespace WolfInv.com.BaseObjectsLib
                 MongoReturnDataList<T> val = a;
                 if (val == null || val.Count == 0)
                     return;
-                this.Add((a[0] as ICodeData).code, a);//如果有一条及以上记录，加入
+                this.TryAdd((a[0] as ICodeData).code, a);//如果有一条及以上记录，加入
             });
         }
 
@@ -58,7 +62,7 @@ namespace WolfInv.com.BaseObjectsLib
         {
             List<ExpectData<T>> ret = new List<ExpectData<T>>();
             List<string> alldates = null;
-            if (typeof(T) == typeof(StockMongoData))
+            if (isSecurity)
             {
                 alldates = AllDates.Select(a => a.WDDate()).ToList();
             }
@@ -67,22 +71,77 @@ namespace WolfInv.com.BaseObjectsLib
                 alldates = AllDates.Select(a => a.ToString()).ToList() ;
             }
             alldates = alldates.OrderBy(a => a).ToList();
-            int grpCnt = alldates.Count / threadCnt + 1;
-            List<string[]> grps = new List<string[]>();
-            int index = 0;
-            Dictionary<string, string> keys = new Dictionary<string, string>();
-            foreach(string key in this.Keys)
+            Dictionary<string, string> keys1 = new Dictionary<string, string>();
+            foreach (string key in this.Keys)
             {
-                if(key == null)
+                if (key == null)
                 {
                     continue;
                 }
-                if(!keys.ContainsKey(key))
+                if (!keys1.ContainsKey(key))
                 {
-                    keys.Add(key, this[key].SecInfo?.KeyName);
+                    keys1.Add(key, this[key].SecInfo?.KeyName);
                 }
             }
+            WolfTaskClass.MultiTaskProcess<string,string,MongoReturnDataList<T>,string>(alldates,this, keys1, 
+                (expectNo,ms,retList,items)=> {
+                
+                ExpectData<T> data = new ExpectData<T>(isSecurity);
+                if (isSecurity)
+                {
+                    data.Expect = expectNo;
+                }
+                else
+                {
+                    //data.Expect = 
+                    data.OpenTime = DateTime.Parse(expectNo);
+                }
+                foreach (var key in retList)
+                {
+                    if (ms[key.Key].ContainKey(expectNo))
+                    {
+
+                        T tdata = ms[key.Key][expectNo];
+                        if (tdata == null)
+                            continue;
+                        if (!isSecurity)
+                        {
+                            data.Expect = tdata.Expect;
+                            data.OpenCode = tdata.OpenCode;
+                            data.OpenTime = tdata.OpenTime;
+                        }
+                        tdata.Key = key.Key;
+                        tdata.KeyName = key.Value;
+                        if (!data.ContainsKey(key.Key))
+                        {
+                            //tdata.Key = key.Key;
+                            data.Add(key.Key, tdata);
+                        }
+
+                    }
+                }
+                ret.Add(data);
+                retList = null;
+            },
+            11,
+            5,
+            true);
+            ExpectList<T> res1 = new ExpectList<T>(isSecurity);
+            foreach (var item in ret.OrderBy(a => a.Expect))
+            {
+                res1.Add(item);
+            }
+            ret = null;
+            return res1;
+
+
+
+            int grpCnt = Math.Min(alldates.Count, alldates.Count / threadCnt + 1);
+            List<string[]> grps = new List<string[]>();
+            int index = 0;
+            
             Task[] tasks = new Task[threadCnt];
+            //改写成更高效率的多线程
             for (int i=0;i<threadCnt;i++)
             {
                 string[] agrp = alldates.Skip(index).Take(grpCnt).ToArray();
@@ -91,8 +150,8 @@ namespace WolfInv.com.BaseObjectsLib
                     string[] list = obj as string[];
                     for(int s=0;s<list.Length;s++)
                     {
-                        ExpectData<T> data = new ExpectData<T>();
-                        if (typeof(T) == typeof(StockMongoData))
+                        ExpectData<T> data = new ExpectData<T>(isSecurity);
+                        if (isSecurity)
                         {
                             data.Expect = list[s];
                         }
@@ -101,7 +160,7 @@ namespace WolfInv.com.BaseObjectsLib
                             //data.Expect = 
                             data.OpenTime = DateTime.Parse(list[s]);
                         }                        
-                        foreach(var key in keys)
+                        foreach(var key in keys1)
                         {
                             if (this[key.Key].ContainKey(list[s]))
                             {
@@ -109,7 +168,7 @@ namespace WolfInv.com.BaseObjectsLib
                                 T tdata = this[key.Key][list[s]];
                                 if (tdata == null)
                                     continue;
-                                if (typeof(T) != typeof(StockMongoData))
+                                if (!isSecurity)
                                 {
                                     data.Expect = tdata.Expect;
                                     data.OpenCode = tdata.OpenCode;
@@ -134,7 +193,7 @@ namespace WolfInv.com.BaseObjectsLib
                 tasks[i] = task;
             }
             Task.WaitAll(tasks);
-            ExpectList<T> res = new ExpectList<T>();
+            ExpectList<T> res = new ExpectList<T>(isSecurity);
             foreach(var item in ret.OrderBy(a => a.Expect))
             {
                 res.Add(item);
@@ -162,7 +221,7 @@ namespace WolfInv.com.BaseObjectsLib
                         }
                         MongoReturnDataList<T> datas = this[key];
                         List<string> keys = null;
-                        if (typeof(T) == typeof(StockMongoData))//股票
+                        if (isSecurity)//股票
                         {
                             keys = datas.Keys;
                         }
@@ -181,7 +240,7 @@ namespace WolfInv.com.BaseObjectsLib
                     _alldates = tmp.ToList().OrderBy(a => a).ToList();
                     
                 }
-                if (typeof(T) == typeof(StockMongoData))//股票
+                if (isSecurity)//股票
                 {
                     return _alldates.Select(a => a.ToDate()).ToArray();
                 }

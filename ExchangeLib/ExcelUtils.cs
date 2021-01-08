@@ -292,7 +292,7 @@ namespace WolfInv.com.ExchangeLib
                 m_objSpreadsheetDocument = null;
                 GC.Collect(intGeneration);
             }
-            GC.Collect();
+            //GC.Collect();
             GC.Collect();
         }
 

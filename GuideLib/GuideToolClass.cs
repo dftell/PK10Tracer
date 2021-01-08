@@ -38,8 +38,26 @@ namespace WolfInv.com.GuideLib
     }
     public static class GuideToolClass
     {
+        public static bool isNAN<T>(this T val)
+        {
+            dynamic v = val;
+            if (val is double)
+            {
+                
+                return double.IsNaN(v);
+            }
+            if(val is float)
+            {
+                return float.IsNaN(v);
+            }
+            return false;
+        }
         public static T[] MA<T>(this T[] arr, int arg)
         {
+            if(arr.Length<=arg)
+            {
+                return arr;
+            }
             int N = arg;
             T[] ret = new T[arr.Length];
             dynamic firstVal = arr[0];
@@ -65,7 +83,7 @@ namespace WolfInv.com.GuideLib
 
         public static T[] EMA<T>(this T[] arr, int N)
         {
-            if (arr.Length == 1)
+            if (arr.Length <=N)
             {
                 return arr;
             }
@@ -169,26 +187,51 @@ MACD:(DIF-DEA)*2,COLORSTICK;
             {
                 Narr[i] = arr[i].FirstSector(N);
             }
-            return func.Invoke(Narr);
+            try
+            {
+                return func.Invoke(Narr);
+            }
+            finally
+            {
+                Narr = null;
+            }
         }
 
         public static int LastMatchCondition<T>(this T[] arr, T[] cmpArr, Func<T[], T[], bool> func)
         {
-            for (int i = arr.Length - 1; i >= 0; i--)
+            try
             {
-                bool succ = func.Invoke(arr.Take(i).ToArray(), cmpArr.Take(i).ToArray());
-                if (succ == true)
+                for (int i = arr.Length - 1; i >= 0; i--)
                 {
-                    return arr.Length - i;
+                    T[] arr1 = arr.Take(i).ToArray();
+                    T[] arr2 = cmpArr.Take(i).ToArray();
+                    bool succ = func.Invoke(arr1, arr2);
+                    arr1 = null;
+                    arr2 = null;
+                    if (succ == true)
+                    {
+                        return arr.Length - i;
+                    }
                 }
+                return -1;
             }
-            return -1;
+            finally
+            {
+                cmpArr = null;
+                //GC.Collect();
+            }
+        
         }
 
-        public static int LastMatchCondition<T>(this T val, T[] cmpArr, Func<T[], T[], bool> func)
+        ////public static int LastMatchCondition<T>(this T val, T[] cmpArr, Func<T[], T[], bool> func)
+        ////{
+        ////    T[] arr = val.ToConst(cmpArr);
+        ////    return arr.LastMatchCondition(cmpArr, func);
+        ////}
+        public static int LastMatchCondition<T>(this T[] cmpArr, T val, Func<T[], T[], bool> func)
         {
             T[] arr = val.ToConst(cmpArr);
-            return arr.LastMatchCondition(cmpArr, func);
+            return cmpArr.LastMatchCondition(arr, func);
         }
 
         public static T ToEquitPrice<T>(this T price, int defaultDec = 3)
@@ -234,15 +277,32 @@ MACD:(DIF-DEA)*2,COLORSTICK;
         }
         public static bool CrossUp<T>(this T[] arr, T[] arr1)
         {
-            dynamic arr01 = arr.Last(1);
-            dynamic arr02 = arr.Last(2);
-            dynamic arr11 = arr1.Last(1);
-            dynamic arr12 = arr1.Last(2);
-            if (arr01 > arr11 && arr02 < arr12)
+            dynamic arr01;
+            dynamic arr02;
+            dynamic arr11;
+            dynamic arr12;
+            try
             {
-                return true;
+                arr01 = arr.Last(1);
+                arr02 = arr.Last(2);
+                arr11 = arr1.Last(1);
+                arr12 = arr1.Last(2);
+                if (arr01 > arr11 && arr02 < arr12)
+                {
+                    return true;
+                }
+                return false;
             }
-            return false;
+            finally
+            {
+                arr01 = null;
+                arr02 = null;
+                arr11 = null;
+                arr12 = null;
+                arr = null;
+                arr1 = null;
+                //GC.Collect();
+            }
         }
 
         public static bool CrossDown<T>(this T[] arr, T val)
@@ -277,6 +337,34 @@ MACD:(DIF-DEA)*2,COLORSTICK;
             return ret;
         }
 
+        public static T[] ToConst<T>(this T[] arr,T val)
+        {
+            T[] ret = new T[arr.Length];//
+            for (int i = 0; i < arr.Length; i++)
+                ret[i] = val;
+            return ret;
+        }
+
+        public static long ToWeight<T>(this T val,long weight)
+        {
+            dynamic v = val;
+            try
+            {
+                return (long)(weight * v);
+            }
+            finally
+            {
+                v = null;
+            }
+        }
+
+        public static T ToSimpleNumber<T>(this T val,int levelStepLen=10)
+        {
+            dynamic v = val;
+            v =  Math.Floor((double)v / levelStepLen);
+            return v;
+        }
+
         public static T HHV<T>(this T[] arr, int N = -1)
         {
             if (N <= 0)
@@ -303,7 +391,11 @@ MACD:(DIF-DEA)*2,COLORSTICK;
             int baseCnt = arr1.Length - N;
             for (int i = 0; i < N; i++)
             {
-                bool succ = func.Invoke(arr1.FirstSector(baseCnt + i), arr2.FirstSector(baseCnt + i));
+                T[] temp1 = arr1.FirstSector(baseCnt + i);
+                T[] temp2 = arr2.FirstSector(baseCnt + i);
+                bool succ = func.Invoke(temp1, temp2);
+                temp1 = null;
+                temp2 = null;
                 if (succ)
                     matchCnt++;
             }
@@ -314,17 +406,45 @@ MACD:(DIF-DEA)*2,COLORSTICK;
         {
             MaxMinElementClass<T>[] mmarr = getMaxMinElementList(arr);
             MaxMinElementClass<T>[] tmp = MaxMinArray<T>(mmarr, minSplitLength,false);
-            while (tmp.Length< mmarr.Length)
+            try
             {
-                mmarr = tmp;
-                tmp = MaxMinArray<T>(mmarr, minSplitLength,false);
+                while (tmp.Length < mmarr.Length)
+                {
+                    mmarr = tmp;
+                    tmp = MaxMinArray<T>(mmarr, minSplitLength, false);
+                }
+                tmp = MaxMinArray<T>(tmp, minSplitLength, true);
+                if (needSerialData)
+                {
+                    return getVirturlFullSerial<T>(tmp);
+                }
+                return tmp.Select(a => a.Value).ToArray();
             }
-            tmp = MaxMinArray<T>(tmp, minSplitLength, true);
-            if(needSerialData)
+            finally
             {
-                return getVirturlFullSerial<T>(tmp);
+                mmarr = null;
             }
-            return tmp.Select(a => a.Value).ToArray();
+        }
+
+        public static MaxMinElementClass<T>[] MaxMinArray<T>(this T[] arr, int minSplitLength)
+        {
+            MaxMinElementClass<T>[] mmarr = getMaxMinElementList(arr);
+            try
+            {
+                
+                MaxMinElementClass<T>[] tmp = MaxMinArray<T>(mmarr, minSplitLength, false);
+                while (tmp.Length < mmarr.Length)//为偶数，再算一次
+                {
+                    mmarr = tmp;
+                    tmp = MaxMinArray<T>(mmarr, minSplitLength, false);
+                }
+                tmp = MaxMinArray<T>(tmp, minSplitLength, true);
+                return tmp;
+            }
+            finally
+            {
+                mmarr = null;
+            }
         }
 
         public static MaxMinElementClass<T>[] MaxMinArray<T>(this MaxMinElementClass<T>[] arr, int minSplitLength)
@@ -374,70 +494,152 @@ MACD:(DIF-DEA)*2,COLORSTICK;
 
         static MaxMinElementClass<T>[] MaxMinArray<T>(this MaxMinElementClass<T>[] arr,int minInter,bool SimpleFilter)
         {
-            if (arr.Length < 3)
-                return arr;
-            if(!SimpleFilter)
-                return MaxMinArrayUseRange(arr, minInter);
-            List<MaxMinElementClass<T>> ret = new List<MaxMinElementClass<T>>();
-            ret.Add(arr.First());
-            for (int i = 1; i < arr.Length-1; i++)
+            try
             {
-                MaxMinElementClass<T> pre = arr[i - 1];
-                MaxMinElementClass<T> curr = arr[i];
-                MaxMinElementClass<T> next = arr[i + 1];
-                
-                dynamic preval = pre.Value;
-                dynamic currval = curr.Value;
-                dynamic nextval = next.Value;
-                if ((preval - currval) * (currval - nextval) > 0)//中间值
+                if (arr.Length < 3)
+                    return arr;
+                if (!SimpleFilter)
+                    return MaxMinArrayUseRange(arr, minInter);
+                List<MaxMinElementClass<T>> ret = new List<MaxMinElementClass<T>>();
+                ret.Add(arr.First());
+                for (int i = 1; i < arr.Length - 1; i++)
                 {
-                    continue;
+                    MaxMinElementClass<T> pre = arr[i - 1];
+                    MaxMinElementClass<T> curr = arr[i];
+                    MaxMinElementClass<T> next = arr[i + 1];
+
+                    dynamic preval = pre.WeightValue;
+                    dynamic currval = curr.WeightValue;
+                    dynamic nextval = next.WeightValue;
+                    if ((preval - currval) * (currval - nextval) > 0)//中间值
+                    {
+                        continue;
+                    }
+                    ret.Add(arr[i]);
                 }
-                ret.Add(arr[i]);
+                ret.Add(arr.Last());
+                return ret.ToArray();
             }
-            ret.Add(arr.Last());
-            return ret.ToArray();
+            finally
+            {
+                arr = null;
+            }
         }
 
         public static MaxMinElementClass<T>[] getMaxMinElementList<T>(this T[] arr)
         {
-            MaxMinElementClass<T>[] ret = new MaxMinElementClass<T>[arr.Length];
-            for (int i = 0; i < arr.Length; i++)
+            try
             {
-                ret[i] = new MaxMinElementClass<T>(i, arr[i]);
+                MaxMinElementClass<T>[] ret = new MaxMinElementClass<T>[arr.Length];
+                T[] ema2 = arr.EMA(2);//区分3个，所以要2
+                for (int i = 0; i < arr.Length; i++)
+                {
+                    ret[i] = new MaxMinElementClass<T>(i, arr[i], ema2[i]);
+                }
+                ema2 = null;
+                return ret;
             }
-            return ret;
+            finally
+            {
+                arr = null;
+            }
         }
 
         static MaxMinElementClass<T>[] MaxMinArrayUseRange<T>(MaxMinElementClass<T>[] arr, int minInter)
         {
             if (arr.Length < 3)
                 return arr;
-            List<MaxMinElementClass<T>> ret = new List<MaxMinElementClass<T>>();
-            ret.Add(arr.First());
-            for (int i = 1; i < arr.Length - 1; i++)
+            if(arr.Length == 3)
             {
-                MaxMinElementClass<T> curr = arr[i];
-                var Items = arr.Where(a => (a.index > curr.index -minInter && a.index < curr.index + minInter && a.index != curr.index));
-                if (Items.Count() == 0)
+                dynamic mid = arr[1].Value;
+                dynamic se = arr[0].Value;
+                dynamic ee = arr[2].Value;
+                if((mid>se && mid>ee)||(mid<se && mid<ee))//如果中间值为峰值
                 {
-                    ret.Add(arr[i]);
-                    continue;
+                    return arr;
                 }
-                dynamic currval = curr.Value;
-                dynamic maxval = Items.Max(a => a.Value);
-                dynamic minval = Items.Min(a => a.Value);
-                if (currval>=minval && currval<=maxval)//中间值
-                {
-                    continue;
-                }
-                ret.Add(arr[i]);
+                return new MaxMinElementClass<T>[]{ arr[0],arr[2]};
+            }
+            if(arr.Length == 4)//总共只有4个元素
+            {
+                //如果本身就只有4个元素，根据第一个和最后一个的趋势判定趋势，为上，取大值，否则，取小值
+                dynamic lastVal = arr[3].Value;
+                dynamic lastWeight = arr[3].WeightValue;
+                dynamic firstVal = arr[0].Value;
+                dynamic firstWeight = arr[0].WeightValue;
+                //如果最后一个大于第一个，或者相等但是最后一个权重大于第一个
+                bool isUp = (lastVal > firstVal)||(lastVal==firstVal &&lastWeight>firstWeight);
+                dynamic secondVal = arr[1].Value;
+                dynamic secondWeight = arr[1].WeightValue;
+                dynamic threeVal = arr[2].Value;
+                dynamic threeWeight = arr[2].WeightValue;
+                bool bigIs2 = secondVal > threeVal || (secondVal == threeVal && secondWeight > threeWeight);
+                int bigIndex = (int)(1 + Math.Pow(0, bigIs2 ? 1 :0));
+                int smallIndex = (int)(1 + Math.Pow(0, bigIs2 ? 0 : 1));
+                MaxMinElementClass<T> bigVal = arr[bigIndex];
+                MaxMinElementClass<T> smallVal = arr[smallIndex];
+                secondVal = null;
+                secondWeight = null;
+                threeVal = null;
+                threeWeight = null;
+                lastVal = null;
+                lastWeight = null;
+                firstVal = null;
+                firstWeight = null;
+                return new MaxMinElementClass<T>[] { arr[0], isUp?bigVal:smallVal , arr[3] };
+
             }
 
-            ret.Add(arr.Last());
-            return ret.ToArray();
+            List<MaxMinElementClass<T>> ret = new List<MaxMinElementClass<T>>();
+            ret.Add(arr.First());
+            try
+            {
+                for (int i = 1; i < arr.Length - 1; i++)
+                {
+                    MaxMinElementClass<T> curr = arr[i];
+                    if (curr.Value.isNAN())
+                    {
+                        continue;
+                    }
+                    var Items = arr.Where(a => (!a.Value.isNAN() && a.index >= curr.index - minInter && a.index <= curr.index + minInter && a.index != curr.index));
+                    if (Items.Count() == 0)
+                    {
+                        ret.Add(arr[i]);
+                        continue;
+                    }
+                    dynamic currVal = curr.Value;
+                    dynamic currWeight = curr.WeightValue;
+                    dynamic maxval = Items.Max(a => a.Value); //先去获得极值
+                    dynamic minval = Items.Min(a => a.Value);
+                    //再定位最大最小值的确定值
+                    var maxItem = Items.Where(a =>
+                    {
+                        dynamic val = a.Value;
+                        return val == maxval;
+                    }).OrderBy(a => a.WeightValue).Last();//最大值
+                    var minItem = Items.Where(a =>
+                    {
+                        dynamic val = a.Value;
+                        return val == minval;
+                    }).OrderBy(a => a.WeightValue).First();//最小值
+                    if ((currVal < minval || (currVal == minval && currWeight < minItem.WeightValue))
+                        || (currVal > maxval || (currVal == maxval && currWeight > maxItem.WeightValue)))//极值
+                    {
+                        ret.Add(arr[i]);
+                    }
+                    minItem = null;
+                    Items = null;
+                }
+                
+                ret.Add(arr.Last());
+                return ret.ToArray();
+            }
+            finally
+            {
+                arr = null;
+            }
         }
-
+        
 
     }
 
@@ -445,10 +647,16 @@ MACD:(DIF-DEA)*2,COLORSTICK;
     {
         public int index;
         public T Value;
-        public MaxMinElementClass(int i,T v)
+        /// <summary>
+        /// EMA值
+        /// </summary>
+        public T WeightValue;
+
+        public MaxMinElementClass(int i,T v,T weight)
         {
             index = i;
             Value = v;
+            WeightValue = weight;
         }
 
         

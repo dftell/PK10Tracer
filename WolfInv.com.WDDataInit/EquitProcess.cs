@@ -14,9 +14,10 @@ namespace WolfInv.com.WDDataInit
         const string strDataFolder = "vipdoc";
         const string strDataType = "lday";
         const string strDataName = "day";
-        string sec_code;
+        string sec_code;//完整的code
         string sec_name;
-        string sec_FullCode
+        //string market;
+        string sec_FullCode1
         {
             get
             {
@@ -28,13 +29,13 @@ namespace WolfInv.com.WDDataInit
                     return sec_code.WDCode();
             }
         }
-        string market;
+        
 
         
         public EquitProcess(CommEquitAPI api, string code, string name = null)
         {
             string[] codes = code.Split('.');
-            EquitProcess_init(api, codes[0], codes[1], name);
+            EquitProcess_init(api, code, codes[1], name);
         }
 
         public EquitProcess(CommEquitAPI api, string code, string mk, string name = null)
@@ -45,7 +46,6 @@ namespace WolfInv.com.WDDataInit
         {
             commAPI = api;
             sec_code = code;
-            market = mk;
             sec_name = name;
         }
 
@@ -55,7 +55,8 @@ namespace WolfInv.com.WDDataInit
         {
             get
             {
-                return string.Format("{4}\\{0}\\{1}\\{3}\\{1}{2}.day", strDataFolder,market,sec_code,strDataType, AppDomain.CurrentDomain.BaseDirectory+vipdocRoot ??"");
+                string[] arr = sec_code.Split('.');
+                return string.Format("{4}\\{0}\\{1}\\{3}\\{1}{2}.day", strDataFolder,arr[1],arr[0],strDataType, AppDomain.CurrentDomain.BaseDirectory+vipdocRoot ??"");
             }
         }
 
@@ -83,7 +84,7 @@ namespace WolfInv.com.WDDataInit
             EquitUpdateResult ret = new EquitUpdateResult();
             ret.code = this.sec_code;
             ret.name = this.sec_name;
-            StockInfoMongoData simd = new StockInfoMongoData(sec_FullCode, sec_name);
+            StockInfoMongoData simd = new StockInfoMongoData(sec_code, sec_name);
             try
             {
                 DateTime endT = DateTime.Today;
@@ -117,7 +118,7 @@ namespace WolfInv.com.WDDataInit
                 ret.succ = true;
                 if (LocalData == null)
                 {
-                    LocalData = new MongoReturnDataList<T>(simd);
+                    LocalData = new MongoReturnDataList<T>(simd,true);
                 }
                 FullData = LocalData;
                 if (onlyLocal)
@@ -187,6 +188,10 @@ namespace WolfInv.com.WDDataInit
                 ret.MsgDetail = ce.StackTrace;
                 return ret;
             }
+            finally
+            {
+                simd = null;
+            }
             ret.succ = true;
             return ret;
         }
@@ -201,7 +206,7 @@ namespace WolfInv.com.WDDataInit
             bool inRange = false;
             if(!string.IsNullOrEmpty(from))
             {
-                if(expect.ToDate()>=from.ToDate())
+                if(expect.ToDate().CompareTo(from.ToDate())>=0)
                 {
                     inRange = true;
                 }
@@ -215,7 +220,7 @@ namespace WolfInv.com.WDDataInit
             inRange = false;
             if (!string.IsNullOrEmpty(to))
             {
-                if (expect.ToDate() <= to.ToDate())
+                if (expect.ToDate().CompareTo(to.ToDate())<=0)
                 {
                     inRange = true;
                 }
@@ -279,7 +284,7 @@ namespace WolfInv.com.WDDataInit
                 fs.Close();
                 br = null;
                 fs = null;
-                return new MongoReturnDataList<T>(simd);
+                return new MongoReturnDataList<T>(simd,true);
             }
             List<int> dates = new List<int>();
             bool lastInRange = false;
@@ -313,14 +318,14 @@ namespace WolfInv.com.WDDataInit
             }
             if(useList.Length== 0)
             {
-                return new MongoReturnDataList<T>(simd);
+                return new MongoReturnDataList<T>(simd,true);
             }
             int useDays = days;
             int skipDays = 0;
             useDays = useList.Length;
             skipDays = useList.First();
             br.ReadBytes((sectorLen-4)*skipDays);//头占了4个字节*日期数
-            MongoReturnDataList<T> list = new MongoReturnDataList<T>(simd);
+            MongoReturnDataList<T> list = new MongoReturnDataList<T>(simd,true);
             try
             {
                 for (int i = 0; i < useDays; i++)
@@ -369,6 +374,10 @@ namespace WolfInv.com.WDDataInit
                 fs.Close();
                 br = null;
                 fs = null;
+                dates = null;
+                useList = null;
+                allDates = null;
+                //GC.Collect();
             }
             return list;
         }

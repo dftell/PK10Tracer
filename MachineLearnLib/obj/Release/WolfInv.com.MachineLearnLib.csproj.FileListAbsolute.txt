@@ -3,3 +3,9 @@ C:\Users\zhouys\source\repos\dftell\PK10Tracer\MachineLearnLib\obj\Release\WolfI
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\MachineLearnLib\obj\Release\WolfInv.com.MachineLearnLib.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\MachineLearnLib\obj\Release\WolfInv.com.MachineLearnLib.csproj.CopyComplete
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\MachineLearnLib\obj\Release\WolfInv.com.MachineLearnLib.dll
+E:\github\project\PK10Tracer\WolfInv.com.MachineLearnLib.dll.config
+E:\github\project\PK10Tracer\WolfInv.com.MachineLearnLib.dll
+E:\github\source\dftell\PK10Tracer\MachineLearnLib\obj\Release\WolfInv.com.MachineLearnLib.csprojAssemblyReference.cache
+E:\github\source\dftell\PK10Tracer\MachineLearnLib\obj\Release\WolfInv.com.MachineLearnLib.csproj.CoreCompileInputs.cache
+E:\github\source\dftell\PK10Tracer\MachineLearnLib\obj\Release\WolfInv.com.MachineLearnLib.csproj.CopyComplete
+E:\github\source\dftell\PK10Tracer\MachineLearnLib\obj\Release\WolfInv.com.MachineLearnLib.dll

@@ -128,7 +128,9 @@ namespace WolfInv.com.WebRuleLib
     public class GameInfoClass : WebServerReturnClass
     {
         public string GameId;
-        public Dictionary<string, LotteryBetRuleClass> AllRules;
+        public string GameCode;
+        public string NewestExpect;
+        public Dictionary<string, string> AllPastIssues;
         public List<string> MyBetList;
     }
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]

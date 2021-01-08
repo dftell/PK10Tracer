@@ -5,10 +5,12 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data;
 using System.IO;
+using Microsoft.Office.Interop.Excel;
+using System.Runtime.InteropServices;
 
 namespace BackTestSys
 {
- 
+
     public class CExcel
     {
         /// <summary>
@@ -96,6 +98,26 @@ namespace BackTestSys
                 LvwToExcel(dg, sfd.FileName);
             }
         }
+
+        public System.Data.DataTable ImportExcel(DataGridView dgv)
+        {
+            OpenFileDialog sfd = new OpenFileDialog();
+            sfd.DefaultExt = "xls,xlsx";
+            sfd.Multiselect = false;
+            sfd.Filter = "Excel文件(*.xls;*.xlsx)|*.xls;*.xlsx";
+            Form frm = (dgv.TopLevelControl as Form);
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                if (frm != null)
+                    frm.Cursor = Cursors.WaitCursor;
+                dgv.DataSource = FromExcel(sfd.FileName);
+                if (frm != null)
+                    frm.Cursor = Cursors.Default;
+                return dgv.DataSource as System.Data.DataTable;
+            }
+            return null;
+        }
+
         /// <summary>
         /// 保存为csv
         /// </summary>
@@ -141,7 +163,7 @@ namespace BackTestSys
                 //读取listview表头做为excel列标题，listview中，行和列的下标索引都是从0开始
                 for (int i = 1; i <= col; i++)
                 {
-                    ExcelSheet.Cells[1, i] = dg.Columns[i-1].HeaderText;// lvwShow.Columns[i - 1].Text;
+                    ExcelSheet.Cells[1, i] = dg.Columns[i - 1].HeaderText;// lvwShow.Columns[i - 1].Text;
                 }
                 for (int i = 0; i < row; i++)
                 {
@@ -162,7 +184,7 @@ namespace BackTestSys
 
         public void ToExcel(DataView dv, string strExcelName)
         {
-            DataTable dg = dv.Table;
+            System.Data.DataTable dg = dv.Table;
             int row = dg.Rows.Count;// .Items.Count;//listview行数
             int col = dg.Columns.Count;// lvwShow.Items[0].SubItems.Count;//listview列数
 
@@ -205,11 +227,115 @@ namespace BackTestSys
             }
         }
 
+        public System.Data.DataTable FromExcel(string strExcelName)
+        {
 
-        public void LvwToCSV(DataGridView dg, string strExcelName,string defaultSplit=null)
+            System.Data.DataTable dg = new System.Data.DataTable();
+            Microsoft.Office.Interop.Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
+            Workbooks ExcelBooks;
+            _Workbook ExcelBook;
+            try
+            {
+                ExcelApp.DisplayAlerts = false;
+                ExcelApp.Visible = false;
+                ExcelApp.UserControl = true;
+                if (File.Exists(strExcelName) == false)
+                {
+                    return dg;
+                }
+                object m_objOpt = System.Reflection.Missing.Value;
+                
+                ExcelBooks = ExcelApp.Workbooks;
+                ExcelBook = ExcelBooks.Open(strExcelName);
+                if (ExcelBook == null)
+                {
+                    return dg;
+                }
+                _Worksheet ExcelSheet = ExcelBook.ActiveSheet;
+
+                int row = ExcelSheet.UsedRange.Rows.Count;// rows
+                int col = ExcelSheet.UsedRange.Columns.Count;// colums;
+                List<Type> allCols = new List<Type>(); 
+                for (int i = 1; i <= col; i++)
+                {
+                    string id= (ExcelSheet.Cells[1, i] as Microsoft.Office.Interop.Excel.Range).Value;
+                    dg.Columns.Add(id);
+                    allCols.Add(typeof(string));
+                }
+                if(row == 1)
+                {
+                    return dg;
+                }
+                for (int j = 0; j < col; j++)
+                {
+                    Object obj = (ExcelSheet.Cells[2, j + 1] as Microsoft.Office.Interop.Excel.Range).Value;
+                    if (obj != null)
+                    {
+                        double dl = 0;
+                        //DateTime dt;
+                        //if (DateTime.TryParse(obj.ToString(), out dt))
+                        //{
+                        //    allCols[j] = typeof(DateTime);
+                        //    continue;
+                        //}
+                        int test = 0;
+                        if (int.TryParse(obj.ToString(), out test))
+                        {
+                            allCols[j] = typeof(int);
+                            continue;
+                        }
+                        if (double.TryParse(obj.ToString(), out dl))
+                        {
+                            allCols[j] = typeof(double);
+                            continue;
+                        }
+
+                        allCols[j] = typeof(string);
+                    }
+                }
+                try
+                {
+                    for (int i = 0; i < allCols.Count; i++)
+                    {
+                        dg.Columns[i].DataType = allCols[i];
+                    }
+                }
+                catch (Exception teste)
+                {
+
+                }
+                for (int i = 1; i < row; i++)
+                {
+                    DataRow dr = dg.NewRow();
+                    for (int j = 0; j < col; j++)
+                    {
+                        Object obj = (ExcelSheet.Cells[1 + i, j + 1] as Microsoft.Office.Interop.Excel.Range).Value;
+                        dr[j] = obj;
+                    }
+                    dg.Rows.Add(dr);
+                }
+                ExcelBook.Close();
+                return dg;
+            }
+            catch (Exception ce)
+            {
+
+            }
+            finally
+            {
+                ExcelBook = null;
+                ExcelApp.Quit();
+                ExcelCommLib.Kill(ExcelApp);
+                ExcelApp = null;
+            }
+            return dg;
+        }
+
+
+        public void LvwToCSV(DataGridView dg, string strExcelName, string defaultSplit = null)
         {
             string splitChar = "|";
-            if(defaultSplit!= null)
+            if (defaultSplit != null)
             {
                 splitChar = defaultSplit;
             }
@@ -247,7 +373,7 @@ namespace BackTestSys
             }
         }
 
-        public void LvwToCSV(DataTable dt, string strExcelName, string defaultSplit = null)
+        public void LvwToCSV(System.Data.DataTable dt, string strExcelName, string defaultSplit = null)
         {
             string splitChar = "|";
             if (defaultSplit != null)
@@ -322,7 +448,7 @@ namespace BackTestSys
             }
         }
 
-        void saveCsv(string strExcelName,string sb)
+        void saveCsv(string strExcelName, string sb)
         {
             try
             {
@@ -336,6 +462,23 @@ namespace BackTestSys
                 MessageBox.Show(ce.StackTrace, ce.Message);
             }
         }
+
+    }
+
+    public class ExcelCommLib
+    {
+
+        [DllImport("User32.dll", CharSet = CharSet.Auto)]
+        public static extern int GetWindowThreadProcessId(IntPtr hwnd, out int ID);
+        public static void Kill(Microsoft.Office.Interop.Excel.Application excel)
+        {
+            IntPtr t = new IntPtr(excel.Hwnd);//得到这个句柄，具体作用是得到这块内存入口    
+            int k = 0;
+            GetWindowThreadProcessId(t, out k);   //得到本进程唯一标志k   
+            System.Diagnostics.Process p = System.Diagnostics.Process.GetProcessById(k);   //得到对进程k的引用   
+            p.Kill();     //关闭进程k  
+        }
+
 
     }
 }

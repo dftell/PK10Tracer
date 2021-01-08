@@ -72,6 +72,9 @@ namespace WolfInv.com.ExchangeLib
 
         public ExchangeService<T> getCurrExchangeServer()
         {
+            if(ExchangeServer == null)
+            {
+            }
             return ExchangeServer;
         }
 
@@ -90,13 +93,13 @@ namespace WolfInv.com.ExchangeLib
         {
             OpenXmlHelper.ExportExcel(Xslxpath, SummaryLine());
         }
-        public void Run()
+        public void Run(DataTypePoint _dtp)
         {
-            Run(true);
+            Run(_dtp,true);
         }
-        public void Run(bool LoadTheData) //add by zhouys 2019/1/5 
+        public void Run(DataTypePoint _dtp, bool LoadTheData) //add by zhouys 2019/1/5 
         {
-            ExchangeServer = new ExchangeService<T>(TotalAsset,Odds);
+            ExchangeServer = new ExchangeService<T>(_dtp,TotalAsset,Odds);
             ExchangeServer.setCurrAsset(this);
             if (LoadTheData)
             {
@@ -115,7 +118,7 @@ namespace WolfInv.com.ExchangeLib
 
         public double Summary()
         {
-            return ExchangeServer.summary;
+            return ExchangeServer.summary.currTotal;
         } 
 
         public bool Resume()

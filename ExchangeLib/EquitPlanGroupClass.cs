@@ -47,7 +47,8 @@ namespace WolfInv.com.ExchangeLib
             Dictionary<string, ChanceClass<T>> OldList = new Dictionary<string, ChanceClass<T>>();
             List<ChanceClass<T>> NewList = new List<ChanceClass<T>>();
             //Log("计算服务", "遍历所有策略", string.Format("策略数量:{0}",this.UseStrags.Count));
-            CloseAllExchance(el);//清空所有可视化机会
+            if(dtp.IsSecurityData==0)
+                CloseAllExchance(el);//清空所有可视化机会
             #region 获取交易机会
             for (int i = 0; i < this.UseSPlans.Count; i++)
             {
@@ -73,7 +74,7 @@ namespace WolfInv.com.ExchangeLib
                 }
                 BaseStragClass<T> currStrag = UseStrags[currPlan.PlanStrag.GUID];
                 currStrag.SetLastUserData(el);//必须<T>给策略填充数据
-                List<ChanceClass<T>> cs = currStrag.getChances(cc, el.LastData);//获取该策略的机会
+                List<ChanceClass<T>> cs = currStrag.getChances(cc, el.LastData,true);//获取该策略的机会
                 if (currStrag is TotalStdDevTraceStragClass)//如果是整体标准差类，记录所有的标准差数据
                 {
                     grpTotolStdDic = (currStrag as TotalStdDevTraceStragClass).getAllStdDev();
@@ -126,9 +127,9 @@ namespace WolfInv.com.ExchangeLib
                             AssetUnitClass<T> useUnit = UseAssetUnits[currPlan.AssetUnitInfo.UnitId];
                             if (!useUnit.Running)
                             {
-                                useUnit.Run();
+                                useUnit.Run(dtp);
                             }
-                            restAmt = (long)useUnit.getCurrExchangeServer().summary;
+                            restAmt = (long)useUnit.getCurrExchangeServer().summary.currCash;
                         }
                         else
                             continue;

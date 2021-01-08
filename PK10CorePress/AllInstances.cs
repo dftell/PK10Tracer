@@ -47,7 +47,7 @@ namespace WolfInv.com.PK10CorePress
         {
 
         }
-        public bool CheckNeedEndTheChance(ChanceClass<TimeSerialData> cc, bool LastExpectMatched)
+        public bool CheckNeedEndTheChance(ChanceClass<TimeSerialData> cc, bool LastExpectMatched,bool review=false)
         {
             if (this.MatchChips > 0)//如果命中，即关闭
             {

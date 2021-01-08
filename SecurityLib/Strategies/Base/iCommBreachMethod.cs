@@ -1,4 +1,5 @@
 ﻿using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.GuideLib;
 namespace WolfInv.com.SecurityLib
 {
     public interface iCommBreachMethod<T> where T : TimeSerialData
@@ -8,6 +9,6 @@ namespace WolfInv.com.SecurityLib
         /// </summary>
         /// <param name="Input"></param>
         /// <returns></returns>
-        CommSecurityProcessClass<T> BreachSelectSecurity(CommStrategyInClass Input);
+        SelectResult BreachSelectSecurity(CommStrategyInClass Input);
     }
 }

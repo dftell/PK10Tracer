@@ -5,3 +5,11 @@ C:\Users\zhouys\source\repos\dftell\PK10Tracer\BackTestLib\obj\Release\WolfInv.c
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\BackTestLib\obj\Release\WolfInv.com.BackTestLib.csproj.CopyComplete
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\BackTestLib\obj\Release\WolfInv.com.BackTestLib.dll
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\BackTestLib\obj\Release\WolfInv.com.BackTestLib.pdb
+E:\github\project\PK10Tracer\WolfInv.com.BackTestLib.dll.config
+E:\github\project\PK10Tracer\WolfInv.com.BackTestLib.dll
+E:\github\project\PK10Tracer\WolfInv.com.BackTestLib.pdb
+E:\github\source\dftell\PK10Tracer\BackTestLib\obj\Release\WolfInv.com.BackTestLib.csprojAssemblyReference.cache
+E:\github\source\dftell\PK10Tracer\BackTestLib\obj\Release\WolfInv.com.BackTestLib.csproj.CoreCompileInputs.cache
+E:\github\source\dftell\PK10Tracer\BackTestLib\obj\Release\WolfInv.com.BackTestLib.csproj.CopyComplete
+E:\github\source\dftell\PK10Tracer\BackTestLib\obj\Release\WolfInv.com.BackTestLib.dll
+E:\github\source\dftell\PK10Tracer\BackTestLib\obj\Release\WolfInv.com.BackTestLib.pdb

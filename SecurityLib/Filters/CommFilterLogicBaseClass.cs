@@ -1,5 +1,6 @@
 ﻿using System;
 using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.GuideLib;
 namespace WolfInv.com.SecurityLib
 {
     /// <summary>
@@ -11,9 +12,10 @@ namespace WolfInv.com.SecurityLib
         public CommStrategyBaseClass<T> ExecStrategy { get; set; }
         public BaseDataItemClass BaseInfo;
         public string secCode;
-        public DateTime Endt;
+        protected string EndExpect;
         public PriceAdj Rate;
         public Cycle Cycle;
+        protected double[] zeroLines; 
         /// <summary>
         /// 是否右侧选证券
         /// </summary>
@@ -29,16 +31,31 @@ namespace WolfInv.com.SecurityLib
         /// </summary>
         public int BuffDays;
 
-        public CommFilterLogicBaseClass(CommSecurityProcessClass<T> secinfo)
+
+        protected KLineData<T>  kLineData;
+
+        public CommFilterLogicBaseClass(string endExpect, CommSecurityProcessClass<T> secinfo,PriceAdj priceAdj= PriceAdj.Fore, Cycle cyc= Cycle.Day)
         {
+            EndExpect = endExpect;
             SecObj = secinfo;
+            Cycle = cyc;
+            Rate = priceAdj;
+            kLineData = new KLineData<T>(EndExpect, secinfo.SecPriceInfo,priceAdj,cyc);
         }
-        public CommFilterLogicBaseClass(MongoDataDictionary<T> allData, CommSecurityProcessClass<T> secinfo)
+        public CommFilterLogicBaseClass(string endExpect, MongoDataDictionary<T> allData, CommSecurityProcessClass<T> secinfo, PriceAdj priceAdj = PriceAdj.Fore, Cycle cyc = Cycle.Day)
         {
+            EndExpect = endExpect;
             AllSecs = allData;
             SecObj = secinfo;
+            Cycle = cyc;
+            Rate = priceAdj;
+            kLineData = new KLineData<T>(EndExpect, this.SecObj.SecPriceInfo,priceAdj,cyc);
         }
-
+        /// <summary>
+        /// 禁用
+        /// </summary>
+        /// <param name="cyc"></param>
+        /// <param name="rate"></param>
         public CommFilterLogicBaseClass(Cycle cyc,PriceAdj rate )
         {
             Cycle = cyc;
@@ -46,9 +63,9 @@ namespace WolfInv.com.SecurityLib
         }
 
 
-        public virtual CommSecurityProcessClass<T> ExecFilter(CommStrategyInClass Input)
+        public virtual SelectResult ExecFilter(CommStrategyInClass Input)
         {
-            return SecObj;
+            return new SelectResult();
         }
 
         public abstract BaseDataTable GetData(int RecordCnt);

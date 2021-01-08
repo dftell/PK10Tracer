@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.GuideLib;
-using WolfInv.com.GuideLib;
 
 namespace WolfInv.com.SecurityLib.Filters.StrategyFilters
 {
@@ -13,9 +12,9 @@ namespace WolfInv.com.SecurityLib.Filters.StrategyFilters
     /// 最小长度滤网
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class MACDTopRevFilter<T> : CommFilterLogicBaseClass<T> where T : TimeSerialData
+    public class MACDTopRevFilter<T> : CommFilterLogicBaseClass<T>, iMACDFilter<T> where T : TimeSerialData
     {
-        public MACDTopRevFilter(CommSecurityProcessClass<T> cpc):base(cpc)
+        public MACDTopRevFilter(string endExpect,CommSecurityProcessClass<T> cpc, PriceAdj priceAdj = PriceAdj.Fore, Cycle cyc = Cycle.Day) :base(endExpect,cpc, priceAdj, cyc)
         {
 
         }
@@ -24,104 +23,374 @@ namespace WolfInv.com.SecurityLib.Filters.StrategyFilters
             throw new NotImplementedException();
         }
 
-        public override CommSecurityProcessClass<T> ExecFilter(CommStrategyInClass Input)
+        public override SelectResult ExecFilter(CommStrategyInClass Input)
         {
-            List<T> list = this.SecObj.SecPriceInfo;
-            var klineData = new KLineData<T>(list);
-            ///ToDo:反转选股
-            CommSecurityProcessClass<T> ret = SecObj;
+            //List<T> list = this.SecObj.SecPriceInfo;            
+            var klineData = kLineData;//  new KLineData<T>(EndExpect, this.SecObj.SecPriceInfo,PriceAdj.Beyond);
+            DateTime[] dates = klineData.Expects.Select(a => a.ToDate()).ToArray();
+            SelectResult ret = new SelectResult();// SecObj;
             ret.Enable = false;
+            int startIndex = dates.IndexOf(Input.SignDate);//信号日的索引
+            if (startIndex < 0)//找不到开始日期，直接结束
+            {
+                ret.Enable = true;
+                return ret;
+            }
+            int holddays = dates.Length - startIndex;//信号日以来持有天数
+            bool isZY = false;
+            double zf = 100*(klineData.Closes.Last(1) - klineData[Input.SignDate].close) / klineData[Input.SignDate].close;
+            ///ToDo:反转选股
             MACDCollection macd = klineData.Closes.MACD();
             double[] closes = klineData.Closes;
             double[] opens = klineData.Opens;
-            //ISLT0GREEN:=MACD.DEA>MACD.DIF AND MACD.DEA<0;{当前为红柱}
-            if (macd.MACDs.Last(1) < 0 || macd.DEAs.Last(1) < 0)//macd和dea要为正，非正，返回
-                return ret;
-            if (Math.Max(closes.Last(2), opens.Last(2)) < closes.Last(1))//股票还在上涨，没有低于开收盘价
+            this.zeroLines = (0D).ToConst(closes);
+            int maxUseLen = Math.Max(200, zeroLines.LastMatchCondition(macd.DEAs, GuideToolClass.CrossUp));
+            //MaxMinElementClass<double>[] deaMaxMinArr = macd.DEAs.MaxMinArray(5);
+            MaxMinElementClass<double>[] macdMMArr = macd.MACDs.MaxMinArray(3);
+            
+            /*if (deaMaxMinArr.Last(1).Value >= deaMaxMinArr.Last(2).Value && deaMaxMinArr.Last(1).Value<0)//dea<0情况，只要DEA线往上走，都不要平仓
             {
                 return ret;
-            }
-            if (macd.MACDs.Last(1) > macd.MACDs.Last(2))//macd还在上升，返回
+            }*/
+            if (1 == 1)
             {
-                return ret;
-            }
-            double[] zeroLine = (0D).ToConst(closes);
-            //DEAGT0CNT:= MAX(200, BARSLAST(CROSS(MACD.DEA, 0)));
-            int DEAGT0CNT = macd.DEAs.LastMatchCondition(zeroLine, GuideToolClass.CrossUp);
-            if (DEAGT0CNT < Input.ReferDays)
-            {
-                return ret;
-            }
-            //最后一次DEA为正的周期数
-            int lastDEAGT0Days = macd.DEAs.LastMatchCondition(zeroLine, GuideToolClass.Cross);
-            //DEA为正以来的最大MACD
+                //刚买入MACD一直没抬头并下跌的情况
+                if (macdMMArr.Last(1).Value < macdMMArr.Last(2).Value)
+                {
+                    if(macd.MACDs.LastSector(holddays).Max()<0)
+                    {
+                        if (macdMMArr.Last(1).index > macdMMArr.Last(2).index + 1)
+                        {
+                            ret.Enable = true;
+                            ret.Status = "买入后持续下跌，确认形成趋势后出场;";
+                            return ret;
+                        }
+                    }
+                    //一定是上一个macd低点
+                    //如果是买入后有5个极值点，就可以通过最后两次的相对关系来判断
+                    var items = macdMMArr.Where(a => a.index > startIndex - 5).ToArray();//信号日前3天，
+                    //只对刚买入macd在0线上下纠缠，多次纠缠后要对比上升和下降趋势的最大值
+                    if (items.Length <= 7)
+                    {
+                        if (macdMMArr.Last(4).Value > macdMMArr.Last(2).Value)
+                        {
+                            if (macdMMArr.Last(3).Value > macdMMArr.Last(1).Value && macdMMArr.Last(1).Value < 0)
+                            {
+                                ret.Enable = true;
+                                ret.Status = "买入后,上升趋势减弱，跌势加速，直接退出！";
+                                return ret;
+                            }
+                        }
+                    }
+                    if (items.Length >= 5)//如果买入后有两轮macd数据比较
+                    {
+                        
+                        //首先判断下跌趋势
+                        if (macdMMArr.Last(5).Value > macdMMArr.Last(3).Value)//远期macd低点高于近期macd低点，说明向下趋势逐渐增大
+                        {
+                            
+
+                            //再次判断上升趋势
+                            if (items.Max(a=>a.Value) > macdMMArr.Last(2).Value * 0.8)//远期macd高点高于近期macd高点，说明向上趋势也减少了
+                            {
+                                
+                                string raiseReason = "买入后，上升趋势减弱，下降趋势增大退出;";
+                                if (macdMMArr.Last(2).Value < 0)//高位值小于0，快跑，别等了
+                                {
+                                    ret.Enable = true;
+                                    ret.Status = raiseReason + "当前低位立即退出;";
+                                    return ret;
+                                }
+                                else
+                                {
+                                    //double[] holdMacds = macd.MACDs.LastSector(holddays);//持有后macd下穿次数为0
+                                    int crsCnt = zeroLines.Count(GuideToolClass.Cross, macd.MACDs, holddays);
+                                    if (crsCnt > 0) //下穿一次以后再考虑
+                                    {
+                                        if (macdMMArr.Last(1).index > macdMMArr.Last(2).index + 1)
+                                        {
+                                            //根本不需要判断价格。直接可以出局
+                                            ret.Enable = true;
+                                            ret.Status = raiseReason + "当前高位延迟退出;";
+                                            return ret;
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else//只有最低点和一轮上涨然后下落
+                    {
+                        if(items.Length>=3)//
+                        {
+                            if(macdMMArr.Last(2).Value<0)//当前顶点位置在0线下
+                            {
+                                //根本不需要判断价格。直接可以出局
+                                ret.Enable = true;
+                                ret.Status = "买入后，短期内上升无力，跌势加速，直接退出！";
+                                return ret;
+                            }                            
+                        }
+                    }
+                    if (items.Length<=5)//只有两轮MACD，无论什么情况都要去判断下涨幅情况，过大，就跑，包括存在连续涨停
+                    {
+                        if(items.Length<2 || macdMMArr.Last(1).index>macdMMArr.Last(2).index+5)
+                        {
+                            //超过一天，极值3or5日内闪烁，不处理
+                            return ret;
+                        }
+                        string raiseReason = null;
+                        bool quickRaise = false;
+                        int ztDays = 0;
+                        int serialZtDays = 0;
+                        int lastZtIndex = 0;
+                        //从信号日后计算涨停日数
+                        for(int i=startIndex+1;i<klineData.Length;i++)
+                        {
+                            if(klineData.IsUpStop(i))//如果涨停
+                            {
+                                ztDays++;
+                                if(lastZtIndex==i-1)
+                                {
+                                    serialZtDays++;
+                                }
+                                lastZtIndex = i;
+                                if (serialZtDays == 0)
+                                    serialZtDays=1;
+                            }
+                            else
+                            {
+                                lastZtIndex = 0;
+                            }
+                        }
+                        if(ztDays>=3||serialZtDays>=2)
+                        {
+                            quickRaise = true;
+                            raiseReason = string.Format("短期内出现{0}次涨停，其中连续涨停天数为{1}天",ztDays,serialZtDays);
+                        }
+                        //不是连续涨停
+                        if (!quickRaise)
+                        {
+                            //var items = macdMMArr.Where(a => a.index > startIndex - 5).ToArray();//信号日前3天，
+                            int downDays = zeroLines.LastMatchCondition(macd.DEAs, GuideToolClass.CrossUp);
+                            int upDays = 0;
+                            if(macd.DEAs.Last(1)>0)
+                            {
+                                upDays = macd.DEAs.LastMatchCondition(zeroLines, GuideToolClass.Cross);//上升日期数
+                            }
+                            //特殊情况是正好在持仓这段时间dea上穿然后下探0线下
+                            //由于本情况主要检测买入后短时间的特例，
+                            //而且买入点都是dea深探，这种情况理论上不存在
+                            int totalDays = downDays + upDays;
+                            if(totalDays<holddays)//DEA在0线上反复
+                            {
+                                return ret;
+                            }
+                            //前期macd最高点所形成的价格高点，前期平台的高点，即为下跌过程中到买入信号点前的最大强度反抽的高点,
+                            double farHigh = closes[macdMMArr.Where(a => (a.index < startIndex && a.index> klineData.Length-totalDays)&& a.Value > 0).OrderBy(a => a.Value).Last().index];//冲破前期平台最高点
+                            MaxMinElementClass<double>[] closeMMArr = closes.MaxMinArray(holddays);
+                            //价格短时间内就高于了极值的一半
+                            //默认当前价格最近处macd的高位等于最近高位以来的最高价
+                            double currHigh = klineData.Closes[macdMMArr.Last(2).index];
+                            int highIndex = macdMMArr.Last(2).index;
+                            double farLow = closeMMArr.Where(a => a.index < startIndex && a.index < highIndex).Min(a => a.Value);
+                            //前期5轮macd波动中最大值对应的价格
+                            
+                            //如果短期内最高点超过了整体下跌来的一半并且超出了近两轮涨幅的最高点，先出了再说
+                            if (currHigh > (closeMMArr.Max(a => a.Value) + farLow) / 2 || currHigh > farHigh)
+                            {
+                                raiseReason = string.Format("如果短期内最高点({2})超过了整体下跌来的一半的价格({0})或者超出了前期平台反抽的最高点({1})", (closeMMArr.Max(a => a.Value) + farLow) / 2, farHigh,currHigh);
+                                quickRaise = true;
+                            } 
+                        }
+                        //如果是快速拉升，趋势一减缓就跑路
+                        if (quickRaise)
+                        {
+                            if (macdMMArr.Last(2).Value < 0)//高位值小于0，快跑，别等了
+                            {
+                                ret.Enable = true;
+                                ret.Status = raiseReason + ";当前低位立即退出" ;
+                                return ret;
+                            }
+                            else
+                            {
+                                if (macdMMArr.Last(1).index > macdMMArr.Last(2).index + 1)
+                                {
+                                    //根本不需要判断价格。直接可以出局
+                                    ret.Enable = true;
+                                    ret.Status = raiseReason +";当前高位延迟退出";
+                                    return ret;
+
+                                }
+                            }
+                        }
+
+                    }
 
 
-            //最后一次红柱产生周期数
-            int lastMacdRedDays = macd.DIFs.LastMatchCondition(macd.DEAs, GuideToolClass.Cross);
-             //最近buffs天数的最大收盘价格
-            double buffsHigh = klineData.Highs.LLV(Input.BuffDays);
-            double buffsClose = Math.Max(klineData.Opens.HHV(Input.BuffDays), closes.HHV(Input.BuffDays));
-
-
-            DEAGT0CNT = Math.Max(200, DEAGT0CNT);
-            //ISLOWPRICE:= LOW <= LLV(LOW, DEAGT0CNT);
-            //如果最近buffs日内最高价或者收盘价为前期最高最高价或者最高收盘价，价格已经到顶了
-            bool ISTopPRICE = (klineData.Highs.HHV(Input.BuffDays) >= klineData.Highs.HHV(DEAGT0CNT) || klineData.Closes.HHV(Input.BuffDays) >= klineData.Closes.HHV(DEAGT0CNT)) ;
-            if (!ISTopPRICE)
-                return ret;
-            //DEALT0CNT:= BARSLAST(CROSS(0, MACD.DEA));
-            int DEALT0CNT = (0.00D).LastMatchCondition(macd.DEAs, GuideToolClass.Cross);
-            if (DEALT0CNT <= 0)
-            {
+                }
                 return ret;
             }
-            //TWISTCNT:= COUNT(CROSS(MACD.DEA, MACD.DIF), DEALT0CNT);            
-            double FONTMACD = macd.MACDs.LLV(DEALT0CNT);//下跌以来最低MACD
-            double CURRMACD = macd.MACDs.LLV(3);        //下跌以来当前时段MACD
-            double FONTPRICE = klineData.Closes.LLV(DEALT0CNT);//下跌以来最低价格
-            double CURRPRICE = klineData.Closes.LLV(3);//下跌以来当前时段价格
-            if (CURRMACD < FONTMACD && CURRPRICE >= FONTPRICE)//顶背离
-            {
 
-            }
-            else
-            {
-                return ret;
-            }
-            ret.Enable = true;
-            return ret;
+           
         }
-    }
-    public class StopLossFilter<T> : CommFilterLogicBaseClass<T> where T : TimeSerialData
-    {
-        public StopLossFilter(CommSecurityProcessClass<T> cpc) : base(cpc)
+
+        public bool CurrInGreen(CommStrategyInClass Input, KLineData<T> kline, MACDCollection macds, int holdDays)
         {
-
+            //最后一段绿柱在当前日期前日数
+            int lastGreenAreaLen = zeroLines.LastMatchCondition(macds.MACDs, GuideToolClass.Cross);
+            //最后一段红柱在当前日期前日数
+            int lastRedAreaLen = macds.MACDs.LastMatchCondition(zeroLines, GuideToolClass.Cross);
+            //如果最后一段绿柱的开始日期大于信号日期，说明当前这段红柱线已经远处的红柱了，转入远处红色区域处理
+            if (kline.Expects[kline.Length - lastRedAreaLen].ToDate() > Input.SignDate.ToDate())
+            {
+                return CurrInFarGreenArea(Input, kline, macds, holdDays, lastRedAreaLen);
+            }
+            else//刚刚由绿转红,转入近处红色区域处理
+            {
+                return CurrInNearGreenArea(Input, kline, macds, holdDays, lastRedAreaLen);
+            }
         }
-        public override BaseDataTable GetData(int RecordCnt)
+        /// <summary>
+        /// 当前为上涨区
+        /// </summary>
+        /// <param name="Input"></param>
+        /// <param name="kline"></param>
+        /// <param name="macds"></param>
+        /// <param name="holdDays"></param>
+        /// <returns></returns>
+        public bool CurrInRedArea(CommStrategyInClass Input, KLineData<T> kline, MACDCollection macds, int holdDays)
+        {
+            //最后一段绿柱在当前日期前日数
+            int lastGreenAreaLen = zeroLines.LastMatchCondition(macds.MACDs, GuideToolClass.Cross);
+            //最后一段红柱在当前日期前日数
+            int lastRedAreaLen = macds.MACDs.LastMatchCondition(zeroLines, GuideToolClass.Cross);
+            //如果最后一段绿柱的开始日期大于信号日期，说明当前这段红柱线已经远处的红柱了，转入远处红色区域处理
+            if (kline.Expects[kline.Length - lastGreenAreaLen].ToDate()>Input.SignDate.ToDate())
+            {
+                return CurrInFarRedArea(Input,kline,macds,holdDays,lastRedAreaLen);
+            }
+            else//刚刚由绿转红,转入近处红色区域处理
+            {
+                return CurrInNearRedArea(Input, kline, macds, holdDays,lastRedAreaLen); 
+            }
+        }
+
+        /// <summary>
+        /// 近处下跌区间
+        /// </summary>
+        /// <param name="Input"></param>
+        /// <param name="kline"></param>
+        /// <param name="macds"></param>
+        /// <param name="holdDays"></param>
+        /// <returns></returns>
+        public bool CurrInNearGreenArea(CommStrategyInClass Input, KLineData<T> kline, MACDCollection macds, int holdDays, int currStatusHoldDays)
         {
             throw new NotImplementedException();
         }
 
-        public override CommSecurityProcessClass<T> ExecFilter(CommStrategyInClass Input)
+        /// <summary>
+        /// 远处下跌区间
+        /// </summary>
+        /// <param name="Input"></param>
+        /// <param name="kline"></param>
+        /// <param name="macds"></param>
+        /// <param name="holdDays"></param>
+        /// <returns></returns>
+        public bool CurrInFarGreenArea(CommStrategyInClass Input, KLineData<T> kline, MACDCollection macds, int holdDays, int currStatusHoldDays)
         {
-            KLineData<T> klineData = new KLineData<T>(this.SecObj.SecPriceInfo);
-            DateTime[] dates = klineData.Expects.Select(a=>a.ToDate()).ToArray();
-            CommSecurityProcessClass<T> ret = SecObj;
-            ret.Enable = false;
-            int startDate = dates.IndexOf(Input.StartDate);
-            if (startDate < 0)
-                return ret;
-            double signPrice = klineData.Closes[startDate];
-            double lastPrice = klineData.Closes.Last();      
-            double rate = 100 * (lastPrice - signPrice) / signPrice;
-            if (rate > -10.0)
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 近处上涨区间
+        /// </summary>
+        /// <param name="Input"></param>
+        /// <param name="kline"></param>
+        /// <param name="macds"></param>
+        /// <param name="holdDays"></param>
+        /// <returns></returns>
+        public bool CurrInNearRedArea(CommStrategyInClass Input, KLineData<T> kline, MACDCollection macds, int holdDays, int currStatusHoldDays)
+        {
+            //峰值数组
+            MaxMinElementClass<double>[] humpArr = macds.MACDs.MaxMinArray(5);
+            //如果极值数组最后3个元素均大于0，一定是一个多峰数组，
+            //单边上涨倒数第二个元素小于0
+            //单峰倒数第三个元素小于0
+            if(humpArr.Length>3 && humpArr.LastSector(3).Where(a=>a.Value>0).Count() == 3)//一定是多峰
             {
-                return ret;
+                return CurrInMultiHumpRedArea(Input, kline, macds, holdDays, currStatusHoldDays, humpArr, true);
             }
-            ret.Enable = true;
-            return ret;
+            MaxMinElementClass<double>[] humpDEA = macds.DEAs.MaxMinArray(5);
+            //DEA下跌，且长度持续1期以上
+            bool DEADown = humpDEA.Last(1).Value < humpDEA.Last(2).Value && humpDEA.Last(1).index > humpDEA.Last(2).index + 1;
+            if(humpArr.Last(2).Value<0)//单边上升过程中，不用管
+            {
+                return false;
+            }
+            //以下为单峰
+            if(humpArr.Last(1).index==humpArr.Last(2).index+1)//未确定确实下降趋势，不管它
+            {
+                return false;
+            }
+            //以下为单峰已确定下降趋势
+            if(macds.DEAs.Last(1)<0 && DEADown)//DEA在0线以下，并且已经确定下跌，退出
+            {
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 远处上涨区间
+        /// </summary>
+        /// <param name="Input"></param>
+        /// <param name="kline"></param>
+        /// <param name="macds"></param>
+        /// <param name="holdDays"></param>
+        /// <returns></returns>
+        public bool CurrInFarRedArea(CommStrategyInClass Input, KLineData<T> kline, MACDCollection macds, int holdDays, int currStatusHoldDays)
+        {
+            //峰值数组
+            MaxMinElementClass<double>[] humpArr = macds.MACDs.LastSector(currStatusHoldDays).MaxMinArray(5);
+            //如果数组长度大于2，一定是一个多峰数组
+            if (humpArr.Length > 2)
+            {
+                return CurrInMultiHumpRedArea(Input, kline, macds, holdDays, currStatusHoldDays, humpArr,false);
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 当前在多峰上涨空间
+        /// </summary>
+        /// <param name="Input"></param>
+        /// <param name="kline"></param>
+        /// <param name="macds"></param>
+        /// <param name="holdDays"></param>
+        /// <param name="humps"></param>
+        /// <param name="isNear"></param>
+        /// <returns></returns>
+        public bool CurrInMultiHumpRedArea(CommStrategyInClass Input, KLineData<T> kline, MACDCollection macds, int holdDays, int currStatusHoldDays, MaxMinElementClass<double>[] humps, bool isNear)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 当前在多峰下跌空间
+        /// </summary>
+        /// <param name="Input"></param>
+        /// <param name="kline"></param>
+        /// <param name="macds"></param>
+        /// <param name="holdDays"></param>
+        /// <param name="humps"></param>
+        /// <param name="isNear"></param>
+        /// <returns></returns>
+
+        public bool CurrInMultiHumpGreenArea(CommStrategyInClass Input, KLineData<T> kline, MACDCollection macds, int holdDays, int currStatusHoldDays, MaxMinElementClass<double>[] humps, bool isNear)
+        {
+            throw new NotImplementedException();
         }
     }
 

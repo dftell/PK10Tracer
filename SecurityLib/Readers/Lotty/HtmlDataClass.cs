@@ -19,7 +19,7 @@ namespace WolfInv.com.SecurityLib
         protected string UseDataType;
         public ExpectList<T> getExpectList<T>() where T: TimeSerialData
         {
-            ExpectList<T> ret = new ExpectList<T>();
+            ExpectList<T> ret = new ExpectList<T>(false);
             HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(dataUrl);
             //LogLib.LogableClass.ToLog(dataUrl, UseXmlMothed.ToString());
             req.Method = "Get";

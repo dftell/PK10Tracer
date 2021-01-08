@@ -18,7 +18,7 @@ using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.SecurityLib;
 using WolfInv.com.PK10CorePress;
 using System.Threading.Tasks;
-
+using WolfInv.com.Strags.Security;
 namespace DataRecSvr
 {
     public delegate void EventFinishedCalc(DataTypePoint dtp);
@@ -32,8 +32,11 @@ namespace DataRecSvr
         public bool AllowCalc = false;
         int FinishedThreads = 0;
         int RunThreads = 0;
+        public MongoDataDictionary<T> allSecurityDic;
         List<Thread> ThreadPools;
         public EventFinishedCalc OnFinishedCalc;
+
+        public Action<string, string,string> StragAfterProcessEvent;
         public bool IsTestBack { get; set; }
         /// <summary>
         /// 提供给回测用
@@ -125,32 +128,48 @@ namespace DataRecSvr
         {
             try
             {
+                
                 ////if (!AllowCalc) return;
                 DateTime currTime = DateTime.Now;
                 ////int MaxViewCnt = Program<T>.AllServiceConfig.AllRunningPlanGrps.Max(t=>t.Value.UseSPlans.ForEach(a=>Program<T>.AllServiceConfig.AllStrags[a.GUID]))));
-                ExpectList<T> el = CurrData;// Program<T>.AllServiceConfig.LastDataSector;
-                                            //Log("数据源", string.Format("数据条数:{0};最后数据:{1}", el.Count, el.LastData.ToString()));
-                                            //if (CurrDataList.Count < MaxViewCnt)
-                                            //{
-                                            //    el = new ExpectReader().ReadNewestData(MaxViewCnt);
-                                            //}
-                                            //Log("计算准备", "获取未关闭的机会");
+                //ExpectList<T> el = CurrData;// Program<T>.AllServiceConfig.LastDataSector;
+                //Log("数据源", string.Format("数据条数:{0};最后数据:{1}", el.Count, el.LastData.ToString()));
+                //if (CurrDataList.Count < MaxViewCnt)
+                //{
+                //    el = new ExpectReader().ReadNewestData(MaxViewCnt);
+                //}
+                //Log("计算准备", "获取未关闭的机会");
+                if (DataPoint.IsSecurityData == 1)
+                {
+                    if(allSecurityDic == null)
+                        allSecurityDic = new MongoDataDictionary<T>(this.CurrData, true);
+                }
+                string currExpect = CurrData.LastData.Expect;
                 Dictionary<string, ChanceClass<T>> NoClosedChances = new Dictionary<string, ChanceClass<T>>();
-                Dictionary<string, ChanceClass<T>> CloseChances = null;
-                NoClosedChances =  CloseTheChances(this.IsTestBack,ref CloseChances);//关闭机会
+                Dictionary<string, ChanceClass<T>> tCloseChances = null;
+                NoClosedChances =  CloseTheChances(this.IsTestBack,ref tCloseChances);//关闭机会
                 if(NoClosedChances == null)
                 {
                     runErrorMsg = "出现获取到机会数据的异常，计算中止！";
                     ErrorStackTrace = "在读取机会数据时无法链接到数据库！";
                     return false;
                 }
-                if(DataPoint.IsSecurityData == 1)//单独处理ed
+                if(DataPoint.IsSecurityData == 1)//单独处理ed,更新资产变动的金额
                 {
-                    foreach(string key in CloseChances.Keys)
+                    
+                    foreach(string key in NoClosedChances.Keys)
                     {
-                        ChanceClass<T> cc = CloseChances[key];
+
+                        SecurityChance<T> cc = NoClosedChances[key] as SecurityChance<T>;
+                        ////if(allData.ContainsKey(key))
+                        ////{
+                        ////    MongoReturnDataList<T> chanceData = allData[key];
+                        ////    StockMongoData smd = (chanceData.Last() as StockMongoData);
+                        ////    cc.currUnitPrice = smd.close;
+                        ////    cc.preUnitPrice = smd.preclose;
+                        ////}
                         BaseStragClass<T> sc = Program<T>.AllServiceConfig.AllStrags[cc.StragId];
-                        StragRunPlanClass<T> splan = sc.RunningPlan as StragRunPlanClass<T>;
+                        StragRunPlanClass<T> splan = sc.RunningPlan as StragRunPlanClass<T>;//暂时未有任何调用。 2020-12-13
                         if (sc.AssetUnitId == null)
                         {
                             continue; //所属计划未指定资产单元，不记录交易信息
@@ -161,15 +180,33 @@ namespace DataRecSvr
                         }
                         if (cc.UnitCost == 0)//无交易金额，不处理
                             continue;
+                        if(!allSecurityDic.ContainsKey(cc.ChanceCode))
+                        {
+                            continue;
+                        }
+                        //增加是否停牌标志
+                        KLineData<T> klines = new KLineData<T>(currExpect, allSecurityDic[cc.ChanceCode]);//前复权
+                        string status = klines.IsStoped()? "停牌":null;
+                        if(status == null)
+                        {
+                            if(klines.IsDownStop(null))
+                            {
+                                status = "跌停";
+                            }
+                            else if(klines.IsUpStop(null))
+                            {
+                                status = "涨停";
+                            }
+                        }
                         AssetUnitClass<T> uu = Program<T>.AllServiceConfig.AllAssetUnits[sc.AssetUnitId];
-                        uu.getCurrExchangeServer().Update(new ExchangeChance<T>(uu.getCurrExchangeServer(),sc,CurrData.LastData.Expect,CurrData.LastData.Expect,cc),true);
+                        //当前在买入日后第三天应该都是正确的，唯一的差距是第一天，在刷新，建立chance时把控
+                        uu.getCurrExchangeServer().UpdateSecurity(new ExchangeChance<T>(uu.getCurrExchangeServer(), sc, CurrData.LastData.Expect, CurrData.LastData.Expect, cc),true,status,cc.ChipCount*(cc.currUnitPrice-cc.preUnitPrice));
                         
                     }
                     
                 }
                 this.FinishedThreads = 0;//完成数量置0
                 RunThreads = 0;
-
                 Dictionary<string, CalcStragGroupClass<T>> testGrps = Program<T>.AllServiceConfig.AllRunningPlanGrps as Dictionary<string, CalcStragGroupClass<T>>;
                 if (!IsTestBack)
                 {
@@ -234,7 +271,8 @@ namespace DataRecSvr
                 {
                     CalcStragGroupClass<T> csc = Program<T>.AllServiceConfig.AllRunningPlanGrps[key] as CalcStragGroupClass<T>;
                     //增加新的计划
-
+                    if (DataPoint.IsSecurityData == 1)
+                        csc.allSecurityDic = this.allSecurityDic;//准备好股票数据
                     SettingClass comSetting = new SettingClass();
                     comSetting.SetGlobalSetting(Program<T>.AllServiceConfig.gc);
                     List<ChanceClass<T>> NoClsList = NoClosedChances.Values.ToList();
@@ -247,6 +285,7 @@ namespace DataRecSvr
                         continue;
                     }
                     RunThreads++;
+                    csc.afterStragProcessed = StragAfterProcessEvent;
                     csc.Finished = new CalcStragGroupDelegate(CheckFinished);
                     csc.GetNoClosedChances = new ReturnChances<T>(FillNoClosedChances);
                     csc.GetAllStdDevList = new ReturnStdDevList(FillAllStdDev);
@@ -263,11 +302,12 @@ namespace DataRecSvr
                     //if (!IsTestBack &&  !csc.Running)
                     //    continue;
                     csc.IsBackTest = IsTestBack;
-                    //ThreadPool.QueueUserWorkItem(new WaitCallback(csc.Run), el);
-                    Task task = Task.Factory.StartNew(csc.Run, el);
-                    tasks.Add(task);
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(csc.Run), CurrData);
+                    //Task task = Task.Factory.StartNew(csc.Run, el);
+                    //tasks.Add(task);
                 }
-                Task.WaitAll(tasks.ToArray());
+                
+                //Task.WaitAll(tasks.ToArray());
             }
             catch(Exception ce)
             {
@@ -278,6 +318,11 @@ namespace DataRecSvr
                 runErrorMsg = ce.Message;
                 ErrorStackTrace = ce.StackTrace;
                 return false;
+            }
+            finally
+            {
+                allSecurityDic = null;
+                CurrData = null;
             }
             return true;
         }
@@ -542,7 +587,12 @@ namespace DataRecSvr
                 cl[i].MatchChips += mcnt;
                 if (sc is ITraceChance<T>)//优先关闭程序跟踪
                 {
-                    cl[i].Closed = (sc as ITraceChance<T>).CheckNeedEndTheChance(cl[i], Matched);
+                    if (DataPoint.IsSecurityData == 1)
+                    {
+                        (sc as BaseSecurityStragClass<T>).FillSecDic(allSecurityDic);
+                    }
+                    sc.SetLastUserData(CurrData);
+                    cl[i].Closed = (sc as ITraceChance<T>).CheckNeedEndTheChance(cl[i], Matched,DataPoint.IsSecurityData==1);
                 }
                 else
                 {
@@ -556,10 +606,22 @@ namespace DataRecSvr
                 //////{
                 //////    cl[i].Closed = true;
                 //////}
+                if(cl[i].needEndChance)//如果是需要关闭并且是跌停状态,其后任何时刻都需要关闭，
+                {
+                    cl[i].Closed = true;
+                }
                 if (cl[i].Closed)//如果已经关闭
                 {
-                    CloseList.Add(cl[i].GUID, cl[i]);
-                    continue;
+                    cl[i].needEndChance = true;//此机会需要关闭了，此条件一直保存直至关闭
+                    if (!cl[i].currCantEndChance) //如果不是跌停，关闭
+                    {
+                        CloseList.Add(cl[i].GUID, cl[i]);
+                        continue;
+                    }
+                    else
+                    {
+
+                    }
                 }
                 rl.Add(cl[i].GUID, cl[i]);
             }
@@ -576,6 +638,26 @@ namespace DataRecSvr
                 });
                 CloseChanceInDBAndExchangeService(dbsavelist);
             }
+            else
+            {
+                if(DataPoint.IsSecurityData==1)
+                {
+                    CloseList.Values.ToList().ForEach(cc=> {
+                        
+                        BaseStragClass<T> sc = Program<T>.AllServiceConfig.AllStrags[cc.StragId] as BaseStragClass<T>;
+                        CalcStragGroupClass<T> plan = Program<T>.AllServiceConfig.AllRunningPlanGrps.Where(a=>a.Value.UseStrags.ContainsKey(cc.StragId)).First().Value;
+                        string strExpectNo = CurrData.LastData.Expect;
+                        cc.EndExpectNo = strExpectNo;
+                        AssetUnitClass<T> ass = plan.UseAssetUnits.First().Value;
+                        ExchangeService<T> es = ass.getCurrExchangeServer();
+                        if (es != null)
+                        {
+                            ExchangeChance<T> ec = new ExchangeChance<T>(es, sc, strExpectNo, strExpectNo, cc);
+                            es.UpdateSecurity(ec,false,"清仓");
+                        }
+                    });
+                }
+            }
             return rl;
         }
 
@@ -584,7 +666,7 @@ namespace DataRecSvr
             MongoDataDictionary<T> allDatas = null;
             if(DataPoint.IsSecurityData == 1)
             {
-                allDatas = new MongoDataDictionary<T>(CurrData);
+                allDatas = new MongoDataDictionary<T>(CurrData,DataPoint.IsSecurityData==1);
             }
             if (NeedClose == null || NeedClose.Count == 0)
             {
@@ -630,7 +712,7 @@ namespace DataRecSvr
         {
             get
             {
-                if (this.RunThreads > 0 && this.FinishedThreads == this.RunThreads)
+                if (this.RunThreads > 0 && this.FinishedThreads >= this.RunThreads)
                 {
                     return true;
                 }

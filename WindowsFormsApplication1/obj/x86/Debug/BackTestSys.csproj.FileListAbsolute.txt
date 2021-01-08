@@ -72,7 +72,6 @@ E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTe
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\PK10BackTestSystem.exe.config
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\Interop.MSScriptControl.dll
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTestSys.csproj.ResolveComReference.cache
-E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTestSys.BackTestFrm.resources
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.Form1.resources
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTestSys.frm_CalcEr.resources
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTestSystem.frm_DistrCheck.resources
@@ -87,3 +86,4 @@ E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTe
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\PK10BackTestSystem.exe
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\PK10BackTestSystem.pdb
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTestSys.frm_TrainForm.resources
+E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Debug\BackTestSys.BackTestFrm.resources

@@ -11,7 +11,7 @@ namespace WolfInv.com.SecurityLib.Filters.StrategyFilters
     /// <typeparam name="T"></typeparam>
     public class MinDaysFilter<T> : CommFilterLogicBaseClass<T> where T : TimeSerialData
     {
-        public MinDaysFilter(CommSecurityProcessClass<T> cpc) : base(cpc)
+        public MinDaysFilter(string endExpect, CommSecurityProcessClass<T> cpc, PriceAdj priceAdj = PriceAdj.Fore, Cycle cyc = Cycle.Day) : base(endExpect, cpc,priceAdj,cyc)
         {
 
         }
@@ -20,14 +20,15 @@ namespace WolfInv.com.SecurityLib.Filters.StrategyFilters
             throw new NotImplementedException();
         }
 
-        public override CommSecurityProcessClass<T> ExecFilter(CommStrategyInClass Input)
+        public override SelectResult ExecFilter(CommStrategyInClass Input)
         {
-            List<T> list = this.SecObj.SecPriceInfo;
-            var klineData = new KLineData<T>(list);
+            //List<T> list = this.SecObj.SecPriceInfo;
+            //var klineData = new KLineData<T>(EndExpect,this.SecObj.SecPriceInfo);
             ///ToDo:反转选股
-            CommSecurityProcessClass<T> ret = this.SecObj;
+            SelectResult ret = new SelectResult();
+            //CommSecurityProcessClass<T> ret = this.SecObj;
             ret.Enable = false;
-            if(klineData.Length < Input.MinDays)
+            if(kLineData.Length < Input.MinDays)
             {
                 ret.Enable = false;
                 return ret;

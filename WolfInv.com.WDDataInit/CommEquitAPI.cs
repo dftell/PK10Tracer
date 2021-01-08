@@ -105,7 +105,7 @@ namespace WolfInv.com.WDDataInit
 
         public override MongoReturnDataList<T> getSerialData<T>(StockInfoMongoData info, DateTime useBeginTime, DateTime endTime,ref List<string> urls)
         {
-            return new MongoReturnDataList<T>(info);
+            return new MongoReturnDataList<T>(info,true);
             /*
             try
             {
@@ -225,7 +225,7 @@ namespace WolfInv.com.WDDataInit
             string startString = "hexundata(";
             string endString = ");";
             string strReg = @"hexunData\([\s\S]*)\);";
-            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(info);
+            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(info,true);
             if(strResult == null || !strResult.StartsWith(startString) || !strResult.EndsWith(endString))
             {
                 return ret;
@@ -291,7 +291,7 @@ namespace WolfInv.com.WDDataInit
                     }
                 }
                 var items = ret.OrderBy(a=>a.Expect);
-                MongoReturnDataList<T> rres = new MongoReturnDataList<T>(info);
+                MongoReturnDataList<T> rres = new MongoReturnDataList<T>(info,true);
                 foreach(var item in items)
                 {
                     rres.Add(item);
@@ -337,7 +337,7 @@ namespace WolfInv.com.WDDataInit
             if (ret == null || ret.Count == 0)
             {
                 throw new Exception(data);
-                return new MongoReturnDataList<T>(info);
+                return new MongoReturnDataList<T>(info,true);
             }
             DateTime lastDate;
             if (!DateTime.TryParse(ret.Last().Expect,out lastDate))

@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ExchangeTermial</RootNamespace>
-    <AssemblyName>ExchangeTermial</AssemblyName>
+    <AssemblyName>WOMS</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -37,7 +37,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\..\projects\PK10TracerClient\</OutputPath>
+    <OutputPath>..\..\..\..\..\projects\WOMS\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -247,7 +247,7 @@
       <Name>WolfInv.com.WebCommunicateClass</Name>
     </ProjectReference>
     <ProjectReference Include="..\WebRuleLib\WolfInv.com.WebRuleLib.csproj">
-      <Project>{2D91CEF1-5BAA-4AE2-A6D5-7AC55E992AD1}</Project>
+      <Project>{2d91cef1-5baa-4ae2-a6d5-7ac55e992ad1}</Project>
       <Name>WolfInv.com.WebRuleLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\WinInterComminuteLib\WolfInv.com.WinInterComminuteLib.csproj">

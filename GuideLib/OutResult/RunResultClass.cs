@@ -10,11 +10,23 @@ namespace WolfInv.com.GuideLib
     {
         public RunNoticeClass Notice;
         public MTable Table;
-        public List<string> Result;
+        public List<SelectResult> Result;
         public RunResultClass()
         {
             Notice = new RunNoticeClass();
-            Result = new List<string>();
+            Result = new List<SelectResult>();
         }
+    }
+
+    public class SelectResult
+    {
+        public bool Enable;
+        public string Key;
+        public double Weight;
+        public string Status;
+        /// <summary>
+        /// 参考值，赋值给chance，在退出时参考使用
+        /// </summary>
+        public object[] ReferValues;
     }
 }

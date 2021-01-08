@@ -7,3 +7,13 @@ C:\Users\zhouys\source\repos\dftell\PK10Tracer\Strags\obj\Release\WolfInv.com.St
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\Strags\obj\Release\WolfInv.com.Strags.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\Strags\obj\Release\WolfInv.com.Strags.csproj.CopyComplete
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\Strags\obj\Release\WolfInv.com.Strags.dll
+E:\github\project\PK10Tracer\WolfInv.com.Strags.dll.config
+E:\github\project\PK10Tracer\WolfInv.com.Strags.dll
+E:\github\source\dftell\PK10Tracer\Strags\obj\Release\WolfInv.com.Strags.csprojAssemblyReference.cache
+E:\github\source\dftell\PK10Tracer\Strags\obj\Release\WolfInv.com.Strags.CommSelectOjectDialog.resources
+E:\github\source\dftell\PK10Tracer\Strags\obj\Release\WolfInv.com.Strags.StragPicker.resources
+E:\github\source\dftell\PK10Tracer\Strags\obj\Release\WolfInv.com.Strags.StragsPicker.resources
+E:\github\source\dftell\PK10Tracer\Strags\obj\Release\WolfInv.com.Strags.csproj.GenerateResource.cache
+E:\github\source\dftell\PK10Tracer\Strags\obj\Release\WolfInv.com.Strags.csproj.CoreCompileInputs.cache
+E:\github\source\dftell\PK10Tracer\Strags\obj\Release\WolfInv.com.Strags.csproj.CopyComplete
+E:\github\source\dftell\PK10Tracer\Strags\obj\Release\WolfInv.com.Strags.dll

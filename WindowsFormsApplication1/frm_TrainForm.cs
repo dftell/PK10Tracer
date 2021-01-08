@@ -65,7 +65,7 @@ namespace BackTestSys
             int repcnt = 0;
             while (el == null)
             {
-                el = er.ReadHistory(this.txt_BegExpect.Text, len + deep + 1);
+                el = er.ReadHistory(this.txt_BegExpect.Text, len + deep + 1,this.txt_SecPools.Text );
                 if (el == null)
                     Thread.Sleep(1 * 1000);
                 repcnt++;
@@ -319,7 +319,7 @@ namespace BackTestSys
         {
             long len = long.Parse(this.txt_DataLength.Text);
             int deep = int.Parse(this.txt_LearnDeep.Text);
-            ExpectList<T> el = new ExpectReader<T>().ReadHistory(this.txt_BegExpect.Text, len + deep + 1);
+            ExpectList<T> el = new ExpectReader<T>().ReadHistory(this.txt_BegExpect.Text, len + deep + 1,null);
             
             for (int i = 0; i < 10; i++)
             {

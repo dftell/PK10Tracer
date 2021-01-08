@@ -32,7 +32,7 @@ namespace WolfInv.com.SecurityLib
             CheckEvent?.Invoke(codes.Select(a=>a.Length).Sum(), codes.Count, 0, 0,0);
             List<string[]> codelist = codes;
             ExeFunc = func;
-            GroupResult = new MongoDataDictionary<T>();
+            GroupResult = new MongoDataDictionary<T>(true);
             ////for (int i=0;i< MaxThreadCnt; i++)
             ////{
             ////    new Task(ExecSr, codelist[i]).Start();
@@ -73,7 +73,7 @@ namespace WolfInv.com.SecurityLib
             CheckEvent.Invoke(codes.Count, codes.Count, 0, 0, 0);
             List<MongoDataDictionary<T>> mongoCodeList = codes;
             ExecMongoFunc = func;
-            GroupResult = new MongoDataDictionary<T>();
+            GroupResult = new MongoDataDictionary<T>(true);
             ////for (int i=0;i< MaxThreadCnt; i++)
             ////{
             ////    new Task(ExecSr, codelist[i]).Start();

@@ -72,7 +72,7 @@ namespace DataRecSvr
             AllServiceConfig.GrpThePlan(false);
             AllServiceConfig.CreateChannel(GlobalClass.TypeDataPoints.First().Key,true);//根据不同的数据建立不同的端口 必须使用独占模式
 
-            AllServiceConfig.AllAssetUnits.Values.ToList().ForEach(p => p.Run());//打开各开关
+            AllServiceConfig.AllAssetUnits.Values.ToList().ForEach(p => p.Run(GlobalClass.TypeDataPoints.First().Value));//打开各开关
             //RemoteCommClass<ServiceSetting>.SetRemoteInst(AllServiceConfig);
             //AllServiceConfig.AllLogs = new LogInfo().GetLogAfterDate(DateTime.Today.AddHours(-1));
         }

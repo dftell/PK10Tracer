@@ -36,9 +36,18 @@ namespace WolfInv.com.SecurityLib
             MatchCnt = 0;
             return false;
         }
-        //股票当期价值
+        public double signPrice;
+        //买入价格
+        public double openPrice;
+        //卖出价
+        public double? closePrice;
+        //股票当期价格
         public double currUnitPrice;
-
+        //股票上期价格
+        public double preUnitPrice;
+        public object[] ReferValues;
+        public string inputStatus;
+        public string endStatus;
         public override void CalcProfit(double matchcnt)
         {
             this.Gained = matchcnt * this.ChipCount; //最后价格*数量

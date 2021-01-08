@@ -5,3 +5,11 @@ C:\Users\zhouys\source\repos\dftell\PK10Tracer\ExchangeLib\obj\Release\WolfInv.c
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\ExchangeLib\obj\Release\WolfInv.com.ExchangeLib.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\ExchangeLib\obj\Release\WolfInv.com.ExchangeLib.csproj.CopyComplete
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\ExchangeLib\obj\Release\WolfInv.com.ExchangeLib.dll
+E:\github\project\PK10Tracer\WolfInv.com.ExchangeLib.dll.config
+E:\github\project\PK10Tracer\WolfInv.com.ExchangeLib.dll
+E:\github\source\dftell\PK10Tracer\ExchangeLib\obj\Release\WolfInv.com.ExchangeLib.csprojAssemblyReference.cache
+E:\github\source\dftell\PK10Tracer\ExchangeLib\obj\Release\WolfInv.com.ExchangeLib.RunPlanPicker.resources
+E:\github\source\dftell\PK10Tracer\ExchangeLib\obj\Release\WolfInv.com.ExchangeLib.csproj.GenerateResource.cache
+E:\github\source\dftell\PK10Tracer\ExchangeLib\obj\Release\WolfInv.com.ExchangeLib.csproj.CoreCompileInputs.cache
+E:\github\source\dftell\PK10Tracer\ExchangeLib\obj\Release\WolfInv.com.ExchangeLib.csproj.CopyComplete
+E:\github\source\dftell\PK10Tracer\ExchangeLib\obj\Release\WolfInv.com.ExchangeLib.dll

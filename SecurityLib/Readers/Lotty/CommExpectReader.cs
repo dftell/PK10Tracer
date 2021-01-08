@@ -12,39 +12,39 @@ namespace WolfInv.com.SecurityLib
     {
         
         
-        public override ExpectList<T> ReadHistory(string From, long buffs)
+        public override ExpectList<T> ReadHistory(string From, long buffs,string codes)
         {
-            return ReadHistory(From, buffs, false);
+            return ReadHistory(From, buffs,codes, false);
         }
 
 
-        public override ExpectList<T> ReadHistory(string From,long buffs,bool desc)
+        public override ExpectList<T> ReadHistory(string From,long buffs,string codes,bool desc)
         {
             DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select top {0} * from {2} where expect>='{1}'  order by expect {3}", buffs, From,strHistoryTable,desc?"desc":"");//modify by zhouys 2019/1/8
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
-            return new ExpectList<T>(ds.Tables[0]);
+            return new ExpectList<T>(ds.Tables[0],false);
         }
 
-        public override ExpectList<T> ReadHistory( long buffs, string endExpect)
+        public override ExpectList<T> ReadHistory( long buffs, string endExpect,string codes)
         {
             bool desc = false;
             DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select * from (select top {0} * from {2} where expect<='{1}'  order by expect desc) a order by expect {3}", buffs, endExpect, strHistoryTable, desc ? "desc" : "");//modify by zhouys 2019/1/8
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
-            return new ExpectList<T>(ds.Tables[0]);
+            return new ExpectList<T>(ds.Tables[0],false);
         }
 
 
-        public override ExpectList<T> ReadHistory(long buffs)
+        public override ExpectList<T> ReadHistory(long buffs,string codes)
         {
             DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select top {0} * from {2}  order by expect desc", buffs,  strHistoryTable);
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
-            return new ExpectList<T>(ds.Tables[0]);
+            return new ExpectList<T>(ds.Tables[0],false);
         }
 
         public override ExpectList<T> ReadHistory()
@@ -53,16 +53,16 @@ namespace WolfInv.com.SecurityLib
             string sql = string.Format("select  * from {0}  order by expect", strHistoryTable);
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
-            return new ExpectList<T>(ds.Tables[0]);
+            return new ExpectList<T>(ds.Tables[0],false);
         }
 
-        public override ExpectList<T> ReadHistory(string begt,string endt)
+        public override ExpectList<T> ReadHistory(string begt,string endt,string codes = null)
         {
             DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select  * from {0}  where opentime between '{1}' and '{2}'", strHistoryTable,begt,endt);
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
-            return new ExpectList<T>(ds.Tables[0]);
+            return new ExpectList<T>(ds.Tables[0], false);
         }
 
         public override ExpectList<T> ReadNewestData(DateTime fromdate)
@@ -71,7 +71,7 @@ namespace WolfInv.com.SecurityLib
             string sql = string.Format("select * from {1} where opentime>='{0}' order by expect", fromdate.ToShortDateString(),strNewestTable);
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
-            return new ExpectList<T>(ds.Tables[0]);
+            return new ExpectList<T>(ds.Tables[0], false);
         }
 
         public override ExpectList<T> ReadNewestData(int LastLng)
@@ -80,21 +80,21 @@ namespace WolfInv.com.SecurityLib
             string sql = string.Format("select * from (select top {0} * from {1} order by expect desc) a order by expect", LastLng, strNewestTable);
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
-            return new ExpectList<T>(ds.Tables[0]);
+            return new ExpectList<T>(ds.Tables[0], false);
         }
 
         public override ExpectList<T> ReadNewestData(long ExpectNo, int Cnt)
         {
-            return ReadNewestData(ExpectNo, Cnt, false);
+            return ReadNewestData(ExpectNo, Cnt, false,null);
         }
 
-        public override ExpectList<T> ReadNewestData(string ExpectNo, int Cnt,bool FromHistoryTable)
+        public override ExpectList<T> ReadNewestData(string ExpectNo, int Cnt,bool FromHistoryTable,string code)
         {
             DbClass db = GlobalClass.getCurrDb(strDataType);
             string sql = string.Format("select * from {2} where Expect<='{0}' and Expect>({0}-{1}) order by expect", ExpectNo, Cnt, FromHistoryTable?strHistoryTable:strNewestTable);
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
-            return new ExpectList<T>(ds.Tables[0]);
+            return new ExpectList<T>(ds.Tables[0], false);
         }
 
         public override int SaveNewestData(ExpectList<T> InData)
@@ -110,7 +110,7 @@ namespace WolfInv.com.SecurityLib
             string sql = string.Format("select * from {1} where opentime>='{0}'", strBegT, IsHistoryData?strMissHistoryTable:strMissNewestTable);
             DataSet ds = db.Query(new ConditionSql(sql));
             if (ds == null) return null;
-            return new ExpectList<T>(ds.Tables[0]);
+            return new ExpectList<T>(ds.Tables[0], false);
         }
 
 
@@ -141,11 +141,11 @@ namespace WolfInv.com.SecurityLib
         public override ExpectList<T> getNewestData(ExpectList<T> NewestData, ExpectList<T> ExistData)
         {
             DataTable dt = null;
-            ExpectList<T> ret = new ExpectList<T>(dt);
+            ExpectList<T> ret = new ExpectList<T>(dt, false);
             if (NewestData == null) return ret;
             if(ExistData == null)
             {
-                ExistData = new ExpectList<T>();
+                ExistData = new ExpectList<T>(false);
             }
             HashSet<string> existDic = new HashSet<string>();
             for (int i = 0; i < ExistData.Count; i++)

@@ -27,7 +27,7 @@ namespace WolfInv.com.SecurityLib
 
         public override ExpectList<T> getData<T>(string strHtml)
         {
-            ExpectList<T> ret = new ExpectList<T>();
+            ExpectList<T> ret = new ExpectList<T>(false);
             string startStr = "lg-history-table\">";
             string endStr = "</table>";
             string strXml = strHtml.Substring(strHtml.IndexOf(startStr)+startStr.Length);
@@ -44,7 +44,7 @@ namespace WolfInv.com.SecurityLib
                 {
                     XmlNodeList tdNodes = rows[i].SelectNodes("td");
                     XmlNodeList td2Nodes = tdNodes[2].SelectNodes("div");
-                    ExpectData<T> ed = new ExpectData<T>();
+                    ExpectData<T> ed = new ExpectData<T>(false);
                     ed.Expect = tdNodes[0].InnerText;
                     string strCode = string.Join(",",td2Nodes[0].InnerText.Replace("10", "0").ToCharArray());
                     ed.OpenCode = ChanceCodes(strCode);
@@ -80,7 +80,7 @@ namespace WolfInv.com.SecurityLib
 
         public override ExpectList<T> getXmlData<T>(string strXml)
         {
-            ExpectList<T> ret = new ExpectList<T>();
+            ExpectList<T> ret = new ExpectList<T>(false);
             XmlDocument doc = new XmlDocument();
             try
             {
@@ -90,7 +90,7 @@ namespace WolfInv.com.SecurityLib
                     return ret;
                 for (int i = rows.Count - 1; i >= 0; i--)
                 {
-                    ExpectData<T> ed = new ExpectData<T>();
+                    ExpectData<T> ed = new ExpectData<T>(false);
                     ed.Expect = rows[i].Attributes["expect"].Value;
                     ed.OpenCode = rows[i].Attributes["opencode"].Value;
                     ed.OpenTime = DateTime.Parse(rows[i].Attributes["opentime"].Value);

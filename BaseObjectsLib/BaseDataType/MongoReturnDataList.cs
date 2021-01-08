@@ -4,89 +4,134 @@ using System.Collections.Generic;
 using MongoDB.Bson;
 using System.Data;
 using System.Linq;
+using System.Collections.Concurrent;
+using System.Threading;
+
 namespace WolfInv.com.BaseObjectsLib
 {
     public class MongoReturnDataList<T> : List<T>, ICloneable where T :TimeSerialData
     {
+        public bool isSecurity = false;
         public StockInfoMongoData SecInfo;
         public bool Disable;
-        Dictionary<string, int> _maps;
-        Dictionary<string,int> maps
+        ConcurrentDictionary<string, int> _maps;
+        ConcurrentDictionary<string,int> maps
         {
             get
             {
-                bool needUpdate = false; ;
-                if(_maps == null ||_maps.Count != this.Count)
+                
+                bool needUpdate = false;
+                //LockSlim.EnterWriteLock();
+                try
                 {
-                    needUpdate = true ;
-                }
-                if(needUpdate )
-                {
-                    _maps = new Dictionary<string, int>();
-
-                    for (int i = 0; i < this.Count; i++)
+                    if (_maps == null)
                     {
-                        //ExchangeMongoData data = this[i] as ExchangeMongoData;
-                        TimeSerialData data = this[i];
-                        string date = this[i]?.Expect;
-                        if (typeof(T) != typeof(StockMongoData))
-                        {
-                            date = this[i]?.OpenTime.ToString();
-                        }
-                        if (string.IsNullOrEmpty(date))
-                            continue;
+                        _maps = new ConcurrentDictionary<string, int>();
+                    }
+                    if (_maps.Count != this.Count)
+                    {
+                        needUpdate = true;
+                    }
+                    if (needUpdate)
+                    {
                         lock (_maps)
                         {
-                            if (!_maps.ContainsKey(date))
+                            _maps = new ConcurrentDictionary<string, int>();
+                            for (int i = 0; i < this.Count; i++)
                             {
-                                _maps.Add(date, i);
-                            }
-                            else
-                            {
-                                _maps[date] = i;
+                                //ExchangeMongoData data = this[i] as ExchangeMongoData;
+                                TimeSerialData data = this[i];
+                                string date = this[i]?.Expect;
+                                if (!date.isDate())
+                                {
+                                    date = this[i]?.OpenTime.ToString();
+                                }
+                                if (string.IsNullOrEmpty(date))
+                                    continue;
+                                lock (_maps)
+                                {
+                                    if (!_maps.ContainsKey(date))
+                                    {
+                                        if (!_maps.TryAdd(date, i))
+                                        {
+
+                                        }
+                                    }
+                                    else
+                                    {
+                                        _maps[date] = i;
+                                    }
+                                }
                             }
                         }
                     }
                 }
+                finally
+                {
+                    //LockSlim.ExitWriteLock();
+                }
                 return _maps;
             }
         }
-        public MongoReturnDataList(StockInfoMongoData info,List<T> list)
+        public MongoReturnDataList(StockInfoMongoData info,List<T> list,bool sectype)
         {
             SecInfo = info;
+            isSecurity = sectype;
             list?.ForEach(p => this.Add(p));
         }
 
-        public MongoReturnDataList(StockInfoMongoData info)
+        public MongoReturnDataList(StockInfoMongoData info,bool sectype)
         {
             SecInfo = info;
+            isSecurity = sectype;
         }
 
         public T this[string key]
         {
             get
             {
-                if(maps.ContainsKey(key) && maps[key]>=0 && maps[key]<this.Count)
+                
+                //lock (maps)
+                LockSlim.EnterUpgradeableReadLock();
+                try
                 {
-                    return this[maps[key]];
+                    if (maps.ContainsKey(key) && maps[key] >= 0 && maps[key] < this.Count)
+                    {
+                        return this[maps[key]];
+                    }
+
+                }
+                finally
+                {
+                    LockSlim.ExitUpgradeableReadLock();
                 }
                 return null;
             }
             set
             {
-                if (maps.ContainsKey(key) && maps[key] >= 0 && maps[key] < this.Count)
+                //lock (maps)
+                //LockSlim.EnterWriteLock();
+                try
                 {
-                    this[maps[key]] = value;
-                    return;
+                    if (maps.ContainsKey(key) && maps[key] >= 0 && maps[key] < this.Count)
+                    {
+                        this[maps[key]] = value;
+                    }
+                    else
+                        this.Add(value);
                 }
-                this.Add(value);
+                finally
+                {
+                    //LockSlim.ExitWriteLock();
+                }
+                return;
             }
         }
 
         public MongoReturnDataList<T> LastDays(int N)
         {
             int len = Math.Min(this.Count, N);
-            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(this.SecInfo);
+            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(this.SecInfo,this.isSecurity);
             var items = this.Skip(len - N);
             foreach (var item in items)
             {
@@ -102,15 +147,22 @@ namespace WolfInv.com.BaseObjectsLib
             {
                 return this;
             }
-            if (cprDate > this.Last().Expect.ToDate() || cprDate < this.First().Expect.ToDate())
+            List<T> useList = this.OrderBy(a => a.Expect.ToDate()).ToList();
+            int index = -1;
+            if (cprDate > useList.Last().Expect.ToDate())
             {
-                return new MongoReturnDataList<T>(this.SecInfo);
+                index = useList.Count - 1;
             }
-            int index = this.Keys.ToList().Where(a => a.ToDate() < Date.ToDate()).Count();
+            else if(cprDate < useList.First().Expect.ToDate())
+            {
+                index = 0;
+            }
+            else
+                index = useList.Where(a => a.Expect.ToDate() < Date.ToDate()).Count();
             if (index < 0)
-                return new MongoReturnDataList<T>(this.SecInfo);
-            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(this.SecInfo);
-            foreach (var key in this.Skip(index))
+                return new MongoReturnDataList<T>(this.SecInfo, isSecurity);
+            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(this.SecInfo, isSecurity);
+            foreach (var key in useList.Skip(index))
             {
                 ret.Add(key.Expect , key);
             }
@@ -122,18 +174,31 @@ namespace WolfInv.com.BaseObjectsLib
         {
             this.Add(value);
         }
-
+        ReaderWriterLockSlim LockSlim = new ReaderWriterLockSlim();
         public bool ContainKey(string key)
         {
-            lock (maps)
+            //lock (maps.Keys)
+            
+            LockSlim.EnterUpgradeableReadLock();
+            try
             {
                 bool succ = maps.ContainsKey(key);
                 if (succ)
                 {
                     return maps[key] >= 0 && maps[key] < this.Count;
                 }
-                return succ;
+                return false;
+
             }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                LockSlim.ExitUpgradeableReadLock();
+            }
+
         }
 
         public List<string> Keys
@@ -158,7 +223,7 @@ namespace WolfInv.com.BaseObjectsLib
 
         public MongoReturnDataList<T> Query<Field>(string col,Field val) 
         {
-            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(this.SecInfo);
+            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(this.SecInfo, isSecurity);
             try
             {
                 BsonElement bs = new BsonElement(col,BsonValue.Create(val));
@@ -177,7 +242,7 @@ namespace WolfInv.com.BaseObjectsLib
 
         public MongoReturnDataList<T> Query(BsonDocument func)
         {
-            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(this.SecInfo);
+            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(this.SecInfo, isSecurity);
             try
             {
                 List<T> list = this.FindAll(p => (p as MongoData).Compr(func));
@@ -193,12 +258,12 @@ namespace WolfInv.com.BaseObjectsLib
 
         public object Clone()
         {
-            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(this.SecInfo);
+            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(this.SecInfo, isSecurity);
             this.ForEach(a => ret.Add(a.Clone() as T));
             return ret;
         }
         public MongoReturnDataList<T> Copy(bool Deeply = false)
-        {            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(this.SecInfo);
+        {            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(this.SecInfo, isSecurity);
             this.ForEach(a => ret.Add(Deeply ? a.Clone<T>():a));
             return ret;
         }
@@ -256,7 +321,7 @@ namespace WolfInv.com.BaseObjectsLib
 
         public MongoReturnDataList<T> GetDataByIndies(int[] indies)
         {
-            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(this.SecInfo);
+            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(this.SecInfo, isSecurity);
             for (int i=0;i< indies.Length; i++)
             {
                 ret.Add(this[indies[i]]);
@@ -274,17 +339,20 @@ namespace WolfInv.com.BaseObjectsLib
 
         public MongoReturnDataList<T> GetLastData(int len,string expect,string expectFormat="yyyy-MM-dd",string longFormat="yyyyMMdd")
         {
-            int[] Arr = new int[len];
-            var items = this.Where(a => a.Expect.ToLong(longFormat, expectFormat) <= expect.ToLong(longFormat, expectFormat)).OrderBy(a=>a.Expect);
-            MongoReturnDataList<T> ret = new MongoReturnDataList<T>(this.SecInfo);
-            foreach(var item in items.Skip(Math.Max(0, items.Count() - len)))
+            lock (this)
             {
-                ret.Add(item);
+                int[] Arr = new int[len];
+                var items = this.Where(a => a.Expect.ToLong(longFormat, expectFormat) <= expect.ToLong(longFormat, expectFormat)).OrderBy(a => a.Expect);
+                MongoReturnDataList<T> ret = new MongoReturnDataList<T>(this.SecInfo, isSecurity);
+                foreach (var item in items.Skip(Math.Max(0, items.Count() - len)))
+                {
+                    ret.Add(item);
+                }
+                return ret;
+                for (int i = this.Count - len; i < Count; i++)
+                    Arr[i - (this.Count - len)] = i;
+                return GetDataByIndies(Arr);
             }
-            return ret;
-            for (int i = this.Count-len; i < Count; i++)
-                Arr[i-(this.Count - len)] = i;
-            return GetDataByIndies(Arr);
         }
 
         /*
@@ -295,8 +363,15 @@ namespace WolfInv.com.BaseObjectsLib
         */
     }
 
-    
+    public static class DateString
+    {
+        public static bool isDate(this string str,string format="yyyy-MM-dd")
+        {
+            DateTime outres;
+            return DateTime.TryParseExact(str, format, null, System.Globalization.DateTimeStyles.None, out outres);
+        }
+    }
     
 
 }
-;
+

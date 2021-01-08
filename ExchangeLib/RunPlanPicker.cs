@@ -39,13 +39,19 @@ namespace WolfInv.com.ExchangeLib
         private void btn_select_Click(object sender, EventArgs e)
         {
             StragRunPlanClass<T> srp = new StragRunPlanClass<T>();
-            Dictionary<string,StragRunPlanClass<T>> list = srp.getAllListFromDb<StragRunPlanClass<T>>().ToDictionary(p=>p.GUID,p=>p);
-            CommSelectOjectDialog<StragRunPlanClass<T>> frm = new CommSelectOjectDialog<StragRunPlanClass<T>>(list,"GUID",true,"策略运行计划");
-            frm.ShowDialog(this.Parent);
-            _Plans = frm.SelectObjects;
-            if (_Plans == null) return;
-            this.textBox1.Text = string.Join("/", _Plans.Select(p => p.Plan_Name).ToArray());
+            try
+            {
+                Dictionary<string, StragRunPlanClass<T>> list = srp.getAllListFromDb<StragRunPlanClass<T>>().ToDictionary(p => p.GUID, p => p);
+                CommSelectOjectDialog<StragRunPlanClass<T>> frm = new CommSelectOjectDialog<StragRunPlanClass<T>>(list, "GUID", true, "策略运行计划");
+                frm.ShowDialog(this.Parent);
+                _Plans = frm.SelectObjects;
+                if (_Plans == null) return;
+                this.textBox1.Text = string.Join("/", _Plans.Select(p => p.Plan_Name).ToArray());
+            }
+            catch(Exception ce)
+            {
 
+            }
         }
 
         private void textBox1_DoubleClick(object sender, EventArgs e)

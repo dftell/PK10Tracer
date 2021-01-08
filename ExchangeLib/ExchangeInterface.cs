@@ -34,6 +34,11 @@ namespace WolfInv.com.ExchangeLib
             get;set;
         }
 
+        public string UpdateExpectNo
+        {
+            get;set;
+        }
+
         public ChanceClass<T> OwnerChance
         {
             get
@@ -57,6 +62,7 @@ namespace WolfInv.com.ExchangeLib
             _InExpect = InExpectNo;
             ExExpectNo = CurrExpectNo;
             es = _es;
+            UpdateExpectNo = CurrExpectNo;
         }
 
         public double ExchangeAmount;

@@ -11,11 +11,16 @@ namespace WolfInv.com.SecurityLib
 {
     public class FirstPointFilter<T> : CommFilterLogicBaseClass<T> where T:TimeSerialData
     {
-        public FirstPointFilter(CommSecurityProcessClass<T> secinfo):base(secinfo)
+        public FirstPointFilter(string expect,CommSecurityProcessClass<T> secinfo, PriceAdj priceAdj = PriceAdj.Fore, Cycle cyc = Cycle.Day) :base(expect,secinfo, priceAdj, cyc)
         {
 
         }
 
+        /// <summary>
+        /// 禁用
+        /// </summary>
+        /// <param name="cyc"></param>
+        /// <param name="rate"></param>
         public FirstPointFilter(Cycle cyc, PriceAdj rate):base(cyc,rate)
         {
         }
@@ -41,7 +46,7 @@ namespace WolfInv.com.SecurityLib
             return null;
         }
 
-        public override CommSecurityProcessClass<T> ExecFilter(CommStrategyInClass Input)
+        public override SelectResult ExecFilter(CommStrategyInClass Input)
         {
             return base.ExecFilter(Input);
         }

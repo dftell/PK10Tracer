@@ -62,7 +62,6 @@ E:\projects\PK10Tracer\PK10Server.pdb
 E:\github\source\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.csprojAssemblyReference.cache
 E:\github\source\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.exe.config
 E:\github\source\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.BaseTForm.resources
-E:\github\source\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.frm_MoniteStrag.resources
 E:\github\source\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.frm_NewStrag.resources
 E:\github\source\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.frm_StragManager.resources
 E:\github\source\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.frm_StragMonitor.resources
@@ -75,3 +74,5 @@ E:\github\source\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.csproj.Co
 E:\github\source\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.csproj.CopyComplete
 E:\github\source\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.exe
 E:\github\source\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.pdb
+E:\github\source\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.testWindow.resources
+E:\github\source\dftell\PK10Tracer\PK10Server\obj\x86\Debug\PK10Server.frm_MoniteStrag.resources

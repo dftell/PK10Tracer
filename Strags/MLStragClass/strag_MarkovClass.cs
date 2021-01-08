@@ -47,7 +47,7 @@ namespace WolfInv.com.Strags.MLStragClass
             List <ChanceClass> ret = new List<ChanceClass>();
             Dictionary<int, List<int>> useList = new Dictionary<int, List<int>>();
             MarkovCategoryFactioryClass<TimeSerialData> mcf = new MarkovCategoryFactioryClass<TimeSerialData>();
-            ExpectList<TimeSerialData> data = this.LastUseData().LastDatas(ReviewExpectCnt,false);
+            ExpectList<TimeSerialData> data = this.LastUseData().LastDatas(ReviewExpectCnt,false,1);
             mcf.Init(data);
             List<string> useResList = new List<string>();
             Dictionary<int,List<KeyValuePair<int, double>>> allColList = new Dictionary<int,List<KeyValuePair<int, double>>>();
@@ -120,11 +120,14 @@ namespace WolfInv.com.Strags.MLStragClass
             {
                 foreach(var res in useRes)
                 {
-                    /* 暂时不用
-                    if(int.Parse(currEd.ValueList[res.Key-1]).ToString()== res.Value.Keys.First().ToString())
+                    /* 暂时不用*/
+                    if (this.GetRev)
                     {
-                        continue;
-                    }*/
+                        if (int.Parse(currEd.ValueList[res.Key - 1]).ToString() == res.Value.Keys.First().ToString())
+                        {
+                            continue;
+                        }
+                    }
                     useResList.Add(string.Format("{0}", res.Value.Keys.First()));
                 }
                 string[] strRev = useResList.ToArray();

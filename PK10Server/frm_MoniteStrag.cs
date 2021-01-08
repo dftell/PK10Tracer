@@ -15,6 +15,7 @@ using WolfInv.com.SecurityLib;
 using System.ServiceProcess;
 using WolfInv.com.PK10CorePress;
 using DataRecSvr;
+using System.Threading;
 
 namespace PK10Server
 {
@@ -23,6 +24,7 @@ namespace PK10Server
         public frm_MoniteStrag()
         {
             InitializeComponent();
+            LoadPicker();
         }
         bool Running = false;
         StragRunPlanClass<T> spr = null;
@@ -30,9 +32,21 @@ namespace PK10Server
         string lastExpect = null;
         delegate void SetCtrlDelegate(string ctrlId, object obj);
 
-
+        void LoadPicker()
+        {
+            this.runPlanPicker1 = new RunPlanPicker<T>();
+            this.runPlanPicker1.Location = new System.Drawing.Point(131, 17);
+            this.runPlanPicker1.Name = "runPlanPicker1";
+            this.runPlanPicker1.Plans = null;
+            this.runPlanPicker1.Size = new System.Drawing.Size(112, 16);
+            this.runPlanPicker1.TabIndex = 2;
+            this.Controls.Add(this.runPlanPicker1);
+        }
         private void frm_MoniteStrag_Load(object sender, EventArgs e)
         {
+            
+
+
             //Program<T>.AllGlobalSetting.wxlog.Log("单策略监控","启用", string.Format(GlobalClass.LogUrl, GlobalClass.WXLogHost));
             this.txt_DtpName.Text = GlobalClass.DataTypes.First().Value;
             timer1.Interval = 1000 * int.Parse(this.txt_intersec.Text.Trim());
@@ -149,7 +163,7 @@ namespace PK10Server
                     );
                 return;
 
-                List<ChanceClass<T>> cs = runstg.getChances(sc, ViewDataList.LastData);
+                List<ChanceClass<T>> cs = runstg.getChances(sc, ViewDataList.LastData,true);
                 double val = (runstg as ISpecAmount<T>).getChipAmount(runstg.allowInvestmentMaxValue, cc, amt);
                 
                 if (ViewDataList == null || ViewDataList.Count == 0)
@@ -227,7 +241,7 @@ namespace PK10Server
             {
                 if(!spr.AssetUnitInfo.Running)
                 {
-                    spr.AssetUnitInfo.Run();
+                    spr.AssetUnitInfo.Run(null);
                 }
                 Running = true;
                 this.btn_startMonite.Text = "停止";
@@ -265,6 +279,7 @@ namespace PK10Server
                     MessageBox.Show("Dtp不存在");
                     return;
                 }
+                this.Cursor = Cursors.WaitCursor;
                 DataTypePoint dtp = dtps.First().Value;
                 AmoutSerials amt = new AmoutSerials();
                 ChanceClass<T> cc = new ChanceClass<T>();
@@ -290,7 +305,7 @@ namespace PK10Server
                         System.Globalization.DateTimeStyles.AdjustToUniversal,
                         out currDate))
                         {
-                            MessageBox.Show(strDate + "非正常日期格式！");
+                            throw new Exception(strDate + "非正常日期格式！");
                             return;
                         }
                         int days = (int)Math.Ceiling((double)(revCnt / dtp.ExpectCodeCounterMax)) + 1;//需要提前的数据长度除以单日最大数=日期数
@@ -298,8 +313,8 @@ namespace PK10Server
                         if (dtp.IsSecurityData == 0)
                             revCnt = currLng - calcLng * (long)Math.Pow(10, dtp.ExpectCodeCounterLen);
                     }
-                }
-                ExpectList<T> ViewDataList = er.ReadNewestData(this.txt_lastExpect.Text,(int)(revCnt + 20),false);
+                }  
+                ExpectList<T> ViewDataList = er.ReadNewestData(this.txt_lastExpect.Text,(int)(revCnt + 20),false,this.txt_SecPools.Text);
                 string strexpect = ViewDataList.LastData.Expect;
                 //this.txt_lastExpect.Text = strexpect;
                 this.lastExpect = strexpect;
@@ -352,15 +367,21 @@ namespace PK10Server
                             Txt_Chances.Invoke(new SetCtrlDelegate(SetCtrlById), new object[] { this.Txt_Chances.Name, currLines.ToArray() });
 
                         }
-                        this.Txt_Chances.Refresh();
+                        //this.Txt_Chances.Refresh();
                         MessageBox.Show("执行完毕！");
                     }
-                    catch
+                    catch(Exception ce)
                     {
 
                     }
                 };
+                Application.DoEvents();
                 calc.Calc();
+                while (!calc.CalcFinished)
+                {
+                    Thread.Sleep(1 * 100);
+                }
+                //Application.DoEvents();
                 Program<T>.AllGlobalSetting.AllRunningPlanGrps = allgroups;//恢复原有的计划组
                 allgroups.Values.ToList().ForEach(
                     grp =>
@@ -388,6 +409,10 @@ namespace PK10Server
                 this.toolStripStatusLabel1.Text = ce.Message;
                 MessageBox.Show(ce.Message);
                 return;
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
             }
 
         }

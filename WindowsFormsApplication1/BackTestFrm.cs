@@ -22,15 +22,23 @@ using BackTestSystem;
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.SecurityLib;
 using WolfInv.com.WDDataInit;
+using System.Collections.Concurrent;
+using System.Collections;
+using AIEquity;
+using System.Threading.Tasks;
+
 namespace BackTestSys
 {
+    
     public partial class BackTestFrm<T> : Form where T : TimeSerialData
     {
         BackgroundWorker bw;
         BackTestReturnClass<T> ret = null;
         BackTestClass<T> btc = null;
         MainForm<T> CheckFrm;
-        Dictionary<string, ExchangeService<T>> ess;
+        Form1<T> SecCheckFrm;
+        //Dictionary<string, ExchangeService<T>> ess;
+        Hashtable ess;
         BaseStragClass<T> sc;
         Thread th = null;
         GlobalClass globalSetting = new GlobalClass();
@@ -50,7 +58,7 @@ namespace BackTestSys
                 if (_RunVirExchange && this.chart1.Series.Count > 0)
                 {
                     this.chart1.Series[0].Points.Clear();//DataBindXY(moneyLines, "id", moneyLines, "val");
-                    this.dataGridView_ExchangeDetail.DataSource = null;
+                    //this.dataGridView_ExchangeDetail.DataSource = null;
                     //this.btn_VirExchange.Text = "停止交易"; 
                 }
                 else
@@ -64,7 +72,30 @@ namespace BackTestSys
         public BackTestFrm()
         {
             InitializeComponent();
+            Init_Picker();
+        }
+
+        void Init_Picker()
+        {
+            this.runPlanPicker1 = new WolfInv.com.ExchangeLib.RunPlanPicker<T>();
+            // 
+            // runPlanPicker1
+            // 
+            this.runPlanPicker1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.runPlanPicker1.Location = new System.Drawing.Point(108, 21);
+            this.runPlanPicker1.Margin = new System.Windows.Forms.Padding(6);
+            this.runPlanPicker1.Name = "runPlanPicker1";
+            this.runPlanPicker1.Plans = null;
+            this.runPlanPicker1.Size = new System.Drawing.Size(288, 21);
+            this.runPlanPicker1.TabIndex = 31;
+            this.tabPage_usePlan.Controls.Add(this.runPlanPicker1);
+        }
+        private void BackTestFrm_Load(object sender, EventArgs e)
+        {
             InitFrm();
+            this.timer_Tip.Enabled = false;
+            //this.txt_InitCash.Text = int.MaxValue.ToString();
         }
         void InitFrm()
         { 
@@ -118,6 +149,7 @@ namespace BackTestSys
             this.listView3.Columns.Add("首次概率", 200);
             this.listView3.ListViewItemSorter = new ListViewItemComparer();
             tsmi_ExportExcel.Click += new EventHandler(tsmi_ExportExcel_Click);
+            tsmi_ImportExcel.Click += new EventHandler(Tsmi_ImportExcel_Click);
             this.dataGridView_ProbData.ContextMenuStrip = contextMenuStrip_ForListView;
             this.listView2.ContextMenuStrip = contextMenuStrip_ForListView;
             this.listView3.ContextMenuStrip = contextMenuStrip_ForListView;
@@ -127,11 +159,20 @@ namespace BackTestSys
             LoadDataSrc(this.ddl_DataSource);
             if(GlobalClass.TypeDataPoints.First().Value.IsSecurityData==1)
             {
-                this.txt_begExpNo.Text = "2008-01-01";
+                this.txt_begExpNo.Text = "2018-01-01";
                 this.txt_endExpNo.Text = DateTime.Today.WDDate();
                 this.txt_LoopCnt.Text = "1000";
-                this.txt_InitCash.Text = "100000000";
+                this.txt_InitCash.Text = "10000000";
             }
+        }
+
+        
+        private void Tsmi_ImportExcel_Click(object sender, EventArgs e)
+        {
+            CExcel ce = new CExcel();
+            object src = ((sender as ToolStripMenuItem).Owner as ContextMenuStrip).SourceControl;
+            if (src == null) return;
+            ce.ImportExcel(src as DataGridView);
         }
 
         public static void LoadDataSrc(ComboBox ddl_DataSource)
@@ -188,23 +229,34 @@ namespace BackTestSys
             DoSomething(worker, e);
         }
 
-        void Finished()
+        void Finished(string ex)
         {
-            this.timer_Tip.Enabled = false;
-            if (checkBox_MixAll.Checked)
+            try
             {
-                AssetUnitClass<T> auc = SCList[0].AssetUnitInfo;
-                auc.SaveDataToFile();
-            }
-            else
-            {
-                SCList.ForEach(a =>
+                //this.timer_Tip.Enabled = false;
+                if (checkBox_MixAll.Checked)
                 {
-                    AssetUnitClass<T> auc = a.AssetUnitInfo;
+                    AssetUnitClass<T> auc = SCList[0].AssetUnitInfo;
                     auc.SaveDataToFile();
-                });
+                }
+                else
+                {
+                    bool tmp = this.chkb_noDetailTable.Checked;
+                    this.chkb_noDetailTable.Checked = false;
+                    refreshExchangData(ex,ess, true);
+                    this.chkb_noDetailTable.Checked = tmp;
+                    SCList.ForEach(a =>
+                    {
+                        AssetUnitClass<T> auc = a.AssetUnitInfo;
+                        auc.SaveDataToFile();
+                    });
+                }
+                MessageBox.Show("执行完毕！");
             }
-            MessageBox.Show("执行完毕！");
+            catch(Exception ce)
+            {
+                MessageBox.Show(ce.Message);
+            }
         }
         Thread thrd = null;
         private void DoSomething(BackgroundWorker worker, DoWorkEventArgs e)
@@ -253,7 +305,7 @@ namespace BackTestSys
             ////////////////////////    return;
             ////////////////////////}
             #endregion
-            btc = new BackTestClass<T>(GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()], txt_begExpNo.Text, long.Parse(txt_LoopCnt.Text), setting);
+            btc = new BackTestClass<T>(GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()],txt_SecPools.Text, txt_begExpNo.Text, long.Parse(txt_LoopCnt.Text), setting);
             this.listView1.Items.Clear();
             this.listView2.Items.Clear();
             this.listView3.Items.Clear();
@@ -280,9 +332,9 @@ namespace BackTestSys
             }
             sc = SCList[0].PlanStrag;
             this.Cursor = Cursors.WaitCursor;
-            timer_Tip.Tick += new EventHandler(RefreshList);
-            this.timer_Tip.Interval = int.Parse(txt_Timer_Interval.Text) * 1000;
-            this.timer_Tip.Enabled = true;
+            //timer_Tip.Tick += new EventHandler(RefreshList);
+            //this.timer_Tip.Interval = int.Parse(txt_Timer_Interval.Text) * 1000;
+            //this.timer_Tip.Enabled = true;
 
             try
             {
@@ -348,7 +400,7 @@ namespace BackTestSys
             if (!ret.succ && ret.Msg != null)
             {
 
-                this.timer_Tip.Enabled = false;
+                //this.timer_Tip.Enabled = false;
                 MessageBox.Show(ret.Msg);
                 return;
             }
@@ -422,7 +474,7 @@ namespace BackTestSys
             }
             if (ret.succ)
             {
-                this.timer_Tip.Enabled = false;
+                //this.timer_Tip.Enabled = false;
             }
         }
 
@@ -504,6 +556,11 @@ namespace BackTestSys
             ce.ExportCSV(this.listView1);
         }
 
+        void tsmi_DisplayAll_Click(object sender, EventArgs e)
+        {
+            refreshExchangData("",ess, true);
+        }
+
         private void listView2_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             listView_ColumnClick(sender, e);
@@ -531,7 +588,7 @@ namespace BackTestSys
                 TextBox tb = this.Controls.Find(string.Format("txt_minColTimes{0}", i + 1), true)[0] as TextBox;
                 setting.minColTimes[i] = int.Parse(tb.Text);
             }
-            btc = new BackTestClass<T>(GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()], txt_begExpNo.Text, long.Parse(txt_LoopCnt.Text), setting);
+            btc = new BackTestClass<T>(GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()],txt_SecPools.Text, txt_begExpNo.Text, long.Parse(txt_LoopCnt.Text), setting);
             Assembly asmb = typeof(StragClass).Assembly;
             //////Type sct = asmb.GetType(ddl_StragName.SelectedValue.ToString());
             //////StragClass sc = Activator.CreateInstance(sct) as StragClass;
@@ -634,6 +691,9 @@ namespace BackTestSys
         /// <param name="e"></param>
         private void btn_VirExchange_Click(object sender, EventArgs e)
         {
+            this.dataGridView_ExchangeDetail.DataError += (a, b)=>{ };
+            this.dataGridView_ProbData.DataError += (a, b) => { };
+            
             if (this.ddl_DataSource.SelectedIndex < 0)
             {
                 MessageBox.Show("请选择回测数据源！");
@@ -654,6 +714,7 @@ namespace BackTestSys
                 {
                     return;
                 }
+                this.toolStripStatusLabel1.Text = "开始模拟交易！";
             }
             if (RunVirExchange)
             {
@@ -661,6 +722,7 @@ namespace BackTestSys
                 {
                     return;
                 }
+                this.toolStripStatusLabel1.Text = "停止模拟交易！";
                 try
                 {
                     if (th.ThreadState == ThreadState.Running)
@@ -673,262 +735,269 @@ namespace BackTestSys
                 {
                 }
                 th = null;
-                this.timer_Tip.Enabled = false;
+                //this.timer_Tip.Enabled = false;
                 RunVirExchange = false;
                 return;
             }
-            this.RunVirExchange = true;
-            DataTypePoint dtp = GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()];
-            //this.btn_VirExchange.Text = "停止";
-            //this.Cursor = Cursors.WaitCursor;
-            //es = new ExchangeService(int.Parse(this.txt_InitCash.Text),double.Parse(this.txt_Odds.Text));
-            SettingClass setting = new SettingClass();
-            setting.SetGlobalSetting(this.globalSetting);
-            setting.GrownMaxVal = int.Parse(this.txt_GrownMaxVal.Text);
-            setting.GrownMinVal = int.Parse(this.txt_GrownMinVal.Text);
-            setting.DispRows = int.Parse(this.txt_MinCols.Text);
-            setting.minColTimes = new int[10];
-            setting.UseLocalWaveData = this.checkBox_UseBuffRsult.Checked;
-            AssetUnitClass<T> auc = new AssetUnitClass<T>();
-            if (Program<T>.AllSettings.AllAssetUnits.Count > 0)//如果存在资产管理单元，所有计划均绑定到第一个上进行测试
+            try
             {
-                auc = Program<T>.AllSettings.AllAssetUnits.Values.Last();
+                this.RunVirExchange = true;
+                DataTypePoint dtp = GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()];
+                //this.btn_VirExchange.Text = "停止";
+                //this.Cursor = Cursors.WaitCursor;
+                //es = new ExchangeService(int.Parse(this.txt_InitCash.Text),double.Parse(this.txt_Odds.Text));
+                SettingClass setting = new SettingClass();
+                setting.SetGlobalSetting(this.globalSetting);
+                setting.GrownMaxVal = int.Parse(this.txt_GrownMaxVal.Text);
+                setting.GrownMinVal = int.Parse(this.txt_GrownMinVal.Text);
+                setting.DispRows = int.Parse(this.txt_MinCols.Text);
+                setting.minColTimes = new int[10];
+                setting.UseLocalWaveData = this.checkBox_UseBuffRsult.Checked;
+                AssetUnitClass<T> auc = new AssetUnitClass<T>();
+                if (Program<T>.AllSettings.AllAssetUnits.Count > 0)//如果存在资产管理单元，所有计划均绑定到第一个上进行测试
+                {
+                    auc = Program<T>.AllSettings.AllAssetUnits.Values.Last();
 
-            }
-            auc.TotalAsset = double.Parse(this.txt_InitCash.Text);
-            //es = auc.getCurrExchangeServer();
-            //if (es != null)
-            //{
-            //    es.Reset();
-            //}
-            //设置所有默认值
-            if (ess == null)
-                ess = new Dictionary<string, ExchangeService<T>>();
-            if (checkBox_MixAll.Checked)
-            {
-                SCList.ForEach(p => p.AssetUnitInfo = auc);
-                ess.Add(SCList[0].AssetUnitInfo.UnitId, new ExchangeService<T>(dtp));
-            }
-            else
-            {
-                //Series s = this.chart1.Series[0];
-                //this.chart1.Series.Clear();
-                SCList.ForEach(
-                    a =>
-                    {
-                        AssetUnitClass<T> ac = new AssetUnitClass<T>();
-                        ac.UnitName = a.Plan_Name;
-                        ac.UnitId = Guid.NewGuid().ToString();
-                        if(chkb_useOdds.Checked)
+                }
+                auc.TotalAsset = double.Parse(this.txt_InitCash.Text);
+                //es = auc.getCurrExchangeServer();
+                //if (es != null)
+                //{
+                //    es.Reset();
+                //}
+                //设置所有默认值
+                if (ess == null)
+                {
+                    ess = new Hashtable();
+                    //ess = new Dictionary<string, ExchangeService<T>>();
+                }
+                if (checkBox_MixAll.Checked)
+                {
+                    SCList.ForEach(p => p.AssetUnitInfo = auc);
+                    ess.Add(SCList[0].AssetUnitInfo.UnitId, new ExchangeService<T>(dtp));
+                }
+                else
+                {
+                    //Series s = this.chart1.Series[0];
+                    //this.chart1.Series.Clear();
+                    SCList.ForEach(
+                        a =>
                         {
-                            ac.Odds = double.Parse(txt_Odds.Text);
-                        }
-                        ac.TotalAsset = double.Parse(this.txt_InitCash.Text);
-                        if (!Program<T>.AllSettings.AllAssetUnits.ContainsKey(ac.UnitId))
-                        {
-                            Program<T>.AllSettings.AllAssetUnits.Add(ac.UnitId, ac);
-                        }
-                        a.AssetUnitInfo = ac;
-                        ExchangeService<T> es = ac.getCurrExchangeServer();
-                        if (es != null)
-                        {
-                            es.Reset();
-                        }
-                        ess.Add(ac.UnitId, new ExchangeService<T>(dtp));
+                            AssetUnitClass<T> ac = new AssetUnitClass<T>();
+                            ac.UnitName = a.Plan_Name;
+                            ac.UnitId = Guid.NewGuid().ToString();
+                            if (chkb_useOdds.Checked)
+                            {
+                                ac.Odds = double.Parse(txt_Odds.Text);
+                            }
+                            ac.TotalAsset = double.Parse(this.txt_InitCash.Text);
+                            if (!Program<T>.AllSettings.AllAssetUnits.ContainsKey(ac.UnitId))
+                            {
+                                Program<T>.AllSettings.AllAssetUnits.Add(ac.UnitId, ac);
+                            }
+                            a.AssetUnitInfo = ac;
+                            ExchangeService<T> es = ac.getCurrExchangeServer();
+                            if (es != null)
+                            {
+                                es.Reset();
+                            }
+                            ess.Add(ac.UnitId, new ExchangeService<T>(dtp));
                         //Series cs = new Series(ac.UnitName);
                         //cs.ChartType = s.ChartType;
                         //cs.BorderWidth = new Random().Next(10);
                         //this.chart1.Series.Add(cs);
                         //ac.Run();
                     });
-            }
-            SCList.ForEach(p =>
-            {
-                p.PlanStrag.CommSetting = setting;
-                p.Running = true;
-                p.AutoRunning = true;
+                }
+                SCList.ForEach(p =>
+                {
+                    p.PlanStrag.CommSetting = setting;
+                    p.Running = true;
+                    p.AutoRunning = true;
                 //p.PlanStrag.ReviewExpectCnt = int.Parse(this.txt_reviewExpCnt.Text);
             });
-            if(this.ckb_useCondition.Checked)
-            {
-                SCList.ForEach(a=> {
-                    a.PlanStrag.ReviewExpectCnt = int.Parse(this.txt_reviewExpCnt.Text);
-                    a.PlanStrag.GetRev = this.chkb_getRev.Checked;
-                    a.PlanStrag.InputMinTimes = int.Parse(this.txt_minInputTimes.Text);
-                    a.PlanStrag.InputMaxTimes = int.Parse(this.txt_maxInputTimes.Text);
-                    a.PlanStrag.FixChipCnt = (this.txt_FixChipCnt.Text.Trim() == "1");
-                    a.PlanStrag.ChipCount = int.Parse(this.txt_ChipCnt.Text);
-                });
-            }
-            //SCList.ForEach(p => p.Running = true);
-            //SCList.ForEach(p => p.AutoRunning = true);
-            //SCList.ForEach(p => p.PlanStrag.ReviewExpectCnt = int.Parse(this.txt_reviewExpCnt.Text));
-            //if (SCList.Count == 1)
-            //{
-            //    //SCList[0].PlanStrag = sc;
-            //////SCList.ForEach(p=>p.IncreamType = this.checkBox_CreamModel.Checked ? InterestType.CompoundInterest : InterestType.SimpleInterest);
-
-            //////////SCList.ForEach(p=>p.FixAmt = 1);
-            //////////SCList.ForEach(p=>p.FixRate = 0.01);
-            //////SCList.ForEach(p => p.AllowMaxHoldTimeCnt = int.Parse(txt_AllowMaxHoldTimeCnt.Text));
-            //////if (SCList.Count == 1)
-            //////{
-            //////    SCList.ForEach(p => p.PlanStrag.ChipCount = int.Parse(this.txt_ChipCnt.Text));
-            //////}
-            //}
-            #region 用新的计算进行回测
-            ////////////////for (int i = 0; i < 9; i++)
-            ////////////////{
-            ////////////////    TextBox tb = this.Controls.Find(string.Format("txt_minColTimes{0}", i + 1), true)[0] as TextBox;
-            ////////////////    setting.minColTimes[i] = int.Parse(tb.Text);
-            ////////////////}
-            ////////////////setting.MaxHoldingCnt = int.Parse(this.txt_MaxHoldChanceCnt.Text);
-            ////////////////setting.Odds = double.Parse(this.txt_Odds.Text);
-            ////////////////setting.InitCash = int.Parse(this.txt_InitCash.Text);
-            ////////////////Assembly asmb = typeof(StragClass).Assembly;// Assembly.LoadFrom("EnterpriseServerBase.dll");
-            ////////////////btc = new BackTestClass(long.Parse(txt_begExpNo.Text), long.Parse(txt_LoopCnt.Text), setting);
-            ////////////////////Type sct = asmb.GetType(ddl_StragName.SelectedValue.ToString());
-
-
-            ////////////////if (!checkBox_MixAll.Checked)
-            ////////////////{
-            ////////////////    ////sc = Activator.CreateInstance(sct) as StragClass;
-            ////////////////    sc.CommSetting = setting;
-            ////////////////    sc.ChipCount = int.Parse(this.txt_ChipCnt.Text);
-            ////////////////    sc.FixChipCnt = (this.txt_FixChipCnt.Text.Trim() == "0") ? false : true;
-            ////////////////    sc.ReviewExpectCnt = int.Parse(this.txt_reviewExpCnt.Text);
-            ////////////////    sc.InputMinTimes = int.Parse(this.txt_minInputTimes.Text);
-            ////////////////    if (sc.StagSetting.IsLongTermCalc)
-            ////////////////    {
-            ////////////////        sc.ReviewExpectCnt = sc.ReviewExpectCnt + sc.InputMinTimes;
-            ////////////////    }
-            ////////////////    sc.InputMaxTimes = int.Parse(this.txt_maxInputTimes.Text);
-            ////////////////    sc.ExcludeBS = this.chkb_exclueBS.Checked;
-            ////////////////    sc.ExcludeSD = this.chkb_exclueSD.Checked;
-            ////////////////    sc.BySer = this.chkb_bySer.Checked;
-            ////////////////    sc.OnlyBS = this.chkb_onlyBS.Checked;
-            ////////////////    sc.OnlySD = this.chkb_onlySD.Checked;
-            ////////////////    sc.GetRev = this.chkb_getRev.Checked;
-            ////////////////    if (sc is IProbCheckClass)
-            ////////////////    {
-            ////////////////        (sc as IProbCheckClass).StdvCnt = double.Parse(this.txt_StdvCnt.Text);
-            ////////////////    }
-            ////////////////    //sc.AllowMaxHoldTimeCnt = int.Parse(this.txt_AllowMaxHoldTimeCnt.Text);
-            ////////////////    sc.MinWinRate = double.Parse(this.txt_minRate.Text);
-            ////////////////    ////double p = double.Parse(this.txt_ChipCnt.Text) / setting.Odds;
-            ////////////////    ////double Normal_p = double.Parse(this.txt_ChipCnt.Text) / 10;
-            ////////////////    ////double b = double.Parse(this.txt_Odds.Text);
-            ////////////////    ////double q = 1 - p;
-            ////////////////    sc.StagSetting = sc.getInitStagSetting();
-            ////////////////    ////sc.StagSetting.BaseType.ChipRate = (p * b - q) / b;
-            ////////////////    //sc.StagSetting.BaseType.IncrementType = this.checkBox_CreamModel.Checked ? InterestType.CompoundInterest : InterestType.SimpleInterest;
-
-            ////////////////    if (setting.UseLocalWaveData && sc is ProbWaveSelectStragClass)//是长期概率分布类
-            ////////////////    {
-            ////////////////        DataTable dt = new PK10ProbWaveDataInterface().GetProWaveResult(long.Parse(txt_begExpNo.Text));
-            ////////////////        (sc as ProbWaveSelectStragClass).LocalWaveData = new GuideResult(dt);
-            ////////////////    }
-            ////////////////    StragRunPlanClass sr = new StragRunPlanClass();
-            ////////////////    sr.PlanStrag = sc;
-            ////////////////    sr.IncreamType = this.checkBox_CreamModel.Checked ? InterestType.CompoundInterest : InterestType.SimpleInterest;
-            ////////////////    sr.AutoRunning = true;
-            ////////////////    sr.FixAmt = 1;
-            ////////////////    sr.FixRate = 0.01;
-            ////////////////    SCList.Add(sr);
-            ////////////////}
-            ////////////////else
-            ////////////////{
-            ////////////////    for (int i = 2; i < 9; i++)
-            ////////////////    {
-            ////////////////        for (int j = 0; j < 2; j++)
-            ////////////////        {
-            ////////////////            StragClass sobj = Activator.CreateInstance(sct) as StragClass;
-            ////////////////            sobj.CommSetting = setting;
-            ////////////////            sobj.ChipCount = i;
-            ////////////////            sobj.FixChipCnt = (this.txt_FixChipCnt.Text.Trim() == "0") ? false : true;
-            ////////////////            sobj.ReviewExpectCnt = sobj.CommSetting.minColTimes[i - 1] + 1;
-            ////////////////            sobj.BySer = j==1;
-            ////////////////            sobj.MinWinRate = double.Parse(this.txt_minRate.Text);
-            ////////////////            //sobj.AllowMaxHoldTimeCnt = 100;
-            ////////////////            sobj.StagSetting = sobj.getInitStagSetting();
-            ////////////////            //sobj.StagSetting.BaseType.IncrementType = this.checkBox_CreamModel.Checked ? InterestType.CompoundInterest : InterestType.SimpleInterest;
-            ////////////////            StragRunPlanClass sr = new StragRunPlanClass();
-            ////////////////            sr.PlanStrag = sobj;
-            ////////////////            sr.IncreamType = this.checkBox_CreamModel.Checked ? InterestType.CompoundInterest : InterestType.SimpleInterest;
-            ////////////////            sr.AutoRunning = true;
-            ////////////////            sr.FixAmt = 1;
-            ////////////////            sr.FixRate = 0.01;
-            ////////////////            SCList.Add(sr);
-            ////////////////        }
-            ////////////////    }
-            ////////////////}
-            //////////////////sc.MinWinRate = double.Parse(this.txt_Odds.Text) *double.Parse(this.txt_minRate.Text);
-            //////////////////凯利公式 (p*b-q)/b
-            //////////////////凯利公式 (p*b-q)/b
-            //////////////////////DialogResult rs = MessageBox.Show(sc.StagSetting.BaseType.ChipRate.ToString(), "胜率", MessageBoxButtons.OKCancel) ;
-            //////////////////////if (rs == DialogResult.Cancel)
-            //////////////////////{
-            //////////////////////    return;
-            //////////////////////}
-            #endregion
-            //this.Cursor = Cursors.WaitCursor;
-            this.chart1.Series.Clear();
-            //this.chart1.DataSource = null;
-            this.timer_Tip.Interval = int.Parse(txt_Timer_Interval.Text) * 1000;
-            timer_Tip.Tick += new EventHandler(timer_Tip_Tick);
-            //this.timer_Tip.Enabled = true;
-            this.timer_Tip.Enabled = true;
-
-            //this.timer_Tip_Tick(null, null);
-            //////try
-            //////{
-            string BegT = "";
-            string EndT = "";
-
-            if (ddl_DataSource.SelectedValue.ToString().Equals("CN_Stock_A"))
-            {
-                DateTime dtbeg = DateTime.Parse(this.txt_begExpNo.Text);
-                DateTime dtend = DateTime.Parse(this.txt_endExpNo.Text);
-                BegT = dtbeg.WDDate();
-                EndT = dtend.WDDate();
-            }
-            else
-            {
-                BegT = this.txt_begExpNo.Text;
-                EndT = this.txt_endExpNo.Text;
-            }
-            int maxReviews = SCList.Max(a => a.PlanStrag.ReviewExpectCnt);
-            
-            
-            if(dtp.IsSecurityData==1)
-            {
-                WDDataInit<T>.vipDocRoot = Program<T>.AllSettings.gc.VipDocRootPath;
-                if(WDDataInit<T>.AllDays == null)
+                if (this.ckb_useCondition.Checked)
                 {
-                    WDDataInit<T>.Init();
+                    SCList.ForEach(a =>
+                    {
+                        a.PlanStrag.ReviewExpectCnt = int.Parse(this.txt_reviewExpCnt.Text);
+                        a.PlanStrag.GetRev = this.chkb_getRev.Checked;
+                        a.PlanStrag.InputMinTimes = int.Parse(this.txt_minInputTimes.Text);
+                        a.PlanStrag.InputMaxTimes = int.Parse(this.txt_maxInputTimes.Text);
+                        a.PlanStrag.FixChipCnt = (this.txt_FixChipCnt.Text.Trim() == "1");
+                        a.PlanStrag.ChipCount = int.Parse(this.txt_ChipCnt.Text);
+                    });
                 }
-                DateTime[] alldate = WDDataInit<T>.AllDays;
-                int index = alldate.IndexOf(BegT);
-                if (index < 0)
-                    BegT = alldate.First().WDDate();
-                else
-                    BegT = alldate[Math.Max(0,index-maxReviews)].WDDate();
-            }
-            if (btc == null)
-                btc = new BackTestClass<T>(dtp, BegT, long.Parse(txt_LoopCnt.Text)+maxReviews, setting, EndT);
-            th = new Thread(RunVirtual);
-            th.Start();
-            return;
-            //////}
-            //////catch (Exception ce)
-            //////{
-            //////    ret = new BackTestReturnClass();
-            //////    ret.ChanceList = new List<ChanceClass>();
-            //////    ret.Msg = ce.Message;
-            //////    ret.succ = false;
-            //////}
-        }
+                //SCList.ForEach(p => p.Running = true);
+                //SCList.ForEach(p => p.AutoRunning = true);
+                //SCList.ForEach(p => p.PlanStrag.ReviewExpectCnt = int.Parse(this.txt_reviewExpCnt.Text));
+                //if (SCList.Count == 1)
+                //{
+                //    //SCList[0].PlanStrag = sc;
+                //////SCList.ForEach(p=>p.IncreamType = this.checkBox_CreamModel.Checked ? InterestType.CompoundInterest : InterestType.SimpleInterest);
 
+                //////////SCList.ForEach(p=>p.FixAmt = 1);
+                //////////SCList.ForEach(p=>p.FixRate = 0.01);
+                //////SCList.ForEach(p => p.AllowMaxHoldTimeCnt = int.Parse(txt_AllowMaxHoldTimeCnt.Text));
+                //////if (SCList.Count == 1)
+                //////{
+                //////    SCList.ForEach(p => p.PlanStrag.ChipCount = int.Parse(this.txt_ChipCnt.Text));
+                //////}
+                //}
+                #region 用新的计算进行回测
+                ////////////////for (int i = 0; i < 9; i++)
+                ////////////////{
+                ////////////////    TextBox tb = this.Controls.Find(string.Format("txt_minColTimes{0}", i + 1), true)[0] as TextBox;
+                ////////////////    setting.minColTimes[i] = int.Parse(tb.Text);
+                ////////////////}
+                ////////////////setting.MaxHoldingCnt = int.Parse(this.txt_MaxHoldChanceCnt.Text);
+                ////////////////setting.Odds = double.Parse(this.txt_Odds.Text);
+                ////////////////setting.InitCash = int.Parse(this.txt_InitCash.Text);
+                ////////////////Assembly asmb = typeof(StragClass).Assembly;// Assembly.LoadFrom("EnterpriseServerBase.dll");
+                ////////////////btc = new BackTestClass(long.Parse(txt_begExpNo.Text), long.Parse(txt_LoopCnt.Text), setting);
+                ////////////////////Type sct = asmb.GetType(ddl_StragName.SelectedValue.ToString());
+
+
+                ////////////////if (!checkBox_MixAll.Checked)
+                ////////////////{
+                ////////////////    ////sc = Activator.CreateInstance(sct) as StragClass;
+                ////////////////    sc.CommSetting = setting;
+                ////////////////    sc.ChipCount = int.Parse(this.txt_ChipCnt.Text);
+                ////////////////    sc.FixChipCnt = (this.txt_FixChipCnt.Text.Trim() == "0") ? false : true;
+                ////////////////    sc.ReviewExpectCnt = int.Parse(this.txt_reviewExpCnt.Text);
+                ////////////////    sc.InputMinTimes = int.Parse(this.txt_minInputTimes.Text);
+                ////////////////    if (sc.StagSetting.IsLongTermCalc)
+                ////////////////    {
+                ////////////////        sc.ReviewExpectCnt = sc.ReviewExpectCnt + sc.InputMinTimes;
+                ////////////////    }
+                ////////////////    sc.InputMaxTimes = int.Parse(this.txt_maxInputTimes.Text);
+                ////////////////    sc.ExcludeBS = this.chkb_exclueBS.Checked;
+                ////////////////    sc.ExcludeSD = this.chkb_exclueSD.Checked;
+                ////////////////    sc.BySer = this.chkb_bySer.Checked;
+                ////////////////    sc.OnlyBS = this.chkb_onlyBS.Checked;
+                ////////////////    sc.OnlySD = this.chkb_onlySD.Checked;
+                ////////////////    sc.GetRev = this.chkb_getRev.Checked;
+                ////////////////    if (sc is IProbCheckClass)
+                ////////////////    {
+                ////////////////        (sc as IProbCheckClass).StdvCnt = double.Parse(this.txt_StdvCnt.Text);
+                ////////////////    }
+                ////////////////    //sc.AllowMaxHoldTimeCnt = int.Parse(this.txt_AllowMaxHoldTimeCnt.Text);
+                ////////////////    sc.MinWinRate = double.Parse(this.txt_minRate.Text);
+                ////////////////    ////double p = double.Parse(this.txt_ChipCnt.Text) / setting.Odds;
+                ////////////////    ////double Normal_p = double.Parse(this.txt_ChipCnt.Text) / 10;
+                ////////////////    ////double b = double.Parse(this.txt_Odds.Text);
+                ////////////////    ////double q = 1 - p;
+                ////////////////    sc.StagSetting = sc.getInitStagSetting();
+                ////////////////    ////sc.StagSetting.BaseType.ChipRate = (p * b - q) / b;
+                ////////////////    //sc.StagSetting.BaseType.IncrementType = this.checkBox_CreamModel.Checked ? InterestType.CompoundInterest : InterestType.SimpleInterest;
+
+                ////////////////    if (setting.UseLocalWaveData && sc is ProbWaveSelectStragClass)//是长期概率分布类
+                ////////////////    {
+                ////////////////        DataTable dt = new PK10ProbWaveDataInterface().GetProWaveResult(long.Parse(txt_begExpNo.Text));
+                ////////////////        (sc as ProbWaveSelectStragClass).LocalWaveData = new GuideResult(dt);
+                ////////////////    }
+                ////////////////    StragRunPlanClass sr = new StragRunPlanClass();
+                ////////////////    sr.PlanStrag = sc;
+                ////////////////    sr.IncreamType = this.checkBox_CreamModel.Checked ? InterestType.CompoundInterest : InterestType.SimpleInterest;
+                ////////////////    sr.AutoRunning = true;
+                ////////////////    sr.FixAmt = 1;
+                ////////////////    sr.FixRate = 0.01;
+                ////////////////    SCList.Add(sr);
+                ////////////////}
+                ////////////////else
+                ////////////////{
+                ////////////////    for (int i = 2; i < 9; i++)
+                ////////////////    {
+                ////////////////        for (int j = 0; j < 2; j++)
+                ////////////////        {
+                ////////////////            StragClass sobj = Activator.CreateInstance(sct) as StragClass;
+                ////////////////            sobj.CommSetting = setting;
+                ////////////////            sobj.ChipCount = i;
+                ////////////////            sobj.FixChipCnt = (this.txt_FixChipCnt.Text.Trim() == "0") ? false : true;
+                ////////////////            sobj.ReviewExpectCnt = sobj.CommSetting.minColTimes[i - 1] + 1;
+                ////////////////            sobj.BySer = j==1;
+                ////////////////            sobj.MinWinRate = double.Parse(this.txt_minRate.Text);
+                ////////////////            //sobj.AllowMaxHoldTimeCnt = 100;
+                ////////////////            sobj.StagSetting = sobj.getInitStagSetting();
+                ////////////////            //sobj.StagSetting.BaseType.IncrementType = this.checkBox_CreamModel.Checked ? InterestType.CompoundInterest : InterestType.SimpleInterest;
+                ////////////////            StragRunPlanClass sr = new StragRunPlanClass();
+                ////////////////            sr.PlanStrag = sobj;
+                ////////////////            sr.IncreamType = this.checkBox_CreamModel.Checked ? InterestType.CompoundInterest : InterestType.SimpleInterest;
+                ////////////////            sr.AutoRunning = true;
+                ////////////////            sr.FixAmt = 1;
+                ////////////////            sr.FixRate = 0.01;
+                ////////////////            SCList.Add(sr);
+                ////////////////        }
+                ////////////////    }
+                ////////////////}
+                //////////////////sc.MinWinRate = double.Parse(this.txt_Odds.Text) *double.Parse(this.txt_minRate.Text);
+                //////////////////凯利公式 (p*b-q)/b
+                //////////////////凯利公式 (p*b-q)/b
+                //////////////////////DialogResult rs = MessageBox.Show(sc.StagSetting.BaseType.ChipRate.ToString(), "胜率", MessageBoxButtons.OKCancel) ;
+                //////////////////////if (rs == DialogResult.Cancel)
+                //////////////////////{
+                //////////////////////    return;
+                //////////////////////}
+                #endregion
+                //this.Cursor = Cursors.WaitCursor;
+                this.chart1.Series.Clear();
+                //this.chart1.DataSource = null;
+                //this.timer_Tip.Interval = int.Parse(txt_Timer_Interval.Text) * 1000;
+                //timer_Tip.Tick += new EventHandler(timer_Tip_Tick);
+                //this.timer_Tip.Enabled = true;
+                //this.timer_Tip.Enabled = true;
+
+                //this.timer_Tip_Tick(null, null);
+                //////try
+                //////{
+                string BegT = "";
+                string EndT = "";
+
+                if (ddl_DataSource.SelectedValue.ToString().Equals("CN_Stock_A"))
+                {
+                    DateTime dtbeg = DateTime.Parse(this.txt_begExpNo.Text);
+                    DateTime dtend = DateTime.Parse(this.txt_endExpNo.Text);
+                    BegT = dtbeg.WDDate();
+                    EndT = dtend.WDDate();
+                }
+                else
+                {
+                    BegT = this.txt_begExpNo.Text;
+                    EndT = this.txt_endExpNo.Text;
+                }
+                int maxReviews = SCList.Max(a => a.PlanStrag.ReviewExpectCnt);
+
+
+                if (dtp.IsSecurityData == 1)
+                {
+                    WDDataInit<T>.vipDocRoot = Program<T>.AllSettings.gc.VipDocRootPath;
+                    if (WDDataInit<T>.AllDays == null)
+                    {
+                        WDDataInit<T>.Init();
+                    }
+                    DateTime[] alldate = WDDataInit<T>.AllDays;
+                    int index = alldate.IndexOf(BegT);
+                    if (index < 0)
+                        BegT = alldate.First().WDDate();
+                    else
+                        BegT = alldate[Math.Max(0, index - maxReviews)].WDDate();
+                }
+                if (btc == null)
+                {
+                    btc = new BackTestClass<T>(dtp,this.txt_SecPools.Text, BegT, long.Parse(txt_LoopCnt.Text) + maxReviews, setting, EndT);
+                }
+                btc.useBegExpect = this.txt_begExpNo.Text;//对股票必须要指定，实际必须从此时开始
+                Application.DoEvents();
+                th = new Thread(RunVirtual);
+                th.Start();
+            }
+            catch(Exception ce)
+            {
+                MessageBox.Show(ce.Message);
+            }
+            return;
+        }
+        ConcurrentDictionary<string, int> counter = new ConcurrentDictionary<string, int>();
         void RunVirtual()
         {
             try
@@ -936,7 +1005,58 @@ namespace BackTestSys
                 Dictionary<string, CalcStragGroupClass<T>> rest = null;
                 Program<T>.AllSettings.AllRunningPlanGrps = InitServerClass<T>.InitCalcStrags(GlobalClass.TypeDataPoints[this.ddl_DataSource.SelectedValue.ToString()], ref rest, Program<T>.AllSettings.AllStrags, SCList.ToDictionary(p => p.GUID, p => p ), Program<T>.AllSettings.AllAssetUnits, true, true);//注入plans
                 btc.FinishedProcess = new SuccEvent(Finished);
-                ret = btc.VirExchange(Program<T>.AllSettings as ServiceSetting<T>, ref ess, SCList.ToArray());
+                btc.ExpectProcessedEvent = (ex,es) => {
+                    refreshExchangSeriveData(ex,es);
+                };
+                btc.StagInterProcessEvent = (strage,expect, code)=>
+                {
+                    string str = string.Format("{0}_{1}", strage, expect);
+                    int curr = 0;
+                    if (counter.ContainsKey(str))
+                    {
+                        curr = counter[str];
+                    }
+                    else
+                    {
+                        counter.TryAdd(str, curr);
+                    }
+                    curr++;
+                    counter[str] = curr;
+                    CallControlToWork(this.statusStrip1, (c, objs) =>
+                    {
+                        StatusStrip ctrl = c as StatusStrip;
+                        //ctrl.Items[1].Text = string.Format("{0}策略第{1}个{2}", strage, curr, code);
+                        int pre = (int)(100*curr/WDDataInit<T>.AllSecurities.Count);
+                        (ctrl.Items[2] as ToolStripProgressBar).Value = pre;
+
+                        Application.DoEvents();
+                    },new object[] { });
+                    
+                };
+                btc.ExpectTip = (ex, ess) =>
+                {
+                    if (ess == null)
+                        return;
+                    foreach (string key in ess.Keys)
+                    {
+                        CallControlToWork(this.statusStrip1, (c, objs) =>
+                        {
+                            ExchangeService<T> es = ess[key] as ExchangeService<T>;
+                            StatusStrip ctrl = c as StatusStrip;
+                            string lastExpect = ex;
+                            if (string.IsNullOrEmpty(lastExpect))
+                            {
+                                var items = es.getMoneys().OrderBy(a=>a.Key);
+                                
+                                if (items != null && items.Count() > 0)
+                                    lastExpect = items.Last().Key;
+                            }
+                            ctrl.Items[0].Text = string.Format("第{2}次,{0}/{1} {3}", es.CurrIndex.ToString(), es.ExpectCnt, btc.testIndex, lastExpect);
+                            ctrl.Items[1].Text = string.Format("{0}% 最大值:[{1}%]   最小值:[{2}%] ", es.GainedRate.ToString(), es.MaxRate, es.MinRate);
+                        }, new object[] { });
+                    }
+                };
+                ret = btc.VirExchange(Program<T>.AllSettings as ServiceSetting<T>, ref ess, SCList.ToArray(),this.txt_SecPools.Text);
             }
             catch (Exception ce)
             {
@@ -953,7 +1073,18 @@ namespace BackTestSys
 
         private void timer_Tip_Tick(object sender, EventArgs e)
         {
+
             this.timer_Tip.Interval = int.Parse(txt_Timer_Interval.Text) * 1000;
+            return;
+            refreshData(false);
+        }
+        void CallControlToWork(Control ctrl,Action<Control,object[]> action, object[] objs)
+        {
+            ctrl.Invoke(new SetControlCallback(action), new object[] { ctrl,objs});
+        }
+
+        void refreshData(bool forceDisplay=false)
+        {
             try
             {
                 DataTable dt = btc.SystemStdDevs;
@@ -998,14 +1129,14 @@ namespace BackTestSys
                     this.dg_forStdDev.DataSource = dv_stddev;
                     this.dg_forStdDev.Tag = dt;
                     this.dg_forStdDev.Refresh();
+                    Application.DoEvents();
                 }
-
                 lock (ess)
                 {
                     int ci = 0;
                     foreach (string key in ess.Keys)
                     {
-                        ExchangeService<T> es = ess[key];
+                        ExchangeService<T> es = ess[key] as ExchangeService<T>;
                         this.toolStripStatusLabel1.Text = string.Format("第{2}次,{0}/{1}", es.CurrIndex.ToString(), es.ExpectCnt, btc.testIndex);
                         this.toolStripStatusLabel2.Text = string.Format("{0}% 最大值:[{1}%]   最小值:[{2}%] ", es.GainedRate.ToString(), es.MaxRate, es.MinRate);
                         DataTable copyDt = es.MoneyIncreamLine.Copy();
@@ -1018,19 +1149,33 @@ namespace BackTestSys
                                 copyDt.Rows[i]["point"] = copyDt.Rows[i]["id"];
                         }
                         DataView moneyLines = new DataView(copyDt);
-                        if (this.chart1.Series.Count < ci + 1)
+                        if (this.chart1.Series.Count < 3 * ci + 3)
                         {
                             Series ss = new Series();
-                            ss.Name = es.getCurrAsset().UnitName;
+                            ss.Name = string.Format("{0}[Total]", es.getCurrAsset().UnitName);
                             ss.ChartType = SeriesChartType.Line;
-                            ss.BorderWidth = (ci+1);
+                            ss.BorderWidth = (ci + 1);
+                            this.chart1.Series.Add(ss);
+                            ss = new Series();
+                            ss.Name = string.Format("{0}[Cash]", es.getCurrAsset().UnitName);
+                            ss.ChartType = SeriesChartType.Line;
+                            ss.BorderWidth = (ci + 1);
+                            this.chart1.Series.Add(ss);
+                            ss = new Series();
+                            ss.Name = string.Format("{0}[Asset]", es.getCurrAsset().UnitName);
+                            ss.ChartType = SeriesChartType.Line;
+                            ss.BorderWidth = (ci + 1);
                             this.chart1.Series.Add(ss);
                         }
-                        this.chart1.Series[ci].Points.DataBindXY(moneyLines, "point", moneyLines, "val");
-                        this.chart1.Series[ci].ToolTip = "期号:#VALX;当前值:#VAL";
+                        this.chart1.Series[ci * 3].Points.DataBindXY(moneyLines, "point", moneyLines, "val");
+                        this.chart1.Series[ci * 3].ToolTip = "期号:#VALX;当前值:#VAL";
+                        this.chart1.Series[ci * 3 + 1].Points.DataBindXY(moneyLines, "point", moneyLines, "Cash");
+                        this.chart1.Series[ci * 3 + 1].ToolTip = "期号:#VALX;当前值:#VAL";
+                        this.chart1.Series[ci * 3 + 2].Points.DataBindXY(moneyLines, "point", moneyLines, "Asset");
+                        this.chart1.Series[ci * 3 + 2].ToolTip = "期号:#VALX;当前值:#VAL";
                         //this.chart1.Series[ci].Name = SCList[0].AssetUnitInfo.UnitName;
                         ci++;
-                        if(!this.chkb_noDetailTable.Checked)
+                        if (!this.chkb_noDetailTable.Checked||forceDisplay)
                             loadTableData(es);
                     }
                     chart1.ChartAreas[0].AxisY.IsStartedFromZero = false;
@@ -1042,62 +1187,223 @@ namespace BackTestSys
                 string msg = ce.Message;
             }
         }
+        List<Task> tasks = new List<Task>(); 
+        void refreshExchangSeriveData(string ex,Hashtable ess)
+        {
+            if(tasks.Count== 0)
+            {
+                Task task = Task.Factory.StartNew(() => {
+                    try
+                    {
+                        refreshExchangData(ex,ess, false);
+                    }
+                    catch
+                    {
+
+                    }
+                    tasks.Clear();
+                });
+                tasks.Add(task);
+            }
+
+        }
+        void refreshExchangData(string ex,Hashtable ess, bool displayAll = false)
+        {
+            DataView moneyLines = null;
+            try
+            { 
+                int ci = 0;
+                foreach (string key in ess.Keys)
+                {
+                    ExchangeService<T> es = ess[key] as ExchangeService<T>;
+                    
+                    //this.toolStripStatusLabel1.Text = string.Format("第{2}次,{0}/{1}", es.CurrIndex.ToString(), es.ExpectCnt, btc.testIndex);
+                    //this.toolStripStatusLabel2.Text = string.Format("{0}% 最大值:[{1}%]   最小值:[{2}%] ", es.GainedRate.ToString(), es.MaxRate, es.MinRate);
+
+                    DataTable copyDt = es.MoneyIncreamLine.Copy();
+                    copyDt.Columns.Add("point", typeof(string));
+                    for (int i = 0; i < copyDt.Rows.Count; i++)
+                    {
+                        if (this.ddl_DataSource.SelectedValue.ToString() != "PK10")
+                            copyDt.Rows[i]["point"] = copyDt.Rows[i]["id"];//.ToString().Substring(0, 8);
+                        else
+                            copyDt.Rows[i]["point"] = copyDt.Rows[i]["id"];
+                    }
+                    moneyLines = new DataView(copyDt);
+                    moneyLines.Sort = "point";
+                    copyDt = null;
+                    if(displayAll)
+                        CallControlToWork(chart1, refreshGainedRateChart, new object[] { ci, es, moneyLines });
+                    ci++;
+                    if (!this.chkb_noDetailTable.Checked)
+                    {
+                        CallControlToWork(dataGridView_ExchangeDetail, (ctrl, objs) =>
+                        {
+                            DataGridView dgv = ctrl as DataGridView;
+                            ExchangeService<T> ces = objs[0] as ExchangeService<T>;
+                            if(ces.ExchangeDetail == null|| ces.ExchangeDetail.Columns.Count == 0)
+                            {
+                                return;
+                            }
+                            
+                            bool dAll = (bool)objs[1];
+                            DataView dv = new DataView(ces.ExchangeDetail);
+                            if (!dAll)
+                                dv.RowFilter = "Closed=0";
+
+                            try
+                            {
+                                if (dv != null && dv.Count > 0)
+                                {
+                                    dgv.DataError += new DataGridViewDataErrorEventHandler((s, e) => { });
+                                    dgv.DataSource = dv;
+                                    Application.DoEvents();
+                                    dgv.Refresh();
+                                    Application.DoEvents();
+                                }
+                            }
+                            catch (Exception ce)
+                            {
+
+                            }
+                            finally
+                            {
+                                dv = null;
+                            }
+                            
+                            
+                        }, new object[] { es, displayAll });
+                    }                
+                }
+            }
+            catch(Exception ce)
+            {
+
+            }
+            finally
+            {
+                moneyLines = null;
+            }
+        }
+
+        void refreshGainedRateChart(Control ctrl,object[] objs)
+        {
+            DataView moneyLines = objs[2] as DataView;
+            try
+            {
+                Chart chart1 = ctrl as Chart;
+                int ci = (int)objs[0];
+                ExchangeService<T> es = objs[1] as ExchangeService<T>;
+                
+                if (chart1.Series.Count < 3 * ci + 3)
+                {
+                    Series ss = new Series();
+                    ss.Name = string.Format("{0}[Total]", es.getCurrAsset().UnitName);
+                    ss.ChartType = SeriesChartType.Line;
+                    ss.BorderWidth = (ci + 1);
+                    chart1.Series.Add(ss);
+                    ss = new Series();
+                    ss.Name = string.Format("{0}[Cash]", es.getCurrAsset().UnitName);
+                    ss.ChartType = SeriesChartType.Line;
+                    ss.BorderWidth = (ci + 1);
+                    this.chart1.Series.Add(ss);
+                    ss = new Series();
+                    ss.Name = string.Format("{0}[Asset]", es.getCurrAsset().UnitName);
+                    ss.ChartType = SeriesChartType.Line;
+                    ss.BorderWidth = (ci + 1);
+                    this.chart1.Series.Add(ss);
+                }
+                chart1.Series[ci * 3].Points.DataBindXY(moneyLines, "point", moneyLines, "val");
+                chart1.Series[ci * 3].ToolTip = "期号:#VALX;当前值:#VAL";
+                chart1.Series[ci * 3 + 1].Points.DataBindXY(moneyLines, "point", moneyLines, "Cash");
+                chart1.Series[ci * 3 + 1].ToolTip = "期号:#VALX;当前值:#VAL";
+                chart1.Series[ci * 3 + 2].Points.DataBindXY(moneyLines, "point", moneyLines, "Asset");
+                chart1.Series[ci * 3 + 2].ToolTip = "期号:#VALX;当前值:#VAL";
+                //this.chart1.Series[ci].Name = SCList[0].AssetUnitInfo.UnitName;
+            }
+            catch(Exception ce)
+            {
+
+            }
+            finally
+            {
+                moneyLines = null;
+            }
+
+
+        }
+
         void loadTableData(ExchangeService<T> es)
         {
-            lock (es.ExchangeDetail)
+            try
             {
-                DataView vExchangeDetail = new DataView(es.ExchangeDetail);
-                //vExchangeDetail.Sort = "id desc";
-                this.dataGridView_ExchangeDetail.DataSource = vExchangeDetail;
-                this.dataGridView_ExchangeDetail.Refresh();
-                if (SCList.Count > 0)
+                lock (es.ExchangeDetail)
                 {
-                    if (SCList[0].PlanStrag.StagSetting.BaseType.traceType == TraceType.WaveTrace)
+                    
+                    DataView vExchangeDetail = new DataView(es.ExchangeDetail);
+                    //vExchangeDetail.Sort = "id desc";
+                    this.dataGridView_ExchangeDetail.DataSource = vExchangeDetail;
+                    this.dataGridView_ExchangeDetail.Refresh();
+                    Application.DoEvents();
+                    if (SCList.Count > 0)
                     {
-                        ProbWaveSelectStragClass pss = SCList[0].PlanStrag as ProbWaveSelectStragClass;
-                        if (pss.BaseWaves().Tables.Count == 0)
+                        if (SCList[0].PlanStrag.StagSetting.BaseType.traceType == TraceType.WaveTrace)
                         {
-                            return;
-                        }
-                        GuideResult gs = pss.BaseWaves().Tables[0] as GuideResult;
-                        GuideResultSet gss = pss.GuideWaves();
-                        Int32 rcnt = gs.Rows.Count;
-                        if (!checkBox_UseBuffRsult.Checked)//如果不用本地数据
-                        {
-                            if (rcnt > 0 && (rcnt % 100) < 20 && rcnt > lastSaveCnt + 50)
+                            ProbWaveSelectStragClass pss = SCList[0].PlanStrag as ProbWaveSelectStragClass;
+                            if (pss.BaseWaves().Tables.Count == 0)
                             {
-                                //保存一次数据
-                                retData = gs;
-                                lastSaveCnt = rcnt;
-                                new Thread(SaveWaveTable).Start();
+                                return;
                             }
-                        }
-                        DataView dvWv = new DataView(gs);
-                        //this.chart_ForProb.ChartAreas[0].AxisY.MaximumAutoSize = false;
-
-                        this.chart_ForProb.ChartAreas[0].AxisY.Maximum = gs.High;
-                        this.chart_ForProb.ChartAreas[0].AxisY.Minimum = gs.Low;
-                        this.chart_ForProb.Series[0].Points.DataBindXY(dvWv, "Id", dvWv, "val");
-                        if (this.chart_ForProb.Series.Count < gss.Tables.Count + 1)
-                        {
-                            for (int i = this.chart_ForProb.Series.Count; i <= gss.Tables.Count; i++)
+                            GuideResult gs = pss.BaseWaves().Tables[0] as GuideResult;
+                            GuideResultSet gss = pss.GuideWaves();
+                            Int32 rcnt = gs.Rows.Count;
+                            if (!checkBox_UseBuffRsult.Checked)//如果不用本地数据
                             {
-                                Series si = new Series(string.Format("指标{0}", i));
-                                si.ChartType = SeriesChartType.Line;
-                                this.chart_ForProb.Series.Add(si);
-
+                                if (rcnt > 0 && (rcnt % 100) < 20 && rcnt > lastSaveCnt + 50)
+                                {
+                                    //保存一次数据
+                                    retData = gs;
+                                    lastSaveCnt = rcnt;
+                                    new Thread(SaveWaveTable).Start();
+                                }
                             }
-                        }
-                        for (int i = 0; i < gss.Tables.Count; i++)
-                        {
+                            DataView dvWv = new DataView(gs);
+                            //this.chart_ForProb.ChartAreas[0].AxisY.MaximumAutoSize = false;
+                            if (this.chart_ForProb.Series.Count < 3)
+                            {
+                                this.chart_ForProb.Series.Add(new Series() { Name = "Cash", ChartType = SeriesChartType.Line });
+                                this.chart_ForProb.Series.Add(new Series() { Name = "Asset", ChartType = SeriesChartType.Line });
+                            }
+                            this.chart_ForProb.ChartAreas[0].AxisY.Maximum = gs.High;
+                            this.chart_ForProb.ChartAreas[0].AxisY.Minimum = gs.Low;
+                            this.chart_ForProb.Series[0].Points.DataBindXY(dvWv, "Id", dvWv, "val");
+                            this.chart_ForProb.Series[1].Points.DataBindXY(dvWv, "Id", dvWv, "Cash");
+                            this.chart_ForProb.Series[2].Points.DataBindXY(dvWv, "Id", dvWv, "Asset");
+                            if (this.chart_ForProb.Series.Count < gss.Tables.Count + 1)
+                            {
+                                for (int i = this.chart_ForProb.Series.Count; i <= gss.Tables.Count; i++)
+                                {
+                                    Series si = new Series(string.Format("指标{0}", i));
+                                    si.ChartType = SeriesChartType.Line;
+                                    this.chart_ForProb.Series.Add(si);
 
-                            DataView dv = new DataView(gss.Tables[i]);
-                            this.chart_ForProb.Series[1 + i].Points.DataBindXY(dv, "Id", dv, "val");
+                                }
+                            }
+                            for (int i = 0; i < gss.Tables.Count; i++)
+                            {
+
+                                DataView dv = new DataView(gss.Tables[i]);
+                                this.chart_ForProb.Series[1 + i].Points.DataBindXY(dv, "Id", dv, "val");
+                            }
+                            this.dataGridView_ProbData.DataSource = dvWv;
+                            Application.DoEvents();
                         }
-                        this.dataGridView_ProbData.DataSource = dvWv;
-                        
                     }
                 }
+            }
+            catch(Exception ce)
+            {
+
             }
         }
 
@@ -1118,14 +1424,9 @@ namespace BackTestSys
             ////Result.Series;// 就是点击获得的Series
             ////Result.Series.Points[Result.PointIndex].XValue;// 为点击Series X坐标
             ////Result.Series.Points[Result.PointIndex].YValue;// 为点击Series
-
         }
 
-        private void BackTestFrm_Load(object sender, EventArgs e)
-        {
-            this.timer_Tip.Enabled = false;
-            //this.txt_InitCash.Text = int.MaxValue.ToString();
-        }
+        
 
 
         private void contextMenuStrip_ForListView_Opening(object sender, CancelEventArgs e)
@@ -1148,7 +1449,12 @@ namespace BackTestSys
 
         private void txt_begExpNo_DoubleClick(object sender, EventArgs e)
         {
-            txt_begExpNo.Text = "20140101001";
+            if(GlobalClass.TypeDataPoints.First().Value.IsSecurityData==1)
+            {
+                txt_endExpNo.Text = txt_begExpNo.Text.ToDate().AddYears(1).AddDays(-1).WDDate();
+            }
+            else
+                txt_begExpNo.Text = "20140101001";
         }
 
         private void txt_begExpNo_Click(object sender, EventArgs e)
@@ -1165,20 +1471,35 @@ namespace BackTestSys
         {
             if (this.dataGridView_ExchangeDetail.CurrentRow.Index < 0)
                 return;
-
+            
             //前提，listview禁止多选
             DataGridViewRow dr = this.dataGridView_ExchangeDetail.CurrentRow;
+            //ChanceCode,ExpectNo,Amount,Status,EndExpectNO,EndPrice
             string strExpect = dr.Cells["ExpectNo"].Value.ToString();
-            //MessageBox.Show(strExpect);
-            ////if (CheckFrm == null)
-            ////{
-            CheckFrm = new MainForm<T>();
-            ////    CheckFrm.InputExpect = int.Parse(strExpect);
-            ////    CheckFrm.Show();
-            ////    return;
-            ////}
-            CheckFrm.InputExpect = long.Parse(strExpect);
-            CheckFrm.Show();
+            string endExpect = dr.Cells["EndExpectNO"].Value.ToString();
+            string code = dr.Cells["ChanceCode"].Value.ToString();
+            if (GlobalClass.TypeDataPoints.First().Value.IsSecurityData == 0)
+            {
+                CheckFrm = new MainForm<T>();
+                CheckFrm.InputExpect = long.Parse(strExpect);
+                CheckFrm.Show();
+            }
+            else
+            {
+                if (SecCheckFrm == null)
+                {
+                    SecCheckFrm = new Form1<T>(code, strExpect.ToDate().WDDate(), endExpect.ToDate().WDDate(), 300);
+                    SecCheckFrm.Show();
+                }
+                else
+                {
+                    SecCheckFrm.QuerySec(code, strExpect.WDDate(), endExpect, 300);
+                    SecCheckFrm.Show();
+                    SecCheckFrm.Focus();
+                }
+                
+                Application.DoEvents();
+            }
         }
 
         private void dg_forStdDev_DoubleClick(object sender, EventArgs e)
@@ -1226,8 +1547,8 @@ namespace BackTestSys
             {
                 thrd.Abort();
                 thrd = null;
-                this.timer_Tip.Enabled = false;
-                this.timer_Tip = null;
+                //this.timer_Tip.Enabled = false;
+                //this.timer_Tip = null;
             }
             catch (Exception ce)
             {
@@ -1240,6 +1561,11 @@ namespace BackTestSys
         {
             frm_MoniteStrag<T> frm = new frm_MoniteStrag<T>();
             frm.Show();
+        }
+
+        private void txt_endExpNo_DoubleClick(object sender, EventArgs e)
+        {
+            this.txt_begExpNo.Text = this.txt_endExpNo.Text.ToYearStart();
         }
     }
 
@@ -1297,5 +1623,5 @@ namespace BackTestSys
         }
     }
 
-
+    delegate void SetControlCallback(Control ctrl, object[] obj);
 }

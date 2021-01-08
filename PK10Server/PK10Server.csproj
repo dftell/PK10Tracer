@@ -193,6 +193,9 @@
     <EmbeddedResource Include="frm_CommDBObjectsSetting.resx">
       <DependentUpon>frm_CommDBObjectsSetting.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="testWindow.resx">
+      <DependentUpon>testWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest">

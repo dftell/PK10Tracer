@@ -35,17 +35,17 @@ namespace WolfInv.com.BaseObjectsLib
 
         public static MongoDataDictionary<T> ToDirectionary(MongoReturnDataList<T> list, string keyName)
         {
-            MongoDataDictionary<T> ret = new MongoDataDictionary<T>();
+            MongoDataDictionary<T> ret = new MongoDataDictionary<T>(list.isSecurity);
             if (list == null)
                 return null;
             for (int i = 0; i < list.Count; i++)
             {
                 DetailStringClass obj = list[i] as DetailStringClass;
                 string key = obj.getValue(keyName)?.ToString();
-                MongoReturnDataList<T> sublist = new MongoReturnDataList<T>(new StockInfoMongoData(key,null));
+                MongoReturnDataList<T> sublist = new MongoReturnDataList<T>(new StockInfoMongoData(key,null),list.isSecurity);
                 if (!ret.ContainsKey(key))
                 {
-                    ret.Add(key, sublist);
+                    ret.TryAdd(key, sublist);
                 }
                 sublist = ret[key];
                 sublist.Add(list[i]);

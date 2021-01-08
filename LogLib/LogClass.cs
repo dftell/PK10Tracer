@@ -28,8 +28,8 @@ namespace WolfInv.com.LogLib
         protected void threadWrite(string txt,string specPath,string strLogName,string strLogType,bool NoNeedTime,bool WriteOver)
         {
             string str = string.Format("{0}.{1}", strLogName, strLogType);
-            string strPath = Assembly.GetExecutingAssembly().Location; //typeof(LogClass).Assembly.Location;
-            string strLogPath = string.Format("{0}\\{1}", specPath==null?Path.GetDirectoryName(strPath):specPath, str);
+            string strPath = AppDomain.CurrentDomain.RelativeSearchPath ?? AppDomain.CurrentDomain.BaseDirectory; //typeof(LogClass).Assembly.Location;
+            string strLogPath = string.Format("{0}\\{1}", strPath, str);
             //FileStream fs = new FileStream(strLogPath, FileMode.OpenOrCreate, FileAccess.Write);
             try
             {

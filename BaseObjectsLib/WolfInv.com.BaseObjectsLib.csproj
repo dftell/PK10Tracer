@@ -122,6 +122,7 @@
     <Compile Include="SerialObjectEdit.cs" />
     <Compile Include="SettingClass.cs" />
     <Compile Include="BaseDataType\XDXRData.cs" />
+    <Compile Include="WolfTaskClass.cs" />
     <Compile Include="XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -109,7 +109,7 @@ namespace WolfInv.com.WDDataInit
                     }
                 }
             //}
-            return new MongoReturnDataList<T>(simd);
+            return new MongoReturnDataList<T>(simd,true);
         }
 
         public Dictionary<string, string> getLocalEquits()

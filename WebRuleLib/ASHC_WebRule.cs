@@ -3,12 +3,13 @@ using System.Security.Permissions;
 using WolfInv.com.BaseObjectsLib;
 using System.Linq;
 using WolfInv.com.WebCommunicateClass;
-
+using System;
+using WolfInv.com.SecurityLib;
 namespace WolfInv.com.WebRuleLib
 {
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     [System.Runtime.InteropServices.ComVisibleAttribute(true)]
-    public class ASHC_WebRule:Rule_ForKcaiCom
+    public partial class ASHC_WebRule:Rule_ForKcaiCom
     {
         
 
@@ -64,6 +65,36 @@ namespace WolfInv.com.WebRuleLib
                 gic.Msg = "获取游戏信息错误！";
                 this.SuccGetGameInfo?.Invoke(gic);
                 return false;
+            }
+            gic.GameCode = "GDKL11";
+            gic.AllPastIssues = new Dictionary<string, string>();
+            Web52CPDataClass webdata = new Web52CPDataClass();
+            webdata.result = new List<Web52CP_Lotty_DataClass>();
+            for (int i=0;i<girc.OldIssues.Count;i++)
+            {
+                Web52CP_Lotty_DataClass wd = new Web52CP_Lotty_DataClass();
+                ASHC_PassedIssuesClass oldIssue = girc.OldIssues[i];
+                DateTime dt = DateTime.Parse(oldIssue.EndTime);
+                long lngDiff = (long)dt.Subtract(new DateTime(1970, 1, 1).ToLocalTime()).TotalSeconds;
+                //new DateTime(1970, 1, 1).ToLocalTime().AddSeconds(obj.opentime)
+                string expectNo = oldIssue.GameSerialNumber.Trim();
+                string msg = string.Join("|", new string[] { expectNo, oldIssue.GameWinningNumber, lngDiff.ToString() });
+                wd.expect = expectNo;
+                wd.num = oldIssue.GameWinningNumber;
+                wd.opentime = lngDiff;
+                webdata.result.Add(wd);
+                if (!gic.AllPastIssues.ContainsKey(expectNo))
+                {
+                    gic.AllPastIssues.Add(expectNo, wd.ToJson());
+                }
+            }
+            if(girc.OldIssues != null && girc.OldIssues.Count>0)
+            {
+                string expectNo = girc.OldIssues.First().GameSerialNumber;
+                string strDate = expectNo.Substring(0, 8);
+                string strSerial = expectNo.Substring(8);
+                int iSerial = int.Parse(strSerial);
+                gic.NewestExpect = string.Format("{0}{1}",strDate,iSerial.ToString().PadLeft(2,'0'));
             }
             gic.Succ = true;
             this.SuccGetGameInfo?.Invoke(gic);
@@ -265,10 +296,6 @@ namespace WolfInv.com.WebRuleLib
              * "SerialNumber":"116231207747781"}
              */
         }
-        class ASHC_GameInfoReturnClass:JsonableClass<ASHC_GameInfoReturnClass>
-        {
-            public int LotteryCategoryId;
-        }
 
         class ASHC_BetRecReturnClass:JsonableClass<ASHC_BetRecReturnClass>
         {
@@ -299,5 +326,7 @@ namespace WolfInv.com.WebRuleLib
             public string StateStr;
             public string WinningNumber;
         }
+
+        
     }
 }

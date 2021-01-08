@@ -166,7 +166,7 @@ namespace WolfInv.com.WebCommunicateClass
                 if (cc.UnitCost == 0)
                     continue;
                 string strCurrExpect = cc.ExpectCode;
-                int calcHoldTimes = (int)DataReader.getInterExpectCnt(strCurrExpect, NewExpectNo,dtp);
+                int calcHoldTimes = (int)DataReader<TimeSerialData>.getInterExpectCnt(strCurrExpect, NewExpectNo,dtp);
                 
                 if(!cc.Tracerable)//只要是非跟踪策略
                 {
@@ -245,12 +245,12 @@ namespace WolfInv.com.WebCommunicateClass
                 if(amts.MaxHoldCnts.Length < chips)
                     Amt = amts.Serials[chips][RCnt]*AssetCnt;
                     */
-                Amt = cc.UnitCost * AssetCnt;
+                Amt = (long)cc.UnitCost * AssetCnt;
                 if (cc.ChanceType != 2)//非对冲
                 {
                     if (cc.ChanceType == 1)//一次性下注
                     {
-                        Amt = cc.UnitCost * setting.SerTotal(1)* AssetCnt;
+                        Amt = (long)cc.UnitCost * setting.SerTotal(1)* AssetCnt;
                     }
                     strccNewInst = string.Format("{0}/{1}", cc.ChanceCode.Replace("+", string.Format("/{0}+", Amt)), Amt);
                 }
@@ -260,7 +260,7 @@ namespace WolfInv.com.WebCommunicateClass
                     {
                         continue;
                     }
-                    Amt = cc.UnitCost * setting.HedgeTimes* AssetCnt;//对冲倍数
+                    Amt = (long)cc.UnitCost * setting.HedgeTimes* AssetCnt;//对冲倍数
                     if (setting.AllowHedge)
                     {
                         Int64 BaseAmt = cc.BaseCost * setting.HedgeTimes* AssetCnt;

@@ -32,9 +32,18 @@ namespace BackTestSys
             //////    MessageBox.Show("无法加载控件！");
             //////    return;
             //////}
+            
             AllSettings = new ServiceSetting<T>();
             AllSettings.Init(null);
-            Application.Run(new BackTestFrm<T>());
+            //WDDataInit<T>.vipDocRoot = AllSettings.gc.VipDocRootPath;
+            try
+            {
+                Application.Run(new BackTestFrm<T>());
+            }
+            catch(Exception ce)
+            {
+
+            }
         }
     }
 }

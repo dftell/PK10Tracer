@@ -10,14 +10,15 @@ namespace WolfInv.com.PK10CorePress
     [Serializable]
     public class ExpectList : BaseObjectsLib.ExpectList<TimeSerialData>
     {
-        public ExpectList()
-        { }
-        public ExpectList(Dictionary<string, MongoReturnDataList<TimeSerialData>> _data) : base(_data,false)
+        public ExpectList():base(false)
+        {
+        }
+        public ExpectList(Dictionary<string, MongoReturnDataList<TimeSerialData>> _data) : base(_data,false,false)
         {
         }
 
 
-        public ExpectList(DataTable dt) : base(dt)
+        public ExpectList(DataTable dt) : base(dt,false)
         {
         }
 
@@ -128,12 +129,12 @@ namespace WolfInv.com.PK10CorePress
 
         //////public DateTime OpenTime { get; set; }
 
-        public ExpectData()
+        public ExpectData():base(false)
         {
 
         }
 
-        public ExpectData(TimeSerialData T):base(T)
+        public ExpectData(TimeSerialData T):base(T,false)
         {
 
         }
@@ -216,11 +217,11 @@ namespace WolfInv.com.PK10CorePress
 
     public class Combin_ExpectData<T>: ExpectData<T> where T:TimeSerialData
     {
-        public Combin_ExpectData()
+        public Combin_ExpectData():base(false)
         {
 
         }
-        public Combin_ExpectData(ExpectData<T> ed)
+        public Combin_ExpectData(ExpectData<T> ed):base(false)
         {
             this.OpenCode = ed.OpenCode;
             this.Expect = ed.Expect;

@@ -51,6 +51,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AICheckEquity.cs" />
+    <Compile Include="DragForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DragForm.Designer.cs">
+      <DependentUpon>DragForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ExecuteAICheckClass.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

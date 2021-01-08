@@ -61,6 +61,8 @@ namespace WolfInv.com.BaseObjectsLib
         }
 
         public string ipo_date { get; set; }
+
+        
     }
 
     public class ExchangeMongoData : TimeSerialData, IExchangeData
@@ -124,6 +126,22 @@ namespace WolfInv.com.BaseObjectsLib
         {
             return DataListConverter<T>.ToDataSet(list, "code");
         }
+
+        public override TimeSerialData Clone()
+        {
+            ExchangeMongoData ret = new ExchangeMongoData();
+            ret.Expect = Expect;
+            ret.Key = Key;
+            ret.KeyName = KeyName;
+            ret.close = close;
+            ret.open = open;
+            ret.vol = vol;
+            ret.high = high;
+            ret.low = low;
+            ret.preclose = preclose;
+            return ret;
+        }
+
     }
 
     public class FinanceMongoData

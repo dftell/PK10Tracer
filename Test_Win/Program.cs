@@ -157,7 +157,7 @@ namespace Test_Win
             AllServiceConfig.GrpThePlan(false);
             AllServiceConfig.CreateChannel(GlobalClass.TypeDataPoints.First().Key);
 
-            AllServiceConfig.AllAssetUnits.Values.ToList().ForEach(p => p.Run());//打开各开关
+            AllServiceConfig.AllAssetUnits.Values.ToList().ForEach(p => p.Run(GlobalClass.TypeDataPoints.First().Value));//打开各开关
             //RemoteCommClass<ServiceSetting>.SetRemoteInst(AllServiceConfig);
             //AllServiceConfig.AllLogs = new LogInfo().GetLogAfterDate(DateTime.Today.AddHours(-1));
             DataRecSvr.Program<T>.AllServiceConfig = AllServiceConfig;

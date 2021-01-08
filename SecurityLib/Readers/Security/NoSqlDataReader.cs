@@ -70,22 +70,22 @@ namespace WolfInv.com.SecurityLib
              
         
 
-        public override ExpectList<T> ReadHistory(long buffs)
+        public override ExpectList<T> ReadHistory(long buffs,string codes)
         {
             return null;
         }
 
-        public override ExpectList<T> ReadHistory(string From, long buffs)
+        public override ExpectList<T> ReadHistory(string From, long buffs,string codes)
         {
             throw new NotImplementedException();
         }
 
-        public override ExpectList<T> ReadHistory(string From, long buffs, bool desc)
+        public override ExpectList<T> ReadHistory(string From, long buffs,string codes,bool desc)
         {
             throw new NotImplementedException();
         }
 
-        public override ExpectList<T> ReadHistory(string begt, string endt)
+        public override ExpectList<T> ReadHistory(string begt, string endt,string codes)
         {
             return null;
             ///
@@ -144,7 +144,7 @@ namespace WolfInv.com.SecurityLib
 */
         }
 
-        public override ExpectList<T> ReadHistory(long cnt, string endExpect)
+        public override ExpectList<T> ReadHistory(long cnt, string endExpect,string codes)
         {
             throw new NotImplementedException();
         }
@@ -164,7 +164,7 @@ namespace WolfInv.com.SecurityLib
             throw new NotImplementedException();
         }
 
-        public override ExpectList<T> ReadNewestData(string ExpectNo, int Cnt, bool FromHistoryTable)
+        public override ExpectList<T> ReadNewestData(string ExpectNo, int Cnt, bool FromHistoryTable,string code)
         {
             throw new NotImplementedException();
         }

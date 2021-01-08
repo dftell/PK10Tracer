@@ -19,7 +19,7 @@ namespace WolfInv.com.SecurityLib
         /// 选股范围
         /// </summary>
         public string SecIndex;
-        public DateTime EndT;
+        public string EndExpect;
         public Cycle Cyc;
         public PriceAdj prcAdj;
         /// <summary>
@@ -37,7 +37,7 @@ namespace WolfInv.com.SecurityLib
         /// <summary>
         /// 是否排除ST股票
         /// </summary>
-        public bool IsExcludeST;
+        public bool IsExcludeST = true;
         /// <summary>
         /// 黑名单
         /// </summary>
@@ -49,13 +49,28 @@ namespace WolfInv.com.SecurityLib
         /// <summary>
         /// 最大选股数量
         /// </summary>
-        public int TopN;
+        public int TopN=20;
         /// <summary>
         /// 最小日期数
         /// </summary>
         public int MinDays;
         public int ReferDays;
         public int BuffDays;
+        /// <summary>
+        /// 信号日
+        /// </summary>
+        public string SignDate;
+        /// <summary>
+        /// 实际交易日
+        /// </summary>
         public string StartDate;
+        /// <summary>
+        /// 交易日开盘允许最大的涨幅，超出不交易
+        /// </summary>
+        public double allowMaxRaiseRate;
+        /// <summary>
+        /// 交易日开盘允许最大的跌幅，超出不交易
+        /// </summary>
+        public double allowMaxDownRate;
     }
 }

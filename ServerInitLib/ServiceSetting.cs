@@ -8,6 +8,7 @@ using WolfInv.com.ExchangeLib;
 using System.Data;
 using WolfInv.com.WinInterComminuteLib;
 using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.WDDataInit;
 namespace WolfInv.com.ServerInitLib
 {
     
@@ -186,8 +187,9 @@ namespace WolfInv.com.ServerInitLib
         public void InitSecurity()
         {
             //Update by zhouys 2020 / 11 / 14
-            WDDataInit.WDDataInit<T>.Init();
-            WDDataInit.WDDataInit<T>.vipDocRoot = gc.VipDocRootPath;
+            
+            WDDataInit<T>.vipDocRoot = gc.VipDocRootPath;
+            WDDataInit<T>.Init();
             Dictionary<string, string> allsecs = WDDataInit.WDDataInit<T>.AllSecurities;
             //WDDataInit.WDDataInit<T>.loadAllEquitSerials(10, true, true, true);
             //MongoDataDictionary<T> initDatas = WDDataInit.WDDataInit<T>.getAllSerialData();

@@ -14,6 +14,7 @@ namespace WolfInv.com.BaseObjectsLib
     [Serializable]
     public class ExpectData<T> : TimeSerialData, IDictionary<string, T> where T : TimeSerialData
     {
+        bool isSecurity = false;
         Dictionary<string, T> list = new Dictionary<string, T>();
         public int _ArrLen = 10;//对pk10
         public int ArrLen
@@ -28,12 +29,12 @@ namespace WolfInv.com.BaseObjectsLib
             }
         }
 
-        public ExpectData()
+        public ExpectData(bool sectype)
         {
-
+            IsSecurity = sectype;
         }
 
-        public ExpectData(T a)
+        public ExpectData(T a,bool sectype)
         {
             this.Expect = a.Expect;
             this.OpenCode = a.OpenCode;
@@ -75,11 +76,16 @@ namespace WolfInv.com.BaseObjectsLib
         {
             get
             {
-                return list[key];
+                if(list.ContainsKey(key))
+                    return list[key];
+                return null;
             }
             set
             {
-                list[key] = value;
+                if (list.ContainsKey(key))
+                    list[key] = value;
+                else
+                    list.Add(key, value);
             }
         }
 
@@ -176,7 +182,25 @@ namespace WolfInv.com.BaseObjectsLib
             return list.GetEnumerator();
         }
 
-
+        public ExpectData<T> Clone(bool deep)
+        {
+            ExpectData<T> ret = new ExpectData<T>(isSecurity);
+            ret.Key = Key;
+            ret.KeyName = KeyName;
+            ret.Expect = Expect;
+            if(deep)
+            {
+                if (Values != null)
+                {
+                    foreach (var item in Values)
+                    {
+                        T val = item.Clone() as T;
+                        ret.Add(val.Key, val);
+                    }
+                }
+            }
+            return ret;
+        }
 
         #region 无奈实现下
         public string[] ValueList
@@ -301,6 +325,10 @@ namespace WolfInv.com.BaseObjectsLib
     */
     public class ExpectDataEEE: ExpectData<TimeSerialData>
 {
+        public ExpectDataEEE():base(false)
+        {
+
+        }
         //////public Int64 EId;
         //////public int MissedCnt;
         //////public string LastExpect;

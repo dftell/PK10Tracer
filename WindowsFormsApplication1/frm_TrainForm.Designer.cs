@@ -46,6 +46,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.btn_Train = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txt_FilterCnt = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.txt_TopN = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.txt_threadCnt = new System.Windows.Forms.TextBox();
@@ -61,8 +63,8 @@
             this.ddl_MLFunc = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.txt_FilterCnt = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
+            this.txt_SecPools = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -99,6 +101,8 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox2.Controls.Add(this.txt_SecPools);
+            this.groupBox2.Controls.Add(this.label14);
             this.groupBox2.Controls.Add(this.ddl_dataSource);
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.chkb_AllUseShift);
@@ -138,7 +142,7 @@
             // chkb_AllUseShift
             // 
             this.chkb_AllUseShift.AutoSize = true;
-            this.chkb_AllUseShift.Location = new System.Drawing.Point(66, 97);
+            this.chkb_AllUseShift.Location = new System.Drawing.Point(66, 119);
             this.chkb_AllUseShift.Margin = new System.Windows.Forms.Padding(2);
             this.chkb_AllUseShift.Name = "chkb_AllUseShift";
             this.chkb_AllUseShift.Size = new System.Drawing.Size(72, 16);
@@ -148,7 +152,7 @@
             // 
             // txt_DataLength
             // 
-            this.txt_DataLength.Location = new System.Drawing.Point(66, 71);
+            this.txt_DataLength.Location = new System.Drawing.Point(66, 93);
             this.txt_DataLength.Margin = new System.Windows.Forms.Padding(2);
             this.txt_DataLength.Name = "txt_DataLength";
             this.txt_DataLength.Size = new System.Drawing.Size(121, 21);
@@ -157,7 +161,7 @@
             // 
             // txt_BegExpect
             // 
-            this.txt_BegExpect.Location = new System.Drawing.Point(66, 45);
+            this.txt_BegExpect.Location = new System.Drawing.Point(66, 67);
             this.txt_BegExpect.Margin = new System.Windows.Forms.Padding(2);
             this.txt_BegExpect.Name = "txt_BegExpect";
             this.txt_BegExpect.Size = new System.Drawing.Size(121, 21);
@@ -167,7 +171,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 74);
+            this.label3.Location = new System.Drawing.Point(9, 96);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(29, 12);
@@ -177,7 +181,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 49);
+            this.label2.Location = new System.Drawing.Point(9, 71);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 12);
@@ -306,6 +310,25 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "训练方法";
+            // 
+            // txt_FilterCnt
+            // 
+            this.txt_FilterCnt.Location = new System.Drawing.Point(92, 169);
+            this.txt_FilterCnt.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_FilterCnt.Name = "txt_FilterCnt";
+            this.txt_FilterCnt.Size = new System.Drawing.Size(139, 21);
+            this.txt_FilterCnt.TabIndex = 14;
+            this.txt_FilterCnt.Text = "5";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(12, 172);
+            this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(53, 12);
+            this.label13.TabIndex = 13;
+            this.label13.Text = "过滤个数";
             // 
             // txt_TopN
             // 
@@ -453,24 +476,23 @@
             this.dataGridView1.Size = new System.Drawing.Size(959, 335);
             this.dataGridView1.TabIndex = 0;
             // 
-            // txt_FilterCnt
+            // txt_SecPools
             // 
-            this.txt_FilterCnt.Location = new System.Drawing.Point(92, 169);
-            this.txt_FilterCnt.Margin = new System.Windows.Forms.Padding(2);
-            this.txt_FilterCnt.Name = "txt_FilterCnt";
-            this.txt_FilterCnt.Size = new System.Drawing.Size(139, 21);
-            this.txt_FilterCnt.TabIndex = 14;
-            this.txt_FilterCnt.Text = "5";
+            this.txt_SecPools.Location = new System.Drawing.Point(66, 43);
+            this.txt_SecPools.Margin = new System.Windows.Forms.Padding(2);
+            this.txt_SecPools.Name = "txt_SecPools";
+            this.txt_SecPools.Size = new System.Drawing.Size(121, 21);
+            this.txt_SecPools.TabIndex = 8;
             // 
-            // label13
+            // label14
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(12, 172);
-            this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(53, 12);
-            this.label13.TabIndex = 13;
-            this.label13.Text = "过滤个数";
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(9, 47);
+            this.label14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(41, 12);
+            this.label14.TabIndex = 7;
+            this.label14.Text = "证券池";
             // 
             // frm_TrainForm
             // 
@@ -534,5 +556,7 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox txt_FilterCnt;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox txt_SecPools;
+        private System.Windows.Forms.Label label14;
     }
 }

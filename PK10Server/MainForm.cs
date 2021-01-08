@@ -19,6 +19,7 @@ namespace PK10Server
     {
         
         DataTypePoint dtp = null;
+        bool isSecurity = false;
         ExpectList<T> _ViewDataList ;
         ExpectList<T> ViewDataList
         {
@@ -37,6 +38,7 @@ namespace PK10Server
             
             gobj = new GlobalClass();
             dtp = GlobalClass.TypeDataPoints.First().Value;
+            isSecurity = dtp.IsSecurityData == 1;
             er = DataReaderBuild.CreateReader<T>(dtp.DataType, null, null);
             this.Text = string.Format("{0}量化投资系统服务端", GlobalClass.DataTypes[dtp.DataType]);
             if(Program<T>.optFunc == null)
@@ -222,7 +224,7 @@ namespace PK10Server
         {
             this.timer_For_NewestData.Enabled = false;
             long NextNo = long.Parse(this.txt_NewestExpect.Text.Trim());
-            ViewDataList = er.ReadNewestData(NextNo+1,180,true);
+            ViewDataList = er.ReadNewestData(NextNo+1,180,true,"000001.SH");
             if (ViewDataList == null || ViewDataList.Count == 0)
                 return;
             RefreshGrid();
@@ -251,7 +253,7 @@ namespace PK10Server
         {
             this.timer_For_NewestData.Enabled = false;
             long NextNo = this.txt_NewestExpect.Text.Trim().ToLong();
-            ViewDataList = er.ReadNewestData(NextNo - 1, 180,true);
+            ViewDataList = er.ReadNewestData(NextNo - 1, 180,true,"000001.SH");
             RefreshGrid();
             RefreshNewestData();
         }
@@ -398,7 +400,7 @@ namespace PK10Server
             ExpectList<T> el = er.GetMissedData(true, StrBegDate);
             for (int i = 0; i < el.Count; i++)
             {
-                ExpectList<T> tmpList = new ExpectList<T>();
+                ExpectList<T> tmpList = new ExpectList<T>(isSecurity);
                 DateTime endT = el[i].OpenTime;
                 DateTime begT = el[i].OpenTime.AddMinutes(-1 * el[i].MissedCnt-1);
                 DateTime tt = DateTime.Parse(begT.ToShortDateString());
@@ -489,28 +491,28 @@ namespace PK10Server
             CommExpectReader<T> er = DataReaderBuild.CreateReader<T>(GlobalClass.TypeDataPoints.First().Key, null, null) as CommExpectReader<T>;
             Application.DoEvents();
             
-            ExpectList<T> tmpList = new ExpectList<T>();
+            ExpectList<T> tmpList = new ExpectList<T>(isSecurity);
             for (int i=begi;i<=endi;i++)
             {
                 
-                ExpectList<T> wlist = new ExpectList<T>();
+                ExpectList<T> wlist = new ExpectList<T>(isSecurity);
                 wlist = rder.getHistoryData<T>(null, i);//取到web
-                ExpectList<T> wtrue = new ExpectList<T>();
+                ExpectList<T> wtrue = new ExpectList<T>(isSecurity);
                 wtrue = er.getNewestData(wlist, tmpList);// 
                 tmpList = ExpectList<T>.Concat(tmpList, wtrue);
                 this.tssl_Count.Text = string.Format("访问第{1}页，共计获取到{0}条记录",tmpList.Count,i );
                 if(tmpList.Count>=100)
                 {
-                    ExpectList<T> currEl = er.ReadHistory(tmpList.MinExpect.ToString(), 10000);
+                    ExpectList<T> currEl = er.ReadHistory(tmpList.MinExpect.ToString(), 10000,"000001.SH");
                     ExpectList<T> NewEl = er.getNewestData(tmpList, currEl);
                     long res1 = er.SaveHistoryData(NewEl);
-                    tmpList = new ExpectList<T>();
+                    tmpList = new ExpectList<T>(isSecurity);
                     this.tssl_Count.Text = string.Format("访问第{1}页，共计成功保存了{0}条记录", res1, i);
                 }
                 Application.DoEvents();
                 Thread.Sleep(10000);
             }
-            ExpectList<T> currEl1 = er.ReadHistory(tmpList.MinExpect.ToString(), 10000);
+            ExpectList<T> currEl1 = er.ReadHistory(tmpList.MinExpect.ToString(), 10000,"000001.SH");
             ExpectList<T> NewEl1 = er.getNewestData(tmpList, currEl1);
             long res = er.SaveHistoryData(NewEl1);
             if(res>0)

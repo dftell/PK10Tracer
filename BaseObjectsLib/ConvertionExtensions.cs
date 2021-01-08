@@ -549,28 +549,52 @@ namespace WolfInv.com.BaseObjectsLib
             return datetime.ToString(format);
         }
 
+        public static string ToYearStart(this string datetime, string format = "yyyy-MM-dd")
+        {
+            DateTime dt = datetime.ToDate(format);
+            dt = dt.AddMonths(-dt.Month + 1);
+            dt = dt.AddDays(-dt.Day + 1);
+            return dt.WDDate(format);
+        }
+
         public static DateTime ToDate(this string datetime, string format = "yyyy-MM-dd")
         {
+
             DateTime dt;
-            bool succ = DateTime.TryParseExact(datetime, format, null, System.Globalization.DateTimeStyles.None, out dt);
+            bool succ = DateTime.TryParse(datetime, out dt);//只要是日期，不管是什么格式，都返回正常的
+            if (succ)
+                return dt;
+            succ = DateTime.TryParseExact(datetime, format, null, System.Globalization.DateTimeStyles.None, out dt);
             if (succ)
                 return dt;
             return dt;
         }
 
+        public static int IndexOf(this string[] arr, string date, string format = "yyyy-MM-dd")
+        {
+            if (arr == null||arr.Length == 0)
+                return -1;
+            if (string.IsNullOrEmpty(date))
+                return -1;
+            DateTime[] dArr = new DateTime[arr.Length];
+            for (int i = 0; i < arr.Length; i++)
+                dArr[i] = arr[i].ToDate(format);
+            return dArr.IndexOf(date);
+        }
         public static int IndexOf(this DateTime[] arr,string date)
         {
-            int ret = arr.ToList().IndexOf(date.ToDate());
+            List<DateTime> useArr = arr.ToList().OrderBy(a => a).ToList();
+            int ret = useArr.IndexOf(date.ToDate());
             if(ret >=0)
             {
                 return ret;
             }
-            if (date.ToDate() > arr.Last() || date.ToDate() < arr.First())
+            if (date.ToDate() > useArr.Last() || date.ToDate() < useArr.First())
             {
                 return -1;
             }
-            int gtcnt = arr.Where(a => a > date.ToDate()).Count();
-            return arr.Length - gtcnt;
+            int gtcnt = useArr.Where(a => a > date.ToDate()).Count();
+            return useArr.Count - gtcnt;
         }
 
         public static long ToLong(this string datetime,string toFormat = "yyyyMMddHHmmss",string fromFormat ="yyyy-MM-dd")

@@ -80,7 +80,7 @@ namespace WolfInv.com.StrategyLibForWD
             }
             //ret.Result.AddColumnByArray<string>("Code", seclist);
             //ret.Result.AddColumnByArray<string>("Name", secnames);
-            BaseDataTable dt = GetBaseData(w, seclist, EndT, Cycle.Day, PriceAdj.Beyond, new object[0] { });
+            BaseDataTable dt = GetBaseData(w, seclist, EndT, Cycle.Day, PriceAdj.Fore, new object[0] { });
             
             dt = dt.AvaliableData;
             BaseDataTable rdt = new BaseDataTable();

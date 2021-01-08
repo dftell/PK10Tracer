@@ -5,12 +5,13 @@ using System.Text;
 using System.Data;
 using WolfInv.com.BaseObjectsLib;
 using System.Threading.Tasks;
-
+using System.Linq;
 namespace WolfInv.com.BaseObjectsLib
 {
 
-    public class ExpectList<T> : List<ExpectData<T>> where T :TimeSerialData
+    public class ExpectList<T> : List<ExpectData<T>>  where T :TimeSerialData
     {
+        bool isSecurity = false;
         bool Readed=false;
         protected Dictionary<string, MongoReturnDataList<T>> _Data;
         protected Dictionary<string, MongoReturnDataList<T>> Data
@@ -25,14 +26,18 @@ namespace WolfInv.com.BaseObjectsLib
                 if (_MyData.Count == 0) return _Data;
                 if (_MyData[0].Keys == null || _MyData[0].Count == 0)
                 {
-                    _Data.Add("Lotty", new MongoReturnDataList<T>(new StockInfoMongoData(null, null)));
+                    _Data.Add("Lotty", new MongoReturnDataList<T>(new StockInfoMongoData(null, null),false));
                 }                             
                 for (int i=0;i<_MyData?.Count;i++)
                 {
                     if (_MyData[i].Keys == null || _MyData[i].Count == 0)//对彩票
                     {
                         T val = _MyData[i] as T;
-                        _Data[val.Key].Add(val);
+                        lock (_Data)
+                        {
+                            if (_Data.ContainsKey(val.Key))
+                                _Data[val.Key].Add(val);
+                        }
                     }
                     else
                     {
@@ -41,7 +46,7 @@ namespace WolfInv.com.BaseObjectsLib
                             if (!_Data.ContainsKey(key))
                             {
                                 StockInfoMongoData simd = new StockInfoMongoData(_MyData[i][key].Key, _MyData[i][key].KeyName);
-                                _Data.Add(key, new MongoReturnDataList<T>(simd));
+                                _Data.Add(key, new MongoReturnDataList<T>(simd,isSecurity));
                             }
                             _Data[key].Add(_MyData[i][key]);
                         }
@@ -59,11 +64,106 @@ namespace WolfInv.com.BaseObjectsLib
         public DataTypePoint UseType;
         public Cycle Cyc = Cycle.Expect;
         List<ExpectData<T>> _MyData= new List<ExpectData<T>>();
-        public ExpectList()
+        public ExpectList(bool sectype)
         {
+            isSecurity = sectype;
             Data = new Dictionary<string, MongoReturnDataList<T>>();
             _MyData = new List<ExpectData<T>>();
         }
+
+        public ExpectList(Dictionary<string, MongoReturnDataList<T>> _data, bool NeedReTime,bool sectype)
+        {
+            isSecurity = sectype;
+            _MyData = new List<ExpectData<T>>();
+            List<string> datelist = new List<string>();
+            if (NeedReTime)
+            {
+                var times = _data.Values.ToList().Select(a => a.Select(b => b.CurrTime));
+                foreach (var itime in times)
+                {
+                    foreach (string key in itime)
+                    {
+                        if (!datelist.Contains(key))
+                        {
+                            datelist.Add(key);
+                        }
+                    }
+                }
+                datelist.OrderBy(a => a);
+                for (int i = 0; i < datelist.Count; i++)
+                {
+                    ExpectData<T> newData = new ExpectData<T>(isSecurity);
+                    string strCurrDate = datelist[i];
+                    foreach (MongoReturnDataList<T> vals in _data.Values)
+                    {
+                        var val = vals.Where(a => a.CurrTime == strCurrDate);
+                        if (val == null || val.Count<T>() == 0)
+                            continue;
+                        T vData = val.First();
+
+                        newData.Add(vData.Key, vData);
+                    }
+                    newData.Expect = newData.First().Value.Expect;
+                    newData.OpenCode = newData.First().Value.OpenCode;
+                    newData.OpenTime = newData.First().Value.OpenTime;
+                    _MyData.Add(newData);
+
+                }
+
+            }
+            else
+            {
+                _data.First().Value.ForEach(a => _MyData.Add(new ExpectData<T>(a, isSecurity)));
+            }
+
+            Data = _data;
+            Readed = false;
+        }
+
+        public ExpectList(DataTable dt,bool sectype)
+        {
+            isSecurity = sectype;
+            _MyData = new List<ExpectData<T>>();
+            if (dt == null)
+            {
+                return;
+            }
+            lock (dt)
+            {
+
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    ExpectData<T> ed = new ExpectData<T>(isSecurity);
+                    ed.Expect = dt.Rows[i]["Expect"].ToString();
+                    ed.OpenCode = dt.Rows[i]["OpenCode"].ToString();
+                    string[] arr = ed.OpenCode.Split(',');
+                    if (arr.Length > 1)
+                    {
+                        for (int r = 0; r < arr.Length; r++)
+                        {
+                            arr[r] = arr[r].PadLeft(2, '0');
+                        }
+                        ed.OpenCode = string.Join(",", arr);
+                    }
+                    DateTime dtmp;
+                    bool suc = DateTime.TryParse(dt.Rows[i]["OpenTime"].ToString(), out dtmp);
+                    if (suc == true)
+                    {
+                        ed.OpenTime = dtmp;
+                    }
+                    if (dt.Columns.Contains("EId"))
+                    {
+                        ed.EId = int.Parse(dt.Rows[i]["EId"].ToString());
+                        ed.MissedCnt = int.Parse(dt.Rows[i]["MissedCnt"].ToString());
+                        ed.LastExpect = dt.Rows[i]["LastExpect"].ToString();
+                    }
+                    MyData.Add(ed);
+                }
+            }
+            Readed = false;
+        }
+
+        
         protected List<ExpectData<T>> MyData
         {
             get
@@ -156,100 +256,11 @@ namespace WolfInv.com.BaseObjectsLib
             return 1;//目前其他类型不检查
         }
         
-        public ExpectList(Dictionary<string, MongoReturnDataList<T>> _data,bool NeedReTime)
-        {
-            _MyData = new List<ExpectData<T>>();
-            List<string> datelist = new List<string>();
-            if (NeedReTime)
-            {
-                var times = _data.Values.ToList().Select(a => a.Select(b => b.CurrTime));
-                foreach (var itime in times)
-                {
-                    foreach (string key in itime)
-                    {
-                        if (!datelist.Contains(key))
-                        {
-                            datelist.Add(key);
-                        }
-                    }
-                }
-                datelist.OrderBy(a => a);
-                for (int i = 0; i < datelist.Count; i++)
-                {
-                    ExpectData<T> newData = new ExpectData<T>();
-                    string strCurrDate = datelist[i];
-                    foreach (MongoReturnDataList<T> vals in _data.Values)
-                    {
-                        var val = vals.Where(a => a.CurrTime == strCurrDate);
-                        if (val == null || val.Count<T>() == 0)
-                            continue;
-                        T vData = val.First();
-                        
-                        newData.Add(vData.Key, vData);
-                    }
-                    newData.Expect = newData.First().Value.Expect;
-                    newData.OpenCode = newData.First().Value.OpenCode;
-                    newData.OpenTime = newData.First().Value.OpenTime;
-                    _MyData.Add(newData);
-
-                }
-                
-            }
-            else
-            {
-                _data.First().Value.ForEach(a=> _MyData.Add(new ExpectData<T>(a)));
-            }
-            
-            Data = _data;
-            Readed = false;
-        }
-
-        public ExpectList(DataTable dt)
-        {
-            _MyData = new List<ExpectData<T>>();
-            if (dt == null)
-            {
-                return;
-            }
-            lock (dt)
-            {
-
-                for (int i = 0; i < dt.Rows.Count; i++)
-                {
-                    ExpectData<T> ed = new ExpectData<T>();
-                    ed.Expect = dt.Rows[i]["Expect"].ToString();
-                    ed.OpenCode = dt.Rows[i]["OpenCode"].ToString();
-                    string[] arr = ed.OpenCode.Split(',');
-                    if (arr.Length > 1)
-                    {
-                        for (int r = 0; r < arr.Length; r++)
-                        {
-                            arr[r] = arr[r].PadLeft(2, '0');
-                        }
-                        ed.OpenCode = string.Join(",", arr);
-                    }
-                    DateTime dtmp;
-                    bool suc = DateTime.TryParse(dt.Rows[i]["OpenTime"].ToString(), out dtmp);
-                    if (suc == true)
-                    {
-                        ed.OpenTime = dtmp;
-                    }
-                    if (dt.Columns.Contains("EId"))
-                    {
-                        ed.EId = int.Parse(dt.Rows[i]["EId"].ToString());
-                        ed.MissedCnt = int.Parse(dt.Rows[i]["MissedCnt"].ToString());
-                        ed.LastExpect = dt.Rows[i]["LastExpect"].ToString();
-                    }
-                    MyData.Add(ed);
-                }
-            }
-            Readed = false;
-        }
-
+        
         public ExpectList<T> getSubArray(int FromIndex, int len)
         {
             DataTable dt = null;
-            ExpectList<T> ret = new ExpectList<T>(dt);
+            ExpectList<T> ret = new ExpectList<T>(dt,isSecurity);
             if (MyData.Count < FromIndex + len)
                 throw new Exception("选区的子段超出母数据长度！");
             for (int i = FromIndex; i < FromIndex + len; i++)
@@ -322,54 +333,51 @@ namespace WolfInv.com.BaseObjectsLib
         {
             Dictionary<string, MongoReturnDataList<T>> ret = new Dictionary<string, MongoReturnDataList<T>>();
             int cnt = Data.Select(a => a.Value.Count).Min();
-            if (RecLng > cnt)
-                throw new Exception("请求长度超出目标列表长度！");
             foreach(string key in Data.Keys)
             {
                 ret.Add(key, Data[key].GetFirstData(RecLng));
             }
-            return new ExpectList<T>(ret,false);
+            return new ExpectList<T>(ret,false,isSecurity);
         }
 
         public ExpectList<T> LastDatas(string expect,int RecLng,bool ResortTime,int threadCnt = 10)
         {
-            MongoDataDictionary<T> ret = new MongoDataDictionary<T>();
-            /*            int cnt = Data.Select(a => a.Value.Count).Min();
-                        if (RecLng > cnt)
-                            throw new Exception("请求长度超出目标列表长度！");*/
-            int grpCnt = Data.Keys.Count / threadCnt + 1;
-            List<Task> tasks = new List<Task>();
-            List<string[]> grps = new List<string[]>();
-            var allDatas = Data.Keys;
-            int index = 0;
-            for (int i=0;i<threadCnt;i++)
-            {
-                string[] datas = allDatas.Skip(index).Take(grpCnt).ToArray();
-                index += datas.Length;
-                Task task = Task.Factory.StartNew(
-                    (obj) => {
-                        string[] list = obj as string[];
-                        for(int m=0;m<list.Length;m++)
-                        {
-                            MongoReturnDataList<T> res = Data[list[m]].GetLastData(RecLng, expect);
-                            ret.Add(list[m],res);
-                        }
-                    },
-                    datas
-                    );
-                tasks.Add(task);
-            }
-            Task.WaitAll(tasks.ToArray());
-            return ret.ToExpectList();
+            MongoDataDictionary<T> ret = new MongoDataDictionary<T>(isSecurity);
+            WolfTaskClass.MultiTaskProcess<string, MongoReturnDataList<T>, string, string>(
+                Data.Keys,
+                Data,
+                new Dictionary<string,string>(),
+                (k,v,ms,ss,notice) => {
+                    MongoReturnDataList<T> res = v.GetLastData(RecLng, expect);
+                    ret.TryAdd(k, res);
+                    notice?.Invoke(k);
+                },
+                (k) => { },
+                threadCnt,
+                5,
+                true
+                );
+            return ret.ToExpectList(threadCnt);
+
+            
         }
 
-        public ExpectList<T> LastDatas(int RecLng, bool ResortTime)
+        public ExpectList<T> LastDatas(int RecLng, bool ResortTime,int threadCnt = 10)
         {
             if (this.Count == 0)
                 return this;
-            return LastDatas(this.LastData.Expect,RecLng,ResortTime);
+            return LastDatas(this.LastData.Expect,RecLng,ResortTime,threadCnt);
         }
 
+        public ExpectList<T> ExcludeLastLong(int lng)
+        {
+            ExpectList<T> ret = new ExpectList<T>(this.isSecurity);
+            foreach (var item in MyData.Take(Math.Max(0,MyData.Count-lng)))
+            {
+                ret.Add(item);
+            }
+            return ret;
+        }
 
         public int IndexOf(string ExpectNo)
         {
@@ -403,14 +411,16 @@ namespace WolfInv.com.BaseObjectsLib
 
         public static ExpectList<T> Concat(ExpectList<T> descList, params ExpectList<T>[] addList)
         {
-            ExpectList<T> ret = new ExpectList<T>();
+            if (addList.Length == 0)
+                return descList;
+            ExpectList<T> ret = new ExpectList<T>(descList.isSecurity);
             if (descList == null)
-                descList = new ExpectList<T>();
+                descList = new ExpectList<T>(addList[0].isSecurity);
             for(int i=0;i<descList.Count;i++)
             {
                 ret.Add(descList[i]);
             }
-            if (ret == null) ret = new ExpectList<T>();
+            //if (ret == null) ret = new ExpectList<T>();
             for (int i = 0; i < addList.Length; i++)
             {
                 if (addList[i] == null) continue;
@@ -444,7 +454,7 @@ namespace WolfInv.com.BaseObjectsLib
             }
             for (int i = 0; i < MaxCnt; i++)
             {
-                ExpectData<T> ed = new ExpectData<T>();
+                ExpectData<T> ed = new ExpectData<T>(isSecurity);
                 //ed.ListData
 
             }

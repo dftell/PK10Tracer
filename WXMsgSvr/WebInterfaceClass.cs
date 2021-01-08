@@ -1296,7 +1296,7 @@ namespace WolfInv.com.WXMsgCom
                             }
                         }
                     }
-                    Task.WaitAll(msgs.ToArray());
+                    Task.WhenAll(msgs.ToArray());
                     AllWillSendMsgList = new List<msgclass>();
                 }
             }

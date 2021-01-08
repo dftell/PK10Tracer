@@ -10,7 +10,7 @@ using WolfInv.com.BaseObjectsLib;
 using System.Timers;
 using System.ComponentModel;
 using System.Runtime.Serialization;
-
+using WolfInv.com.SecurityLib;
 namespace WolfInv.com.ExchangeLib
 {
      [Serializable]
@@ -42,11 +42,22 @@ namespace WolfInv.com.ExchangeLib
 
         void InitColumns()
         {
-            string cols = "Id,ExpectNo,ExExpectNo,ChanceCode,OccurStrag,Odds,Chips,Amount,ExecRate,Cost,Gained,Profit,CreateTime,UpdateTime,StragId,UserId";
+            string cols = "Id:Int64,ChanceCode,ExpectNo,InStatus,Amount:Double,EndExpectNO,EndPrice:Double,EndStatus,Odds:Double,Chips:Int32,Cost:Double,ExExpectNo,ExecRate,OccurStrag,Gained:Double,Profit:Double,CreateTime,Closed:Int32,UpdateTime,StragId,UserId";
             string[] colArr = cols.Split(',');
             for (int i = 0; i < colArr.Length; i++)
             {
-                this.Columns.Add(colArr[i]);
+                string[] arr = colArr[i].Split(':');
+                Type type = typeof(String);
+                if (arr.Length>1)
+                {
+                    string strType = arr[1];
+                    Type tmp = Type.GetType(string.Format("System.{0}",strType), false);
+                    if(tmp != null)
+                    {
+                        type = tmp;
+                    }
+                }
+                this.Columns.Add(arr[0],type);
             }
         }
 
@@ -55,16 +66,41 @@ namespace WolfInv.com.ExchangeLib
             DataRow dr = this.NewRow();
             Eindex++;
             ec.Id = Eindex;
+            ec.OwnerChance.exchangeId = ec.Id;
             dr["Id"] = Eindex;
             dr["ExpectNo"] = ec.ExpectNo ;
-            dr["ExExpectNo"] = ec.ExExpectNo;
+            ChanceClass<T> cc = ec.OwnerChance;
             dr["ChanceCode"] = ec.OwnerChance.ChanceCode;
             dr["Chips"] = ec.OwnerChance.ChipCount;
             dr["Odds"] = ec.OccurStrag.CommSetting.Odds;
-            dr["Amount"] = ec.ExchangeAmount;
+            dr["Amount"] = cc.UnitCost;
             dr["ExecRate"] = ec.ExchangeRate;
-            dr["Cost"] = ec.Cost;
+            dr["Cost"] = cc.UnitCost*cc.ChipCount;
             dr["CreateTime"] = DateTime.Now.ToString();
+            dr["Closed"] = 0;
+            Rows.Add(dr);
+            return ec;
+        }
+
+        public ExchangeChance<T> AddSecurityChance<T>(ExchangeChance<T> ec) where T : TimeSerialData
+        {
+            DataRow dr = this.NewRow();
+            Eindex++;
+            SecurityChance<T> cc = ec.OwnerChance as SecurityChance<T>;
+            ec.Id = Eindex;
+            ec.OwnerChance.exchangeId = ec.Id;
+            dr["Id"] = Eindex;
+            dr["ExpectNo"] = ec.ExpectNo;
+            dr["ExExpectNo"] = cc.exchangeExpect;
+            dr["ChanceCode"] = ec.OwnerChance.ChanceCode;
+            dr["Chips"] = ec.OwnerChance.ChipCount;
+            dr["Odds"] = ec.OccurStrag.CommSetting.Odds;
+            dr["Amount"] = cc.openPrice;
+            dr["ExecRate"] = ec.ExchangeRate;
+            dr["Cost"] = cc.openPrice * cc.ChipCount;
+            dr["CreateTime"] = DateTime.Now.ToString();
+            dr["InStatus"] = cc.inputStatus;
+            dr["Closed"] = 0;
             Rows.Add(dr);
             return ec;
         }
@@ -80,7 +116,6 @@ namespace WolfInv.com.ExchangeLib
                 //throw new Exception("需要更新的下注Id不存在");
                 return false;
             }
-                
             DataRow dr = drs[0];
             if (ec.OwnerChance.Odds == 0)
             {
@@ -97,6 +132,41 @@ namespace WolfInv.com.ExchangeLib
             dr["Gained"] = Gained;
             dr["Profit"] = dGained - dCost;
             dr["UpdateTime"] = DateTime.Now.ToString();
+            dr["Closed"] = ec.OwnerChance.Closed?1:0;
+            return true;
+        }
+
+        public bool UpdateSecurityChance<T>(ExchangeChance<T> ec, out double Gained,string status) where T : TimeSerialData
+        {
+            string sqlmodule = "{0}='{1}'";
+            Gained = 0;
+            string sql = string.Format(sqlmodule, "Id", ec.OwnerChance.exchangeId);
+            DataRow[] drs = this.Select(sql, "");
+            if (drs.Length < 1)
+            {
+                //throw new Exception("需要更新的下注Id不存在");
+                return false;
+            }
+            DataRow dr = drs[0];
+            SecurityChance<T> cc = ec.OwnerChance as SecurityChance<T>;
+            double usePrice = cc.closePrice ?? cc.currUnitPrice;
+            double dGained = cc.ChipCount * usePrice;
+            double dCost = cc.openPrice*cc.ChipCount;
+            //Gained = 0;
+            //if (ec.MatchChips > 0)
+            //{
+                Gained = dGained;
+            //}
+            
+            double rate = 100*(usePrice - cc.openPrice) / cc.openPrice;
+            dr["Odds"] = rate;            
+            dr["EndExpectNO"] = cc.EndExpectNo??ec.UpdateExpectNo; //如果没有结束期就以更新期为准
+            dr["EndPrice"] = usePrice;//如果没有结束价就以当前价为准
+            dr["Gained"] = dGained;
+            dr["Profit"] = dGained-dCost;
+            dr["UpdateTime"] = ec.UpdateExpectNo;
+            dr["Closed"] = cc.Closed ? 1 : 0;
+            dr["EndStatus"] = cc.endStatus??status;
             return true;
         }
 

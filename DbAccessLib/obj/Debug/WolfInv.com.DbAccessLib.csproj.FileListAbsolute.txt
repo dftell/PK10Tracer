@@ -17,11 +17,6 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.pdb
 E:\github\project\PK10Tracer\WolfInv.com.DbAccessLib.dll
 E:\github\project\PK10Tracer\WolfInv.com.DbAccessLib.pdb
-E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.csprojAssemblyReference.cache
-E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.csproj.CoreCompileInputs.cache
-E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.csproj.CopyComplete
-E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.dll
-E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.pdb
 E:\github\source\dftell\PK10Tracer\DbAccessLib\debug\bin\WolfInv.com.DbAccessLib.dll
 E:\github\source\dftell\PK10Tracer\DbAccessLib\debug\bin\WolfInv.com.DbAccessLib.pdb
 E:\github\source\dftell\PK10Tracer\DbAccessLib\debug\bin\MongoDB.Bson.dll
@@ -33,3 +28,8 @@ E:\github\source\dftell\PK10Tracer\DbAccessLib\debug\bin\WolfInv.com.LogLib.pdb
 E:\github\source\dftell\PK10Tracer\DbAccessLib\debug\bin\MongoDB.Bson.xml
 E:\github\source\dftell\PK10Tracer\DbAccessLib\debug\bin\MongoDB.Driver.xml
 E:\github\source\dftell\PK10Tracer\DbAccessLib\debug\bin\MongoDB.Driver.Core.xml
+E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.csprojAssemblyReference.cache
+E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.csproj.CoreCompileInputs.cache
+E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.csproj.CopyComplete
+E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.dll
+E:\github\source\dftell\PK10Tracer\DbAccessLib\obj\Debug\WolfInv.com.DbAccessLib.pdb

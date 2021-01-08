@@ -96,7 +96,7 @@ namespace WolfInv.com.Strags
                      
         public ExpectList<T> LastUseData<T>() where T:TimeSerialData
         {
-            return new ExpectList<T>(_LastUseData.Table);
+            return new ExpectList<T>(_LastUseData.Table,false);
         }
 
         #region  支持propertygrid默认信息
@@ -147,7 +147,7 @@ namespace WolfInv.com.Strags
 
         public abstract List<ChanceClass> getChances(BaseCollection sc, ExpectData ed);
 
-        public override List<ChanceClass<TimeSerialData>> getChances(BaseCollection<TimeSerialData> sc, ExpectData<TimeSerialData> ed)
+        public override List<ChanceClass<TimeSerialData>> getChances(BaseCollection<TimeSerialData> sc, ExpectData<TimeSerialData> ed,bool review=false)
         {
             //return null;//            
             BaseCollection inBc = sc as BaseCollection;
@@ -168,7 +168,7 @@ namespace WolfInv.com.Strags
             }
             return new List<ChanceClass<TimeSerialData>>();
         }
-        public bool CheckNeedEndTheChance(ChanceClass<TimeSerialData> cc, bool LastExpectMatched)
+        public bool CheckNeedEndTheChance(ChanceClass<TimeSerialData> cc, bool LastExpectMatched, bool review)
         {
             ChanceClass cc1 = cc.CopyTo<ChanceClass>();
             return CheckNeedEndTheChance(cc1, LastExpectMatched);

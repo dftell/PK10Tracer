@@ -63,6 +63,7 @@ namespace WolfInv.com.BaseObjectsLib
         public int AllowMaxHoldTimeCnt { get; set; }
         public int LastMatchTimesId { get; set; }
 
+        public string exchangeExpect;
         public ExpectData<T> InputExpect;
         //public string FromStrag;
         //public string StragParams;
@@ -86,7 +87,7 @@ namespace WolfInv.com.BaseObjectsLib
         public virtual bool Matched(ExpectData<T> data, out int MatchCnt,bool getRev)
         {
             //MatchCnt = 0;
-            ExpectList<T> el = new ExpectList<T>();
+            ExpectList<T> el = new ExpectList<T>(data.IsSecurity);
             el.Add(data);
             return Matched(el, out MatchCnt, getRev);
         }
@@ -94,7 +95,7 @@ namespace WolfInv.com.BaseObjectsLib
         public virtual bool Matched(ExpectData<T> data, out int MatchCnt)
         {
             //MatchCnt = 0;
-            ExpectList<T> el = new ExpectList<T>();
+            ExpectList<T> el = new ExpectList<T>(data.IsSecurity);
             el.Add(data);
             return Matched(el, out MatchCnt,false);
         }
@@ -169,6 +170,7 @@ namespace WolfInv.com.BaseObjectsLib
             {
                 if (ChanceCode == null || ChanceCode.Trim().Length == 0)
                 {
+                    return true;
                     throw new Exception("机会为空！");
                 }
                 if (ChanceCode.IndexOf("+") > 0)
@@ -183,7 +185,10 @@ namespace WolfInv.com.BaseObjectsLib
                 return false;
             }
         }
-
+        //每期都需要结束，其close已经置true,但是因为无法跌停或停牌等情况无法成交
+        public bool needEndChance;
+        //当前无法结束
+        public bool currCantEndChance;
         public static bool IsPureCode(string code)
         {
             if (code == null || code.Trim().Length == 0)

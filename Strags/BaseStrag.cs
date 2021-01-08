@@ -19,7 +19,7 @@ namespace WolfInv.com.Strags
 {
     public interface IFindChance<T> where T : TimeSerialData
     {
-        List<ChanceClass<T>> getChances(BaseCollection<T> sc, ExpectData<T> ed);
+        List<ChanceClass<T>> getChances(BaseCollection<T> sc, ExpectData<T> ed,bool review);
     }
 
     /// <summary>
@@ -234,7 +234,16 @@ namespace WolfInv.com.Strags
         CategoryAttribute("输出设置"),
         DefaultValueAttribute(false)]
         public bool MergeChances { get; set; }
-
+        [DescriptionAttribute("最大同时持仓数(不计停牌)"),
+        DisplayName("最大同时持仓数"),
+        CategoryAttribute("持仓设置"),
+        DefaultValueAttribute(50)]
+        public int AllowHoldMaxChances { get; set; }
+        [DescriptionAttribute("单期选取最大机会数"),
+        DisplayName("单期选取最大机会数"),
+        CategoryAttribute("输出设置"),
+        DefaultValueAttribute(20)]
+        public int SingeExpectSelectTopN { get; set; }
         /// <summary>
         /// 策略配置
         /// </summary>
@@ -263,7 +272,7 @@ namespace WolfInv.com.Strags
         }
 
 
-        public abstract List<ChanceClass<T>> getChances(BaseCollection<T> sc, ExpectData<T> ed);
+        public abstract List<ChanceClass<T>> getChances(BaseCollection<T> sc, ExpectData<T> ed,bool review=false);
 
         public abstract StagConfigSetting getInitStagSetting();
 

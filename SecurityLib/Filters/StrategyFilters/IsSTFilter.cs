@@ -1,11 +1,11 @@
 ﻿using System;
 using WolfInv.com.BaseObjectsLib;
-
+using WolfInv.com.GuideLib;
 namespace WolfInv.com.SecurityLib.Filters.StrategyFilters
 {
     public class IsSTFilter<T> : CommFilterLogicBaseClass<T> where T : TimeSerialData
     {
-        public IsSTFilter(CommSecurityProcessClass<T> cpc) : base(cpc)
+        public IsSTFilter(string expect, CommSecurityProcessClass<T> secinfo, PriceAdj priceAdj = PriceAdj.Fore, Cycle cyc = Cycle.Day) : base(expect, secinfo, priceAdj, cyc)
         {
 
         }
@@ -15,20 +15,21 @@ namespace WolfInv.com.SecurityLib.Filters.StrategyFilters
             throw new NotImplementedException();
         }
 
-        public override CommSecurityProcessClass<T> ExecFilter(CommStrategyInClass Input)
+        public override SelectResult ExecFilter(CommStrategyInClass Input)
         {
+            SelectResult ret = new SelectResult();
             if(SecObj.StockInfo==null)
             {
-                SecObj.Enable = false;
-                return SecObj;
+                ret.Enable = false;
+                return ret;
             }
             if(SecObj.StockInfo.KeyName.Contains("ST"))
             {
-                SecObj.Enable = false;
-                return SecObj;
+                ret.Enable = false;
+                return ret;
             }
-            SecObj.Enable = true;
-            return SecObj;
+            ret.Enable = true;
+            return ret;
         }
     }
 }

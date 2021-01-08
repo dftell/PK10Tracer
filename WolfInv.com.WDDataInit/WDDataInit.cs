@@ -33,19 +33,31 @@ namespace WolfInv.com.WDDataInit
         }
        
 
-        public static MongoDataDictionary<T> getAllSerialData()
+        public static MongoDataDictionary<T> getAllSerialData(string codes=null)
         {
-            return _AllEquitSerialData;
+            
+            if (_AllEquitSerialData == null || string.IsNullOrEmpty(codes))
+                return _AllEquitSerialData;
+            string[] arr = codes.Split(';');
+            MongoDataDictionary<T> ret = new MongoDataDictionary<T>(true);
+            for(int i=0;i<arr.Length;i++)
+            {
+                if(_AllEquitSerialData.ContainsKey(arr[i].WDCode()))
+                {
+                    ret.TryAdd(arr[i].WDCode(),_AllEquitSerialData[arr[i].WDCode()]);
+                }
+            }
+            return ret;
         }
 
-        public static MongoDataDictionary<T> _AllEquitSerialData;
+        public static MongoDataDictionary<T> _AllEquitSerialData = new MongoDataDictionary<T>(true);
         public MongoReturnDataList<T> getEquitSerialData(string key,string name)
         {
             if(_AllEquitSerialData.ContainsKey(key))
             {
                 return _AllEquitSerialData[key];
             }
-            return new MongoReturnDataList<T>(new StockInfoMongoData(key,name));
+            return new MongoReturnDataList<T>(new StockInfoMongoData(key,name),true);
         }
         public static bool Loaded;
         
@@ -88,18 +100,22 @@ namespace WolfInv.com.WDDataInit
         public static void loadEquitSerial(string key,string name, bool noNeedToday = false, bool onlyLocal = false,int localDataLen=1000,string fromdate=null,string todate=null)
         {
             if(_AllEquitSerialData == null)
-                _AllEquitSerialData = new MongoDataDictionary<T>();
+                _AllEquitSerialData = new MongoDataDictionary<T>(true);
             string[] names = key.Split('.');
-            EquitProcess<T> epr = new EquitProcess<T>(rcbd.currAPI, names[0],names[1], name);
+            if(names.Length<2)
+            {
+                return;
+            }
+            EquitProcess<T> epr = new EquitProcess<T>(rcbd.currAPI,key,names[1], name);
             epr.vipdocRoot = vipDocRoot;
             var res = epr.updateData(noNeedToday, onlyLocal,localDataLen, fromdate, todate);
-            processCnt++;
+            //processCnt++;
             
                 
             //lock (_AllEquitSerialData)
             //{
                 if (!_AllEquitSerialData.ContainsKey(key))
-                    _AllEquitSerialData.Add(key, epr.FullData);
+                    _AllEquitSerialData.TryAdd(key, epr.FullData);
                 else
                     _AllEquitSerialData[key] = epr.FullData;
             //}
@@ -115,77 +131,54 @@ namespace WolfInv.com.WDDataInit
                 _AllEquits.Add("002624.SZ", "中国平安");
             }
             int allCnt = _AllEquits.Count;
-            _AllEquitSerialData = new MongoDataDictionary<T>();
+            _AllEquitSerialData = new MongoDataDictionary<T>(true);
             var items = _AllEquits.Keys.ToList();
-            int step = grpCnt>1?grpCnt:(int)Math.Sqrt(items.Count);
-            int index = 0;
-            List<List<string>> grps = new List<List<string>>();
-            tasks = new List<Task>();
-            while (index < items.Count)
-            {
-                
-                List<string> batchItems = items.Skip(index).Take(step).ToList();
-                if (batchItems.Count == 0)
-                    break;
-                index += step;
-                Task tk = Task.Factory.StartNew(
-                    (obj) =>
+            WolfTaskClass.MultiTaskProcess<string, string, string, string>
+                (
+                    items,_AllEquits,new Dictionary<string,string>(),
+                    (key,val,eqts,list,notice)=>
                     {
-                        List<string> list = obj as List<string>;
-                        for (int s = 0; s < list.Count; s++)
+                        
+                        string[] names = key.Split('.');
+                        string mk = "";
+                        if (names.Length > 1)
+                            mk = names[1];
+                        EquitProcess<T> epr = new EquitProcess<T>(rcbd.currAPI, key, mk, val);
+                        epr.vipdocRoot = vipDocRoot;
+                        try
                         {
-                            string key = list[s];
-                            string name = null;
-                            if (_AllEquits.ContainsKey(key))
-                            {
-                                name = _AllEquits[key];
-                            }
-                            string[] names = key.Split('.');
-                            if (names.Length < 2)
-                            {
-                                return;
-                            }
-                            EquitProcess<T> epr = new EquitProcess<T>(rcbd.currAPI, names[0], names[1], name);
-                            epr.vipdocRoot = vipDocRoot;
-                            var res = epr.updateData(noNeedToday, onlyLocal, localDataLen,fromdate,todate);
+                            var res = epr.updateData(noNeedToday, onlyLocal, localDataLen, fromdate, todate);
                             processCnt++;
                             finishedMsg?.Invoke(processCnt, allCnt, res);
+                            notice?.Invoke(key);
                             if (processCnt >= allCnt)//内部计算，如果处理完成了，就将状态置为已加载完成
                             {
                                 Loaded = true;
                                 Loading = false;
                             }
-                            lock (_AllEquitSerialData)
-                            {
-                                if (!_AllEquitSerialData.ContainsKey(key))
-                                    _AllEquitSerialData.Add(key, epr.FullData);
-                                else
-                                    _AllEquitSerialData[key] = epr.FullData;
-                            }
+                            if (!_AllEquitSerialData.ContainsKey(key))
+                                _AllEquitSerialData.TryAdd(key, epr.FullData);
+                            else
+                                _AllEquitSerialData[key] = epr.FullData;
+                            //GC.Collect();
                         }
-                    }, batchItems
-                    );
-                if(tasks.Count< threadCnt)
-                {
-                    tasks.Add(tk);
-                }
-                else
-                {
-                    tasks.Add(tk);
-                    int finished = Task.WaitAny(tasks.ToArray());
-                    tasks.RemoveAt(finished);
-                    
-                }
-                //Task.WaitAll(tasks.ToArray());
-            }
-            
-            
-            if (sync)
-            {
-                Task.WaitAll(tasks.ToArray());
-                Loading = false;
-                Loaded = true;
-            }
+                        finally
+                        {
+                            epr = null;
+                        }
+                    },
+                    (key) => {
+                        //Task.Factory.StartNew(() =>
+                        //{
+                            
+                        //});
+                    },
+                    threadCnt, grpCnt, true
+                );
+
+            return;
+
+           
         }
 
         static void InitExchangeDays()
@@ -197,6 +190,7 @@ namespace WolfInv.com.WDDataInit
                 if(_AllEquitSerialData.ContainsKey("000001.SH"))
                 {
                     AllDays = _AllEquitSerialData["000001.SH"].Select(a => a.Expect.ToDate()).ToArray();
+                    AllDays = AllDays.OrderBy(a => a).ToArray();
                     _AllEquitSerialData = null;
                 }
             }

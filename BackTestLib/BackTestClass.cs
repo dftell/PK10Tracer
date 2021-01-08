@@ -13,15 +13,18 @@ using WolfInv.com.Strags;
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.SecurityLib;
 using WolfInv.com.PK10CorePress;
+using System.Collections;
+using System.Threading.Tasks;
 
 namespace WolfInv.com.BackTestLib
 {
-    public delegate void SuccEvent();
+    public delegate void SuccEvent(string expect);
         
     public class BackTestClass<T> where T:TimeSerialData
     {
         DataTypePoint dtp;
         string BegExpect;
+        public string useBegExpect;
         string EndExpect;
         long LoopCnt;
         double Odds;
@@ -30,12 +33,18 @@ namespace WolfInv.com.BackTestLib
         public BackTestReturnClass<T> ret = new BackTestReturnClass<T>();
         public BaseStragClass<T> teststrag;
         public DataTable SystemStdDevs = new DataTable();
-        public SuccEvent FinishedProcess; 
-        public BackTestClass(DataTypePoint _dtpName, string FromE,long buffCnt,SettingClass setting, string EndE=null)
+        public SuccEvent FinishedProcess;
+        public Action<string,Hashtable> ExpectProcessedEvent;
+        public Action<string, Hashtable> ExpectTip;
+        public Action<string,string, string> StagInterProcessEvent;
+        public string SecPools;
+        public BackTestClass(DataTypePoint _dtpName,string Codes, string FromE,long buffCnt,SettingClass setting, string EndE=null)
         {
+            SecPools = Codes;
             dtp = _dtpName;
 
             BegExpect = FromE;
+            useBegExpect = BegExpect;
             EndExpect = EndE;
             LoopCnt = buffCnt;
             if (_dtpName.DataType.ToUpper().Equals("CN_STOCK_A"))
@@ -63,7 +72,7 @@ namespace WolfInv.com.BackTestLib
             ret.InChipsDic = new Dictionary<int, int>();
             ret.WinChipsDic = new Dictionary<int, int>();
 
-            ExpectList<T> AllData = new ExpectList<T>();
+            ExpectList<T> AllData = new ExpectList<T>(dtp.IsSecurityData==1);
             testIndex = teststrag.ReviewExpectCnt-1;
             ExpectList<T> testData = null;
             Dictionary<string, ChanceClass<T>> NoCloseChances = new Dictionary<string, ChanceClass<T>>();
@@ -72,7 +81,7 @@ namespace WolfInv.com.BackTestLib
             
             while (el == null || el.Count > 0) //如果取到的数据长度大于0
             {
-                el = er.ReadHistory(begNo, LoopCnt);
+                el = er.ReadHistory(begNo, LoopCnt, SecPools);
                 int ri = 0;
                 while(el==null)
                 {
@@ -81,7 +90,7 @@ namespace WolfInv.com.BackTestLib
                         break;
                     }
                     Thread.Sleep(1 * 1000);
-                    el = er.ReadHistory(begNo, LoopCnt);
+                    el = er.ReadHistory(begNo, LoopCnt, SecPools);
                     ri++;
                 }
                 if (el == null)
@@ -169,7 +178,7 @@ namespace WolfInv.com.BackTestLib
                                     if (its == null)
                                         cc.Closed = cc.OnCheckTheChance(cc, Matched);
                                     else
-                                        cc.Closed = its.CheckNeedEndTheChance(cc, Matched);
+                                        cc.Closed = its.CheckNeedEndTheChance(cc, Matched,dtp.IsSecurityData==1);
                                 }
                                 else
                                 {
@@ -250,7 +259,7 @@ namespace WolfInv.com.BackTestLib
                     {
                         (teststrag as ReferIndexStragClass).ClearTmpData();
                     }
-                    List<ChanceClass<T>> cs = teststrag.getChances(sc,testData.LastData);//获取所有机会
+                    List<ChanceClass<T>> cs = teststrag.getChances(sc,testData.LastData,dtp.IsSecurityData==1);//获取所有机会
                     if (ret.ChanceList == null)
                     {
                         ret.ChanceList = new List<ChanceClass<T>>();
@@ -285,7 +294,7 @@ namespace WolfInv.com.BackTestLib
                 }
                 pastCnt += el.Count;
             }
-            FinishedProcess();
+            FinishedProcess(el.LastData.Expect);
             //return ret;
         }
 
@@ -295,166 +304,215 @@ namespace WolfInv.com.BackTestLib
         /// <param name="es"></param>
         /// <param name="teststragplans"></param>
         /// <returns></returns>
-        public BackTestReturnClass<T> VirExchange(ServiceSetting<T> sc,ref Dictionary<string,ExchangeService<T>> ess, StragRunPlanClass<T>[] teststragplans)
+        public BackTestReturnClass<T> VirExchange(ServiceSetting<T> sc,ref Hashtable ess, StragRunPlanClass<T>[] teststragplans,string codes)
         {
-            //LoopCnt = 0;
-            testIndex = 0;
-            //调用计算服务进行计算
-            //if (!teststragplans[0].AssetUnitInfo.Running) //如果资产单元没有启动，启动资产单元
-            //    teststragplans[0].AssetUnitInfo.Run(false);
-            bool mergeAsset = false;
-            if(ess.Count == 1 && teststragplans.Length>ess.Count)
-            {
-                mergeAsset = true;
-            }
-            if (mergeAsset)
-            {
-                ess[teststragplans[0].AssetUnitInfo.UnitId] = teststragplans[0].AssetUnitInfo.getCurrExchangeServer();
-            }
-            else
-            {
-                for (int i = 0; i < teststragplans.Length; i++)
-                {
-                    if (!teststragplans[i].AssetUnitInfo.Running)
-                    {
-                        teststragplans[i].AssetUnitInfo.Run(false);
-                    }
-                    ess[teststragplans[i].AssetUnitInfo.UnitId] = teststragplans[i].AssetUnitInfo.getCurrExchangeServer();
-                }
-            }
-            // es = teststragplans[0].AssetUnitInfo.getCurrExchangeServer();//设置资产单元的模拟交易器
-            CalcService<T> cs = new CalcService<T>(true,sc,teststragplans.ToDictionary(t=>t.GUID,t=>t));
-            cs.DataPoint = dtp;
-            if (dtp.IsSecurityData==1)
-            {
-                cs.ReadDataTableName = dtp.NewestTable;
-                cs.Codes = null;
-            }
-            cs.IsTestBack = true;
             
-            string begNo = BegExpect;
-            //ExpectReader er = new ExpectReader();
-            DataReader<T> er = DataReaderBuild.CreateReader<T>(dtp.DataType,dtp.HistoryTable,dtp.RuntimeInfo.SecurityCodes); //支持所有数据
-            ExpectList<T> el = null;
-            long cnt = 0;
             BackTestReturnClass<T> ret = new BackTestReturnClass<T>();
             ret.HoldCntDic = new Dictionary<int, int>();
             ret.HoldWinCntDic = new Dictionary<int, int>();
             ret.InChipsDic = new Dictionary<int, int>();
             ret.WinChipsDic = new Dictionary<int, int>();
-
-            ExpectList<T> AllData = new ExpectList<T>();
-            //long testIndex = teststrag.ReviewExpectCnt - 1;
-            BaseStragClass<T>[] teststrags = teststragplans.Select(p => p.PlanStrag).ToArray<BaseStragClass<T>>();
-            testIndex = teststrags.Max<BaseStragClass<T>>(s => s.ReviewExpectCnt);//取所有策略中回览期最大的开始，之前的数据不看
-            long InitIndex = testIndex;
-            ExpectList<T> testData = null;
-            ////Dictionary<string, StragChance<T>> NoCloseChances = new Dictionary<string, StragChance<T>>();
-            ////Dictionary<string, StragChance<T>> tmpChances = new Dictionary<string, StragChance<T>>();
-            ////Dictionary<Int64, ExchangeChance> NewExchangeRecord = new Dictionary<Int64, ExchangeChance>();
-            int AllCnt = 0;
-            while (el == null || el.Count > 0) //如果取到的数据长度大于0
+            try
             {
-
+                //LoopCnt = 0;
+                testIndex = 0;
+                //调用计算服务进行计算
+                //if (!teststragplans[0].AssetUnitInfo.Running) //如果资产单元没有启动，启动资产单元
+                //    teststragplans[0].AssetUnitInfo.Run(false);
+                bool mergeAsset = false;
+                if (ess.Count == 1 && teststragplans.Length > ess.Count)
+                {
+                    mergeAsset = true;
+                }
+                if (mergeAsset)
+                {
+                    ess[teststragplans[0].AssetUnitInfo.UnitId] = teststragplans[0].AssetUnitInfo.getCurrExchangeServer();
+                }
+                else
+                {
+                    for (int i = 0; i < teststragplans.Length; i++)
+                    {
+                        if (!teststragplans[i].AssetUnitInfo.Running)
+                        {
+                            teststragplans[i].AssetUnitInfo.Run(dtp, false);
+                        }
+                        ess[teststragplans[i].AssetUnitInfo.UnitId] = teststragplans[i].AssetUnitInfo.getCurrExchangeServer();
+                    }
+                }
+                // es = teststragplans[0].AssetUnitInfo.getCurrExchangeServer();//设置资产单元的模拟交易器
+                CalcService<T> cs = new CalcService<T>(true, sc, teststragplans.ToDictionary(t => t.GUID, t => t));
+                cs.DataPoint = dtp;
+                cs.StragAfterProcessEvent = this.StagInterProcessEvent;
                 if (dtp.IsSecurityData == 1)
                 {
-                    el = er.ReadHistory(begNo, LoopCnt);
+                    cs.ReadDataTableName = dtp.NewestTable;
+                    cs.Codes = null;
                 }
-                else
+                cs.IsTestBack = true;
+
+                string begNo = BegExpect;
+                //ExpectReader er = new ExpectReader();
+                DataReader<T> er = DataReaderBuild.CreateReader<T>(dtp.DataType, dtp.HistoryTable, dtp.RuntimeInfo.SecurityCodes); //支持所有数据
+                ExpectList<T> el = null;
+                long cnt = 0;
+                
+
+                ExpectList<T> AllData = new ExpectList<T>(dtp.IsSecurityData == 1);
+                //long testIndex = teststrag.ReviewExpectCnt - 1;
+                BaseStragClass<T>[] teststrags = teststragplans.Select(p => p.PlanStrag).ToArray<BaseStragClass<T>>();
+                testIndex = teststrags.Max<BaseStragClass<T>>(s => s.ReviewExpectCnt);//取所有策略中回览期最大的开始，之前的数据不看
+                long InitIndex = testIndex;
+                
+                ExpectList<T> testData = null;
+                ////Dictionary<string, StragChance<T>> NoCloseChances = new Dictionary<string, StragChance<T>>();
+                ////Dictionary<string, StragChance<T>> tmpChances = new Dictionary<string, StragChance<T>>();
+                ////Dictionary<Int64, ExchangeChance> NewExchangeRecord = new Dictionary<Int64, ExchangeChance>();
+                int AllCnt = 0;
+                bool inited = false;
+                while (el == null || el.Count > 0) //如果取到的数据长度大于0
                 {
-                    el = er.ReadHistory(begNo, LoopCnt);
-                }
-                int rptCnt = 0;
-                int maxRptCnt = 5;
-                while(el==null)
-                {
-                    Thread.Sleep(2 * 1000);
-                    rptCnt++;
-                    if(rptCnt>maxRptCnt)
-                    {
-                        break;
-                    }
+
                     if (dtp.IsSecurityData == 1)
                     {
-                        el = er.ReadHistory(begNo, LoopCnt);
-                    }
-                    else
-                    {
-                        el = er.ReadHistory(begNo, LoopCnt);
-                    }
-                    
-                }
-                if (el == null)
-                {
-                    ret.LoopCnt = cnt * LoopCnt;
-                    ret.succ = false;
-                    ret.Msg = "读取历史数据错误！";
-                    break;
-                }
-                if (el.Count == 0)
-                {
-                    ret.LoopCnt = testIndex;
-                    ret.succ = true;
-                    //ret.Msg = string.Format("成功遍历{0}条记录！共发现机会{1}次！其中,{2}.", testIndex, ret.ChanceList.Count, ret.HoldInfo);
-                    break;
-                }
-                AllData = ExpectList<T>.Concat(AllData, el);
-                if (dtp.IsSecurityData==0)
-                {
-
-                    //begNo = el.LastData.LExpectNo + 1;//加一期
-                    begNo = DataReader<T>.getNextExpectNo(el.LastData.Expect,dtp);
-                }
-                else
-                {
-                    DateTime dt = el.LastData.Expect.ToDate();
-                    begNo = dt.AddDays(1).WDDate();//加一个周期,如果要回测其他周期，AddDays许更换为其他时间周期
-                }
-                cnt++;
-                //Todo:
-
-                while (testIndex < AllData.Count)
-                {
-                    int CurrExpectClose = 0;
-                    AllCnt++;
-                    //ess.First().Value.UpdateExpectCnt(AllCnt);
-                    if (testData == null)
-                    {
-                        //testData = AllData.getSubArray(0, teststrag.ReviewExpectCnt);
-                        testData = AllData.getSubArray(0, (int)InitIndex + 1);
-                    }
-                    else
-                    {
-                        if (dtp.IsSecurityData == 0)//如果非证券，判断两个期号之间是否连续
+                        el = er.ReadHistory(begNo, LoopCnt,codes);
+                        if (!inited)
                         {
-                            ////if (AllData[(int)testIndex].Expect != testData.LastData.ExpectIndex + 1)
-                            ////{
-                            ////    if (dtp.DataType == "PK10")
-                            ////    {
-                            ////        throw new Exception(string.Format("{1}第{0}期后出现数据遗漏，请补充数据后继续测试！", testData.LastData.Expect, testData.LastData.OpenTime));
-                            ////    }
-                            ////}
+                            InitIndex = el.DataList.Select(a => a.Expect).ToArray().IndexOf(useBegExpect);
+                            if (testIndex > InitIndex)
+                                testIndex = InitIndex;
+                            inited = true;
                         }
-                        testData.RemoveAt(0);
-                        testData.Add(AllData[(int)testIndex]);
                     }
-                    //只是取数据的逻辑一样，以后均调用CalcService
-                    //ToAdd:以下是内容
-                    cs.CurrData = testData;
-                    cs.OnFinishedCalc += OnCalcFinished;
-                    cs.setGlobalClass(Program<T>.gc);
-                    cs.Calc();
-                    /*while (!cs.CalcFinished)
+                    else
                     {
-                        Thread.Sleep(1*100);
-                    }*/
-                    this.SystemStdDevs = cs.getSystemStdDevList();
-                    //testIndex++;
-                    testIndex++;
+                        el = er.ReadHistory(begNo, LoopCnt,codes);
+                    }
+                    int rptCnt = 0;
+                    int maxRptCnt = 5;
+                    //多次读取历史记录，保证能读取到
+                    int noticeId = 0;
+                    while (el == null)
+                    {
+                        Thread.Sleep(2 * 1000);
+                        rptCnt++;
+                        if (rptCnt > maxRptCnt)
+                        {
+                            break;
+                        }
+                        if (dtp.IsSecurityData == 1)
+                        {
+                            el = er.ReadHistory(begNo, LoopCnt, codes);
+                        }
+                        else
+                        {
+                            el = er.ReadHistory(begNo, LoopCnt, codes);
+                        }
+
+                    }
+                    if (el == null)
+                    {
+                        ret.LoopCnt = cnt * LoopCnt;
+                        ret.succ = false;
+                        ret.Msg = "读取历史数据错误！";
+                        break;
+                    }
+                    if (el.Count == 0)
+                    {
+                        ret.LoopCnt = testIndex;
+                        ret.succ = true;
+                        //ret.Msg = string.Format("成功遍历{0}条记录！共发现机会{1}次！其中,{2}.", testIndex, ret.ChanceList.Count, ret.HoldInfo);
+                        break;
+                    }
+                    AllData = ExpectList<T>.Concat(AllData, el);
+                    if (dtp.IsSecurityData == 0)
+                    {
+
+                        //begNo = el.LastData.LExpectNo + 1;//加一期
+                        begNo = DataReader<T>.getNextExpectNo(el.LastData.Expect, dtp);
+                    }
+                    else
+                    {
+                        DateTime dt = el.LastData.Expect.ToDate();
+                        begNo = dt.AddDays(1).WDDate();//加一个周期,如果要回测其他周期，AddDays许更换为其他时间周期
+                        
+                    }
+                    cnt++;
+                    //Todo:
+
+                    while (testIndex < AllData.Count)
+                    {
+                        int CurrExpectClose = 0;
+                        AllCnt++;
+                        //ess.First().Value.UpdateExpectCnt(AllCnt);
+                        if (testData == null)
+                        {
+                            //testData = AllData.getSubArray(0, teststrag.ReviewExpectCnt);
+                            
+                            testData = AllData.getSubArray(0, (int)InitIndex + 1);
+                            
+                        }
+                        else
+                        {
+                            if (dtp.IsSecurityData == 0)//如果非证券，判断两个期号之间是否连续
+                            {
+                                ////if (AllData[(int)testIndex].Expect != testData.LastData.ExpectIndex + 1)
+                                ////{
+                                ////    if (dtp.DataType == "PK10")
+                                ////    {
+                                ////        throw new Exception(string.Format("{1}第{0}期后出现数据遗漏，请补充数据后继续测试！", testData.LastData.Expect, testData.LastData.OpenTime));
+                                ////    }
+                                ////}
+                            }
+                            testData.RemoveAt(0);
+                            testData.Add(AllData[(int)testIndex]);
+                        }
+                        //只是取数据的逻辑一样，以后均调用CalcService
+                        //ToAdd:以下是内容
+                        if (dtp.IsSecurityData == 1)//证券类型，如果期号小于实际期号，全部跳过
+                        {
+                            if (testData.LastData.Expect.ToDate()<useBegExpect.ToDate())
+                            {
+                                testIndex++;
+                                continue;
+                            }
+                        }
+                        if(testData.LastData.Expect.ToDate() > EndExpect.ToDate())//如果达到了最后一期，结束
+                        {
+                            FinishedProcess(testData.LastData.Expect);
+                            return ret;
+                        }
+                        cs.CurrData = testData;
+                        cs.OnFinishedCalc += OnCalcFinished;
+                        cs.setGlobalClass(Program<T>.gc);
+                        cs.Calc();
+                        while (!cs.CalcFinished)
+                        {
+                            Thread.Sleep(1*100);
+                        }
+                        this.SystemStdDevs = cs.getSystemStdDevList();
+                        //testIndex++;
+                        Hashtable htb = ess;
+                        Task.Factory.StartNew(() => {
+                            ExpectTip(testData.LastData.Expect, htb );
+                        });
+                        if (AllCnt > noticeId + 10)//5期才刷新一次
+                        {
+                            noticeId = AllCnt;
+                            Task.Factory.StartNew((ht) =>
+                            {
+                                ExpectProcessedEvent(testData.LastData.Expect, ht as Hashtable);
+                            },ess);
+                        }
+                        testIndex++;
+                    }
                 }
+                FinishedProcess(el.LastData.Expect);
+                return ret;
             }
-            FinishedProcess();
-            return ret;
+            catch(Exception ce)
+            {
+                return ret ;
+            }
         }
 
         void OnCalcFinished(DataTypePoint dtp)
@@ -476,7 +534,7 @@ namespace WolfInv.com.BackTestLib
             ret.InChipsDic = new Dictionary<int, int>();
             ret.WinChipsDic = new Dictionary<int, int>();
 
-            ExpectList<T> AllData = new ExpectList<T>();
+            ExpectList<T> AllData = new ExpectList<T>(dtp.IsSecurityData == 1);
             //long testIndex = teststrag.ReviewExpectCnt - 1;
             BaseStragClass<T>[] teststrags = teststragplans.Select(p => p.PlanStrag).ToArray<BaseStragClass<T>>();
             long testIndex = teststrags.Max<BaseStragClass<T>>(s => s.ReviewExpectCnt);//取所有策略中回览期最大的开始，之前的数据不看
@@ -488,7 +546,7 @@ namespace WolfInv.com.BackTestLib
             int AllCnt = 0;
             while (el == null || el.Count > 0) //如果取到的数据长度大于0
             {
-                el = er.ReadHistory(begNo, LoopCnt);
+                el = er.ReadHistory(begNo, LoopCnt,SecPools);
                 if (el == null)
                 {
                     ret.LoopCnt = cnt * LoopCnt;
@@ -541,7 +599,10 @@ namespace WolfInv.com.BackTestLib
                         int matchcnt = 0;
                         ec.OwnerChance.Matched(testData.LastData, out matchcnt, false);
                         ec.MatchChips = matchcnt;
-                        es.Update(ec);
+                        if (dtp.IsSecurityData == 1)
+                            es.UpdateSecurity(ec);
+                        else
+                            es.Update(ec);
                         ec = null;
                     }
                     NewExchangeRecord = new Dictionary<Int64, ExchangeChance<T>>();
@@ -691,7 +752,7 @@ namespace WolfInv.com.BackTestLib
                         BaseCollection<T> sc = new ExpectListProcessBuilder<T>(dtp,testData).getProcess().getSerialData(teststrags[i].ReviewExpectCnt, teststrags[i].BySer);
                         if (testData.Count == 0)
                             break;
-                        List<ChanceClass<T>> scs = teststrags[i].getChances(sc, testData.LastData);//获取所有机会
+                        List<ChanceClass<T>> scs = teststrags[i].getChances(sc, testData.LastData,dtp.IsSecurityData==1);//获取所有机会
                         for (int j = 0; j < scs.Count; j++)
                         {
                             ChanceClass<T> CurrCc = scs[j];
@@ -753,7 +814,7 @@ namespace WolfInv.com.BackTestLib
                         }
                         else
                         {
-                            cs[i].Chance.BaseAmount = es.summary<es.InitCash?1:es.summary/es.InitCash;
+                            cs[i].Chance.BaseAmount = es.summary.currCash<es.InitCash?1:es.summary.currCash/es.InitCash;
                             NoCloseChances.Add(key,cs[i]);
                             ////////ProbWaveSelectStragClass组合改为统一交易
                             //////if ((cs[i].Strag is ProbWaveSelectStragClass)==false)
@@ -777,10 +838,10 @@ namespace WolfInv.com.BackTestLib
                             ProbWaveSelectStragClass strag = ec.OccurStrag as ProbWaveSelectStragClass;
                             if (!strag.UseAmountList().ContainsKey(testData.LastData.Expect))
                             {
-                                double AllAmt = (ec.OccurStrag as BaseObjectsLib.ISpecAmount<T>).getChipAmount(es.summary, ec.OwnerChance, ec.OccurStrag.CommSetting.GetGlobalSetting().DefaultHoldAmtSerials);
+                                double AllAmt = (ec.OccurStrag as BaseObjectsLib.ISpecAmount<T>).getChipAmount(es.summary.currCash, ec.OwnerChance, ec.OccurStrag.CommSetting.GetGlobalSetting().DefaultHoldAmtSerials);
                                 Int64 ChipAmt = (Int64)Math.Floor((double)AllAmt / NoCloseChances.Count);
                                 ec.ExchangeAmount = ChipAmt;
-                                ec.ExchangeRate = ChipAmt/es.summary;
+                                //ec.ExchangeRate = ChipAmt/es.summary;
                                 if(!strag.UseAmountList().ContainsKey(testData.LastData.Expect))
                                     strag.UseAmountList().Add(testData.LastData.Expect, ChipAmt);
                                 
@@ -791,7 +852,7 @@ namespace WolfInv.com.BackTestLib
                             }
 
                         }
-                        bool Suc = es.Push(ref ec,true);
+                        bool Suc = es.Push(ref ec,true,dtp.IsSecurityData==1,true);
                         if (Suc)
                             NewExchangeRecord.Add(ec.Id, ec);
                         
@@ -813,7 +874,7 @@ namespace WolfInv.com.BackTestLib
             ExpectList<T> el = null;
             long cnt = 0;
             RoundBackTestReturnClass<T> ret = new RoundBackTestReturnClass<T>();
-            ExpectList<T> AllData = new ExpectList<T>();
+            ExpectList<T> AllData = new ExpectList<T>(dtp.IsSecurityData==1);
             long testIndex = teststrag.ReviewExpectCnt - 1;
             ExpectList<T> testData = null;
             Dictionary<string, ChanceClass<T>> NoCloseChances = new Dictionary<string, ChanceClass<T>>();
@@ -826,7 +887,7 @@ namespace WolfInv.com.BackTestLib
             
             while (el == null || el.Count > 0) //如果取到的数据长度大于0
             {
-                el = er.ReadHistory(begNo.ToString(), LoopCnt);
+                el = er.ReadHistory(begNo.ToString(), LoopCnt,SecPools);
                 if (el == null)
                 {
                     ret.LoopCnt = cnt * LoopCnt;

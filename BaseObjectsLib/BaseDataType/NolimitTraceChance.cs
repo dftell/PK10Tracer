@@ -4,7 +4,7 @@ namespace WolfInv.com.BaseObjectsLib
 {
     public class NolimitTraceChance<T> : TraceChance<T> where T : TimeSerialData
     {
-        public override bool CheckNeedEndTheChance(ChanceClass<T> cc, bool LastExpectMatched)
+        public override bool CheckNeedEndTheChance(ChanceClass<T> cc, bool LastExpectMatched,bool review=false)
         {
             throw new NotImplementedException();
         }

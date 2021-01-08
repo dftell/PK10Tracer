@@ -7,9 +7,9 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\obj\Debug\WolfInv.com.
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\WebRuleLib\obj\Debug\WolfInv.com.WebRuleLib.pdb
 E:\github\source\dftell\PK10Tracer\WebRuleLib\obj\Debug\WolfInv.com.WebRuleLib.csprojAssemblyReference.cache
 E:\github\source\dftell\PK10Tracer\WebRuleLib\obj\Debug\WolfInv.com.WebRuleLib.csproj.CoreCompileInputs.cache
-E:\github\source\dftell\PK10Tracer\WebRuleLib\obj\Debug\WolfInv.com.WebRuleLib.dll
-E:\github\source\dftell\PK10Tracer\WebRuleLib\obj\Debug\WolfInv.com.WebRuleLib.pdb
+E:\github\project\PK10Tracer\WolfInv.com.WebRuleLib.dll.config
 E:\github\project\PK10Tracer\WolfInv.com.WebRuleLib.dll
 E:\github\project\PK10Tracer\WolfInv.com.WebRuleLib.pdb
 E:\github\source\dftell\PK10Tracer\WebRuleLib\obj\Debug\WolfInv.com.WebRuleLib.csproj.CopyComplete
-E:\github\project\PK10Tracer\WolfInv.com.WebRuleLib.dll.config
+E:\github\source\dftell\PK10Tracer\WebRuleLib\obj\Debug\WolfInv.com.WebRuleLib.dll
+E:\github\source\dftell\PK10Tracer\WebRuleLib\obj\Debug\WolfInv.com.WebRuleLib.pdb

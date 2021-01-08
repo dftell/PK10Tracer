@@ -345,7 +345,13 @@ ClearMyTracksByProcess 255
 
         void AfterGetGameInfo(GameInfoClass gic)
         {
-
+            if(gic.Succ)
+            {
+                string dataModel = "gameCode={0}&newestExpect={1}&gameExpectInfo={2}";                
+                string json = "{\"status\":1,\"result\":[" + string.Join(",", gic.AllPastIssues.Values.ToArray()) + "]}";
+                string data = string.Format(dataModel, gic.GameCode, gic.NewestExpect,json);
+                AccessWebServerClass.PostData("http://www.wolfinv.com/pk10/app/submitGameInfo.asp?", data, Encoding.UTF8);
+            }
         }
 
         void AfterCancelBet(WebServerReturnClass ret)
@@ -1210,6 +1216,7 @@ ClearMyTracksByProcess 255
             if (isIE)
             {
                 IEDoc.Encoding = LanguageEncoding;
+                
                 HtmlElementCollection elHeads = IEDoc.GetElementsByTagName(ElementName);
                 if (elHeads == null)
                 {
@@ -1339,6 +1346,7 @@ ClearMyTracksByProcess 255
             }
             catch (Exception ce)
             {
+                MessageBox.Show(string.Format("1{0}:{1}", ce.Message, ce.StackTrace));
                 this.toolStripStatusLabel3.Text = string.Format("{0}:{1}", ce.Message, ce.StackTrace);
             }
             return cc;
@@ -1541,6 +1549,7 @@ ClearMyTracksByProcess 255
             }
             catch(Exception ce)
             {
+                MessageBox.Show(string.Format("2{0}:{1}", ce.Message, ce.StackTrace));
                 this.toolStripStatusLabel3.Text = string.Format("{0}:{1}", ce.Message, ce.StackTrace);
             }
         }
@@ -1797,6 +1806,7 @@ ClearMyTracksByProcess 255
             }
             catch (Exception ce)
             {
+                MessageBox.Show(string.Format("3{0}:{1}", ce.Message, ce.StackTrace));
                 this.toolStripStatusLabel3.Text = string.Format("{0}:{1}", ce.Message, ce.StackTrace);
             }
 
@@ -1967,7 +1977,14 @@ ClearMyTracksByProcess 255
                                 
                                 new Task(() =>
                                 {
-                                    webBrowser1.Navigate(logpage);
+                                    try
+                                    {
+                                        webBrowser1.Navigate(logpage);
+                                    }
+                                    catch
+                                    {
+
+                                    }
                                 }).Start();
                                 //Application.DoEvents();
                             }
@@ -1996,9 +2013,9 @@ ClearMyTracksByProcess 255
                 if (NeedLoadGameInfo && Logined)
                 {
                     
-                    getGameInfo(ruleid);
+                    
                 }
-                
+                getGameInfo(ruleid);
                 CommunicateToServer wc = new CommunicateToServer();
                 string testExpect = "";
                 string strSubMode = "{0}/pk10/app/requestInsts.asp?Dtp={1}&App={2}&webcode={3}&loginname={4}&testExpect={5}";
@@ -2051,7 +2068,7 @@ ClearMyTracksByProcess 255
                 }
                 if (NewRec ||this.NewExpects[dtp.DataType] == 0) //获取到最新指令
                 {
-                    getGameInfo(ruleid);
+                    //getGameInfo(ruleid);
                     getAmount();
                     MySleep(2 * 1000);
                     //WXMsgBox(string.Format("{0}数据最新期{1}", dtpName, ic.Expect), ic.Insts);
@@ -2363,7 +2380,7 @@ ClearMyTracksByProcess 255
                 DataTable dt = ret.SamplestTable();
                 if (IsAdmin)
                 {
-                    //WXMsgBox(dt, "Weight", "Net");
+                    WXMsgBox(dt, "Weight", "Net");
                     //WXMsgBox(string.Format("{0}[{1}]最后一个波段信息", sti.DataType, sti.Expect), ret.LastArea?.Descript());
                 }
                 if (!ret.LastArea.IsRaise)//如果是向下的，直接跳过，不可能止盈

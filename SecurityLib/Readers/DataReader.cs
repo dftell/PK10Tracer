@@ -40,19 +40,19 @@ namespace WolfInv.com.SecurityLib
             return null;
         }
         public abstract ExpectList<T> ReadHistory() ;
-        public abstract ExpectList<T> ReadHistory(long buffs) ;
-        public abstract ExpectList<T> ReadHistory(string From, long buffs) ;
-        public abstract ExpectList<T> ReadHistory(long cnt, string endExpect) ;
-        public abstract ExpectList<T> ReadHistory(string From, long buffs, bool desc) ;
-        public abstract ExpectList<T> ReadHistory(string begt, string endt) ;
+        public abstract ExpectList<T> ReadHistory(long buffs,string codes) ;
+        public abstract ExpectList<T> ReadHistory(string From, long buffs,string codes) ;
+        public abstract ExpectList<T> ReadHistory(long cnt, string endExpect,string codes) ;
+        public abstract ExpectList<T> ReadHistory(string From, long buffs,string codes, bool desc) ;
+        public abstract ExpectList<T> ReadHistory(string begt, string endt,string codes) ;
         public abstract ExpectList<T> ReadNewestData(DateTime fromdate) ;
         public abstract ExpectList<T> ReadNewestData(int LastLng) ;
         public abstract ExpectList<T> ReadNewestData(long ExpectNo, int Cnt) ;
-        public ExpectList<T> ReadNewestData(long ExpectNo, int Cnt, bool FromHistoryTable) 
+        public ExpectList<T> ReadNewestData(long ExpectNo, int Cnt, bool FromHistoryTable, string Code) 
         {
-            return ReadNewestData(ExpectNo.ToString(),Cnt,FromHistoryTable);
+            return ReadNewestData(ExpectNo.ToString(),Cnt,FromHistoryTable,Code);
         }
-        public abstract ExpectList<T> ReadNewestData(string ExpectNo, int Cnt, bool FromHistoryTable) ;
+        public abstract ExpectList<T> ReadNewestData(string ExpectNo, int Cnt, bool FromHistoryTable, string Code) ;
         public abstract int SaveChances(List<ChanceClass<T>> list, string strDataOwner=null) ;
         public abstract int SaveHistoryData(ExpectList<T> InData) ;
         public abstract int SaveNewestData(ExpectList<T> InData) ;

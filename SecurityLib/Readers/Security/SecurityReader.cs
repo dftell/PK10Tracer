@@ -38,28 +38,28 @@ namespace WolfInv.com.SecurityLib
 
         public override MongoDataDictionary<T> GetAllCodeDateSerialDataList(bool DateAsc= true)
         {
-            MongoDataDictionary<T> ret = new MongoDataDictionary<T>();
+            MongoDataDictionary<T> ret = new MongoDataDictionary<T>(true);
             MongoReturnDataList<T> list = (builder as DateSerialCodeDataBuilder).getData<T>(DateAsc);   //.getData(DateAsc);
             return DataListConverter<T>.ToDirectionary(list, "code");
         }
 
         public override MongoDataDictionary<T> GetAllCodeDateSerialDataList(string begT, bool DateAsc = true)
         {
-            MongoDataDictionary<T> ret = new MongoDataDictionary<T>();
+            MongoDataDictionary<T> ret = new MongoDataDictionary<T>(true);
             MongoReturnDataList<T> list = (builder as DateSerialCodeDataBuilder).getData<T>(begT, DateAsc);
             return DataListConverter<T>.ToDirectionary(list, "code");
         }
 
         public override MongoDataDictionary<T> GetAllCodeDateSerialDataList(string begT, string EndT, bool DateAsc = true) 
         {
-            MongoDataDictionary<T> ret = new MongoDataDictionary<T>();
+            MongoDataDictionary<T> ret = new MongoDataDictionary<T>(true);
             MongoReturnDataList<T> list = (builder as DateSerialCodeDataBuilder).getData<T>(begT, EndT, DateAsc);
             return DataListConverter<T>.ToDirectionary(list, "code");
         }
 
         public override MongoDataDictionary<T> GetAllCodeDateSerialDataList(string endT, int Cnt, bool DateAsc = true)
         {
-            MongoDataDictionary<T> ret = new MongoDataDictionary<T>();
+            MongoDataDictionary<T> ret = new MongoDataDictionary<T>(true);
             MongoReturnDataList<T> list = (builder as DateSerialCodeDataBuilder).getData<T>(endT, Cnt, DateAsc);
             return DataListConverter<T>.ToDirectionary(list, "code");
         }
@@ -80,7 +80,7 @@ namespace WolfInv.com.SecurityLib
 
         public MongoDataDictionary<StockMongoData> Stock_FQ(MongoDataDictionary<StockMongoData> orgData, MongoDataDictionary<XDXRData> XData =null, PriceAdj fqType = PriceAdj.Fore)
         {
-            MongoDataDictionary<StockMongoData> ret = new MongoDataDictionary<StockMongoData>();
+            MongoDataDictionary<StockMongoData> ret = new MongoDataDictionary<StockMongoData>(true);
             foreach(string key in orgData.Keys)
             {
                 MongoReturnDataList<StockMongoData> val = orgData[key];
@@ -94,7 +94,7 @@ namespace WolfInv.com.SecurityLib
                 }
                 if (!ret.ContainsKey(key))
                 {
-                    ret.Add(key,Stock_FQ(key,orgData[key].SecInfo.name, val, xval, fqType));
+                    ret.TryAdd(key,Stock_FQ(key,orgData[key].SecInfo.name, val, xval, fqType));
                 }
             }
             return ret;
@@ -102,7 +102,7 @@ namespace WolfInv.com.SecurityLib
 
         public MongoDataDictionary<StockMongoData> FQ(MongoDataDictionary<StockMongoData> orgData, MongoDataDictionary<XDXRData> xdata, PriceAdj fqType = PriceAdj.Fore)
         {
-            MongoDataDictionary<StockMongoData> ret = new MongoDataDictionary<StockMongoData>();
+            MongoDataDictionary<StockMongoData> ret = new MongoDataDictionary<StockMongoData>(true);
 
             foreach (string key in orgData.Keys)
             {
@@ -110,7 +110,7 @@ namespace WolfInv.com.SecurityLib
                 MongoReturnDataList<XDXRData> xval = xdata[key];                
                 if (!ret.ContainsKey(key))
                 {
-                    ret.Add(key, Stock_FQ(key,orgData[key].SecInfo.name, val, xval, fqType));
+                    ret.TryAdd(key, Stock_FQ(key,orgData[key].SecInfo.name, val, xval, fqType));
                 }
             }
             return ret;
@@ -181,7 +181,7 @@ namespace WolfInv.com.SecurityLib
                 //{
                 //    return (a.ExtentData as XDXRData).category;
                 //}, (a, b) => { a.ExtentData = b; }, FillType.FFill);
-                list = Pandas.Concat<StockMongoData, XDXRData,string>(new MongoReturnDataList<StockMongoData>(new StockInfoMongoData(code,name), list), info,
+                list = Pandas.Concat<StockMongoData, XDXRData,string>(new MongoReturnDataList<StockMongoData>(new StockInfoMongoData(code,name), list,true), info,
                     a=>a.date,
                     a=>a.date,
                     (s, a, b) => {
@@ -241,7 +241,7 @@ namespace WolfInv.com.SecurityLib
                     ExObj.peigujia = 0;
                     ExObj.songzhuangu = 0;
                 }, FillType.None);
-            ret = new MongoReturnDataList<StockMongoData>(new StockInfoMongoData(code,name), list);
+            ret = new MongoReturnDataList<StockMongoData>(new StockInfoMongoData(code,name), list,true);
             int xscnt = GlobalClass.TypeDataPoints[base.DbTypeName].RuntimeInfo.SecurityInfoList[code].decimal_point;
             long Lbase = (long)Math.Pow(10, xscnt);
             List<long?> CloseList = ret.ToList(a => (long?)(a.close*Lbase));
@@ -325,7 +325,7 @@ namespace WolfInv.com.SecurityLib
             throw new NotImplementedException();
         }
 
-        public override ExpectList<T> ReadHistory(long cnt, string endExpect)
+        public override ExpectList<T> ReadHistory(long cnt, string endExpect,string codes)
         {
             throw new NotImplementedException();
         }

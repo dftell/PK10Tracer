@@ -2,7 +2,7 @@
 {
     public abstract class TraceChance<T> : ChanceClass<T>, ITraceChance<T> where T : TimeSerialData
     {
-        public virtual bool CheckNeedEndTheChance(ChanceClass<T> cc, bool LastExpectMatched)
+        public virtual bool CheckNeedEndTheChance(ChanceClass<T> cc, bool LastExpectMatched,bool review=false)
         {
             if (this.MatchChips > 0)//如果命中，即关闭
             {

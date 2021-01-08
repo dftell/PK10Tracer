@@ -42,7 +42,7 @@ namespace Test_Win
                 sectors,
                 this.txt_EndT.Value,
                 (Cycle)this.ddl_cycle.SelectedIndex,
-                PriceAdj.Beyond,
+                PriceAdj.Fore,
                 false,
                 txt_Content.Text);
             DataTable fdt = tmp.GetTable();

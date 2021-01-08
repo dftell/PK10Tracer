@@ -70,5 +70,13 @@ namespace WolfInv.com.BaseObjectsLib
         public bool IsSecurity { get; set; }
         //public OneCycleData CurrData;
         public bool Disalbe = false;
+
+        public virtual TimeSerialData Clone()
+        {
+            TimeSerialData ret = new TimeSerialData();
+            ret.Expect = this.Expect;
+            ret.Key = this.Key;
+            return ret;
+        }
     }
 }

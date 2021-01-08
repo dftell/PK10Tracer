@@ -4,8 +4,12 @@
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.GuideLib;
 using System.Collections.Generic;
+using System;
+using System.Threading.Tasks;
+
 namespace WolfInv.com.SecurityLib
 {
+    public delegate void FinishedEvent(string key);
     /// <summary>
     /// 选股策略基类
     /// </summary>
@@ -16,6 +20,8 @@ namespace WolfInv.com.SecurityLib
         {
             SelectTable = _w.getData();
         }
+        public FinishedEvent afterSelectSingleSecurity;
+
         public CommStrategyInClass InParam { get; set; }
         /// <summary>
         /// 策略周期类型
@@ -43,6 +49,8 @@ namespace WolfInv.com.SecurityLib
         //protected BaseDataTable SelectTable;//证券清单
         protected MongoDataDictionary<T> SelectTable;//证券清单
 
+        protected RunResultClass FilterResult;//中间过滤结果
+
         public RunResultClass Execute()
         {
             RunResultClass ret = new RunResultClass();
@@ -52,20 +60,16 @@ namespace WolfInv.com.SecurityLib
                 ret.Notice = msg;
                 return ret;
             }
-            msg = new RunNoticeClass();
-            msg = BaseFilter();
+            int noFilterCnt = this.SelectTable.Count;
+            ret = BaseFilter();
+            msg = ret.Notice;
             if (!msg.Success)
             {
                 ret.Notice = msg;
                 return ret;
             }
-            msg = BaseFilter();
-            if (!msg.Success)
-            {
-                ret.Notice = msg;
-                return ret;
-            }
-            return ExecSelect();
+            int afterFilterCnt = ret.Result.Count;
+            return ExecSelect(ret);
         }
         
         public RunNoticeClass InParamsCheck(CommStrategyInClass Input)
@@ -81,36 +85,98 @@ namespace WolfInv.com.SecurityLib
                 ret.Msg = "备选池和指数不能同时为空！";
                 return ret;
             }
+            ret.Success = true;
             return ret;
         }
 
         /// <summary>
-        /// 基础过滤
+        /// 基础过滤,过滤掉检查日停牌股票
         /// </summary>
-        public RunNoticeClass BaseFilter()
+        public RunResultClass BaseFilter()
         {
-            RunNoticeClass ret = new RunNoticeClass();
+            RunResultClass ret = new RunResultClass();
+            //MongoDataDictionary<T> filterResult = new MongoDataDictionary<T>(true);
+            foreach(string key in this.SelectTable.Keys)
+            {
+                if(this.SelectTable[key].Last().Expect == InParam.EndExpect)
+                {
+                    if(InParam.IsExcludeST)
+                    {
+                        if(this.SelectTable[key].SecInfo.name.ToUpper().Contains("ST"))
+                        {
+                            continue;
+                        }
+                    }
+                    SelectResult sr = new SelectResult();
+                    sr.Enable = true;
+                    sr.Key = key;
+                    ret.Result.Add(sr);
+                    //if(!filterResult.ContainsKey(key))
+                    //    filterResult.TryAdd(key, this.SelectTable[key]);
+                }
+            }
+            //this.SelectTable = filterResult;
             //BaseDataTable sectab = CommWDToolClass.GetMarketsStocks(w, InParam.SecIndex, InParam.EndT, InParam.OnMarketDays, InParam.CalcLastData, InParam.IsExcludeST, InParam.IsMAFilter, InParam.ExcludeSecList);
             //this.SelectTable = sectab;
             //this.SelectTable;// AddColumnByArray<bool>("Enable", false);
+            ret.Notice = new RunNoticeClass();
+            ret.Notice.Success= true;
+            //GC.Collect();
             return ret;
         }
 
-        public RunResultClass ExecSelect()
+        public RunResultClass ExecSelect(RunResultClass filterValues)
         {
             RunResultClass ret = new RunResultClass();
-            foreach (string key in this.SelectTable.Keys)
-            {
-                CommSecurityProcessClass<T> spc = SingleSecPreProcess(key,this.SelectTable[key]);
-                //this.SelectTable[i, "Enable"] = spc.Enable;
-                this.SelectTable[key].Disable = !spc.Enable;
-            }
-            return LastProcess(this.SelectTable);
+            //改写成多线程
+            /*
+           foreach (string key in this.SelectTable.Keys)
+           {
+               CommSecurityProcessClass<T> spc = SingleSecPreProcess(key, this.SelectTable[key]);
+               if(spc.Result.Enable)
+                {
+                    ret.Result.Add(spc.Result);
+                }
+           }
+            
+           */
+            WolfTaskClass.MultiTaskProcess<string, MongoReturnDataList<T>,string,string>(filterValues.Result.Select(a=>a.Key).ToList(), this.SelectTable,
+              this.SelectTable.Keys.ToDictionary(a=>a,a=>a),
+              (k,v,ms,subset,notice) =>
+              {
+                  if(v==null)
+                  {
+                      return;
+                  }
+                  SelectResult spc = SingleSecPreProcess(k,v);
+                  //lock(this.SelectTable)
+                  //{
+                  if(spc.Enable)
+                  {
+                      ret.Result.Add(spc);
+                  }
+                  notice.Invoke(k);
+                  spc = null;
+                  //GC.Collect();
+                  //    this.SelectTable[k].Disable = !sp.Resultc.Enable;
+                  //}
+              },
+              (k) =>
+              {
+                  Task.Factory.StartNew(() =>
+                  {
+                      afterSelectSingleSecurity?.Invoke(k);
+                  });
+              },
+              10
+              , 50,true);    
+            return LastProcess(ret);
         }
 
-        public CommSecurityProcessClass<T> SingleSecPreProcess(string key,MongoReturnDataList<T> dr)
+        public SelectResult SingleSecPreProcess(string key,MongoReturnDataList<T> dr)
         {
-            CommSecurityProcessClass<T> ret = new CommSecurityProcessClass<T>(dr.SecInfo,dr);
+            SelectResult ret = new SelectResult();
+            //CommSecurityProcessClass<T> ret = new CommSecurityProcessClass<T>();
             CommStrategyInClass OneIn = InParam;
             OneIn.SecIndex = key;
             OneIn.SecsPool = new List<string>();
@@ -132,18 +198,18 @@ namespace WolfInv.com.SecurityLib
             return ret;
         }
 
-        public RunResultClass LastProcess(MongoDataDictionary<T> mt)
+        public RunResultClass LastProcess(RunResultClass mt)
         {
             RunResultClass ret = new RunResultClass();
-            ret.Result = mt.Where(a=>!a.Value.Disable).Select(a=>a.Key).ToList();// mt[string.Format(":{0}" ,InParam.TopN-1), "*"];
+            ret.Result = mt.Result.Where(a=>a.Enable==true).OrderByDescending(a=>a.Weight).Take(InParam.TopN).ToList();// mt[string.Format(":{0}" ,InParam.TopN-1), "*"];
             return ret;
         }
 
-        public abstract CommSecurityProcessClass<T> BalanceSelectSecurity(CommStrategyInClass Input);
+        public abstract SelectResult BalanceSelectSecurity(CommStrategyInClass Input);
 
-        public abstract CommSecurityProcessClass<T> BreachSelectSecurity(CommStrategyInClass Input);
+        public abstract SelectResult BreachSelectSecurity(CommStrategyInClass Input);
 
-        public abstract CommSecurityProcessClass<T> ReverseSelectSecurity(CommStrategyInClass Input);
+        public abstract SelectResult ReverseSelectSecurity(CommStrategyInClass Input);
 
         public abstract BaseDataTable ReadSecuritySerialData(string Code);
     }

@@ -10,6 +10,7 @@ namespace WolfInv.com.WebRuleLib
             switch(val)
             {
                 case "kcai":
+                case "guosen":
                     {
                         ret = new Rule_ForKcaiCom(webId, webflag, gc);
                         break;

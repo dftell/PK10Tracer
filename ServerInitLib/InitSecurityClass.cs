@@ -33,7 +33,7 @@ namespace WolfInv.com.ServerInitLib
 
         public static MongoDataDictionary<XDXRData> getAllXDXRDataAsync(string DataType,List<string[]> codeGrp)
         {
-            return new MongoDataDictionary<XDXRData>();
+            return new MongoDataDictionary<XDXRData>(true);
             if(GlobalClass.TypeDataPoints[DataType].NeedLoadAllXDXR==0)
             {
                 return null;
@@ -68,7 +68,7 @@ namespace WolfInv.com.ServerInitLib
                     foreach (string key in list.Keys)
                     {
                         if (!ret.ContainsKey(key))
-                            ret.Add(key, list[key]);
+                            ret.TryAdd(key, list[key]);
                     }
                 }
             }

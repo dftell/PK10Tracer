@@ -16,7 +16,7 @@ namespace WolfInv.com.GuideLib
 
         public SecurityDataInterface(ExpectList<T> data)
         {
-            Data = new MongoDataDictionary<T>(data);
+            Data = new MongoDataDictionary<T>(data,true);
         }
 
         public override MongoDataDictionary<T> getData()

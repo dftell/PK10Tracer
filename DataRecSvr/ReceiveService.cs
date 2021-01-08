@@ -465,7 +465,7 @@ namespace DataRecSvr
                         Log(string.Format("接收{0}数据错误", DataType),"读取最新数据发生错误！",true);
                         return;
                     }
-                    ExpectList<T> NewList = rd.getNewestData(new ExpectList<T>(el.Table), currEl);//新列表是最新的数据在前的，后面使用时要反序用
+                    ExpectList<T> NewList = rd.getNewestData(new ExpectList<T>(el.Table,false), currEl);//新列表是最新的数据在前的，后面使用时要反序用
                     
                     //if ((currEl == null || currEl.Count == 0) || (el.Count > 0 && currEl.Count > 0 && el.LastData.ExpectIndex > currEl.LastData.ExpectIndex))//获取到新数据
                     if (NewList.Count > 0)
@@ -633,7 +633,7 @@ namespace DataRecSvr
             }
             Log(string.Format("用{0}个线程读取数据", Environment.ProcessorCount + 2), string.Format("{0}", "开始"), false);
             WDDataInit<T>.loadAllEquitSerials(Environment.ProcessorCount+2, 5, true, true,dtp.CheckNewestDataDays, null,null,true);
-            Log(string.Format("用{0}个线程读取数据", Environment.ProcessorCount + 2), string.Format("{0}", "j结束"), false);
+            Log(string.Format("用{0}个线程读取数据", Environment.ProcessorCount + 2), string.Format("{0}", "结束"), false);
             MongoDataDictionary<T> alldata = WDDataInit<T>.getAllSerialData();
             DataReader<T> rd = DataReaderBuild.CreateReader<T>(dtp.DataType, null, null);
             if (NeedCalc)
@@ -647,6 +647,7 @@ namespace DataRecSvr
                 CalcProcess.DataPoint = dtp;
                 CalcProcess.ReadDataTableName = null;
                 CalcProcess.Codes = null;
+                CalcProcess.allSecurityDic = alldata;
                 bool res = AfterReceiveProcess(CalcProcess);
                 Program<T>.AllServiceConfig.haveReceiveData = res;
             }
@@ -685,13 +686,13 @@ namespace DataRecSvr
                 bool succ = CalcObj.Calc();
                 if(!succ)
                 {
-                    Log(string.Format("彩种{0}计算类出现已捕获的错误！", CalcObj.DataPoint.DataType),string.Format("",CalcObj.runErrorMsg,CalcObj.ErrorStackTrace),true);
+                    Log(string.Format("投资品种{0}计算类出现已捕获的错误！", CalcObj.DataPoint.DataType),string.Format("",CalcObj.runErrorMsg,CalcObj.ErrorStackTrace),true);
                     return false;
                 }
             }
             catch(Exception e)
             {
-                Log(string.Format("彩种{0}计算出现计算类未捕获的错误！",CalcObj.DataPoint), string.Format("{0}：{1}",e.Message,e.StackTrace),true);
+                Log(string.Format("投资品种{0}计算出现计算类未捕获的错误！",CalcObj.DataPoint), string.Format("{0}：{1}",e.Message,e.StackTrace),true);
                 return false;
             }
             return true;
