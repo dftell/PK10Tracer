@@ -12,17 +12,22 @@ using WolfInv.com.Strags;
 using WolfInv.com.SecurityLib;
 using WolfInv.com.SecurityLib.Filters.StrategyFilters;
 using System.ComponentModel;
+using System.Collections.Concurrent;
 
 namespace WolfInv.com.Strags.Security
 {
-    
     public abstract class BaseSecurityStragClass<T> : BaseStragClass<T>, ITraceChance<T> where T : TimeSerialData
     {
+        
         protected CommFilterLogicBaseClass<T> LogicFilter;
-        MongoDataDictionary<T> _currDic;
+        ConcurrentDictionary<string, MongoReturnDataList<T>> _currDic;
 
         FinishedEvent _interProcessFinished;
-
+        protected KLineData<T>.getSingleDataFunc getSingleData;
+        public void setSingleDataFunc(KLineData<T>.getSingleDataFunc func)
+        {
+            getSingleData = func;
+        }
         public void interProcessFinished(FinishedEvent ev)
         {
             _interProcessFinished = ev;
@@ -32,7 +37,9 @@ namespace WolfInv.com.Strags.Security
         {
             return _interProcessFinished;
         }
-        protected MongoDataDictionary<T> CurrSecDic
+
+        
+        protected ConcurrentDictionary<string, MongoReturnDataList<T>> CurrSecDic
         {
             get
             {
@@ -43,7 +50,7 @@ namespace WolfInv.com.Strags.Security
                 _currDic = value;
             }
         }
-        public void FillSecDic(MongoDataDictionary<T> val)
+        public void FillSecDic(ConcurrentDictionary<string,MongoReturnDataList<T>> val)
         {
             _currDic = val;
         }
@@ -78,7 +85,57 @@ namespace WolfInv.com.Strags.Security
         CategoryAttribute("持仓设置"),
         DefaultValueAttribute(2.0)]
         public double StepAllowAddRiskExposure { get; set; }
-        
+        [DescriptionAttribute("是否使用止损价自动止损"),
+        DisplayName("是否使用止损价自动止损，如果为否，需要在策略内自己按止损价止损"),
+        CategoryAttribute("风控设置"),
+        DefaultValueAttribute(false)]
+        public bool useStopLossPrice { get; set; }
+        /*
+        /// 是否用参考代码，并非benchMark
+        /// benchMark只是在展示时使用，不在策略级使用
+        /// 这三个参数用来指定参考证券代码
+        /// 在获取数据时先把这些代码对应的数据取出来
+        /// 在策略使用时可以在数据里提出来使用
+        */
+        [DescriptionAttribute("是否使用引用证券池"),
+        DisplayName("是否使用引用证券池"),
+        CategoryAttribute("引用设置"),
+        DefaultValueAttribute(false)]
+        public bool useRefrenceCodes { get; set; }
+        [DescriptionAttribute("引用证券池"),
+        DisplayName("引用证券池"),
+        CategoryAttribute("引用设置"),
+        DefaultValueAttribute(null)]
+        public string RefrenceCodes { get; set; }
+        [DescriptionAttribute("是否多周期选股策略"),
+        DisplayName("是否多周期选股策略"),
+        CategoryAttribute("周期设置"),
+        DefaultValueAttribute(false)]
+        public bool IsMutliCycle { get; set; }
+        [DescriptionAttribute("选股使用最大周期"),
+        DisplayName("选股使用最大周期"),
+        CategoryAttribute("周期设置"),
+        DefaultValueAttribute(Cycle.Week)]
+        public Cycle MaxCycle { get; set; }
+        [DescriptionAttribute("选股使用最小周期"),
+        DisplayName("选股使用最小周期"),
+        CategoryAttribute("周期设置"),
+        DefaultValueAttribute(Cycle.Day)]
+        public Cycle MinCycle { get; set; }
+        public string[] RefrenceArray
+        {
+            get
+            {
+                if (!useRefrenceCodes)
+                    return null;
+                if(string.IsNullOrEmpty(RefrenceCodes))
+                {
+                    return null;
+                }
+                var arr = RefrenceCodes.Split(';');
+                return arr.Where(a => string.IsNullOrEmpty(a) == false).ToArray();
+            }
+        }
 
         public override Type getTheChanceType()
         {
@@ -114,9 +171,33 @@ namespace WolfInv.com.Strags.Security
             }
             return 100;
         }
-
-        public bool TryOpenExchange(CommStrategyInClass inputParam, SecurityChance<T> cc, string a, MongoReturnDataList<T> secSerialData, ExpectData<T> ed, ExpectData<T> ped, bool review)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inputParam"></param>
+        /// <param name="cc"></param>
+        /// <param name="a">code</param>
+        /// <param name="secSerialData"></param>
+        /// <param name="ed"></param>
+        /// <param name="ped"></param>
+        /// <param name="review"></param>
+        /// <returns></returns>
+        public bool TryOpenExchange(CommStrategyInClass inputParam, SecurityChance<T> cc, MongoReturnDataList<T> secSerialData, ExpectData<T> ed, ExpectData<T> ped, bool review)
         {
+            if (cc.ReferValues != null)
+            {
+                object[] objs = cc.ReferValues as object[];
+                if (objs != null)
+                {
+                    if (objs.Length > 1)
+                    {
+                        inputParam.StopPrice = (double)objs[0];
+                        inputParam.StopPriceDate = objs[1]?.ToString();
+                        cc.stopPrice = inputParam.StopPrice;
+                        cc.stopPriceDate = inputParam.StopPriceDate;
+                    }
+                }
+            }
             KLineData<T> klines = new KLineData<T>(ed.Expect, secSerialData, PriceAdj.Beyond);
             if (klines.IsUpStop(null))//如果涨停，不能买入
             {
@@ -143,20 +224,30 @@ namespace WolfInv.com.Strags.Security
                 return false;
             }
             //如果当期无交易记录，停牌，不予交易
-            if (!ed.ContainsKey(a))
+            if (!ed.ContainsKey(cc.ChanceCode))
             {
                 return false;
             }
-            StockMongoData psmd = ped[a] as StockMongoData;
-            StockMongoData smd = ed[a] as StockMongoData;
-
-            cc.ChanceCode = a;
+            StockMongoData psmd = ped[cc.ChanceCode] as StockMongoData;
+            StockMongoData smd = ed[cc.ChanceCode] as StockMongoData;
+            StockMongoData slsmd = secSerialData[cc.stopPriceDate] as StockMongoData;
+            
+            //cc.ChanceCode = a;
             cc.SignExpectNo = ed.Expect;//信号期
             cc.exchangeExpect = ed.Expect;//实际交易期
             cc.ExpectCode = ped.Expect;//信号期
             //价格信息
             cc.UnitCost = psmd.close;//这个价格后面不用，因为在框架里被到处改动，无法确定
             cc.openPrice = (smd.close*0.8 + smd.high*0.2); //在收盘前30分钟内交易完毕，取收盘价和最高价的平均值替代//(CurrSecDic[a].Last() as StockMongoData).close;
+            if (slsmd != null)
+            {
+                double stopPrice = slsmd.low;
+                if (cc.openPrice < stopPrice)//如果交易价已经小于止损价，直接不参与交易
+                {
+                    return false;
+                }
+            }
+
             cc.currUnitPrice = smd.close;//按当日收盘价算
             cc.signPrice = smd.close;//信号价，和后面对比的,后面价格都是以此日期为对比
             cc.ChipCount = 0;//必须不要指定，在后面计算价格时再根据计划配置的单机会金额来确定
@@ -186,6 +277,8 @@ namespace WolfInv.com.Strags.Security
             {
                 return false;
             }
+            klines.getSingleData = getSingleData;
+            klines = KLineData<T>.reGetKLineData(klines, cc.SignExpectNo);
             bool isStop = klines.IsStoped();
             int lastId = isStop ? 1 : 2;//如果停牌，索引就是倒数第一个，否则是第二个
             double rSignPrice = klines[cc.SignExpectNo].close;//信号日收盘价
@@ -203,6 +296,12 @@ namespace WolfInv.com.Strags.Security
             KLineData<T> klines = new KLineData<T>(expectNo, secPriceInfo, PriceAdj.Beyond);//默认后复权
             bool isStop = klines.IsStoped();
             int lastId = isStop ? 1 : 2;//如果停牌，索引就是倒数第一个，否则是第二个
+            if(klines.Expects.IndexOf(cc.SignExpectNo)<0)//如果找不到信号日期
+            {
+                klines = KLineData<T>.getKlineData(klines, klines.code, expectNo, cc.SignExpectNo,getSingleData);
+                if (klines == null)
+                    return;
+            }
             double rSignPrice = klines[cc.SignExpectNo].close;//信号日收盘价
             double signPrice = cc.signPrice;
             double a = signPrice / rSignPrice;
@@ -220,6 +319,8 @@ namespace WolfInv.com.Strags.Security
             cc.preUnitPrice = cc.signPrice * klines.Closes.Last(klines.IsStoped() ? 1 : 2) / signPrice;//停牌上日取最后一日的价格，否则资产部分会连续出现价差
             */
         }
+
+        
 
         public virtual bool CheckNeedEndTheChance(ChanceClass<T> rcc, bool LastExpectMatched, bool review)
         {
@@ -268,6 +369,7 @@ namespace WolfInv.com.Strags.Security
             {
                 return false;
             }
+            cc.HoldTimeCnt = Math.Max(1, sec.Where(a => a.Expect.ToDate() > cc.ExpectCode.ToDate()).Count())-1;//持仓天数+1 只要是非停牌
             CommStrategyInClass fpf = new CommStrategyInClass();
             fpf.SecIndex = cc.ChanceCode;
             fpf.EndExpect = useExpect;
@@ -276,9 +378,13 @@ namespace WolfInv.com.Strags.Security
             fpf.BuffDays = this.ChipCount;
             fpf.TopN = this.SingeExpectSelectTopN;
             fpf.StartDate = cc.exchangeExpect;
+            fpf.StopPriceDate = cc.stopPriceDate;
+            fpf.StopPrice = cc.stopPrice;
+            fpf.useStopLossPrice = useStopLossPrice;
             ///过滤检查使用的必须用提前一天的数据序列
             CommSecurityProcessClass<T> secprs = new CommSecurityProcessClass<T>(checkUseSec.SecInfo, checkUseSec);
-            CommFilterLogicBaseClass<T> checkSec = new StopLossFilter<T>(fpf.EndExpect, secprs);
+            CommFilterLogicBaseClass<T> checkSec = new StopLossFilter<T>(fpf.EndExpect, secprs,PriceAdj.Beyond,cc.HoldTimeCnt>60?Cycle.Week:Cycle.Day);
+            checkSec.getSingleData = getSingleData;
             res = checkSec.ExecFilter(fpf);
             if (res.Enable)//止损，检查是否能交易！
             {

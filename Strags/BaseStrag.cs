@@ -271,7 +271,7 @@ namespace WolfInv.com.Strags
             _LastUseData = value;
         }
 
-
+        
         public abstract List<ChanceClass<T>> getChances(BaseCollection<T> sc, ExpectData<T> ed,bool review=false);
 
         public abstract StagConfigSetting getInitStagSetting();

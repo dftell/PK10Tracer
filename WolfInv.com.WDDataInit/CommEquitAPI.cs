@@ -333,6 +333,10 @@ namespace WolfInv.com.WDDataInit
             string url = string.Format(strSerialModel, codes[0], useBeginTime.ToString("yyyyMMddHHmmss"),Math.Max(1,endTime.Subtract(useBeginTime).TotalDays+1),mkt);
             urls.Add(url);
             string data = getUrl(url, Encoding.UTF8)?.Result;
+            if(data == null)
+            {
+                return null;
+            }
             MongoReturnDataList<T> ret = getSerialTable<T>(info,data);
             if (ret == null || ret.Count == 0)
             {

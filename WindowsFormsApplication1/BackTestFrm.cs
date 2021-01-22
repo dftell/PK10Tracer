@@ -157,13 +157,14 @@ namespace BackTestSys
             this.dataGridView_ExchangeDetail.ContextMenuStrip = contextMenuStrip_ForListView;
             CheckForIllegalCrossThreadCalls = false;
             LoadDataSrc(this.ddl_DataSource);
-            if(GlobalClass.TypeDataPoints.First().Value.IsSecurityData==1)
+            if(GlobalClass.TypeDataPoints.First().Value.IsSecurityData==0)
             {
-                this.txt_begExpNo.Text = "2018-01-01";
-                this.txt_endExpNo.Text = DateTime.Today.WDDate();
-                this.txt_LoopCnt.Text = "1000";
+                this.txt_begExpNo.Text = "233049";
+                
+                this.txt_LoopCnt.Text = "50";
                 this.txt_InitCash.Text = "10000000";
             }
+            this.txt_endExpNo.Text = DateTime.Today.WDDate();
         }
 
         
@@ -201,10 +202,31 @@ namespace BackTestSys
             //ListView lv = ((sender as ToolStripMenuItem).Owner as ContextMenuStrip).SourceControl as ListView;
             //if (lv == null) return;
             CExcel ce = new CExcel();
-            if (src is DataGridView)
+            Control tagCtrl = src as Control;
+            if(tagCtrl == null)
+            {
+                return;
+            }
+            else if (tagCtrl.Tag is DataTable)
+            {
+                ce.ExportExcel(tagCtrl.Tag as DataTable);
+                return;
+            }
+            else if(tagCtrl.Tag is DataView)
+            {
+                ce.ExportExcel(tagCtrl.Tag as DataView);
+                return;
+            }
+            else if (src is DataGridView)
+            {
                 ce.ExportExcel(src as DataGridView);
+                return;
+            }
             else if (src is ListView)
+            {
                 ce.ExportExcel(src as ListView);
+                return;
+            }
             else
                 return;
         }
@@ -251,6 +273,7 @@ namespace BackTestSys
                         auc.SaveDataToFile();
                     });
                 }
+                wxLog("量化投研回测系统", "交易执行完毕！");
                 MessageBox.Show("执行完毕！");
             }
             catch(Exception ce)
@@ -305,7 +328,7 @@ namespace BackTestSys
             ////////////////////////    return;
             ////////////////////////}
             #endregion
-            btc = new BackTestClass<T>(GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()],txt_SecPools.Text, txt_begExpNo.Text, long.Parse(txt_LoopCnt.Text), setting);
+            btc = new BackTestClass<T>(GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()],chkb_useSpecList.Checked?txt_SecPools.Text:"", chkb_useBechmark.Checked ? txt_benchMarkCode.Text : "", txt_begExpNo.Text, long.Parse(txt_LoopCnt.Text),0, setting);
             this.listView1.Items.Clear();
             this.listView2.Items.Clear();
             this.listView3.Items.Clear();
@@ -588,7 +611,7 @@ namespace BackTestSys
                 TextBox tb = this.Controls.Find(string.Format("txt_minColTimes{0}", i + 1), true)[0] as TextBox;
                 setting.minColTimes[i] = int.Parse(tb.Text);
             }
-            btc = new BackTestClass<T>(GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()],txt_SecPools.Text, txt_begExpNo.Text, long.Parse(txt_LoopCnt.Text), setting);
+            btc = new BackTestClass<T>(GlobalClass.TypeDataPoints[ddl_DataSource.SelectedValue.ToString()], chkb_useSpecList.Checked ? txt_SecPools.Text : "", chkb_useBechmark.Checked ? txt_benchMarkCode.Text : "", txt_begExpNo.Text, long.Parse(txt_LoopCnt.Text),0, setting);
             Assembly asmb = typeof(StragClass).Assembly;
             //////Type sct = asmb.GetType(ddl_StragName.SelectedValue.ToString());
             //////StragClass sc = Activator.CreateInstance(sct) as StragClass;
@@ -714,6 +737,7 @@ namespace BackTestSys
                 {
                     return;
                 }
+                wxLog("量化投研回测系统", "开始回测！");
                 this.toolStripStatusLabel1.Text = "开始模拟交易！";
             }
             if (RunVirExchange)
@@ -982,9 +1006,9 @@ namespace BackTestSys
                     else
                         BegT = alldate[Math.Max(0, index - maxReviews)].WDDate();
                 }
-                if (btc == null)
+                if (btc == null || true)
                 {
-                    btc = new BackTestClass<T>(dtp,this.txt_SecPools.Text, BegT, long.Parse(txt_LoopCnt.Text) + maxReviews, setting, EndT);
+                    btc = new BackTestClass<T>(dtp, chkb_useSpecList.Checked ? txt_SecPools.Text : "", chkb_useBechmark.Checked ? txt_benchMarkCode.Text : "", BegT, long.Parse(txt_LoopCnt.Text) , maxReviews, setting, EndT);
                 }
                 btc.useBegExpect = this.txt_begExpNo.Text;//对股票必须要指定，实际必须从此时开始
                 Application.DoEvents();
@@ -1010,6 +1034,7 @@ namespace BackTestSys
                 };
                 btc.StagInterProcessEvent = (strage,expect, code)=>
                 {
+                    //return;
                     string str = string.Format("{0}_{1}", strage, expect);
                     int curr = 0;
                     if (counter.ContainsKey(str))
@@ -1033,7 +1058,7 @@ namespace BackTestSys
                     },new object[] { });
                     
                 };
-                btc.ExpectTip = (ex, ess) =>
+                btc.ExpectTip = (ex,index, ess) =>
                 {
                     if (ess == null)
                         return;
@@ -1043,6 +1068,7 @@ namespace BackTestSys
                         {
                             ExchangeService<T> es = ess[key] as ExchangeService<T>;
                             StatusStrip ctrl = c as StatusStrip;
+                            
                             string lastExpect = ex;
                             if (string.IsNullOrEmpty(lastExpect))
                             {
@@ -1051,12 +1077,14 @@ namespace BackTestSys
                                 if (items != null && items.Count() > 0)
                                     lastExpect = items.Last().Key;
                             }
+                            wxLog(lastExpect, string.Format("第{3}次,当前收益率:{0};当前资产数量:{1}份;当前资产余额:{2}万", es?.GainedRate.ToString()??"0",es.getAssetCount(),(es.getAsset()/10000).ToEquitPrice(2),index));
+                            return;
                             ctrl.Items[0].Text = string.Format("第{2}次,{0}/{1} {3}", es.CurrIndex.ToString(), es.ExpectCnt, btc.testIndex, lastExpect);
                             ctrl.Items[1].Text = string.Format("{0}% 最大值:[{1}%]   最小值:[{2}%] ", es.GainedRate.ToString(), es.MaxRate, es.MinRate);
                         }, new object[] { });
                     }
                 };
-                ret = btc.VirExchange(Program<T>.AllSettings as ServiceSetting<T>, ref ess, SCList.ToArray(),this.txt_SecPools.Text);
+                ret = btc.VirExchange(Program<T>.AllSettings as ServiceSetting<T>, ref ess, SCList.ToArray(), chkb_useSpecList.Checked ? txt_SecPools.Text : "");
             }
             catch (Exception ce)
             {
@@ -1069,6 +1097,18 @@ namespace BackTestSys
             //btn_VirExchange.Text = "模拟交易";
             //MessageBox.Show("执行完成！");
             this.RunVirExchange = false;
+        }
+
+        void wxLog(string topic, string msg)
+        {
+            try
+            {
+                Program<T>.AllSettings.wxlog?.Log(topic, msg, string.Format(Program<T>.AllSettings?.gc?.WXLogUrl, Program<T>.AllSettings?.gc?.WXSVRHost));
+            }
+            catch (Exception ce)
+            {
+
+            }
         }
 
         private void timer_Tip_Tick(object sender, EventArgs e)
@@ -1232,8 +1272,12 @@ namespace BackTestSys
                     moneyLines = new DataView(copyDt);
                     moneyLines.Sort = "point";
                     copyDt = null;
-                    if(displayAll)
+                    chart1.Tag = moneyLines;
+                    if (displayAll)
+                    {
                         CallControlToWork(chart1, refreshGainedRateChart, new object[] { ci, es, moneyLines });
+                        
+                    }
                     ci++;
                     if (!this.chkb_noDetailTable.Checked)
                     {
@@ -1256,10 +1300,13 @@ namespace BackTestSys
                                 if (dv != null && dv.Count > 0)
                                 {
                                     dgv.DataError += new DataGridViewDataErrorEventHandler((s, e) => { });
-                                    dgv.DataSource = dv;
-                                    Application.DoEvents();
-                                    dgv.Refresh();
-                                    Application.DoEvents();
+                                    if (dAll)
+                                    {
+                                        dgv.DataSource = dv;
+                                        Application.DoEvents();
+                                    }
+                                        //dgv.Refresh();
+                                    //Application.DoEvents();
                                 }
                             }
                             catch (Exception ce)
@@ -1295,30 +1342,38 @@ namespace BackTestSys
                 int ci = (int)objs[0];
                 ExchangeService<T> es = objs[1] as ExchangeService<T>;
                 
-                if (chart1.Series.Count < 3 * ci + 3)
+                if (chart1.Series.Count < 4 * ci + 4)
                 {
                     Series ss = new Series();
-                    ss.Name = string.Format("{0}[Total]", es.getCurrAsset().UnitName);
+                    ss.Name = string.Format("{0}[合计]", es.getCurrAsset().UnitName);
                     ss.ChartType = SeriesChartType.Line;
                     ss.BorderWidth = (ci + 1);
                     chart1.Series.Add(ss);
                     ss = new Series();
-                    ss.Name = string.Format("{0}[Cash]", es.getCurrAsset().UnitName);
+                    ss.Name = string.Format("{0}[现金]", es.getCurrAsset().UnitName);
                     ss.ChartType = SeriesChartType.Line;
                     ss.BorderWidth = (ci + 1);
                     this.chart1.Series.Add(ss);
                     ss = new Series();
-                    ss.Name = string.Format("{0}[Asset]", es.getCurrAsset().UnitName);
+                    ss.Name = string.Format("{0}[资产]", es.getCurrAsset().UnitName);
+                    ss.ChartType = SeriesChartType.Line;
+                    ss.BorderWidth = (ci + 1);
+                    this.chart1.Series.Add(ss);
+                    ss = new Series();
+                    ss.Name = string.Format("{0}[参考标的]", es.getCurrAsset().UnitName);
                     ss.ChartType = SeriesChartType.Line;
                     ss.BorderWidth = (ci + 1);
                     this.chart1.Series.Add(ss);
                 }
-                chart1.Series[ci * 3].Points.DataBindXY(moneyLines, "point", moneyLines, "val");
-                chart1.Series[ci * 3].ToolTip = "期号:#VALX;当前值:#VAL";
-                chart1.Series[ci * 3 + 1].Points.DataBindXY(moneyLines, "point", moneyLines, "Cash");
-                chart1.Series[ci * 3 + 1].ToolTip = "期号:#VALX;当前值:#VAL";
-                chart1.Series[ci * 3 + 2].Points.DataBindXY(moneyLines, "point", moneyLines, "Asset");
-                chart1.Series[ci * 3 + 2].ToolTip = "期号:#VALX;当前值:#VAL";
+                chart1.Series[ci * 4].Points.DataBindXY(moneyLines, "point", moneyLines, "val");
+                chart1.Series[ci * 4].ToolTip = "期号:#VALX;当前值:#VAL";
+                chart1.Series[ci * 4 + 1].Points.DataBindXY(moneyLines, "point", moneyLines, "Cash");
+                chart1.Series[ci * 4 + 1].ToolTip = "期号:#VALX;当前值:#VAL";
+                chart1.Series[ci * 4 + 2].Points.DataBindXY(moneyLines, "point", moneyLines, "Asset");
+                chart1.Series[ci * 4 + 2].ToolTip = "期号:#VALX;当前值:#VAL";
+                chart1.Series[ci * 4 + 3].Points.DataBindXY(moneyLines, "point", moneyLines, "BenchMark");
+                chart1.Series[ci * 4 + 3].ToolTip = "期号:#VALX;当前值:#VAL";
+                //chart1.Tag = moneyLines;
                 //this.chart1.Series[ci].Name = SCList[0].AssetUnitInfo.UnitName;
             }
             catch(Exception ce)

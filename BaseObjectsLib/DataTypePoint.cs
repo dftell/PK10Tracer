@@ -57,6 +57,10 @@ namespace WolfInv.com.BaseObjectsLib
         public long SaveInterVal=0;//存储间隔（毫秒）随机存储
         public int SubScriptGrpCnt = -1;//默认全部分组
 
+        /// <summary>
+        /// 参考标的池
+        /// </summary>
+        public string benchMarkCodes;
         #region X选Y
         public int IsXxY = 0;
         public bool TenToZero = false;

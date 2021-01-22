@@ -42,7 +42,7 @@ namespace WolfInv.com.ExchangeLib
 
         void InitColumns()
         {
-            string cols = "Id:Int64,ChanceCode,ExpectNo,InStatus,Amount:Double,EndExpectNO,EndPrice:Double,EndStatus,Odds:Double,Chips:Int32,Cost:Double,ExExpectNo,ExecRate,OccurStrag,Gained:Double,Profit:Double,CreateTime,Closed:Int32,UpdateTime,StragId,UserId";
+            string cols = "Id:Int64,ChanceCode,ChanceName,ExpectNo,InStatus,Amount:Double,HoldCnt:Int32,StopPriceDate,StopPrice:Double,EndExpectNO,EndPrice:Double,EndStatus,Odds:Double,Chips:Int32,Cost:Double,ExExpectNo,ExecRate,OccurStrag,Gained:Double,Profit:Double,CreateTime,Closed:Int32,UpdateTime,StragId,UserId";
             string[] colArr = cols.Split(',');
             for (int i = 0; i < colArr.Length; i++)
             {
@@ -74,6 +74,7 @@ namespace WolfInv.com.ExchangeLib
             dr["Chips"] = ec.OwnerChance.ChipCount;
             dr["Odds"] = ec.OccurStrag.CommSetting.Odds;
             dr["Amount"] = cc.UnitCost;
+            dr["HoldCnt"] = 0;
             dr["ExecRate"] = ec.ExchangeRate;
             dr["Cost"] = cc.UnitCost*cc.ChipCount;
             dr["CreateTime"] = DateTime.Now.ToString();
@@ -93,13 +94,18 @@ namespace WolfInv.com.ExchangeLib
             dr["ExpectNo"] = ec.ExpectNo;
             dr["ExExpectNo"] = cc.exchangeExpect;
             dr["ChanceCode"] = ec.OwnerChance.ChanceCode;
+            dr["ChanceName"] = cc.chanceName;
             dr["Chips"] = ec.OwnerChance.ChipCount;
             dr["Odds"] = ec.OccurStrag.CommSetting.Odds;
             dr["Amount"] = cc.openPrice;
+            dr["HoldCnt"] = 0;
             dr["ExecRate"] = ec.ExchangeRate;
             dr["Cost"] = cc.openPrice * cc.ChipCount;
             dr["CreateTime"] = DateTime.Now.ToString();
             dr["InStatus"] = cc.inputStatus;
+            dr["StopPriceDate"] = cc.stopPriceDate;
+            dr["StopPrice"] = cc.stopPrice;
+            dr["Profit"] = 0;
             dr["Closed"] = 0;
             Rows.Add(dr);
             return ec;
@@ -164,6 +170,7 @@ namespace WolfInv.com.ExchangeLib
             dr["EndPrice"] = usePrice;//如果没有结束价就以当前价为准
             dr["Gained"] = dGained;
             dr["Profit"] = dGained-dCost;
+            dr["HoldCnt"] = cc.HoldTimeCnt;
             dr["UpdateTime"] = ec.UpdateExpectNo;
             dr["Closed"] = cc.Closed ? 1 : 0;
             dr["EndStatus"] = cc.endStatus??status;

@@ -14,6 +14,11 @@ namespace WolfInv.com.SecurityLib
         protected string strMissHistoryTable;
         protected string strMissNewestTable;
         protected DataTypePoint dtp = null;
+        protected int threadCnt=10;
+        public void setThreadCnt(int cnt)
+        {
+            threadCnt = cnt;
+        }
 
         protected void InitTables()
         {

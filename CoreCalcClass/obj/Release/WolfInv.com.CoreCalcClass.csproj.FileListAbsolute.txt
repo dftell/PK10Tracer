@@ -5,3 +5,11 @@ C:\Users\zhouys\source\repos\dftell\PK10Tracer\CoreCalcClass\obj\Release\WolfInv
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\CoreCalcClass\obj\Release\WolfInv.com.CoreCalcClass.csproj.CopyComplete
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\CoreCalcClass\obj\Release\CoreCalcClass.dll
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\CoreCalcClass\obj\Release\CoreCalcClass.pdb
+E:\github\project\PK10Tracer\CoreCalcClass.dll.config
+E:\github\project\PK10Tracer\CoreCalcClass.dll
+E:\github\project\PK10Tracer\CoreCalcClass.pdb
+E:\github\source\dftell\PK10Tracer\CoreCalcClass\obj\Release\WolfInv.com.CoreCalcClass.csprojAssemblyReference.cache
+E:\github\source\dftell\PK10Tracer\CoreCalcClass\obj\Release\WolfInv.com.CoreCalcClass.csproj.CoreCompileInputs.cache
+E:\github\source\dftell\PK10Tracer\CoreCalcClass\obj\Release\WolfInv.com.CoreCalcClass.csproj.CopyComplete
+E:\github\source\dftell\PK10Tracer\CoreCalcClass\obj\Release\CoreCalcClass.dll
+E:\github\source\dftell\PK10Tracer\CoreCalcClass\obj\Release\CoreCalcClass.pdb

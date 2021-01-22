@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WolfInv.com.WDDataInit;
 using System.Threading.Tasks;
-
+using WolfInv.com.Strags.Security;
 namespace DataRecSvr
 {
     public partial class ReceiveService<T> :SelfDefBaseService<T> where T:TimeSerialData
@@ -557,9 +557,11 @@ namespace DataRecSvr
                                         //Program.AllServiceConfig.LastDataSector = new ExpectList<TimeSerialData>(CurrDataList.Table);
                                         if (CalcProcess == null)
                                             CalcProcess = new CalcService<T>();
+                                        CalcProcess.getSingleData = (code, expect, cnt) => { return new MongoDataDictionary<T>(rd.ReadNewestData(expect, cnt, true, code),true); };
                                         CalcProcess.DataPoint = dtp;
                                         CalcProcess.ReadDataTableName = strReadTableName;
                                         CalcProcess.Codes = codes;
+                                        CalcProcess.benchMark = "";
                                         res = AfterReceiveProcess(CalcProcess);
                                         if (res == false)
                                             useTimer.Interval = RepeatSeconds / 20 * 1000;
@@ -593,7 +595,7 @@ namespace DataRecSvr
                         }
                         else
                         {
-                            Log(string.Format("接收到{0}数据", DataType), string.Format("未接收到数据！{0}",CurrTime.ToString()));
+                            //Log(string.Format("接收到{0}数据", DataType), string.Format("未接收到数据！{0}",CurrTime.ToString()));
                             //if (NormalRecievedTime > CurrTime)
                             //{
                             //    useTimer.Interval =  NormalRecievedTime.AddMinutes(1).Subtract(CurrTime).TotalMilliseconds;
@@ -624,33 +626,77 @@ namespace DataRecSvr
 
         private void  RecieveSecurityData(DataTypePoint dtp,Timer useTimer,bool NeedCalc=false)
         {
-            WDDataInit<T>.vipDocRoot = glb.VipDocRootPath;
-            WDDataInit<T>.finishedMsg += refreshMsg;
-            //WDDataInit<T>.Debug = true;
-            if(WDDataInit<T>.AllSecurities == null)
+            try
             {
-                WDDataInit<T>.Init();
+                WDDataInit<T>.vipDocRoot = glb.VipDocRootPath;
+                WDDataInit<T>.finishedMsg += refreshMsg;
+                //////WDDataInit<T>.Debug = true;
+                ////if(WDDataInit<T>.AllSecurities == null)
+                ////{
+                ////    WDDataInit<T>.Init();
+                ////}
+                ////Log(string.Format("用{0}个线程读取数据", Environment.ProcessorCount + 2), string.Format("{0}", "开始"), false);
+                ////WDDataInit<T>.loadAllEquitSerials(Environment.ProcessorCount+2, 5, true, true,dtp.CheckNewestDataDays, null,null,true);
+                ////Log(string.Format("用{0}个线程读取数据", Environment.ProcessorCount + 2), string.Format("{0}", "结束"), false);
+                ////MongoDataDictionary<T> alldata = WDDataInit<T>.getAllSerialData();
+                DataReader<T> rd = DataReaderBuild.CreateReader<T>(dtp.DataType, dtp.HistoryTable, dtp.RuntimeInfo.SecurityCodes); //支持所有数据
+                ExpectList<T> currEl = rd.ReadNewestData(dtp.CheckNewestDataDays);
+                currEl = MergeExpectList(currEl, rd, dtp.benchMarkCodes,dtp.CheckNewestDataDays);
+                List<string[]> arrs = Program<T>.AllServiceConfig.AllRunPlannings.Where(a => (a.Value.PlanStrag as BaseSecurityStragClass<T>).useRefrenceCodes).Select(a => (a.Value.PlanStrag as BaseSecurityStragClass<T>).RefrenceArray).ToList();
+                List<string> refString = new List<string>();
+                for (int i=0;i<arrs.Count;i++)
+                {
+                    refString.AddRange(arrs[i]);
+                }
+                currEl = MergeExpectList(currEl, rd, string.Join(";", refString), dtp.CheckNewestDataDays);
+                //DataReader<T> rd = DataReaderBuild.CreateReader<T>(dtp.DataType, null, null);
+                if (NeedCalc)
+                {
+                    //ExpectList<T> currEl = alldata.ToExpectList();
+                    CurrData = currEl; //开始的记录以老记录为基础
+                    CurrData.UseType = dtp;
+                    //Program.AllServiceConfig.LastDataSector = new ExpectList<TimeSerialData>(CurrDataList.Table);
+                    if (CalcProcess == null)
+                        CalcProcess = new CalcService<T>();
+                    CalcProcess.DataPoint = dtp;
+                    CalcProcess.ReadDataTableName = null;
+                    CalcProcess.Codes = null;
+                    CalcProcess.benchMark = null;
+                    CalcProcess.allSecurityDic = new MongoDataDictionary<T>(currEl,true);
+                    bool res = AfterReceiveProcess(CalcProcess);
+                    Program<T>.AllServiceConfig.haveReceiveData = res;
+                }
             }
-            Log(string.Format("用{0}个线程读取数据", Environment.ProcessorCount + 2), string.Format("{0}", "开始"), false);
-            WDDataInit<T>.loadAllEquitSerials(Environment.ProcessorCount+2, 5, true, true,dtp.CheckNewestDataDays, null,null,true);
-            Log(string.Format("用{0}个线程读取数据", Environment.ProcessorCount + 2), string.Format("{0}", "结束"), false);
-            MongoDataDictionary<T> alldata = WDDataInit<T>.getAllSerialData();
-            DataReader<T> rd = DataReaderBuild.CreateReader<T>(dtp.DataType, null, null);
-            if (NeedCalc)
+            catch(Exception ce)
             {
-                ExpectList<T> currEl = alldata.ToExpectList();
-                CurrData = currEl; //开始的记录以老记录为基础
-                CurrData.UseType = dtp;
-                //Program.AllServiceConfig.LastDataSector = new ExpectList<TimeSerialData>(CurrDataList.Table);
-                if (CalcProcess == null)
-                    CalcProcess = new CalcService<T>();
-                CalcProcess.DataPoint = dtp;
-                CalcProcess.ReadDataTableName = null;
-                CalcProcess.Codes = null;
-                CalcProcess.allSecurityDic = alldata;
-                bool res = AfterReceiveProcess(CalcProcess);
-                Program<T>.AllServiceConfig.haveReceiveData = res;
+
             }
+        }
+
+        ExpectList<T> MergeExpectList(ExpectList<T> el, DataReader<T> er,string codes, int cnt)
+        {
+            if (!string.IsNullOrEmpty(codes))
+            {
+                ExpectList<T> benchMarkList = er.ReadNewestData("",cnt,false,codes);
+                for (int i = 0; i < benchMarkList.Count; i++)
+                {
+                    ExpectData<T> data = benchMarkList[i];
+                    if (!el.Contains(data.Expect))
+                    {
+                        el.Add(data);
+                        continue;
+                    }
+                    ExpectData<T> edata = el[data.Expect];
+                    foreach (string key in data.Keys)
+                    {
+                        if (!edata.ContainsKey(key))
+                        {
+                            edata.Add(key, data[key]);
+                        }
+                    }
+                }
+            }
+            return el;
         }
 
         void refreshMsg(int cnt,int total,EquitProcess<T>.EquitUpdateResult res)

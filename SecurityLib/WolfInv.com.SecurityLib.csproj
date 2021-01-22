@@ -76,6 +76,8 @@
     <Compile Include="Filters\iCallBackable.cs" />
     <Compile Include="Filters\StrategyFilters\FirestPointFilter.cs" />
     <Compile Include="Filters\StrategyFilters\IsSTFilter.cs" />
+    <Compile Include="Filters\StrategyFilters\MutliCycle_Filter.cs" />
+    <Compile Include="Filters\StrategyFilters\MutliCycle_MACDBottomRevFilter.cs" />
     <Compile Include="Filters\StrategyFilters\MACDTopRevFilter.cs" />
     <Compile Include="Filters\StrategyFilters\MACDBottomRevFilter.cs" />
     <Compile Include="Filters\StrategyFilters\MinDaysFilter.cs" />

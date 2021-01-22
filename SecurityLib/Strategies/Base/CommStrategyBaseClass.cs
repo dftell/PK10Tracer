@@ -6,6 +6,8 @@ using WolfInv.com.GuideLib;
 using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
+using System.Threading;
+using System.Collections.Concurrent;
 
 namespace WolfInv.com.SecurityLib
 {
@@ -47,7 +49,7 @@ namespace WolfInv.com.SecurityLib
             }
         }
         //protected BaseDataTable SelectTable;//证券清单
-        protected MongoDataDictionary<T> SelectTable;//证券清单
+        protected ConcurrentDictionary<string, MongoReturnDataList<T>> SelectTable;//证券清单
 
         protected RunResultClass FilterResult;//中间过滤结果
 
@@ -100,6 +102,10 @@ namespace WolfInv.com.SecurityLib
             {
                 if(this.SelectTable[key].Last().Expect == InParam.EndExpect)
                 {
+                    if(string.IsNullOrEmpty(this.SelectTable[key].SecInfo.name))//过滤掉各类参考指数
+                    {
+                        continue;
+                    }
                     if(InParam.IsExcludeST)
                     {
                         if(this.SelectTable[key].SecInfo.name.ToUpper().Contains("ST"))
@@ -140,6 +146,7 @@ namespace WolfInv.com.SecurityLib
            }
             
            */
+            ReaderWriterLockSlim LockSlim = new ReaderWriterLockSlim();
             WolfTaskClass.MultiTaskProcess<string, MongoReturnDataList<T>,string,string>(filterValues.Result.Select(a=>a.Key).ToList(), this.SelectTable,
               this.SelectTable.Keys.ToDictionary(a=>a,a=>a),
               (k,v,ms,subset,notice) =>
@@ -149,17 +156,16 @@ namespace WolfInv.com.SecurityLib
                       return;
                   }
                   SelectResult spc = SingleSecPreProcess(k,v);
-                  //lock(this.SelectTable)
-                  //{
+                
                   if(spc.Enable)
                   {
+                      //LockSlim.EnterWriteLock();
                       ret.Result.Add(spc);
+                      //LockSlim.ExitWriteLock();
                   }
                   notice.Invoke(k);
                   spc = null;
-                  //GC.Collect();
-                  //    this.SelectTable[k].Disable = !sp.Resultc.Enable;
-                  //}
+                  
               },
               (k) =>
               {
@@ -169,7 +175,7 @@ namespace WolfInv.com.SecurityLib
                   });
               },
               10
-              , 50,true);    
+              , 5,true);    
             return LastProcess(ret);
         }
 
@@ -201,7 +207,11 @@ namespace WolfInv.com.SecurityLib
         public RunResultClass LastProcess(RunResultClass mt)
         {
             RunResultClass ret = new RunResultClass();
-            ret.Result = mt.Result.Where(a=>a.Enable==true).OrderByDescending(a=>a.Weight).Take(InParam.TopN).ToList();// mt[string.Format(":{0}" ,InParam.TopN-1), "*"];
+            var items = mt.Result.Where(a => a.Enable == true);
+            if (items.Count() > 0)
+                items = items.OrderByDescending(a => a.Weight).Take(InParam.TopN);
+            if(items.Count()>0)
+                ret.Result =  items.ToList();// mt[string.Format(":{0}" ,InParam.TopN-1), "*"];
             return ret;
         }
 

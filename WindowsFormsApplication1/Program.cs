@@ -35,13 +35,19 @@ namespace BackTestSys
             
             AllSettings = new ServiceSetting<T>();
             AllSettings.Init(null);
+            GlobalClass gc = new GlobalClass();
+            string url = gc.WXLogUrl;
+            url = gc.WXLogNoticeUser;
             //WDDataInit<T>.vipDocRoot = AllSettings.gc.VipDocRootPath;
             try
             {
+                
+                AllSettings.wxlog.Log("初始化系统", "各种配置读取完毕并有效初始化！", string.Format(gc.WXLogUrl, gc.WXSVRHost));
                 Application.Run(new BackTestFrm<T>());
             }
             catch(Exception ce)
             {
+                AllSettings.wxlog.Log("异常退出系统", ce.Message, string.Format(gc.WXLogUrl, gc.WXSVRHost));
 
             }
         }

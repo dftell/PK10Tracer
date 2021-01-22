@@ -32,6 +32,7 @@ namespace WolfInv.com.GuideLib
 
     public class MACDGuider
     {
+        public int index;
         public double MACD;
         public double DEA;
         public double DIF;
@@ -145,6 +146,7 @@ MACD:(DIF-DEA)*2,COLORSTICK;
             {
                 ret.Add(new MACDGuider());
                 ret[i] = new MACDGuider();
+                ret[i].index = i;
                 dynamic sa = sEma[i];
                 dynamic la = lEma[i];
                 dynamic dif = sa - la;
@@ -203,8 +205,8 @@ MACD:(DIF-DEA)*2,COLORSTICK;
             {
                 for (int i = arr.Length - 1; i >= 0; i--)
                 {
-                    T[] arr1 = arr.Take(i).ToArray();
-                    T[] arr2 = cmpArr.Take(i).ToArray();
+                    T[] arr1 = arr.Take(i+1).ToArray();
+                    T[] arr2 = cmpArr.Take(i+1).ToArray();
                     bool succ = func.Invoke(arr1, arr2);
                     arr1 = null;
                     arr2 = null;
@@ -358,14 +360,19 @@ MACD:(DIF-DEA)*2,COLORSTICK;
             }
         }
 
-        public static T ToSimpleNumber<T>(this T val,int levelStepLen=10)
+        public static int ToSimpleNumber(this double val,int levelStepLen=10)
         {
-            dynamic v = val;
+            double v = val;
             v =  Math.Floor((double)v / levelStepLen);
-            return v;
+            return (int)v;
         }
 
-        public static T HHV<T>(this T[] arr, int N = -1)
+        public static int ToSimpleNumber(this int val, int levelStepLen = 10)
+        {
+            return ToSimpleNumber((double)val, levelStepLen);
+        }
+
+            public static T HHV<T>(this T[] arr, int N = -1)
         {
             if (N <= 0)
             {
@@ -397,7 +404,9 @@ MACD:(DIF-DEA)*2,COLORSTICK;
                 temp1 = null;
                 temp2 = null;
                 if (succ)
+                {
                     matchCnt++;
+                }
             }
             return matchCnt;
         }
@@ -507,10 +516,16 @@ MACD:(DIF-DEA)*2,COLORSTICK;
                     MaxMinElementClass<T> pre = arr[i - 1];
                     MaxMinElementClass<T> curr = arr[i];
                     MaxMinElementClass<T> next = arr[i + 1];
-
-                    dynamic preval = pre.WeightValue;
-                    dynamic currval = curr.WeightValue;
-                    dynamic nextval = next.WeightValue;
+                    
+                    dynamic preval = pre.Value;
+                    dynamic currval = curr.Value;
+                    dynamic nextval = next.Value;
+                    if(preval == currval || currval == nextval || preval == nextval)//如果存在任意一个相等情况，才使用权重
+                    {
+                        preval = pre.WeightValue;
+                        currval = curr.WeightValue;
+                        nextval = next.WeightValue;
+                    }
                     if ((preval - currval) * (currval - nextval) > 0)//中间值
                     {
                         continue;

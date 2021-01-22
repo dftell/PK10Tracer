@@ -6,6 +6,8 @@ using System.Data;
 using WolfInv.com.BaseObjectsLib;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Collections.Concurrent;
+
 namespace WolfInv.com.BaseObjectsLib
 {
 
@@ -13,8 +15,8 @@ namespace WolfInv.com.BaseObjectsLib
     {
         bool isSecurity = false;
         bool Readed=false;
-        protected Dictionary<string, MongoReturnDataList<T>> _Data;
-        protected Dictionary<string, MongoReturnDataList<T>> Data
+        protected ConcurrentDictionary<string, MongoReturnDataList<T>> _Data;
+        public ConcurrentDictionary<string, MongoReturnDataList<T>> MongoData
         {
             get
             {
@@ -22,11 +24,11 @@ namespace WolfInv.com.BaseObjectsLib
                 {
                     return _Data;
                 }
-                _Data = new Dictionary<string, MongoReturnDataList<T>>();
+                _Data = new ConcurrentDictionary<string, MongoReturnDataList<T>>();
                 if (_MyData.Count == 0) return _Data;
                 if (_MyData[0].Keys == null || _MyData[0].Count == 0)
                 {
-                    _Data.Add("Lotty", new MongoReturnDataList<T>(new StockInfoMongoData(null, null),false));
+                    _Data.TryAdd("Lotty", new MongoReturnDataList<T>(new StockInfoMongoData(null, null),false));
                 }                             
                 for (int i=0;i<_MyData?.Count;i++)
                 {
@@ -46,7 +48,7 @@ namespace WolfInv.com.BaseObjectsLib
                             if (!_Data.ContainsKey(key))
                             {
                                 StockInfoMongoData simd = new StockInfoMongoData(_MyData[i][key].Key, _MyData[i][key].KeyName);
-                                _Data.Add(key, new MongoReturnDataList<T>(simd,isSecurity));
+                                _Data.TryAdd(key, new MongoReturnDataList<T>(simd,isSecurity));
                             }
                             _Data[key].Add(_MyData[i][key]);
                         }
@@ -58,6 +60,7 @@ namespace WolfInv.com.BaseObjectsLib
             set
             {
                 _Data = value;
+                Readed = true;
             }
         }
 
@@ -67,11 +70,11 @@ namespace WolfInv.com.BaseObjectsLib
         public ExpectList(bool sectype)
         {
             isSecurity = sectype;
-            Data = new Dictionary<string, MongoReturnDataList<T>>();
+            MongoData = new ConcurrentDictionary<string, MongoReturnDataList<T>>();
             _MyData = new List<ExpectData<T>>();
         }
 
-        public ExpectList(Dictionary<string, MongoReturnDataList<T>> _data, bool NeedReTime,bool sectype)
+        public ExpectList(ConcurrentDictionary<string, MongoReturnDataList<T>> _data, bool NeedReTime,bool sectype)
         {
             isSecurity = sectype;
             _MyData = new List<ExpectData<T>>();
@@ -116,8 +119,8 @@ namespace WolfInv.com.BaseObjectsLib
                 _data.First().Value.ForEach(a => _MyData.Add(new ExpectData<T>(a, isSecurity)));
             }
 
-            Data = _data;
-            Readed = false;
+            MongoData = _data;
+            Readed = true;
         }
 
         public ExpectList(DataTable dt,bool sectype)
@@ -160,7 +163,7 @@ namespace WolfInv.com.BaseObjectsLib
                     MyData.Add(ed);
                 }
             }
-            Readed = false;
+            Readed = true;
         }
 
         
@@ -331,11 +334,11 @@ namespace WolfInv.com.BaseObjectsLib
         }
         public ExpectList<T> FirstDatas(int RecLng)
         {
-            Dictionary<string, MongoReturnDataList<T>> ret = new Dictionary<string, MongoReturnDataList<T>>();
-            int cnt = Data.Select(a => a.Value.Count).Min();
-            foreach(string key in Data.Keys)
+            ConcurrentDictionary<string, MongoReturnDataList<T>> ret = new ConcurrentDictionary<string, MongoReturnDataList<T>>();
+            int cnt = MongoData.Select(a => a.Value.Count).Min();
+            foreach(string key in MongoData.Keys)
             {
-                ret.Add(key, Data[key].GetFirstData(RecLng));
+                ret.TryAdd(key, MongoData[key].GetFirstData(RecLng));
             }
             return new ExpectList<T>(ret,false,isSecurity);
         }
@@ -344,8 +347,8 @@ namespace WolfInv.com.BaseObjectsLib
         {
             MongoDataDictionary<T> ret = new MongoDataDictionary<T>(isSecurity);
             WolfTaskClass.MultiTaskProcess<string, MongoReturnDataList<T>, string, string>(
-                Data.Keys,
-                Data,
+                MongoData.Keys,
+                MongoData,
                 new Dictionary<string,string>(),
                 (k,v,ms,ss,notice) => {
                     MongoReturnDataList<T> res = v.GetLastData(RecLng, expect);
@@ -416,7 +419,8 @@ namespace WolfInv.com.BaseObjectsLib
             ExpectList<T> ret = new ExpectList<T>(descList.isSecurity);
             if (descList == null)
                 descList = new ExpectList<T>(addList[0].isSecurity);
-            for(int i=0;i<descList.Count;i++)
+
+            for (int i = 0; i < descList.Count; i++)
             {
                 ret.Add(descList[i]);
             }
@@ -429,6 +433,8 @@ namespace WolfInv.com.BaseObjectsLib
                     ret.Add(addList[i][j]);
                 }
             }
+  
+            ret.reSort();
             return ret;
         }
         protected Dictionary<string, Dictionary<string, OneCycleData>> Tables;
@@ -498,6 +504,34 @@ namespace WolfInv.com.BaseObjectsLib
             }
         }
 
+        public ExpectData<T> this[string expect]
+        {
+            get
+            {
+                var items = MyData.Where(a => a.Expect == expect);
+                if (items.Count() == 0)
+                    return null;
+                return items.Last();
+            }
+            set
+            {
+                var items = MyData.Where(a => a.Expect == expect);
+                if (items.Count() == 0)
+                    return;
+                int index = MyData.IndexOf(items.Last());
+                if (index < 0)
+                    return;
+                if (value != null)
+                {
+                    MyData[index] = (ExpectData<T>)value.Clone();
+                }
+                else
+                {
+                    MyData[index] = null;
+                }
+            }
+        }
+
         public void Add(ExpectData<T> item)
         {
             MyData.Add(item);
@@ -513,6 +547,12 @@ namespace WolfInv.com.BaseObjectsLib
         public bool Contains(ExpectData<T> item)
         {
             return MyData.Contains(item);
+        }
+
+        public bool Contains(string strKey)
+        {
+            var items = MyData.Where(a => a.Expect == strKey);
+            return items.Count() > 0;
         }
 
         public void CopyTo(ExpectData<T>[] array, int arrayIndex)
@@ -542,6 +582,12 @@ namespace WolfInv.com.BaseObjectsLib
             return MyData.GetEnumerator();
         }
 
+
+        public void reSort()
+        {
+            //ExpectList<T> ret = new ExpectList<T>(this.isSecurity);
+            this._MyData = this.DataList.OrderBy(a => a.Expect).ToList();
+        }
         
     }
 

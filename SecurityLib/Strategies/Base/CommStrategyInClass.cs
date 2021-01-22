@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using WolfInv.com.SecurityLib;
 using WolfInv.com.BaseObjectsLib;
+using WolfInv.com.GuideLib;
 namespace WolfInv.com.SecurityLib
 {
     /// <summary>
@@ -72,5 +73,22 @@ namespace WolfInv.com.SecurityLib
         /// 交易日开盘允许最大的跌幅，超出不交易
         /// </summary>
         public double allowMaxDownRate;
+        /// <summary>
+        /// 是否使用止损价
+        /// </summary>
+        public bool useStopLossPrice;
+        /// <summary>
+        /// 止损价
+        /// </summary>
+        public double StopPrice;
+        /// <summary>
+        /// 止损价对应日期
+        /// </summary>
+        public string StopPriceDate;
+
+        public bool useMutliCycle;
+        public Cycle useMaxCycle;
+        public Cycle useMinCycle;
+
     }
 }

@@ -63,10 +63,7 @@ C:\Users\zhouys\source\repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\E
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.csproj.CopyComplete
 C:\Users\zhouys\source\repos\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.exe
-E:\github\project\PK10TracerClient\ExchangeTermial.exe.config
-E:\github\project\PK10TracerClient\ExchangeTermial.exe
 E:\github\source\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.csprojAssemblyReference.cache
-E:\github\source\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.exe.config
 E:\github\source\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.Form1.resources
 E:\github\source\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.frm_Charge.resources
 E:\github\source\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.frm_NewWindow.resources
@@ -77,4 +74,9 @@ E:\github\source\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermi
 E:\github\source\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.csproj.GenerateResource.cache
 E:\github\source\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.csproj.CoreCompileInputs.cache
 E:\github\source\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.csproj.CopyComplete
-E:\github\source\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.exe
+E:\github\project\PK10TracerClient\WOMS.exe.config
+E:\github\project\PK10TracerClient\WOMS.exe
+E:\github\source\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\WOMS.exe.config
+E:\github\source\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.LotteryPage.resources
+E:\github\source\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\ExchangeTermial.MainWind.resources
+E:\github\source\dftell\PK10Tracer\ExchangeTermial\obj\x86\Release\WOMS.exe

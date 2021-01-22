@@ -13,13 +13,15 @@ namespace WolfInv.com.GuideLib
     }
     public class KLineData<T> where T : TimeSerialData
     {
+        public delegate MongoDataDictionary<T> getSingleDataFunc(string code, string expect, int cnt);
         /// <summary>
         /// 判定是否停牌用
         /// </summary>
-        string Expect;
-        string code;
-        string name;
+        public string Expect;
+        public string code;
+        public string name;
         bool isST;
+        public List<T> orgList;
         public StockMongoData[] Datas;
         public int Length;
         public int[] Indies;
@@ -30,15 +32,31 @@ namespace WolfInv.com.GuideLib
         public double[] Lows;
         public double[] Vols;
         public double[] RaiseRates;
+        /// <summary>
+        /// 低频数据内容
+        /// </summary>
+        public KlineDataItem[] lowCycleData;
+        
         public double OpenRaiseRate;
         public double HighRaiseRate;
         public double LowRaiseRate;
         public Cycle LineCycle;
+        public bool isLowCycle
+        {
+            get
+            {
+                return LineCycle > Cycle.Day  && LineCycle<Cycle.Year;
+            }
+        }
+        public PriceAdj Adj;
+        public getSingleDataFunc getSingleData;
         public KLineData(string useExpect,List<T> list,string _code,string _name,PriceAdj priceAdj=PriceAdj.Beyond,Cycle cyc = Cycle.Day)
         {
             LineCycle = cyc;
             Expect = useExpect;
+            orgList = list.Where(a => a.Expect.ToDate() <= Expect.ToDate()).OrderBy(a => a.Expect).ToList();
             init(list, _code, _name, priceAdj,cyc);
+            changeCycle();
         }
 
         public KLineData(string useExpect,MongoReturnDataList<T> list, PriceAdj priceAdj=PriceAdj.Beyond, Cycle cyc = Cycle.Day)
@@ -48,17 +66,20 @@ namespace WolfInv.com.GuideLib
             {
 
             }
-            init(list, list.SecInfo.code , list.SecInfo.name, priceAdj,cyc);
+            orgList = list.Where(a=>a.Expect.ToDate()<=Expect.ToDate()).OrderBy(a=>a.Expect).ToList();
+            init(orgList, list.SecInfo.code , list.SecInfo.name, priceAdj,cyc);
             changeCycle();
         }
-        void init(List<T> list, string _code, string _name, PriceAdj priceAdj = PriceAdj.Fore, Cycle cyc = Cycle.Day)
+        void init(List<T> list, string _code, string _name, PriceAdj priceAdj = PriceAdj.Beyond, Cycle cyc = Cycle.Day)
         {
             try
             {
+                
                 code = _code;
                 name = _name;
                 Datas = new StockMongoData[list.Count];
                 LineCycle = cyc;
+                Adj = priceAdj;
                 if (list == null)
                     return;
                 Length = list.Count;
@@ -171,6 +192,7 @@ namespace WolfInv.com.GuideLib
             Lows = new double[Length];
             Vols = new double[Length];
             RaiseRates = new double[Length];
+            lowCycleData = new KlineDataItem[Length];
             int i = 0;
             KlineDataItem lastKdi = null;
             KlineDataItem preKdi = null;
@@ -180,12 +202,14 @@ namespace WolfInv.com.GuideLib
                 Indies[i] = i;
                 Expects[i] = key;
                 KlineDataItem kdi = lowCycDates[key];
-                Closes[i] = kdi.closes.Last();
-                Opens[i] = kdi.opens.First();
-                Highs[i] = kdi.highs.Max();
-                Lows[i] = kdi.lows.Min();
-                Vols[i] = kdi.vols.Sum();
-                RaiseRates[i] = i == 0 ? 0 : 100 * (kdi.closes.Last() - lastKdi.closes.Last()) / lastKdi.closes.Last();
+                Closes[i] = kdi.close;
+                Opens[i] = kdi.open;
+                Highs[i] = kdi.high;
+                Lows[i] = kdi.low;
+                Vols[i] = kdi.vol;
+                RaiseRates[i] = i == 0 ? 0 : 100 * (kdi.close - lastKdi.close) / lastKdi.close;
+                kdi.index = i;//必须在这里再指定索引
+                lowCycleData[i] = kdi;
                 lastKdi = kdi;
                 i++;
             }
@@ -220,27 +244,27 @@ namespace WolfInv.com.GuideLib
                 case Cycle.Year:
                     {
                         lessInterVal = 365;
-                        keyList = Expects.Select(a => (int)a.ToDate().DayOfYear).ToList();
+                        keyList = Expects.OrderBy(a=>a).Select(a => (int)a.ToDate().DayOfYear).ToList();
                         break;
                     }
                     ///季
                 case Cycle.Quarter:
                     {
                         lessInterVal = 31;
-                        keyList = Expects.Select(a => ((a.ToDate().Month % 3)>0?1:0)*a.ToDate().Day).ToList();
+                        keyList = Expects.OrderBy(a => a).Select(a => ((a.ToDate().Month % 3)>0?1:0)*a.ToDate().Day).ToList();
                         break;
                     }
                 case Cycle.Month:
                     {
                         lessInterVal = 30;
-                        keyList = Expects.Select(a => a.ToDate().Day).ToList();
+                        keyList = Expects.OrderBy(a => a).Select(a => a.ToDate().Day).ToList();
                         break;
                     }
                 case Cycle.Week:
                 default:
                     {
                         lessInterVal = 7;
-                        keyList = Expects.Select(a =>(int) a.ToDate().DayOfWeek).ToList();
+                        keyList = Expects.OrderBy(a => a).Select(a =>(int) a.ToDate().DayOfWeek).ToList();
                         break;
                     }
         }
@@ -252,7 +276,14 @@ namespace WolfInv.com.GuideLib
                 if (keyList[i - 1] > keyList[i])//如果前面一个日期的天数大于当前天数,一定是换周
                 {
                     useItem = new KlineDataItem(startIndex,i- startIndex,Expects,Opens,Closes,Highs,Lows,Vols);
-                    lowCycDates.Add(Expects[i - 1],useItem);
+                    if (lowCycDates.ContainsKey(useItem.Expect))
+                    {
+
+                    }
+                    else
+                    {
+                        lowCycDates.Add(useItem.Expect, useItem);
+                    }
                     startIndex = i;
                     continue;
                 }
@@ -262,20 +293,68 @@ namespace WolfInv.com.GuideLib
                 if(currDate.Subtract(preDate).TotalDays>lessInterVal)//当前日期数不可能是周末
                 {
                     useItem = new KlineDataItem(startIndex, i - startIndex, Expects, Opens, Closes, Highs, Lows, Vols);
-                    lowCycDates.Add(Expects[i - 1], useItem);
+                    if (lowCycDates.ContainsKey(useItem.Expect))
+                    {
+
+                    }
+                    else
+                    {
+                        lowCycDates.Add(useItem.Expect, useItem);
+                    }
                     startIndex = i;
                     continue;
                 }
             }
-            if(lowCycDates.ContainsKey(Expects.Last()))
+            if(!lowCycDates.ContainsKey(Expects.Last()))
             {
                 useItem = new KlineDataItem(startIndex, Expects.Length - startIndex, Expects, Opens, Closes, Highs, Lows, Vols);
-                lowCycDates.Add(Expects.Last(), useItem);
+                if (lowCycDates.ContainsKey(useItem.Expect))
+                {
+
+                }
+                else
+                {
+                    lowCycDates.Add(useItem.Expect, useItem);
+                }
             }
             changeToLineData(lowCycDates);
         }
 
-        
+        public static KLineData<T> reGetKLineData(KLineData<T> klineData, string startDate)
+        {
+            bool isLowCycle = false;
+            if (klineData.lowCycleData != null && klineData.lowCycleData.Length > 0)
+            {
+                isLowCycle = true;
+            }
+            int slDate = klineData.Expects.IndexOf(startDate);
+            if (slDate < 0)
+            {
+                if (!isLowCycle)
+                {
+                    klineData = KLineData<T>.getKlineData(klineData, klineData.code, klineData.Expects.Last(), startDate, klineData.getSingleData);
+                }
+                else
+                {
+                    if (startDate.ToDate() < klineData.lowCycleData.First().Expects.First().ToDate())
+                    {
+                        klineData = KLineData<T>.getKlineData(klineData, klineData.code, klineData.Expects.Last(), startDate, klineData.getSingleData);
+                    }
+                }
+            }
+            return klineData;
+        }
+
+        public static KLineData<T> getKlineData(KLineData<T> kobj,string code, string expectNo, string strDate,getSingleDataFunc getSingleData)
+        {
+            int cnt = (int)expectNo.ToDate().Subtract(strDate.ToDate()).TotalDays;
+            MongoDataDictionary<T> codeData = getSingleData(code, expectNo, cnt);
+            if (codeData.Count == 0)//无法获取到数据
+            {
+                return null;
+            }
+            return new KLineData<T>(expectNo, codeData.First().Value,kobj.Adj,kobj.LineCycle);
+        }
 
         public KLineData<StockMongoData> Ref(int N)
         {
@@ -364,22 +443,114 @@ namespace WolfInv.com.GuideLib
         {
             get
             {
-                int i = Expects.ToList().IndexOf(key);
-                if(i < 0)
+                StockMongoData ret = null;
+                int subindex = 0;
+                int i = ExpectIndex(key, out subindex);
+                if (i < 0)
+                    return null;
+                
+                if (subindex<0)//日线
                 {
+                    ret = new StockMongoData()
+                    {
+                        open = Opens[i],
+                        close = Closes[i],
+                        high = Highs[i],
+                        low = Lows[i],
+                        vol = Vols[i],
+                        Expect = Expects[i],
+                        code = code,
+                    };
+                    if (i > 0)
+                        ret.preclose = Closes[i - 1];
+                    else
+                        ret.preclose = Opens[0];
+                }
+                else
+                {
+                    var item = lowCycleData[i];
+                    var itemIndex = i;
+                    i = subindex;
+                    ret = new StockMongoData()
+                    {
+                        open = item.opens[i],
+                        close = item.closes[i],
+                        high = item.highs[i],
+                        low = item.lows[i],
+                        vol = item.vols[i],
+                        Expect = item.Expects[i],
+                        code = code
+                    };
+                    if(itemIndex > 0)
+                    {
+                        ret.preclose = lowCycleData[itemIndex - 1].close;
+                    }
+                    else
+                    {
+                        ret.preclose = lowCycleData[0].open;
+                    }
+                }
+                return ret;
+                i = Expects.ToList().IndexOf(key);
+                if(i < 0)//没有这个日期
+                {
+                    if (lowCycleData != null && lowCycleData.Length>0)//是低频数据
+                    {
+                        if (lowCycleData.First().Expects.First().ToDate() > key.ToDate())//如果日期早于最早的低频单元的开始日期
+                        {
+                            return null;
+                        }
+                        KlineDataItem item = lowCycleData.Where(a => a.Expect.ToDate() >= key.ToDate()).OrderBy(a => a.Expect.ToDate()).First();
+                        i = item.Expects.IndexOf(key);
+                        ret = new StockMongoData()
+                        {
+                            open = item.opens[i],
+                            close = item.closes[i],
+                            high = item.highs[i],
+                            low = item.lows[i],
+                            vol = item.vols[i],
+                            Expect = item.Expects[i],
+                            code = code
+
+                        };
+                        if(i>1)
+                        {
+                            ret.preclose = item.closes[i];
+                        }
+                        else
+                        {
+                            if(item.index>1)
+                            {
+                                ret.preclose = lowCycleData[item.index].closes.Last();
+                            }
+                            else
+                            {
+                                ret.preclose = lowCycleData[0].open;//错误，以开盘价代替
+                            }
+                        }
+                        return ret;
+                    }
                     return null;
                 }
-                return new StockMongoData()
+                ret= new StockMongoData()
                 {
                     open = Opens[i],
                     close = Closes[i],
                     high = Highs[i],
-                    low = Closes[i],
+                    low = Lows[i],
                     vol = Vols[i],
                     Expect = Expects[i],
                     code = code,
-                    preclose = Closes[i - 1]
                 };
+                if(i>1)
+                {
+                    ret.preclose = Closes[i - 1];
+                }
+                else
+                {
+                    ret.preclose = Opens[i];//错误，以开盘价代替
+                }
+                return ret;
             }
         }
 
@@ -394,18 +565,51 @@ namespace WolfInv.com.GuideLib
                 return null;
             }
         }
+
+        public int ExpectIndex(string  key,out int subIndex)
+        {
+            subIndex = -1;
+            int i = Expects.ToList().IndexOf(key);
+            if (i < 0)//没有这个日期
+            {
+                if (lowCycleData != null && lowCycleData.Length > 0)//是低频数据
+                {
+                    if (lowCycleData.First().Expects.First().ToDate() > key.ToDate() || lowCycleData.Last().Expect.ToDate()<key.ToDate())//如果日期早于最早的低频单元的开始日期
+                    {
+                        return -1;
+                    }
+                    KlineDataItem item = lowCycleData.Where(a => a.Expect.ToDate() >= key.ToDate()).OrderBy(a => a.Expect.ToDate()).First();
+                    subIndex = item.Expects.IndexOf(key);
+                    return item.index;
+                }
+                return -1;
+            }
+            if(lowCycleData != null && lowCycleData.Length>0)
+            {
+                subIndex = lowCycleData[i].Expects.Length-1;
+            }
+            return i;
+        }
     }
 
     public class KlineDataItem
     {
         public string Expect;
+        public int index;
         public string beginExpect;
+        public string highExpect;
+        public string lowExpect;
         public string[] Expects;
         public double[] closes;
         public double[] opens;
         public double[] highs;
         public double[] lows;
         public double[] vols;
+        public double close;
+        public double open;
+        public double high;
+        public double low;
+        public double vol;
         public KlineDataItem(int index,int itemCount,string[] expects,double[] _opens,double[] _closes,double[] _highs,double[] _lows,double[] _vols)
         {
             Expects = new string[itemCount];
@@ -422,6 +626,13 @@ namespace WolfInv.com.GuideLib
             Array.Copy(_highs, index, highs, 0, itemCount);
             Array.Copy(_lows, index, lows, 0, itemCount);
             Array.Copy(_vols, index, vols, 0, itemCount);
+            open = opens.First();
+            close = closes.Last();
+            high = highs.Max();
+            low = lows.Min();
+            vol = vols.Sum();
+            highExpect = Expects[highs.ToList().IndexOf(high)];
+            lowExpect = Expects[lows.ToList().IndexOf(low)];
         }
 
     }

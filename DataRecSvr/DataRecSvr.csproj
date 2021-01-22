@@ -8,8 +8,8 @@
     <ProjectGuid>{6A28259F-0369-4801-8B73-540BD4B7C7D5}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DataRecSvr</RootNamespace>
-    <AssemblyName>DataRecSvr</AssemblyName>
+    <RootNamespace>QuantStrategyExecSvr</RootNamespace>
+    <AssemblyName>QuantStrategyExecSvr</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>

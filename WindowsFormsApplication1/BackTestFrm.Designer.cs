@@ -40,27 +40,30 @@ namespace BackTestSys
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea16 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend16 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series41 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea17 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend17 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series42 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series43 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series44 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series45 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend8 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series23 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series16 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series24 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series25 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series26 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea18 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend18 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series46 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series47 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series48 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea9 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend9 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series27 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series28 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series29 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl_setting = new System.Windows.Forms.TabControl();
             this.tabPage_dataSource = new System.Windows.Forms.TabPage();
+            this.chkb_useBechmark = new System.Windows.Forms.CheckBox();
+            this.txt_benchMarkCode = new System.Windows.Forms.TextBox();
+            this.chkb_useSpecList = new System.Windows.Forms.CheckBox();
             this.txt_SecPools = new System.Windows.Forms.TextBox();
             this.label32 = new System.Windows.Forms.Label();
             this.ddl_DataSource = new System.Windows.Forms.ComboBox();
@@ -71,6 +74,7 @@ namespace BackTestSys
             this.txt_LoopCnt = new System.Windows.Forms.TextBox();
             this.label33 = new System.Windows.Forms.Label();
             this.tabPage_usePlan = new System.Windows.Forms.TabPage();
+            this.label3 = new System.Windows.Forms.Label();
             this.tabPage_conditionSetting = new System.Windows.Forms.TabPage();
             this.txt_LearnCnt = new System.Windows.Forms.TextBox();
             this.label31 = new System.Windows.Forms.Label();
@@ -158,16 +162,16 @@ namespace BackTestSys
             this.tsmi_ImportExcel = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_ExportCSV = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_DisplayAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.dataGridView_ExchangeDetail = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.listView2 = new System.Windows.Forms.ListView();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.listView1 = new System.Windows.Forms.ListView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.listView3 = new System.Windows.Forms.ListView();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.dataGridView_ExchangeDetail = new System.Windows.Forms.DataGridView();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.chart_ForProb = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabPage7 = new System.Windows.Forms.TabPage();
@@ -182,7 +186,6 @@ namespace BackTestSys
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -196,13 +199,13 @@ namespace BackTestSys
             this.tabPage_roundBackTest.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.contextMenuStrip_ForListView.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ExchangeDetail)).BeginInit();
+            this.tabPage2.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.tabPage6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart_ForProb)).BeginInit();
             this.tabPage7.SuspendLayout();
@@ -249,7 +252,7 @@ namespace BackTestSys
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
             this.splitContainer1.Size = new System.Drawing.Size(1192, 657);
-            this.splitContainer1.SplitterDistance = 110;
+            this.splitContainer1.SplitterDistance = 125;
             this.splitContainer1.SplitterWidth = 2;
             this.splitContainer1.TabIndex = 1;
             // 
@@ -266,12 +269,15 @@ namespace BackTestSys
             this.tabControl_setting.Location = new System.Drawing.Point(2, 6);
             this.tabControl_setting.Name = "tabControl_setting";
             this.tabControl_setting.SelectedIndex = 0;
-            this.tabControl_setting.Size = new System.Drawing.Size(1098, 99);
+            this.tabControl_setting.Size = new System.Drawing.Size(1098, 116);
             this.tabControl_setting.TabIndex = 32;
             // 
             // tabPage_dataSource
             // 
             this.tabPage_dataSource.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage_dataSource.Controls.Add(this.chkb_useBechmark);
+            this.tabPage_dataSource.Controls.Add(this.txt_benchMarkCode);
+            this.tabPage_dataSource.Controls.Add(this.chkb_useSpecList);
             this.tabPage_dataSource.Controls.Add(this.txt_SecPools);
             this.tabPage_dataSource.Controls.Add(this.label32);
             this.tabPage_dataSource.Controls.Add(this.ddl_DataSource);
@@ -284,21 +290,52 @@ namespace BackTestSys
             this.tabPage_dataSource.Location = new System.Drawing.Point(4, 22);
             this.tabPage_dataSource.Name = "tabPage_dataSource";
             this.tabPage_dataSource.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage_dataSource.Size = new System.Drawing.Size(1090, 73);
+            this.tabPage_dataSource.Size = new System.Drawing.Size(1090, 90);
             this.tabPage_dataSource.TabIndex = 0;
             this.tabPage_dataSource.Text = "数据源";
             // 
+            // chkb_useBechmark
+            // 
+            this.chkb_useBechmark.AutoSize = true;
+            this.chkb_useBechmark.Location = new System.Drawing.Point(553, 7);
+            this.chkb_useBechmark.Name = "chkb_useBechmark";
+            this.chkb_useBechmark.Size = new System.Drawing.Size(96, 16);
+            this.chkb_useBechmark.TabIndex = 54;
+            this.chkb_useBechmark.Text = "使用参考标的";
+            this.chkb_useBechmark.UseVisualStyleBackColor = true;
+            // 
+            // txt_benchMarkCode
+            // 
+            this.txt_benchMarkCode.Location = new System.Drawing.Point(664, 5);
+            this.txt_benchMarkCode.Name = "txt_benchMarkCode";
+            this.txt_benchMarkCode.Size = new System.Drawing.Size(216, 21);
+            this.txt_benchMarkCode.TabIndex = 53;
+            this.txt_benchMarkCode.Text = "000001.SH";
+            // 
+            // chkb_useSpecList
+            // 
+            this.chkb_useSpecList.AutoSize = true;
+            this.chkb_useSpecList.Checked = true;
+            this.chkb_useSpecList.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkb_useSpecList.Location = new System.Drawing.Point(217, 9);
+            this.chkb_useSpecList.Name = "chkb_useSpecList";
+            this.chkb_useSpecList.Size = new System.Drawing.Size(96, 16);
+            this.chkb_useSpecList.TabIndex = 52;
+            this.chkb_useSpecList.Text = "使用指定标的";
+            this.chkb_useSpecList.UseVisualStyleBackColor = true;
+            // 
             // txt_SecPools
             // 
-            this.txt_SecPools.Location = new System.Drawing.Point(675, 16);
+            this.txt_SecPools.Location = new System.Drawing.Point(319, 6);
             this.txt_SecPools.Name = "txt_SecPools";
-            this.txt_SecPools.Size = new System.Drawing.Size(122, 21);
+            this.txt_SecPools.Size = new System.Drawing.Size(216, 21);
             this.txt_SecPools.TabIndex = 51;
+            this.txt_SecPools.Text = "600858.SH";
             // 
             // label32
             // 
             this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(482, 20);
+            this.label32.Location = new System.Drawing.Point(21, 10);
             this.label32.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(41, 12);
@@ -313,7 +350,7 @@ namespace BackTestSys
             "PK10",
             "TXFFC",
             "CN_Stock_A"});
-            this.ddl_DataSource.Location = new System.Drawing.Point(538, 17);
+            this.ddl_DataSource.Location = new System.Drawing.Point(77, 7);
             this.ddl_DataSource.Margin = new System.Windows.Forms.Padding(2);
             this.ddl_DataSource.Name = "ddl_DataSource";
             this.ddl_DataSource.Size = new System.Drawing.Size(132, 20);
@@ -321,7 +358,7 @@ namespace BackTestSys
             // 
             // txt_endExpNo
             // 
-            this.txt_endExpNo.Location = new System.Drawing.Point(388, 16);
+            this.txt_endExpNo.Location = new System.Drawing.Point(385, 47);
             this.txt_endExpNo.Margin = new System.Windows.Forms.Padding(2);
             this.txt_endExpNo.Name = "txt_endExpNo";
             this.txt_endExpNo.Size = new System.Drawing.Size(76, 21);
@@ -332,7 +369,7 @@ namespace BackTestSys
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 20);
+            this.label1.Location = new System.Drawing.Point(20, 50);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 12);
@@ -341,18 +378,18 @@ namespace BackTestSys
             // 
             // txt_begExpNo
             // 
-            this.txt_begExpNo.Location = new System.Drawing.Point(80, 16);
+            this.txt_begExpNo.Location = new System.Drawing.Point(77, 47);
             this.txt_begExpNo.Margin = new System.Windows.Forms.Padding(2);
             this.txt_begExpNo.Name = "txt_begExpNo";
             this.txt_begExpNo.Size = new System.Drawing.Size(78, 21);
             this.txt_begExpNo.TabIndex = 44;
-            this.txt_begExpNo.Text = "233049";
+            this.txt_begExpNo.Text = "2008-01-01";
             this.txt_begExpNo.DoubleClick += new System.EventHandler(this.txt_begExpNo_DoubleClick);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(172, 20);
+            this.label2.Location = new System.Drawing.Point(169, 51);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 12);
@@ -361,17 +398,17 @@ namespace BackTestSys
             // 
             // txt_LoopCnt
             // 
-            this.txt_LoopCnt.Location = new System.Drawing.Point(239, 17);
+            this.txt_LoopCnt.Location = new System.Drawing.Point(236, 48);
             this.txt_LoopCnt.Margin = new System.Windows.Forms.Padding(2);
             this.txt_LoopCnt.Name = "txt_LoopCnt";
             this.txt_LoopCnt.Size = new System.Drawing.Size(77, 21);
             this.txt_LoopCnt.TabIndex = 46;
-            this.txt_LoopCnt.Text = "50000";
+            this.txt_LoopCnt.Text = "200";
             // 
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(329, 21);
+            this.label33.Location = new System.Drawing.Point(326, 52);
             this.label33.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(53, 12);
@@ -387,6 +424,16 @@ namespace BackTestSys
             this.tabPage_usePlan.Size = new System.Drawing.Size(1090, 73);
             this.tabPage_usePlan.TabIndex = 5;
             this.tabPage_usePlan.Text = "回测用策略";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(17, 27);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(53, 12);
+            this.label3.TabIndex = 44;
+            this.label3.Text = "投资计划";
             // 
             // tabPage_conditionSetting
             // 
@@ -699,7 +746,7 @@ namespace BackTestSys
             this.tabPage_subCondition.Controls.Add(this.label9);
             this.tabPage_subCondition.Location = new System.Drawing.Point(4, 22);
             this.tabPage_subCondition.Name = "tabPage_subCondition";
-            this.tabPage_subCondition.Size = new System.Drawing.Size(1090, 73);
+            this.tabPage_subCondition.Size = new System.Drawing.Size(1090, 170);
             this.tabPage_subCondition.TabIndex = 2;
             this.tabPage_subCondition.Text = "约束条件";
             // 
@@ -719,7 +766,7 @@ namespace BackTestSys
             this.txt_InitCash.Name = "txt_InitCash";
             this.txt_InitCash.Size = new System.Drawing.Size(55, 21);
             this.txt_InitCash.TabIndex = 63;
-            this.txt_InitCash.Text = "20000";
+            this.txt_InitCash.Text = "10000000";
             // 
             // label28
             // 
@@ -1020,7 +1067,7 @@ namespace BackTestSys
             this.tabPage_display.Controls.Add(this.checkBox_CreamModel);
             this.tabPage_display.Location = new System.Drawing.Point(4, 22);
             this.tabPage_display.Name = "tabPage_display";
-            this.tabPage_display.Size = new System.Drawing.Size(1090, 73);
+            this.tabPage_display.Size = new System.Drawing.Size(1090, 75);
             this.tabPage_display.TabIndex = 3;
             this.tabPage_display.Text = "显示设置";
             // 
@@ -1266,11 +1313,11 @@ namespace BackTestSys
             // tabControl1
             // 
             this.tabControl1.ContextMenuStrip = this.contextMenuStrip_ForListView;
+            this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Controls.Add(this.tabPage7);
             this.tabControl1.Controls.Add(this.tabPage8);
@@ -1280,7 +1327,7 @@ namespace BackTestSys
             this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1190, 543);
+            this.tabControl1.Size = new System.Drawing.Size(1190, 528);
             this.tabControl1.TabIndex = 3;
             // 
             // contextMenuStrip_ForListView
@@ -1321,6 +1368,61 @@ namespace BackTestSys
             this.tsmi_DisplayAll.Text = "显示所有";
             this.tsmi_DisplayAll.Click += new System.EventHandler(this.tsmi_DisplayAll_Click);
             // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.chart1);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(1182, 502);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "资金曲线";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // chart1
+            // 
+            chartArea8.CursorX.IsUserEnabled = true;
+            chartArea8.CursorX.IsUserSelectionEnabled = true;
+            chartArea8.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea8);
+            this.chart1.ContextMenuStrip = this.contextMenuStrip_ForListView;
+            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend8.Name = "Legend1";
+            this.chart1.Legends.Add(legend8);
+            this.chart1.Location = new System.Drawing.Point(0, 0);
+            this.chart1.Name = "chart1";
+            series23.ChartArea = "ChartArea1";
+            series23.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series23.Legend = "Legend1";
+            series23.Name = "收益率曲线";
+            this.chart1.Series.Add(series23);
+            this.chart1.Size = new System.Drawing.Size(1182, 502);
+            this.chart1.TabIndex = 0;
+            this.chart1.Text = "收益率曲线图";
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.dataGridView_ExchangeDetail);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(1182, 517);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "交易明细";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView_ExchangeDetail
+            // 
+            this.dataGridView_ExchangeDetail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView_ExchangeDetail.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView_ExchangeDetail.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_ExchangeDetail.MultiSelect = false;
+            this.dataGridView_ExchangeDetail.Name = "dataGridView_ExchangeDetail";
+            this.dataGridView_ExchangeDetail.RowTemplate.Height = 23;
+            this.dataGridView_ExchangeDetail.ShowCellErrors = false;
+            this.dataGridView_ExchangeDetail.ShowRowErrors = false;
+            this.dataGridView_ExchangeDetail.Size = new System.Drawing.Size(1182, 517);
+            this.dataGridView_ExchangeDetail.TabIndex = 0;
+            this.dataGridView_ExchangeDetail.DoubleClick += new System.EventHandler(this.dataGridView_ExchangeDetail_DoubleClick);
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.listView2);
@@ -1355,7 +1457,7 @@ namespace BackTestSys
             this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage1.Size = new System.Drawing.Size(1182, 502);
+            this.tabPage1.Size = new System.Drawing.Size(1182, 517);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "小概率机会列表";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -1370,7 +1472,7 @@ namespace BackTestSys
             this.listView1.Margin = new System.Windows.Forms.Padding(2);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(1178, 498);
+            this.listView1.Size = new System.Drawing.Size(1178, 513);
             this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -1383,7 +1485,7 @@ namespace BackTestSys
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1182, 502);
+            this.tabPage3.Size = new System.Drawing.Size(1182, 517);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "滚动测试结果";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1398,63 +1500,11 @@ namespace BackTestSys
             this.listView3.Location = new System.Drawing.Point(0, 0);
             this.listView3.Margin = new System.Windows.Forms.Padding(2);
             this.listView3.Name = "listView3";
-            this.listView3.Size = new System.Drawing.Size(1182, 502);
+            this.listView3.Size = new System.Drawing.Size(1182, 517);
             this.listView3.TabIndex = 0;
             this.listView3.UseCompatibleStateImageBehavior = false;
             this.listView3.View = System.Windows.Forms.View.Details;
             this.listView3.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView3_ColumnClick);
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.chart1);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1182, 502);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "资金曲线";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // chart1
-            // 
-            chartArea16.CursorX.IsUserEnabled = true;
-            chartArea16.CursorX.IsUserSelectionEnabled = true;
-            chartArea16.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea16);
-            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend16.Name = "Legend1";
-            this.chart1.Legends.Add(legend16);
-            this.chart1.Location = new System.Drawing.Point(0, 0);
-            this.chart1.Name = "chart1";
-            series41.ChartArea = "ChartArea1";
-            series41.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series41.Legend = "Legend1";
-            series41.Name = "收益率曲线";
-            this.chart1.Series.Add(series41);
-            this.chart1.Size = new System.Drawing.Size(1182, 502);
-            this.chart1.TabIndex = 0;
-            this.chart1.Text = "收益率曲线图";
-            // 
-            // tabPage5
-            // 
-            this.tabPage5.Controls.Add(this.dataGridView_ExchangeDetail);
-            this.tabPage5.Location = new System.Drawing.Point(4, 22);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1182, 502);
-            this.tabPage5.TabIndex = 4;
-            this.tabPage5.Text = "交易明细";
-            this.tabPage5.UseVisualStyleBackColor = true;
-            // 
-            // dataGridView_ExchangeDetail
-            // 
-            this.dataGridView_ExchangeDetail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView_ExchangeDetail.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView_ExchangeDetail.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView_ExchangeDetail.MultiSelect = false;
-            this.dataGridView_ExchangeDetail.Name = "dataGridView_ExchangeDetail";
-            this.dataGridView_ExchangeDetail.RowTemplate.Height = 23;
-            this.dataGridView_ExchangeDetail.Size = new System.Drawing.Size(1182, 502);
-            this.dataGridView_ExchangeDetail.TabIndex = 0;
-            this.dataGridView_ExchangeDetail.DoubleClick += new System.EventHandler(this.dataGridView_ExchangeDetail_DoubleClick);
             // 
             // tabPage6
             // 
@@ -1462,41 +1512,41 @@ namespace BackTestSys
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(1182, 502);
+            this.tabPage6.Size = new System.Drawing.Size(1182, 517);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "概率波动曲线";
             this.tabPage6.UseVisualStyleBackColor = true;
             // 
             // chart_ForProb
             // 
-            chartArea17.Name = "ChartArea1";
-            this.chart_ForProb.ChartAreas.Add(chartArea17);
+            chartArea6.Name = "ChartArea1";
+            this.chart_ForProb.ChartAreas.Add(chartArea6);
             this.chart_ForProb.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend17.Name = "Legend1";
-            this.chart_ForProb.Legends.Add(legend17);
+            legend6.Name = "Legend1";
+            this.chart_ForProb.Legends.Add(legend6);
             this.chart_ForProb.Location = new System.Drawing.Point(3, 3);
             this.chart_ForProb.Name = "chart_ForProb";
-            series42.ChartArea = "ChartArea1";
-            series42.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series42.Legend = "Legend1";
-            series42.Name = "概率变动曲线";
-            series43.ChartArea = "ChartArea1";
-            series43.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series43.Legend = "Legend1";
-            series43.Name = "Series2";
-            series44.ChartArea = "ChartArea1";
-            series44.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series44.Legend = "Legend1";
-            series44.Name = "Series3";
-            series45.ChartArea = "ChartArea1";
-            series45.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series45.Legend = "Legend1";
-            series45.Name = "Series4";
-            this.chart_ForProb.Series.Add(series42);
-            this.chart_ForProb.Series.Add(series43);
-            this.chart_ForProb.Series.Add(series44);
-            this.chart_ForProb.Series.Add(series45);
-            this.chart_ForProb.Size = new System.Drawing.Size(1176, 496);
+            series16.ChartArea = "ChartArea1";
+            series16.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series16.Legend = "Legend1";
+            series16.Name = "概率变动曲线";
+            series24.ChartArea = "ChartArea1";
+            series24.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series24.Legend = "Legend1";
+            series24.Name = "Series2";
+            series25.ChartArea = "ChartArea1";
+            series25.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series25.Legend = "Legend1";
+            series25.Name = "Series3";
+            series26.ChartArea = "ChartArea1";
+            series26.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series26.Legend = "Legend1";
+            series26.Name = "Series4";
+            this.chart_ForProb.Series.Add(series16);
+            this.chart_ForProb.Series.Add(series24);
+            this.chart_ForProb.Series.Add(series25);
+            this.chart_ForProb.Series.Add(series26);
+            this.chart_ForProb.Size = new System.Drawing.Size(1176, 511);
             this.chart_ForProb.TabIndex = 0;
             this.chart_ForProb.Text = "chart2";
             // 
@@ -1506,7 +1556,7 @@ namespace BackTestSys
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(1182, 502);
+            this.tabPage7.Size = new System.Drawing.Size(1182, 517);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "概率数据";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -1547,7 +1597,7 @@ namespace BackTestSys
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView_ProbData.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridView_ProbData.RowTemplate.Height = 23;
-            this.dataGridView_ProbData.Size = new System.Drawing.Size(1176, 496);
+            this.dataGridView_ProbData.Size = new System.Drawing.Size(1176, 511);
             this.dataGridView_ProbData.TabIndex = 0;
             // 
             // tabPage8
@@ -1556,37 +1606,37 @@ namespace BackTestSys
             this.tabPage8.Location = new System.Drawing.Point(4, 22);
             this.tabPage8.Name = "tabPage8";
             this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage8.Size = new System.Drawing.Size(1182, 502);
+            this.tabPage8.Size = new System.Drawing.Size(1182, 517);
             this.tabPage8.TabIndex = 7;
             this.tabPage8.Text = "整体离散度变化曲线";
             this.tabPage8.UseVisualStyleBackColor = true;
             // 
             // chart_ForSystemStdDev
             // 
-            chartArea18.Name = "ChartArea1";
-            this.chart_ForSystemStdDev.ChartAreas.Add(chartArea18);
+            chartArea9.Name = "ChartArea1";
+            this.chart_ForSystemStdDev.ChartAreas.Add(chartArea9);
             this.chart_ForSystemStdDev.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend18.Name = "Legend1";
-            this.chart_ForSystemStdDev.Legends.Add(legend18);
+            legend9.Name = "Legend1";
+            this.chart_ForSystemStdDev.Legends.Add(legend9);
             this.chart_ForSystemStdDev.Location = new System.Drawing.Point(3, 3);
             this.chart_ForSystemStdDev.Name = "chart_ForSystemStdDev";
-            series46.BorderWidth = 5;
-            series46.ChartArea = "ChartArea1";
-            series46.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series46.Legend = "Legend1";
-            series46.Name = "Series1";
-            series47.ChartArea = "ChartArea1";
-            series47.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series47.Legend = "Legend1";
-            series47.Name = "Series2";
-            series48.ChartArea = "ChartArea1";
-            series48.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series48.Legend = "Legend1";
-            series48.Name = "Series3";
-            this.chart_ForSystemStdDev.Series.Add(series46);
-            this.chart_ForSystemStdDev.Series.Add(series47);
-            this.chart_ForSystemStdDev.Series.Add(series48);
-            this.chart_ForSystemStdDev.Size = new System.Drawing.Size(1176, 496);
+            series27.BorderWidth = 5;
+            series27.ChartArea = "ChartArea1";
+            series27.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series27.Legend = "Legend1";
+            series27.Name = "Series1";
+            series28.ChartArea = "ChartArea1";
+            series28.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series28.Legend = "Legend1";
+            series28.Name = "Series2";
+            series29.ChartArea = "ChartArea1";
+            series29.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series29.Legend = "Legend1";
+            series29.Name = "Series3";
+            this.chart_ForSystemStdDev.Series.Add(series27);
+            this.chart_ForSystemStdDev.Series.Add(series28);
+            this.chart_ForSystemStdDev.Series.Add(series29);
+            this.chart_ForSystemStdDev.Size = new System.Drawing.Size(1176, 511);
             this.chart_ForSystemStdDev.TabIndex = 0;
             this.chart_ForSystemStdDev.Text = "系统整体散乱程度";
             // 
@@ -1596,7 +1646,7 @@ namespace BackTestSys
             this.tabPage9.Location = new System.Drawing.Point(4, 22);
             this.tabPage9.Name = "tabPage9";
             this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage9.Size = new System.Drawing.Size(1182, 502);
+            this.tabPage9.Size = new System.Drawing.Size(1182, 517);
             this.tabPage9.TabIndex = 8;
             this.tabPage9.Text = "整体离散度数据";
             this.tabPage9.UseVisualStyleBackColor = true;
@@ -1608,7 +1658,7 @@ namespace BackTestSys
             this.dg_forStdDev.Location = new System.Drawing.Point(3, 3);
             this.dg_forStdDev.Name = "dg_forStdDev";
             this.dg_forStdDev.RowTemplate.Height = 23;
-            this.dg_forStdDev.Size = new System.Drawing.Size(1176, 496);
+            this.dg_forStdDev.Size = new System.Drawing.Size(1176, 511);
             this.dg_forStdDev.TabIndex = 0;
             this.dg_forStdDev.DoubleClick += new System.EventHandler(this.dg_forStdDev_DoubleClick);
             // 
@@ -1661,16 +1711,6 @@ namespace BackTestSys
             this.toolStripProgressBar1.Step = 1;
             this.toolStripProgressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(17, 27);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(53, 12);
-            this.label3.TabIndex = 44;
-            this.label3.Text = "投资计划";
-            // 
             // BackTestFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1703,13 +1743,13 @@ namespace BackTestSys
             this.tabPage_roundBackTest.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.contextMenuStrip_ForListView.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.tabPage5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_ExchangeDetail)).EndInit();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chart_ForProb)).EndInit();
             this.tabPage7.ResumeLayout(false);
@@ -1853,5 +1893,8 @@ namespace BackTestSys
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.TabPage tabPage_usePlan;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox chkb_useSpecList;
+        private System.Windows.Forms.CheckBox chkb_useBechmark;
+        private System.Windows.Forms.TextBox txt_benchMarkCode;
     }
 }

@@ -60,8 +60,7 @@ namespace WolfInv.com.WDDataInit
             }
         }
 
-        MongoReturnDataList<T> LocalData;
-        public MongoReturnDataList<T> FullData;
+        
         public class EquitUpdateResult
         {
             public string code;
@@ -78,10 +77,13 @@ namespace WolfInv.com.WDDataInit
             public string Msg;
             public string MsgDetail;
             public List<string> WebUrls=new List<string>();
+            public MongoReturnDataList<T> Data;
         }
         public EquitUpdateResult updateData(bool noNeedToday=false,bool onlyLocal=false ,int localDataLen=1000,string fromdate=null,string todate=null)
         {
-            EquitUpdateResult ret = new EquitUpdateResult();
+            MongoReturnDataList<T> LocalData;
+         MongoReturnDataList<T> FullData;
+        EquitUpdateResult ret = new EquitUpdateResult();
             ret.code = this.sec_code;
             ret.name = this.sec_name;
             StockInfoMongoData simd = new StockInfoMongoData(sec_code, sec_name);
@@ -121,6 +123,7 @@ namespace WolfInv.com.WDDataInit
                     LocalData = new MongoReturnDataList<T>(simd,true);
                 }
                 FullData = LocalData;
+                ret.Data = FullData;
                 if (onlyLocal)
                 {
                     ret.succ = false;
@@ -141,6 +144,26 @@ namespace WolfInv.com.WDDataInit
                     }
                 }
                 ret.WebBegT = begT.WDDate() ;
+                DateTime now = DateTime.Now;
+                int days = (int)now.Date.Subtract(begT.Date).TotalDays;                
+                if(days<=2)//如果日期差小于等于2
+                {
+                    if((now.DayOfWeek- DayOfWeek.Friday)==days)//周末，2日内
+                    {
+                        return ret;
+                    }
+                    if(days == 0)//当日数据已收到
+                    {
+                        return ret;
+                    }
+                    if(days == 1)
+                    {
+                        if (now.Hour < 17)//上日的数据下午5点以后再接收
+                        {
+                            return ret;
+                        }
+                    }
+                }
                 MongoReturnDataList<T> wdData = commAPI.getSerialData<T>(simd, begT, endT,ref ret.WebUrls); 
                 if(wdData!= null)
                 {
@@ -148,6 +171,13 @@ namespace WolfInv.com.WDDataInit
                     ret.WebDataCount = wdData.Count;
                     if (ret.WebDataCount > 0)
                         ret.WebDataLastDate = wdData.Last().Expect;
+                }
+                else
+                {
+                    ret.succ = false;
+                    ret.Msg = "无法获取到网络数据";
+                    ret.Updated = false;
+                    return ret;
                 }
                 if (LocalData.Count > 0 && wdData.Count == 1 && wdData.First().Expect == LocalData.Last().Expect)//不要更新
                 {
@@ -179,6 +209,7 @@ namespace WolfInv.com.WDDataInit
                         ret.MsgDetail = "无法写入到文件！";
                     }
                 }
+                ret.Data = FullData;
             }
             catch (Exception ce)
             {
@@ -186,10 +217,13 @@ namespace WolfInv.com.WDDataInit
                 ret.Updated = false;
                 ret.Msg = ce.Message;
                 ret.MsgDetail = ce.StackTrace;
+                ret.Data = null;
                 return ret;
             }
             finally
             {
+                LocalData = null;
+                FullData = null;
                 simd = null;
             }
             ret.succ = true;

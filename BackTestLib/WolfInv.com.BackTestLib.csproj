@@ -62,6 +62,10 @@
       <Project>{BE222046-7D38-4E42-BCB5-CE4CCC5AB4CD}</Project>
       <Name>WolfInv.com.ExchangeLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GuideLib\WolfInv.com.GuideLib.csproj">
+      <Project>{2c724db7-59a5-41cd-8274-c0acb18fcc1a}</Project>
+      <Name>WolfInv.com.GuideLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LogLib\WolfInv.com.LogLib.csproj">
       <Project>{182084E4-C48B-4585-9221-4A54CAF7448F}</Project>
       <Name>WolfInv.com.LogLib</Name>

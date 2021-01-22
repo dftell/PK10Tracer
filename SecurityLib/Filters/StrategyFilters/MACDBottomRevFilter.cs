@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using WolfInv.com.BaseObjectsLib;
 using WolfInv.com.GuideLib;
@@ -10,12 +11,12 @@ using WolfInv.com.GuideLib;
 namespace WolfInv.com.SecurityLib.Filters.StrategyFilters
 {
     /// <summary>
-    /// 最小长度滤网
+    /// 多周期策略
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class MACDBottomRevFilter<T> : CommFilterLogicBaseClass<T>,iMACDFilter<T> where T : TimeSerialData
+    public class MACDBottomRevFilter<T> : CommFilterLogicBaseClass<T> where T : TimeSerialData
     {
-        public MACDBottomRevFilter(string endExpect,CommSecurityProcessClass<T> cpc, PriceAdj priceAdj = PriceAdj.Fore, Cycle cyc = Cycle.Day) :base(endExpect,cpc, priceAdj, cyc)
+        public MACDBottomRevFilter(string endExpect,CommSecurityProcessClass<T> cpc, PriceAdj priceAdj = PriceAdj.Beyond, Cycle cyc = Cycle.Day) :base(endExpect,cpc, priceAdj, cyc)
         {
 
         }
@@ -23,16 +24,14 @@ namespace WolfInv.com.SecurityLib.Filters.StrategyFilters
         {
             throw new NotImplementedException();
         }
-
+  
         public override SelectResult ExecFilter(CommStrategyInClass Input)
         {
+            
             SelectResult ret = new SelectResult();
             ret.Key = Input.SecIndex;
             ret.Enable = false;
             MACDCollection macd = kLineData.Closes.MACD();
-            MaxMinElementClass<double>[] closeMMArr = null;
-            MaxMinElementClass<double>[] MACDMMArr = null;
-            MaxMinElementClass<double>[] DEAMMArr = null;
             try
             {
                 //List<T> list = this.SecObj.SecPriceInfo;
@@ -42,39 +41,53 @@ namespace WolfInv.com.SecurityLib.Filters.StrategyFilters
                 
                 if (1 == 1)
                 {
+                    //只做空头
+                    if(macd.DEAs.Last(1)>macd.DEAs.Last(2))
+                    {
+                        return ret;
+                    }
+                    if(macd.MACDs.Last(2)>0)
+                    {
+                        return ret;
+                    }
+                    
                     //DEA在上，只抄底
                     if (macd.DEAs.Last(1) >= 0)
                     {
                         return ret;
                     }
+                    /*
                     int maxUseLen = zeroLines.LastMatchCondition(macd.DEAs, GuideToolClass.CrossUp);
                     if (maxUseLen < 20)//Input.ReferDays)
                     {
                         //maxUseLen = Input.ReferDays;
                         return ret;
+                    }*/
+                    //下跌以来的周数
+                    int maxUseLen = zeroLines.LastMatchCondition(macd.DEAs, GuideToolClass.CrossUp);
+                    if (maxUseLen < 15)//Input.ReferDays)//趋势持续20周以上
+                    {
+                        //maxUseLen = Input.ReferDays;
+                        return ret;
                     }
-                    closeMMArr = kLineData.Closes.LastSector(maxUseLen).MaxMinArray<double>(10);
-                    MACDMMArr = macd.MACDs.LastSector(maxUseLen).MaxMinArray<double>(5);
-                    DEAMMArr = macd.DEAs.LastSector(maxUseLen).MaxMinArray<double>(5);
-
-                    if (MACDMMArr.Last(1).Value < MACDMMArr.Last(2).Value)//macd朝下，不理他
+                    //closeMMArr = kLineData.Closes.LastSector(maxUseLen).MaxMinArray<double>(10);
+                    
+                    if (macd.MACDs.Last(1)<macd.MACDs.Last(2))//macd朝下，不理他
                     {
                         return ret;
                     }
-                    if (DEAMMArr.Last(1).Value > DEAMMArr.Last(2).Value)//保证当前趋势向下
-                    {
-                        return ret;
-                    }
-                    if (DEAMMArr.Length < 3)
-                    {
-                        return ret;
-                    }
-                    if(MACDMMArr.Length<5)
-                    {
-                        return ret;
-                    }
+                    
+                    ////if (DEAMMArr.Length < 3)
+                    ////{
+                    ////    return ret;
+                    ////}
+                    //if(MACDMMArr.Length<4)
+                    //{
+                    //    return ret;
+                    //}
+                    bool isRaised = true;
                     //东山再起，最后一次起的最高或者相当高
-                    if(MACDMMArr.Last(3).Value< MACDMMArr.Max(a=>a.Value)*0.8)
+                    /*if(MACDMMArr.Last(3).Value< MACDMMArr.Max(a=>a.Value)*0.8)
                     {
                         return ret;
                     }
@@ -92,12 +105,13 @@ namespace WolfInv.com.SecurityLib.Filters.StrategyFilters
                     {
                         return ret;
                     }
+                    */
                     //
-                    double maxVal = kLineData.Highs.Max();
-                    double maxDownRate = 100 * (maxVal - closeMMArr.Last(2).Value) / maxVal;
-                    double downRate = Math.Abs(100 * (closeMMArr.Last(2).Value - closeMMArr.Last(3).Value) / closeMMArr.Last(3).Value);
-                    double upRate = 100 * (closeMMArr.Last(3).Value - closeMMArr.Last(4).Value) / closeMMArr.Last(4).Value;
-                    double lastUpRate = 100 * (closeMMArr.Last(1).Value - closeMMArr.Last(2).Value) / closeMMArr.Last(2).Value;
+                    //double maxVal = kLineData.Highs.Max();
+                    //double maxDownRate = 100 * (maxVal - closeMMArr.Last(2).Value) / maxVal;
+                    //double downRate = Math.Abs(100 * (closeMMArr.Last(2).Value - closeMMArr.Last(3).Value) / closeMMArr.Last(3).Value);
+                    double lastUpRate = kLineData.RaiseRates.Last();
+                    //double lastUpRate = 100 * (closeMMArr.Last(1).Value - closeMMArr.Last(2).Value) / closeMMArr.Last(2).Value;
                     /*
                     if (maxDownRate < 40)//跌少了
                     {
@@ -120,27 +134,53 @@ namespace WolfInv.com.SecurityLib.Filters.StrategyFilters
                     {
                         return ret;
                     }
-                    */
-                    if (lastUpRate > 5)//最后一期涨多了
+                   */
+                    if (lastUpRate > 10)//最后一期涨多了
                     {
                         return ret;
                     }
-                    
-                    //前一个价格的极值是最小值，上涨两个周期得到确认
-                    if (closeMMArr.Last(2).Value <= closeMMArr.Select(a => a.Value).Min() && closeMMArr.Last(1).index > closeMMArr.Last(2).index + 1)
+                    int macdDownDays = zeroLines.LastMatchCondition(macd.MACDs, GuideToolClass.Cross);//macd最后下跌周期数
+                    if(macdDownDays>=maxUseLen)//如果最后一次macd下穿0线还在dea下穿之前，那以2计（默认最近2期是MACD下探0线的）
                     {
-                        //找前期最后一个绿macd值，或者以价格序号替代
-                        var items = MACDMMArr.Where(a => a.Value < 0 && a.index < MACDMMArr.Last(2).index);
-                        if (items.Count() == 0)
-                            return ret;
-                        items = items.OrderBy(a => a.index);
-                        //if (DEAMMArr.Last(1).Value > DEAMMArr.Last(2).Value) 
-                        if (MACDMMArr.Last(2).Value > items.Last().Value / 2)
+                        macdDownDays = 2;
+                    }
+                    var items = kLineData.lowCycleData.LastSector(maxUseLen).FirstSector(maxUseLen - macdDownDays);
+                    if(items.Count() == 0)
+                    {
+                        return ret;
+                    }
+                    double priceLow = items.Min(a=>a.low);
+                    int macdLowIndex = kLineData.lowCycleData.Where(a=>a.low == priceLow).Last().index;//最低价对应的macd位置
+                    double macdLow = macd.MACDs[macdLowIndex];                    
+                    double macdRate = 100*(kLineData.Closes.LastSector(macdDownDays).Min()-macdLow)/macdLow;
+                    double priceRate = 100*(priceLow-kLineData.lowCycleData.LastSector(macdDownDays).Min(a => a.low))/ priceLow;//下跌幅度
+                    //最近两周的收盘价是最小值
+                    if (priceRate>0)
+                    {
+                        //最近两周的macd的最小值大于下跌以来的最小值
+                        if (macdRate>0)
                         {
-                            ret.ReferValues = new object[] { closeMMArr.Last(2), MACDMMArr.Last(2), DEAMMArr.Last(2) };
-                            ret.Weight = (isRaised ? 2 : 1).ToWeight(1000) + maxDownRate.ToSimpleNumber(10).ToWeight(100) + downRate.ToSimpleNumber(5).ToWeight(10) + lastUpRate.ToSimpleNumber(1).ToWeight(1);
-                            ret.Status = string.Format("上升:{0};大降幅:{1};最后升幅:{2};中途跌幅:{3}", isRaised, maxDownRate.ToEquitPrice(2), lastUpRate.ToEquitPrice(2), downRate.ToEquitPrice(2));
+                            MaxMinElementClass<double>[] MACDMMArr = macd.MACDs.LastSector(maxUseLen).MaxMinArray<double>(5);
+                            //DEAMMArr = macd.DEAs.LastSector(maxUseLen).MaxMinArray<double>(5);
+                            if (MACDMMArr.Where(a => a.Value < 0).Count() < (MACDMMArr.Last().Value<0?4:3))//macd极值数小于0的数量要大于3，2次纠缠
+                            {
+                                return ret;
+                            }
+                            //LockSlim.EnterWriteLock();
+                            ret.Key = kLineData.code;
+                            double lowPrice = kLineData.Lows.LastSector(macdDownDays).Min();
+                            string lowExpect = kLineData.lowCycleData.Last(macdDownDays).low > kLineData.lowCycleData.Last(1).low ? kLineData.lowCycleData.Last(1).lowExpect : kLineData.lowCycleData.Last(2).lowExpect;
+                            ret.ReferValues = new object[] { lowPrice, lowExpect };//以前周期最低价作为止损值
+                            ret.Weight = (priceRate / 10).ToSimpleNumber(10).ToWeight(10000) 
+                                + (kLineData.Length-macdLowIndex+1).ToSimpleNumber(20).ToWeight(1000) 
+                                + (macdRate<0?11:Math.Max(macdRate/ 0.5,10)).ToSimpleNumber(11).ToWeight(100) +   lastUpRate.ToSimpleNumber(2).ToWeight(10);
+                            ret.Status = string.Format("价格背离度:{0};与前期低点周期数:{1};趋势背离度:{2};", 
+                                (priceRate / 10).ToSimpleNumber(10),
+                                (kLineData.Length - macdLowIndex + 1).ToSimpleNumber(10),
+                                (macdRate < 0 ? 11 : Math.Max(macdRate / 0.5, 10)).ToSimpleNumber(11), 
+                                priceRate);
                             ret.Enable = true;
+                            //LockSlim.ExitWriteLock();
                             return ret;
                         }
                     }
@@ -157,51 +197,12 @@ namespace WolfInv.com.SecurityLib.Filters.StrategyFilters
             {
                 this.SecObj = null;
                 kLineData = null;
-                MACDMMArr = null;
-                DEAMMArr = null;
-                closeMMArr = null;
+                //MACDMMArr = null;
+                //DEAMMArr = null;
+                //closeMMArr = null;
                 //GC.Collect();
             }
         }
 
-        public bool CurrInGreen(CommStrategyInClass Input, KLineData<T> kline, MACDCollection macds, int holdDays)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool CurrInRedArea(CommStrategyInClass Input, KLineData<T> kline, MACDCollection macds, int holdDays)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool CurrInNearGreenArea(CommStrategyInClass Input, KLineData<T> kline, MACDCollection macds, int holdDays, int currStatusHoldDays)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool CurrInFarGreenArea(CommStrategyInClass Input, KLineData<T> kline, MACDCollection macds, int holdDays, int currStatusHoldDays)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool CurrInNearRedArea(CommStrategyInClass Input, KLineData<T> kline, MACDCollection macds, int holdDays, int currStatusHoldDays)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool CurrInFarRedArea(CommStrategyInClass Input, KLineData<T> kline, MACDCollection macds, int holdDays, int currStatusHoldDays)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool CurrInMultiHumpRedArea(CommStrategyInClass Input, KLineData<T> kline, MACDCollection macds, int holdDays, int currStatusHoldDays, MaxMinElementClass<double>[] humps,bool isNear)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool CurrInMultiHumpGreenArea(CommStrategyInClass Input, KLineData<T> kline, MACDCollection macds, int holdDays, int currStatusHoldDays, MaxMinElementClass<double>[] humps,bool isNear)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

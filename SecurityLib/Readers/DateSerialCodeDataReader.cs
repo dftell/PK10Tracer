@@ -10,31 +10,22 @@ namespace WolfInv.com.SecurityLib
     public abstract  class  DateSerialCodeDataReader<T>: MongoDataReader<T>, IAllCodeDateSerialDataList<T>, ICodeDateSerialDataList<T> where T :TimeSerialData
     {
         protected string[] secCodes;
-        static ExpectList<T> AllData = null;
+        //static ExpectList<T> AllData = null;
         static DateTime[] AllDates = null;
 
         protected DateSerialCodeDataReader()
         {
-            if (AllData == null)
-            {
-                //getAllData();
-                //AllDates = AllData.Select(a => a.Expect).ToList();
-            }
+            
         }
         public DateSerialCodeDataReader(string db):base(db)
         {
-            if (AllData == null)
-            {
-                //getAllData();
-            }
+            
         }
         public DateSerialCodeDataReader(string db, string docname, string[] codes):base(db,docname)
         {
-            if (AllData == null)
-            {
-                //getAllData();
-            }
+            
             secCodes = codes;
+            
             builder = new DateSerialCodeDataBuilder(db, docname, codes);
         }
 
@@ -93,10 +84,9 @@ namespace WolfInv.com.SecurityLib
 
         public override ExpectList<T> ReadHistory(string begt, string endt, string codes)
         {
-            getAllData(codes,0, begt, endt, true); 
-            if (AllData == null)
+            ExpectList<T> tres = getAllData(threadCnt, codes,0, begt, endt, true); 
+            if (tres == null)
                 return new ExpectList<T>(true);
-            ExpectList<T> tres = AllData;
 
             return tres;
             /*
@@ -149,28 +139,29 @@ namespace WolfInv.com.SecurityLib
                     break;
                 }
             }
-            ExpectList<T> ret = new ExpectList<T>(true);
-            var items = AllData.LastDatas(AllDates.Length - cnt, true);
-            for(int i = 0;i < items.Count;i++)
-            {
-                ExpectData<T> item = items[i] as ExpectData<T>;
-                ret.Add(item);
-            }
-            return ret;
+            //ExpectList<T> ret = new ExpectList<T>(true);
+            var items = getAllData(threadCnt, null, AllDates.Length - cnt); //AllData.LastDatas(AllDates.Length - cnt, true);
+            //for(int i = 0;i < items.Count;i++)
+            //{
+            //    ExpectData<T> item = items[i] as ExpectData<T>;
+            //    ret.Add(item);
+            //}
+            return items;
         }
 
         public override ExpectList<T> ReadNewestData(int LastLng)
         {
-            ExpectList<T> ret = new ExpectList<T>(true);
-            AllData.LastDatas(LastLng, true).ForEach(a => ret.Add(a as ExpectData<T>));
-            return ret;
+            //ExpectList<T> ret = new ExpectList<T>(true);
+            return getAllData(threadCnt, null, LastLng);
+            //AllData.LastDatas(LastLng, true).ForEach(a => ret.Add(a as ExpectData<T>));
+            //return ret;
         }
 
         public override ExpectList<T> ReadNewestData(long ExpectNo, int Cnt)
         {
             throw new NotImplementedException();
         }
-        static void getAllData(string codes,int localDataLen=1000,string fromdate=null,string todate=null,bool reread=false)
+        static ExpectList<T> getAllData(int threadCnt, string codes,int localDataLen=1000,string fromdate=null,string todate=null,bool reread=false)
         {
             try
             {
@@ -192,7 +183,7 @@ namespace WolfInv.com.SecurityLib
                 if (needRead)//需要读取
                 {
                     if (string.IsNullOrEmpty(codes))
-                        WDDataInit<T>.loadAllEquitSerials(10, 20, true, true, localDataLen, fromdate, todate, true);
+                        WDDataInit<T>.loadAllEquitSerials(threadCnt, 5, true, true, localDataLen, fromdate, todate, true);
                     else
                     {
                         string[] codesArr = codes.Split(';');
@@ -200,6 +191,10 @@ namespace WolfInv.com.SecurityLib
                         {
                             string name = "";
                             string code = codesArr[i].WDCode();
+                            if(string.IsNullOrEmpty(code))
+                            {
+                                continue;
+                            }
                             if (allequites != null && allequites.ContainsKey(code))
                             {
                                 name = allequites[code];
@@ -214,15 +209,16 @@ namespace WolfInv.com.SecurityLib
                     MongoDataDictionary<T> datas = WDDataInit.WDDataInit<T>.getAllSerialData(codes);
                     if (datas != null)
                     {
-                        AllData = datas.ToExpectList();
                         AllDates = datas.getAllDates();
+                        return datas.ToExpectList();
                     }
                 }
                 else
                 {
                     MongoDataDictionary<T> res = WDDataInit.WDDataInit<T>.getAllSerialData(codes);
-                    AllData = res.ToExpectList();
+                    
                     AllDates = WDDataInit.WDDataInit<T>.getAllSerialData(codes).getAllDates();
+                    return res.ToExpectList();
                 }
             }
             catch(Exception ce)
@@ -233,18 +229,29 @@ namespace WolfInv.com.SecurityLib
             {
                 //GC.Collect();
             }
+            return null;
         }
         public override ExpectList<T> ReadNewestData(string ExpectNo, int Cnt, bool FromHistoryTable,string codes)
         {
-            if (AllData == null || !ExpectNo.Equals(AllData.LastData.Expect))
+            bool useCodes = false;
+            if (!string.IsNullOrEmpty(codes))
             {
-                getAllData(codes,Cnt, null, ExpectNo, true);
+                if (codes.Trim().Split(';').Where(a => string.IsNullOrEmpty(a) == false).Count()>0)
+                {
+                    useCodes = true;
+                }
             }
-            if(AllData == null)
-                return new ExpectList<T>(true);
-            ExpectList<T> tres = AllData.LastDatas(ExpectNo, Cnt, FromHistoryTable);
-            //tres?.ForEach(a => ret.Add(a as ExpectData<T1>));
-            return tres;
+            //if (AllData == null || (!ExpectNo.Equals(AllData.LastData.Expect)))
+            if(useCodes)
+            {
+                return getAllData(threadCnt, codes,Cnt, null, ExpectNo, true);
+            }
+            return getAllData(threadCnt, null, Cnt, ExpectNo);
+            ////if(AllData == null)
+            ////    return new ExpectList<T>(true);
+            ////ExpectList<T> tres = AllData.LastDatas(ExpectNo, Cnt, FromHistoryTable);
+            //////tres?.ForEach(a => ret.Add(a as ExpectData<T1>));
+            ////return tres;
         }
 
         public override int SaveChances(List<ChanceClass<T>> list, string strDataOwner)

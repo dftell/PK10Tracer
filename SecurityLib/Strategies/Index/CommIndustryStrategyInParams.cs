@@ -8,7 +8,7 @@ namespace WolfInv.com.SecurityLib
         public CommIndustryStrategyInParams()
         {
             industryType = CommIndustryType.SWI2;//默认使用申万二级
-            prcAdj = PriceAdj.Fore;
+            prcAdj = PriceAdj.Beyond;
             Cyc = Cycle.Week;
         }
     }

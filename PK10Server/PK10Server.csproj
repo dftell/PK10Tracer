@@ -8,8 +8,8 @@
     <ProjectGuid>{0AD8131F-5C2D-4E18-8677-3C6782FDDBD4}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PK10Server</RootNamespace>
-    <AssemblyName>PK10Server</AssemblyName>
+    <RootNamespace>WIQStrategyMonitor</RootNamespace>
+    <AssemblyName>WIQStrategyMonitor</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>

@@ -11,7 +11,7 @@ namespace WolfInv.com.SecurityLib.Filters.StrategyFilters
     /// <typeparam name="T"></typeparam>
     public class MinDaysFilter<T> : CommFilterLogicBaseClass<T> where T : TimeSerialData
     {
-        public MinDaysFilter(string endExpect, CommSecurityProcessClass<T> cpc, PriceAdj priceAdj = PriceAdj.Fore, Cycle cyc = Cycle.Day) : base(endExpect, cpc,priceAdj,cyc)
+        public MinDaysFilter(string endExpect, CommSecurityProcessClass<T> cpc, PriceAdj priceAdj = PriceAdj.Beyond, Cycle cyc = Cycle.Day) : base(endExpect, cpc,priceAdj,cyc)
         {
 
         }

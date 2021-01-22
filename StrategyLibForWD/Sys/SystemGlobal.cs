@@ -60,7 +60,7 @@ namespace WolfInv.com.StrategyLibForWD
                 equitcodes,
                 DateTime.Today,
                 Cycle.Day,
-                PriceAdj.Fore,
+                PriceAdj.Beyond,
                 new object[0] { });//获得所有股票的基本信息
             OnMarketDate = bdt[BaseDataPoint.ipo_date.ToString().ToUpper()].ToList<DateTime>().Min<DateTime>();//所有股票中的最早的IPO日期
             EquitiesCnt = bdt.Count;

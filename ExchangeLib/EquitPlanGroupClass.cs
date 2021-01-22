@@ -274,7 +274,7 @@ namespace WolfInv.com.ExchangeLib
                     Log("计算服务", "保存新增机会", string.Format("条数：{0};实际条数:{1}", NewList.Count, savecnt));
             }
             //合并到未关闭机会列表中
-            NewList.ForEach(p => AllNoClosedChances.Add(p.GUID, p));
+            //NewList.ForEach(p => AllNoClosedChances.Add(p.GUID, p));
             OldList.Values.ToList<ChanceClass<T>>().ForEach(p => AllNoClosedChances.Add(p.GUID, p));//就算是老记录未有guid,当ToTable时已经生成了guid
             ExChange(AllNoClosedChances.Values.ToList<ChanceClass<T>>(), el.LastData.Expect);//执行交易提供可视化
         }

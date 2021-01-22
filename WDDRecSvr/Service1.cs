@@ -65,10 +65,11 @@ namespace WDDRecSvr
                 LogableClass.ToLog("接收日志", "开始接收", curr.ToString());
                 //Program.wxlog.Log("开始接收", curr.ToString());
                 WDDataInit<T>.finishedMsg = refreshMsg;
-                WDDataInit<T>.loadAllEquitSerials(0,5, !AfterClose, false,0,null,null,true);//只要看最后极少的数量即可
+                WDDataInit<T>.loadAllEquitSerials(10,5, !AfterClose, false,0,null,null,true);//只要看最后极少的数量即可
                 
                 LogableClass.ToLog("接收日志", "接收完成", string.Format("历时{0}分钟！", DateTime.Now.Subtract(curr).TotalMinutes));
                 //Program.wxlog.Log("接收完成", string.Format("历时{0}分钟！", DateTime.Now.Subtract(curr).TotalMinutes));
+                WDDataInit<T>._AllEquitSerialData = null;//在服务的内存里消灭掉
             }
             );
         }

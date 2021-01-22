@@ -10,7 +10,7 @@ using WolfInv.com.LogLib;
 using WolfInv.com.SecurityLib;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
-
+using WolfInv.com.GuideLib;
 namespace WolfInv.com.ExchangeLib
 {
     public delegate bool CalcStragGroupDelegate();
@@ -28,11 +28,12 @@ namespace WolfInv.com.ExchangeLib
             wxl = new WXLogClass("服务器管理员",GlobalClass.LogUser, string.Format(GlobalClass.LogUrl,GlobalClass.WXLogHost));
             dtp = _dtp;
         }
-        public MongoDataDictionary<T> allSecurityDic;
+        public ConcurrentDictionary<string,MongoReturnDataList<T>> allSecurityDic;
         public bool IsBackTest { get; set; }
         public CalcStragGroupDelegate Finished;
         public ReturnChances<T> GetNoClosedChances;
         public ReturnStdDevList GetAllStdDevList;
+        public KLineData<T>.getSingleDataFunc getSingleData;
         public Type UseStragType;
         bool UseBySer;
         public List<StragRunPlanClass<T>> UseSPlans = new List<StragRunPlanClass<T>>();
@@ -148,6 +149,8 @@ namespace WolfInv.com.ExchangeLib
         public void ExecRun(object data)
         {
             ExpectList<T> el = data as ExpectList<T>;
+            
+
             //2019/4/22日出现错过732497，732496两期记录错过，但是732498却收到的情况，同时，正好在732498多次重复策略正好开出结束，因错过2期导致一直未归零，
             //一直长时间追号开出近60期
             //为避免出现这种情况
@@ -210,7 +213,10 @@ namespace WolfInv.com.ExchangeLib
                         TraceChance<T> tcc = CurrCc as TraceChance<T>;
                         CurrCc.UnitCost = tcc.getChipAmount(GlobalClass.DefaultMaxLost, CurrCc, GlobalClass._DefaultHoldAmtSerials.Value);
                         //CurrCc.HoldTimeCnt = CurrCc.HoldTimeCnt + 1;
-                        CurrCc.HoldTimeCnt = (int)DataReader<T>.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp) + 1;
+                        if (dtp.IsSecurityData == 0)
+                        {
+                            CurrCc.HoldTimeCnt = (int)DataReader<T>.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp) + 1;
+                        }
                         CurrCc.Cost += CurrCc.ChipCount * CurrCc.UnitCost;
                         CurrCc.UpdateTime = CurrCc.CreateTime;
                         OldList.Add(CurrCc.GUID, CurrCc);
@@ -222,10 +228,12 @@ namespace WolfInv.com.ExchangeLib
                     continue;
                 }
                 BaseStragClass<T> currStrag = UseStrags[currPlan.PlanStrag.GUID];
+                
                 currStrag.RunningPlan = currPlan;//必须赋值，供后面证券策略使用
                 currStrag.AssetUnitId = currPlan.AssetUnitInfo?.UnitId;//必须复制，后面交易单元要用
                 if(dtp.IsSecurityData == 1)
                 {
+                    (currStrag as BaseSecurityStragClass<T>).setSingleDataFunc(getSingleData);//可穿透到最外面自由获取单个或多个codes的数据
                     (currStrag as BaseSecurityStragClass<T>).FillSecDic(allSecurityDic);
                 }
                 if (IsBackTest)
@@ -288,7 +296,15 @@ namespace WolfInv.com.ExchangeLib
                     //wxl.Log("计算服务", string.Format("策略[{0}/{1}]", currStrag.GUID, currStrag.StragScript), string.Format("取得机会数量为:{0}", cs.Count));
                 }
 
-                Dictionary<string, ChanceClass<T>> StragChances = CurrExistChanceList.Where(p => p.Value.StragId == currStrag.GUID).ToDictionary(p => p.Value.ChanceCode, p => p.Value);
+                Dictionary<string, ChanceClass<T>> StragChances = new Dictionary<string, ChanceClass<T>>();
+                var items = CurrExistChanceList.Where(p => p.Value.StragId == currStrag.GUID);
+                foreach(var item in items)
+                {
+                    if(!StragChances.ContainsKey(item.Value.ChanceCode))
+                    {
+                        StragChances.Add(item.Value.ChanceCode, item.Value);
+                    }
+                }
                 //Log("计算服务", string.Format("当前策略:{0}", currStrag.StragScript), string.Format("当前策略对应的未关闭机会:{0}", string.Join(";",StragChances.Select(a=>a.Key).ToArray())));
                 AmoutSerials amts = GlobalClass.getOptSerials(CurrSetting.Odds, currPlan.InitCash, 1);
                 Int64 restAmt = currStrag.CommSetting.GetGlobalSetting().DefMaxLost;//初始资金
@@ -338,9 +354,9 @@ namespace WolfInv.com.ExchangeLib
                         {
                             CurrCc = OldCc;
                             //CurrCc.HoldTimeCnt = CurrCc.HoldTimeCnt + 1;
-                            CurrCc.HoldTimeCnt = (int)DataReader<T>.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp) + 1;
                             if (dtp.IsSecurityData == 0)
                             {
+                                CurrCc.HoldTimeCnt = (int)DataReader<T>.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp) + 1;
                                 CurrCc.UnitCost = 0;
                             }
                             NeedUseOldData = true;
@@ -483,7 +499,7 @@ namespace WolfInv.com.ExchangeLib
                                 if (specStrag != null)//如果没有方法，再从机会级检查
                                 {
                                     //CurrCc.HoldTimeCnt++;
-                                    CurrCc.HoldTimeCnt = (int)DataReader<T>.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp) + 1;
+                                    if(dtp.IsSecurityData == 0)   CurrCc.HoldTimeCnt = (int)DataReader<T>.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp) + 1;
                                     CurrCc.UnitCost = specStrag.getChipAmount(restAmt, CurrCc, amts);
                                     CurrCc.Cost += CurrCc.ChipCount * CurrCc.UnitCost;
                                     CurrCc.UpdateTime = DateTime.Now;
@@ -506,7 +522,7 @@ namespace WolfInv.com.ExchangeLib
                             {
                                 Log("计算服务", "当前机会是跟踪策略", string.Format("策略名:{0};机会:{1}", currStrag.StragScript, CurrCc.ChanceCode));
                                 //CurrCc.HoldTimeCnt++;
-                                CurrCc.HoldTimeCnt = (int)DataReader<T>.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp) + 1;
+                                if(dtp.IsSecurityData == 0) CurrCc.HoldTimeCnt = (int)DataReader<T>.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp) + 1;
                                 TraceChance<T> testCc = (TraceChance<T>)CurrCc;
                                 if (testCc == null)
                                 {
@@ -530,7 +546,7 @@ namespace WolfInv.com.ExchangeLib
                             {
                                 Log("计算服务", "当前机会是非跟踪策略，无需跟踪，但是我们还是跟踪了", string.Format("策略名:{0};机会:{1}", currStrag.StragScript, CurrCc.ChanceCode));
                                 //CurrCc.HoldTimeCnt++;
-                                CurrCc.HoldTimeCnt = (int)DataReader<T>.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp) + 1;
+                                if(dtp.IsSecurityData == 0)CurrCc.HoldTimeCnt = (int)DataReader<T>.getInterExpectCnt(CurrCc.ExpectCode, el.LastData.Expect, dtp) + 1;
                                 ISpecAmount<T> Strag = (ISpecAmount<T>)currStrag;
                                 if (Strag == null)
                                 {
@@ -569,7 +585,7 @@ namespace WolfInv.com.ExchangeLib
                     Log("计算服务", "保存新增机会", string.Format("条数：{0};实际条数:{1}", NewList.Count, savecnt));
             }
             //合并到未关闭机会列表中
-            NewList.ForEach(p => AllNoClosedChances.Add(p.GUID, p));
+            //NewList.ForEach(p => AllNoClosedChances.Add(p.GUID, p));
 
             //OldList.Values.ToList<ChanceClass<T>>().ForEach(p => AllNoClosedChances.Add(p.GUID, p));//就算是老记录未有guid,当ToTable时已经生成了guid
             OldList.Values.ToList().ForEach(
@@ -659,7 +675,7 @@ namespace WolfInv.com.ExchangeLib
                 double currTotalVal = useUnit.getCurrExchangeServer().InitCash;//默认当前资产及现金规模为初始资金
                 if(allDayLines!= null&& allDayLines.Count>0)//如果有交易曲线，当前总值取交易曲线总值
                 {
-                    currTotalVal = allDayLines.Last().Value.currTotal;
+                    currTotalVal = allDayLines.OrderBy(a=>a.Key).Last().Value.currTotal;
                 }
                 double useAllowHoldMaxChanceRate = sc.getAllowMaxRiseExp(currTotalVal, useUnit.getCurrExchangeServer().InitCash);
                 List<ChanceClass<T>> useList = new List<ChanceClass<T>>();
@@ -668,7 +684,8 @@ namespace WolfInv.com.ExchangeLib
                 //单利,等于敞口比例*总初始资金/单份金额
                 if (newItems.First().IncrementType == InterestType.SimpleInterest)
                 {
-                    MaxAllowHoldCnt = (int)Math.Floor(usePlan.InitCash * useAllowHoldMaxChanceRate / usePlan.FixAmt.Value);
+                    //单利，最大不能超过最大持仓数(初始资金/单份规模)
+                    MaxAllowHoldCnt = (int)Math.Floor(usePlan.InitCash * Math.Max(1,useAllowHoldMaxChanceRate) / usePlan.FixAmt.Value);  
                 }
                 else//复利等于敞口比例/单份比例
                 {
@@ -683,6 +700,7 @@ namespace WolfInv.com.ExchangeLib
                         break;
                     }
                     useList.Add(newItem);
+                    AllNoClosedChances.Add(newItem.GUID, newItem);
                 }
                 ExChange(useList, el.LastData.Expect);
             }

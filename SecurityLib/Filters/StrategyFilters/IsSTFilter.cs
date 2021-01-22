@@ -5,7 +5,7 @@ namespace WolfInv.com.SecurityLib.Filters.StrategyFilters
 {
     public class IsSTFilter<T> : CommFilterLogicBaseClass<T> where T : TimeSerialData
     {
-        public IsSTFilter(string expect, CommSecurityProcessClass<T> secinfo, PriceAdj priceAdj = PriceAdj.Fore, Cycle cyc = Cycle.Day) : base(expect, secinfo, priceAdj, cyc)
+        public IsSTFilter(string expect, CommSecurityProcessClass<T> secinfo, PriceAdj priceAdj = PriceAdj.Beyond, Cycle cyc = Cycle.Day) : base(expect, secinfo, priceAdj, cyc)
         {
 
         }

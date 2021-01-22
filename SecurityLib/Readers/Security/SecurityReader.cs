@@ -78,7 +78,7 @@ namespace WolfInv.com.SecurityLib
             return retdata;
         }
 
-        public MongoDataDictionary<StockMongoData> Stock_FQ(MongoDataDictionary<StockMongoData> orgData, MongoDataDictionary<XDXRData> XData =null, PriceAdj fqType = PriceAdj.Fore)
+        public MongoDataDictionary<StockMongoData> Stock_FQ(MongoDataDictionary<StockMongoData> orgData, MongoDataDictionary<XDXRData> XData =null, PriceAdj fqType = PriceAdj.Beyond)
         {
             MongoDataDictionary<StockMongoData> ret = new MongoDataDictionary<StockMongoData>(true);
             foreach(string key in orgData.Keys)
@@ -100,7 +100,7 @@ namespace WolfInv.com.SecurityLib
             return ret;
         }
 
-        public MongoDataDictionary<StockMongoData> FQ(MongoDataDictionary<StockMongoData> orgData, MongoDataDictionary<XDXRData> xdata, PriceAdj fqType = PriceAdj.Fore)
+        public MongoDataDictionary<StockMongoData> FQ(MongoDataDictionary<StockMongoData> orgData, MongoDataDictionary<XDXRData> xdata, PriceAdj fqType = PriceAdj.Beyond)
         {
             MongoDataDictionary<StockMongoData> ret = new MongoDataDictionary<StockMongoData>(true);
 
@@ -116,7 +116,7 @@ namespace WolfInv.com.SecurityLib
             return ret;
         }
 
-        public MongoReturnDataList<StockMongoData> Stock_FQ(string code,string name,MongoReturnDataList<StockMongoData> org_bfq_data=null, MongoReturnDataList<XDXRData> org_xdxr_data = null, PriceAdj fqType = PriceAdj.Fore) 
+        public MongoReturnDataList<StockMongoData> Stock_FQ(string code,string name,MongoReturnDataList<StockMongoData> org_bfq_data=null, MongoReturnDataList<XDXRData> org_xdxr_data = null, PriceAdj fqType = PriceAdj.Beyond) 
         {
             /*
              1、一般的股票交易软件中，都有计算复权的功能。股票行情有除权与复权，在计算股票涨跌幅时采用复权价格，这是经常要用到的。系统计算分为以下步骤：

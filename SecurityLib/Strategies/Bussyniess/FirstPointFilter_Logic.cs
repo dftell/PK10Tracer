@@ -40,29 +40,6 @@ namespace WolfInv.com.SecurityLib.Strategies.Bussyniess
         /// <returns></returns>
         public override SelectResult ReverseSelectSecurity(CommStrategyInClass Input)
         {
-            /*
-         ISLT0GREEN:=MACD.DEA>MACD.DIF AND MACD.DEA<0;{当前为绿柱，且DEA小于0}
-DEAGT0CNT:=MAX(200,BARSLAST(CROSS(MACD.DEA,0)));
-DEALT0CNT:=BARSLAST(CROSS(0,MACD.DEA));
-DEACRSCNT:= BARSLAST(CROSS(MACD.DIF,MACD.DEA));{最后一次DEA上穿DIF的天数}
-ALLHIGH:=HHV(HIGH,MAX(250,DEAGT0CNT));{最高点}
-FONTLOW:=REF(LLV(LOW,DEAGT0CNT-DEACRSCNT),DEACRSCNT);{最后一段上涨或者企稳前的最低点}
-MIDHIGH:=HHV(HIGH,DEACRSCNT);{最后一段上涨或者企稳前的最高点}
-MIDRANGE:= (MIDHIGH-FONTLOW)/FONTLOW;{中间涨幅}
-MINLLV:=LLV(LOW,DEAGT0CNT);
-FONTDOWN:=(ALLHIGH-FONTLOW)/ALLHIGH;{前期跌幅}
-LASTDOWN:=(MIDHIGH-MINLLV)/MIDHIGH;{最后跌幅}
-FONTDOWNGTLAST:=FONTDOWN>LASTDOWN*DOWNRATE;
-DEACNTGT60:=DEAGT0CNT>60;
-TWISTCNT:=COUNT(CROSS(MACD.DEA,MACD.DIF),DEALT0CNT);//缠绕次数
-ISLOWPRICE:= LOW<=LLV(LOW,DEAGT0CNT); //最低价
-MAXDEA :=HHV(MACD.DEA,VWCNT);
-NOMACDBOTTOM:=LLV(MACD.MACD,3)>LLV(MACD.MACD,DEALT0CNT);
-LASTRANGE:=100* (MIDHIGH-MINLLV)/CLOSE;
-ISBOTTOM:=MACD.MACD>REF(MACD.MACD,1) AND REF(MACD.MACD,1)<REF(MACD.MACD,2);
-LASTRANGE>EXPECTRANGE AND ISBOTTOM AND NOMACDBOTTOM AND ISLT0GREEN AND DEACNTGT60 AND TWISTCNT>=TWTCNT AND ISLOWPRICE;
-
-             */
             SelectResult ret = new SelectResult();
             if(!SelectTable.ContainsKey(Input.SecIndex))
             {
@@ -88,7 +65,7 @@ LASTRANGE>EXPECTRANGE AND ISBOTTOM AND NOMACDBOTTOM AND ISLT0GREEN AND DEACNTGT6
                 ret = filter.ExecFilter(Input);
                 if (!ret.Enable)
                     return ret;
-                filter = new MACDBottomRevFilter<T>(Input.EndExpect, cspc,PriceAdj.Fore,Cycle.Week);
+                filter = new MutliCycle_MACDBottomRevFilter<T>(Input.EndExpect, cspc,PriceAdj.Fore,Input.useMaxCycle);
                 ret = filter.ExecFilter(Input);
                 if (!ret.Enable)
                     return ret;

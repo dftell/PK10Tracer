@@ -5,3 +5,11 @@ C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityExchangeTermial\obj\Relea
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityExchangeTermial\obj\Release\SecurityExchangeTermial.csproj.CoreCompileInputs.cache
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityExchangeTermial\obj\Release\SecurityExchangeTermial.exe
 C:\Users\zhouys\Source\Repos\dftell\PK10Tracer\SecurityExchangeTermial\obj\Release\SecurityExchangeTermial.pdb
+E:\github\project\SecET\SecurityExchangeTermial.exe
+E:\github\project\SecET\SecurityExchangeTermial.pdb
+E:\github\source\dftell\PK10Tracer\SecurityExchangeTermial\obj\Release\SecurityExchangeTermial.csprojAssemblyReference.cache
+E:\github\source\dftell\PK10Tracer\SecurityExchangeTermial\obj\Release\SecurityExchangeTermial.frm_Main.resources
+E:\github\source\dftell\PK10Tracer\SecurityExchangeTermial\obj\Release\SecurityExchangeTermial.csproj.GenerateResource.cache
+E:\github\source\dftell\PK10Tracer\SecurityExchangeTermial\obj\Release\SecurityExchangeTermial.csproj.CoreCompileInputs.cache
+E:\github\source\dftell\PK10Tracer\SecurityExchangeTermial\obj\Release\SecurityExchangeTermial.exe
+E:\github\source\dftell\PK10Tracer\SecurityExchangeTermial\obj\Release\SecurityExchangeTermial.pdb

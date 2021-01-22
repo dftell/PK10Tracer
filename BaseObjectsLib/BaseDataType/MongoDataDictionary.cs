@@ -120,10 +120,16 @@ namespace WolfInv.com.BaseObjectsLib
 
                     }
                 }
-                ret.Add(data);
+                    if (data == null)
+                    {
+                    }
+                    else
+                    {
+                        ret.Add(data);
+                    }
                 retList = null;
             },
-            11,
+            10,
             5,
             true);
             ExpectList<T> res1 = new ExpectList<T>(isSecurity);
@@ -132,6 +138,7 @@ namespace WolfInv.com.BaseObjectsLib
                 res1.Add(item);
             }
             ret = null;
+            res1.MongoData = this;
             return res1;
 
 

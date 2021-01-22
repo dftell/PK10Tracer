@@ -112,13 +112,16 @@ namespace WolfInv.com.WDDataInit
             //processCnt++;
             
                 
-            //lock (_AllEquitSerialData)
-            //{
+            if(res.Data != null)
+            {
                 if (!_AllEquitSerialData.ContainsKey(key))
-                    _AllEquitSerialData.TryAdd(key, epr.FullData);
+                    _AllEquitSerialData.TryAdd(key, res.Data);
                 else
-                    _AllEquitSerialData[key] = epr.FullData;
-            //}
+                    _AllEquitSerialData[key] = res.Data;
+            }
+            epr = null;
+            res = null;
+            GC.Collect();
         }
 
         public static void loadAllEquitSerials(int threadCnt=10,int grpCnt=50, bool noNeedToday=false,bool onlyLocal=false,int localDataLen=1000, string fromdate = null, string todate = null, bool sync = false)
@@ -133,49 +136,99 @@ namespace WolfInv.com.WDDataInit
             int allCnt = _AllEquits.Count;
             _AllEquitSerialData = new MongoDataDictionary<T>(true);
             var items = _AllEquits.Keys.ToList();
-            WolfTaskClass.MultiTaskProcess<string, string, string, string>
-                (
-                    items,_AllEquits,new Dictionary<string,string>(),
-                    (key,val,eqts,list,notice)=>
+            if (threadCnt == 1)
+            {
+                for(int i=0;i<items.Count;i++)
+                {
+                    string key = items[i];
+                    string[] names = key.Split('.');
+                    string mk = "";
+                    if (names.Length > 1)
+                        mk = names[1];
+                    EquitProcess<T> epr = new EquitProcess<T>(rcbd.currAPI, key, mk, _AllEquits[key]);
+                    epr.vipdocRoot = vipDocRoot;
+                    EquitProcess<T>.EquitUpdateResult res = null;
+                    try
                     {
-                        
-                        string[] names = key.Split('.');
-                        string mk = "";
-                        if (names.Length > 1)
-                            mk = names[1];
-                        EquitProcess<T> epr = new EquitProcess<T>(rcbd.currAPI, key, mk, val);
-                        epr.vipdocRoot = vipDocRoot;
-                        try
+                        res = epr.updateData(noNeedToday, onlyLocal, localDataLen, fromdate, todate);
+                        processCnt++;
+                        finishedMsg?.Invoke(processCnt, allCnt, res);
+                        //notice?.Invoke(key);
+                        if (processCnt >= allCnt)//内部计算，如果处理完成了，就将状态置为已加载完成
                         {
-                            var res = epr.updateData(noNeedToday, onlyLocal, localDataLen, fromdate, todate);
-                            processCnt++;
-                            finishedMsg?.Invoke(processCnt, allCnt, res);
-                            notice?.Invoke(key);
-                            if (processCnt >= allCnt)//内部计算，如果处理完成了，就将状态置为已加载完成
-                            {
-                                Loaded = true;
-                                Loading = false;
-                            }
+                            Loaded = true;
+                            Loading = false;
+                        }
+                        if (res.Data != null)
+                        {
                             if (!_AllEquitSerialData.ContainsKey(key))
-                                _AllEquitSerialData.TryAdd(key, epr.FullData);
+                                _AllEquitSerialData.TryAdd(key, res.Data);
                             else
-                                _AllEquitSerialData[key] = epr.FullData;
-                            //GC.Collect();
+                                _AllEquitSerialData[key] = res.Data;
                         }
-                        finally
+
+                    }
+                    finally
+                    {
+                        res = null;
+                        epr = null;
+                        GC.Collect();
+                    }
+                }
+            }
+            else
+            {
+                
+                WolfTaskClass.MultiTaskProcess<string, string, string, string>
+                    (
+                        items, _AllEquits, new Dictionary<string, string>(),
+                        (key, val, eqts, list, notice) =>
                         {
-                            epr = null;
-                        }
-                    },
-                    (key) => {
+
+                            string[] names = key.Split('.');
+                            string mk = "";
+                            if (names.Length > 1)
+                                mk = names[1];
+                            EquitProcess<T> epr = new EquitProcess<T>(rcbd.currAPI, key, mk, val);
+                            epr.vipdocRoot = vipDocRoot;
+                            EquitProcess<T>.EquitUpdateResult res = null;
+                            try
+                            {
+                                res = epr.updateData(noNeedToday, onlyLocal, localDataLen, fromdate, todate);
+                                processCnt++;
+                                finishedMsg?.Invoke(processCnt, allCnt, res);
+                                notice?.Invoke(key);
+                                if (processCnt >= allCnt)//内部计算，如果处理完成了，就将状态置为已加载完成
+                            {
+                                    Loaded = true;
+                                    Loading = false;
+                                }
+                                if (res.Data != null)
+                                {
+                                    if (!_AllEquitSerialData.ContainsKey(key))
+                                        _AllEquitSerialData.TryAdd(key, res.Data);
+                                    else
+                                        _AllEquitSerialData[key] = res.Data;
+                                }
+
+                            }
+                            finally
+                            {
+                                res = null;
+                                epr = null;
+                                GC.Collect();
+                            }
+                        },
+                        (key) =>
+                        {
                         //Task.Factory.StartNew(() =>
                         //{
-                            
+
                         //});
                     },
-                    threadCnt, grpCnt, true
-                );
-
+                        threadCnt, grpCnt, true
+                    );
+            }
             return;
 
            

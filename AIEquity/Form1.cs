@@ -59,7 +59,7 @@ namespace AIEquity
                 useCyc = (Cycle)ddl_cycle.SelectedIndex;
             }
             string endDate = this.txt_EndDate.Text.Trim();
-            execQuery(this.txt_StockCode.Text, this.txt_InputDate.Text, string.IsNullOrEmpty(endDate)?230:0 , endDate , useAdj,useCyc);
+            execQuery(this.txt_StockCode.Text, this.txt_InputDate.Text, string.IsNullOrEmpty(endDate)?230*(int)Math.Pow(5,(int)useCyc):0 , endDate , useAdj,useCyc);
         }
 
         void execQuery(string code, string begDate, int len, string endDate, PriceAdj adj = PriceAdj.UnDo,Cycle cyc = Cycle.Day)

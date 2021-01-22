@@ -100,7 +100,7 @@ namespace AIEquity
                     MessageBox.Show("没有数据！");
                     return;
                 }
-                WDDataInit<T>.loadAllEquitSerials(10, 20, false, true, 500, null, null, false);
+                WDDataInit<T>.loadAllEquitSerials(10, 5, false, true, 500, null, null, false);
                 _AllEquitSerialDatas = WDDataInit<T>.getAllSerialData();
                 
             });

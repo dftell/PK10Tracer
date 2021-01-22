@@ -42,6 +42,14 @@ namespace WolfInv.com.ExchangeLib
         double _InitCash = 0;
         double CurrMoney = 0;
         double CurrAssetValue = 0;
+        int AssetCount = 0;
+        double benchMarkVal;
+        double benchMarkInitVal;
+        public void updateBenchVal(double val)
+        {
+            benchMarkVal = val;
+        }
+
         ExchangeDataTable ed;
         //List<int> MoneyLine;
         ConcurrentDictionary<string, ExchangeData> ExpectMoneyLine;
@@ -100,8 +108,8 @@ namespace WolfInv.com.ExchangeLib
                 string id = dt.Rows[i]["id"].ToString();
                 ExchangeData ed = new ExchangeData();
                 ed.currCash = this.InitCash * (100 + rate) / 100;
-                ed.currAsset = 0;
-                ed.currTotal = ed.currCash + ed.currAsset;
+                ed.currAsset = CurrAssetValue;
+                //ed.currTotal = ed.currCash + ed.currAsset;
                 ExpectMoneyLine.TryAdd(id,ed);
             }
             if (ExpectMoneyLine.Count > 0)
@@ -118,6 +126,7 @@ namespace WolfInv.com.ExchangeLib
                 MoneyChangeTable.Rows.Clear();
             CurrMoney = _InitCash;
             ExpectMoneyLine = new ConcurrentDictionary<string, ExchangeData>();
+            
             //MoneyLine = new List<double>();
             _ExpectCnt = 0;
         }
@@ -139,6 +148,18 @@ namespace WolfInv.com.ExchangeLib
             }
             return ret;
         }
+
+        public int getAssetCount()
+        {
+            int ret = 0;
+            if (ExchangeDetail != null)
+            {
+                string val = ExchangeDetail.Compute("Count(Closed)", "Closed=0").ToString();
+                int.TryParse(val, out ret);
+            }
+            return ret;
+        }
+
         public bool Push(ref ExchangeChance<T> ec,bool noNeedProcessTable,bool isSecurity,bool debugOrTest)
         {
             lock (ed)
@@ -206,12 +227,14 @@ namespace WolfInv.com.ExchangeLib
                 if(dtp.IsSecurityData==1)//如果是证券类型，资产价值以当前价格表示
                 {
                     CurrAssetValue = getAsset();//+= ec.ExchangeAmount * ec.OwnerChance.ChipCount;
+                    AssetCount = getAssetCount();
                 }
                 //MoneyLine.Add(CurrMoney);
                 ExchangeData exd = new ExchangeData();
                 exd.currCash = CurrMoney;
                 exd.currAsset = CurrAssetValue;
-                exd.currTotal = exd.currAsset + exd.currCash;
+                exd.benchMark = benchMarkVal;
+                //exd.currTotal = exd.currAsset + exd.currCash;
                 if (ExpectMoneyLine.ContainsKey(ec.ExExpectNo))
                 {
                     
@@ -241,18 +264,21 @@ namespace WolfInv.com.ExchangeLib
                     }
                     CurrMoney += tGained;
                     CurrAssetValue = tGained;
+                    //exd.benchMark = benchMarkVal;
                 }
                 else //如果不变更表，不变动现金，只计算资产的变动
                 {
                     double tGained = 0;
                     ed.UpdateSecurityChance(ec,out tGained, status);
                     CurrAssetValue = getAsset(); ;
+                    AssetCount = getAssetCount();
                 }
                 //allChances.Remove(ec.OwnerChance.GUID);
                 ExchangeData exd = new ExchangeData();
                 exd.currCash = CurrMoney;
                 exd.currAsset = CurrAssetValue;
-                exd.currTotal = exd.currAsset + exd.currCash;
+                exd.benchMark = benchMarkVal;
+                //exd.currTotal = exd.currAsset + exd.currCash;
                 //MoneyLine.Add(CurrMoney);
                 if (ExpectMoneyLine.ContainsKey(ec.ExExpectNo))
                 {
@@ -283,7 +309,8 @@ namespace WolfInv.com.ExchangeLib
                 ExchangeData exd = new ExchangeData();
                 exd.currCash = CurrMoney;
                 exd.currAsset = CurrAssetValue;
-                exd.currTotal = exd.currAsset + exd.currCash;
+                exd.benchMark = benchMarkVal;
+                //exd.currTotal = exd.currAsset + exd.currCash;
                 if (ExpectMoneyLine.ContainsKey(ec.ExExpectNo))
                 {
                     ExpectMoneyLine[ec.ExExpectNo] = exd;
@@ -311,7 +338,8 @@ namespace WolfInv.com.ExchangeLib
                 ExchangeData exd = new ExchangeData();
                 exd.currAsset = CurrAssetValue;
                 exd.currCash = CurrMoney;
-                exd.currTotal = CurrAssetValue + CurrMoney;
+                exd.benchMark = benchMarkVal;
+                //exd.currTotal = CurrAssetValue + CurrMoney;
                 return exd;
             }
         }
@@ -406,33 +434,48 @@ namespace WolfInv.com.ExchangeLib
                                 MoneyChangeTable.Columns.Add("id",typeof(long));
                             else
                                 MoneyChangeTable.Columns.Add("id", typeof(string));
+                            MoneyChangeTable.Columns.Add("total", typeof(double));
                             MoneyChangeTable.Columns.Add("val", typeof(double));
                             MoneyChangeTable.Columns.Add("cash", typeof(double));
                             MoneyChangeTable.Columns.Add("asset", typeof(double));
+                            MoneyChangeTable.Columns.Add("BenchMarkVal", typeof(double));
+                            MoneyChangeTable.Columns.Add("BenchMark", typeof(double));
                         }
                         else
                         {
                             MoneyChangeTable.Rows.Clear();
                         }
-                        foreach (string strkey in ExpectMoneyLine.Keys)
+                        var items = ExpectMoneyLine.OrderBy(a => a.Key);
+                        double firstVal = items.First().Value.benchMark;
+                        foreach (var item in items)
                         {
                             DataRow dr = MoneyChangeTable.NewRow();
+                            string strkey = item.Key;
                             if (dtp.IsSecurityData == 0)
                                 dr["id"] = long.Parse(strkey);
                             else
                                 dr["id"] = strkey;
-                            dr["val"] = Math.Round(100 * (ExpectMoneyLine[strkey].currTotal - _InitCash) / _InitCash, 2);
-                            dr["cash"] = Math.Round(100 * (ExpectMoneyLine[strkey].currCash ) / _InitCash, 2);
-                            dr["asset"] = Math.Round(100 * (ExpectMoneyLine[strkey].currAsset) / _InitCash, 2);
+                            dr["total"] = ExpectMoneyLine[strkey].currTotal;
+                            dr["val"] = (100 * (ExpectMoneyLine[strkey].currTotal - _InitCash) / _InitCash).ToEquitPrice(2);
+                            dr["cash"] = (100 * (ExpectMoneyLine[strkey].currCash ) / _InitCash).ToEquitPrice(2);
+                            dr["asset"] = (100 * (ExpectMoneyLine[strkey].currAsset) / _InitCash).ToEquitPrice(2);
+                            dr["BenchMarkVal"] = ExpectMoneyLine[strkey].benchMark;
+                            dr["BenchMark"] = 100 * (ExpectMoneyLine[strkey].benchMark - firstVal) / firstVal;
                             MoneyChangeTable.Rows.Add(dr);
                         }
                     }
-                    return MoneyChangeTable;
+                    
+                }
+                catch(Exception ce)
+                {
+
                 }
                 finally
                 {
+                    
                     //LockSlim.ExitWriteLock();
                 }
+                return MoneyChangeTable;
             }
         }
 
@@ -447,8 +490,15 @@ namespace WolfInv.com.ExchangeLib
 
     public struct ExchangeData
     {
+        public double benchMark;
         public double currCash;
         public double currAsset;
-        public double currTotal;
+        public double currTotal
+        {
+            get
+            {
+                return currCash + currAsset;
+            }
+        }
     }
 }

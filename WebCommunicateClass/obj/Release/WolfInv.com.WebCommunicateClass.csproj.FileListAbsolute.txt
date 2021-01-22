@@ -8,3 +8,4 @@ E:\github\source\dftell\PK10Tracer\WebCommunicateClass\obj\Release\WolfInv.com.W
 E:\github\source\dftell\PK10Tracer\WebCommunicateClass\obj\Release\WolfInv.com.WebCommunicateClass.csproj.CoreCompileInputs.cache
 E:\github\source\dftell\PK10Tracer\WebCommunicateClass\obj\Release\WolfInv.com.WebCommunicateClass.csproj.CopyComplete
 E:\github\source\dftell\PK10Tracer\WebCommunicateClass\obj\Release\WolfInv.com.WebCommunicateClass.dll
+E:\github\project\PK10Tracer\WolfInv.com.WebCommunicateClass.dll.config

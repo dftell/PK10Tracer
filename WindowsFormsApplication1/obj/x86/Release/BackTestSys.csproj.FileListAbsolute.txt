@@ -58,7 +58,6 @@ E:\github\project\PK10Tracer\PK10BackTestSystem.exe.config
 E:\github\project\PK10Tracer\PK10BackTestSystem.exe
 E:\github\project\PK10Tracer\PK10BackTestSystem.pdb
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\BackTestSys.csprojAssemblyReference.cache
-E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\PK10BackTestSystem.exe.config
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\Interop.MSScriptControl.dll
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\BackTestSys.csproj.ResolveComReference.cache
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\BackTestSys.BackTestFrm.resources
@@ -74,8 +73,9 @@ E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\Wind
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\BackTestSys.csproj.GenerateResource.cache
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\BackTestSys.csproj.CoreCompileInputs.cache
 E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\BackTestSys.csproj.CopyComplete
-E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\PK10BackTestSystem.exe
-E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\PK10BackTestSystem.pdb
-E:\projects\BackTest\PK10BackTestSystem.exe.config
-E:\projects\BackTest\PK10BackTestSystem.exe
-E:\projects\BackTest\PK10BackTestSystem.pdb
+E:\projects\BackTest\BackTestSystem.exe.config
+E:\projects\BackTest\BackTestSystem.exe
+E:\projects\BackTest\BackTestSystem.pdb
+E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\BackTestSystem.exe.config
+E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\BackTestSystem.exe
+E:\github\source\dftell\PK10Tracer\WindowsFormsApplication1\obj\x86\Release\BackTestSystem.pdb

@@ -90,11 +90,15 @@ namespace WolfInv.com.BaseObjectsLib
         {
             get
             {
-                
+                if (string.IsNullOrEmpty(key))
+                {
+                    return null;
+                }
                 //lock (maps)
                 LockSlim.EnterUpgradeableReadLock();
                 try
                 {
+                    
                     if (maps.ContainsKey(key) && maps[key] >= 0 && maps[key] < this.Count)
                     {
                         return this[maps[key]];

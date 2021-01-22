@@ -19,6 +19,8 @@ using WolfInv.com.SecurityLib;
 using WolfInv.com.PK10CorePress;
 using System.Threading.Tasks;
 using WolfInv.com.Strags.Security;
+using System.Collections.Concurrent;
+
 namespace DataRecSvr
 {
     public delegate void EventFinishedCalc(DataTypePoint dtp);
@@ -26,13 +28,15 @@ namespace DataRecSvr
     {
         public string runErrorMsg = null;
         public string ErrorStackTrace = null;
+        public KLineData<T>.getSingleDataFunc getSingleData;
         public DataTypePoint DataPoint { get; set; }
         public string[] Codes { get; set; }
+        public string benchMark { get; set; }
         public string ReadDataTableName { get; set; }
         public bool AllowCalc = false;
         int FinishedThreads = 0;
         int RunThreads = 0;
-        public MongoDataDictionary<T> allSecurityDic;
+        public ConcurrentDictionary<string,MongoReturnDataList<T>> allSecurityDic;
         List<Thread> ThreadPools;
         public EventFinishedCalc OnFinishedCalc;
 
@@ -142,7 +146,7 @@ namespace DataRecSvr
                 if (DataPoint.IsSecurityData == 1)
                 {
                     if(allSecurityDic == null)
-                        allSecurityDic = new MongoDataDictionary<T>(this.CurrData, true);
+                        allSecurityDic = this.CurrData.MongoData;
                 }
                 string currExpect = CurrData.LastData.Expect;
                 Dictionary<string, ChanceClass<T>> NoClosedChances = new Dictionary<string, ChanceClass<T>>();
@@ -286,10 +290,18 @@ namespace DataRecSvr
                     }
                     RunThreads++;
                     csc.afterStragProcessed = StragAfterProcessEvent;
+                    csc.getSingleData = getSingleData;//增加内部访问外部数据的功能
                     csc.Finished = new CalcStragGroupDelegate(CheckFinished);
                     csc.GetNoClosedChances = new ReturnChances<T>(FillNoClosedChances);
                     csc.GetAllStdDevList = new ReturnStdDevList(FillAllStdDev);
                     //Program<T>.AllServiceConfig.AllRunningPlanGrps[key] = csc;//要加吗？不知道，应该要加
+                }
+                if (allSecurityDic.ContainsKey(benchMark))
+                {
+                    foreach (var unit in Program<T>.AllServiceConfig.AllAssetUnits.Values)
+                    {
+                        unit.getCurrExchangeServer().updateBenchVal((allSecurityDic[benchMark].Last() as StockMongoData).close);
+                    }
                 }
                 //分配完未关闭的数据后，将全局内存中所有未关闭机会列表清除
                 Program<T>.AllServiceConfig.AllNoClosedChanceList = new Dictionary<string, ChanceClass<T>>() as Dictionary<string, ChanceClass<T>>;
@@ -302,6 +314,7 @@ namespace DataRecSvr
                     //if (!IsTestBack &&  !csc.Running)
                     //    continue;
                     csc.IsBackTest = IsTestBack;
+                    
                     ThreadPool.QueueUserWorkItem(new WaitCallback(csc.Run), CurrData);
                     //Task task = Task.Factory.StartNew(csc.Run, el);
                     //tasks.Add(task);
@@ -581,6 +594,10 @@ namespace DataRecSvr
                 //如果策略已经停止
                 //获得策略
                 BaseStragClass<T> sc = Program<T>.AllServiceConfig.AllStrags[sGUId] as BaseStragClass<T>;
+                if (DataPoint.IsSecurityData == 1)
+                {
+                    (sc as BaseSecurityStragClass<T>).setSingleDataFunc(getSingleData);//为策略增加穿透访问外部数据的功能
+                }
                 sc.SetLastUserData(CurrData);//为检查是否需要关闭机会，必须填充入数据才能进行。
                 int mcnt = 0;
                 bool Matched = cl[i].Matched(CurrData, out mcnt);

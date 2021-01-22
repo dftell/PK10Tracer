@@ -524,6 +524,10 @@ namespace WolfInv.com.BaseObjectsLib
     {
         public static string WDCode(this string code)
         {
+            if(string.IsNullOrEmpty(code))
+            {
+                return code;
+            }
             string ret = code;
             if (code.Split('.').Length > 1)
                 return ret;

@@ -11,7 +11,7 @@ namespace WolfInv.com.SecurityLib
 {
     public class FirstPointFilter<T> : CommFilterLogicBaseClass<T> where T:TimeSerialData
     {
-        public FirstPointFilter(string expect,CommSecurityProcessClass<T> secinfo, PriceAdj priceAdj = PriceAdj.Fore, Cycle cyc = Cycle.Day) :base(expect,secinfo, priceAdj, cyc)
+        public FirstPointFilter(string expect,CommSecurityProcessClass<T> secinfo, PriceAdj priceAdj = PriceAdj.Beyond, Cycle cyc = Cycle.Day) :base(expect,secinfo, priceAdj, cyc)
         {
 
         }

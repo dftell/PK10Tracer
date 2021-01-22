@@ -36,6 +36,7 @@ namespace WolfInv.com.SecurityLib
             MatchCnt = 0;
             return false;
         }
+        public string chanceName;
         public double signPrice;
         //买入价格
         public double openPrice;
@@ -47,6 +48,14 @@ namespace WolfInv.com.SecurityLib
         public double preUnitPrice;
         public object[] ReferValues;
         public string inputStatus;
+        /// <summary>
+        /// 止损价格
+        /// </summary>
+        public double stopPrice;
+        /// <summary>
+        /// 止损价格对应日期
+        /// </summary>
+        public string stopPriceDate;
         public string endStatus;
         public override void CalcProfit(double matchcnt)
         {

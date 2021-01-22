@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace WolfInv.com.PK10CorePress
         public ExpectList():base(false)
         {
         }
-        public ExpectList(Dictionary<string, MongoReturnDataList<TimeSerialData>> _data) : base(_data,false,false)
+        public ExpectList(ConcurrentDictionary<string, MongoReturnDataList<TimeSerialData>> _data) : base(_data,false,false)
         {
         }
 

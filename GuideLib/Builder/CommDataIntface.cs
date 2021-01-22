@@ -1,14 +1,15 @@
-﻿using WolfInv.com.BaseObjectsLib;
+﻿using System.Collections.Concurrent;
+using WolfInv.com.BaseObjectsLib;
 namespace WolfInv.com.GuideLib
 {
     public abstract class CommDataIntface<T> where T:TimeSerialData
     {
-        public abstract MongoDataDictionary<T> getData();
+        public abstract ConcurrentDictionary<string, MongoReturnDataList<T>> getData();
     }
 
     public class SecurityDataInterface<T>:CommDataIntface<T> where T:TimeSerialData
     {
-        MongoDataDictionary<T> Data;
+        ConcurrentDictionary<string, MongoReturnDataList<T>> Data;
         public SecurityDataInterface(MongoDataDictionary<T> data)
         {
             Data = data;
@@ -16,10 +17,10 @@ namespace WolfInv.com.GuideLib
 
         public SecurityDataInterface(ExpectList<T> data)
         {
-            Data = new MongoDataDictionary<T>(data,true);
+            Data = data.MongoData;//new MongoDataDictionary<T>(data,true);
         }
 
-        public override MongoDataDictionary<T> getData()
+        public override ConcurrentDictionary<string, MongoReturnDataList<T>> getData()
         {
             return Data;
         }
