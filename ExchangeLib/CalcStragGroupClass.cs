@@ -621,7 +621,7 @@ namespace WolfInv.com.ExchangeLib
             }
         }
         /// <summary>
-        /// 仓位控制模块，按安全垫所占资产比例提供相应的敞口规模，超出规模部分不交易
+        /// 资产投资比例控制模块，按安全垫所占资产比例提供相应的敞口规模，超出规模部分不交易
         /// </summary>
         /// <param name="el"></param>
         /// <param name="OldList"></param>
@@ -685,7 +685,7 @@ namespace WolfInv.com.ExchangeLib
                 if (newItems.First().IncrementType == InterestType.SimpleInterest)
                 {
                     //单利，最大不能超过最大持仓数(初始资金/单份规模)
-                    MaxAllowHoldCnt = (int)Math.Floor(usePlan.InitCash * Math.Max(1,useAllowHoldMaxChanceRate) / usePlan.FixAmt.Value);  
+                    MaxAllowHoldCnt = (int)Math.Floor(usePlan.InitCash * Math.Min(1,useAllowHoldMaxChanceRate) / usePlan.FixAmt.Value);  
                 }
                 else//复利等于敞口比例/单份比例
                 {

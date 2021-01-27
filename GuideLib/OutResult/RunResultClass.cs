@@ -22,7 +22,7 @@ namespace WolfInv.com.GuideLib
     {
         public bool Enable;
         public string Key;
-        public double Weight;
+        public double[] Weight;
         public string Status;
         /// <summary>
         /// 参考值，赋值给chance，在退出时参考使用

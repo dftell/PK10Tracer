@@ -98,7 +98,8 @@ namespace WolfInv.com.SecurityLib.Filters.StrategyFilters
                         isRaised = true;
                     }
                     double lastUpRate = uData.RaiseRates.Last();
-                    if (lastUpRate > 10)//最后一期涨多了
+                    double allowZf = 5 + ((int)uData.LineCycle) * 2;
+                    if (lastUpRate > allowZf)//最后一期涨多了
                     {
                         return ret;
                     }
@@ -107,6 +108,10 @@ namespace WolfInv.com.SecurityLib.Filters.StrategyFilters
                     if (MacdRedCnt == 0)//未出现红段,缠
                     {
                         Twisted = false;
+                    }
+                    if(!Twisted)
+                    {
+                        return ret;
                     }
                     int macdDownDays = zeroLines.LastMatchCondition(macd.MACDs, GuideToolClass.Cross);//macd最后下跌周期数
                     if (macdDownDays >= maxUseLen)//如果最后一次macd下穿0线还在dea下穿之前，那以2计（默认最近2期是MACD下探0线的）
@@ -204,7 +209,7 @@ namespace WolfInv.com.SecurityLib.Filters.StrategyFilters
                             int lowIndex = useIndex+ currPriceItems.ToList().LastIndexOf(priceCurrLow);
                             string lowExpect = uData.isLowCycle? uData.lowCycleData.Last(2).lowExpect : uData.Expects[lowIndex];
                             ret.ReferValues = new object[] { lowPrice, lowExpect };//以前周期最低价作为止损值
-                            ret.Weight = 1;
+                            ret.Weight = new double[] { MacdRedCnt, lastUpRate };//以出现红色次数，最后涨幅为权重
                             ret.Status = string.Format("价格背离度:{0};与前期低点周期数:{1};趋势背离度:{2};",
                                 (priceRate / 10).ToSimpleNumber(10),
                                 (kLineData.Length - macd.MACDs.ToList().IndexOf(macdLow) + 1).ToSimpleNumber(10),

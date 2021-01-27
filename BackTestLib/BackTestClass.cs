@@ -383,12 +383,14 @@ namespace WolfInv.com.BackTestLib
                 bool isRepeat = false;
                 long orgLen = 0;
                 int sumDiff = 0;
+                string lastExpect = null;
                 while (el == null || el.Count > 0) //如果取到的数据长度大于0或者还没有数据
                 {
                     //如果第一次，先获取数据，以后的数据异步获取
                     if (el == null)
                     {
                         el = getHistoryData(sc,er, codes, refString, begNo, ref isRepeat, ref inited);//读取历史数据
+                        lastExpect = el[(int)testIndex].Expect;
                     }
                     int noticeId = 0;
                     if (el == null)
@@ -409,7 +411,7 @@ namespace WolfInv.com.BackTestLib
                         orgLen = AllData.Count;
                     ExpectList<T> MergeData = ExpectList<T>.Concat(AllData, el);
                     long allLen = AllData.Count;
-                    string lastExpect = MergeData[(int)testIndex].Expect;//最后索引对应的期号
+                    //string lastExpect = MergeData[(int)testIndex].Expect;//最后索引对应的期号
                     sc.wxlog.Log(string.Format("原有索引{0}对应期号",testIndex), lastExpect, string.Format(sc.gc.WXLogUrl, sc.gc.WXSVRHost));
                     if (dtp.IsSecurityData == 1 && orgLen>0)//连接后
                     {                        
@@ -417,8 +419,10 @@ namespace WolfInv.com.BackTestLib
                         int lastIndex = reData.DataList.Select(a => a.Expect).ToList().IndexOf(lastExpect);
                         if(lastIndex<0)
                         {
+                            sc.wxlog.Log(string.Format("无法在合并数据中找到{0}对应的数据,终止测试！", lastExpect), AllData[(int)testIndex].Expect, string.Format(sc.gc.WXLogUrl, sc.gc.WXSVRHost));
                             break;
                         }
+                        lastIndex++;//新索引要在上面+1
                         sumDiff += (int)(testIndex- lastIndex );
                         testIndex = lastIndex;//从对应那期继续执行计算
                         AllData = reData;                        
@@ -447,6 +451,7 @@ namespace WolfInv.com.BackTestLib
                     while (testIndex < AllData.Count)
                     {
                         int CurrExpectClose = 0;
+                        
                         AllCnt++;
                         //ess.First().Value.UpdateExpectCnt(AllCnt);
                         if (testData == null)
@@ -485,12 +490,13 @@ namespace WolfInv.com.BackTestLib
                             FinishedProcess(testData.LastData.Expect);
                             return ret;
                         }
+                        lastExpect = testData.LastData.Expect;
                         cs.CurrData = testData;
                         cs.OnFinishedCalc += OnCalcFinished;
                         cs.setGlobalClass(Program<T>.gc);
                         cs.setAllSettingConfig(Program<T>.AllServiceConfig);
-                        
                         cs.Calc();
+                        
                         while (!cs.CalcFinished)
                         {
                             Thread.Sleep(1 * 100);
